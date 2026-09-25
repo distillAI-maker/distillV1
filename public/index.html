@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Distill</title>
 <script>
-/* Signup storage. Paste the two values from Supabase > Project Settings > API.
-   The anon key is meant to be public: the database only lets it add a row to
-   the signups table, never read one. Leave both empty until the project exists. */
-window.DISTILL = { supabaseUrl: "", supabaseAnonKey: "" };
+/* Signup storage. Paste the two values from Supabase > Settings > API Keys:
+   the Project URL and the Publishable key (starts with sb_publishable_).
+   The publishable key is meant to be public: the database only lets it add
+   a row to the signups table, never read one. Leave both empty until the
+   Supabase project exists. */
+window.DISTILL = { supabaseUrl: "", supabaseKey: "" };
 </script>
 <meta name="description" content="Know which of your supplements and routines actually work. Distill runs one-habit on/off experiments on your own wearable data and gives you a real verdict in 14 days. Pay nothing unless something moves.">
 <meta name="theme-color" content="#FAFAF7">
@@ -774,11 +776,13 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
       err.hidden=true;
       if(!EMAIL_RE.test(email)){ em.focus(); showErr('Enter a valid email address.'); return; }
       if(hp && hp.value){ form.classList.add('done'); return; }
-      if(!cfg.supabaseUrl || !cfg.supabaseAnonKey){ showErr('Signup is not connected yet. Try again later.'); return; }
+      if(!cfg.supabaseUrl || !cfg.supabaseKey){ showErr('Signup is not connected yet. Try again later.'); return; }
       var label=btn.textContent; btn.disabled=true; btn.textContent='One moment';
+      var key=cfg.supabaseKey, hdr={'Content-Type':'application/json','apikey':key,'Prefer':'return=minimal'};
+      if(key.indexOf('eyJ')===0){ hdr['Authorization']='Bearer '+key; } /* legacy anon keys are JWTs and also go in Authorization; new sb_publishable_ keys must not */
       fetch(cfg.supabaseUrl.replace(/\/+$/,'')+'/rest/v1/signups',{
         method:'POST',
-        headers:{'Content-Type':'application/json','apikey':cfg.supabaseAnonKey,'Authorization':'Bearer '+cfg.supabaseAnonKey,'Prefer':'return=minimal'},
+        headers:hdr,
         body:JSON.stringify({email:email,wearable:(sel&&sel.value)?sel.value:null,source:form.dataset.source||null,user_agent:String(navigator.userAgent||'').slice(0,400)})
       }).then(function(r){
         if(r.ok){ form.classList.add('done'); return; }

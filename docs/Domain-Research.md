@@ -35,7 +35,9 @@ The short names (distill.com, distill.co, distill.ai) are either in use or on th
 
 ## Where to buy
 
-**Cloudflare Registrar** is the best fit. It sells at the registry's wholesale price with no markup, privacy is included, and the site is hosted on Cloudflare Pages, so the domain connects to the site with one click and no DNS typing. It sells .com, .app, .life, .fit, .co, .today, .ai and .health. It does not sell .so.
+**Cloudflare Registrar** is the cheapest: it sells at the registry's wholesale price with no markup and privacy is included. It sells .com, .app, .life, .fit, .co, .today, .ai and .health. It does not sell .so. One setting to know: when the site is on Vercel, the DNS record at Cloudflare must be set to "DNS only" (grey cloud), not proxied.
+
+**Vercel** also sells domains from the project's Domains screen. It costs a few dollars more per year than an at-cost registrar, but there is no DNS to set up at all, which is the easiest path for a first domain.
 
 **Porkbun** is the fallback for an ending Cloudflare doesn't carry. Prices are close to cost and it has large first-year discounts on the newer endings.
 
@@ -45,9 +47,10 @@ One timing note: Verisign raises the wholesale .com price by about $0.70 on 1 No
 
 ## After buying
 
-1. In Cloudflare, open the Pages project, then **Custom domains**, and add the name. The certificate is ready within minutes.
-2. If you bought a second domain, add it too and turn on a redirect rule to the main one.
-3. Set up **Email Routing** in Cloudflare so `hello@` forwards to a Gmail inbox. Free.
+1. In Vercel, open the project, then **Settings > Domains**, type the name and click **Add**.
+2. Vercel shows the exact DNS records to create at the registrar (an A record for the bare name and a CNAME for `www`). Copy them into the registrar's DNS page. If you bought on Vercel, this step is done for you.
+3. Wait for the check mark next to the domain. Certificates are automatic. The site now answers at the domain over HTTPS, and `vercel.app` keeps working too.
+4. If you bought a second domain, add it as well and pick the main one under **Redirect to**.
 
 ## Sources for prices and policies
 

@@ -1,7 +1,8 @@
 -- Distill signups table. Run this once in Supabase > SQL Editor > New query.
 -- It creates the table, cleans up addresses on the way in, and locks the
--- public (anon) key down to "insert only": visitors can add themselves to the
--- list and nothing else. The list itself is only visible in the dashboard.
+-- public key down to "insert only": visitors can add themselves to the list
+-- and nothing else. (The publishable key from the dashboard acts as the
+-- "anon" role below.) The list itself is only visible in the dashboard.
 
 create table if not exists public.signups (
   id          bigint generated always as identity primary key,
@@ -36,7 +37,7 @@ create trigger signups_normalize
   before insert or update on public.signups
   for each row execute function public.signups_normalize();
 
--- Row Level Security: the anon key may insert, and that is all.
+-- Row Level Security: the public key may insert, and that is all.
 alter table public.signups enable row level security;
 
 drop policy if exists "anyone can sign up" on public.signups;

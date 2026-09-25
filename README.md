@@ -2,14 +2,15 @@
 
 Landing page for Distill, the wellness app that tests your habit stack on your own wearable data and tells you what to keep and what to stop paying for.
 
-The site is one static file. Signups go straight into a Supabase table. Hosting is Cloudflare Pages, which is free for commercial use and deploys from this repo on every push.
+The site is one static file. Signups go straight into a Supabase table. Hosting is Vercel's free plan, which deploys from this repo on every push. Everything here is free; only a custom domain costs money (about $10 a year), and that is optional.
 
 ## What's in here
 
 ```
 public/index.html     the website: hand-written CSS, no framework, no build step
 supabase/schema.sql   the signups table and its security rules
-docs/                 copy, research, routing table, design board, domain research
+docs/                 the setup guide, copy, research, routing table, design board, domain research
+vercel.json           tells Vercel to serve the public folder as-is
 ```
 
 ## Look at it on your laptop
@@ -20,42 +21,37 @@ python3 -m http.server 3000 -d public
 
 Then open http://localhost:3000. The form only saves once Supabase is connected (step 2 below).
 
-## Going live, in three parts
+## Going live
 
-### 1. Host the page (Cloudflare Pages, free)
+The full beginner walkthrough, with every click, is `docs/Setup-Guide.html` (open it in a browser). The short version:
 
-1. Sign up at dash.cloudflare.com.
-2. Go to **Workers & Pages > Create > Pages > Connect to Git** and pick `distillAI-maker/distillV1`.
-3. Settings: framework preset **None**, build command **empty**, build output directory **`public`**. Click **Save and Deploy**.
-4. In about a minute the site is live at `distillv1.pages.dev` (or similar). Every push to `main` redeploys it.
+### 1. GitHub
 
-No GitHub yet? **Workers & Pages > Create > Pages > Upload assets** lets you drag the `public` folder in by hand.
+The code lives in this repository, owned by the `distillAI-maker` account. Keep the repository private (Settings > Danger Zone > Change visibility). To let this Mac push, add the personal account `ivannadil` as a collaborator (Settings > Collaborators > Add people) and accept the invitation from that account.
 
-### 2. Store the signups (Supabase, free)
+### 2. Vercel (hosting, free)
 
-1. Sign up at supabase.com and create a project. Save the database password somewhere safe; you won't need it for the site.
-2. Open **SQL Editor > New query**, paste all of `supabase/schema.sql`, and run it.
-3. Open **Project Settings > API**. Copy the **Project URL** and the **anon public** key.
-4. Paste both into the top of `public/index.html`, in the `window.DISTILL` block. Commit and push (or re-upload). That's it: the form now saves.
+1. Sign in to GitHub as `distillAI-maker`, then sign up at vercel.com with **Continue with GitHub**. Vercel only lets the repository owner import it, so the accounts must match.
+2. **Add New > Project > Import** `distillV1`. Framework preset **Other**, leave the build settings alone (`vercel.json` already points Vercel at the `public` folder). Click **Deploy**.
+3. About a minute later the site is live at `distill.vercel.app` (or a close variant). Every push to `main` redeploys it.
+
+### 3. Supabase (signups, free)
+
+1. Create a project at supabase.com. Save the database password somewhere safe.
+2. **SQL Editor > New query**: paste all of `supabase/schema.sql` and run it.
+3. **Settings > API Keys**: copy the **Project URL** and the **Publishable key**.
+4. Paste both into the `window.DISTILL` block at the top of `public/index.html`, commit, push. The form now saves.
 5. Test with your own email, then look at **Table Editor > signups**. That is the founding list.
 
-The anon key is designed to be public. The SQL in step 2 only lets it add rows, never read them.
+Supabase pauses free projects after about a week with no activity, and the form fails while paused. A signup or a dashboard visit counts as activity, and a paused project restores with one click.
 
-One thing to know: Supabase pauses free projects after about a week with no activity, and the form fails while it's paused. Any signup or a dashboard visit counts as activity, and a paused project restores with one click. The Pro plan ($25 a month) never pauses.
+### 4. A domain, later
 
-### 3. Point a domain at it
-
-See `docs/Domain-Research.md` for which names are free and what they cost.
-
-1. Buy the domain at **Cloudflare > Domain Registration** (at-cost pricing, privacy included). If Cloudflare doesn't sell that ending, buy at Porkbun instead.
-2. In the Pages project, open **Custom domains > Set up a custom domain**, type the name, and confirm. Cloudflare adds the DNS record itself when the domain is in the same account. Bought elsewhere? Add the CNAME it shows you at that registrar.
-3. Wait a few minutes for the certificate. Done: the site answers at your domain over HTTPS.
-
-Bonus: **Email Routing** in the same Cloudflare dashboard forwards `hello@yourdomain` to a Gmail inbox for free.
+The `vercel.app` address is free and has no "claude" in it. A custom domain costs about $10 a year; `docs/Domain-Research.md` has the shortlist. Add it under the Vercel project's **Settings > Domains** and follow the DNS instructions it shows.
 
 ## How the form works
 
-Both forms (popup and bottom of page) post one row to the `signups` table through Supabase's REST API. Duplicates are treated as success, so nobody sees an error for signing up twice. A hidden field catches simple bots. Addresses are lower-cased in the database itself.
+Both forms (popup and bottom of page) post one row to the `signups` table through Supabase's REST API, using the publishable key. Duplicates are treated as success, so nobody sees an error for signing up twice. A hidden field catches simple bots. Addresses are lower-cased in the database itself.
 
 ## Editing the page
 
