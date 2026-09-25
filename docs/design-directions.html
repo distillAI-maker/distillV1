@@ -1,0 +1,832 @@
+<title>Distill Design Directions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,300..700;1,6..96,300..700&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Chivo:wght@300..800&family=Chivo+Mono:wght@300..600&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Mono:wght@300;400;500&family=Figtree:wght@300..700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,100;1,9..144,300..700,100&family=Geist:wght@300..700&family=Geist+Mono:wght@300..600&family=Gloock&family=Hanken+Grotesk:wght@300..700&family=Host+Grotesk:wght@300..800&family=IBM+Plex+Mono:wght@300..600&family=Italiana&family=JetBrains+Mono:wght@300..600&family=Jost:wght@300..600&family=Karla:wght@300..700&family=Manrope:wght@300..700&family=Martian+Mono:wght@300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Onest:wght@300..700&family=Public+Sans:wght@300..700&family=Schibsted+Grotesk:wght@400..800&family=Sora:wght@300..700&family=Spectral:ital,wght@0,300;0,400;1,300&family=Tenor+Sans&family=Young+Serif&display=swap">
+<style>
+:root{
+  --bg:#EDEDEA; --panel:#F7F7F5; --ink:#1B1C1A; --muted:#6B6D68; --rule:#D6D6D1; --rule2:#BFBFB9; --pick:#1B1C1A; --pick-ink:#F7F7F5;
+  --ui:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono","IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#161715; --panel:#1F201E; --ink:#ECECE8; --muted:#9A9C96; --rule:#33342F; --rule2:#45463F; --pick:#ECECE8; --pick-ink:#161715; } }
+:root[data-theme="dark"]{ --bg:#161715; --panel:#1F201E; --ink:#ECECE8; --muted:#9A9C96; --rule:#33342F; --rule2:#45463F; --pick:#ECECE8; --pick-ink:#161715; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.5;padding-block:0 120px;padding-inline:clamp(16px,4vw,48px)}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:500}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:1320px;margin:0 auto}
+.top{padding-block:40px 28px;border-bottom:1px solid var(--rule2);display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+.top h1{font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;line-height:1.05}
+.top p{color:var(--muted);max-width:62ch;margin-top:10px}
+.howto{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;line-height:1.6}
+.toc{display:flex;flex-wrap:wrap;gap:8px 18px;padding-block:16px;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12px}
+.toc a{text-decoration:none;color:var(--muted)}
+.toc a:hover{color:var(--ink)}
+section.block{padding-block:56px 24px}
+.block > header{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:baseline;margin-bottom:28px}
+.block > header .n{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.block > header h2{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.015em}
+.block > header p{grid-column:2;color:var(--muted);max-width:70ch}
+
+/* direction cards */
+.dir{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;border-top:1px solid var(--rule2);padding-block:32px 40px}
+.dir .tile-wrap{padding-right:32px}
+.dir .spec{display:grid;grid-template-columns:110px 1fr;gap:10px 18px;align-content:start;font-size:14px}
+.dir .spec dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.dir .spec dd{margin:0}
+.dir .head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.dir .head .id{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.dir .head h3{font-size:22px;letter-spacing:-.01em}
+.dir .head .thesis{flex-basis:100%;color:var(--muted);max-width:60ch}
+.sw{display:flex;gap:6px;flex-wrap:wrap}
+.sw span{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.sw i{display:inline-block;width:22px;height:22px;border-radius:2px;border:1px solid rgba(0,0,0,.12)}
+.face{display:block}
+.face b{font-weight:500}
+.pick{margin-top:6px;justify-self:start;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:10px 14px;border-radius:999px;cursor:pointer}
+.pick[aria-pressed="true"]{background:var(--pick);color:var(--pick-ink)}
+.pick:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* tiles: each paints its own world */
+.tile{position:relative;width:100%;aspect-ratio:16/10.5;max-width:100%;overflow:hidden;border-radius:4px;isolation:isolate;box-shadow:0 1px 0 rgba(0,0,0,.08),0 10px 30px -18px rgba(0,0,0,.35)}
+.tile *{margin:0}
+.tile .nav{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 26px;font-size:11px;letter-spacing:.06em}
+.tile .nav .links{display:flex;gap:16px}
+.tile .cta{display:inline-block;padding:9px 14px;border-radius:2px;font-size:11px;letter-spacing:.04em;text-decoration:none}
+
+/* D1 Apothecary */
+.t1{background:#10281F;color:#EFE8D3;font-family:"Hanken Grotesk",Arial,sans-serif}
+.t1 .nav{color:#9FB3A8;text-transform:uppercase}
+.t1 .label{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:66%;border:1px solid #C08A2E;outline:1px solid #C08A2E;outline-offset:3px;padding:28px 30px;text-align:center;background:#0B1B15}
+.t1 .label .ey{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#C08A2E}
+.t1 .label h4{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:29px;line-height:1.08;margin-top:12px;letter-spacing:-.005em}
+.t1 .label p{font-size:11.5px;color:#B8C4BC;margin-top:12px;line-height:1.5}
+.t1 .label .meta{display:flex;justify-content:space-between;margin-top:18px;padding-top:12px;border-top:1px solid #23413A;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:#9FB3A8;letter-spacing:.06em}
+.t1 .cta{background:#C08A2E;color:#0B1B15;font-weight:600}
+
+/* D2 Clean Room */
+.t2{background:#F4F5F7;color:#1A1D21;font-family:"Geist",Arial,sans-serif;background-image:linear-gradient(to right,#E3E6EA 1px,transparent 1px),linear-gradient(to bottom,#E3E6EA 1px,transparent 1px);background-size:8.333% 100%,100% 60px;background-position:0 0,0 54px}
+.t2 .nav{color:#6A727C}
+.t2 .mark{position:absolute;width:10px;height:10px}
+.t2 .mark::before,.t2 .mark::after{content:"";position:absolute;background:#1A1D21}
+.t2 .mark::before{left:0;right:0;top:50%;height:1px}
+.t2 .mark::after{top:0;bottom:0;left:50%;width:1px}
+.t2 .hero{position:absolute;left:8.333%;top:26%;width:58%}
+.t2 h4{font-family:"Host Grotesk",Arial,sans-serif;font-weight:500;font-size:34px;line-height:1.02;letter-spacing:-.03em}
+.t2 .hero p{font-size:12px;color:#5B636D;max-width:36ch;margin-top:14px}
+.t2 .read{position:absolute;font-family:"Geist Mono",monospace;font-size:9.5px;color:#365C86;letter-spacing:.04em;line-height:1.5}
+.t2 .cta{border:1px solid #1A1D21;color:#1A1D21;margin-top:16px}
+
+/* D3 Ledger */
+.t3{background:#0C1526;color:#E9E3D4;font-family:"Archivo",Arial,sans-serif}
+.t3 .nav{color:#8A94A8}
+.t3 .grid{position:absolute;inset:60px 26px 26px;display:grid;grid-template-columns:1.1fr 1fr;gap:30px}
+.t3 h4{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;font-size:31px;line-height:1.06;letter-spacing:-.01em}
+.t3 h4 em{font-style:italic;color:#C5A265}
+.t3 .grid p{font-size:11.5px;color:#A8B0C2;margin-top:12px;max-width:34ch}
+.t3 table{width:100%;border-collapse:collapse;font-family:"Martian Mono",monospace;font-size:9.5px;color:#E9E3D4;align-self:start}
+.t3 td{padding:6px 0;border-bottom:1px solid #22304A}
+.t3 td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.t3 tr.cut td{color:#5C6880;text-decoration:line-through}
+.t3 tr.tot td{border-bottom:0;border-top:1px solid #C5A265;color:#C5A265;padding-top:8px;font-weight:600}
+.t3 .cta{background:#C5A265;color:#0C1526;font-weight:600;margin-top:16px}
+
+/* D4 Distillate */
+.t4{background:#FAFAF7;color:#15211F;font-family:"Figtree",Arial,sans-serif}
+.t4 .nav{color:#5F6E6B}
+.t4 .drop{position:absolute;right:11%;top:18%;width:31%;aspect-ratio:1/1.25;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:radial-gradient(60% 50% at 35% 30%,#FFFFFF 0%,#E6F0EE 40%,#CFE1DD 70%,#B9D2CD 100%);box-shadow:inset -8px -14px 30px rgba(15,92,87,.18),inset 6px 8px 14px rgba(255,255,255,.9),0 30px 40px -30px rgba(15,92,87,.45)}
+.t4 .drop::after{content:"";position:absolute;left:22%;top:14%;width:16%;height:22%;border-radius:50%;background:rgba(255,255,255,.9);filter:blur(1px)}
+.t4 .hero{position:absolute;left:26px;bottom:34px;width:52%}
+.t4 h4{font-family:"Italiana","Bodoni Moda",Georgia,serif;font-weight:400;font-size:40px;line-height:1;letter-spacing:.005em}
+.t4 .hero p{font-size:12px;color:#4C5A57;margin-top:14px;max-width:34ch}
+.t4 .cta{border-bottom:1px solid #0F5C57;color:#0F5C57;padding:0 0 3px;border-radius:0;margin-top:14px}
+.t4 .cnt{position:absolute;right:26px;bottom:34px;font-family:"DM Mono",monospace;font-size:9.5px;color:#0F5C57;letter-spacing:.08em;text-align:right;line-height:1.6}
+
+/* D5 Blue Pencil */
+.t5{background:#F3F2EE;color:#262626;font-family:"Public Sans",Arial,sans-serif}
+.t5 .nav{color:#7A7A74}
+.t5 .page{position:absolute;inset:58px 26px 26px 26px;display:grid;grid-template-columns:96px 1fr;gap:22px}
+.t5 .margin{font-family:"JetBrains Mono",monospace;font-size:9px;color:#2B4C9B;line-height:1.55;padding-top:56px;border-right:1px solid #D9D8D2;padding-right:14px}
+.t5 h4{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:31px;line-height:1.08;letter-spacing:-.01em;max-width:22ch}
+.t5 ul{list-style:none;padding:0;margin-top:16px;font-size:12px;line-height:1.9;column-count:2;column-gap:26px}
+.t5 li{position:relative;padding-left:2px}
+.t5 li.x{color:#8E8E88}
+.t5 li.x::after{content:"";position:absolute;left:0;right:34%;top:52%;height:1.5px;background:#2B4C9B;transform:rotate(-1.2deg)}
+.t5 .cta{border:1px solid #262626;color:#262626;margin-top:12px}
+
+/* D6 Nocturne */
+.t6{background:#0A0C15;color:#C9CCDD;font-family:"Onest",Arial,sans-serif;background-image:radial-gradient(70% 90% at 80% 10%,#20243C 0%,#12142A 40%,#0A0C15 75%)}
+.t6 .nav{color:#5C6285}
+.t6 .hero{position:absolute;left:26px;bottom:30px;width:62%}
+.t6 h4{font-family:"Fraunces",Georgia,serif;font-variation-settings:"SOFT" 100,"opsz" 96;font-weight:300;font-size:36px;line-height:1.04;letter-spacing:-.01em;color:#E9E7F0}
+.t6 .hero p{font-size:12px;color:#8F94AF;margin-top:14px;max-width:36ch}
+.t6 .nights{position:absolute;right:26px;top:70px;display:grid;grid-template-columns:repeat(7,14px);gap:6px}
+.t6 .nights i{display:block;width:14px;height:14px;border-radius:50%;background:#1C1E33;border:1px solid #2E3150}
+.t6 .nights i.on{background:#E7DCB6;border-color:#E7DCB6}
+.t6 .nights small{grid-column:1/-1;font-family:"IBM Plex Mono",monospace;font-size:8.5px;color:#5C6285;letter-spacing:.08em;margin-top:6px;text-align:right}
+.t6 .cta{border:1px solid #C9CCDD;color:#E9E7F0;margin-top:16px}
+
+/* D7 Swiss Pharma */
+.t7{background:#FFFFFF;color:#111;font-family:"Schibsted Grotesk",Arial,sans-serif}
+.t7 .nav{color:#111;border-bottom:2px solid #111;padding-bottom:12px}
+.t7 .big{position:absolute;left:26px;top:64px;font-family:"Archivo",Arial,sans-serif;font-variation-settings:"wdth" 125;font-weight:600;font-size:118px;line-height:.9;letter-spacing:-.05em}
+.t7 .big small{display:block;font-size:11px;letter-spacing:.02em;font-variation-settings:"wdth" 100;font-weight:500;margin-top:6px}
+.t7 .col{position:absolute;right:26px;top:66px;width:38%;font-size:12px;line-height:1.45}
+.t7 .col h4{font-weight:600;font-size:15px;letter-spacing:-.01em;line-height:1.2}
+.t7 .col p{margin-top:8px;color:#333}
+.t7 .bars{position:absolute;left:26px;right:26px;bottom:26px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.t7 .bars div{background:#E7E5E0;padding:9px 10px;font-family:"Chivo Mono",monospace;font-size:9.5px;letter-spacing:.04em}
+.t7 .bars div b{display:block;font-size:13px;font-weight:600;color:#111;margin-bottom:2px}
+.t7 .bars div.v{background:#1E6A48;color:#fff}
+.t7 .bars div.v b{color:#fff}
+
+/* D8 Field Journal */
+.t8{background:#ECE9E1;color:#1D201A;font-family:"Jost",Arial,sans-serif}
+.t8::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 27px,rgba(29,32,26,.07) 27px 28px);pointer-events:none}
+.t8 .nav{color:#46503F;text-transform:uppercase}
+.t8 .spread{position:absolute;inset:60px 26px 26px;display:grid;grid-template-columns:1fr 1fr;gap:0}
+.t8 .spread > div{padding:8px 22px 0 0}
+.t8 .spread > div + div{border-left:1px solid #46503F;padding:8px 0 0 22px}
+.t8 h4{font-family:"Tenor Sans",Arial,sans-serif;font-weight:400;font-size:26px;line-height:1.12;letter-spacing:-.005em}
+.t8 .lbl{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#46503F;font-weight:500}
+.t8 ol{padding-left:16px;margin-top:10px;font-size:12px;line-height:2.33;color:#2C3128}
+.t8 ol li::marker{font-family:"DM Mono",monospace;font-size:9.5px;color:#8A9478}
+.t8 .cut li{text-decoration:line-through;text-decoration-color:#8A9478;color:#6E7566}
+.t8 .cta{background:#46503F;color:#ECE9E1;margin-top:8px}
+
+/* D9 Monolith */
+.t9{background:#F2F1EE;color:#121212;font-family:"Manrope",Arial,sans-serif}
+.t9 .nav{color:#8C8B86;text-transform:uppercase;font-size:10px}
+.t9 .num{position:absolute;left:26px;bottom:14px;font-family:"Bodoni Moda",Georgia,serif;font-weight:300;font-size:210px;line-height:.85;letter-spacing:-.06em;font-variation-settings:"opsz" 96}
+.t9 .num sup{font-size:14px;font-family:"Manrope",sans-serif;font-weight:500;letter-spacing:.02em;vertical-align:top;position:relative;top:34px;left:6px}
+.t9 .txt{position:absolute;right:26px;bottom:34px;width:40%;font-size:12.5px;line-height:1.5;color:#3E3E3A}
+.t9 .txt h4{font-weight:500;font-size:16px;letter-spacing:-.01em;color:#121212;margin-bottom:8px}
+.t9 .corner{position:absolute;font-family:"Geist Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8C8B86}
+
+/* D10 Instrument */
+.t10{background:#1B1C1B;color:#D5D7D2;font-family:"Chivo",Arial,sans-serif;background-image:linear-gradient(180deg,#232423 0%,#1B1C1B 30%,#181918 100%)}
+.t10 .nav{color:#7B7E79;font-family:"Chivo Mono",monospace;text-transform:uppercase}
+.t10 .panel{position:absolute;inset:60px 26px 26px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.t10 h4{font-weight:700;font-size:30px;line-height:1.02;letter-spacing:-.03em;color:#ECEDE9}
+.t10 .panel p{font-size:11.5px;color:#9C9F99;margin-top:12px;max-width:30ch}
+.t10 .mod{border:1px solid #3A3D3B;border-radius:3px;background:linear-gradient(180deg,#2A2C2B,#222423);padding:14px;align-self:start;position:relative}
+.t10 .mod .k{font-family:"Chivo Mono",monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#7B7E79}
+.t10 .gauge{margin-top:10px;height:10px;border-radius:2px;background:#151615;position:relative;overflow:hidden}
+.t10 .gauge::before{content:"";position:absolute;left:0;top:0;bottom:0;width:66%;background:linear-gradient(90deg,#3A3D3B,#D9A130)}
+.t10 .gauge::after{content:"";position:absolute;left:80%;top:-2px;bottom:-2px;width:2px;background:#ECEDE9}
+.t10 .rd{display:flex;justify-content:space-between;font-family:"Chivo Mono",monospace;font-size:9px;color:#9C9F99;margin-top:8px}
+.t10 .rd b{color:#D9A130;font-weight:500}
+.t10 .led{position:absolute;right:12px;top:12px;width:6px;height:6px;border-radius:50%;background:#D9A130;box-shadow:0 0 8px #D9A130}
+.t10 .cta{border:1px solid #6F726E;color:#ECEDE9;margin-top:14px;font-family:"Chivo Mono",monospace}
+
+/* D11 Receipt */
+.t11{background:#E4E2DC;color:#121212;font-family:"Bricolage Grotesque",Arial,sans-serif}
+.t11 .nav{color:#6F6E69}
+.t11 .hero{position:absolute;left:26px;top:66px;width:44%}
+.t11 h4{font-weight:600;font-size:27px;line-height:1.05;letter-spacing:-.03em;font-variation-settings:"opsz" 96}
+.t11 .hero p{font-size:12px;color:#4A4A46;margin-top:12px;max-width:30ch}
+.t11 .slip{position:absolute;right:26px;top:44px;width:40%;background:#FBFAF7;padding:16px 16px 22px;font-family:"DM Mono",monospace;font-size:9.5px;line-height:1.7;color:#121212;box-shadow:0 12px 24px -16px rgba(0,0,0,.45);transform:rotate(1.2deg)}
+.t11 .slip::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:radial-gradient(circle at 5px -1px,transparent 5px,#FBFAF7 5.5px) 0 0/12px 6px}
+.t11 .slip .row{display:flex;justify-content:space-between}
+.t11 .slip .hd{letter-spacing:.14em;text-transform:uppercase;border-bottom:1px dashed #BDBBB4;padding-bottom:6px;margin-bottom:6px;color:#6F6E69}
+.t11 .slip .stamp{margin-top:10px;display:inline-block;border:2px solid #1E2F57;color:#1E2F57;padding:2px 8px;font-weight:500;letter-spacing:.2em;transform:rotate(-3deg)}
+.t11 .cta{background:#121212;color:#FBFAF7;margin-top:14px}
+
+/* D12 Pulse Line */
+.t12{background:#131516;color:#E4E6E3;font-family:"Sora",Arial,sans-serif}
+.t12 .nav{color:#5F6664}
+.t12 canvas{position:absolute;inset:0;width:100%;height:100%}
+.t12 .hero{position:absolute;left:26px;top:64px;width:56%}
+.t12 h4{font-weight:300;font-size:31px;line-height:1.1;letter-spacing:-.02em}
+.t12 .hero p{font-size:11.5px;color:#9AA09D;margin-top:12px;max-width:34ch}
+.t12 .leg{position:absolute;right:26px;bottom:26px;font-family:"Geist Mono",monospace;font-size:9px;color:#9ED9D3;letter-spacing:.08em;text-align:right;line-height:1.7}
+.t12 .leg span{color:#5F6664}
+.t12 .cta{border:1px solid #5F6664;color:#E4E6E3;margin-top:14px}
+
+/* axis grids */
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.opt{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.opt .id{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.opt .id .pick{margin:0;padding:6px 10px;font-size:10px}
+.opt .body{font-size:13px;color:var(--muted)}
+.opt .body b{color:var(--ink);font-weight:500}
+.opt .prev{min-height:96px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:14px 4px;overflow:hidden}
+.opt .prev .h{font-size:28px;line-height:1.05;letter-spacing:-.01em;color:var(--ink)}
+.opt .prev .b{font-size:13px;color:var(--ink);opacity:.8}
+.opt .prev .m{font-size:11px;color:var(--muted);letter-spacing:.04em}
+.opt .swatch{display:grid;grid-template-columns:repeat(5,1fr);height:64px;border-radius:3px;overflow:hidden}
+.opt .swatch i{display:block}
+.opt .hex{font-family:var(--mono);font-size:10px;color:var(--muted);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.opt .wire{aspect-ratio:16/10;background:var(--bg);border:1px solid var(--rule);border-radius:3px;position:relative;overflow:hidden}
+.opt .wire i{position:absolute;background:var(--rule2);display:block}
+.opt .wire i.k{background:var(--ink)}
+.opt .wire i.t{height:3px}
+.wm{padding:22px 4px;display:flex;align-items:center;justify-content:center;min-height:110px;color:var(--ink)}
+
+.tray{position:fixed;left:0;right:0;bottom:0;padding:12px clamp(16px,4vw,48px);padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--rule2);display:flex;gap:14px;align-items:center;z-index:5}
+.tray .lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tray output{flex:1;font-family:var(--mono);font-size:12px;min-width:0;overflow-x:auto;white-space:nowrap}
+.tray .btn{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:9px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tray .btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+.note{background:var(--panel);border:1px solid var(--rule);border-radius:4px;padding:18px 20px;font-size:14px;color:var(--muted);max-width:80ch}
+.note b{color:var(--ink);font-weight:500}
+.note ul{margin:8px 0 0;padding-left:18px}
+
+@media (max-width:900px){
+  .top{grid-template-columns:1fr}
+  .howto{text-align:left}
+  .dir{grid-template-columns:1fr;gap:22px}
+  .dir .tile-wrap{padding-right:0}
+  .block > header{grid-template-columns:1fr}
+  .block > header p{grid-column:1}
+  .tile .nav .links{display:none}
+  .t7 .big{font-size:96px}
+  .t9 .num{font-size:170px}
+}
+@media (max-width:560px){
+  .dir .spec{grid-template-columns:1fr;gap:4px 0}
+  .dir .spec dt{margin-top:10px}
+  .tray{flex-wrap:wrap}
+  .t2 h4,.t4 h4,.t6 h4{font-size:26px}
+  .t3 .grid,.t10 .panel,.t8 .spread{grid-template-columns:1fr}
+  .t3 table,.t10 .mod,.t8 .spread>div+div{display:none}
+  .t7 .col{display:none}
+  .t9 .txt{display:none}
+  .t11 .slip{display:none}
+  .t11 .hero{width:80%}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Distill, design directions</h1>
+      <p>Twelve complete directions, then the parts on their own so you can mix them. Every preview is rendered live in the real typefaces and colours, hand-written CSS, no framework. Nothing here is the final page. It is the menu.</p>
+    </div>
+    <div class="howto">Tap SHORTLIST on anything.<br>The tray at the bottom collects your picks.<br>Send me the list, e.g. "D3 + T5 + P9".</div>
+  </header>
+  <nav class="toc">
+    <a href="#dirs">A. Directions</a><a href="#type">B. Type pairings</a><a href="#pal">C. Palettes</a><a href="#hero">D. Hero layouts</a><a href="#dev">E. Signature devices</a><a href="#mot">F. Motion</a><a href="#mat">G. Materials</a><a href="#wm">H. Wordmark</a><a href="#notes">I. Notes on the name</a>
+  </nav>
+
+  <!-- ============ A. DIRECTIONS ============ -->
+  <section class="block" id="dirs">
+    <header><span class="n">A</span><h2>Twelve complete directions</h2><p>Each one is a full world: type, colour, layout, one signature device, and a motion policy. The preview shows the top of the landing page as it would open. Specs underneath say what makes it feel expensive and where it can go wrong.</p></header>
+
+    <!-- D1 -->
+    <article class="dir" id="D1">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D1</span><h3>Apothecary</h3><p class="thesis">Bottle-green glass, a paper label, brass type. Distill as an old dispensary run by a very modern chemist.</p></div>
+        <div class="tile t1">
+          <div class="nav"><span>Distill</span><span class="links"><span>Method</span><span>Verdicts</span><span>Founding 100</span></span></div>
+          <div class="label">
+            <div class="ey">Est. on your own data</div>
+            <h4>Know which of your habits work. In 14 days, or you don't pay.</h4>
+            <p>One habit at a time, three days on and three off, judged by the wearable you already own.</p>
+            <div class="meta"><span>No. 001 of 100</span><span>$20 / month</span><span>60-day guarantee</span></div>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Cormorant Garamond</b> display, medium</span><span class="face"><b>Hanken Grotesk</b> body</span><span class="face"><b>IBM Plex Mono</b> numbers and labels</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#10281F"></i>#10281F</span><span><i style="background:#0B1B15"></i>#0B1B15</span><span><i style="background:#EFE8D3"></i>#EFE8D3</span><span><i style="background:#C08A2E"></i>#C08A2E</span><span><i style="background:#9FB3A8"></i>#9FB3A8</span></dd>
+        <dt>Layout</dt><dd>One narrow centred column, every section framed like a label with a double rule. Verdicts are labels too. Small caps eyebrows.</dd>
+        <dt>Device</dt><dd>The label frame. The wordmark, the price and each verdict all live inside the same brass-ruled frame, so the brand is the frame.</dd>
+        <dt>Motion</dt><dd>Almost none. Slow fades. On hover the outer rule draws itself. Nothing bounces.</dd>
+        <dt>Premium cue</dt><dd>Heritage and restraint. Reads like a pharmacy that has been there a hundred years and does not need to shout.</dd>
+        <dt>Risk</dt><dd>Can tip into costume. Distill plus green glass plus brass edges toward whisky. Keep the paper white, not cream, to hold it back.</dd>
+        <dt></dt><dd><button class="pick" data-id="D1" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D2 -->
+    <article class="dir" id="D2">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D2</span><h3>Clean Room</h3><p class="thesis">A visible hairline grid, registration marks, cold light grey. Precision-instrument calm, like the inside of a lab that costs a lot to enter.</p></div>
+        <div class="tile t2">
+          <div class="nav"><span style="font-family:'Host Grotesk';font-weight:600;letter-spacing:-.01em;font-size:13px">distill</span><span class="links"><span>How it tests</span><span>Verdicts</span><span>Pricing</span></span></div>
+          <span class="mark" style="left:calc(8.333% - 5px);top:49px"></span><span class="mark" style="left:calc(66.66% - 5px);top:49px"></span><span class="mark" style="left:calc(8.333% - 5px);bottom:55px"></span><span class="mark" style="left:calc(66.66% - 5px);bottom:55px"></span>
+          <div class="hero">
+            <h4>Which of your habits actually work? Tested on your own wearable data.</h4>
+            <p>One variable at a time. Three days on, three off, for fourteen days. A verdict with the real number, then your call.</p>
+            <a class="cta">Connect Oura or WHOOP</a>
+          </div>
+          <div class="read" style="left:70%;top:27%">SUBJECT&nbsp;&nbsp;&nbsp;you<br>METRIC&nbsp;&nbsp;&nbsp;&nbsp;HRV, sleep<br>DESIGN&nbsp;&nbsp;&nbsp;&nbsp;3 on / 3 off<br>WINDOW&nbsp;&nbsp;&nbsp;&nbsp;14 nights<br>GATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≥ 0.8 × swing</div>
+          <div class="read" style="left:8.333%;bottom:28px;color:#6A727C">FIRST VERDICT&nbsp;&nbsp;DAY 14&nbsp;&nbsp;·&nbsp;&nbsp;CHARGE&nbsp;&nbsp;DAY 60, ONLY IF SOMETHING MOVED</div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Host Grotesk</b> display, tight</span><span class="face"><b>Geist</b> body</span><span class="face"><b>Geist Mono</b> readouts</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#F4F5F7"></i>#F4F5F7</span><span><i style="background:#E3E6EA"></i>#E3E6EA</span><span><i style="background:#1A1D21"></i>#1A1D21</span><span><i style="background:#365C86"></i>#365C86</span><span><i style="background:#A9B1BA"></i>#A9B1BA</span></dd>
+        <dt>Layout</dt><dd>Twelve-column grid drawn on the page. Everything snaps to it and sits left. Readouts sit at grid intersections like a spec sheet. No cards anywhere.</dd>
+        <dt>Device</dt><dd>Registration marks and the "protocol readout": subject, metric, design, window, gate. The engine's rules shown as a spec, not explained.</dd>
+        <dt>Motion</dt><dd>Grid lines draw in on load over one second. Readouts type in. After that the page is still.</dd>
+        <dt>Premium cue</dt><dd>Medical-grade precision without medical claims. Feels like Oura's own site but colder and more honest.</dd>
+        <dt>Risk</dt><dd>One wrong move and it is a SaaS dashboard. Never add a card, a shadow, or a rounded button.</dd>
+        <dt></dt><dd><button class="pick" data-id="D2" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D3 -->
+    <article class="dir" id="D3">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D3</span><h3>The Ledger</h3><p class="thesis">Navy, parchment and brass. The only scoreboard in wellness that gets better by going down, treated with the seriousness of a private bank.</p></div>
+        <div class="tile t3">
+          <div class="nav"><span style="font-family:'Bodoni Moda';font-size:15px;letter-spacing:.02em">Distill</span><span class="links"><span>The method</span><span>The ledger</span><span>Founding 100</span></span></div>
+          <div class="grid">
+            <div>
+              <h4>Twenty-three things for sleep. <em>Four</em> that earn their place.</h4>
+              <p>Distill tests your stack one habit at a time on your own wearable data, and strikes off what does nothing. Your count goes down. Your bill goes down.</p>
+              <a class="cta">See my stack costed</a>
+            </div>
+            <table>
+              <tr><td>Magnesium glycinate</td><td>$24</td></tr>
+              <tr class="cut"><td>Ashwagandha</td><td>$31</td></tr>
+              <tr><td>No caffeine after 2pm</td><td>$0</td></tr>
+              <tr class="cut"><td>Mouth tape</td><td>$9</td></tr>
+              <tr class="cut"><td>Collagen</td><td>$38</td></tr>
+              <tr><td>Sauna, 3× week</td><td>$60</td></tr>
+              <tr class="cut"><td>Blue-light glasses</td><td>$0</td></tr>
+              <tr class="tot"><td>Per month, after 4 cycles</td><td>$212 → $84</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Bodoni Moda</b> display, with italics for emphasis</span><span class="face"><b>Archivo</b> body</span><span class="face"><b>Martian Mono</b> ledger figures</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#0C1526"></i>#0C1526</span><span><i style="background:#0A0F1A"></i>#0A0F1A</span><span><i style="background:#E9E3D4"></i>#E9E3D4</span><span><i style="background:#C5A265"></i>#C5A265</span><span><i style="background:#4E5A6E"></i>#4E5A6E</span></dd>
+        <dt>Layout</dt><dd>Two columns everywhere: the claim on the left, the ledger on the right. Every section has a running total. Rules per row, never boxes.</dd>
+        <dt>Device</dt><dd>The strike-through ledger. Items get struck as the test verdicts land, and the monthly total ticks down. The scoreboard is the product.</dd>
+        <dt>Motion</dt><dd>Numbers count down as you scroll into each section. Strikes draw left to right. Nothing else moves.</dd>
+        <dt>Premium cue</dt><dd>Money is handled with respect. Feels like a wealth manager's statement, not a coupon.</dd>
+        <dt>Risk</dt><dd>Navy and brass is a known luxury shorthand. Money-first can feel transactional for a wellness brand. Keep the brass to the total line only.</dd>
+        <dt></dt><dd><button class="pick" data-id="D3" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D4 -->
+    <article class="dir" id="D4">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D4</span><h3>Distillate</h3><p class="thesis">The name taken literally. One drop of glass, near-white air, a thin serif. Skincare-house calm with a lab underneath.</p></div>
+        <div class="tile t4">
+          <div class="nav"><span style="font-family:'Italiana';font-size:17px;letter-spacing:.14em">DISTILL</span><span class="links"><span>Method</span><span>Verdicts</span><span>Join</span></span></div>
+          <div class="drop"></div>
+          <div class="hero">
+            <h4>Twenty things you take.<br>Four that matter.</h4>
+            <p>Distill reduces your stack to what your own sleep and recovery data can actually vouch for. Fourteen days per habit. Your call at the end.</p>
+            <a class="cta">Begin with your wearable</a>
+          </div>
+          <div class="cnt">23 ITEMS · $212 / MO<br>↓<br>4 ITEMS · $84 / MO</div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Italiana</b> display, large and thin</span><span class="face"><b>Figtree</b> body</span><span class="face"><b>DM Mono</b> counts</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#FAFAF7"></i>#FAFAF7</span><span><i style="background:#D6E6E3"></i>#D6E6E3</span><span><i style="background:#0F5C57"></i>#0F5C57</span><span><i style="background:#15211F"></i>#15211F</span><span><i style="background:#EEF3F2"></i>#EEF3F2</span></dd>
+        <dt>Layout</dt><dd>Huge air. One rendered object per section and a short headline under or beside it. Text columns never wider than 34 characters.</dd>
+        <dt>Device</dt><dd>The drop. A column of 23 items visually condenses into one drop, then into four lines. The same object marks each verdict.</dd>
+        <dt>Motion</dt><dd>The drop forms slowly on load, then slight parallax. Condensation animation is scroll-driven, once.</dd>
+        <dt>Premium cue</dt><dd>Aesop, La Prairie, Byredo territory. Says "expensive" through emptiness.</dd>
+        <dt>Risk</dt><dd>Can read as a beauty brand and lose the rigour. The mono counts and the real numbers in verdicts are what keep it honest. The drop must be rendered well or it looks like clip art.</dd>
+        <dt></dt><dd><button class="pick" data-id="D4" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D5 -->
+    <article class="dir" id="D5">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D5</span><h3>Blue Pencil</h3><p class="thesis">A manuscript being edited. Paper, graphite type, and the editor's blue pencil striking through what does not earn its place. Editing, not deprivation.</p></div>
+        <div class="tile t5">
+          <div class="nav"><span style="font-family:'Newsreader';font-style:italic;font-size:16px">Distill</span><span class="links"><span>How we edit</span><span>Verdicts</span><span>Founding 100</span></span></div>
+          <div class="page">
+            <div class="margin">↑ HRV +2, within<br>your swing.<br>Struck, day 14.<br><br>↑ Sleep −38 min<br>on nights with.<br>Kept, day 14.</div>
+            <div>
+              <h4>Your stack has never been edited. Only added to.</h4>
+              <ul>
+                <li class="x">Ashwagandha, 600mg</li><li>Magnesium glycinate</li><li class="x">Mouth tape</li><li>Caffeine cut-off, 2pm</li><li class="x">Collagen peptides</li><li>Sauna, three a week</li><li class="x">Blue-light glasses</li><li>Wake time, fixed</li>
+              </ul>
+              <a class="cta">Have your stack read</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Newsreader</b> display, optical size on</span><span class="face"><b>Public Sans</b> body</span><span class="face"><b>JetBrains Mono</b> marginalia</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#F3F2EE"></i>#F3F2EE</span><span><i style="background:#262626"></i>#262626</span><span><i style="background:#2B4C9B"></i>#2B4C9B</span><span><i style="background:#D9D8D2"></i>#D9D8D2</span><span><i style="background:#7A7A74"></i>#7A7A74</span></dd>
+        <dt>Layout</dt><dd>A single manuscript column with a wide left margin. Margin notes carry the real numbers. Sections are pages, separated by a page number, not a rule.</dd>
+        <dt>Device</dt><dd>The strike. A blue pencil line through an item, with the finding in the margin. Blue, not red, because the product rule is that nothing is ever red.</dd>
+        <dt>Motion</dt><dd>Strikes draw one at a time as you scroll, about 400ms each. Margin notes fade in after their strike.</dd>
+        <dt>Premium cue</dt><dd>Publishing-house authority. Nobody in wellness looks like this. Feels literate and adult.</dd>
+        <dt>Risk</dt><dd>Strike-through can feel like loss. Copy has to keep the "kept" items as visible as the struck ones. Paper tone must stay cool grey, not cream.</dd>
+        <dt></dt><dd><button class="pick" data-id="D5" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D6 -->
+    <article class="dir" id="D6">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D6</span><h3>Nocturne</h3><p class="thesis">The night as the unit. Deep indigo, a soft serif, one pale moon-gold. Cinematic and entirely tonal. No bright pop anywhere.</p></div>
+        <div class="tile t6">
+          <div class="nav"><span style="font-family:'Fraunces';font-variation-settings:'SOFT' 100;font-size:15px">Distill</span><span class="links"><span>Method</span><span>Verdicts</span><span>Join</span></span></div>
+          <div class="nights"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i class="on"></i><i class="on"></i><small>14 NIGHTS · 3 ON, 3 OFF</small></div>
+          <div class="hero">
+            <h4>Fourteen nights. One habit. A straight answer.</h4>
+            <p>Distill runs each habit on and off against your own sleep and recovery, and tells you the size of what it found. Then it is your call.</p>
+            <a class="cta">Start the first fortnight</a>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Fraunces</b> display, light, soft axis at 100</span><span class="face"><b>Onest</b> body</span><span class="face"><b>IBM Plex Mono</b> night labels</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#0A0C15"></i>#0A0C15</span><span><i style="background:#171A2C"></i>#171A2C</span><span><i style="background:#C9CCDD"></i>#C9CCDD</span><span><i style="background:#E7DCB6"></i>#E7DCB6</span><span><i style="background:#5C6285"></i>#5C6285</span></dd>
+        <dt>Layout</dt><dd>Full-bleed dark. Headline sits low-left like a film title. Sections change by a shift in tone, never by a rule or a box.</dd>
+        <dt>Device</dt><dd>The 14-night strip. Fourteen circles, on-nights filled moon-gold. It appears in the hero, in each verdict, and in the app.</dd>
+        <dt>Motion</dt><dd>The background gradient breathes on an eight-second cycle. Night dots fill in one by one on scroll. Nothing faster than 600ms.</dd>
+        <dt>Premium cue</dt><dd>Eight Sleep meets a perfume ad. Cinematic, quiet, confident.</dd>
+        <dt>Risk</dt><dd>Dark plus one bright accent is the most common "premium tech" cliché. This works only if the gold stays pale and small. Also hard to read outdoors on a phone.</dd>
+        <dt></dt><dd><button class="pick" data-id="D6" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D7 -->
+    <article class="dir" id="D7">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D7</span><h3>Swiss Pharma</h3><p class="thesis">Black on white, a strict modular grid, one enormous numeral. Braun packaging and a Basel poster. Authority through order.</p></div>
+        <div class="tile t7">
+          <div class="nav"><span style="font-family:'Archivo';font-variation-settings:'wdth' 125;font-weight:700;font-size:13px;letter-spacing:-.02em">DISTILL</span><span class="links"><span>Protocol</span><span>Verdicts</span><span>Price</span></span></div>
+          <div class="big">14<small>DAYS TO YOUR FIRST VERDICT</small></div>
+          <div class="col">
+            <h4>One habit. Three days on, three days off. Your own wearable as the judge.</h4>
+            <p>Distill picks the habit in your stack most likely to be doing nothing, tests it, and shows you the number. Kept, dropped, or inconclusive.</p>
+          </div>
+          <div class="bars"><div><b>1 tap</b>per day, nothing to log</div><div><b>$20</b>per month, founding rate</div><div class="v"><b>$0</b>if nothing measurably moves</div></div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Archivo</b> wide, semibold, for numerals and wordmark</span><span class="face"><b>Schibsted Grotesk</b> body</span><span class="face"><b>Chivo Mono</b> labels</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#FFFFFF"></i>#FFFFFF</span><span><i style="background:#111111"></i>#111111</span><span><i style="background:#E7E5E0"></i>#E7E5E0</span><span><i style="background:#1E6A48"></i>#1E6A48</span><span><i style="background:#F3F2EF"></i>#F3F2EF</span></dd>
+        <dt>Layout</dt><dd>A rigid modular grid. Every section opens with one giant figure. Black bars separate sections. Packaging-style blocks for facts. Everything flush left.</dd>
+        <dt>Device</dt><dd>The leaflet. A section styled like a medicine information leaflet, with the method, what it measures, and what it does not claim, in small type.</dd>
+        <dt>Motion</dt><dd>None. Hover is a hard colour swap. The stillness is the point.</dd>
+        <dt>Premium cue</dt><dd>Swiss precision, regulated feel. Says "this has been thought through" without saying it.</dd>
+        <dt>Risk</dt><dd>Can read as medical, and Distill must never claim diagnosis or treatment. Also cold for a 25 to 45 audience that wants to feel looked after.</dd>
+        <dt></dt><dd><button class="pick" data-id="D7" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D8 -->
+    <article class="dir" id="D8">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D8</span><h3>Field Journal</h3><p class="thesis">Bone paper, olive ink, ruled lines. The two earned lists as facing pages of a journal. Unhurried, sans-serif, natural.</p></div>
+        <div class="tile t8">
+          <div class="nav"><span style="font-family:'Tenor Sans';letter-spacing:.2em;font-size:12px">DISTILL</span><span class="links"><span>Method</span><span>Journal</span><span>Join</span></span></div>
+          <div class="spread">
+            <div>
+              <div class="lbl">What you cut</div>
+              <ol class="cut"><li>Ashwagandha</li><li>Mouth tape</li><li>Collagen</li><li>Blue-light glasses</li></ol>
+            </div>
+            <div>
+              <div class="lbl">What's yours</div>
+              <h4>Four conditions your body runs best under.</h4>
+              <ol><li>Caffeine stops at 2pm</li><li>Sauna, three a week</li><li>Same wake time, ± 20 min</li><li>Magnesium glycinate</li></ol>
+              <a class="cta">Start your journal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Tenor Sans</b> display</span><span class="face"><b>Jost</b> body</span><span class="face"><b>DM Mono</b> list numbers</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#ECE9E1"></i>#ECE9E1</span><span><i style="background:#46503F"></i>#46503F</span><span><i style="background:#1D201A"></i>#1D201A</span><span><i style="background:#8A9478"></i>#8A9478</span><span><i style="background:#A48334"></i>#A48334</span></dd>
+        <dt>Layout</dt><dd>Two facing pages with a centre gutter. Left page is always what was cut, right page is always what stays. Faint ruled lines across the whole page.</dd>
+        <dt>Device</dt><dd>The spread. The product's real output (two lists) is the whole visual identity.</dd>
+        <dt>Motion</dt><dd>None, apart from a subtle paper grain and items writing in on scroll.</dd>
+        <dt>Premium cue</dt><dd>Aesop, Kinfolk, a good stationer. Calm and tactile.</dd>
+        <dt>Risk</dt><dd>Closest to the "warm cream and serif" look every AI page defaults to. Kept sans-only and olive on purpose. Can read lifestyle rather than rigorous.</dd>
+        <dt></dt><dd><button class="pick" data-id="D8" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D9 -->
+    <article class="dir" id="D9">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D9</span><h3>Monolith</h3><p class="thesis">One statement per screen, a giant light number, tiny caps at the corners. Fashion-house confidence. No cards, no accent colour at all.</p></div>
+        <div class="tile t9">
+          <div class="nav"><span style="font-family:'Bodoni Moda';font-weight:400;font-size:14px;letter-spacing:.24em;text-transform:none">DISTILL</span><span class="links"><span>Method</span><span>Verdicts</span><span>Join</span></span></div>
+          <span class="corner" style="left:26px;top:50px">Fewer things</span>
+          <span class="corner" style="right:26px;top:50px">Tested on you</span>
+          <div class="num">4<sup>of 23</sup></div>
+          <div class="txt"><h4>The number of things in your stack that your own data can vouch for.</h4>Distill finds it. One habit at a time, fourteen days each, judged by your wearable.</div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Bodoni Moda</b> light, very large, for numbers only</span><span class="face"><b>Manrope</b> body and headings</span><span class="face"><b>Geist Mono</b> corner labels</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#F2F1EE"></i>#F2F1EE</span><span><i style="background:#121212"></i>#121212</span><span><i style="background:#8C8B86"></i>#8C8B86</span><span><i style="background:#DAD9D4"></i>#DAD9D4</span><span><i style="background:#FFFFFF"></i>#FFFFFF</span></dd>
+        <dt>Layout</dt><dd>Each section is one screen with one idea. Giant figure bottom-left, short paragraph bottom-right, labels at the corners. Full-width rules only.</dd>
+        <dt>Device</dt><dd>The number that goes down. 23 becomes 4 as you scroll, locked to scroll position. Nothing else needs to move.</dd>
+        <dt>Motion</dt><dd>Scroll-locked counting and slow crossfades between sections. That is all.</dd>
+        <dt>Premium cue</dt><dd>The Row, Jil Sander. Says so little that it must be sure of itself.</dd>
+        <dt>Risk</dt><dd>Conversion. It explains slowly and a founding-100 page needs to explain. Needs the best copy of all twelve. No colour means nothing to soften it.</dd>
+        <dt></dt><dd><button class="pick" data-id="D9" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D10 -->
+    <article class="dir" id="D10">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D10</span><h3>Instrument</h3><p class="thesis">Charcoal, brushed panels, a single amber readout. Leica and Teenage Engineering. The effect-size gate rendered as a gauge.</p></div>
+        <div class="tile t10">
+          <div class="nav"><span style="font-family:'Chivo';font-weight:700;font-size:13px;letter-spacing:-.02em;text-transform:none;color:#ECEDE9">DISTILL</span><span class="links"><span>Method</span><span>Readouts</span><span>Founding</span></span></div>
+          <div class="panel">
+            <div>
+              <h4>Every habit, measured against your own noise.</h4>
+              <p>A habit only counts if its effect clears your night-to-night swing. Most supplements don't. Distill tells you which.</p>
+              <a class="cta">CONNECT WEARABLE</a>
+            </div>
+            <div class="mod"><span class="led"></span>
+              <div class="k">Ashwagandha · HRV · 14 nights</div>
+              <div class="gauge"></div>
+              <div class="rd"><span>effect <b>+2 ms</b></span><span>your swing <b>9 ms</b></span><span>gate 0.8×</span></div>
+              <div class="rd" style="margin-top:12px;color:#ECEDE9">VERDICT: TOO SMALL TO SEE. YOUR CALL.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Chivo</b> bold, tight, display and body</span><span class="face"><b>Chivo Mono</b> all readouts and labels</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#1B1C1B"></i>#1B1C1B</span><span><i style="background:#2E302F"></i>#2E302F</span><span><i style="background:#D5D7D2"></i>#D5D7D2</span><span><i style="background:#D9A130"></i>#D9A130</span><span><i style="background:#7B7E79"></i>#7B7E79</span></dd>
+        <dt>Layout</dt><dd>Dense modules on a dark panel. Each section is an instrument face: a label, a gauge, a readout. Brushed-metal gradients on surfaces, hairline bezels.</dd>
+        <dt>Device</dt><dd>The gauge. Effect versus your own swing, with the 0.8 gate marked. It makes the hardest idea in the product visible in one glance.</dd>
+        <dt>Motion</dt><dd>Needles settle with a slight overshoot. The amber indicator pulses once when a verdict lands. Everything else static.</dd>
+        <dt>Premium cue</dt><dd>Precision hardware. Bang &amp; Olufsen, Leica. Objects you keep.</dd>
+        <dt>Risk</dt><dd>Gadget-coded and male-coded. Dark plus amber is close to the dark-and-pop cliché. Could feel like a dashboard, which the research says to avoid.</dd>
+        <dt></dt><dd><button class="pick" data-id="D10" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D11 -->
+    <article class="dir" id="D11">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D11</span><h3>Receipt</h3><p class="thesis">The verdict slip is the brand. Printed paper, perforated edges, a stamp. Honest, tactile, and unlike anything else in the category.</p></div>
+        <div class="tile t11">
+          <div class="nav"><span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:14px;letter-spacing:-.03em">distill</span><span class="links"><span>How it prints</span><span>Verdicts</span><span>Join</span></span></div>
+          <div class="hero">
+            <h4>One slip every fourteen days. The habit, the number, one word.</h4>
+            <p>Distill tests your stack on your own wearable data and prints a verdict you can trust. Then the choice is yours.</p>
+            <a class="cta">Print my first verdict</a>
+          </div>
+          <div class="slip">
+            <div class="hd">Verdict · cycle 02</div>
+            <div class="row"><span>Habit</span><span>Ashwagandha</span></div>
+            <div class="row"><span>Metric</span><span>HRV, ms</span></div>
+            <div class="row"><span>On nights</span><span>+2.1</span></div>
+            <div class="row"><span>Your swing</span><span>9.0</span></div>
+            <div class="row"><span>Nights</span><span>14 / 14</span></div>
+            <div class="row"><span>Saved</span><span>$31 / mo</span></div>
+            <div class="stamp">DROPPED</div>
+          </div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Bricolage Grotesque</b> display and body, optical size on</span><span class="face"><b>DM Mono</b> everything printed</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#E4E2DC"></i>#E4E2DC</span><span><i style="background:#FBFAF7"></i>#FBFAF7</span><span><i style="background:#121212"></i>#121212</span><span><i style="background:#1E2F57"></i>#1E2F57</span><span><i style="background:#6F6E69"></i>#6F6E69</span></dd>
+        <dt>Layout</dt><dd>Pages built from stacked slips on a grey counter. Each section is a printed slip: method slip, price slip, guarantee slip. Slightly rotated, real shadows.</dd>
+        <dt>Device</dt><dd>The slip and the stamp. KEPT, DROPPED, or INCONCLUSIVE, stamped in ink-blue. Never red.</dd>
+        <dt>Motion</dt><dd>Slips print out: slide up with a tiny jitter, 500ms. The stamp lands with a short scale-down. That is the only flourish.</dd>
+        <dt>Premium cue</dt><dd>Muji, a good hotel's paper. Premium through honesty and craft rather than gloss.</dd>
+        <dt>Risk</dt><dd>If the paper rendering is off by a little it reads cheap. Humour and premium have to be balanced carefully. The receipt idea can feel like a bill.</dd>
+        <dt></dt><dd><button class="pick" data-id="D11" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+
+    <!-- D12 -->
+    <article class="dir" id="D12">
+      <div class="tile-wrap">
+        <div class="head"><span class="id">D12</span><h3>Pulse Line</h3><p class="thesis">Your HRV drawn as one continuous line, on-nights and off-nights slowly separating. Data as gallery art on graphite. Very quiet type.</p></div>
+        <div class="tile t12">
+          <canvas id="pulse"></canvas>
+          <div class="nav"><span style="font-family:'Sora';font-weight:300;font-size:14px;letter-spacing:.18em">DISTILL</span><span class="links"><span>Method</span><span>Verdicts</span><span>Join</span></span></div>
+          <div class="hero">
+            <h4>Two years of your data. Never once an answer.</h4>
+            <p>Distill runs each habit on and off and shows you exactly how far the lines separate. The size of the effect, in your own units.</p>
+            <a class="cta">Read my history</a>
+          </div>
+          <div class="leg">━━ ON NIGHTS<br><span>━━ OFF NIGHTS</span><br><span>HRV, MS · 14 NIGHTS</span></div>
+        </div>
+      </div>
+      <dl class="spec">
+        <dt>Type</dt><dd><span class="face"><b>Sora</b> light, display and body</span><span class="face"><b>Geist Mono</b> legends</span></dd>
+        <dt>Palette</dt><dd class="sw"><span><i style="background:#131516"></i>#131516</span><span><i style="background:#1C1F20"></i>#1C1F20</span><span><i style="background:#E4E6E3"></i>#E4E6E3</span><span><i style="background:#9ED9D3"></i>#9ED9D3</span><span><i style="background:#5F6664"></i>#5F6664</span></dd>
+        <dt>Layout</dt><dd>The line runs behind everything and threads through each section. Type sits in the quiet parts of the line. Legends are the only labels.</dd>
+        <dt>Device</dt><dd>The separating lines. On-nights and off-nights start together and part company by exactly the effect size. The gap is the verdict.</dd>
+        <dt>Motion</dt><dd>The line draws continuously and slowly, always. Nothing else animates.</dd>
+        <dt>Premium cue</dt><dd>WHOOP if it were an art gallery. Feels like a signal, not a score.</dd>
+        <dt>Risk</dt><dd>Reads as tech and as a dashboard, which the positioning research warns against. Dark plus pale cyan is a cliché unless the line stays hairline-thin and the cyan tiny.</dd>
+        <dt></dt><dd><button class="pick" data-id="D12" aria-pressed="false">Shortlist</button></dd>
+      </dl>
+    </article>
+  </section>
+
+  <!-- ============ B. TYPE PAIRINGS ============ -->
+  <section class="block" id="type">
+    <header><span class="n">B</span><h2>Type pairings</h2><p>Display face, body face, and where relevant the face for numbers. Each preview is the real font. Any of these can be dropped into any direction.</p></header>
+    <div class="grid3">
+      <div class="opt"><div class="id"><span>T1</span><button class="pick" data-id="T1" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Cormorant Garamond';font-weight:500">Know which of your habits work.</div><div class="b" style="font-family:'Hanken Grotesk'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'IBM Plex Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Cormorant Garamond + Hanken Grotesk + IBM Plex Mono.</b> Classical serif with a plain modern sans. Heritage without stuffiness.</div></div>
+      <div class="opt"><div class="id"><span>T2</span><button class="pick" data-id="T2" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Bodoni Moda';font-weight:400">Know which of your habits work.</div><div class="b" style="font-family:'Archivo'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Martian Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Bodoni Moda + Archivo + Martian Mono.</b> High-contrast fashion serif, workhorse sans. Luxury statement feel.</div></div>
+      <div class="opt"><div class="id"><span>T3</span><button class="pick" data-id="T3" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Italiana';font-size:32px">Know which of your habits work.</div><div class="b" style="font-family:'Figtree'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'DM Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Italiana + Figtree + DM Mono.</b> Thin, tall, spa-house display with a friendly body. Softest of the set.</div></div>
+      <div class="opt"><div class="id"><span>T4</span><button class="pick" data-id="T4" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Newsreader';font-weight:400">Know which of your habits work.</div><div class="b" style="font-family:'Public Sans'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'JetBrains Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Newsreader + Public Sans + JetBrains Mono.</b> Editorial serif, civic sans. Reads like a serious publication.</div></div>
+      <div class="opt"><div class="id"><span>T5</span><button class="pick" data-id="T5" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Fraunces';font-variation-settings:'SOFT' 100,'opsz' 96;font-weight:300">Know which of your habits work.</div><div class="b" style="font-family:'Onest'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'IBM Plex Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Fraunces soft + Onest.</b> A serif with rounded terminals, warm and calm. Good for the self-compassion tone.</div></div>
+      <div class="opt"><div class="id"><span>T6</span><button class="pick" data-id="T6" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Host Grotesk';font-weight:500;letter-spacing:-.03em">Know which of your habits work.</div><div class="b" style="font-family:'Geist'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Geist Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Host Grotesk + Geist + Geist Mono.</b> Sans only. Tight, modern, precise. The most "product" of the set.</div></div>
+      <div class="opt"><div class="id"><span>T7</span><button class="pick" data-id="T7" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Archivo';font-variation-settings:'wdth' 125;font-weight:600;letter-spacing:-.03em;font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Schibsted Grotesk'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Chivo Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Archivo wide + Schibsted Grotesk + Chivo Mono.</b> Swiss poster energy. Loud in size, quiet in colour.</div></div>
+      <div class="opt"><div class="id"><span>T8</span><button class="pick" data-id="T8" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Tenor Sans';font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Jost'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'DM Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Tenor Sans + Jost + DM Mono.</b> Two humanist sans faces. Natural, stationer-like, no serif needed.</div></div>
+      <div class="opt"><div class="id"><span>T9</span><button class="pick" data-id="T9" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Bodoni Moda';font-weight:300;font-size:34px;letter-spacing:-.03em">4 of 23</div><div class="b" style="font-family:'Manrope'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Geist Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Bodoni Moda light + Manrope + Geist Mono.</b> The serif only for giant numbers, sans for everything else. Fashion-house restraint.</div></div>
+      <div class="opt"><div class="id"><span>T10</span><button class="pick" data-id="T10" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Chivo';font-weight:700;letter-spacing:-.03em;font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Chivo'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Chivo Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Chivo + Chivo Mono.</b> One family, two cuts. Hardware-panel feel. Very consistent.</div></div>
+      <div class="opt"><div class="id"><span>T11</span><button class="pick" data-id="T11" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Bricolage Grotesque';font-weight:600;letter-spacing:-.03em;font-variation-settings:'opsz' 96;font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Bricolage Grotesque'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'DM Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Bricolage Grotesque + DM Mono.</b> A grotesque with a bit of character. Friendly but not cute.</div></div>
+      <div class="opt"><div class="id"><span>T12</span><button class="pick" data-id="T12" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Gloock'">Know which of your habits work.</div><div class="b" style="font-family:'Manrope'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Geist Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Gloock + Manrope.</b> A heavy, inky display serif with a neutral sans. Strong wordmark potential.</div></div>
+      <div class="opt"><div class="id"><span>T13</span><button class="pick" data-id="T13" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Spectral';font-weight:300">Know which of your habits work.</div><div class="b" style="font-family:'Karla'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'IBM Plex Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Spectral light + Karla.</b> A screen serif built for reading, light weight. Quiet and literate.</div></div>
+      <div class="opt"><div class="id"><span>T14</span><button class="pick" data-id="T14" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Young Serif';font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Figtree'">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'DM Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Young Serif + Figtree.</b> A chunky, warm serif. Confident and a little unusual.</div></div>
+      <div class="opt"><div class="id"><span>T15</span><button class="pick" data-id="T15" aria-pressed="false">Shortlist</button></div><div class="prev"><div class="h" style="font-family:'Sora';font-weight:300;letter-spacing:-.02em;font-size:24px">Know which of your habits work.</div><div class="b" style="font-family:'Sora';font-weight:300">Tested on your own wearable data, one habit at a time.</div><div class="m" style="font-family:'Geist Mono'">HRV +2 MS · SWING 9 MS</div></div><div class="body"><b>Sora light + Geist Mono.</b> Geometric, airy, light. Gallery-label calm.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ C. PALETTES ============ -->
+  <section class="block" id="pal">
+    <header><span class="n">C</span><h2>Palettes</h2><p>Ground, surface, ink, accent, muted. Five each. The first twelve belong to the directions above; the last six are extras that fit none of them yet.</p></header>
+    <div class="grid4">
+      <div class="opt"><div class="id"><span>P1 · Bottle &amp; brass</span><button class="pick" data-id="P1" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#10281F"></i><i style="background:#0B1B15"></i><i style="background:#EFE8D3"></i><i style="background:#C08A2E"></i><i style="background:#9FB3A8"></i></div><div class="hex"><span>10281F</span><span>0B1B15</span><span>EFE8D3</span><span>C08A2E</span><span>9FB3A8</span></div><div class="body">Dark green glass, paper, brass. Heritage.</div></div>
+      <div class="opt"><div class="id"><span>P2 · Clean room</span><button class="pick" data-id="P2" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#F4F5F7"></i><i style="background:#E3E6EA"></i><i style="background:#1A1D21"></i><i style="background:#365C86"></i><i style="background:#A9B1BA"></i></div><div class="hex"><span>F4F5F7</span><span>E3E6EA</span><span>1A1D21</span><span>365C86</span><span>A9B1BA</span></div><div class="body">Cold light grey, steel blue. Precision.</div></div>
+      <div class="opt"><div class="id"><span>P3 · Navy &amp; parchment</span><button class="pick" data-id="P3" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#0C1526"></i><i style="background:#0A0F1A"></i><i style="background:#E9E3D4"></i><i style="background:#C5A265"></i><i style="background:#4E5A6E"></i></div><div class="hex"><span>0C1526</span><span>0A0F1A</span><span>E9E3D4</span><span>C5A265</span><span>4E5A6E</span></div><div class="body">Private-bank navy with brass. Money handled well.</div></div>
+      <div class="opt"><div class="id"><span>P4 · Glass &amp; teal</span><button class="pick" data-id="P4" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#FAFAF7"></i><i style="background:#D6E6E3"></i><i style="background:#15211F"></i><i style="background:#0F5C57"></i><i style="background:#EEF3F2"></i></div><div class="hex"><span>FAFAF7</span><span>D6E6E3</span><span>15211F</span><span>0F5C57</span><span>EEF3F2</span></div><div class="body">Near-white, glass tint, deep teal. Skincare-lab.</div></div>
+      <div class="opt"><div class="id"><span>P5 · Paper &amp; blue pencil</span><button class="pick" data-id="P5" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#F3F2EE"></i><i style="background:#D9D8D2"></i><i style="background:#262626"></i><i style="background:#2B4C9B"></i><i style="background:#7A7A74"></i></div><div class="hex"><span>F3F2EE</span><span>D9D8D2</span><span>262626</span><span>2B4C9B</span><span>7A7A74</span></div><div class="body">Cool paper, graphite, editor's blue. Literate.</div></div>
+      <div class="opt"><div class="id"><span>P6 · Nocturne</span><button class="pick" data-id="P6" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#0A0C15"></i><i style="background:#171A2C"></i><i style="background:#C9CCDD"></i><i style="background:#E7DCB6"></i><i style="background:#5C6285"></i></div><div class="hex"><span>0A0C15</span><span>171A2C</span><span>C9CCDD</span><span>E7DCB6</span><span>5C6285</span></div><div class="body">Indigo night, pale moon-gold. Tonal, no pop.</div></div>
+      <div class="opt"><div class="id"><span>P7 · Swiss pharma</span><button class="pick" data-id="P7" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#FFFFFF"></i><i style="background:#E7E5E0"></i><i style="background:#111111"></i><i style="background:#1E6A48"></i><i style="background:#F3F2EF"></i></div><div class="hex"><span>FFFFFF</span><span>E7E5E0</span><span>111111</span><span>1E6A48</span><span>F3F2EF</span></div><div class="body">Pure white, black, one verdict green. Regulated.</div></div>
+      <div class="opt"><div class="id"><span>P8 · Olive &amp; bone</span><button class="pick" data-id="P8" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#ECE9E1"></i><i style="background:#46503F"></i><i style="background:#1D201A"></i><i style="background:#8A9478"></i><i style="background:#A48334"></i></div><div class="hex"><span>ECE9E1</span><span>46503F</span><span>1D201A</span><span>8A9478</span><span>A48334</span></div><div class="body">Bone paper, olive ink, a touch of ochre. Natural.</div></div>
+      <div class="opt"><div class="id"><span>P9 · Monolith</span><button class="pick" data-id="P9" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#F2F1EE"></i><i style="background:#DAD9D4"></i><i style="background:#121212"></i><i style="background:#8C8B86"></i><i style="background:#FFFFFF"></i></div><div class="hex"><span>F2F1EE</span><span>DAD9D4</span><span>121212</span><span>8C8B86</span><span>FFFFFF</span></div><div class="body">Warm-grey stone and black. No accent at all.</div></div>
+      <div class="opt"><div class="id"><span>P10 · Charcoal &amp; amber</span><button class="pick" data-id="P10" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#1B1C1B"></i><i style="background:#2E302F"></i><i style="background:#D5D7D2"></i><i style="background:#D9A130"></i><i style="background:#7B7E79"></i></div><div class="hex"><span>1B1C1B</span><span>2E302F</span><span>D5D7D2</span><span>D9A130</span><span>7B7E79</span></div><div class="body">Brushed charcoal, one amber indicator. Hardware.</div></div>
+      <div class="opt"><div class="id"><span>P11 · Receipt</span><button class="pick" data-id="P11" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#E4E2DC"></i><i style="background:#FBFAF7"></i><i style="background:#121212"></i><i style="background:#1E2F57"></i><i style="background:#6F6E69"></i></div><div class="hex"><span>E4E2DC</span><span>FBFAF7</span><span>121212</span><span>1E2F57</span><span>6F6E69</span></div><div class="body">Counter grey, thermal paper, stamp-ink blue. Honest.</div></div>
+      <div class="opt"><div class="id"><span>P12 · Graphite &amp; pulse</span><button class="pick" data-id="P12" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#131516"></i><i style="background:#1C1F20"></i><i style="background:#E4E6E3"></i><i style="background:#9ED9D3"></i><i style="background:#5F6664"></i></div><div class="hex"><span>131516</span><span>1C1F20</span><span>E4E6E3</span><span>9ED9D3</span><span>5F6664</span></div><div class="body">Graphite, one pale cyan line. Signal, not score.</div></div>
+      <div class="opt"><div class="id"><span>P13 · Oxblood &amp; stone</span><button class="pick" data-id="P13" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#D9D2C5"></i><i style="background:#EAE5DB"></i><i style="background:#231A1B"></i><i style="background:#4A1F24"></i><i style="background:#8B7F73"></i></div><div class="hex"><span>D9D2C5</span><span>EAE5DB</span><span>231A1B</span><span>4A1F24</span><span>8B7F73</span></div><div class="body">Warm stone with a deep oxblood. Leather-goods luxury.</div></div>
+      <div class="opt"><div class="id"><span>P14 · Plum &amp; chalk</span><button class="pick" data-id="P14" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#F1EEF4"></i><i style="background:#E2DCE8"></i><i style="background:#1E1626"></i><i style="background:#2E1F3A"></i><i style="background:#9A8CAA"></i></div><div class="hex"><span>F1EEF4</span><span>E2DCE8</span><span>1E1626</span><span>2E1F3A</span><span>9A8CAA</span></div><div class="body">Chalk with deep plum. Night-adjacent but on a light ground.</div></div>
+      <div class="opt"><div class="id"><span>P15 · Slate &amp; sand</span><button class="pick" data-id="P15" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#E5DCCB"></i><i style="background:#F0EAE0"></i><i style="background:#1F262B"></i><i style="background:#3B4750"></i><i style="background:#9A9284"></i></div><div class="hex"><span>E5DCCB</span><span>F0EAE0</span><span>1F262B</span><span>3B4750</span><span>9A9284</span></div><div class="body">Sand and blue-grey slate. Coastal architecture.</div></div>
+      <div class="opt"><div class="id"><span>P16 · Forest &amp; fog</span><button class="pick" data-id="P16" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#DDE3DF"></i><i style="background:#EDF0EE"></i><i style="background:#14211A"></i><i style="background:#1F3A2C"></i><i style="background:#A3B8AC"></i></div><div class="hex"><span>DDE3DF</span><span>EDF0EE</span><span>14211A</span><span>1F3A2C</span><span>A3B8AC</span></div><div class="body">Fog-grey ground, deep forest ink. Light take on P1.</div></div>
+      <div class="opt"><div class="id"><span>P17 · Ink &amp; ivory, no colour</span><button class="pick" data-id="P17" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#F6F5F1"></i><i style="background:#ECEBE6"></i><i style="background:#141414"></i><i style="background:#141414"></i><i style="background:#A2A19C"></i></div><div class="hex"><span>F6F5F1</span><span>ECEBE6</span><span>141414</span><span>141414</span><span>A2A19C</span></div><div class="body">Ivory and ink only. The accent is type weight.</div></div>
+      <div class="opt"><div class="id"><span>P18 · Umber &amp; linen</span><button class="pick" data-id="P18" aria-pressed="false">Shortlist</button></div><div class="swatch"><i style="background:#E9E4DA"></i><i style="background:#F3F0E9"></i><i style="background:#2A2420"></i><i style="background:#5C4634"></i><i style="background:#A79C8E"></i></div><div class="hex"><span>E9E4DA</span><span>F3F0E9</span><span>2A2420</span><span>5C4634</span><span>A79C8E</span></div><div class="body">Linen with a dark umber. Cabinet-maker warmth, no orange.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ D. HERO LAYOUTS ============ -->
+  <section class="block" id="hero">
+    <header><span class="n">D</span><h2>Hero layouts</h2><p>Where the headline, the object and the call to action sit in the first screen. Black is the headline, grey blocks are supporting elements.</p></header>
+    <div class="grid4">
+      <div class="opt"><div class="id"><span>H1 · Left statement, object right</span><button class="pick" data-id="H1" aria-pressed="false">Shortlist</button></div><div class="wire"><i class="k" style="left:8%;top:30%;width:40%;height:8px"></i><i class="k" style="left:8%;top:40%;width:34%;height:8px"></i><i style="left:8%;top:54%;width:30%;height:3px"></i><i style="left:8%;top:60%;width:26%;height:3px"></i><i class="k" style="left:8%;top:72%;width:14%;height:7px"></i><i style="left:58%;top:22%;width:34%;height:60%"></i></div><div class="body">The default for good reason. Headline left, verdict card or object right. Fast to read.</div></div>
+      <div class="opt"><div class="id"><span>H2 · Centred label</span><button class="pick" data-id="H2" aria-pressed="false">Shortlist</button></div><div class="wire"><i style="left:22%;top:18%;width:56%;height:64%;background:transparent;border:1px solid var(--rule2)"></i><i style="left:40%;top:28%;width:20%;height:3px"></i><i class="k" style="left:30%;top:38%;width:40%;height:8px"></i><i class="k" style="left:34%;top:48%;width:32%;height:8px"></i><i style="left:36%;top:60%;width:28%;height:3px"></i><i class="k" style="left:42%;top:70%;width:16%;height:6px"></i></div><div class="body">Everything centred inside one framed column. Formal, label-like. Used by D1.</div></div>
+      <div class="opt"><div class="id"><span>H3 · Low-left, cinematic</span><button class="pick" data-id="H3" aria-pressed="false">Shortlist</button></div><div class="wire"><i style="left:0;top:0;width:100%;height:100%;background:var(--rule);opacity:.5"></i><i class="k" style="left:8%;top:58%;width:44%;height:8px"></i><i class="k" style="left:8%;top:68%;width:30%;height:8px"></i><i style="left:8%;top:80%;width:28%;height:3px"></i><i style="left:70%;top:12%;width:22%;height:14%"></i></div><div class="body">Headline sits low like a film title, the top two-thirds is atmosphere. Used by D6.</div></div>
+      <div class="opt"><div class="id"><span>H4 · Split ledger</span><button class="pick" data-id="H4" aria-pressed="false">Shortlist</button></div><div class="wire"><i class="k" style="left:6%;top:22%;width:38%;height:8px"></i><i class="k" style="left:6%;top:32%;width:30%;height:8px"></i><i style="left:6%;top:46%;width:34%;height:3px"></i><i class="k" style="left:6%;top:60%;width:14%;height:6px"></i><i style="left:54%;top:22%;width:40%;height:1px"></i><i style="left:54%;top:32%;width:40%;height:1px"></i><i style="left:54%;top:42%;width:40%;height:1px"></i><i style="left:54%;top:52%;width:40%;height:1px"></i><i style="left:54%;top:62%;width:40%;height:1px"></i><i class="k" style="left:54%;top:72%;width:40%;height:2px"></i></div><div class="body">Claim on the left, the actual stack with costs on the right. Shows the product in the hero. Used by D3.</div></div>
+      <div class="opt"><div class="id"><span>H5 · Giant numeral</span><button class="pick" data-id="H5" aria-pressed="false">Shortlist</button></div><div class="wire"><i class="k" style="left:6%;top:18%;width:38%;height:56%"></i><i style="left:6%;top:78%;width:24%;height:3px"></i><i class="k" style="left:56%;top:20%;width:36%;height:6px"></i><i style="left:56%;top:30%;width:34%;height:3px"></i><i style="left:56%;top:36%;width:30%;height:3px"></i><i style="left:56%;top:42%;width:32%;height:3px"></i></div><div class="body">One huge figure (14, 4 of 23, $0) carries the screen. Text is secondary. Used by D7 and D9.</div></div>
+      <div class="opt"><div class="id"><span>H6 · Manuscript with margin</span><button class="pick" data-id="H6" aria-pressed="false">Shortlist</button></div><div class="wire"><i style="left:22%;top:14%;width:1px;height:72%"></i><i style="left:6%;top:30%;width:12%;height:2px"></i><i style="left:6%;top:35%;width:10%;height:2px"></i><i style="left:6%;top:56%;width:12%;height:2px"></i><i class="k" style="left:28%;top:18%;width:56%;height:8px"></i><i class="k" style="left:28%;top:28%;width:44%;height:8px"></i><i style="left:28%;top:44%;width:26%;height:3px"></i><i style="left:60%;top:44%;width:26%;height:3px"></i><i style="left:28%;top:52%;width:26%;height:3px"></i><i style="left:60%;top:52%;width:26%;height:3px"></i><i style="left:28%;top:60%;width:26%;height:3px"></i></div><div class="body">Single text column with a wide margin for notes. Editorial. Used by D5.</div></div>
+      <div class="opt"><div class="id"><span>H7 · Object first</span><button class="pick" data-id="H7" aria-pressed="false">Shortlist</button></div><div class="wire"><i style="left:38%;top:10%;width:24%;height:46%;border-radius:50% 50% 50% 50%/40% 40% 60% 60%"></i><i class="k" style="left:24%;top:66%;width:52%;height:8px"></i><i style="left:34%;top:78%;width:32%;height:3px"></i></div><div class="body">One rendered object in the middle, headline beneath. Product-as-art. Used by D4.</div></div>
+      <div class="opt"><div class="id"><span>H8 · Grid first</span><button class="pick" data-id="H8" aria-pressed="false">Shortlist</button></div><div class="wire" style="background-image:linear-gradient(to right,var(--rule) 1px,transparent 1px);background-size:8.333% 100%"><i class="k" style="left:8.333%;top:26%;width:50%;height:8px"></i><i class="k" style="left:8.333%;top:36%;width:42%;height:8px"></i><i style="left:8.333%;top:50%;width:30%;height:3px"></i><i style="left:66.66%;top:26%;width:20%;height:2px"></i><i style="left:66.66%;top:31%;width:16%;height:2px"></i><i style="left:66.66%;top:36%;width:18%;height:2px"></i><i style="left:66.66%;top:41%;width:14%;height:2px"></i></div><div class="body">The column grid is visible and the content sits on it. Spec-sheet feel. Used by D2.</div></div>
+      <div class="opt"><div class="id"><span>H9 · Stacked slips</span><button class="pick" data-id="H9" aria-pressed="false">Shortlist</button></div><div class="wire"><i class="k" style="left:6%;top:24%;width:36%;height:8px"></i><i class="k" style="left:6%;top:34%;width:28%;height:8px"></i><i style="left:6%;top:48%;width:30%;height:3px"></i><i style="left:56%;top:14%;width:34%;height:64%;background:var(--panel);border:1px solid var(--rule2);transform:rotate(2deg)"></i><i style="left:60%;top:20%;width:34%;height:64%;background:var(--panel);border:1px solid var(--rule2);transform:rotate(-1.5deg)"></i></div><div class="body">Verdict slips physically stacked on the right. Tactile. Used by D11.</div></div>
+      <div class="opt"><div class="id"><span>H10 · Two facing pages</span><button class="pick" data-id="H10" aria-pressed="false">Shortlist</button></div><div class="wire"><i style="left:50%;top:10%;width:1px;height:80%"></i><i style="left:8%;top:20%;width:14%;height:2px"></i><i style="left:8%;top:32%;width:30%;height:3px"></i><i style="left:8%;top:40%;width:26%;height:3px"></i><i style="left:8%;top:48%;width:28%;height:3px"></i><i style="left:58%;top:20%;width:14%;height:2px"></i><i class="k" style="left:58%;top:30%;width:34%;height:8px"></i><i class="k" style="left:58%;top:40%;width:26%;height:8px"></i><i style="left:58%;top:54%;width:30%;height:3px"></i><i style="left:58%;top:62%;width:28%;height:3px"></i></div><div class="body">Left page is what you cut, right page is what stays. The output is the hero. Used by D8.</div></div>
+      <div class="opt"><div class="id"><span>H11 · Line behind everything</span><button class="pick" data-id="H11" aria-pressed="false">Shortlist</button></div><div class="wire"><svg viewBox="0 0 160 100" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 60 C 20 55, 30 70, 50 62 S 80 40, 100 48 S 130 30, 160 36" fill="none" stroke="var(--rule2)" stroke-width="1"/><path d="M0 60 C 20 58, 30 66, 50 64 S 80 58, 100 62 S 130 60, 160 66" fill="none" stroke="var(--rule2)" stroke-width="1"/></svg><i class="k" style="left:8%;top:18%;width:44%;height:8px"></i><i class="k" style="left:8%;top:28%;width:34%;height:8px"></i><i style="left:8%;top:42%;width:28%;height:3px"></i></div><div class="body">A continuous data line runs behind the type. The gap between two lines is the message. Used by D12.</div></div>
+      <div class="opt"><div class="id"><span>H12 · Headline only, full width</span><button class="pick" data-id="H12" aria-pressed="false">Shortlist</button></div><div class="wire"><i class="k" style="left:6%;top:24%;width:88%;height:12px"></i><i class="k" style="left:6%;top:40%;width:70%;height:12px"></i><i style="left:6%;top:70%;width:22%;height:3px"></i><i style="left:72%;top:70%;width:22%;height:3px"></i></div><div class="body">The headline spans the whole width at huge size. Nothing else above the fold but two small lines. Pure type.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ E. SIGNATURE DEVICES ============ -->
+  <section class="block" id="dev">
+    <header><span class="n">E</span><h2>Signature devices</h2><p>The one recurring visual idea that makes the page recognisably Distill. Each comes straight from something true in the product. Pick one, at most two.</p></header>
+    <div class="grid3">
+      <div class="opt"><div class="id"><span>S1</span><button class="pick" data-id="S1" aria-pressed="false">Shortlist</button></div><div class="body"><b>The scoreboard that goes down.</b> Stack count and monthly cost, shown as two figures that only ever decrease. 23 → 4. $212 → $84. Appears in the hero, mid-page, and pricing.</div></div>
+      <div class="opt"><div class="id"><span>S2</span><button class="pick" data-id="S2" aria-pressed="false">Shortlist</button></div><div class="body"><b>The strike.</b> A pencil line drawn through an item, with the finding beside it. Blue or graphite, never red. The act of editing made visible.</div></div>
+      <div class="opt"><div class="id"><span>S3</span><button class="pick" data-id="S3" aria-pressed="false">Shortlist</button></div><div class="body"><b>The 14-night strip.</b> Fourteen marks, three on, three off. The experiment design as a small logo-like object that repeats everywhere, including in the app.</div></div>
+      <div class="opt"><div class="id"><span>S4</span><button class="pick" data-id="S4" aria-pressed="false">Shortlist</button></div><div class="body"><b>The verdict slip.</b> Habit, metric, number, one word. A physical-feeling card or printed slip, the same shape every time. The product's actual output as the brand mark.</div></div>
+      <div class="opt"><div class="id"><span>S5</span><button class="pick" data-id="S5" aria-pressed="false">Shortlist</button></div><div class="body"><b>The two lists.</b> "What you cut" and "What's yours", always side by side, always in that order. The personal spec as the visual identity.</div></div>
+      <div class="opt"><div class="id"><span>S6</span><button class="pick" data-id="S6" aria-pressed="false">Shortlist</button></div><div class="body"><b>The gauge.</b> Effect versus your own night-to-night swing, with the 0.8 gate marked. Makes the hardest idea in the engine legible in one glance.</div></div>
+      <div class="opt"><div class="id"><span>S7</span><button class="pick" data-id="S7" aria-pressed="false">Shortlist</button></div><div class="body"><b>The drop.</b> Many items condense into one drop, then into a few lines. Distillation, literally. Works as a wordmark companion too.</div></div>
+      <div class="opt"><div class="id"><span>S8</span><button class="pick" data-id="S8" aria-pressed="false">Shortlist</button></div><div class="body"><b>Registration marks and protocol readout.</b> Crosshair marks at the corners and a small spec table: subject, metric, design, window, gate. Rigour as decoration.</div></div>
+      <div class="opt"><div class="id"><span>S9</span><button class="pick" data-id="S9" aria-pressed="false">Shortlist</button></div><div class="body"><b>The label frame.</b> A double-ruled frame that holds the wordmark, the price, and every verdict. The brand is the frame, not a colour.</div></div>
+      <div class="opt"><div class="id"><span>S10</span><button class="pick" data-id="S10" aria-pressed="false">Shortlist</button></div><div class="body"><b>The separating lines.</b> On-nights and off-nights as two lines that start together and part by exactly the effect size. Drawn slowly, always.</div></div>
+      <div class="opt"><div class="id"><span>S11</span><button class="pick" data-id="S11" aria-pressed="false">Shortlist</button></div><div class="body"><b>The morning line.</b> One sentence a day, set as a single line of type in the hero, changing as you scroll. "Skip the magnesium tonight." "Take it tonight." Shows how little the product asks.</div></div>
+      <div class="opt"><div class="id"><span>S12</span><button class="pick" data-id="S12" aria-pressed="false">Shortlist</button></div><div class="body"><b>The founding number.</b> "No. 037 of 100" stamped or engraved on the page, counting up live. Scarcity made physical, tied to the offer.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ F. MOTION ============ -->
+  <section class="block" id="mot">
+    <header><span class="n">F</span><h2>Motion policy</h2><p>How much moves, and when. Premium sites usually move less than you expect. Reduced-motion preference is respected in all of these.</p></header>
+    <div class="grid3">
+      <div class="opt"><div class="id"><span>M1</span><button class="pick" data-id="M1" aria-pressed="false">Shortlist</button></div><div class="body"><b>Still.</b> Nothing animates. Hover is a hard state change. Confidence through stillness. Fits D7, D9, D8.</div></div>
+      <div class="opt"><div class="id"><span>M2</span><button class="pick" data-id="M2" aria-pressed="false">Shortlist</button></div><div class="body"><b>One opening sequence, then still.</b> The hero assembles once on load over about 1.2 seconds. After that the page does not move. Fits D2, D1.</div></div>
+      <div class="opt"><div class="id"><span>M3</span><button class="pick" data-id="M3" aria-pressed="false">Shortlist</button></div><div class="body"><b>Scroll-driven counting.</b> Numbers tick down as sections enter. Locked to scroll position so the reader controls it. Fits D3, D9.</div></div>
+      <div class="opt"><div class="id"><span>M4</span><button class="pick" data-id="M4" aria-pressed="false">Shortlist</button></div><div class="body"><b>Sequential reveals.</b> Strikes, dots, or list items appear one at a time on scroll, about 400ms apart. Fits D5, D6, D8.</div></div>
+      <div class="opt"><div class="id"><span>M5</span><button class="pick" data-id="M5" aria-pressed="false">Shortlist</button></div><div class="body"><b>Ambient, very slow.</b> A background gradient or line that breathes on an eight-second cycle. Nothing else moves. Fits D6, D12.</div></div>
+      <div class="opt"><div class="id"><span>M6</span><button class="pick" data-id="M6" aria-pressed="false">Shortlist</button></div><div class="body"><b>Physical.</b> Slips print, stamps land, needles settle. Short, with weight. Fits D11, D10.</div></div>
+      <div class="opt"><div class="id"><span>M7</span><button class="pick" data-id="M7" aria-pressed="false">Shortlist</button></div><div class="body"><b>Hover-only micro-detail.</b> Rules draw, a second line of a label appears, a number reveals its unit. Rewards attention, invisible otherwise. Fits D1, D4.</div></div>
+      <div class="opt"><div class="id"><span>M8</span><button class="pick" data-id="M8" aria-pressed="false">Shortlist</button></div><div class="body"><b>One live object.</b> A single continuously rendered thing (the drop, the line, the gauge) and nothing else ever animates. Fits D4, D12, D10.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ G. MATERIALS ============ -->
+  <section class="block" id="mat">
+    <header><span class="n">G</span><h2>Surface and material</h2><p>What the page feels like it is made of. All done with CSS and canvas, no image files.</p></header>
+    <div class="grid3">
+      <div class="opt"><div class="id"><span>G1</span><button class="pick" data-id="G1" aria-pressed="false">Shortlist</button></div><div class="body"><b>Flat ink.</b> No texture, no shadow, no gradient. Pure colour and type. The most modern and the hardest to get right.</div></div>
+      <div class="opt"><div class="id"><span>G2</span><button class="pick" data-id="G2" aria-pressed="false">Shortlist</button></div><div class="body"><b>Paper grain.</b> A faint canvas noise over the ground. Reads as print. Pairs with P5, P8, P11, P17.</div></div>
+      <div class="opt"><div class="id"><span>G3</span><button class="pick" data-id="G3" aria-pressed="false">Shortlist</button></div><div class="body"><b>Glass.</b> Refraction highlights, soft inner shadows, one light source. Pairs with P4, P16.</div></div>
+      <div class="opt"><div class="id"><span>G4</span><button class="pick" data-id="G4" aria-pressed="false">Shortlist</button></div><div class="body"><b>Brushed metal.</b> Vertical linear gradients, hairline bezels, a single indicator light. Pairs with P10.</div></div>
+      <div class="opt"><div class="id"><span>G5</span><button class="pick" data-id="G5" aria-pressed="false">Shortlist</button></div><div class="body"><b>Ruled lines.</b> Faint horizontal rules across the whole page like a notebook or ledger. Pairs with P3, P8.</div></div>
+      <div class="opt"><div class="id"><span>G6</span><button class="pick" data-id="G6" aria-pressed="false">Shortlist</button></div><div class="body"><b>Visible grid.</b> Hairline column grid drawn on the page. Pairs with P2, P7.</div></div>
+      <div class="opt"><div class="id"><span>G7</span><button class="pick" data-id="G7" aria-pressed="false">Shortlist</button></div><div class="body"><b>Depth of field.</b> One slow-moving blurred shape behind everything, tonal only, never a colour gradient. Pairs with P6, P14.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ H. WORDMARK ============ -->
+  <section class="block" id="wm">
+    <header><span class="n">H</span><h2>Wordmark treatments</h2><p>The name is new, so here is how "Distill" reads in each voice. Rendered live. These are lockup ideas, not final logos.</p></header>
+    <div class="grid4">
+      <div class="opt"><div class="id"><span>W1</span><button class="pick" data-id="W1" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Cormorant Garamond';font-weight:500;font-size:22px;letter-spacing:.32em">DISTILL</div><div class="body">Spaced serif caps. Apothecary label.</div></div>
+      <div class="opt"><div class="id"><span>W2</span><button class="pick" data-id="W2" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Bodoni Moda';font-weight:400;font-size:38px;letter-spacing:-.01em">Distill<span style="opacity:.4">.</span></div><div class="body">Bodoni with a full stop. Finality, luxury.</div></div>
+      <div class="opt"><div class="id"><span>W3</span><button class="pick" data-id="W3" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Host Grotesk';font-weight:600;font-size:38px;letter-spacing:-.05em">distill</div><div class="body">Tight lowercase grotesk. Product-like.</div></div>
+      <div class="opt"><div class="id"><span>W4</span><button class="pick" data-id="W4" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Italiana';font-size:30px;letter-spacing:.24em">DISTILL</div><div class="body">Thin, tall, wide-tracked. Skincare house.</div></div>
+      <div class="opt"><div class="id"><span>W5</span><button class="pick" data-id="W5" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Archivo';font-variation-settings:'wdth' 125;font-weight:700;font-size:32px;letter-spacing:-.04em">DISTILL</div><div class="body">Extended heavy caps. Swiss poster.</div></div>
+      <div class="opt"><div class="id"><span>W6</span><button class="pick" data-id="W6" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Fraunces';font-variation-settings:'SOFT' 100,'opsz' 144;font-style:italic;font-weight:300;font-size:40px">Distill</div><div class="body">Soft italic. Warm, unhurried.</div></div>
+      <div class="opt"><div class="id"><span>W7</span><button class="pick" data-id="W7" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'DM Mono';font-weight:400;font-size:26px;letter-spacing:.06em">distill<span style="opacity:.35">_</span></div><div class="body">Monospace with a cursor. Lab notebook.</div></div>
+      <div class="opt"><div class="id"><span>W8</span><button class="pick" data-id="W8" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Tenor Sans';font-size:22px;letter-spacing:.4em">DISTILL</div><div class="body">Humanist caps, very wide tracking. Stationer.</div></div>
+      <div class="opt"><div class="id"><span>W9</span><button class="pick" data-id="W9" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Gloock';font-size:40px;letter-spacing:-.02em">Distill</div><div class="body">Heavy inky serif. Strong at small sizes.</div></div>
+      <div class="opt"><div class="id"><span>W10</span><button class="pick" data-id="W10" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Newsreader';font-style:italic;font-weight:400;font-size:40px;font-variation-settings:'opsz' 72">Distill</div><div class="body">Newsreader italic. Editorial masthead.</div></div>
+      <div class="opt"><div class="id"><span>W11</span><button class="pick" data-id="W11" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Bodoni Moda';font-weight:300;font-size:56px;line-height:1">D<span style="font-size:14px;font-family:'Manrope';letter-spacing:.2em;vertical-align:middle;margin-left:10px">DISTILL</span></div><div class="body">Monogram D with a small lockup. App icon ready.</div></div>
+      <div class="opt"><div class="id"><span>W12</span><button class="pick" data-id="W12" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Manrope';font-weight:500;font-size:30px;letter-spacing:-.02em">Dis<span style="text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.45">ti</span>ll</div><div class="body">Two letters struck out. The edit built into the name. Playful, maybe too clever.</div></div>
+      <div class="opt"><div class="id"><span>W13</span><button class="pick" data-id="W13" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Chivo';font-weight:800;font-size:30px;letter-spacing:-.03em;text-transform:uppercase">Distill<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#D9A130;margin-left:8px;vertical-align:middle"></span></div><div class="body">Heavy caps with one indicator dot. Hardware.</div></div>
+      <div class="opt"><div class="id"><span>W14</span><button class="pick" data-id="W14" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Sora';font-weight:300;font-size:26px;letter-spacing:.3em">DISTILL</div><div class="body">Light geometric caps. Gallery label.</div></div>
+      <div class="opt"><div class="id"><span>W15</span><button class="pick" data-id="W15" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Spectral';font-weight:300;font-size:40px;letter-spacing:-.01em">Distill</div><div class="body">Light reading serif, no tricks. Quiet.</div></div>
+      <div class="opt"><div class="id"><span>W16</span><button class="pick" data-id="W16" aria-pressed="false">Shortlist</button></div><div class="wm" style="font-family:'Bricolage Grotesque';font-weight:700;font-size:38px;letter-spacing:-.04em;font-variation-settings:'opsz' 96">distill</div><div class="body">Chunky grotesk lowercase. Friendly weight.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ I. NOTES ============ -->
+  <section class="block" id="notes">
+    <header><span class="n">I</span><h2>Notes before you choose</h2></header>
+    <div class="note">
+      <p><b>On the name.</b> Distill is strong for this product: reduce to what matters, remove the rest, purity through process. Two things to be aware of. First, distilling is also what makes spirits, so any direction with green glass, brass or amber (D1, D3, D10) nudges toward whisky, and Distill's own engine treats alcohol as an observe-only item. Second, "distill" is already a common product name in software, so the visual identity has to do more work than the word.</p>
+      <ul>
+        <li><b>What the current page is.</b> The existing landing page is near-black with a vermilion accent and a serif display. That is the single most common "premium tech" look right now, which is why it feels familiar rather than niche. None of the twelve directions above reuse it.</li>
+        <li><b>The rule that constrains colour.</b> The product never shows red. The landing page should not either, so every palette here avoids red as an accent. Strike-throughs are blue or graphite.</li>
+        <li><b>What tends to read premium to this audience.</b> Fewer elements, larger type, more space, real numbers, one idea per screen, and stillness. Gloss, gradients and glow tend to read as a startup.</li>
+        <li><b>Safest strong picks.</b> D2, D5 and D9 are the most distinctive without leaning on a cliché. D4 and D11 are the biggest swings. D1, D3, D6, D10 are handsome but closest to looks that already exist.</li>
+        <li><b>How to answer.</b> Send me a list like "D5 base, T2 type, P16 palette, S1 + S4 devices, M4 motion, W2 wordmark". Mixing is expected. I will build the one or two you choose in full, hand-written CSS, no framework.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="tray" role="region" aria-label="Shortlist">
+  <span class="lab">Shortlist</span>
+  <output id="list" for="">Nothing yet</output>
+  <button class="btn" id="copy" type="button">Copy list</button>
+  <button class="btn" id="clear" type="button">Clear</button>
+</div>
+
+<script>
+(function(){
+  var KEY='distill-directions-shortlist';
+  var picks=[];
+  try{ picks=JSON.parse(localStorage.getItem(KEY)||'[]'); if(!Array.isArray(picks)) picks=[]; }catch(e){ picks=[]; }
+  var out=document.getElementById('list');
+  var btns=document.querySelectorAll('.pick');
+  function order(a,b){ var ra=a.match(/^([A-Z]+)(\d+)$/), rb=b.match(/^([A-Z]+)(\d+)$/); if(!ra||!rb) return 0; if(ra[1]!==rb[1]) return ra[1]<rb[1]?-1:1; return (+ra[2])-(+rb[2]); }
+  function render(){
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', picks.indexOf(b.dataset.id)>-1 ? 'true':'false'); });
+    out.textContent = picks.length ? picks.slice().sort(order).join(' + ') : 'Nothing yet';
+    try{ localStorage.setItem(KEY, JSON.stringify(picks)); }catch(e){}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ var id=b.dataset.id, i=picks.indexOf(id); if(i>-1) picks.splice(i,1); else picks.push(id); render(); }); });
+  document.getElementById('copy').addEventListener('click', function(){
+    var t=out.textContent; var self=this;
+    function done(){ self.textContent='Copied'; setTimeout(function(){ self.textContent='Copy list'; },1200); }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done, function(){ selectOut(); }); } else { selectOut(); }
+    function selectOut(){ var r=document.createRange(); r.selectNodeContents(out); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+  document.getElementById('clear').addEventListener('click', function(){ picks=[]; render(); });
+  render();
+
+  /* D12 pulse line: two thin lines that separate by the effect size */
+  var c=document.getElementById('pulse'); if(!c) return;
+  var ctx=c.getContext('2d'), reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches, t0=performance.now();
+  function size(){ var r=c.getBoundingClientRect(), d=Math.min(window.devicePixelRatio||1,2); c.width=r.width*d; c.height=r.height*d; ctx.setTransform(d,0,0,d,0,0); }
+  size(); window.addEventListener('resize', size);
+  function y(x,w,h,phase,sep){ var u=x/w; var base=h*0.62 + Math.sin(u*9+phase)*6 + Math.sin(u*23+phase*1.7)*2.5; return base + sep*Math.min(1,Math.max(0,(u-0.35)/0.45)); }
+  function draw(now){
+    var w=c.getBoundingClientRect().width, h=c.getBoundingClientRect().height; var p=reduce?0:(now-t0)/1000;
+    ctx.clearRect(0,0,w,h);
+    var prog = reduce ? 1 : Math.min(1, (now-t0)/6000);
+    [{sep:-22,col:'#9ED9D3'},{sep:14,col:'#5F6664'}].forEach(function(l){
+      ctx.beginPath(); ctx.lineWidth=1; ctx.strokeStyle=l.col;
+      for(var x=0;x<=w*prog;x+=2){ var yy=y(x,w,h,p*0.15,l.sep); if(x===0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy); }
+      ctx.stroke();
+    });
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
