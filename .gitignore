@@ -1,15 +1,7 @@
-# secrets
+# secrets and local files
 .env
 .env.*
-!.env.example
-
-# local signups (never commit real emails)
-dev/signups.jsonl
-
-# tooling
-.vercel
-__pycache__/
-*.pyc
-node_modules/
 .DS_Store
 .claude/
+node_modules/
+__pycache__/

@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Distill</title>
+<script>
+/* Signup storage. Paste the two values from Supabase > Project Settings > API.
+   The anon key is meant to be public: the database only lets it add a row to
+   the signups table, never read one. Leave both empty until the project exists. */
+window.DISTILL = { supabaseUrl: "", supabaseAnonKey: "" };
+</script>
 <meta name="description" content="Know which of your supplements and routines actually work. Distill runs one-habit on/off experiments on your own wearable data and gives you a real verdict in 14 days. Pay nothing unless something moves.">
 <meta name="theme-color" content="#FAFAF7">
 <meta property="og:title" content="Distill">
@@ -755,22 +761,33 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
   document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', function(){ dlg.close(); }); });
   if(dlg){ dlg.addEventListener('click', function(ev){ if(ev.target===dlg) dlg.close(); }); }
 
-  /* sign-up forms: post to the backend at /api/signup */
+  /* sign-up forms: save straight into Supabase (table: signups, insert-only) */
+  var cfg=window.DISTILL||{};
+  var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   document.querySelectorAll('.audit-form').forEach(function(form){
     var btn=form.querySelector('button[type=submit]'), err=form.querySelector('.err');
     function showErr(msg){ err.textContent=msg; err.hidden=false; }
     form.addEventListener('submit', function(ev){
       ev.preventDefault();
       var em=form.querySelector('input[type=email]'), sel=form.querySelector('select'), hp=form.querySelector('input[name=website]');
-      var email=em.value.trim();
+      var email=em.value.trim().toLowerCase();
       err.hidden=true;
-      if(!email || email.indexOf('@')<0){ em.focus(); showErr('Enter a valid email address.'); return; }
+      if(!EMAIL_RE.test(email)){ em.focus(); showErr('Enter a valid email address.'); return; }
+      if(hp && hp.value){ form.classList.add('done'); return; }
+      if(!cfg.supabaseUrl || !cfg.supabaseAnonKey){ showErr('Signup is not connected yet. Try again later.'); return; }
       var label=btn.textContent; btn.disabled=true; btn.textContent='One moment';
-      fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,wearable:sel?sel.value:'',source:form.dataset.source||'',website:hp?hp.value:''})})
-        .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(data){ return {ok:r.ok && data.ok, data:data}; }); })
-        .then(function(res){ if(res.ok){ form.classList.add('done'); } else { showErr(res.data.error||'Something went wrong. Try again in a moment.'); } })
-        .catch(function(){ showErr('Could not reach the server. Try again in a moment.'); })
-        .then(function(){ btn.disabled=false; btn.textContent=label; });
+      fetch(cfg.supabaseUrl.replace(/\/+$/,'')+'/rest/v1/signups',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':cfg.supabaseAnonKey,'Authorization':'Bearer '+cfg.supabaseAnonKey,'Prefer':'return=minimal'},
+        body:JSON.stringify({email:email,wearable:(sel&&sel.value)?sel.value:null,source:form.dataset.source||null,user_agent:String(navigator.userAgent||'').slice(0,400)})
+      }).then(function(r){
+        if(r.ok){ form.classList.add('done'); return; }
+        return r.json().catch(function(){ return {}; }).then(function(data){
+          if(r.status===409 || (data && data.code==='23505')){ form.classList.add('done'); return; }
+          showErr(r.status<500 ? 'Could not save that email. Check it and try again.' : 'Something went wrong. Try again in a moment.');
+        });
+      }).catch(function(){ showErr('Could not reach the server. Try again in a moment.'); })
+      .then(function(){ btn.disabled=false; btn.textContent=label; });
     });
   });
 })();
