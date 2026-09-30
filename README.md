@@ -8,6 +8,8 @@ The site is one static file. Signups go straight into a Supabase table. Hosting 
 
 ```
 public/index.html     the website: hand-written CSS, no framework, no build step
+public/routing.json   the routing table as data, read by the "What would Distill do with it?" widget
+scripts/build_routing.py  rebuilds routing.json from docs/Routing-Table.xlsx (python3 scripts/build_routing.py)
 supabase/schema.sql   the signups table and its security rules
 docs/                 the setup guide, copy, research, routing table, design board, domain research
 vercel.json           tells Vercel to serve the public folder as-is
@@ -52,6 +54,12 @@ The `vercel.app` address is free and has no "claude" in it. A custom domain cost
 ## How the form works
 
 Both forms (popup and bottom of page) post one row to the `signups` table through Supabase's REST API, using the publishable key. Duplicates are treated as success, so nobody sees an error for signing up twice. A hidden field catches simple bots. Addresses are lower-cased in the database itself.
+
+## The router widget
+
+The section under the hero is the real day-one router. It reads `public/routing.json`, which is generated from the spreadsheet: every item's tier, the number a wearable would watch, the expected effect against a normal night-to-night swing, what the studies found, the safety note, and the sentence the person reads on day one. The follow-up questions (dose and form, timing, visits, last used, still paying) are encoded as data in `scripts/build_routing.py`, in the `RULES` table, because the sheet writes them as prose. When the spreadsheet changes, run the script and commit the new JSON.
+
+The order of checks matches the sheet's "Start Here" tab: Protected first, then anything settled without a test (dose, form, not being used), then the goal, then the 0.8 effect gate, then slow items to the queue.
 
 ## Editing the page
 

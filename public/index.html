@@ -165,18 +165,54 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:15px;le
 .today .taps span{font-size:13px;font-weight:400;padding:9px 14px;border-radius:2px;border:1px solid var(--rule)}
 .today .taps span:first-child{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* try it: one habit in, a sample verdict card out */
-.try .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
-.try form.tool{display:grid;gap:18px;padding:26px}
-.try form.tool label{display:grid;gap:8px}
-.try form.tool input,.try form.tool select{width:100%;font:400 15px var(--sans);padding:14px 16px;border:1px solid var(--rule);border-radius:2px;background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none}
-.try form.tool select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
-.try form.tool input::placeholder{color:var(--faint)}
-.try form.tool .fine{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);line-height:1.6}
-.try .card{min-height:100%}
-.try .card .word.w-kept{color:var(--teal)}
-.try .card .word.w-dropped{color:var(--ink)}
-.try .card .word.w-inc{color:var(--muted)}
+/* try it: the day-one router, driven by routing.json (built from the routing table) */
+.try .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:start}
+.try .tool{display:grid;gap:18px;padding:26px}
+.try .tool .search{display:grid;gap:8px;position:relative}
+.try .field{position:relative}
+.try .tool input[type=text],.try .tool input[type=number],.try .tool select{width:100%;font:400 15px var(--sans);padding:14px 16px;border:1px solid var(--rule);border-radius:2px;background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none}
+.try .tool input[type=text]{padding-right:44px}
+.try .tool select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+.try .tool input::placeholder{color:var(--faint)}
+.try .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;background:transparent;color:var(--muted);font:300 24px/1 var(--sans);cursor:pointer;border-radius:2px}
+.try .suggest{position:absolute;left:0;right:0;top:100%;z-index:4;margin:6px 0 0;padding:6px;list-style:none;background:rgba(255,255,255,.98);border:1px solid rgba(255,255,255,.95);border-radius:12px;box-shadow:0 24px 40px -24px rgba(15,92,87,.45),0 1px 0 rgba(21,33,31,.06);max-height:320px;overflow:auto}
+.try .suggest li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:400}
+.try .suggest li small{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+.try .suggest li.on,.try .suggest li:hover{background:var(--surface)}
+.try .suggest li.none{cursor:default;color:var(--muted);font-weight:300}
+.try .chips{display:flex;flex-wrap:wrap;gap:6px}
+.try .chip{font:400 12.5px var(--sans);padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);color:var(--muted);cursor:pointer;box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 8px 16px -14px rgba(15,92,87,.4)}
+.try .chip:hover{color:var(--ink)}
+.try .chip[aria-pressed="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+.try .qs{display:grid;gap:14px}
+.try .qs:empty{display:none}
+.try .qa{display:grid;gap:8px}
+.try .qa .q{font-size:14px;font-weight:400}
+.try .qa .num{display:flex;align-items:center;gap:10px}
+.try .qa .num input{width:130px}
+.try .qa .num span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.try .ctx{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.try .ctx label{display:grid;gap:8px}
+.try .fine{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);line-height:1.6}
+.try .card{min-height:100%;position:sticky;top:96px}
+.try .card h3 small{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em;margin-top:6px;font-weight:400}
+.try .badge{display:inline-block;justify-self:start;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding:6px 10px;border-radius:999px;background:var(--surface)}
+.try .card .big.txt{font-size:clamp(26px,2.8vw,34px);letter-spacing:-.02em}
+.try .gauge{display:grid;gap:8px}
+.try .gauge .track{position:relative;height:10px;border-radius:3px;background:var(--surface)}
+.try .gauge .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,rgba(15,92,87,.35),var(--teal));transition:width .4s ease}
+.try .gauge .gate{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.try .gauge .gl{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;flex-wrap:wrap}
+.try .gauge .gl b{color:var(--ink);font-weight:500}
+.try .card .say{font-size:15.5px;color:var(--ink);line-height:1.55}
+.try .card .note{font-size:14px;color:var(--muted)}
+.try .card .found{font-size:14px;color:var(--muted)}
+.try .card .found b{color:var(--ink);font-weight:500}
+.try .card .safety{font-size:14px;color:var(--ink);padding:10px 12px;background:var(--surface);border-radius:8px}
+.try .card dl{grid-template-columns:auto 1fr}
+.try .card .word{color:var(--teal)}
+.try .card .word.t-2{color:var(--ink)}
+.try .card .word.t-3,.try .card .word.t-none,.try .card .word.t-P{color:var(--muted)}
 .try .card.flash{animation:tryflash .5s ease-out}
 @keyframes tryflash{from{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 0 0 6px rgba(15,92,87,.14)}to{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 30px 48px -34px rgba(15,92,87,.4)}}
 
@@ -294,6 +330,8 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
   .hero{min-height:160vh}
   .promises{grid-template-columns:1fr}
   .stage{height:clamp(260px,64vw,340px)}
+  .try .ctx{grid-template-columns:1fr}
+  .try .card{position:static}
   .names span{font-size:11px}
 }
 
@@ -362,27 +400,38 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
 <section class="try" id="try">
   <div class="wrap">
     <div class="sec-head">
-      <span class="label">Try it</span>
-      <h2>Is this habit working for you?</h2>
-      <p>Name one habit and your wearable to see the card you'd get on day 14. The numbers are examples until your own data is connected.</p>
+      <span class="label">Try the router</span>
+      <h2>What would Distill do with it?</h2>
+      <p>Type one thing you take, do or pay for. This is the real routing table behind the product: 210 items, each with what a wearable can see, what the studies found, and the exact sentence you'd read on day one.</p>
     </div>
     <div class="grid">
-      <form class="glass tool" id="try-form" novalidate>
-        <label><span class="label">Habit or supplement</span><input id="try-habit" name="habit" type="text" value="Magnesium glycinate, 400 mg" placeholder="e.g. Magnesium glycinate, 400 mg" maxlength="60" autocomplete="off"></label>
-        <label><span class="label">Wearable</span><select id="try-wearable" name="wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
-        <button class="btn btn-primary" type="submit">Get my verdict</button>
-        <span class="fine">Sample verdicts with example numbers. Real ones come from your own wearable data, one habit at a time.</span>
-      </form>
-      <article class="glass card" id="try-out" aria-live="polite">
-        <div class="top"><span class="label" style="color:var(--faint)" id="try-meta">Sample verdict, day 14 · Oura</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
-        <h3 id="try-h">Magnesium glycinate, 400 mg</h3>
-        <div class="big" id="try-n">+0.4<small>min deep sleep</small></div>
-        <dl><dt>Metric</dt><dd id="try-metric">Deep sleep</dd><dt>Difference</dt><dd id="try-diff">+0.4 min</dd><dt>Your noise</dt><dd id="try-noise">±11 min</dd></dl>
-        <p id="try-why">Too small to see against your own swing. Your call.</p>
-        <div class="word w-inc" id="try-w">Inconclusive</div>
+      <div class="glass tool" id="try-tool">
+        <div class="search">
+          <label class="label" for="try-q">Habit, supplement, device or membership</label>
+          <div class="field"><input id="try-q" type="text" placeholder="Start typing: coffee, magnesium, gym, AG1…" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
+          <ul class="suggest" id="try-list" role="listbox" hidden></ul>
+        </div>
+        <div class="chips" id="try-chips" aria-label="Examples"></div>
+        <div class="qs" id="try-qs"></div>
+        <div class="ctx">
+          <label><span class="label">Wearable</span><select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
+          <label><span class="label">What it's for</span><select id="try-goal"><option value="">The usual reason</option></select></label>
+        </div>
+        <span class="fine">Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</span>
+      </div>
+      <article class="glass card route" id="try-out" aria-live="polite">
+        <div class="top"><span class="label" style="color:var(--faint)">Day one · Oura</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
+        <span class="badge">Can't measure it in two weeks · run it anyway if you like</span>
+        <h3>Magnesium (any form)<small>glycinate · 400 mg elemental</small></h3>
+        <div class="gauge"><div class="track"><i class="fill" style="width:20%"></i><i class="gate" style="left:53.3%"></i></div><div class="gl"><span><b>≈ 0.3 ×</b> your normal swing</span><span>gate 0.8 · chance of a clear answer: low</span></div></div>
+        <p class="say">Where it worked in trials, the change was a few minutes, mostly in people low in magnesium. That's about a third of one night's normal swing, so a two-week test would very likely come back inconclusive. We'll show you what the trials found and what it costs, and if you'd still like to run it, you can, knowing that going in.</p>
+        <dl><dt>Number we'd watch</dt><dd>Time to fall asleep; deep sleep</dd><dt>Cost</dt><dd>$22 a month · $264 a year</dd><dt>Evidence</dt><dd>B · proper trials, but small or mixed</dd></dl>
+        <p class="found"><b>What the studies found.</b> Small trials found people fell asleep about 15 minutes faster, mostly older adults or people who were low in magnesium to begin with. The effect on deep sleep and other stages is small or absent.</p>
+        <p class="safety">Loose stools at high doses. Kidney disease: ask a clinician first.</p>
+        <div class="word t-3">Can't measure it</div>
       </article>
     </div>
-    <div class="cta-row"><button class="btn btn-quiet" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Real verdicts start with your stack. Nothing to buy today.</span></div>
+    <div class="cta-row"><button class="btn btn-quiet" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, routed like this, in under 4 minutes. Nothing to buy today.</span></div>
   </div>
 </section>
 
@@ -795,37 +844,153 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
     counters.forEach(function(el){ io.observe(el); });
   } else { counters.forEach(function(el){ el.textContent=el.dataset.to; }); }
 
-  /* try it: sample verdict for one habit (example numbers, drawn at random) */
+  /* try it: the day-one router. Data comes from routing.json, built from the routing table by scripts/build_routing.py. */
   (function(){
-    var form=document.getElementById('try-form'); if(!form) return;
-    var metrics=[
-      {name:'Total sleep',      unit:'min sleep',          short:'min', noise:22},
-      {name:'Overnight HRV',    unit:'ms HRV',             short:'ms',  noise:3},
-      {name:'Deep sleep',       unit:'min deep sleep',     short:'min', noise:11},
-      {name:'Time to fall asleep', unit:'min to fall asleep', short:'min', noise:9}
-    ];
-    var out=document.getElementById('try-out');
-    function fmt(n){ return (n>0?'+':'')+n; }
-    form.addEventListener('submit', function(ev){
-      ev.preventDefault();
-      var habit=(document.getElementById('try-habit').value||'').trim()||'Your habit';
-      var wear=document.getElementById('try-wearable').value;
-      var m=metrics[Math.floor(Math.random()*metrics.length)], r=Math.random(), tier, cls, diff, why;
-      if(r<1/3){ tier='Kept'; cls='w-kept'; diff=+(m.noise*(1.6+Math.random())).toFixed(1); why='Bigger than your normal swing. This one is yours.'; }
-      else if(r<2/3){ tier='Dropped'; cls='w-dropped'; diff=+(Math.random()*m.noise*0.3).toFixed(1); why='No measurable benefit. You can stop paying for it.'; }
-      else { tier='Inconclusive'; cls='w-inc'; diff=+((Math.random()-.5)*m.noise).toFixed(1); why='Too small to see against your own swing. Your call.'; }
-      if(m.unit==='min to fall asleep' && tier==='Kept') diff=-diff;
-      document.getElementById('try-meta').textContent='Sample verdict, day 14 · '+wear;
-      document.getElementById('try-h').textContent=habit;
-      var n=document.getElementById('try-n'); n.textContent=fmt(diff); var sm=document.createElement('small'); sm.textContent=m.unit; n.appendChild(sm);
-      document.getElementById('try-metric').textContent=m.name;
-      document.getElementById('try-diff').textContent=fmt(diff)+' '+m.short;
-      document.getElementById('try-noise').textContent='±'+m.noise+' '+m.short;
-      document.getElementById('try-why').textContent=why;
-      var w=document.getElementById('try-w'); w.textContent=tier; w.className='word '+cls;
-      out.classList.remove('flash'); void out.offsetWidth; out.classList.add('flash');
-      if(window.matchMedia('(max-width: 900px)').matches) out.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if(!document.getElementById('try')) return;
+    var $=function(id){ return document.getElementById(id); };
+    var q=$('try-q'), list=$('try-list'), chipsEl=$('try-chips'), qsEl=$('try-qs'), out=$('try-out'), clearBtn=$('try-clear'), wearSel=$('try-wearable'), goalSel=$('try-goal');
+    var DATA=null, byKey={}, current=null, answers={}, hi=-1;
+    var DEVCOL={'Oura':'oura','WHOOP':'whoop','Apple Watch':'apple','Garmin':'garmin','Fitbit':'garmin'};
+
+    function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9+ ]/g,' ').replace(/\s+/g,' ').trim(); }
+    function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function fracWords(e){ if(e>=1.5) return 'one and a half times your normal night-to-night swing'; if(e>=1.2) return 'more than a full night-to-night swing'; if(e>=1) return 'about a full night-to-night swing'; var w=e>=0.9?'nine-tenths':e>=0.8?'four-fifths':e>=0.7?'two-thirds':e>=0.6?'three-fifths':e>=0.5?'half':e>=0.4?'two-fifths':e>=0.3?'a third':e>=0.2?'a fifth':'a tenth'; return 'about '+w+' of your normal night-to-night swing'; }
+    function chance(e){ return e>=1.2?'good':e>=0.8?'fair':'low'; }
+    function numberKey(name){ var n=norm(String(name||'').split(';')[0]); if(!n) return null; var keys=Object.keys(DATA.numbers); for(var i=0;i<keys.length;i++){ var k=norm(keys[i]); if(n===k||n.indexOf(k)===0||k.indexOf(n)===0) return keys[i]; } return null; }
+    function deviceNote(numName, wear){ var k=numberKey(numName); if(!k) return ''; var v=String(DATA.numbers[k][DEVCOL[wear]]||'yes'); if(/^yes/.test(v)) return ''; return 'On '+wear+', '+k.charAt(0).toLowerCase()+k.slice(1)+' is '+v+', so this test is noisier there.'; }
+    function you(t){ return String(t||'').replace(/they've/g,"you've").replace(/\bthey\b/g,'you').replace(/\btheir\b/g,'your').replace(/the person/g,'you'); }
+
+    function route(it, ans, wear, goalName){
+      var cost=it.cost||0;
+      var r={kind:'3', badge:"Can't measure it", word:"Can't measure it", figure:null, text:it.day1, notes:[], safety:it.safety?[it.safety]:[], number:it.num, effect:it.effect, sub:''};
+      if(it.tier==='P'){ r.kind='P'; r.badge='Protected'; r.word='Protected'; r.figure={big:'Not rated',small:'acknowledged and left alone'}; return r; }
+      var tier2=null, none=null, effect=it.effect, number=it.num, keep=false, sub=[];
+      (it.rule||[]).forEach(function(qd){
+        var a=ans[qd.id];
+        if(qd.number){ var d=parseFloat(a); if(isNaN(d)) return; sub.push(d+' '+qd.unit);
+          var floor=qd.floor||0; if(qd.formFloors&&ans.form&&qd.formFloors[ans.form]!=null) floor=qd.formFloors[ans.form];
+          if(floor&&d<floor&&!tier2) tier2={reason:'dose too low', text:it.n+': the amount you take ('+d+' '+qd.unit+') is below what the studies used ('+qd.floorText+'). Nothing about you is the problem; the amount is. '+(cost?money(cost)+' a month back, or step up to the studied amount and we\'ll test it properly.':'Step up to the studied amount and we\'ll test it properly.')};
+          else if(qd.soft&&d<qd.soft&&qd.softText) r.notes.push(qd.softText);
+          if(qd.safetyOver&&d>qd.safetyOver&&qd.safetyText) r.safety.push(qd.safetyText);
+          return; }
+        var opt=null; (qd.options||[]).forEach(function(o){ if(o.label===a) opt=o; }); if(!opt) return;
+        sub.push(/^(yes|no|not sure)$/i.test(opt.label)?qd.q.replace(/\?$/,'').replace(/^In the app.*?: /,'')+': '+opt.label:opt.label);
+        if(opt.bad&&!tier2) tier2={reason:opt.bad, text:it.n+': this version ('+opt.label+') isn\'t absorbed well enough to do what you bought it for. Same ingredient, different version, and it becomes testable.'+(cost?' '+money(cost)+' a month back either way.':'')};
+        if(opt.tier2&&!tier2) tier2={reason:opt.tier2, text:it.n+': '+opt.detail+'. No test needed, and nothing about you is the problem. '+(cost?money(cost)+' a month back, and you can start it again the week you want it.':'Nothing to pay for, so nothing to get back.')};
+        if(opt.none&&!none) none=opt.none;
+        if(opt.effect!=null) effect=opt.effect;
+        if(opt.number) number=opt.number;
+        if(opt.note) r.notes.push(opt.note);
+        if(opt.safety) r.safety.push(opt.safety);
+        if(opt.keep) keep=true;
+      });
+      r.sub=sub.join(' · ');
+      if(it.tier==='2'){ r.kind='2'; r.badge='No test needed · '+(it.why2||'settled on day one'); r.word='No test needed'; r.figure=cost?{big:money(cost),small:'a month back on day one'}:{big:'Nothing to pay for',small:'so nothing to get back'}; return r; }
+      if(tier2){ r.kind='2'; r.badge='No test needed · '+tier2.reason; r.word='No test needed'; r.text=tier2.text; r.figure=cost?{big:money(cost),small:'a month back on day one'}:{big:'Nothing to drop',small:''}; return r; }
+      if(none){ r.kind='none'; r.badge='Not a hypothesis for you'; r.word='Nothing to test'; r.text=none; r.figure={big:'Nothing to test',small:cost?money(cost)+' a month, your call':''}; return r; }
+      var g=null; if(goalName) DATA.goals.forEach(function(x){ if(x.goal===goalName) g=x; });
+      if(g&&g.number==='(none)'){
+        var short=g.goal.split(' /')[0];
+        r.kind='3'; r.word="Can't measure it"; r.badge="Can't measure it · "+(g.rating?'daily rating instead':'no test'); r.number=null; r.figure=cost?{big:money(cost*12),small:'a year, shown plainly'}:{big:'Free',small:''};
+        if(/hormone/.test(g.goal)){ r.kind='P'; r.badge='Protected'; r.word='Protected'; r.figure={big:'Not rated',small:'a clinician\'s question'}; r.text=it.n+': for hormones the honest answer is a blood test and a clinician. We never route this one.'; }
+        else if(/weight/.test(g.goal)) r.text=it.n+": weight isn't a wearable number and isn't a two-week question. Your scale is the test."+(cost?' It costs '+money(cost*12)+' a year.':'');
+        else if(/immunity/.test(g.goal)) r.text=it.n+": immunity isn't testable on one person in any reasonable time, so we don't offer a test. What the studies found is below, with the cost, and it's your call.";
+        else if(/longevity/.test(g.goal)) r.text=it.n+": you're taking this for general health, which is a real reason and not one a wearable can check. "+(cost?money(cost*12)+' a year. ':'')+"We'll leave it in your count and out of your experiments.";
+        else { var weeks=/skin/.test(g.goal)?'eight':'four'; r.text=it.n+": we can't see "+short+" in your data, and we won't pretend to."+(cost?' It costs '+money(cost*12)+' a year.':'')+" If you want an answer, a one-tap "+short+" rating each day for "+weeks+" weeks is the honest way to get one."; }
+        return r; }
+      if(g&&g.number&&it.see!=='no') number=g.number;
+      r.number=number; r.effect=effect;
+      var et=it.etier||'', observe=/observe/.test(it.assign||'');
+      if(et.indexOf('1, queued')===0){ r.kind='1'; r.badge='Tested on you · '+(et.indexOf('special')>=0?'needs a special design':'queued for a longer test'); r.word='Tested on you'; r.figure=effect!=null?{gauge:effect}:{big:'Queued',small:'works over weeks, not nights'}; return r; }
+      if(it.see==='no'||effect==null){ r.kind='3'; r.badge=(keep||it.grade==='A')?"Can't measure it · keep":"Can't measure it"; r.word="Can't measure it"; r.figure=cost?{big:money(cost*12),small:'a year, shown plainly'}:{big:'Free',small:"and if it's yours, it's yours"}; return r; }
+      if(effect>=0.8){ r.kind='1'; r.badge='Tested on you'+(observe?' · observed, never assigned':''); r.word='Tested on you'; r.figure={gauge:effect};
+        r.text=(et==='1'&&effect===it.effect)?it.day1:'Testable. A wearable can see this the same night, and the likely change is '+fracWords(effect)+', which is big enough to show in two weeks. Three days on, three days off, one number chosen before we start. Kept, dropped or inconclusive on day 14, with the number either way.';
+        if(observe) r.notes.unshift('We never assign a night for this. We record the nights it happens and compare them with the rest.');
+        return r; }
+      r.kind='3'; r.badge="Can't measure it in two weeks · run it anyway if you like"; r.word="Can't measure it"; r.figure={gauge:effect};
+      r.text=(et==='3, effect too small'&&effect===it.effect)?it.day1:it.n+': even where it works, the likely change is '+fracWords(effect)+', so a two-week test would very likely come back inconclusive. We\'ll show you what the trials found and what it costs. If you\'d still like to run the test, you can, knowing that going in.';
+      return r;
+    }
+
+    function render(){
+      if(!current||!DATA) return;
+      var wear=wearSel.value, r=route(current, answers, wear, goalSel.value), cost=current.cost||0, h='';
+      h+='<div class="top"><span class="label" style="color:var(--faint)">Day one · '+esc(wear)+'</span><svg class="glyph"><use href="#dropglyph"/></svg></div>';
+      h+='<span class="badge">'+esc(r.badge)+'</span>';
+      h+='<h3>'+esc(current.n)+(r.sub?'<small>'+esc(r.sub)+'</small>':'')+'</h3>';
+      if(r.figure&&r.figure.gauge!=null){ var e=r.figure.gauge, pct=Math.min(100,e/1.5*100); h+='<div class="gauge" role="img" aria-label="Expected change about '+e+' times your normal swing; the gate is 0.8"><div class="track"><i class="fill" style="width:'+pct.toFixed(1)+'%"></i><i class="gate" style="left:53.3%"></i></div><div class="gl"><span><b>≈ '+e+' ×</b> your normal swing</span><span>gate 0.8 · chance of a clear answer: '+chance(e)+'</span></div></div>'; }
+      else if(r.figure){ var isMoney=/^\$/.test(r.figure.big); h+='<div class="big'+(isMoney?'':' txt')+'">'+esc(r.figure.big)+(r.figure.small?'<small>'+esc(r.figure.small)+'</small>':'')+'</div>'; }
+      h+='<p class="say">'+esc(r.text)+'</p>';
+      r.notes.forEach(function(n){ h+='<p class="note">'+esc(n)+'</p>'; });
+      var dl=[];
+      if(r.kind==='1'||(r.kind==='3'&&r.number)){ var numTxt=(r.number&&r.number!=='None')?r.number:'none a wearable can see'; dl.push(["Number we'd watch",numTxt]); var dn=deviceNote(r.number,wear); if(dn) dl.push(['On your device',dn]); if(r.kind==='1') dl.push(["How we'd test it",current.how||'3 days on, 3 days off, for 14 days']); if(current.hist&&!/^no\b/.test(current.hist)) dl.push(['From your history',you(current.hist)]); }
+      if(cost) dl.push(['Cost',money(cost)+' a month · '+money(cost*12)+' a year']);
+      if(current.grade&&r.kind!=='P') dl.push(['Evidence',current.grade+' · '+(DATA.grades[current.grade]||'')]);
+      if(dl.length){ h+='<dl>'; dl.forEach(function(p){ h+='<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>'; }); h+='</dl>'; }
+      if(current.found&&r.kind!=='P') h+='<p class="found"><b>What the studies found.</b> '+esc(current.found)+'</p>';
+      r.safety.forEach(function(s){ h+='<p class="safety">'+esc(s)+'</p>'; });
+      h+='<div class="word t-'+r.kind+'">'+esc(r.word)+'</div>';
+      out.innerHTML=h; out.classList.remove('flash'); void out.offsetWidth; out.classList.add('flash');
+    }
+
+    function renderQs(){
+      qsEl.innerHTML='';
+      (current.rule||[]).forEach(function(qd){
+        var wrap=document.createElement('div'); wrap.className='qa';
+        var lab=document.createElement('div'); lab.className='q'; lab.textContent=qd.q; wrap.appendChild(lab);
+        if(qd.number){
+          var row=document.createElement('div'); row.className='num';
+          var inp=document.createElement('input'); inp.type='number'; inp.min='0'; inp.step='any'; inp.value=answers[qd.id]; inp.id='try-'+current.k+'-'+qd.id; inp.setAttribute('aria-label',qd.q);
+          inp.addEventListener('input',function(){ answers[qd.id]=inp.value; render(); });
+          var u=document.createElement('span'); u.textContent=qd.unit; row.appendChild(inp); row.appendChild(u); wrap.appendChild(row);
+        } else {
+          var opts=document.createElement('div'); opts.className='chips';
+          qd.options.forEach(function(o){ var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=o.label; b.setAttribute('aria-pressed', answers[qd.id]===o.label?'true':'false');
+            b.addEventListener('click',function(){ answers[qd.id]=o.label; Array.prototype.forEach.call(opts.children,function(c){ c.setAttribute('aria-pressed', c===b?'true':'false'); }); render(); });
+            opts.appendChild(b); });
+          wrap.appendChild(opts);
+        }
+        qsEl.appendChild(wrap);
+      });
+    }
+
+    function select(key){ var it=byKey[key]; if(!it) return; current=it; answers={}; (it.rule||[]).forEach(function(qd){ answers[qd.id]=qd.default; }); q.value=it.n; clearBtn.hidden=false; hideList(); renderQs(); render(); Array.prototype.forEach.call(chipsEl.children,function(c){ c.setAttribute('aria-pressed', c.dataset.k===key?'true':'false'); }); }
+
+    function search(term){
+      var t=norm(term); if(!t||!DATA) return []; var best={};
+      function add(it,sc){ if(!best[it.k]||best[it.k][0]<sc) best[it.k]=[sc,it]; }
+      DATA.items.forEach(function(it){ var n=norm(it.n), k=it.k.replace(/-/g,' '); if(n===t) add(it,100); else if(n.indexOf(t)===0) add(it,90); else if(n.indexOf(t)>=0) add(it,80); else if(k.indexOf(t)>=0) add(it,70); else if(norm(it.for).indexOf(t)>=0) add(it,40); });
+      Object.keys(DATA.aliases).forEach(function(a){ var an=norm(a), it=byKey[DATA.aliases[a]]; if(!it) return; if(an===t) add(it,99); else if(an.indexOf(t)===0) add(it,85); else if(an.length>=3&&t.indexOf(an)===0) add(it,60); });
+      return Object.keys(best).map(function(k){ return best[k]; }).sort(function(a,b){ return b[0]-a[0]||a[1].n.localeCompare(b[1].n); }).slice(0,6).map(function(x){ return x[1]; });
+    }
+    function showList(items, term){
+      list.innerHTML=''; hi=-1;
+      if(!items.length){ var li=document.createElement('li'); li.className='none'; li.textContent=term.length<2?'Keep typing…':'We haven\'t routed "'+term+'" yet. Try one of the examples below, or ask for it in the free audit.'; list.appendChild(li); }
+      items.forEach(function(it){ var li=document.createElement('li'); li.setAttribute('role','option'); li.dataset.k=it.k; li.innerHTML='<span>'+esc(it.n)+'</span><small>'+esc(it.cat)+(it.cost?' · '+money(it.cost)+'/mo':'')+'</small>'; li.addEventListener('mousedown',function(ev){ ev.preventDefault(); select(it.k); }); list.appendChild(li); });
+      list.hidden=false; q.setAttribute('aria-expanded','true');
+    }
+    function hideList(){ list.hidden=true; q.setAttribute('aria-expanded','false'); hi=-1; }
+
+    q.addEventListener('input',function(){ if(!DATA) return; var term=q.value.trim(); clearBtn.hidden=!term; if(!term){ hideList(); return; } showList(search(term), term); });
+    q.addEventListener('focus',function(){ var term=q.value.trim(); if(DATA&&term&&(!current||term!==current.n)) showList(search(term), term); });
+    q.addEventListener('blur',function(){ setTimeout(hideList,150); });
+    q.addEventListener('keydown',function(ev){
+      var opts=list.querySelectorAll('li[data-k]');
+      if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ ev.preventDefault(); if(list.hidden){ if(q.value.trim()) showList(search(q.value.trim()), q.value.trim()); return; } if(!opts.length) return; hi=(hi+(ev.key==='ArrowDown'?1:-1)+opts.length)%opts.length; Array.prototype.forEach.call(opts,function(o,i){ o.classList.toggle('on',i===hi); }); }
+      else if(ev.key==='Enter'){ ev.preventDefault(); if(list.hidden){ var res=search(q.value.trim()); if(res.length) select(res[0].k); } else if(opts.length) select(opts[hi>=0?hi:0].dataset.k); }
+      else if(ev.key==='Escape'){ hideList(); }
     });
+    clearBtn.addEventListener('click',function(){ q.value=''; clearBtn.hidden=true; hideList(); q.focus(); });
+    wearSel.addEventListener('change',render); goalSel.addEventListener('change',render);
+
+    function renderChips(){ chipsEl.innerHTML=''; DATA.chips.forEach(function(k){ var it=byKey[k]; if(!it) return; var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.k=k; b.textContent=it.n.replace(/\s*\(.*\)$/,''); b.setAttribute('aria-pressed','false'); b.addEventListener('click',function(){ select(k); }); chipsEl.appendChild(b); }); }
+
+    fetch('routing.json').then(function(res){ if(!res.ok) throw new Error(String(res.status)); return res.json(); }).then(function(d){
+      DATA=d; d.items.forEach(function(i){ byKey[i.k]=i; });
+      d.goals.forEach(function(g){ var o=document.createElement('option'); o.value=g.goal; o.textContent=g.goal; goalSel.appendChild(o); });
+      renderChips(); select('magnesium-any-form');
+    }).catch(function(){ q.placeholder='The routing table could not load. Refresh to try again.'; });
   })();
 
   /* popup form: every call to action opens it */
