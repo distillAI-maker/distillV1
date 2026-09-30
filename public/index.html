@@ -165,6 +165,21 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:15px;le
 .today .taps span{font-size:13px;font-weight:400;padding:9px 14px;border-radius:2px;border:1px solid var(--rule)}
 .today .taps span:first-child{background:var(--ink);color:#fff;border-color:var(--ink)}
 
+/* try it: one habit in, a sample verdict card out */
+.try .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
+.try form.tool{display:grid;gap:18px;padding:26px}
+.try form.tool label{display:grid;gap:8px}
+.try form.tool input,.try form.tool select{width:100%;font:400 15px var(--sans);padding:14px 16px;border:1px solid var(--rule);border-radius:2px;background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none}
+.try form.tool select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+.try form.tool input::placeholder{color:var(--faint)}
+.try form.tool .fine{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);line-height:1.6}
+.try .card{min-height:100%}
+.try .card .word.w-kept{color:var(--teal)}
+.try .card .word.w-dropped{color:var(--ink)}
+.try .card .word.w-inc{color:var(--muted)}
+.try .card.flash{animation:tryflash .5s ease-out}
+@keyframes tryflash{from{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 0 0 6px rgba(15,92,87,.14)}to{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 30px 48px -34px rgba(15,92,87,.4)}}
+
 /* verdict cards */
 .verdicts-wrap{position:relative}
 .verdicts-wrap .blob{width:min(70vw,720px);height:min(70vw,720px);left:50%;top:55%;transform:translate(-50%,-50%)}
@@ -253,7 +268,7 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
   .promises{grid-template-columns:1fr 1fr}
 }
 @media (max-width:900px){
-  .pain .cols,.vp,.why .list,.file{grid-template-columns:1fr}
+  .pain .cols,.vp,.why .list,.file,.try .grid{grid-template-columns:1fr}
   .vp.flip .text{order:0}
   .cards,.steps3{grid-template-columns:1fr}
   .pain .side{position:static}
@@ -294,6 +309,7 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
   <div class="wrap">
     <a class="wordmark" href="#top" translate="no">DISTILL</a>
     <ul>
+      <li><a href="#try">Try it</a></li>
       <li><a href="#how">How it works</a></li>
       <li><a href="#proof">Proof</a></li>
       <li><a href="#offer">Price</a></li>
@@ -342,6 +358,33 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
   <span>Built by a team at UC Berkeley</span>
   <span>Pay nothing unless something measurably moves</span>
 </div>
+
+<section class="try" id="try">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label">Try it</span>
+      <h2>Is this habit working for you?</h2>
+      <p>Name one habit and your wearable to see the card you'd get on day 14. The numbers are examples until your own data is connected.</p>
+    </div>
+    <div class="grid">
+      <form class="glass tool" id="try-form" novalidate>
+        <label><span class="label">Habit or supplement</span><input id="try-habit" name="habit" type="text" value="Magnesium glycinate, 400 mg" placeholder="e.g. Magnesium glycinate, 400 mg" maxlength="60" autocomplete="off"></label>
+        <label><span class="label">Wearable</span><select id="try-wearable" name="wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
+        <button class="btn btn-primary" type="submit">Get my verdict</button>
+        <span class="fine">Sample verdicts with example numbers. Real ones come from your own wearable data, one habit at a time.</span>
+      </form>
+      <article class="glass card" id="try-out" aria-live="polite">
+        <div class="top"><span class="label" style="color:var(--faint)" id="try-meta">Sample verdict, day 14 · Oura</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
+        <h3 id="try-h">Magnesium glycinate, 400 mg</h3>
+        <div class="big" id="try-n">+0.4<small>min deep sleep</small></div>
+        <dl><dt>Metric</dt><dd id="try-metric">Deep sleep</dd><dt>Difference</dt><dd id="try-diff">+0.4 min</dd><dt>Your noise</dt><dd id="try-noise">±11 min</dd></dl>
+        <p id="try-why">Too small to see against your own swing. Your call.</p>
+        <div class="word w-inc" id="try-w">Inconclusive</div>
+      </article>
+    </div>
+    <div class="cta-row"><button class="btn btn-quiet" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Real verdicts start with your stack. Nothing to buy today.</span></div>
+  </div>
+</section>
 
 <section class="pain" id="pain">
   <div class="wrap cols">
@@ -751,6 +794,39 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
     var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ run(en.target); io.unobserve(en.target); } }); },{threshold:.6});
     counters.forEach(function(el){ io.observe(el); });
   } else { counters.forEach(function(el){ el.textContent=el.dataset.to; }); }
+
+  /* try it: sample verdict for one habit (example numbers, drawn at random) */
+  (function(){
+    var form=document.getElementById('try-form'); if(!form) return;
+    var metrics=[
+      {name:'Total sleep',      unit:'min sleep',          short:'min', noise:22},
+      {name:'Overnight HRV',    unit:'ms HRV',             short:'ms',  noise:3},
+      {name:'Deep sleep',       unit:'min deep sleep',     short:'min', noise:11},
+      {name:'Time to fall asleep', unit:'min to fall asleep', short:'min', noise:9}
+    ];
+    var out=document.getElementById('try-out');
+    function fmt(n){ return (n>0?'+':'')+n; }
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var habit=(document.getElementById('try-habit').value||'').trim()||'Your habit';
+      var wear=document.getElementById('try-wearable').value;
+      var m=metrics[Math.floor(Math.random()*metrics.length)], r=Math.random(), tier, cls, diff, why;
+      if(r<1/3){ tier='Kept'; cls='w-kept'; diff=+(m.noise*(1.6+Math.random())).toFixed(1); why='Bigger than your normal swing. This one is yours.'; }
+      else if(r<2/3){ tier='Dropped'; cls='w-dropped'; diff=+(Math.random()*m.noise*0.3).toFixed(1); why='No measurable benefit. You can stop paying for it.'; }
+      else { tier='Inconclusive'; cls='w-inc'; diff=+((Math.random()-.5)*m.noise).toFixed(1); why='Too small to see against your own swing. Your call.'; }
+      if(m.unit==='min to fall asleep' && tier==='Kept') diff=-diff;
+      document.getElementById('try-meta').textContent='Sample verdict, day 14 · '+wear;
+      document.getElementById('try-h').textContent=habit;
+      var n=document.getElementById('try-n'); n.textContent=fmt(diff); var sm=document.createElement('small'); sm.textContent=m.unit; n.appendChild(sm);
+      document.getElementById('try-metric').textContent=m.name;
+      document.getElementById('try-diff').textContent=fmt(diff)+' '+m.short;
+      document.getElementById('try-noise').textContent='±'+m.noise+' '+m.short;
+      document.getElementById('try-why').textContent=why;
+      var w=document.getElementById('try-w'); w.textContent=tier; w.className='word '+cls;
+      out.classList.remove('flash'); void out.offsetWidth; out.classList.add('flash');
+      if(window.matchMedia('(max-width: 900px)').matches) out.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  })();
 
   /* popup form: every call to action opens it */
   var dlg=document.getElementById('audit');
