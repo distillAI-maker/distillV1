@@ -61,9 +61,15 @@ The section under the hero is the real day-one router. It reads `public/routing.
 
 The order of checks matches the sheet's "Start Here" tab: Protected first, then anything settled without a test (dose, form, not being used), then the goal, then the 0.8 effect gate, then slow items to the queue.
 
+The engine lives in the `route()` function and decides the tier. The `render()` function under it only decides how the answer is worded and laid out for a visitor (the plain verdict line, the "how big is the likely change" meter, and the details that open on request). Change wording in `render()`; change logic in the spreadsheet and the script.
+
 ## Editing the page
 
-Everything is in `public/index.html`. The copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design in `docs/design-directions.html`. The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current), `wm-w1` (Cormorant caps) or `wm-w8` (Tenor Sans).
+Everything is in `public/index.html`. This is version 3 of the page (October 2026). The research it was built from, and a table of what changed and why, is in `docs/Design-Research.md`. The earlier copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design options in `docs/design-directions.html`, and the previous page is kept at `docs/archive/landing-v2-drop-hero.html`.
+
+The page order is: hero, the try-it widget, the problem, how it works (with the three verdict cards), what you end up with, the four promises, the offer, questions, and the sign-up panel. The hero headline is short and the founder's original sentence sits directly under it; to swap them, exchange the `<h1>` and the `.lede` paragraph in the hero.
+
+The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current), `wm-w1` (Cormorant caps) or `wm-w8` (Tenor Sans).
 
 ## Next steps
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Distill</title>
+<title>Distill: know what works, drop what doesn't</title>
 <script>
 /* Signup storage. Paste the two values from Supabase > Settings > API Keys:
    the Project URL and the Publishable key (starts with sb_publishable_).
@@ -11,613 +11,520 @@
    a row to the signups table, never read one. Leave both empty until the
    Supabase project exists. */
 window.DISTILL = { supabaseUrl: "https://hzwiikkttligpmkvondy.supabase.co", supabaseKey: "sb_publishable_LnnDGCp21cdBGXzoBx-yZQ_MDoWAubE" };
+document.documentElement.className = 'js';
 </script>
 <meta name="description" content="Know which of your supplements and routines actually work. Distill runs one-habit on/off experiments on your own wearable data and gives you a real verdict in 14 days. Pay nothing unless something moves.">
 <meta name="theme-color" content="#FAFAF7">
-<meta property="og:title" content="Distill">
+<meta property="og:title" content="Distill: know what works, drop what doesn't">
 <meta property="og:description" content="Know which of your supplements and routines actually work. One-habit on/off experiments on your own wearable data. Pay nothing unless something moves.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M12 1.5C14.5 9 22 14.5 22 21.5a10 10 0 0 1-20 0C2 14.5 9.5 9 12 1.5z' fill='%230F5C57'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500&family=Geist+Mono:wght@400;500&family=Italiana&family=Cormorant+Garamond:wght@500&family=Tenor+Sans&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300..600&family=Geist+Mono:wght@400;500&family=Italiana&family=Cormorant+Garamond:wght@500&family=Tenor+Sans&display=swap">
 <style>
+/* tokens: palette P4 (glass and teal), type T15 (Sora light + Geist Mono), wordmark W4 */
 :root{
-  --bg:#FAFAF7; --surface:#EEF3F2; --glass:#D6E6E3; --ink:#15211F; --teal:#0F5C57; --muted:#5F6E6B; --faint:#9AA8A5;
-  --rule:rgba(21,33,31,.12); --white:#FFFFFF;
+  --bg:#FAFAF7; --surface:#EEF3F2; --glass:#D6E6E3; --ink:#15211F; --teal:#0F5C57; --teal-deep:#0B4743;
+  --muted:#55645F; --faint:#9AA8A5; --rule:rgba(21,33,31,.12); --rule-2:rgba(21,33,31,.22); --white:#FFFFFF;
   --sans:"Sora","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
-  --gutter:clamp(16px,4vw,48px);
+  --ease-out:cubic-bezier(.23,1,.32,1); --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --gutter:clamp(20px,4vw,48px); --nav-h:68px; --r-card:24px; --r-ctl:12px;
+  --sec:clamp(72px,9vw,128px);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.55;padding-inline:var(--gutter);padding-block:0;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4,p{margin:0}
-h1,h2,h3{font-weight:300;letter-spacing:-.02em;text-wrap:balance}
-h1{font-size:clamp(26px,3.6vw,46px);line-height:1.12}
-h2{font-size:clamp(28px,3.6vw,44px);line-height:1.08}
-h3{font-size:clamp(20px,2vw,24px);line-height:1.25;letter-spacing:-.01em}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:350;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{font-weight:300;letter-spacing:-.025em;text-wrap:balance}
+h1{font-size:clamp(36px,4.3vw,62px);line-height:1.04;letter-spacing:-.035em}
+h1 span{display:block}
+h2{font-size:clamp(30px,3.7vw,50px);line-height:1.06}
+h3{font-size:clamp(20px,1.9vw,24px);line-height:1.25;letter-spacing:-.015em;font-weight:400}
+p{text-wrap:pretty}
 a{color:inherit}
 strong,b{font-weight:500}
-.wrap{max-width:1180px;margin:0 auto}
-.label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:500}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1200px;margin-inline:auto;padding-inline:var(--gutter)}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:500}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .muted{color:var(--muted)}
-.fud{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--faint)}
-section{padding-block:clamp(72px,10vw,140px)}
-section + section{border-top:1px solid var(--rule)}
-.sec-head{display:grid;gap:18px;margin-bottom:clamp(36px,5vw,64px)}
-.sec-head p{max-width:48ch;color:var(--muted)}
-.cta-row{margin-top:clamp(36px,5vw,56px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.fud{font-size:13.5px;color:var(--muted)}
+section{padding-block:var(--sec);scroll-margin-top:var(--nav-h)}
+.sec-head{display:grid;gap:16px;margin-bottom:clamp(40px,5vw,64px);max-width:760px}
+.sec-head p{max-width:56ch;color:var(--muted);font-size:clamp(17px,1.4vw,19px)}
+.cta-row{margin-top:clamp(40px,5vw,56px);display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap}
+.band{background:var(--surface)}
 
 /* wordmark: W4 default, W1 and W8 available by class on body */
 .wordmark{text-decoration:none;color:var(--ink);white-space:nowrap}
-body.wm-w4 .wordmark{font-family:"Italiana","Bodoni Moda",Georgia,serif;font-size:19px;letter-spacing:.2em}
-body.wm-w1 .wordmark{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:19px;letter-spacing:.32em}
-body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:15px;letter-spacing:.4em}
+body.wm-w4 .wordmark{font-family:"Italiana","Bodoni Moda",Georgia,serif;font-size:21px;letter-spacing:.2em}
+body.wm-w1 .wordmark{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:21px;letter-spacing:.32em}
+body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;letter-spacing:.4em}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:400;font-size:15px;text-decoration:none;border:0;cursor:pointer;line-height:1;white-space:nowrap}
-.btn-primary{background:var(--teal);color:#fff;padding:16px 24px;border-radius:2px;box-shadow:0 14px 28px -18px rgba(15,92,87,.6)}
-.btn-primary:hover{background:#0C4D49}
-.btn-quiet{background:transparent;color:var(--teal);padding:0 0 4px;border-bottom:1px solid var(--teal)}
-.btn:focus-visible,.wordmark:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--teal);outline-offset:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;font-family:var(--sans);font-weight:500;font-size:15.5px;line-height:1;text-decoration:none;border:0;cursor:pointer;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease,box-shadow .2s ease,color .2s ease}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 18px 30px -18px rgba(15,92,87,.8)}
+.btn-ghost{background:rgba(255,255,255,.6);color:var(--ink);box-shadow:inset 0 0 0 1px var(--rule-2)}
+.btn-sm{min-height:44px;padding:0 20px;font-size:14.5px}
+.btn .arr{display:inline-block;transition:transform .2s var(--ease-out)}
+.btn[disabled]{opacity:.6;cursor:default}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{background:var(--teal-deep)}
+  .btn-ghost:hover{background:#fff;box-shadow:inset 0 0 0 1px var(--ink)}
+  .btn:hover .arr{transform:translateY(2px)}
+}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.btn:focus-visible{border-radius:999px}
+
+/* glass: the one surface treatment, used for product objects only */
+.glass{position:relative;border-radius:var(--r-card);background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(238,243,242,.6));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -8px -12px 28px rgba(15,92,87,.05),0 30px 48px -34px rgba(15,92,87,.42)}
+.glass::before{content:"";position:absolute;left:10%;top:0;width:40%;height:1px;background:linear-gradient(90deg,transparent,#fff,transparent);pointer-events:none}
 
 /* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);background:rgba(250,250,247,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent}
+.nav{position:sticky;top:0;z-index:20;background:rgba(250,250,247,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s ease}
 .nav.scrolled{border-bottom-color:var(--rule)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
-.nav ul{list-style:none;margin:0;padding:0;display:flex;gap:28px;font-size:14px;font-weight:400}
-.nav ul a{text-decoration:none;color:var(--muted)}
-.nav ul a:hover{color:var(--ink)}
-.nav .btn-quiet{font-size:14px}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:24px}
+.nav ul{display:flex;gap:clamp(20px,2.6vw,36px);font-size:14.5px;font-weight:400}
+.nav ul a{text-decoration:none;color:var(--muted);padding-block:10px;transition:color .2s ease}
+@media (hover:hover) and (pointer:fine){ .nav ul a:hover{color:var(--ink)} }
 
-/* hero: object first, scroll-driven condensation */
-.hero{padding-block:0;min-height:175vh;position:relative}
-.hero .stick{position:sticky;top:68px;min-height:calc(100vh - 68px);display:grid;align-content:center;justify-items:center;text-align:center;padding-block:20px 40px;gap:24px}
-.stage{position:relative;width:min(100%,680px);height:clamp(260px,42vmin,400px);display:grid;place-items:center}
-.stage canvas{display:block;width:clamp(170px,28vmin,290px);height:auto;max-width:100%}
-.names{position:absolute;inset:0;pointer-events:none}
-.names span{position:absolute;left:50%;top:50%;font-size:12.5px;font-weight:400;color:var(--muted);white-space:nowrap;letter-spacing:.01em;will-change:transform,opacity}
-.reading{display:grid;gap:8px;justify-items:center}
-.reading .num{font-weight:300;font-size:clamp(36px,5.5vw,58px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.reading .cap{position:relative;height:1.4em;width:34ch;max-width:100%}
-.reading .cap span{position:absolute;inset:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:500;transition:opacity .3s}
-.reading .cap span + span{opacity:0}
-.proof{display:grid;gap:6px;justify-items:center;font-family:var(--mono);font-size:12px;color:var(--muted);opacity:0;transform:translateY(8px);letter-spacing:.02em}
-.proof b{color:var(--ink);font-weight:500}
-.eyebrow-row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
-.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);padding:7px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(238,243,242,.6));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 10px 18px -14px rgba(15,92,87,.4)}
-.hero h1{max-width:30ch}
-.hero .lede{max-width:52ch;color:var(--muted);font-size:clamp(15px,1.3vw,18px)}
-.hero .ctas{display:grid;gap:10px;justify-items:center}
-.hero .ctas .row{display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:center}
-.trust{padding-block:22px;border-top:1px solid var(--rule);display:flex;gap:14px 36px;flex-wrap:wrap;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:center}
+/* hero: words left, the stack being distilled right. No pinned scroll. */
+.hero{padding-block:clamp(28px,4.5vw,64px) clamp(40px,5vw,72px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);align-items:center}
+.hero .copy{display:grid;gap:24px;justify-items:start}
+.hero .lede{font-size:clamp(18px,1.55vw,21px);line-height:1.45;max-width:36ch;color:var(--ink)}
+.hero .sub{color:var(--muted);max-width:46ch;margin-top:-8px}
+.hero .ctas{display:grid;gap:14px;margin-top:8px}
+.hero .ctas .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 
-/* glass */
-.glass{position:relative;border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(238,243,242,.55));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -8px -12px 28px rgba(15,92,87,.06),0 30px 48px -34px rgba(15,92,87,.4)}
-.glass::before{content:"";position:absolute;left:10%;top:0;width:40%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,1),transparent);pointer-events:none}
-.blob{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(214,230,227,.55),rgba(214,230,227,0));pointer-events:none;z-index:0}
+.distiller{display:grid;justify-items:center}
+.tray{width:100%;padding:20px 20px 64px}
+.tray-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;min-height:28px}
+.replay{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:transparent;border:0;padding:6px 4px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.distiller.done .replay{opacity:1;pointer-events:auto}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack li{position:relative;font-size:13px;font-weight:400;line-height:1;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.95);color:var(--ink);white-space:nowrap;transition:opacity .5s var(--ease-out),background-color .4s ease,color .4s ease,border-color .4s ease}
+.stack li::after{content:"";position:absolute;left:10px;right:10px;top:50%;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left center;transition:transform .5s var(--ease-out)}
+.stack li.cut{opacity:.5}
+.stack li.cut::after{transform:scaleX(1)}
+.stack li.kept{background:var(--teal);border-color:var(--teal);color:#fff}
+.neck{margin-top:-52px;position:relative;z-index:1}
+.neck canvas{display:block;width:clamp(96px,9vw,124px);height:auto}
+.readout{display:flex;gap:clamp(28px,4vw,56px);margin-top:4px}
+.stat{display:grid;justify-items:center;gap:2px}
+.stat .n{font-weight:300;font-size:clamp(40px,4.4vw,60px);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat .u{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:500}
+.cap2{position:relative;margin-top:14px;font-size:14px;color:var(--muted);text-align:center;min-height:1.6em;width:100%}
+.cap2 span{display:block;transition:opacity .4s ease}
+.cap2 span + span{position:absolute;inset:0;opacity:0}
+.distiller.done .cap2 span:first-child{opacity:0}
+.distiller.done .cap2 span + span{opacity:1}
+.key2{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.key2 i{display:inline-block;width:18px;height:10px;border-radius:999px;margin-right:7px;vertical-align:-1px;background:var(--teal)}
+.key2 i.x{background:transparent;border-top:1px solid var(--ink);border-radius:0;height:0;vertical-align:4px}
 
-/* pain point */
-.pain .cols{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,96px);align-items:start}
-.pain .side{position:sticky;top:100px;display:grid;gap:26px}
-.pain .bridge{font-size:clamp(26px,3vw,38px);line-height:1.12;font-weight:300;letter-spacing:-.02em;max-width:20ch}
-.drawer{padding:20px 20px 22px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips span{font-size:11.5px;font-weight:400;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);color:var(--muted)}
-.chips span.q{color:var(--faint)}
-.drawer .read{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted)}
-.drawer .read b{color:var(--ink);font-weight:500}
-.pas{display:grid;gap:14px;max-width:46ch;font-size:17px}
-.pas p{line-height:1.5}
-.pas .em{font-weight:500;color:var(--ink)}
-.pas .dear{font-style:italic;color:var(--muted)}
-.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.checks li{padding-left:26px;position:relative}
-.checks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--teal);font-family:var(--mono);font-weight:500}
-.pas .good{font-size:21px;font-weight:400;margin-top:8px;letter-spacing:-.01em}
-.pas .promise{font-weight:400;color:var(--ink)}
+/* trust strip */
+.trust{border-block:1px solid var(--rule)}
+.trust ul{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:12px 40px;padding-block:22px;font-size:14px;color:var(--muted)}
+.trust li{display:flex;gap:10px;align-items:flex-start}
+.trust .glyph{flex:none;width:11px;height:15px;margin-top:4px}
 
-/* promises (social proof slot) */
-.promises{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.promise{padding:22px 22px 24px;display:grid;gap:10px;align-content:start}
-.promise .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:500}
-.promise h3{font-size:17px;font-weight:400;line-height:1.3}
-.promise p{font-size:14.5px;color:var(--muted)}
-.cred{margin-top:26px;display:flex;gap:14px 36px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+/* try it: the day-one router, driven by routing.json (built from the routing table) */
+.try .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);grid-template-areas:"pick out" "tune out" "fine out";grid-template-rows:auto auto 1fr;gap:20px clamp(24px,4vw,56px);align-items:start}
+.try .pick{grid-area:pick}
+.try .tune{grid-area:tune}
+.try .fine{grid-area:fine}
+.try .result{grid-area:out}
+.try .tool{display:grid;gap:22px;padding:clamp(20px,2.4vw,28px)}
+.try .search{display:grid;gap:10px;position:relative}
+.try .q-label{font-size:17px;font-weight:400;letter-spacing:-.01em}
+.try .field{position:relative}
+.try input[type=text],.try input[type=number],.try select{width:100%;font:400 16px var(--sans);padding:15px 16px;border:1px solid var(--rule-2);border-radius:var(--r-ctl);background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none;transition:border-color .2s ease,box-shadow .2s ease}
+.try input:focus,.try select:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,92,87,.16)}
+.try input[type=text]{padding-right:48px}
+.try select,.audit-form select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:38px}
+.try input::placeholder{color:var(--muted)}
+.try .clear{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:transparent;color:var(--muted);font:300 24px/1 var(--sans);cursor:pointer;border-radius:999px}
+.try .suggest{position:absolute;left:0;right:0;top:100%;z-index:4;margin:6px 0 0;padding:6px;background:#fff;border:1px solid var(--rule);border-radius:16px;box-shadow:0 24px 40px -24px rgba(15,92,87,.5);max-height:320px;overflow:auto;transform-origin:top center}
+.try .suggest li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:11px 12px;border-radius:10px;cursor:pointer;font-size:15.5px;font-weight:400}
+.try .suggest li small{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.try .suggest li.on{background:var(--surface)}
+@media (hover:hover) and (pointer:fine){ .try .suggest li[data-k]:hover{background:var(--surface)} }
+.try .suggest li.none{cursor:default;color:var(--muted);font-weight:350}
+.try .hint{font-size:13.5px;color:var(--muted);margin-bottom:-12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:400 14px/1 var(--sans);min-height:38px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid var(--rule);color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease,border-color .2s ease}
+.chip:active{transform:scale(.97)}
+.chip[aria-pressed="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+@media (hover:hover) and (pointer:fine){ .chip:not([aria-pressed="true"]):hover{border-color:var(--ink)} }
+.try .qs{display:grid;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+.try .qs:empty{display:none}
+.try .qa{display:grid;gap:10px}
+.try .qa .q{font-size:15px;font-weight:400}
+.try .qa .num{display:flex;align-items:center;gap:10px}
+.try .qa .num input{width:132px}
+.try .qa .num span{font-size:14px;color:var(--muted)}
+.try .ctx{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.try .ctx label{display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.try .fine{font-size:13px;color:var(--muted);line-height:1.5;padding-inline:4px}
 
-/* value props */
-.vp{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px);align-items:center;padding-block:clamp(36px,5vw,64px)}
-.vp + .vp{border-top:1px solid var(--rule)}
-.vp.flip .text{order:2}
-.vp .text{display:grid;gap:16px}
-.vp .text h3{font-size:clamp(24px,2.6vw,34px);font-weight:300;letter-spacing:-.02em;line-height:1.15}
-.vp .text p{color:var(--muted);max-width:44ch}
-.vp.wide{grid-template-columns:1fr}
-.vp.wide .text{max-width:760px}
+.result{padding:clamp(22px,2.6vw,32px);display:grid;gap:20px;align-content:start;position:sticky;top:calc(var(--nav-h) + 20px);transition:filter .2s ease,opacity .2s ease}
+.result.swap{filter:blur(2px);opacity:.7;transition:none}
+.result .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.result .dev{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+.result h3{font-size:clamp(22px,2.2vw,28px);font-weight:300;letter-spacing:-.02em}
+.result h3 small{display:block;font-size:14px;color:var(--muted);letter-spacing:0;margin-top:6px;font-weight:350}
+.verdict{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:var(--surface)}
+.verdict .glyph{flex:none;width:14px;height:19px;margin-top:3px}
+.verdict strong{display:block;font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.3}
+.verdict span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.verdict.v-1{background:var(--teal);color:#fff}
+.verdict.v-1 span{color:rgba(255,255,255,.82)}
+.result .say{font-size:17px;line-height:1.55}
+.result .figure{font-weight:300;font-size:clamp(34px,3.6vw,46px);letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.result .figure small{display:block;font-size:14px;letter-spacing:0;color:var(--muted);margin-top:6px;font-weight:350}
+.meter{display:grid;gap:10px}
+.meter .mq{font-size:14px;font-weight:400}
+.meter .track{position:relative;height:10px;border-radius:999px;background:var(--surface)}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,rgba(15,92,87,.35),var(--teal));transition:width .5s var(--ease-out)}
+.meter .gate{position:absolute;top:-5px;bottom:-5px;width:2px;border-radius:2px;background:var(--ink)}
+.meter .scale{position:relative;display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);line-height:1.3}
+.meter .scale .g{position:absolute;left:53.3%;transform:translateX(-50%);color:var(--ink);font-weight:400;white-space:nowrap}
+.meter .mc{font-size:14px;color:var(--muted)}
+.result .note{font-size:14.5px;color:var(--muted)}
+.result .safety{font-size:14.5px;padding:12px 14px;background:var(--surface);border-radius:12px}
+.more{border-block:1px solid var(--rule)}
+.more summary{padding-block:14px;font-size:15px}
+.more dl{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:10px 18px;font-size:14.5px;padding-bottom:16px}
+.more dt{color:var(--muted)}
+.more .found{font-size:14.5px;color:var(--muted);padding-bottom:18px}
+.more .found b{color:var(--ink)}
 
-/* file object */
-.file{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+/* the problem */
+.pain .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
+.pain h2{max-width:17ch}
+.tally{margin-top:clamp(32px,4vw,48px);padding-top:24px;border-top:1px solid var(--ink);font-size:clamp(22px,2.2vw,28px);line-height:1.3;letter-spacing:-.02em;font-weight:300;color:var(--muted)}
+.tally em{font-style:normal;color:var(--ink);font-weight:400}
+.tally-cap{margin-top:10px;font-size:13.5px;color:var(--muted)}
+.pain .body{display:grid;gap:20px;font-size:clamp(17px,1.4vw,19px);max-width:48ch}
+.pain .body p{color:var(--muted)}
+.checks{display:grid;gap:14px}
+.checks li{padding-left:30px;position:relative}
+.checks li::before{content:"";position:absolute;left:2px;top:.55em;width:14px;height:8px;border-left:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);transform:rotate(-45deg);transform-origin:left bottom;translate:0 -2px}
+.pivot{margin-top:clamp(56px,7vw,96px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,5vw,80px);align-items:end}
+.pivot .big{font-size:clamp(28px,3.4vw,46px);line-height:1.1;font-weight:300;letter-spacing:-.025em;text-wrap:balance}
+.pivot .big em{font-style:normal;color:var(--teal)}
+.pivot p{color:var(--muted);max-width:40ch}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px) clamp(28px,5vw,72px)}
+.step{display:grid;gap:14px;align-content:start}
+.step .n{display:flex;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--ink);font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:500}
+.step .n span:last-child{color:var(--muted)}
+.step h3{font-size:clamp(24px,2.4vw,30px);font-weight:300;letter-spacing:-.02em;margin-top:6px}
+.step > p{color:var(--muted);max-width:46ch}
+.step .obj{margin-top:14px}
+.step.wide{grid-column:1/-1}
+.step.wide .intro{display:grid;gap:14px}
+.step.wide .intro p{color:var(--muted);max-width:60ch}
+.how .note{font-size:14.5px;color:var(--muted)}
+
+.audit{padding:20px 22px 22px;display:grid;gap:0}
+.audit li{display:flex;justify-content:space-between;gap:12px;padding-block:12px;border-bottom:1px solid var(--rule);font-size:15px}
+.audit li .mono{color:var(--muted);font-size:13px}
+.audit li.more-row{color:var(--muted)}
+.audit .total{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding-top:16px;font-size:15px}
+.audit .total span{white-space:nowrap}
+.audit .total b{font-weight:300;font-size:26px;letter-spacing:-.02em}
+
+.cal{display:grid;gap:16px;max-width:440px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.days i{aspect-ratio:1;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-style:normal;color:var(--muted);background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(238,243,242,.55));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 12px 20px -16px rgba(15,92,87,.35)}
+.days i.on{background:var(--teal);color:#fff;border-color:var(--teal);box-shadow:0 12px 20px -14px rgba(15,92,87,.7)}
+.days i.now{outline:2px solid var(--ink);outline-offset:2px}
+.key{display:flex;gap:8px 22px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.key i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--white);margin-right:8px;vertical-align:-1px;border:1px solid var(--rule-2)}
+.key i.on{background:var(--teal);border-color:var(--teal)}
+.today{padding:20px 22px;display:grid;gap:12px}
+.today .line{font-size:19px;font-weight:400;letter-spacing:-.01em}
+.today .sub{font-size:13.5px;color:var(--muted)}
+.today .taps{display:flex;gap:8px}
+.today .taps span{font-size:14px;font-weight:400;padding:10px 16px;border-radius:999px;border:1px solid var(--rule-2)}
+.today .taps span:first-child{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:14px}
+.card{padding:26px 26px 24px;display:grid;gap:16px;align-content:start}
+.card .top{display:flex;justify-content:space-between;align-items:center}
+.card .top .label{color:var(--muted)}
+.card .glyph{width:14px;height:19px}
+.card h4{font-weight:400;font-size:18px;letter-spacing:-.01em}
+.card .big{font-weight:300;font-size:clamp(40px,4vw,54px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.card .big small{font-size:15px;letter-spacing:0;color:var(--muted);margin-left:6px}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
+.card dt{color:var(--muted)}
+.card p{color:var(--muted);font-size:15px}
+.card .word{font-size:20px;font-weight:400;letter-spacing:-.01em;color:var(--teal);padding-top:16px;border-top:1px solid var(--rule)}
+
+/* what you end up with */
+.value .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,6vw,96px);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
+.value h2{max-width:16ch}
+.value .text{display:grid;gap:18px}
+.value .text p{color:var(--muted);max-width:46ch;font-size:clamp(17px,1.4vw,19px)}
+.file{display:grid;grid-template-columns:1fr 1fr;gap:28px clamp(28px,5vw,72px);padding:clamp(22px,3vw,40px)}
 .file .col{display:grid;gap:16px;align-content:start}
 .file h4{font-weight:400;font-size:16px}
-.file .score{display:flex;gap:22px;font-family:var(--mono);font-size:12px;color:var(--muted);flex-wrap:wrap}
-.file .score b{color:var(--ink);font-weight:300;font-size:22px;letter-spacing:-.02em;display:block;font-family:var(--sans)}
-.file ul{list-style:none;margin:0;padding:0;display:grid}
+.file .score{display:flex;gap:22px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.file .score b{color:var(--ink);font-weight:300;font-size:24px;letter-spacing:-.02em;display:block;font-variant-numeric:tabular-nums}
 .file li{display:flex;justify-content:space-between;gap:12px;padding-block:11px;border-top:1px solid var(--rule);font-size:14.5px}
 .file li:last-child{border-bottom:1px solid var(--rule)}
 .file .cut li span:first-child{text-decoration:line-through;text-decoration-color:var(--faint);color:var(--muted)}
-.file li .mono{color:var(--muted);font-size:12.5px}
+.file li .mono{color:var(--muted);font-size:12.5px;white-space:nowrap}
 .file .yours li span:first-child{font-weight:400}
 .file .yours li .mono{color:var(--teal);font-weight:500}
 
-/* calendar object */
-.method-obj{display:grid;gap:18px}
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-.days i{aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-style:normal;color:var(--muted);background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(238,243,242,.5));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -3px -4px 10px rgba(15,92,87,.05),0 12px 20px -16px rgba(15,92,87,.35)}
-.days i.on{background:linear-gradient(135deg,rgba(15,92,87,.92),rgba(15,92,87,.78));color:#fff;border-color:rgba(255,255,255,.4);box-shadow:inset 1px 1px 0 rgba(255,255,255,.35),0 12px 20px -14px rgba(15,92,87,.6)}
-.key{display:flex;gap:22px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);flex-wrap:wrap}
-.key i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--glass);margin-right:8px;vertical-align:-1px;border:1px solid rgba(255,255,255,.9)}
-.key i.on{background:var(--teal)}
-.today{padding:22px 24px;display:grid;gap:14px}
-.today .line{font-size:19px;font-weight:400;letter-spacing:-.01em}
-.today .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em}
-.today .taps{display:flex;gap:10px}
-.today .taps span{font-size:13px;font-weight:400;padding:9px 14px;border-radius:2px;border:1px solid var(--rule)}
-.today .taps span:first-child{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-/* try it: the day-one router, driven by routing.json (built from the routing table) */
-.try .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:start}
-.try .tool{display:grid;gap:18px;padding:26px}
-.try .tool .search{display:grid;gap:8px;position:relative}
-.try .field{position:relative}
-.try .tool input[type=text],.try .tool input[type=number],.try .tool select{width:100%;font:400 15px var(--sans);padding:14px 16px;border:1px solid var(--rule);border-radius:2px;background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none}
-.try .tool input[type=text]{padding-right:44px}
-.try .tool select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
-.try .tool input::placeholder{color:var(--faint)}
-.try .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;background:transparent;color:var(--muted);font:300 24px/1 var(--sans);cursor:pointer;border-radius:2px}
-.try .suggest{position:absolute;left:0;right:0;top:100%;z-index:4;margin:6px 0 0;padding:6px;list-style:none;background:rgba(255,255,255,.98);border:1px solid rgba(255,255,255,.95);border-radius:12px;box-shadow:0 24px 40px -24px rgba(15,92,87,.45),0 1px 0 rgba(21,33,31,.06);max-height:320px;overflow:auto}
-.try .suggest li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:15px;font-weight:400}
-.try .suggest li small{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
-.try .suggest li.on,.try .suggest li:hover{background:var(--surface)}
-.try .suggest li.none{cursor:default;color:var(--muted);font-weight:300}
-.try .chips{display:flex;flex-wrap:wrap;gap:6px}
-.try .chip{font:400 12.5px var(--sans);padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.95);color:var(--muted);cursor:pointer;box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 8px 16px -14px rgba(15,92,87,.4)}
-.try .chip:hover{color:var(--ink)}
-.try .chip[aria-pressed="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
-.try .qs{display:grid;gap:14px}
-.try .qs:empty{display:none}
-.try .qa{display:grid;gap:8px}
-.try .qa .q{font-size:14px;font-weight:400}
-.try .qa .num{display:flex;align-items:center;gap:10px}
-.try .qa .num input{width:130px}
-.try .qa .num span{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.try .ctx{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.try .ctx label{display:grid;gap:8px}
-.try .fine{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);line-height:1.6}
-.try .card{min-height:100%;position:sticky;top:96px}
-.try .card h3 small{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em;margin-top:6px;font-weight:400}
-.try .badge{display:inline-block;justify-self:start;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding:6px 10px;border-radius:999px;background:var(--surface)}
-.try .card .big.txt{font-size:clamp(26px,2.8vw,34px);letter-spacing:-.02em}
-.try .gauge{display:grid;gap:8px}
-.try .gauge .track{position:relative;height:10px;border-radius:3px;background:var(--surface)}
-.try .gauge .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,rgba(15,92,87,.35),var(--teal));transition:width .4s ease}
-.try .gauge .gate{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
-.try .gauge .gl{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em;flex-wrap:wrap}
-.try .gauge .gl b{color:var(--ink);font-weight:500}
-.try .card .say{font-size:15.5px;color:var(--ink);line-height:1.55}
-.try .card .note{font-size:14px;color:var(--muted)}
-.try .card .found{font-size:14px;color:var(--muted)}
-.try .card .found b{color:var(--ink);font-weight:500}
-.try .card .safety{font-size:14px;color:var(--ink);padding:10px 12px;background:var(--surface);border-radius:8px}
-.try .card dl{grid-template-columns:auto 1fr}
-.try .card .word{color:var(--teal)}
-.try .card .word.t-2{color:var(--ink)}
-.try .card .word.t-3,.try .card .word.t-none,.try .card .word.t-P{color:var(--muted)}
-.try .card.flash{animation:tryflash .5s ease-out}
-@keyframes tryflash{from{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 0 0 6px rgba(15,92,87,.14)}to{box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),0 30px 48px -34px rgba(15,92,87,.4)}}
-
-/* verdict cards */
-.verdicts-wrap{position:relative}
-.verdicts-wrap .blob{width:min(70vw,720px);height:min(70vw,720px);left:50%;top:55%;transform:translate(-50%,-50%)}
-.cards{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.card{padding:26px 26px 28px;display:grid;gap:16px;align-content:start}
-.card .top{display:flex;justify-content:space-between;align-items:center}
-.card .glyph{width:16px;height:22px}
-.card h3{font-weight:400;font-size:19px}
-.card .big{font-weight:300;font-size:clamp(40px,4vw,54px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-.card .big small{font-size:15px;letter-spacing:0;color:var(--muted);margin-left:6px}
-.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-family:var(--mono);font-size:12px}
-.card dt{color:var(--faint)}
-.card dd{margin:0;color:var(--ink)}
-.card .word{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:500;padding-top:14px;border-top:1px solid var(--rule)}
-.card p{color:var(--muted);font-size:14.5px}
-
-/* differentiators */
-.why .list{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px)}
-.why .item{padding-block:22px;border-top:1px solid var(--rule);display:grid;gap:6px}
-.why .item h3{font-size:18px;font-weight:400}
-.why .item p{color:var(--muted);font-size:15px;max-width:38ch}
-
-/* how it works */
-.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.step{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--ink);align-content:start}
-.step .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:500;display:flex;justify-content:space-between;gap:12px}
-.step .n span:last-child{color:var(--faint)}
-.step h3{font-size:21px;font-weight:400}
-.step p{color:var(--muted);font-size:15px}
-.how .note{margin-top:28px;font-size:15px;color:var(--muted);max-width:48ch}
+/* promises */
+.promises{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px)}
+.promise{display:grid;gap:8px;align-content:start;padding-block:28px;border-top:1px solid var(--rule-2)}
+.promise h3{font-size:20px}
+.promise p{color:var(--muted);font-size:16px;max-width:44ch}
+.cred{margin-top:8px;padding-top:24px;border-top:1px solid var(--rule-2);display:flex;gap:10px 36px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
 
 /* offer */
-.offer{position:relative}
-.offer .blob{width:min(80vw,820px);height:min(60vw,560px);left:50%;top:55%;transform:translate(-50%,-50%);border-radius:50%}
-.offer .box{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:clamp(28px,4vw,48px);display:grid;gap:26px}
-.offer .price{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.offer .price .n{font-weight:300;font-size:clamp(52px,7vw,84px);letter-spacing:-.04em;line-height:1}
-.offer .price .n small{font-size:18px;letter-spacing:0;color:var(--muted)}
-.offer .price .zero{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);font-weight:500}
-.offer .inc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;color:var(--muted);font-size:15px}
-.offer .inc li{padding-left:20px;position:relative}
-.offer .inc li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:1px;background:var(--teal)}
-.offer .guar{padding-top:22px;border-top:1px solid var(--rule);display:grid;gap:8px}
-.offer .guar p{color:var(--muted);font-size:15px;max-width:60ch}
-.offer .row{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
-.offer .cmp{margin-top:36px;display:flex;gap:32px;flex-wrap:wrap;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em}
-.offer .cmp b{color:var(--muted);font-weight:500}
-.offer .cmp p{flex-basis:100%;text-align:center;font-family:var(--sans);font-size:14px;color:var(--muted)}
+.offer .box{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);padding:clamp(26px,4vw,56px)}
+.offer .price{display:grid;gap:10px;align-content:start}
+.offer .price .n{font-weight:300;font-size:clamp(64px,8vw,104px);letter-spacing:-.04em;line-height:.95}
+.offer .price .n small{font-size:18px;letter-spacing:0;color:var(--muted);font-weight:350;margin-left:6px}
+.offer .zero{font-size:19px;font-weight:400;color:var(--teal);letter-spacing:-.01em}
+.offer .price .row{display:grid;gap:12px;justify-items:start;margin-top:22px}
+.offer .inc{display:grid;gap:12px;font-size:16px}
+.offer .guar{margin-top:26px;padding-top:24px;border-top:1px solid var(--rule);display:grid;gap:8px}
+.offer .guar p{color:var(--muted);font-size:15px}
+.offer .cmp{margin-top:32px;display:grid;gap:10px;justify-items:center;text-align:center;font-size:14.5px;color:var(--muted)}
+.offer .cmp ul{display:flex;gap:8px 28px;flex-wrap:wrap;justify-content:center;font-family:var(--mono);font-size:12.5px}
+.offer .cmp b{color:var(--ink);font-weight:500}
 
 /* faq */
-.faq .qs{max-width:760px;display:grid}
+.faq .cols{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,6vw,96px);align-items:start}
+.faq h2{position:sticky;top:calc(var(--nav-h) + 24px);max-width:14ch}
 details{border-top:1px solid var(--rule)}
-details:last-child{border-bottom:1px solid var(--rule)}
-summary{list-style:none;cursor:pointer;padding-block:20px;font-size:18px;font-weight:400;display:flex;justify-content:space-between;gap:20px;align-items:center}
+details:last-of-type{border-bottom:1px solid var(--rule)}
+.more{border-bottom:1px solid var(--rule)}
+summary{list-style:none;cursor:pointer;padding-block:22px;font-size:18px;font-weight:400;display:flex;justify-content:space-between;gap:20px;align-items:center;-webkit-tap-highlight-color:transparent}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--mono);color:var(--teal);font-size:18px;flex-shrink:0}
-details[open] summary::after{content:"–"}
-details p{color:var(--muted);padding-bottom:22px;max-width:60ch}
+summary::after{content:"";flex:none;width:12px;height:12px;background:linear-gradient(var(--teal),var(--teal)) center/100% 1.5px no-repeat,linear-gradient(var(--teal),var(--teal)) center/1.5px 100% no-repeat;transition:transform .25s var(--ease-out)}
+details[open] > summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:24px;max-width:60ch}
 
-/* final */
-.final .box{display:grid;gap:22px;max-width:720px}
-.final .checks{color:var(--muted);max-width:44ch}
-.final .urgency{padding:16px 18px;font-size:14.5px;color:var(--muted)}
-.audit-form{display:grid;grid-template-columns:1.3fr 1fr auto;gap:10px;align-items:end}
-.audit-form label{display:grid;gap:6px}
-.audit-form input,.audit-form select{width:100%;font:400 15px var(--sans);padding:15px 16px;border:1px solid var(--rule);border-radius:2px;background:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none}
-.audit-form select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
-.audit-form input::placeholder{color:var(--faint)}
-.audit-form .btn{height:49px}
-.thanks{display:none;color:var(--teal);font-weight:400}
+/* final call, on ink */
+.final{background:var(--ink);color:#F3F6F5}
+.final .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
+.final .lede{margin-top:18px;color:rgba(243,246,245,.72);max-width:40ch;font-size:clamp(17px,1.4vw,19px)}
+.final .checks{margin-top:28px;color:rgba(243,246,245,.86);font-size:16px}
+.final .checks li::before{border-color:#9FD0C9}
+.final .panel{background:#FAFAF7;color:var(--ink);border-radius:var(--r-card);padding:clamp(22px,3vw,36px);display:grid;gap:18px}
+.final .panel h3{font-size:22px;font-weight:300;letter-spacing:-.02em}
+.final .urgency{font-size:14.5px;color:var(--muted);padding-top:18px;border-top:1px solid var(--rule)}
+
+/* sign-up form: used in the final panel and in the popup */
+.audit-form{position:relative;display:grid;gap:14px}
+.audit-form label{display:grid;gap:8px;font-size:14.5px;font-weight:400}
+.audit-form input,.audit-form select{width:100%;font:400 16px var(--sans);padding:15px 16px;border:1px solid var(--rule-2);border-radius:var(--r-ctl);background-color:var(--white);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none;transition:border-color .2s ease,box-shadow .2s ease}
+.audit-form input:focus,.audit-form select:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,92,87,.16)}
+.audit-form input::placeholder{color:var(--muted)}
+.audit-form .btn{width:100%;margin-top:4px}
+.audit-form .err{font-size:14.5px;font-weight:400;margin:-4px 0 0;padding:10px 14px;border-radius:10px;background:var(--surface)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+.thanks{display:none;padding:18px 20px;border-radius:16px;background:var(--surface)}
+.thanks strong{display:block;font-size:19px;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
+.thanks span{color:var(--muted);font-size:15px}
 .audit-form.done{display:none}
 .audit-form.done + .thanks{display:block}
+.audit-form.done ~ .fud{display:none}
+.sheet:has(.audit-form.done) .next{display:none}
+.next{display:grid;gap:10px;counter-reset:n;font-size:14.5px;color:var(--muted)}
+.next li{counter-increment:n;display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:baseline}
+.next li::before{content:counter(n);font-family:var(--mono);font-size:12px;color:var(--teal);font-weight:500}
 
 /* popup */
-dialog#audit{border:0;padding:0;background:transparent;max-width:min(92vw,560px);width:100%;margin:auto}
-dialog#audit::backdrop{background:rgba(21,33,31,.38);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-dialog#audit .glass{background:rgba(250,250,247,.97);padding:clamp(24px,4vw,36px);display:grid;gap:18px}
-dialog#audit h3{font-size:24px;font-weight:300;letter-spacing:-.02em}
-dialog#audit .close{position:absolute;right:14px;top:12px;background:transparent;border:0;font:400 20px var(--sans);color:var(--muted);cursor:pointer;padding:6px 10px;line-height:1}
-dialog#audit .audit-form{grid-template-columns:1fr}
-dialog#audit .bul{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+dialog#audit{border:0;padding:0;background:transparent;max-width:min(92vw,500px);width:100%;margin:auto;color:var(--ink);opacity:0;transform:scale(.96);transition:opacity .25s var(--ease-out),transform .25s var(--ease-out),overlay .25s allow-discrete,display .25s allow-discrete}
+dialog#audit[open]{opacity:1;transform:none}
+@starting-style{ dialog#audit[open]{opacity:0;transform:scale(.96)} }
+dialog#audit::backdrop{background:rgba(21,33,31,0);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);transition:background-color .25s ease,backdrop-filter .25s ease,overlay .25s allow-discrete,display .25s allow-discrete}
+dialog#audit[open]::backdrop{background:rgba(21,33,31,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+@starting-style{ dialog#audit[open]::backdrop{background:rgba(21,33,31,0);backdrop-filter:blur(0)} }
+dialog#audit .sheet{position:relative;background:#FAFAF7;border-radius:var(--r-card);padding:clamp(24px,5vw,36px);display:grid;gap:18px;box-shadow:0 40px 80px -40px rgba(15,33,31,.6)}
+dialog#audit h3{font-size:clamp(24px,3vw,28px);font-weight:300;letter-spacing:-.02em;padding-right:36px}
+dialog#audit .close{position:absolute;right:10px;top:10px;width:44px;height:44px;background:transparent;border:0;font:300 26px/1 var(--sans);color:var(--muted);cursor:pointer;border-radius:999px}
 
-footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap:16px;color:var(--faint);font-size:13px;max-width:70ch}
+footer{border-top:1px solid var(--rule);padding-block:40px 56px;color:var(--muted);font-size:13.5px}
+footer .wrap{display:grid;grid-template-columns:auto 1fr;gap:20px clamp(32px,6vw,96px);align-items:start}
+footer nav{display:flex;gap:10px 24px;flex-wrap:wrap;font-size:14px}
+footer nav a{text-decoration:none;padding-block:4px}
+footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px solid var(--rule)}
+@media (hover:hover) and (pointer:fine){ footer nav a:hover{color:var(--ink)} }
 
-@media (max-width:1000px){
-  .promises{grid-template-columns:1fr 1fr}
-}
-@media (max-width:900px){
-  .pain .cols,.vp,.why .list,.file,.try .grid{grid-template-columns:1fr}
-  .vp.flip .text{order:0}
-  .cards,.steps3{grid-template-columns:1fr}
-  .pain .side{position:static}
+/* reveal on scroll, once. Without JS everything is simply visible. */
+.js .rv{opacity:0;transform:translateY(12px)}
+.js .rv.in{opacity:1;transform:none;transition:opacity .6s var(--ease-out),transform .6s var(--ease-out);transition-delay:calc(var(--i,0) * 60ms)}
+
+@media (max-width:960px){
+  .try .grid{grid-template-areas:"pick" "out" "tune" "fine";grid-template-rows:auto}
+  .hero .wrap,.try .grid,.pain .cols,.pivot,.value .cols,.offer .box,.faq .cols,.final .cols{grid-template-columns:1fr}
+  .hero .lede{max-width:40ch}
+  h1{font-size:clamp(36px,8vw,60px)}
   .nav ul{display:none}
-  .offer .inc{grid-template-columns:1fr}
-  .audit-form{grid-template-columns:1fr}
+  .result,.faq h2{position:static}
+  .cards{grid-template-columns:1fr}
+  .trust ul{grid-template-columns:1fr}
+  .pivot{align-items:start}
 }
-@media (max-height:860px){
-  .hero .stick{gap:16px;padding-block:10px 28px}
-  .stage{height:clamp(200px,30vh,300px)}
-  .stage canvas{width:clamp(140px,22vh,220px)}
-  .reading .num{font-size:clamp(30px,4.6vh,44px)}
-  .hero h1{font-size:clamp(22px,3.1vh,36px)}
-  .hero .lede{font-size:14.5px}
-  .proof{font-size:11px;gap:3px}
-}
-@media (max-height:700px){
-  .stage{height:clamp(180px,26vh,240px)}
-  .names span{font-size:11px}
-  .hero .lede{display:none}
-}
-@media (max-width:560px){
-  .hero{min-height:160vh}
-  .promises{grid-template-columns:1fr}
-  .stage{height:clamp(260px,64vw,340px)}
+@media (max-width:720px){
+  .steps,.promises{grid-template-columns:1fr}
+  .file{grid-template-columns:1fr}
   .try .ctx{grid-template-columns:1fr}
-  .try .card{position:static}
-  .names span{font-size:11px}
+  .audit .total{display:grid;gap:2px}
+  .try #try-chips .chip:nth-child(n+10){display:none}
+  .value .cols{grid-template-columns:1fr}
+  footer .wrap{grid-template-columns:1fr}
 }
-
-/* working form: honeypot, error line, busy button */
-.audit-form{position:relative}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
-.audit-form .err{grid-column:1/-1;font-size:14px;color:var(--ink);font-weight:400;margin:0}
-.btn[disabled]{opacity:.6;cursor:default}
+@media (max-width:420px){
+  .hero .ctas .row .btn{width:100%}
+  .stack li{font-size:12.5px;padding:7px 10px}
+  .days{gap:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rv,.js .rv.in{transform:none}
+  .btn:active,.chip:active{transform:none}
+  dialog#audit,dialog#audit[open]{transform:none}
+  .stack li::after,.meter .fill{transition:none}
+  .result.swap{filter:none}
+}
 </style>
 </head>
 <body class="wm-w4">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#CFE1DD"/><stop offset="1" stop-color="#0F5C57"/></linearGradient><symbol id="dropglyph" viewBox="0 0 24 32"><path d="M12 1.5 C14.5 9 22 14.5 22 21.5 a10 10 0 0 1 -20 0 C2 14.5 9.5 9 12 1.5 z" fill="url(#dg)" stroke="rgba(15,92,87,.35)" stroke-width=".8"/></symbol></defs></svg>
+
 <header class="nav" id="nav">
   <div class="wrap">
     <a class="wordmark" href="#top" translate="no">DISTILL</a>
     <ul>
       <li><a href="#try">Try it</a></li>
       <li><a href="#how">How it works</a></li>
-      <li><a href="#proof">Proof</a></li>
       <li><a href="#offer">Price</a></li>
       <li><a href="#faq">Questions</a></li>
     </ul>
-    <button class="btn btn-quiet" type="button" data-open>Free stack audit</button>
+    <button class="btn btn-primary btn-sm" type="button" data-open>Get my free stack audit</button>
   </div>
 </header>
 
 <main id="top">
 
 <section class="hero" id="hero">
-  <div class="stick">
-    <div class="stage" id="stage">
-      <div class="names" id="names" aria-hidden="true"></div>
-      <canvas id="drop" width="330" height="480" aria-label="A single drop of glass, slowly moving"></canvas>
-    </div>
-    <div class="reading" aria-live="off">
-      <div class="num" id="num">23</div>
-      <div class="cap"><span>things you do for sleep and recovery</span><span>your own data can vouch for</span></div>
-      <div class="proof" id="proof">
-        <div><b>Early trainer</b> · +41 min sleep</div>
-        <div><b>Morning walker</b> · +6 ms HRV</div>
-        <div><b>Two-coffee ceiling</b> · −18 min to fall asleep</div>
-        <div><b>Alcohol costs two days</b> · −9 ms HRV</div>
+  <div class="wrap">
+    <div class="copy">
+      <h1><span>Know what works.</span> <span>Drop what doesn't.</span></h1>
+      <p class="lede">Get the peace of mind of knowing what works and what's a waste, backed by real proof from your own body.</p>
+      <p class="sub">Distill tests your supplements and routines one at a time, using the sleep and recovery data your ring or watch already collects. Your first verdict lands in 14 days.</p>
+      <div class="ctas">
+        <div class="row">
+          <button class="btn btn-primary" type="button" data-open>Get my free stack audit</button>
+          <a class="btn btn-ghost" href="#try">Try it on one thing <span class="arr" aria-hidden="true">↓</span></a>
+        </div>
+        <span class="fud">Nothing to buy today. No card. Under 4 minutes.</span>
       </div>
     </div>
-    <div class="eyebrow-row">
-      <span class="label">For wearable owners who already spend on their health</span>
-      <span class="badge">60-day pay-nothing guarantee</span>
-    </div>
-    <h1>Get The Peace Of Mind Of Knowing What Works And What's A Waste, Backed By Real Proof From Your Own Body</h1>
-    <p class="lede">Tired of guessing which supplements and routines actually do anything? Distill is the only app that runs one-habit, on/off experiments on your own wearable data, so you get a real verdict on every habit, a smaller stack, and a lower monthly bill within 60&nbsp;days.</p>
-    <div class="ctas">
-      <div class="row">
-        <button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button>
-        <a class="btn btn-quiet" href="#how">See how an experiment works</a>
+
+    <div class="distiller" id="distiller">
+      <div class="glass tray">
+        <div class="tray-head">
+          <span class="label">One example stack</span>
+          <button class="replay" id="replay" type="button">Replay</button>
+        </div>
+        <ul class="stack" id="stack" aria-label="An example of 23 things one person takes and does for sleep and recovery">
+          <li data-cost="19">Ashwagandha</li><li>Magnesium glycinate</li><li data-cost="9">Mouth tape</li><li>Creatine</li><li data-cost="16">L-theanine</li><li>Training after 7pm</li><li data-cost="17">Sleep tea</li><li>Blue-light glasses</li><li>Sauna</li><li>Cold plunge</li><li>Melatonin</li><li>Zinc</li><li>Vitamin D</li><li>Omega-3</li><li>Glycine</li><li>Apigenin</li><li>Collagen</li><li>Weighted blanket</li><li>No screens after 10</li><li data-keep>Morning walk</li><li data-keep>Two-coffee ceiling</li><li>Fixed wake time</li><li>Red-light panel</li>
+        </ul>
       </div>
-      <span class="fud">Nothing to buy today. No card. Under 4 minutes.</span>
+      <div class="neck"><canvas id="drop" width="330" height="480" role="img" aria-label="A single drop of glass"></canvas></div>
+      <div class="readout" aria-live="off">
+        <div class="stat"><span class="n" id="h-count">23</span><span class="u">things</span></div>
+        <div class="stat"><span class="n">$<span id="h-cost">341</span></span><span class="u">a month</span></div>
+      </div>
+      <p class="cap2"><span>Everything one person takes and does for sleep and recovery.</span><span>After four 14-day tests: four dropped, $61 a month back.</span></p>
+      <div class="key2" aria-hidden="true"><span><i class="x"></i>Dropped, with proof</span><span><i></i>Kept, with proof</span></div>
     </div>
   </div>
 </section>
 
-<div class="trust wrap" aria-label="Trust">
-  <span>Works with Oura, WHOOP, Apple Watch, Garmin and anything that writes to Apple Health</span>
-  <span>Built by a team at UC Berkeley</span>
-  <span>Pay nothing unless something measurably moves</span>
+<div class="trust" aria-label="Good to know">
+  <ul class="wrap">
+    <li><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg>Works with Oura, WHOOP, Apple Watch, Garmin and anything that writes to Apple Health</li>
+    <li><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg>60-day pay-nothing guarantee</li>
+    <li><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg>Built by a team at UC Berkeley</li>
+  </ul>
 </div>
 
 <section class="try" id="try">
   <div class="wrap">
     <div class="sec-head">
-      <span class="label">Try the router</span>
       <h2>What would Distill do with it?</h2>
-      <p>Type one thing you take, do or pay for. This is the real routing table behind the product: 210 items, each with what a wearable can see, what the studies found, and the exact sentence you'd read on day one.</p>
+      <p>Pick one thing you take, do or pay for. You'll see what we'd tell you on day one: worth testing on you, already settled, or something no ring or watch can see.</p>
     </div>
     <div class="grid">
-      <div class="glass tool" id="try-tool">
+      <div class="glass tool pick rv" id="try-tool">
         <div class="search">
-          <label class="label" for="try-q">Habit, supplement, device or membership</label>
-          <div class="field"><input id="try-q" type="text" placeholder="Start typing: coffee, magnesium, gym, AG1…" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
+          <label class="q-label" for="try-q">What's one thing you take or do for your health?</label>
+          <div class="field"><input id="try-q" type="text" placeholder="Try coffee, magnesium, sauna, gym…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
           <ul class="suggest" id="try-list" role="listbox" hidden></ul>
         </div>
+        <p class="hint">Or pick a common one. No sign-up, and it takes a few seconds.</p>
         <div class="chips" id="try-chips" aria-label="Examples"></div>
+      </div>
+      <div class="glass tool tune rv">
+        <p class="q-label">Make it about you</p>
         <div class="qs" id="try-qs"></div>
         <div class="ctx">
-          <label><span class="label">Wearable</span><select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
-          <label><span class="label">What it's for</span><select id="try-goal"><option value="">The usual reason</option></select></label>
+          <label>Your wearable<select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
+          <label>What you use it for<select id="try-goal"><option value="">The usual reason</option></select></label>
         </div>
-        <span class="fine">Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</span>
       </div>
-      <article class="glass card route" id="try-out" aria-live="polite">
-        <div class="top"><span class="label" style="color:var(--faint)">Day one · Oura</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
-        <span class="badge">Can't measure it in two weeks · run it anyway if you like</span>
-        <h3>Magnesium (any form)<small>glycinate · 400 mg elemental</small></h3>
-        <div class="gauge"><div class="track"><i class="fill" style="width:20%"></i><i class="gate" style="left:53.3%"></i></div><div class="gl"><span><b>≈ 0.3 ×</b> your normal swing</span><span>gate 0.8 · chance of a clear answer: low</span></div></div>
-        <p class="say">Where it worked in trials, the change was a few minutes, mostly in people low in magnesium. That's about a third of one night's normal swing, so a two-week test would very likely come back inconclusive. We'll show you what the trials found and what it costs, and if you'd still like to run it, you can, knowing that going in.</p>
-        <dl><dt>Number we'd watch</dt><dd>Time to fall asleep; deep sleep</dd><dt>Cost</dt><dd>$22 a month · $264 a year</dd><dt>Evidence</dt><dd>B · proper trials, but small or mixed</dd></dl>
-        <p class="found"><b>What the studies found.</b> Small trials found people fell asleep about 15 minutes faster, mostly older adults or people who were low in magnesium to begin with. The effect on deep sleep and other stages is small or absent.</p>
-        <p class="safety">Loose stools at high doses. Kidney disease: ask a clinician first.</p>
-        <div class="word t-3">Can't measure it</div>
+      <p class="fine">How we decide: a test is only worth running if the likely change is bigger than most of your normal night-to-night swing. We've worked through 210 common supplements, habits, devices and memberships. Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</p>
+      <article class="glass result rv" id="try-out" aria-live="polite" style="--i:1">
+        <div class="top"><span class="label">What you'd read on day one</span><span class="dev">Oura</span></div>
+        <h3>Coffee after 2pm<small>2 to 5pm</small></h3>
+        <div class="verdict v-1"><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg><div><strong>We'd test this on you</strong></div></div>
+        <p class="say">The single most reliable experiment we run, and the one most people are wrong about in one direction or the other. Fourteen days and you'll have your own number.</p>
+        <div class="meter"><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" style="width:66.7%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">About a full night-to-night swing. Chance of a clear answer in two weeks: fair.</p></div>
       </article>
     </div>
-    <div class="cta-row"><button class="btn btn-quiet" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, routed like this, in under 4 minutes. Nothing to buy today.</span></div>
+    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get my free stack audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
   </div>
 </section>
 
-<section class="pain" id="pain">
-  <div class="wrap cols">
-    <div class="side">
-      <p class="bridge">Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</p>
-      <div class="glass drawer" aria-label="An example stack of 23 items">
-        <div class="chips">
-          <span>Ashwagandha</span><span>Magnesium glycinate</span><span>Mouth tape</span><span>Creatine</span><span>L-theanine</span><span>Training after 7pm</span><span>Sleep tea</span><span>Blue-light glasses</span><span>Sauna</span><span>Cold plunge</span><span>Melatonin</span><span>Zinc</span><span>Vitamin D</span><span>Omega-3</span><span>Glycine</span><span>Apigenin</span><span>Collagen</span><span>Weighted blanket</span><span>No screens after 10</span><span>Morning walk</span><span>Two-coffee ceiling</span><span>Fixed wake time</span><span>Red-light panel</span>
-        </div>
-        <div class="read"><span><b>23</b> things</span><span><b>$341</b> a month</span><span><b>0</b> answers</span></div>
-      </div>
-    </div>
-    <div class="pas">
-      <p class="dear">Dear tracker owner who's tired of guessing,</p>
-      <ul class="checks">
-        <li>Do you take five different things for sleep and still can't say which one works?</li>
-        <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
-        <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
-      </ul>
-      <p>If so, you're not alone. And you're not the problem.</p>
-      <p>You're not lazy. You're not uninformed.</p>
-      <p>You've done <span class="em">MORE</span> than almost anyone. That's the problem.</p>
-      <p>Every app, every influencer and every ad sells you addition.</p>
-      <p>Take this. Try this. Track this.</p>
-      <p>Nobody's job is to tell you what to drop.</p>
-      <p>So the stack grows. Twenty things. Twenty-three. Thirty.</p>
-      <p>And the certainty never comes.</p>
-      <p class="em">Here's what that actually costs you:</p>
-      <ul class="checks">
-        <li>Hundreds of dollars a month on habits with <span class="em">ZERO</span> proof they work on your body</li>
-        <li>A ring or watch that adds daily worry and never adds a single decision</li>
-        <li>Advice from influencers built on <span class="em">THEIR</span> body, not yours</li>
-        <li>A quiet suspicion that you're behind, and it's getting louder every year</li>
-      </ul>
-      <p>Roughly a third of tracker owners stop wearing them within six months.</p>
-      <p>Not because the data was wrong. Because the data never turned into an answer.</p>
-      <p>You have two years of sleep and recovery history sitting in Apple Health right now.</p>
-      <p>It has never once told you what to do.</p>
-      <p class="good">Here's the good news.</p>
-      <p>You <span class="em">DON'T</span> need another supplement.</p>
-      <p>You <span class="em">DON'T</span> need a dashboard, a coach or a chatbot.</p>
-      <p>You <span class="em">DON'T</span> need to log a single meal or mood.</p>
-      <p class="promise">You need a controlled experiment, run on <span class="em">YOUR</span> data.</p>
-      <p>Distill reads your stack against your own tracker history and picks the one habit most likely doing nothing.</p>
-      <p>Then it tests it. Three days on, three days off, for 14 days. One variable. One tap a day.</p>
-      <p>On day 14 you get one card. The habit, the real number and one word: Kept, Dropped or Inconclusive.</p>
-      <p class="promise">Your stack goes down. Your bill goes down. Your certainty goes up.</p>
-      <p>Three experiments in 60 days. If none of them moves your numbers, you pay nothing.</p>
-      <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card. Under 4 minutes.</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="proof" id="proof">
+<section class="pain band" id="pain">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="label">In writing</span>
-      <h2>Four promises we put in writing before you pay a cent</h2>
-    </div>
-    <div class="promises">
-      <article class="glass promise"><span class="k">Promise 1</span><h3>Pay-nothing guarantee</h3><p>If none of your first three experiments moves your numbers, you're not charged. We tell you in the app before day 60, not after.</p></article>
-      <article class="glass promise"><span class="k">Promise 2</span><h3>The threshold is fixed before day one</h3><p>The metric and the pass line are written down before the test starts, and they don't move. You see the number either way. No fishing after the fact.</p></article>
-      <article class="glass promise"><span class="k">Promise 3</span><h3>Never red, never a score about you</h3><p>Every verdict describes the night and the habit, not you. Effort is named first. This follows thirty years of feedback research showing that scores aimed at the person make behaviour worse, not better.</p></article>
-      <article class="glass promise"><span class="k">Promise 4</span><h3>Your call, every time</h3><p>You can veto an experiment once per cycle and switch mid-test if life gets in the way. You're never handed a rule you didn't agree to.</p></article>
-    </div>
-    <div class="cred"><span>Built by a team at UC Berkeley</span><span>Same on/off design used in single-patient clinical trials</span><span>Founding 100 spots go in order of signup</span></div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today.</span></div>
-  </div>
-</section>
-
-<section class="value" id="value">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="label">What you get</span>
-      <h2>Three things no other wellness app gives you</h2>
-    </div>
-
-    <div class="vp">
-      <div class="text">
-        <span class="label">The scoreboard that goes down</span>
-        <h3>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h3>
-        <p>Distill is the only wellness product whose score gets better by going down. Every verdict either keeps a habit or lets you drop it with proof. After four cycles the example stack goes from 23 things to 19, and from $341 a month to $280. That's the permission to stop that nobody else gives you.</p>
+    <div class="cols">
+      <div>
+        <h2>Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</h2>
+        <p class="tally">23 things. $341 a month. <em>0 answers.</em></p>
+        <p class="tally-cap">One example stack. Yours will have its own numbers.</p>
       </div>
-      <div class="file">
-        <div class="col">
-          <h4>What you cut</h4>
-          <div class="score"><span><b><span class="count" data-from="23" data-to="19">23</span> things</b>was 23</span><span><b>$<span class="count" data-from="341" data-to="280">341</span> a month</b>was $341</span></div>
-          <ul class="cut">
-            <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
-            <li><span>Mouth tape</span><span class="mono">$9/mo</span></li>
-            <li><span>L-theanine, 200 mg</span><span class="mono">$16/mo</span></li>
-            <li><span>Sleep tea, nightly</span><span class="mono">$17/mo</span></li>
-          </ul>
-        </div>
-        <div class="col">
-          <h4>What's yours</h4>
-          <div class="score"><span><b>4 conditions</b>proven on your data</span></div>
-          <ul class="yours">
-            <li><span>Early trainer</span><span class="mono">+41 min sleep</span></li>
-            <li><span>Morning walker</span><span class="mono">+6 ms HRV</span></li>
-            <li><span>Two-coffee ceiling</span><span class="mono">−18 min to fall asleep</span></li>
-            <li><span>Alcohol costs two days</span><span class="mono">−9 ms HRV</span></li>
-          </ul>
-        </div>
+      <div class="body">
+        <ul class="checks">
+          <li>Do you take five different things for sleep and still can't say which one works?</li>
+          <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
+          <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
+        </ul>
+        <p>You're not lazy and you're not uninformed. You've done more than almost anyone. Every app, influencer and ad sells you one more thing to take, try or track, and nobody's job is to tell you what to drop.</p>
+        <p>So the list grows, the bill grows, and the certainty never comes.</p>
       </div>
     </div>
-
-    <div class="vp flip">
-      <div class="text">
-        <span class="label">Tested on your own body</span>
-        <h3>Test one habit at a time on your own body and know the answer is truly yours</h3>
-        <p>Three days on, three days off, for 14 days. Same person, same bed, same life, one variable. That's what makes the daily noise cancel out. Not population averages. Not an influencer's protocol. Your body, under controlled conditions.</p>
-      </div>
-      <div class="method-obj">
-        <div>
-          <span class="label">Experiment 2 of 3 · Training after 7pm</span>
-          <p class="muted" style="font-size:14px;margin-top:6px">Metric locked before day 1: total sleep, minutes</p>
-        </div>
-        <div class="days" aria-label="Fourteen days, alternating three on and three off">
-          <i class="on">1</i><i class="on">2</i><i class="on">3</i><i>4</i><i>5</i><i>6</i><i class="on">7</i>
-          <i class="on">8</i><i class="on">9</i><i>10</i><i>11</i><i>12</i><i class="on">13</i><i class="on">14</i>
-        </div>
-        <div class="key"><span><i class="on"></i>On: train after 7pm as usual</span><span><i></i>Off: finish training before 7pm</span></div>
-        <div class="glass today">
-          <div class="line">Today: finish training before 7pm.</div>
-          <div class="sub">Day 5 of 14 · Off block · Compared against your late-training nights</div>
-          <div class="taps"><span>Did it</span><span>Didn't</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="vp wide verdicts-wrap" id="verdicts">
-      <span class="blob"></span>
-      <div class="text">
-        <span class="label">Honest verdicts</span>
-        <h3>Get the real number and one plain word so you can trust every verdict without spin</h3>
-        <p>The metric and the threshold are written down before day one and they don't move. On day 14 you see the difference in real units, the size of your own normal swing, and one word. Kept, Dropped or Inconclusive. Inconclusive is a real answer, said plainly.</p>
-      </div>
-      <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#CFE1DD"/><stop offset="1" stop-color="#0F5C57"/></linearGradient><symbol id="dropglyph" viewBox="0 0 24 32"><path d="M12 1.5 C14.5 9 22 14.5 22 21.5 a10 10 0 0 1 -20 0 C2 14.5 9.5 9 12 1.5 z" fill="url(#dg)" stroke="rgba(15,92,87,.35)" stroke-width=".8"/></symbol></defs></svg>
-      <div class="cards">
-        <article class="glass card">
-          <div class="top"><span class="label" style="color:var(--faint)">Verdict, day 14</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
-          <h3>Training after 7pm</h3>
-          <div class="big">−41<small>min sleep</small></div>
-          <dl><dt>Metric</dt><dd>Total sleep</dd><dt>Difference</dt><dd>−41 min on late nights</dd><dt>Your noise</dt><dd>±22 min</dd></dl>
-          <p>Larger than your normal night-to-night swing.</p>
-          <div class="word">Dropped</div>
-        </article>
-        <article class="glass card">
-          <div class="top"><span class="label" style="color:var(--faint)">Verdict, day 14</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
-          <h3>Magnesium glycinate, 400 mg</h3>
-          <div class="big">+0.4<small>min deep sleep</small></div>
-          <dl><dt>Metric</dt><dd>Deep sleep</dd><dt>Difference</dt><dd>+0.4 min</dd><dt>Your noise</dt><dd>±11 min</dd></dl>
-          <p>Too small to see against your own swing. Your call.</p>
-          <div class="word">Inconclusive</div>
-        </article>
-        <article class="glass card">
-          <div class="top"><span class="label" style="color:var(--faint)">Verdict, day 14</span><svg class="glyph"><use href="#dropglyph"/></svg></div>
-          <h3>Walk before 9am</h3>
-          <div class="big">+6<small>ms HRV</small></div>
-          <dl><dt>Metric</dt><dd>Overnight HRV</dd><dt>Difference</dt><dd>+6 ms</dd><dt>Your noise</dt><dd>±3 ms</dd></dl>
-          <p>Twice your normal swing. This one is yours.</p>
-          <div class="word">Kept</div>
-        </article>
-      </div>
-    </div>
-
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today.</span></div>
-  </div>
-</section>
-
-<section class="why">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="label">Why it's different</span>
-      <h2>Everyone else in wellness sells you more. Distill is the only one built to sell you less.</h2>
-    </div>
-    <div class="list">
-      <div class="item"><h3>Pay nothing unless something moves</h3><p>Three experiments in 60 days. If nothing measurably changes, no charge. We tell you in the app before the charge date.</p></div>
-      <div class="item"><h3>One tap a day, nothing to log</h3><p>The daily instruction is usually a skip, not an add. No meals, no moods, no journaling. A missed tap is unknown, never failed.</p></div>
-      <div class="item"><h3>The engine picks, you keep the veto</h3><p>It reads your inventory, your history and the research, then ranks what's most likely useless. You never have to decide what to test, and you can say no once per cycle.</p></div>
-      <div class="item"><h3>Runs on the history you already have</h3><p>Months of unused wearable data are read during onboarding. Your first read is ready before you finish listing your stack.</p></div>
-      <div class="item"><h3>Never red, never a score about you</h3><p>Every verdict describes the night and the habit. Effort is named first. The decision is always yours.</p></div>
-      <div class="item"><h3>A file that compounds</h3><p>Two earned lists: what you cut, and the short set of conditions your body runs best under. You stop taking advice and start knowing.</p></div>
+    <div class="pivot">
+      <p class="big">Everyone else in wellness sells you more. Distill is built to <em>sell you less.</em></p>
+      <p>You don't need another supplement, a dashboard or a coach. You need a fair test, run on your own data, one habit at a time.</p>
     </div>
   </div>
 </section>
@@ -625,55 +532,171 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
 <section class="how" id="how">
   <div class="wrap">
     <div class="sec-head">
-      <span class="label">How it works</span>
       <h2>Your first real verdict in 14 days, in 3 simple steps</h2>
     </div>
-    <div class="steps3">
-      <div class="step"><div class="n"><span>Step 1</span><span>Under 4 minutes</span></div><h3>Connect and list</h3><p>Connect your wearable and tap through your stack. Distill reads your history and shows your stack counted and costed. That's the free audit, and there's nothing to buy.</p></div>
-      <div class="step"><div class="n"><span>Step 2</span><span>14 days</span></div><h3>One tap a day</h3><p>The engine picks the habit your data is most sensitive to. Each morning you get one line, like "Today: skip the magnesium." Tap to confirm. That's the whole job.</p></div>
-      <div class="step"><div class="n"><span>Step 3</span><span>Day 14</span></div><h3>Your verdict card</h3><p>The habit, the real number and one word. It goes in your file, your stack count drops, and the next experiment begins.</p></div>
+    <div class="steps">
+      <div class="step">
+        <div class="n"><span>Step 1</span><span>Under 4 minutes</span></div>
+        <h3>Connect and list</h3>
+        <p>Connect your wearable and tap through what you take and do. Distill reads the history you already have and shows your stack counted and costed. That's the free audit.</p>
+        <div class="glass audit obj rv" aria-label="An example audit">
+          <ul>
+            <li><span>Magnesium glycinate, 400 mg</span><span class="mono">$22/mo</span></li>
+            <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
+            <li><span>Sleep tea, nightly</span><span class="mono">$17/mo</span></li>
+            <li><span>L-theanine, 200 mg</span><span class="mono">$16/mo</span></li>
+            <li class="more-row"><span>and 19 more</span><span class="mono"></span></li>
+          </ul>
+          <div class="total"><span>Your stack</span><span><b>23</b> things · <b>$341</b> a month</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n"><span>Step 2</span><span>14 days</span></div>
+        <h3>One tap a day</h3>
+        <p>We pick the habit your data can show most clearly. Each morning you get one line, like "Today: skip the magnesium." Three days on, three days off. Tap to confirm. That's the whole job.</p>
+        <div class="cal obj rv" style="--i:1">
+          <div class="days" aria-label="Fourteen days, alternating three on and three off">
+            <i class="on">1</i><i class="on">2</i><i class="on">3</i><i>4</i><i class="now">5</i><i>6</i><i class="on">7</i>
+            <i class="on">8</i><i class="on">9</i><i>10</i><i>11</i><i>12</i><i class="on">13</i><i class="on">14</i>
+          </div>
+          <div class="key"><span><i class="on"></i>On: train after 7pm as usual</span><span><i></i>Off: finish training before 7pm</span></div>
+          <div class="glass today">
+            <div class="line">Today: finish training before 7pm.</div>
+            <div class="sub">Day 5 of 14 · an off day</div>
+            <div class="taps"><span>Did it</span><span>Didn't</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step wide" id="verdicts">
+        <div class="intro">
+          <div class="n"><span>Step 3</span><span>Day 14</span></div>
+          <h3>Your verdict, in one plain word</h3>
+          <p>The habit, the real number and one word: Kept, Dropped or Inconclusive. The number we watch and the pass line are written down before day one, and they don't move.</p>
+        </div>
+        <div class="cards">
+          <article class="glass card rv">
+            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
+            <h4>Walk before 9am</h4>
+            <div class="big">+6<small>ms HRV</small></div>
+            <dl><dt>Measured</dt><dd>Overnight HRV</dd><dt>Difference</dt><dd>+6 ms</dd><dt>Your normal swing</dt><dd>±3 ms</dd></dl>
+            <p>Twice your normal swing. This one is yours.</p>
+            <div class="word">Kept</div>
+          </article>
+          <article class="glass card rv" style="--i:1">
+            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
+            <h4>Training after 7pm</h4>
+            <div class="big">−41<small>min sleep</small></div>
+            <dl><dt>Measured</dt><dd>Total sleep</dd><dt>Difference</dt><dd>−41 min on late nights</dd><dt>Your normal swing</dt><dd>±22 min</dd></dl>
+            <p>Larger than your normal night-to-night swing.</p>
+            <div class="word">Dropped</div>
+          </article>
+          <article class="glass card rv" style="--i:2">
+            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
+            <h4>Magnesium glycinate, 400 mg</h4>
+            <div class="big">+0.4<small>min deep sleep</small></div>
+            <dl><dt>Measured</dt><dd>Deep sleep</dd><dt>Difference</dt><dd>+0.4 min</dd><dt>Your normal swing</dt><dd>±11 min</dd></dl>
+            <p>Too small to see against your own swing. Your call.</p>
+            <div class="word">Inconclusive</div>
+          </article>
+        </div>
+      </div>
     </div>
-    <p class="note">The first week is baseline. We read and say nothing until we know your normal.</p>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card.</span></div>
+    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get my free stack audit</button><span class="note">The first week is baseline. We read and say nothing until we know your normal.</span></div>
   </div>
 </section>
 
-<section class="offer" id="offer">
-  <span class="blob"></span>
+<section class="value band" id="value">
   <div class="wrap">
-    <div class="sec-head" style="text-align:center;justify-items:center">
-      <span class="label">The offer</span>
-      <h2 style="max-width:26ch">In 60 days we'll tell you which habits work on your body, and which to stop paying for. If nothing moves, you don't pay.</h2>
+    <div class="cols">
+    <h2>The only wellness score that gets better by going down</h2>
+    <div class="text">
+      <p>Every verdict either keeps a habit or lets you drop it with proof. After four tests, this example stack goes from 23 things to 19, and from $341 a month to $280.</p>
+      <p>You also keep a short list of what your body runs best on. You stop taking advice and start knowing.</p>
     </div>
-    <div class="glass box">
-      <div class="price"><span class="n">$20<small> a month</small></span><span class="zero">$0 if nothing measurably moves</span></div>
-      <ul class="inc">
-        <li>A guided experiment every two weeks, chosen from your data</li>
-        <li>One instruction a day, one tap. That's the whole obligation.</li>
-        <li>A plain-language verdict with real numbers</li>
-        <li>A running file of what works for you specifically</li>
-        <li>The list nobody else gives you: what you can stop doing</li>
-        <li>A reset protocol for the weeks life gets in the way</li>
-      </ul>
-      <div class="guar">
-        <span class="label">Founding 100</span>
-        <p>$20 a month locked for life, guarantee included. Early members build the experiment library everyone after them benefits from. Spots go in order of signup.</p>
-        <span class="label" style="margin-top:8px">The guarantee, in plain words</span>
-        <p>Three experiments inside 60 days. If none of them produces a measurable change in your sleep or recovery, you don't pay. All inconclusive means no charge. The card on file is charged on day 60 only if at least one verdict came back Kept or Dropped, and we tell you in the app before that date.</p>
+    </div>
+    <div class="glass file rv">
+      <div class="col">
+        <h4>What you cut</h4>
+        <div class="score"><span><b><span class="count" data-from="23" data-to="19">23</span> things</b>was 23</span><span><b>$<span class="count" data-from="341" data-to="280">341</span> a month</b>was $341</span></div>
+        <ul class="cut">
+          <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
+          <li><span>Mouth tape</span><span class="mono">$9/mo</span></li>
+          <li><span>L-theanine, 200 mg</span><span class="mono">$16/mo</span></li>
+          <li><span>Sleep tea, nightly</span><span class="mono">$17/mo</span></li>
+        </ul>
       </div>
-      <div class="row"><button class="btn btn-primary" type="button" data-open>Claim A Founding Spot</button><span class="fud">No card until your first verdict lands.</span></div>
+      <div class="col">
+        <h4>What's yours</h4>
+        <div class="score"><span><b>4 things</b>proven on your data</span></div>
+        <ul class="yours">
+          <li><span>Early trainer</span><span class="mono">+41 min sleep</span></li>
+          <li><span>Morning walker</span><span class="mono">+6 ms HRV</span></li>
+          <li><span>Two-coffee ceiling</span><span class="mono">−18 min to fall asleep</span></li>
+          <li><span>Alcohol costs two days</span><span class="mono">−9 ms HRV</span></li>
+        </ul>
+      </div>
     </div>
-    <div class="cmp"><span>Oura membership <b>$5.99/mo</b></span><span>WHOOP <b>$199 to $359/yr</b></span><span>Bevel Pro <b>$14.99/mo</b></span><p>They sell you more data. Distill sits above them on purpose, because it's the only one selling an answer.</p></div>
+  </div>
+</section>
+
+<section class="proof" id="proof">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Four promises we put in writing before you pay a cent</h2>
+    </div>
+    <div class="promises">
+      <article class="promise"><h3>Pay-nothing guarantee</h3><p>If none of your first three experiments moves your numbers, you're not charged. We tell you in the app before day 60, not after.</p></article>
+      <article class="promise"><h3>The pass line is fixed before day one</h3><p>The number we watch and the line it has to cross are written down before the test starts, and they don't move. You see the number either way.</p></article>
+      <article class="promise"><h3>Never red, never a score about you</h3><p>Every verdict describes the night and the habit, not you. Effort is named first. Thirty years of feedback research shows that scores aimed at the person make behaviour worse, not better.</p></article>
+      <article class="promise"><h3>Your call, every time</h3><p>You can veto an experiment once per cycle and switch mid-test if life gets in the way. You're never handed a rule you didn't agree to.</p></article>
+    </div>
+    <div class="cred"><span>Built by a team at UC Berkeley</span><span>Same on/off design used in single-patient clinical trials</span><span>Founding 100 spots go in order of signup</span></div>
+  </div>
+</section>
+
+<section class="offer band" id="offer">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>If nothing moves, you don't pay</h2>
+      <p>In 60 days we'll tell you which habits work on your body, and which to stop paying for.</p>
+    </div>
+    <div class="glass box rv">
+      <div class="price">
+        <span class="n">$20<small>a month</small></span>
+        <span class="zero">$0 if nothing measurably moves</span>
+        <div class="row"><button class="btn btn-primary" type="button" data-open>Claim a founding spot</button><span class="fud">No card until your first verdict lands.</span></div>
+        <div class="guar">
+          <span class="label">Founding 100</span>
+          <p>$20 a month locked for life, guarantee included. Early members build the experiment library everyone after them benefits from. Spots go in order of signup.</p>
+        </div>
+      </div>
+      <div>
+        <ul class="inc checks">
+          <li>A guided experiment every two weeks, chosen from your data</li>
+          <li>One instruction a day, one tap. That's the whole obligation.</li>
+          <li>A plain-language verdict with real numbers</li>
+          <li>A running file of what works for you specifically</li>
+          <li>The list nobody else gives you: what you can stop doing</li>
+          <li>A reset protocol for the weeks life gets in the way</li>
+        </ul>
+        <div class="guar">
+          <span class="label">The guarantee, in plain words</span>
+          <p>Three experiments inside 60 days. If none of them produces a measurable change in your sleep or recovery, you don't pay. All inconclusive means no charge. The card on file is charged on day 60 only if at least one verdict came back Kept or Dropped, and we tell you in the app before that date.</p>
+        </div>
+      </div>
+    </div>
+    <div class="cmp">
+      <ul><li>Oura membership <b>$5.99/mo</b></li><li>WHOOP <b>$199 to $359/yr</b></li><li>Bevel Pro <b>$14.99/mo</b></li></ul>
+      <p>They sell you more data. Distill sits above them on purpose, because it's the only one selling an answer.</p>
+    </div>
   </div>
 </section>
 
 <section class="faq" id="faq">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="label">Questions</span>
-      <h2>Questions people ask before they connect</h2>
-    </div>
+  <div class="wrap cols">
+    <h2>Questions people ask before they connect</h2>
     <div class="qs">
+      <details><summary>What does it cost?</summary><p>The stack audit is free and there's nothing to buy. Distill itself is $20 a month, and you pay nothing unless at least one of your first three experiments measurably moves your sleep or recovery. No card until your first verdict lands.</p></details>
       <details><summary>What do I get in the free stack audit?</summary><p>Your stack counted and costed, the habits your data is most sensitive to, and the first experiment we'd run. It takes under four minutes and there's nothing to buy.</p></details>
       <details><summary>What does "measurable" actually mean?</summary><p>The on-days and off-days have to differ by more than your own day-to-day noise for that metric. Roughly, a difference you'd see 1 in 20 times by chance. The threshold is written down before the experiment starts and it doesn't move. We show the number either way.</p></details>
       <details><summary>Is this a medical product?</summary><p>No. Distill works on sleep, recovery, energy and habits, using goals you set and data you own. "Your sleep improved 22 minutes on nights without the 3pm coffee" is what we say. "This will fix your insomnia" is something we never say. If your question is driven by a medical condition, talk to a clinician, not an app.</p></details>
@@ -685,9 +708,8 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
 </section>
 
 <section class="final" id="start">
-  <div class="wrap">
-    <div class="box">
-      <span class="label">Start today</span>
+  <div class="wrap cols">
+    <div>
       <h2>Get your free stack audit today and your first real verdict within 14 days</h2>
       <ul class="checks">
         <li>Your stack counted and costed in under 4 minutes</li>
@@ -696,14 +718,19 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
         <li>A plain verdict with the real number</li>
         <li>Pay nothing unless something measurably moves</li>
       </ul>
-      <p class="glass urgency">Founding 100 spots go in order of signup. $20 a month locked for life, guarantee included. When the 100 are gone, the founding rate goes with them.</p>
+    </div>
+    <div class="panel rv" style="--i:1">
+      <h3>Get your free stack audit</h3>
       <form class="audit-form" id="signup" data-source="final" novalidate>
-        <label><span class="label">Email</span><input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
-        <label><span class="label">Which wearable do you use?</span><select id="wearable" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
-        <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
-      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="err" hidden></p></form>
-      <p class="thanks">Thanks. You're on the founding list, in order of signup. We'll email you when your audit is ready.</p>
+        <label>Email<input id="email" name="email" type="email" inputmode="email" enterkeyhint="send" placeholder="you@example.com" autocomplete="email" required></label>
+        <p class="err" role="alert" hidden></p>
+        <label>Which wearable do you use?<select id="wearable" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary" type="submit">Get my free stack audit</button>
+      </form>
+      <div class="thanks" role="status"><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div>
       <span class="fud">Nothing to buy today. No card. No spam.</span>
+      <p class="urgency">Founding 100 spots go in order of signup. $20 a month locked for life, guarantee included. When the 100 are gone, the founding rate goes with them.</p>
     </div>
   </div>
 </section>
@@ -711,22 +738,31 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
 </main>
 
 <footer>
-  <a class="wordmark" href="#top" translate="no">DISTILL</a>
-  <p>Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. Stack figures on this page are examples.</p>
+  <div class="wrap">
+    <a class="wordmark" href="#top" translate="no">DISTILL</a>
+    <nav aria-label="Footer"><a href="#try">Try it</a><a href="#how">How it works</a><a href="#proof">Our promises</a><a href="#offer">Price</a><a href="#faq">Questions</a></nav>
+    <p class="legal">Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. If a clinician prescribed or recommended something, keep taking it and talk to them before changing it. Stack figures on this page are examples.</p>
+  </div>
 </footer>
 
 <dialog id="audit" aria-labelledby="audit-title">
-  <div class="glass">
+  <div class="sheet">
     <button class="close" type="button" aria-label="Close" data-close>×</button>
     <span class="label">Free stack audit</span>
-    <h3 id="audit-title">Get your free stack audit</h3>
-    <div class="bul"><span>Under 4 minutes</span><span>Nothing to buy</span><span>No card</span></div>
+    <h3 id="audit-title">See what's worth keeping</h3>
+    <ol class="next">
+      <li>Leave your email. Spots go in order of signup.</li>
+      <li>We email you when your audit is ready. It takes under 4 minutes.</li>
+      <li>You see your stack counted, costed and sorted. Nothing to buy.</li>
+    </ol>
     <form class="audit-form" id="signup-modal" data-source="popup" novalidate>
-      <label><span class="label">Email</span><input id="email-modal" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
-      <label><span class="label">Which wearable do you use?</span><select id="wearable-modal" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
-      <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
-    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="err" hidden></p></form>
-    <p class="thanks">Thanks. You're on the founding list, in order of signup. We'll email you when your audit is ready.</p>
+      <label>Email<input id="email-modal" name="email" type="email" inputmode="email" enterkeyhint="send" placeholder="you@example.com" autocomplete="email" required></label>
+      <p class="err" role="alert" hidden></p>
+      <label>Which wearable do you use?<select id="wearable-modal" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-primary" type="submit">Get my free stack audit</button>
+    </form>
+    <div class="thanks" role="status"><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div>
     <span class="fud">Nothing to buy today. No card. No spam.</span>
   </div>
 </dialog>
@@ -734,15 +770,23 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
 <script>
 (function(){
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO='IntersectionObserver' in window;
 
-  /* nav shadow */
+  /* nav hairline once the page has moved */
   var nav=document.getElementById('nav');
   function onScrollNav(){ nav.classList.toggle('scrolled', window.scrollY>8); }
   window.addEventListener('scroll', onScrollNav, {passive:true}); onScrollNav();
 
-  /* the drop: one live object */
+  /* reveal on scroll, once */
+  var rv=document.querySelectorAll('.rv');
+  if(hasIO){
+    var rio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); rio.unobserve(en.target); } }); },{rootMargin:'0px 0px -80px 0px'});
+    rv.forEach(function(el){ rio.observe(el); });
+  } else { rv.forEach(function(el){ el.classList.add('in'); }); }
+
+  /* the drop: one live object. Drawn on canvas, paused while off screen. */
   var c=document.getElementById('drop'), ctx=c.getContext('2d');
-  var W=330,H=480, dpr=Math.min(window.devicePixelRatio||1,2);
+  var W=330,H=480, dpr=Math.min(window.devicePixelRatio||1,2), dropOn=true, raf=0;
   c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
   function dropPath(cx,cy,r,t,keep){
     var top=cy-r*1.5+Math.sin(t*0.6)*2.5, wob=Math.sin(t*0.9)*0.025;
@@ -788,60 +832,54 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
     sg.addColorStop(0,'rgba(255,255,255,1)'); sg.addColorStop(.6,'rgba(255,255,255,.7)'); sg.addColorStop(1,'rgba(255,255,255,0)');
     ctx.scale(0.55,1); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(0,0,r*0.3,0,Math.PI*2); ctx.fill(); ctx.restore();
     ctx.fillStyle='rgba(255,255,255,.9)'; ctx.beginPath(); ctx.arc(hx-r*0.02,hy-r*0.14,r*0.045,0,Math.PI*2); ctx.fill();
-    if(!reduce) requestAnimationFrame(draw);
+    raf=(!reduce&&dropOn)?requestAnimationFrame(draw):0;
   }
-  requestAnimationFrame(draw);
+  raf=requestAnimationFrame(draw);
+  if(hasIO&&!reduce){
+    new IntersectionObserver(function(es){ dropOn=es[0].isIntersecting; if(dropOn&&!raf) raf=requestAnimationFrame(draw); }).observe(c);
+  }
 
-  /* the names that condense into the drop */
-  var items=['Ashwagandha','Magnesium glycinate','Mouth tape','Creatine','L-theanine','Training after 7pm','Sleep tea','Blue-light glasses','Sauna','Cold plunge','Melatonin','Zinc','Vitamin D','Omega-3','Glycine','Apigenin','Collagen','Weighted blanket','No screens after 10','Morning walk','Two-coffee ceiling','Fixed wake time','Red-light panel'];
-  var stage=document.getElementById('stage'), names=document.getElementById('names'), hero=document.getElementById('hero');
-  var numEl=document.getElementById('num'), caps=document.querySelectorAll('.reading .cap span'), proof=document.getElementById('proof');
-  var pts=[];
-  items.forEach(function(n){ var s=document.createElement('span'); s.textContent=n; names.appendChild(s); pts.push({el:s}); });
-  var last=0;
-  function layout(){
-    var w=stage.clientWidth, h=stage.clientHeight, rx=Math.min(w/2-70, h*0.7), ry=h*0.46;
-    pts.forEach(function(p,i){
-      var a=(i/items.length)*Math.PI*2 - Math.PI/2, k=(i%2 ? 0.74 : 1.02);
-      p.x=Math.cos(a)*rx*k; p.y=Math.sin(a)*ry*k;
-    });
-    apply(last);
+  /* a number that eases from one value to another */
+  function tween(el,from,to,dur){
+    var id=(el._tw||0)+1; el._tw=id;
+    if(reduce||from===to||document.hidden){ el.textContent=to; return; } /* frames don't run in a background tab */
+    var t0=null;
+    function step(now){ if(el._tw!==id) return; if(!t0) t0=now; var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=Math.round(from+(to-from)*e); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
   }
-  function ease(p){ return p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2; }
-  function apply(p){
-    last=p; var e=ease(p);
-    pts.forEach(function(q){
-      var s=1-e*0.7, o=Math.max(0,1-e*1.5);
-      q.el.style.transform='translate(calc(-50% + '+(q.x*(1-e)).toFixed(1)+'px), calc(-50% + '+(q.y*(1-e)).toFixed(1)+'px)) scale('+s.toFixed(3)+')';
-      q.el.style.opacity=o.toFixed(3);
-    });
-    numEl.textContent=Math.round(23-19*e);
-    var flip=e>0.55; caps[0].style.opacity=flip?0:1; caps[1].style.opacity=flip?1:0;
-    var pp=Math.max(0,Math.min(1,(e-0.6)/0.4));
-    proof.style.opacity=pp.toFixed(3); proof.style.transform='translateY('+((1-pp)*8).toFixed(1)+'px)';
-  }
-  function progress(){
-    var rect=hero.getBoundingClientRect(), total=hero.offsetHeight-window.innerHeight;
-    if(total<=0) return 1;
-    return Math.min(1,Math.max(0,-rect.top/(total*0.9)));
-  }
-  var ticking=false;
-  function onScroll(){ if(ticking) return; ticking=true; requestAnimationFrame(function(){ apply(progress()); ticking=false; }); }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', layout);
-  layout(); apply(progress());
+
+  /* hero: the example stack gets shorter. Plays once when seen; Replay runs it again. */
+  (function(){
+    var box=document.getElementById('distiller'), stack=document.getElementById('stack');
+    var countEl=document.getElementById('h-count'), costEl=document.getElementById('h-cost'), replay=document.getElementById('replay');
+    var cuts=stack.querySelectorAll('[data-cost]'), keeps=stack.querySelectorAll('[data-keep]'), timers=[];
+    function later(fn,ms){ timers.push(setTimeout(fn,ms)); }
+    var hio=null;
+    function reset(){ timers.forEach(clearTimeout); timers=[]; if(hio){ hio.disconnect(); hio=null; } countEl._tw=costEl._tw=(costEl._tw||0)+1; box.classList.remove('done'); Array.prototype.forEach.call(stack.children,function(li){ li.classList.remove('cut','kept'); }); countEl.textContent='23'; costEl.textContent='341'; }
+    function finish(){ Array.prototype.forEach.call(cuts,function(li){ li.classList.add('cut'); }); Array.prototype.forEach.call(keeps,function(li){ li.classList.add('kept'); }); countEl.textContent='19'; costEl.textContent='280'; box.classList.add('done'); }
+    function play(){
+      reset();
+      var n=23, cost=341, t=1100;
+      Array.prototype.forEach.call(cuts,function(li){
+        later(function(){ li.classList.add('cut'); n-=1; countEl.textContent=n; var next=cost-(+li.dataset.cost); tween(costEl,cost,next,380); cost=next; }, t);
+        t+=620;
+      });
+      Array.prototype.forEach.call(keeps,function(li){ later(function(){ li.classList.add('kept'); }, t); t+=260; });
+      later(function(){ box.classList.add('done'); }, t+200);
+    }
+    if(reduce||!hasIO){ finish(); }
+    else {
+      hio=new IntersectionObserver(function(es){ if(es[0].isIntersecting) play(); },{threshold:.5});
+      hio.observe(stack);
+    }
+    replay.addEventListener('click', play);
+  })();
 
   /* counters that tick down when they come into view */
   var counters=document.querySelectorAll('.count');
-  function run(el){
-    var from=+el.dataset.from, to=+el.dataset.to, t0=null, dur=1400;
-    if(reduce){ el.textContent=to; return; }
-    function step(now){ if(!t0) t0=now; var p=Math.min(1,(now-t0)/dur); var e=1-Math.pow(1-p,3); el.textContent=Math.round(from+(to-from)*e); if(p<1) requestAnimationFrame(step); }
-    requestAnimationFrame(step);
-  }
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ run(en.target); io.unobserve(en.target); } }); },{threshold:.6});
-    counters.forEach(function(el){ io.observe(el); });
+  if(hasIO){
+    var cio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ tween(en.target,+en.target.dataset.from,+en.target.dataset.to,1400); cio.unobserve(en.target); } }); },{threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
   } else { counters.forEach(function(el){ el.textContent=el.dataset.to; }); }
 
   /* try it: the day-one router. Data comes from routing.json, built from the routing table by scripts/build_routing.py. */
@@ -849,12 +887,15 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
     if(!document.getElementById('try')) return;
     var $=function(id){ return document.getElementById(id); };
     var q=$('try-q'), list=$('try-list'), chipsEl=$('try-chips'), qsEl=$('try-qs'), out=$('try-out'), clearBtn=$('try-clear'), wearSel=$('try-wearable'), goalSel=$('try-goal');
-    var DATA=null, byKey={}, current=null, answers={}, hi=-1;
+    var DATA=null, byKey={}, current=null, answers={}, hi=-1, lastPct=null, moreOpen=false;
     var DEVCOL={'Oura':'oura','WHOOP':'whoop','Apple Watch':'apple','Garmin':'garmin','Fitbit':'garmin'};
+    /* the plain-words headline for each tier */
+    var HEAD={'1':"We'd test this on you",'2':'No test needed','3':"A wearable can't measure this",'none':'Nothing to test here','P':'We leave this one alone'};
 
     function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9+ ]/g,' ').replace(/\s+/g,' ').trim(); }
     function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
     function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function cap(s){ s=String(s||''); return s.charAt(0).toUpperCase()+s.slice(1); }
     function fracWords(e){ if(e>=1.5) return 'one and a half times your normal night-to-night swing'; if(e>=1.2) return 'more than a full night-to-night swing'; if(e>=1) return 'about a full night-to-night swing'; var w=e>=0.9?'nine-tenths':e>=0.8?'four-fifths':e>=0.7?'two-thirds':e>=0.6?'three-fifths':e>=0.5?'half':e>=0.4?'two-fifths':e>=0.3?'a third':e>=0.2?'a fifth':'a tenth'; return 'about '+w+' of your normal night-to-night swing'; }
     function chance(e){ return e>=1.2?'good':e>=0.8?'fair':'low'; }
     function numberKey(name){ var n=norm(String(name||'').split(';')[0]); if(!n) return null; var keys=Object.keys(DATA.numbers); for(var i=0;i<keys.length;i++){ var k=norm(keys[i]); if(n===k||n.indexOf(k)===0||k.indexOf(n)===0) return keys[i]; } return null; }
@@ -913,25 +954,37 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
       return r;
     }
 
+    /* The engine above is untouched. Everything below only decides how a result is worded and laid out. */
     function render(){
       if(!current||!DATA) return;
       var wear=wearSel.value, r=route(current, answers, wear, goalSel.value), cost=current.cost||0, h='';
-      h+='<div class="top"><span class="label" style="color:var(--faint)">Day one · '+esc(wear)+'</span><svg class="glyph"><use href="#dropglyph"/></svg></div>';
-      h+='<span class="badge">'+esc(r.badge)+'</span>';
+      var gauge=r.figure&&r.figure.gauge!=null, e=gauge?r.figure.gauge:null;
+      var title=HEAD[r.kind]||HEAD['3'], reason=String(r.badge||'').split(' · ').slice(1).join(' · ');
+      if(r.kind==='3'&&gauge){ title='Too small to show up in two weeks'; reason='You can still run it if you like'; }
+      else if(r.kind==='3'&&reason==='keep'){ reason='The research is solid, so keep it'; }
+      else if(r.kind==='3'&&reason==='no test'){ reason=''; }
+      else if(r.kind==='1'&&/observed/.test(reason)){ reason='We watch the nights it happens. We never assign one.'; }
+      h+='<div class="top"><span class="label">What you\'d read on day one</span><span class="dev">'+esc(wear)+'</span></div>';
       h+='<h3>'+esc(current.n)+(r.sub?'<small>'+esc(r.sub)+'</small>':'')+'</h3>';
-      if(r.figure&&r.figure.gauge!=null){ var e=r.figure.gauge, pct=Math.min(100,e/1.5*100); h+='<div class="gauge" role="img" aria-label="Expected change about '+e+' times your normal swing; the gate is 0.8"><div class="track"><i class="fill" style="width:'+pct.toFixed(1)+'%"></i><i class="gate" style="left:53.3%"></i></div><div class="gl"><span><b>≈ '+e+' ×</b> your normal swing</span><span>gate 0.8 · chance of a clear answer: '+chance(e)+'</span></div></div>'; }
-      else if(r.figure){ var isMoney=/^\$/.test(r.figure.big); h+='<div class="big'+(isMoney?'':' txt')+'">'+esc(r.figure.big)+(r.figure.small?'<small>'+esc(r.figure.small)+'</small>':'')+'</div>'; }
+      h+='<div class="verdict v-'+r.kind+'"><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg><div><strong>'+esc(title)+'</strong>'+(reason?'<span>'+esc(cap(reason))+'</span>':'')+'</div></div>';
+      if(!gauge&&r.figure){ var isMoney=/^\$/.test(r.figure.big); if(isMoney) h+='<div class="figure">'+esc(r.figure.big)+(r.figure.small?'<small>'+esc(r.figure.small)+'</small>':'')+'</div>'; }
       h+='<p class="say">'+esc(r.text)+'</p>';
+      if(gauge){ var pct=Math.min(100,e/1.5*100);
+        h+='<div class="meter" role="img" aria-label="The likely change is '+esc(fracWords(e))+'. The line for a two-week test is four-fifths of a normal swing."><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" data-pct="'+pct.toFixed(1)+'" style="width:'+(lastPct==null?pct:lastPct).toFixed(1)+'%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">'+esc(cap(fracWords(e)))+'. Chance of a clear answer in two weeks: '+chance(e)+'.</p></div>';
+      }
       r.notes.forEach(function(n){ h+='<p class="note">'+esc(n)+'</p>'; });
-      var dl=[];
-      if(r.kind==='1'||(r.kind==='3'&&r.number)){ var numTxt=(r.number&&r.number!=='None')?r.number:'none a wearable can see'; dl.push(["Number we'd watch",numTxt]); var dn=deviceNote(r.number,wear); if(dn) dl.push(['On your device',dn]); if(r.kind==='1') dl.push(["How we'd test it",current.how||'3 days on, 3 days off, for 14 days']); if(current.hist&&!/^no\b/.test(current.hist)) dl.push(['From your history',you(current.hist)]); }
-      if(cost) dl.push(['Cost',money(cost)+' a month · '+money(cost*12)+' a year']);
-      if(current.grade&&r.kind!=='P') dl.push(['Evidence',current.grade+' · '+(DATA.grades[current.grade]||'')]);
-      if(dl.length){ h+='<dl>'; dl.forEach(function(p){ h+='<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>'; }); h+='</dl>'; }
-      if(current.found&&r.kind!=='P') h+='<p class="found"><b>What the studies found.</b> '+esc(current.found)+'</p>';
       r.safety.forEach(function(s){ h+='<p class="safety">'+esc(s)+'</p>'; });
-      h+='<div class="word t-'+r.kind+'">'+esc(r.word)+'</div>';
-      out.innerHTML=h; out.classList.remove('flash'); void out.offsetWidth; out.classList.add('flash');
+      var dl=[];
+      if(r.kind==='1'||(r.kind==='3'&&r.number)){ var numTxt=(r.number&&r.number!=='None')?r.number:'nothing a wearable can see'; dl.push(["What we'd watch",numTxt]); var dn=deviceNote(r.number,wear); if(dn) dl.push(['On your device',dn]); if(r.kind==='1') dl.push(["How we'd test it",current.how||'3 days on, 3 days off, for 14 days']); if(current.hist&&!/^no\b/.test(current.hist)) dl.push(['From your history',you(current.hist)]); }
+      if(cost) dl.push(['What it costs',money(cost)+' a month · '+money(cost*12)+' a year']);
+      if(current.grade&&r.kind!=='P') dl.push(['The research','Grade '+current.grade+': '+(DATA.grades[current.grade]||'')]);
+      var found=(current.found&&r.kind!=='P')?'<p class="found"><b>What the studies found.</b> '+esc(current.found)+'</p>':'';
+      if(dl.length||found){ h+='<details class="more"'+(moreOpen?' open':'')+'><summary>The details and the research</summary>'; if(dl.length){ h+='<dl>'; dl.forEach(function(p){ h+='<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>'; }); h+='</dl>'; } h+=found+'</details>'; }
+      out.innerHTML=h;
+      var more=out.querySelector('.more'); if(more) more.addEventListener('toggle',function(){ moreOpen=more.open; });
+      var fill=out.querySelector('.fill'); if(fill){ var to=fill.dataset.pct; lastPct=+to; requestAnimationFrame(function(){ fill.style.width=to+'%'; }); } else { lastPct=null; }
+      /* soften the swap: a brief blur that clears, so the change reads as one card updating */
+      if(!reduce){ out.classList.add('swap'); void out.offsetWidth; out.classList.remove('swap'); }
     }
 
     function renderQs(){
@@ -941,7 +994,7 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
         var lab=document.createElement('div'); lab.className='q'; lab.textContent=qd.q; wrap.appendChild(lab);
         if(qd.number){
           var row=document.createElement('div'); row.className='num';
-          var inp=document.createElement('input'); inp.type='number'; inp.min='0'; inp.step='any'; inp.value=answers[qd.id]; inp.id='try-'+current.k+'-'+qd.id; inp.setAttribute('aria-label',qd.q);
+          var inp=document.createElement('input'); inp.type='number'; inp.inputMode='decimal'; inp.min='0'; inp.step='any'; inp.value=answers[qd.id]; inp.id='try-'+current.k+'-'+qd.id; inp.setAttribute('aria-label',qd.q);
           inp.addEventListener('input',function(){ answers[qd.id]=inp.value; render(); });
           var u=document.createElement('span'); u.textContent=qd.unit; row.appendChild(inp); row.appendChild(u); wrap.appendChild(row);
         } else {
@@ -966,14 +1019,14 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
     }
     function showList(items, term){
       list.innerHTML=''; hi=-1;
-      if(!items.length){ var li=document.createElement('li'); li.className='none'; li.textContent=term.length<2?'Keep typing…':'We haven\'t routed "'+term+'" yet. Try one of the examples below, or ask for it in the free audit.'; list.appendChild(li); }
+      if(!items.length){ var li=document.createElement('li'); li.className='none'; li.textContent=term.length<2?'Keep typing…':'We haven\'t worked through "'+term+'" yet. Try one of the examples below, or ask for it in the free audit.'; list.appendChild(li); }
       items.forEach(function(it){ var li=document.createElement('li'); li.setAttribute('role','option'); li.dataset.k=it.k; li.innerHTML='<span>'+esc(it.n)+'</span><small>'+esc(it.cat)+(it.cost?' · '+money(it.cost)+'/mo':'')+'</small>'; li.addEventListener('mousedown',function(ev){ ev.preventDefault(); select(it.k); }); list.appendChild(li); });
       list.hidden=false; q.setAttribute('aria-expanded','true');
     }
     function hideList(){ list.hidden=true; q.setAttribute('aria-expanded','false'); hi=-1; }
 
     q.addEventListener('input',function(){ if(!DATA) return; var term=q.value.trim(); clearBtn.hidden=!term; if(!term){ hideList(); return; } showList(search(term), term); });
-    q.addEventListener('focus',function(){ var term=q.value.trim(); if(DATA&&term&&(!current||term!==current.n)) showList(search(term), term); });
+    q.addEventListener('focus',function(){ var term=q.value.trim(); if(DATA&&term&&(!current||term!==current.n)) showList(search(term), term); else q.select(); });
     q.addEventListener('blur',function(){ setTimeout(hideList,150); });
     q.addEventListener('keydown',function(ev){
       var opts=list.querySelectorAll('li[data-k]');
@@ -982,22 +1035,24 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
       else if(ev.key==='Escape'){ hideList(); }
     });
     clearBtn.addEventListener('click',function(){ q.value=''; clearBtn.hidden=true; hideList(); q.focus(); });
-    wearSel.addEventListener('change',render); goalSel.addEventListener('change',render);
+    goalSel.addEventListener('change',render);
+    /* remember the wearable so the sign-up form doesn't ask twice */
+    wearSel.addEventListener('change',function(){ render(); document.querySelectorAll('.audit-form select').forEach(function(s){ if(!s.value) s.value=wearSel.value; }); });
 
     function renderChips(){ chipsEl.innerHTML=''; DATA.chips.forEach(function(k){ var it=byKey[k]; if(!it) return; var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.k=k; b.textContent=it.n.replace(/\s*\(.*\)$/,''); b.setAttribute('aria-pressed','false'); b.addEventListener('click',function(){ select(k); }); chipsEl.appendChild(b); }); }
 
     fetch('routing.json').then(function(res){ if(!res.ok) throw new Error(String(res.status)); return res.json(); }).then(function(d){
       DATA=d; d.items.forEach(function(i){ byKey[i.k]=i; });
       d.goals.forEach(function(g){ var o=document.createElement('option'); o.value=g.goal; o.textContent=g.goal; goalSel.appendChild(o); });
-      renderChips(); select('magnesium-any-form');
-    }).catch(function(){ q.placeholder='The routing table could not load. Refresh to try again.'; });
+      renderChips(); select(byKey['coffee-after-2pm']?'coffee-after-2pm':d.chips[0]);
+    }).catch(function(){ q.placeholder='The list could not load. Refresh to try again.'; });
   })();
 
   /* popup form: every call to action opens it */
   var dlg=document.getElementById('audit');
   document.querySelectorAll('[data-open]').forEach(function(b){
     b.addEventListener('click', function(){
-      if(dlg && typeof dlg.showModal==='function'){ dlg.showModal(); var f=dlg.querySelector('input'); if(f) f.focus(); }
+      if(dlg && typeof dlg.showModal==='function'){ dlg.showModal(); var f=dlg.querySelector('input[type=email]'); if(f) f.focus(); }
       else { location.hash='#start'; }
     });
   });
@@ -1015,7 +1070,7 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
       var em=form.querySelector('input[type=email]'), sel=form.querySelector('select'), hp=form.querySelector('input[name=website]');
       var email=em.value.trim().toLowerCase();
       err.hidden=true;
-      if(!EMAIL_RE.test(email)){ em.focus(); showErr('Enter a valid email address.'); return; }
+      if(!EMAIL_RE.test(email)){ em.focus(); showErr('That email doesn\'t look right. Check it and try again.'); return; }
       if(hp && hp.value){ form.classList.add('done'); return; }
       if(!cfg.supabaseUrl || !cfg.supabaseKey){ showErr('Signup is not connected yet. Try again later.'); return; }
       var label=btn.textContent; btn.disabled=true; btn.textContent='One moment';
@@ -1029,9 +1084,9 @@ footer{padding-block:40px 60px;border-top:1px solid var(--rule);display:grid;gap
         if(r.ok){ form.classList.add('done'); return; }
         return r.json().catch(function(){ return {}; }).then(function(data){
           if(r.status===409 || (data && data.code==='23505')){ form.classList.add('done'); return; }
-          showErr(r.status<500 ? 'Could not save that email. Check it and try again.' : 'Something went wrong. Try again in a moment.');
+          showErr(r.status<500 ? 'We couldn\'t save that email. Check it and try again.' : 'Something went wrong on our side. Try again in a moment.');
         });
-      }).catch(function(){ showErr('Could not reach the server. Try again in a moment.'); })
+      }).catch(function(){ showErr('We couldn\'t reach the server. Check your connection and try again.'); })
       .then(function(){ btn.disabled=false; btn.textContent=label; });
     });
   });
