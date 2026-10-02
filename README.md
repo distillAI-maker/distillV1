@@ -65,9 +65,9 @@ The engine lives in the `route()` function and decides the tier. The `render()` 
 
 ## Editing the page
 
-Everything is in `public/index.html`. This is version 3 of the page (October 2026). The research it was built from, and a table of what changed and why, is in `docs/Design-Research.md`. Part 5 of that file lists every animated or decorative element on the page, what it is for, and where to find it if it needs turning off. The earlier copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design options in `docs/design-directions.html`, and the previous page is kept at `docs/archive/landing-v2-drop-hero.html`.
+Everything is in `public/index.html`. This is version 3 of the page (October 2026). The research it was built from, and a table of what changed and why, is in `docs/Design-Research.md`. Part 5 of that file lists every animated or decorative element on the page, what it is for, and where to find it if it needs turning off. The current copy, with every headline, sub-headline, value prop and button variation that was written, is in `docs/Distill-LP-Copy-v3.md`. The earlier copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design options in `docs/design-directions.html`, and the previous page is kept at `docs/archive/landing-v2-drop-hero.html`.
 
-The page order is: hero, the try-it widget, the problem, how it works (with the three verdict cards), what you end up with, the four promises, the offer, questions, and the sign-up panel. The hero headline is short and the founder's original sentence sits directly under it; to swap them, exchange the `<h1>` and the `.lede` paragraph in the hero.
+The page order is: hero, the try-it widget (with a stack you can build), the pain letter, eight value props, how it works (with the verdict explorer), the scoreboard, the four promises, the offer, questions, and the sign-up panel. The hero headline is the founder's sentence with a timeframe and a proof element added; the nine alternatives are in the v3 copy document.
 
 The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current), `wm-w1` (Cormorant caps) or `wm-w8` (Tenor Sans).
 

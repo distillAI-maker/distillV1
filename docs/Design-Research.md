@@ -164,3 +164,21 @@ The rule for this pass: every element has to explain something or give feedback.
 | Small touches | Teal text selection and caret, a soft wash behind the hero object, faint ripple rings behind the final form. | `::selection`, `.hero` background, `.final::before`. |
 
 To remove any one of them, delete its styles and the matching few lines of script; none of them depends on another. Everything respects the "reduce motion" setting, and the page still reads correctly with JavaScript off.
+
+## Part 6. Change of direction on copy, and the hands-on elements
+
+**Copy.** The short six-word headline from v3 was replaced. The page now follows the founder's direct-response framework: a long, benefit-led hero headline with a timeframe and a proof element, a pain-first sub-headline, the full problem, agitate, solve letter, and eight value-prop headlines. All of it, with the alternatives that were not used, is in `Distill-LP-Copy-v3.md`. The big-company finding in Part 2 (short headlines) is still what those companies do; it was a deliberate choice not to follow it here, because a new product with no brand recognition has to say what it does and why to believe it.
+
+**What was borrowed from Databricks' homepage.** Looked at on screen, not copied: a headline with one phrase in the accent colour, a dark panel with pill tabs that swap a product view, tabs that advance on their own with a progress line and a pause button, and a product mock in the hero rather than a picture.
+
+**Hands-on elements added**
+
+| Element | What the visitor does | Where it lives |
+|---|---|---|
+| Verdict explorer | Picks Kept, Dropped or Inconclusive on a dark panel and sees the 14 nights behind it as dots, with the two averages as lines. Hovering or tapping a night shows that night. It turns on its own on a laptop until someone picks a tab; there is a pause button and it never auto-turns on a phone. Example data. | `#vx`, the `V` array in the script holds the three examples. |
+| Build your stack | "Add to my stack" on any answer in the widget. A panel then shows everything picked, sorted the way day one would sort it, with a bar, a monthly and yearly total at typical prices, and what could come back on day one. Uses the real routing table. | `#mystack`, `renderStack()`. |
+| One tap a day, literally | The "Did it" and "Didn't" buttons in step 2 work. Each tap moves the fortnight on a day; "Didn't" says the day is recorded as unknown, never as a failure. After day 14 it points to the verdict. Until someone taps, the calendar still plays on scroll. | `.today .taps`. |
+| Day 1 and after | A two-way switch on the scoreboard shows the example stack before and after four tests. | `#seg`. |
+| Light under the pointer | Glass panels and the dark panel pick up a soft highlight where the pointer is. Laptop only. | `--mx`, `--my` on `.glass` and `.vx`. |
+
+The three static verdict cards were replaced by the explorer, so the same content is no longer shown twice.

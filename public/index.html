@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Distill: know what works, drop what doesn't</title>
+<title>Distill: know what works and what's a waste, with proof from your own body</title>
 <script>
 /* Signup storage. Paste the two values from Supabase > Settings > API Keys:
    the Project URL and the Publishable key (starts with sb_publishable_).
@@ -15,7 +15,7 @@ document.documentElement.className = 'js';
 </script>
 <meta name="description" content="Know which of your supplements and routines actually work. Distill runs one-habit on/off experiments on your own wearable data and gives you a real verdict in 14 days. Pay nothing unless something moves.">
 <meta name="theme-color" content="#FAFAF7">
-<meta property="og:title" content="Distill: know what works, drop what doesn't">
+<meta property="og:title" content="Distill: know what works and what's a waste, with proof from your own body">
 <meta property="og:description" content="Know which of your supplements and routines actually work. One-habit on/off experiments on your own wearable data. Pay nothing unless something moves.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M12 1.5C14.5 9 22 14.5 22 21.5a10 10 0 0 1-20 0C2 14.5 9.5 9 12 1.5z' fill='%230F5C57'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,8 +37,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font
 h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
 ul,ol{padding:0;list-style:none}
 h1,h2,h3{font-weight:300;letter-spacing:-.025em;text-wrap:balance}
-h1{font-size:clamp(36px,4.3vw,62px);line-height:1.04;letter-spacing:-.035em}
-h1 span{display:block}
+h1{font-size:clamp(28px,2.9vw,40px);line-height:1.15;letter-spacing:-.022em}
+h1 em{font-style:normal;color:var(--teal)}
+h1 .proof{display:block;margin-top:12px;font-size:.52em;line-height:1.3;letter-spacing:0;font-weight:400;color:var(--teal)}
 h2{font-size:clamp(30px,3.7vw,50px);line-height:1.06}
 h3{font-size:clamp(20px,1.9vw,24px);line-height:1.25;letter-spacing:-.015em;font-weight:400}
 p{text-wrap:pretty}
@@ -85,7 +86,7 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 .btn:focus-visible{border-radius:999px}
 
 /* glass: the one surface treatment, used for product objects only */
-.glass{position:relative;border-radius:var(--r-card);background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(238,243,242,.6));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -8px -12px 28px rgba(15,92,87,.05),0 30px 48px -34px rgba(15,92,87,.42)}
+.glass{position:relative;border-radius:var(--r-card);background:radial-gradient(280px circle at var(--mx,-600px) var(--my,-600px),rgba(255,255,255,.9),rgba(255,255,255,0) 70%),linear-gradient(135deg,rgba(255,255,255,.86),rgba(238,243,242,.6));border:1px solid rgba(255,255,255,.95);box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -8px -12px 28px rgba(15,92,87,.05),0 30px 48px -34px rgba(15,92,87,.42)}
 .glass::before{content:"";position:absolute;left:10%;top:0;width:40%;height:1px;background:linear-gradient(90deg,transparent,#fff,transparent);pointer-events:none}
 
 /* nav */
@@ -107,13 +108,11 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
   .hero .copy > *{animation:rise .7s var(--ease-out) both}
   .hero .copy > :nth-child(2){animation-delay:.07s}
   .hero .copy > :nth-child(3){animation-delay:.14s}
-  .hero .copy > :nth-child(4){animation-delay:.21s}
   .hero .distiller{animation:rise .8s var(--ease-out) .2s both}
 }
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);align-items:center}
 .hero .copy{display:grid;gap:24px;justify-items:start}
-.hero .lede{font-size:clamp(18px,1.55vw,21px);line-height:1.45;max-width:36ch;color:var(--ink)}
-.hero .sub{color:var(--muted);max-width:46ch;margin-top:-8px}
+.hero .sub{color:var(--muted);max-width:54ch;font-size:clamp(16.5px,1.3vw,18.5px)}
 .hero .ctas{display:grid;gap:14px;margin-top:8px}
 .hero .ctas .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 
@@ -227,6 +226,30 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 .meter .mc{font-size:14px;color:var(--muted)}
 .result .note{font-size:14.5px;color:var(--muted)}
 .result .safety{font-size:14.5px;padding:12px 14px;background:var(--surface);border-radius:12px}
+.result .act{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap}
+.mystack{margin-top:24px;padding:clamp(20px,2.6vw,32px);display:grid;gap:18px}
+.mystack[hidden]{display:none}
+.ms-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
+.ms-head h3{font-size:clamp(20px,1.9vw,24px);font-weight:300;letter-spacing:-.02em}
+.ms-head .tot{font-size:15px;color:var(--muted)}
+.ms-head .tot b{color:var(--ink)}
+.ms-bar{display:flex;gap:3px;height:12px}
+.ms-bar i{flex:var(--n) 1 0;min-width:10px;border-radius:999px}
+.ms-bar .k1,.ms-key .k1{background:var(--teal)}
+.ms-bar .k2,.ms-key .k2{background:var(--ink)}
+.ms-bar .k3,.ms-key .k3{background:#9DBAB5}
+.ms-bar .k0,.ms-key .k0{background:var(--faint)}
+.ms-key{display:flex;gap:6px 20px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
+.ms-key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
+.ms-list li{display:grid;grid-template-columns:20px minmax(0,1fr) auto 76px 36px;gap:12px;align-items:center;padding-block:8px;border-top:1px solid var(--rule);font-size:15px}
+.ms-list .nm{min-height:36px;text-align:left;background:none;border:0;padding:0;cursor:pointer;font:400 15px var(--sans);color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:4px}
+.ms-tag{font-size:12.5px;padding:5px 10px;border-radius:999px;background:var(--surface);white-space:nowrap}
+.ms-tag.k1{background:var(--teal);color:#fff}
+.ms-tag.k2{background:var(--ink);color:#fff}
+.ms-list .mono{font-size:13px;color:var(--muted);text-align:right}
+.ms-x{width:36px;height:36px;border:0;background:transparent;border-radius:50%;font:300 22px/1 var(--sans);color:var(--muted);cursor:pointer}
+.ms-foot{font-size:14.5px;color:var(--muted);max-width:70ch}
+.ms-foot b{color:var(--ink)}
 .more{border-block:1px solid var(--rule)}
 .more summary{padding-block:14px;font-size:15px}
 .more dl{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:10px 18px;font-size:14.5px;padding-bottom:16px}
@@ -237,20 +260,30 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 /* the problem */
 .pain .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
 .pain h2{max-width:17ch}
+.pain .side{position:sticky;top:calc(var(--nav-h) + 32px)}
+.pas{display:grid;gap:14px;max-width:47ch;font-size:clamp(17px,1.35vw,18.5px);line-height:1.5}
+.pas .dear{font-style:italic;color:var(--muted)}
+.pas b{font-weight:500;letter-spacing:.02em}
+.pas .lead{margin-top:10px;font-weight:400}
+.pas .good{margin-top:16px;font-size:clamp(22px,2vw,27px);font-weight:300;letter-spacing:-.02em;line-height:1.2}
+.pas .checks{margin-block:6px}
+.pas .cta-row{margin-top:20px}
 .tally{margin-top:clamp(32px,4vw,48px);padding-top:24px;border-top:1px solid var(--ink);font-size:clamp(22px,2.2vw,28px);line-height:1.3;letter-spacing:-.02em;font-weight:300;color:var(--muted)}
 .tally em{font-style:normal;color:var(--ink);font-weight:400}
 .tally-cap{margin-top:10px;font-size:13.5px;color:var(--muted)}
-.pain .body{display:grid;gap:20px;font-size:clamp(17px,1.4vw,19px);max-width:48ch}
-.pain .body p{color:var(--muted)}
 .checks{display:grid;gap:14px}
 .checks li{padding-left:30px;position:relative}
 .checks li::before{content:"";position:absolute;left:2px;top:.55em;width:14px;height:8px;border-left:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);transform:rotate(-45deg);transform-origin:left bottom;translate:0 -2px}
-.pivot{margin-top:clamp(56px,7vw,96px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(24px,5vw,80px);align-items:end}
+.pivot{max-width:900px}
 .pivot .big{font-size:clamp(28px,3.4vw,46px);line-height:1.1;font-weight:300;letter-spacing:-.025em;text-wrap:balance}
 .pivot .big em{font-style:normal;color:var(--teal)}
 .pivot .big.live .w{opacity:.2;transition:opacity .4s ease}
 .pivot .big.live .w.lit{opacity:1}
-.pivot p{color:var(--muted);max-width:40ch}
+.why{padding-bottom:0}
+.vps{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px);margin-top:clamp(40px,5vw,64px)}
+.vps li{display:grid;grid-template-columns:22px 1fr;gap:6px 16px;align-content:start;padding-block:24px;border-top:1px solid var(--rule-2)}
+.vps .ic{width:22px;height:22px;grid-row:1/3;margin-top:1px}
+.vps h3{font-size:clamp(18px,1.55vw,21px);font-weight:400;line-height:1.32;letter-spacing:-.01em;max-width:34ch}
 
 /* how it works */
 .steps{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px) clamp(28px,5vw,72px)}
@@ -289,9 +322,65 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 .today .line{font-size:19px;font-weight:400;letter-spacing:-.01em}
 .today .sub{font-size:13.5px;color:var(--muted)}
 .today .taps{display:flex;gap:8px}
-.today .taps span{font-size:14px;font-weight:400;padding:10px 16px;border-radius:999px;border:1px solid var(--rule-2)}
-.today .taps span:first-child{background:var(--ink);color:#fff;border-color:var(--ink)}
+.today .taps button{min-height:44px;font:400 14.5px var(--sans);padding:0 18px;border-radius:999px;border:1px solid var(--rule-2);background:transparent;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease}
+.today .taps button:active{transform:scale(.97)}
+.today .taps button:first-child,.today .taps button[data-tap="again"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.today .tap-hint{font-size:13px;color:var(--muted)}
 
+.step.wide h3{max-width:26ch}
+.vx{--mint:#9FD0C9;--pale:#F3F6F5;margin-top:18px;border-radius:28px;color:var(--pale);padding:clamp(18px,3vw,36px);display:grid;gap:clamp(20px,3vw,32px);background:radial-gradient(420px circle at var(--mx,-600px) var(--my,-600px),rgba(159,208,201,.13),rgba(159,208,201,0) 70%),var(--ink)}
+.vx-tabs{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.vx-tab{position:relative;overflow:hidden;display:grid;gap:1px;text-align:left;min-height:58px;padding:9px 18px 11px;border-radius:16px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(243,246,245,.74);cursor:pointer;font-family:var(--sans);touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .16s var(--ease-out)}
+.vx-tab:active{transform:scale(.97)}
+.vx-tab b{font-weight:500;font-size:15.5px}
+.vx-tab span{font-size:13px}
+.vx-tab[aria-selected="true"]{background:var(--pale);color:var(--ink);border-color:var(--pale)}
+.vx-tab i{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--teal);transform:scaleX(0);transform-origin:left center}
+.vx.auto .vx-tab[aria-selected="true"] i{animation:vxp 7s linear forwards}
+.vx.auto.held .vx-tab i{animation-play-state:paused}
+@keyframes vxp{to{transform:scaleX(1)}}
+.vx-tab:focus-visible,.vx-pause:focus-visible{outline-color:var(--mint)}
+.vx-pause{margin-left:auto;align-self:center;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--pale);cursor:pointer;display:grid;place-items:center}
+.vx-pause[hidden]{display:none}
+.vx-pause svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vx-pause .pl{display:none;fill:currentColor;stroke:none}
+.vx-pause[aria-pressed="true"] .pa{display:none}
+.vx-pause[aria-pressed="true"] .pl{display:block}
+.vx-panel{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(24px,4vw,64px);align-items:start}
+.vx-read{display:grid;gap:14px;align-content:start}
+.vx .label{color:var(--mint)}
+.vx h4{font-size:20px;font-weight:400;letter-spacing:-.01em}
+.vx .big{font-weight:300;font-size:clamp(48px,5.2vw,72px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.vx .big small{font-size:16px;letter-spacing:0;color:rgba(243,246,245,.72);margin-left:8px}
+.vx dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
+.vx dt{color:rgba(243,246,245,.64)}
+.vx .note{color:rgba(243,246,245,.8);font-size:15px}
+.vx .word{font-size:22px;font-weight:400;letter-spacing:-.01em;color:var(--mint);padding-top:14px;border-top:1px solid rgba(255,255,255,.16)}
+.vx .swing::before{background:rgba(255,255,255,.22)}
+.vx .swing .band{background:rgba(159,208,201,.24);transition:left .5s var(--ease-out),width .5s var(--ease-out)}
+.vx .swing .zero{background:var(--pale)}
+.vx .swing .dot{background:var(--mint);box-shadow:0 0 0 3px var(--ink);transition:transform .7s var(--ease-out)}
+.vx .swing.inside .dot{background:var(--ink);box-shadow:inset 0 0 0 2px var(--mint)}
+.vx-chart{display:grid;gap:12px}
+.vx-chart-head{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;font-size:14.5px}
+.vx-key{display:flex;gap:4px 18px;flex-wrap:wrap;font-size:13px;color:rgba(243,246,245,.78)}
+.vx-key span{display:inline-flex;align-items:center;gap:7px}
+.vx-key i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--mint)}
+.vx-key i.off{background:transparent;box-shadow:inset 0 0 0 1.5px rgba(243,246,245,.7)}
+.vx-lines{font-size:12.5px;color:rgba(243,246,245,.6)}
+.nights{--h:190px;position:relative;display:grid;grid-template-columns:repeat(14,1fr);height:calc(var(--h) + 44px);padding-top:14px;border-bottom:1px solid rgba(255,255,255,.16)}
+.night{position:relative;cursor:default}
+.night::before{content:"";position:absolute;left:50%;top:0;bottom:22px;width:1px;background:rgba(255,255,255,.06)}
+.night b{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:400;color:rgba(243,246,245,.6)}
+.night i{position:absolute;left:50%;bottom:30px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--mint);transform:translateY(calc(var(--v) * var(--h) * -1));transition:transform .7s var(--ease-out),opacity .2s ease;transition-delay:calc(var(--n) * 22ms),0s}
+.night.off i{background:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(243,246,245,.8)}
+.nights.hov .night:not(.hot) i{opacity:.4}
+.night.hot i{box-shadow:0 0 0 5px rgba(159,208,201,.25)}
+.night.off.hot i{box-shadow:inset 0 0 0 1.5px var(--pale),0 0 0 5px rgba(243,246,245,.16)}
+.mean{position:absolute;left:0;right:0;bottom:37px;height:0;border-top:1px solid var(--mint);transform:translateY(calc(var(--m) * var(--h) * -1));transition:transform .7s var(--ease-out);pointer-events:none}
+.mean.off{border-top:1px dashed rgba(243,246,245,.7)}
+.vx-tip{font-size:14.5px;min-height:1.6em}
+.vx-fine{font-size:12.5px;color:rgba(243,246,245,.6)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:14px}
 .card{padding:26px 26px 24px;display:grid;gap:16px;align-content:start}
 .card .top{display:flex;justify-content:space-between;align-items:center}
@@ -315,7 +404,15 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 
 /* what you end up with */
 .value .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,6vw,96px);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
-.value h2{max-width:16ch}
+.value h2{max-width:20ch;font-size:clamp(28px,3.2vw,44px)}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:rgba(21,33,31,.07);justify-self:start;margin-top:6px}
+.seg button{min-height:40px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:400 14.5px var(--sans);cursor:pointer;touch-action:manipulation;transition:background-color .2s ease,color .2s ease,transform .16s var(--ease-out)}
+.seg button:active{transform:scale(.97)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 6px 14px -10px rgba(15,92,87,.6)}
+.file .score small{font-size:inherit}
+.file.before .score small{visibility:hidden}
+.file.before .cut li span:first-child{text-decoration:none;color:var(--ink)}
+.file.before .yours li .mono{color:var(--muted);font-weight:400}
 .value .text{display:grid;gap:18px}
 .value .text p{color:var(--muted);max-width:46ch;font-size:clamp(17px,1.4vw,19px)}
 .file{display:grid;grid-template-columns:1fr 1fr;gap:28px clamp(28px,5vw,72px);padding:clamp(22px,3vw,40px)}
@@ -339,6 +436,7 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 .cred{margin-top:8px;padding-top:24px;border-top:1px solid var(--rule-2);display:flex;gap:10px 36px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
 
 /* offer */
+.offer h2{font-size:clamp(26px,3vw,40px);line-height:1.12}
 .tl{margin-bottom:clamp(28px,4vw,48px)}
 .tl ol{display:grid;grid-template-columns:14fr 14fr 14fr 18fr;gap:0 6px}
 .tl li{display:grid;gap:2px;align-content:start;font-size:13.5px;color:var(--muted);min-width:0}
@@ -444,19 +542,31 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
 @media (max-width:960px){
   .try .grid{grid-template-areas:"pick" "out" "tune" "fine";grid-template-rows:auto}
   .hero .wrap,.try .grid,.pain .cols,.pivot,.value .cols,.offer .box,.faq .cols,.final .cols{grid-template-columns:1fr}
-  .hero .lede{max-width:40ch}
-  h1{font-size:clamp(36px,8vw,60px)}
+  h1{font-size:clamp(27px,6vw,40px)}
   .nav ul{display:none}
   .result,.faq h2{position:static}
   .cards{grid-template-columns:1fr}
   .trust ul{grid-template-columns:1fr}
-  .pivot{align-items:start}
+  .pain .side{position:static}
 }
 @media (max-width:720px){
-  .steps,.promises{grid-template-columns:1fr}
+  .steps,.promises,.vps{grid-template-columns:1fr}
   .file{grid-template-columns:1fr}
   .try .ctx{grid-template-columns:1fr}
   .audit .total{display:grid;gap:2px}
+  .vx-panel{grid-template-columns:1fr}
+  .vx-tabs{gap:6px}
+  .vx-tab{flex:1 1 0;min-width:0;min-height:48px;padding:8px 6px;justify-items:center;text-align:center}
+  .vx-tab b{font-size:13.5px}
+  .vx-tab span{display:none}
+  .nights{--h:150px}
+  .night i{width:12px;height:12px;margin-left:-6px}
+  .ms-list li{grid-template-columns:20px minmax(0,1fr) 36px;grid-template-areas:"ic nm x" ". tag cost";gap:2px 12px}
+  .ms-list li .ic{grid-area:ic}
+  .ms-list li .nm{grid-area:nm}
+  .ms-list li .ms-x{grid-area:x}
+  .ms-list li .ms-tag{grid-area:tag;justify-self:start}
+  .ms-list li .mono{grid-area:cost;grid-column:3;white-space:nowrap}
   .tl li span{display:none}
   .tl li b{font-size:13.5px}
   .final::before{background:repeating-radial-gradient(circle at 50% 72%,rgba(159,208,201,0) 0 71px,rgba(159,208,201,.14) 71px 72px);-webkit-mask-image:radial-gradient(circle at 50% 72%,#000 8%,transparent 70%);mask-image:radial-gradient(circle at 50% 72%,#000 8%,transparent 70%)}
@@ -478,7 +588,8 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   .result.swap{filter:none}
   .sk::after,.btn.busy::before{animation:none}
   .tick circle,.tick path{animation:none;stroke-dashoffset:0}
-  .swing .dot,.tl .bar::before,.tl .bar::after{transition:none!important}
+  .swing .dot,.tl .bar::before,.tl .bar::after,.night i,.mean{transition:none!important}
+  .vx.auto .vx-tab[aria-selected="true"] i{animation:none}
   details::details-content{transition:none}
 }
 </style>
@@ -518,7 +629,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       <li><a href="#offer">Price</a></li>
       <li><a href="#faq">Questions</a></li>
     </ul>
-    <button class="btn btn-primary btn-sm" type="button" data-open>Get my free stack audit</button>
+    <button class="btn btn-primary btn-sm" type="button" data-open>Get My Free Stack Audit</button>
   </div>
   <i class="prog" id="prog" aria-hidden="true"></i>
 </header>
@@ -528,12 +639,11 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
 <section class="hero" id="hero">
   <div class="wrap">
     <div class="copy">
-      <h1><span>Know what works.</span> <span>Drop what doesn't.</span></h1>
-      <p class="lede">Get the peace of mind of knowing what works and what's a waste, backed by real proof from your own body.</p>
-      <p class="sub">Distill tests your supplements and routines one at a time, using the sleep and recovery data your ring or watch already collects. Your first verdict lands in 14 days.</p>
+      <h1>Get The Peace Of Mind Of Knowing <em>What Works And What's A Waste</em> In 60 Days, Backed By Real Proof From Your Own Body <span class="proof">(Pay Nothing If Nothing Moves)</span></h1>
+      <p class="sub">Tired of guessing which supplements and routines do anything? Distill is the only app that runs one-habit, on/off experiments on your own wearable data, so you get real verdicts, a shorter stack and a lower monthly bill within 60 days.</p>
       <div class="ctas">
         <div class="row">
-          <button class="btn btn-primary" type="button" data-open>Get my free stack audit</button>
+          <button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button>
           <a class="btn btn-ghost" href="#try">Try it on one thing <svg class="arr" aria-hidden="true"><use href="#i-down"/></svg></a>
         </div>
         <span class="fud">Nothing to buy today. No card. Under 4 minutes.</span>
@@ -602,32 +712,77 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
         <div class="meter"><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" style="width:66.7%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">About a full night-to-night swing. Chance of a clear answer in two weeks: fair.</p></div>
       </article>
     </div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get my free stack audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
+    <div class="glass mystack" id="mystack" aria-live="polite" hidden></div>
+    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
   </div>
 </section>
 
 <section class="pain band" id="pain">
   <div class="wrap">
     <div class="cols">
-      <div>
+      <div class="side">
         <h2>Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</h2>
         <p class="tally">23 things. $341 a month. <em>0 answers.</em></p>
         <p class="tally-cap">One example stack. Yours will have its own numbers.</p>
       </div>
-      <div class="body">
+      <div class="pas">
+        <p class="dear">Dear wearable owner who's tired of guessing,</p>
         <ul class="checks">
           <li>Do you take five different things for sleep and still can't say which one works?</li>
           <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
           <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
         </ul>
-        <p>You're not lazy and you're not uninformed. You've done more than almost anyone. Every app, influencer and ad sells you one more thing to take, try or track, and nobody's job is to tell you what to drop.</p>
-        <p>So the list grows, the bill grows, and the certainty never comes.</p>
+        <p>If so, you're not alone. And you're not the problem.</p>
+        <p>You're not lazy. You're not uninformed.</p>
+        <p>You've done <b>MORE</b> than almost anyone. That's the problem.</p>
+        <p>Every app, every influencer and every ad sells you addition.</p>
+        <p>Take this. Try this. Track this.</p>
+        <p><b>NOBODY'S</b> job is to tell you what to drop.</p>
+        <p>So the stack grows. Twenty things. Twenty-three. Thirty.</p>
+        <p>And the certainty never comes.</p>
+        <p class="lead">Here's what that actually costs you:</p>
+        <ul class="checks">
+          <li>Hundreds of dollars a month on habits with <b>ZERO</b> proof they work on your body</li>
+          <li>A ring or watch that adds daily worry & never adds a single decision</li>
+          <li>Advice from influencers built on <b>THEIR</b> body, not yours</li>
+          <li>A quiet suspicion that you're behind, and it's getting louder every year</li>
+        </ul>
+        <p>About 6 in 10 American adults take a supplement. The typical user spends around $50 a month.</p>
+        <p>That's $600 a year, and nobody hands you proof it works on <b>YOUR</b> body.</p>
+        <p>You have months of sleep and recovery history sitting on your phone right now.</p>
+        <p>It has <b>NEVER</b> once told you what to do.</p>
+        <p class="good">Here's the good news.</p>
+        <p>You <b>DON'T</b> need another supplement.</p>
+        <p>You <b>DON'T</b> need a dashboard, a coach or a chatbot.</p>
+        <p>You <b>DON'T</b> need to log a single meal or mood.</p>
+        <p class="lead">You need a controlled experiment, run on <b>YOUR</b> data.</p>
+        <p>Distill reads your stack against your own tracker history. It picks the one habit your data can test most clearly.</p>
+        <p>Then it tests it. Three days on, three days off, for 14 days.</p>
+        <p>One variable. One tap a day.</p>
+        <p>On day 14 you get one card. The habit, the real number and one word: Kept, Dropped or Inconclusive.</p>
+        <p class="lead">Your stack goes down. Your bill goes down. Your certainty goes up.</p>
+        <p>Three experiments in 60 days. If none of them moves your numbers, you pay <b>NOTHING</b>.</p>
+        <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card. Under 4 minutes.</span></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="wrap">
     <div class="pivot">
-      <p class="big">Everyone else in wellness sells you more. Distill is built to <em>sell you less.</em></p>
-      <p>You don't need another supplement, a dashboard or a coach. You need a fair test, run on your own data, one habit at a time.</p>
+      <p class="big">Everyone else in wellness sells you more. Distill is the only one built to <em>sell you less.</em></p>
     </div>
+    <ul class="vps">
+      <li><svg class="ic" aria-hidden="true"><use href="#i-minusc"/></svg><span class="label">Subtraction first</span><h3>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><span class="label">Tested on your body</span><h3>Test one habit at a time on your own body and know the answer is truly yours</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg><span class="label">Pass line locked first</span><h3>See the pass line written down before day one and trust every verdict without spin</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-eyeoff"/></svg><span class="label">Honest about limits</span><h3>Hear plainly what a ring or watch cannot measure and stop paying for false certainty</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="label">Pay-nothing guarantee</span><h3>Pay nothing for 60 days unless something measurably moves and start with zero risk</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span class="label">One tap a day</span><h3>Give it one tap a day with nothing to log and keep your mornings free</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg><span class="label">History already there</span><h3>Put the months of data your wearable already holds to work and get answers sooner</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span class="label">Never a score about you</span><h3>Get verdicts about the night and the habit, never about you, and feel calm opening the app</h3></li>
+    </ul>
   </div>
 </section>
 
@@ -665,64 +820,66 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
           <div class="glass today">
             <div class="line">Today: finish training before 7pm.</div>
             <div class="sub">Day 5 of 14 · an off day</div>
-            <div class="taps"><span>Did it</span><span>Didn't</span></div>
+            <div class="taps"><button type="button" data-tap="1">Did it</button><button type="button" data-tap="0">Didn't</button><button type="button" data-tap="again" hidden>Start again</button></div>
+            <p class="tap-hint">Try it. Each tap is one day.</p>
           </div>
         </div>
       </div>
       <div class="step wide" id="verdicts">
         <div class="intro">
           <div class="n"><span><svg class="ic" aria-hidden="true"><use href="#i-checkc"/></svg>Step 3</span><span>Day 14</span></div>
-          <h3>Your verdict, in one plain word</h3>
-          <p>The habit, the real number and one word: Kept, Dropped or Inconclusive. The number we watch and the pass line are written down before day one, and they don't move. On each card, the shaded band is your normal night-to-night swing and the dot is the difference we measured.</p>
+          <h3>Get the real number and one plain word so you can trust every verdict without spin</h3>
+          <p>The number we watch and the pass line are written down before day one, and they don't move. On day 14 you see the difference, the size of your own normal swing, and one word: Kept, Dropped or Inconclusive. Pick one to see the nights behind it.</p>
         </div>
-        <div class="cards">
-          <article class="glass card rv">
-            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
-            <h4>Walk before 9am</h4>
-            <div class="big"><span class="vnum" data-sign="+" data-to="6">+6</span><small>ms HRV</small></div>
-            <div class="swing" style="--band:40;--at:80" role="img" aria-label="The difference, plus 6 milliseconds, sits well outside the normal swing of plus or minus 3"><i class="band"></i><i class="zero"></i><i class="dot"></i></div>
-            <dl><dt>Measured</dt><dd>Overnight HRV</dd><dt>Difference</dt><dd>+6 ms</dd><dt>Your normal swing</dt><dd>±3 ms</dd></dl>
-            <p>Twice your normal swing. This one is yours.</p>
-            <div class="word">Kept</div>
-          </article>
-          <article class="glass card rv" style="--i:1">
-            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
-            <h4>Training after 7pm</h4>
-            <div class="big"><span class="vnum" data-sign="−" data-to="41">−41</span><small>min sleep</small></div>
-            <div class="swing" style="--band:43;--at:-80" role="img" aria-label="The difference, minus 41 minutes, sits well outside the normal swing of plus or minus 22"><i class="band"></i><i class="zero"></i><i class="dot"></i></div>
-            <dl><dt>Measured</dt><dd>Total sleep</dd><dt>Difference</dt><dd>−41 min on late nights</dd><dt>Your normal swing</dt><dd>±22 min</dd></dl>
-            <p>Larger than your normal night-to-night swing.</p>
-            <div class="word">Dropped</div>
-          </article>
-          <article class="glass card rv" style="--i:2">
-            <div class="top"><span class="label">Verdict, day 14</span><svg class="glyph" aria-hidden="true"><use href="#dropglyph"/></svg></div>
-            <h4>Magnesium glycinate, 400 mg</h4>
-            <div class="big"><span class="vnum" data-sign="+" data-to="0.4" data-dec="1">+0.4</span><small>min deep sleep</small></div>
-            <div class="swing inside" style="--band:80;--at:3" role="img" aria-label="The difference, plus 0.4 minutes, sits inside the normal swing of plus or minus 11"><i class="band"></i><i class="zero"></i><i class="dot"></i></div>
-            <dl><dt>Measured</dt><dd>Deep sleep</dd><dt>Difference</dt><dd>+0.4 min</dd><dt>Your normal swing</dt><dd>±11 min</dd></dl>
-            <p>Too small to see against your own swing. Your call.</p>
-            <div class="word">Inconclusive</div>
-          </article>
+        <div class="vx rv" id="vx">
+          <div class="vx-tabs" role="tablist" aria-label="Three example verdicts">
+            <button class="vx-tab" role="tab" type="button" id="vx-t0" aria-selected="true" aria-controls="vx-panel"><b>Kept</b><span>Walk before 9am</span><i></i></button>
+            <button class="vx-tab" role="tab" type="button" id="vx-t1" aria-selected="false" aria-controls="vx-panel" tabindex="-1"><b>Dropped</b><span>Training after 7pm</span><i></i></button>
+            <button class="vx-tab" role="tab" type="button" id="vx-t2" aria-selected="false" aria-controls="vx-panel" tabindex="-1"><b>Inconclusive</b><span>Magnesium glycinate</span><i></i></button>
+            <button class="vx-pause" id="vx-pause" type="button" aria-label="Pause the rotation" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pa" d="M9 6.500v11M15 6.500v11"/><path class="pl" d="M9 6l9 6-9 6z"/></svg></button>
+          </div>
+          <div class="vx-panel" id="vx-panel" role="tabpanel" aria-labelledby="vx-t0">
+            <div class="vx-read">
+              <span class="label">Verdict, day 14</span>
+              <h4 id="vx-habit">Walk before 9am</h4>
+              <div class="big"><span id="vx-num">+6</span><small id="vx-unit">ms HRV</small></div>
+              <div class="swing" id="vx-swing" style="--band:40;--at:80" aria-hidden="true"><i class="band"></i><i class="zero"></i><i class="dot"></i></div>
+              <dl><dt>Measured</dt><dd id="vx-measured">Overnight HRV</dd><dt>Difference</dt><dd id="vx-diff">+6 ms</dd><dt>Your normal swing</dt><dd id="vx-noise">±3 ms</dd></dl>
+              <p class="note" id="vx-note">Twice your normal swing. This one is yours.</p>
+              <div class="word" id="vx-word">Kept</div>
+            </div>
+            <div class="vx-chart">
+              <div class="vx-chart-head"><span>The 14 nights behind it</span><span class="vx-key"><span><i></i><span id="vx-on">Walked before 9am</span></span><span><i class="off"></i><span id="vx-off">No morning walk</span></span></span></div>
+              <div class="nights" id="vx-nights" role="img" aria-label="Fourteen nights. Nights after a morning walk averaged 54 milliseconds, the others 48."></div>
+              <p class="vx-tip" id="vx-tip">Hover or tap a night to see it.</p>
+              <p class="vx-fine">The solid line is the average of the filled nights, the dashed line the average of the others. Example data, to show what a verdict rests on.</p>
+              <noscript><p class="vx-fine">Two more examples: Training after 7pm, 41 fewer minutes of sleep on late nights, Dropped. Magnesium glycinate, 0.4 minutes more deep sleep, Inconclusive.</p></noscript>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get my free stack audit</button><span class="note">The first week is baseline. We read and say nothing until we know your normal.</span></div>
+    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="note">The first week is baseline. We read and say nothing until we know your normal.</span></div>
   </div>
 </section>
 
 <section class="value band" id="value">
   <div class="wrap">
     <div class="cols">
-    <h2>The only wellness score that gets better by going down</h2>
+    <h2>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h2>
     <div class="text">
-      <p>Every verdict either keeps a habit or lets you drop it with proof. After four tests, this example stack goes from 23 things to 19, and from $341 a month to $280.</p>
-      <p>You also keep a short list of what your body runs best on. You stop taking advice and start knowing.</p>
+      <p>Distill is the only wellness product whose score gets better by going down. Every verdict either keeps a habit or lets you drop it with proof. After four cycles the example stack goes from 23 things to 19, and from $341 a month to $280.</p>
+      <p>That's the permission to stop that nobody else gives you.</p>
+      <div class="seg" id="seg" role="group" aria-label="Show the example stack on day 1 or after four tests">
+        <button type="button" data-state="before" aria-pressed="false">Day 1</button>
+        <button type="button" data-state="after" aria-pressed="true">After four tests</button>
+      </div>
     </div>
     </div>
     <div class="glass file rv">
       <div class="col">
-        <h4>What you cut</h4>
-        <div class="score"><span><b><span class="count" data-from="23" data-to="19">23</span> things</b>was 23</span><span><b>$<span class="count" data-from="341" data-to="280">341</span> a month</b>was $341</span></div>
+        <h4 id="f-h">What you cut</h4>
+        <div class="score"><span><b><span class="count" data-from="23" data-to="19">23</span> things</b><small>was 23</small></span><span><b>$<span class="count" data-from="341" data-to="280">341</span> a month</b><small>was $341</small></span></div>
         <ul class="cut">
           <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
           <li><span>Mouth tape</span><span class="mono">$9/mo</span></li>
@@ -732,12 +889,12 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       </div>
       <div class="col">
         <h4>What's yours</h4>
-        <div class="score"><span><b>4 things</b>proven on your data</span></div>
+        <div class="score"><span><b><span id="f-y">4</span> things</b>proven on your data</span></div>
         <ul class="yours">
-          <li><span>Early trainer</span><span class="mono">+41 min sleep</span></li>
-          <li><span>Morning walker</span><span class="mono">+6 ms HRV</span></li>
-          <li><span>Two-coffee ceiling</span><span class="mono">−18 min to fall asleep</span></li>
-          <li><span>Alcohol costs two days</span><span class="mono">−9 ms HRV</span></li>
+          <li><span>Early trainer</span><span class="mono" data-after="+41 min sleep">+41 min sleep</span></li>
+          <li><span>Morning walker</span><span class="mono" data-after="+6 ms HRV">+6 ms HRV</span></li>
+          <li><span>Two-coffee ceiling</span><span class="mono" data-after="−18 min to fall asleep">−18 min to fall asleep</span></li>
+          <li><span>Alcohol costs two days</span><span class="mono" data-after="−9 ms HRV">−9 ms HRV</span></li>
         </ul>
       </div>
     </div>
@@ -762,8 +919,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
 <section class="offer band" id="offer">
   <div class="wrap">
     <div class="sec-head">
-      <h2>If nothing moves, you don't pay</h2>
-      <p>In 60 days we'll tell you which habits work on your body, and which to stop paying for.</p>
+      <h2>In 60 days we'll tell you which habits work on your body, and which to stop paying for. If nothing moves, you don't pay.</h2>
     </div>
     <div class="tl rv" role="img" aria-label="Three 14-day tests inside 60 days, with a verdict after each one. On day 60 you pay only if at least one verdict came back Kept or Dropped.">
       <ol>
@@ -778,7 +934,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       <div class="price">
         <span class="n">$20<small>a month</small></span>
         <span class="zero">$0 if nothing measurably moves</span>
-        <div class="row"><button class="btn btn-primary" type="button" data-open>Claim a founding spot</button><span class="fud">No card until your first verdict lands.</span></div>
+        <div class="row"><button class="btn btn-primary" type="button" data-open>Claim A Founding Spot</button><span class="fud">No card until your first verdict lands.</span></div>
         <div class="guar">
           <span class="label">Founding 100</span>
           <p>$20 a month locked for life, guarantee included. Early members build the experiment library everyone after them benefits from. Spots go in order of signup.</p>
@@ -840,7 +996,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
         <p class="err" role="alert" hidden></p>
         <label>Which wearable do you use?<select id="wearable" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
         <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn btn-primary" type="submit">Get my free stack audit</button>
+        <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
       </form>
       <div class="thanks" role="status"><svg class="tick" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><path d="M10 16.500l4.200 4.200L22.500 12"/></svg><div><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div></div>
       <span class="fud">Nothing to buy today. No card. No spam.</span>
@@ -855,7 +1011,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   <div class="wrap">
     <a class="wordmark" href="#top" translate="no">DISTILL</a>
     <nav aria-label="Footer"><a href="#try">Try it</a><a href="#how">How it works</a><a href="#proof">Our promises</a><a href="#offer">Price</a><a href="#faq">Questions</a></nav>
-    <p class="legal">Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. If a clinician prescribed or recommended something, keep taking it and talk to them before changing it. Stack figures on this page are examples.</p>
+    <p class="legal">Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. If a clinician prescribed or recommended something, keep taking it and talk to them before changing it. Stack figures and verdicts on this page are examples. Supplement use: CDC/NCHS Data Brief 561 (2026). Typical monthly spend: CRN/Ipsos consumer survey (2024).</p>
   </div>
 </footer>
 
@@ -874,7 +1030,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       <p class="err" role="alert" hidden></p>
       <label>Which wearable do you use?<select id="wearable-modal" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn btn-primary" type="submit">Get my free stack audit</button>
+      <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
     </form>
     <div class="thanks" role="status"><svg class="tick" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><path d="M10 16.500l4.200 4.200L22.500 12"/></svg><div><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div></div>
     <span class="fud">Nothing to buy today. No card. No spam.</span>
@@ -900,8 +1056,25 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
     tSub.textContent='Day '+d+' of 14 · '+(on?'an on day':'an off day');
   }
   function calStep(vh){ var r=cal.getBoundingClientRect(); setDay(Math.max(1,Math.min(14,Math.ceil((vh*0.78-r.top)/(vh*0.46)*14)))); }
-  var calLive=cal&&dayEls.length===14&&!reduce;
+  var calLive=cal&&dayEls.length===14&&!reduce, manual=false;
   if(calLive) cal.classList.add('live');
+  if(cal&&dayEls.length===14){
+    var taps=cal.querySelector('.taps'), hint=cal.querySelector('.tap-hint');
+    var setDone=function(on){
+      Array.prototype.forEach.call(taps.children,function(b){ b.hidden=(b.dataset.tap==='again')?!on:on; });
+      if(!on) return;
+      Array.prototype.forEach.call(dayEls,function(el){ el.classList.add('seen'); el.classList.remove('now'); });
+      curDay=15; tLine.textContent='Day 14 done. Your verdict is ready.'; tSub.textContent='The card is just below.'; hint.textContent='';
+    };
+    taps.addEventListener('click',function(ev){
+      var b=ev.target.closest('button'); if(!b) return;
+      manual=true; cal.classList.add('live');
+      if(b.dataset.tap==='again'){ setDone(false); curDay=-1; setDay(1); hint.textContent='Try it. Each tap is one day.'; return; }
+      if(curDay>=14){ setDone(true); return; }
+      var d=curDay; setDay(d+1);
+      hint.textContent=(b.dataset.tap==='1'?'Day '+d+' logged.':'Day '+d+' recorded as unknown, never as a failure.')+' Tap again for the next day.';
+    });
+  }
 
   /* the "sells you more" line: words come up to full ink as you read past them */
   var piv=document.querySelector('.pivot .big'), words=[], lit=-1;
@@ -926,7 +1099,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
     var y=window.scrollY, vh=window.innerHeight, max=document.documentElement.scrollHeight-vh;
     nav.classList.toggle('scrolled', y>8);
     prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0).toFixed(4)+')';
-    if(calLive) calStep(vh);
+    if(calLive&&!manual) calStep(vh);
     if(pivLive) pivStep(vh);
   }
   window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll); onScroll();
@@ -1049,14 +1222,93 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   /* counters that tick down when they come into view */
   var counters=document.querySelectorAll('.count');
   if(hasIO){
-    var cio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ tween(en.target,+en.target.dataset.from,+en.target.dataset.to,1400); cio.unobserve(en.target); } }); },{threshold:.6});
+    var cio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ cio.unobserve(en.target); if(!en.target.closest('.before')) tween(en.target,+en.target.dataset.from,+en.target.dataset.to,1400); } }); },{threshold:.6});
     counters.forEach(function(el){ cio.observe(el); });
   } else { counters.forEach(function(el){ el.textContent=el.dataset.to; }); }
 
-  /* verdict cards: the big number counts up from zero */
-  if(hasIO&&!reduce){
-    var vio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting) return; var el=en.target, dec=+(el.dataset.dec||0), sign=el.dataset.sign||''; vio.unobserve(el); tween(el,0,+el.dataset.to,1100,function(v){ return sign+v.toFixed(dec); }); }); },{threshold:.6});
-    document.querySelectorAll('.vnum').forEach(function(el){ vio.observe(el); });
+  /* step 3: three example verdicts, each with the 14 nights behind it. All example data. */
+  (function(){
+    var vx=document.getElementById('vx'); if(!vx) return;
+    var $=function(id){ return document.getElementById(id); };
+    var ON=[1,2,3,7,8,9,13,14];
+    function hm(v){ var m=Math.round(v); return Math.floor(m/60)+' h '+(m%60)+' min'; }
+    function unit(u){ return function(v){ return Math.round(v)+' '+u; }; }
+    function avg(a){ return a.reduce(function(x,y){ return x+y; },0)/a.length; }
+    var V=[
+      {habit:'Walk before 9am', word:'Kept', sign:'+', num:6, dec:0, unit:'ms HRV', measured:'Overnight HRV', diff:'+6 ms', noise:'±3 ms', note:'Twice your normal swing. This one is yours.', band:40, at:80, inside:false,
+       on:[57,52,55,51,56,58,50,53], off:[45,51,46,49,52,45], onL:'Walked before 9am', offL:'No morning walk', fmt:unit('ms'), avg:unit('ms')},
+      {habit:'Training after 7pm', word:'Dropped', sign:'−', num:41, dec:0, unit:'min sleep', measured:'Total sleep', diff:'−41 min on late nights', noise:'±22 min', note:'Larger than your normal night-to-night swing.', band:43, at:-80, inside:false,
+       on:[401,368,419,386,372,422,381,403], off:[412,461,428,452,441,416], onL:'Trained after 7pm', offL:'Finished before 7pm', fmt:hm, avg:hm},
+      {habit:'Magnesium glycinate, 400 mg', word:'Inconclusive', sign:'+', num:0.4, dec:1, unit:'min deep sleep', measured:'Deep sleep', diff:'+0.4 min', noise:'±11 min', note:'Too small to see against your own swing. Your call.', band:80, at:3, inside:true,
+       on:[58,81,66,74,90,61,72,57], off:[62,78,55,71,84,67], onL:'Took magnesium', offL:'Skipped it', fmt:unit('min'), avg:function(x){ return x.toFixed(1)+' min'; }}
+    ];
+    var tabs=vx.querySelectorAll('.vx-tab'), panel=$('vx-panel'), nights=$('vx-nights'), tip=$('vx-tip'), pause=$('vx-pause'), swing=$('vx-swing');
+    var cols=[], cur=0, TIP='Hover or tap a night to see it.';
+    function clearHot(){ nights.classList.remove('hov'); cols.forEach(function(c){ c.classList.remove('hot'); }); tip.textContent=TIP; }
+    function hot(c){ var v=V[cur]; clearHot(); nights.classList.add('hov'); c.classList.add('hot'); tip.textContent='Night '+c._d+' · '+(c._on?v.onL:v.offL)+' · '+v.fmt(c._v); }
+    for(var d=1; d<=14; d++){
+      var c=document.createElement('div'); c.className='night'+(ON.indexOf(d)<0?' off':''); c.style.setProperty('--n',d); c.innerHTML='<i></i><b>'+d+'</b>'; c._d=d; c._on=ON.indexOf(d)>=0;
+      c.addEventListener('pointerenter',function(){ hot(this); });
+      c.addEventListener('click',function(){ hot(this); });
+      nights.appendChild(c); cols.push(c);
+    }
+    nights.addEventListener('pointerleave',clearHot);
+    function line(cls){ var m=document.createElement('div'); m.className='mean'+cls; nights.appendChild(m); return m; }
+    var mOn=line(''), mOff=line(' off');
+    function show(i, animate){
+      cur=i; var v=V[i], all=v.on.concat(v.off), lo=Math.min.apply(null,all), hi=Math.max.apply(null,all), pad=(hi-lo)*0.15, oi=0, fi=0;
+      lo-=pad; hi+=pad;
+      function y(x){ return ((x-lo)/(hi-lo)).toFixed(4); }
+      cols.forEach(function(c){ c._v=c._on?v.on[oi++]:v.off[fi++]; c.style.setProperty('--v',y(c._v)); });
+      var a=avg(v.on), b=avg(v.off);
+      mOn.style.setProperty('--m',y(a)); mOff.style.setProperty('--m',y(b));
+      nights.setAttribute('aria-label','Fourteen nights. '+v.onL+': average '+v.fmt(a)+'. '+v.offL+': average '+v.fmt(b)+'.');
+      $('vx-habit').textContent=v.habit; $('vx-unit').textContent=v.unit; $('vx-measured').textContent=v.measured; $('vx-diff').textContent=v.diff; $('vx-noise').textContent=v.noise; $('vx-note').textContent=v.note; $('vx-word').textContent=v.word; $('vx-on').textContent=v.onL+', average '+v.avg(a); $('vx-off').textContent=v.offL+', average '+v.avg(b);
+      swing.style.setProperty('--band',v.band); swing.style.setProperty('--at',v.at); swing.classList.toggle('inside',v.inside);
+      var f=function(x){ return v.sign+x.toFixed(v.dec); };
+      if(animate) tween($('vx-num'),0,v.num,700,f); else $('vx-num').textContent=f(v.num);
+      Array.prototype.forEach.call(tabs,function(t,k){ t.setAttribute('aria-selected',k===i?'true':'false'); t.tabIndex=k===i?0:-1; });
+      panel.setAttribute('aria-labelledby','vx-t'+i); clearHot();
+    }
+    show(0,false);
+    /* It turns on its own while in view, until someone picks a tab. The pause button and hovering both hold it. */
+    var auto=!reduce&&hasIO&&window.matchMedia('(min-width: 721px)').matches, paused=false;
+    function stopAuto(){ auto=false; vx.classList.remove('auto','held'); pause.hidden=true; }
+    Array.prototype.forEach.call(tabs,function(t,k){
+      t.addEventListener('click',function(){ stopAuto(); show(k,true); });
+      t.addEventListener('keydown',function(ev){ if(ev.key!=='ArrowRight'&&ev.key!=='ArrowLeft') return; ev.preventDefault(); stopAuto(); var n=(k+(ev.key==='ArrowRight'?1:tabs.length-1))%tabs.length; show(n,true); tabs[n].focus(); });
+      t.addEventListener('animationend',function(ev){ if(auto&&ev.animationName==='vxp') show((cur+1)%tabs.length,true); });
+    });
+    if(auto){
+      pause.hidden=false;
+      pause.addEventListener('click',function(){ paused=!paused; pause.setAttribute('aria-pressed',paused?'true':'false'); pause.setAttribute('aria-label',paused?'Resume the rotation':'Pause the rotation'); vx.classList.toggle('held',paused); });
+      panel.addEventListener('pointerenter',function(){ if(auto) vx.classList.add('held'); });
+      panel.addEventListener('pointerleave',function(){ if(auto&&!paused) vx.classList.remove('held'); });
+      new IntersectionObserver(function(es){ if(auto) vx.classList.toggle('auto',es[0].isIntersecting); },{threshold:.35}).observe(vx);
+    }
+  })();
+
+  /* the example stack on day 1 and after four tests */
+  (function(){
+    var seg=document.getElementById('seg'), file=document.querySelector('.file'); if(!seg||!file) return;
+    var fh=document.getElementById('f-h'), fy=document.getElementById('f-y'), cnt=file.querySelectorAll('.count'), yv=file.querySelectorAll('.yours .mono');
+    seg.addEventListener('click',function(ev){
+      var b=ev.target.closest('button'); if(!b) return; var before=b.dataset.state==='before';
+      Array.prototype.forEach.call(seg.children,function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
+      file.classList.toggle('before',before); fh.textContent=before?'Four you weren\'t sure about':'What you cut'; fy.textContent=before?'0':'4';
+      Array.prototype.forEach.call(cnt,function(el){ tween(el,+el.textContent||0,+(before?el.dataset.from:el.dataset.to),600); });
+      Array.prototype.forEach.call(yv,function(el){ el.textContent=before?'not tested yet':el.dataset.after; });
+    });
+  })();
+
+  /* glass and the dark panel catch a little light under the pointer */
+  if(finePointer&&!reduce){
+    var lastG=null;
+    document.addEventListener('pointermove',function(ev){
+      var g=ev.target.closest?ev.target.closest('.glass,.vx'):null;
+      if(g!==lastG){ if(lastG){ lastG.style.removeProperty('--mx'); lastG.style.removeProperty('--my'); } lastG=g; }
+      if(g){ var b=g.getBoundingClientRect(); g.style.setProperty('--mx',(ev.clientX-b.left).toFixed(0)+'px'); g.style.setProperty('--my',(ev.clientY-b.top).toFixed(0)+'px'); }
+    },{passive:true});
   }
 
   /* try it: the day-one router. Data comes from routing.json, built from the routing table by scripts/build_routing.py. */
@@ -1065,6 +1317,10 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
     var $=function(id){ return document.getElementById(id); };
     var q=$('try-q'), list=$('try-list'), chipsEl=$('try-chips'), qsEl=$('try-qs'), out=$('try-out'), clearBtn=$('try-clear'), wearSel=$('try-wearable'), goalSel=$('try-goal');
     var DATA=null, byKey={}, current=null, answers={}, hi=-1, lastPct=null, moreOpen=false;
+    var stack=[], msEl=$('mystack');
+    var SHORT={'1':'Worth testing','2':'Settled on day one','3':"Can't be measured",'none':'Nothing to test','P':'Left alone'};
+    function copy(o){ var c={}; Object.keys(o).forEach(function(k){ c[k]=o[k]; }); return c; }
+    function inStack(k){ for(var i=0;i<stack.length;i++){ if(stack[i].k===k) return i; } return -1; }
     var DEVCOL={'Oura':'oura','WHOOP':'whoop','Apple Watch':'apple','Garmin':'garmin','Fitbit':'garmin'};
     /* the plain-words headline for each tier */
     var HEAD={'1':"We'd test this on you",'2':'No test needed','3':"A wearable can't measure this",'none':'Nothing to test here','P':'We leave this one alone'};
@@ -1163,7 +1419,11 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       if(current.grade&&r.kind!=='P') dl.push(['The research','Grade '+current.grade+': '+(DATA.grades[current.grade]||'')]);
       var found=(current.found&&r.kind!=='P')?'<p class="found"><b>What the studies found.</b> '+esc(current.found)+'</p>':'';
       if(dl.length||found){ h+='<details class="more"'+(moreOpen?' open':'')+'><summary>The details and the research</summary>'; if(dl.length){ h+='<dl>'; dl.forEach(function(p){ h+='<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>'; }); h+='</dl>'; } h+=found+'</details>'; }
+      var si=inStack(current.k);
+      if(si>=0){ stack[si].ans=copy(answers); stack[si].goal=goalSel.value; }
+      h+='<div class="act"><button class="btn btn-ghost btn-sm" type="button" data-add>'+(si>=0?'Remove from my stack':'Add to my stack')+'</button><span class="fud">'+(stack.length?stack.length+' in your stack so far.':'Add a few and see what they come to.')+'</span></div>';
       out.innerHTML=h;
+      if(stack.length) renderStack();
       var more=out.querySelector('.more'); if(more) more.addEventListener('toggle',function(){ moreOpen=more.open; });
       var fill=out.querySelector('.fill'); if(fill){ var to=fill.dataset.pct; lastPct=+to; requestAnimationFrame(function(){ fill.style.width=to+'%'; }); } else { lastPct=null; }
       /* soften the swap: a brief blur that clears, so the change reads as one card updating */
@@ -1191,7 +1451,33 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
       });
     }
 
-    function select(key){ var it=byKey[key]; if(!it) return; current=it; answers={}; (it.rule||[]).forEach(function(qd){ answers[qd.id]=qd.default; }); q.value=it.n; clearBtn.hidden=false; hideList(); renderQs(); render(); Array.prototype.forEach.call(chipsEl.children,function(c){ c.setAttribute('aria-pressed', c.dataset.k===key?'true':'false'); }); }
+    /* what was picked, sorted the way day one would sort it, with the running total */
+    function renderStack(){
+      if(!stack.length){ msEl.hidden=true; msEl.innerHTML=''; return; }
+      var wear=wearSel.value, tot=0, back=0, n={'1':0,'2':0,'3':0,'0':0}, rows='';
+      var names={'1':'worth testing','2':'settled on day one','3':"can't be measured",'0':'left alone or nothing to test'};
+      stack.forEach(function(st,i){
+        var it=byKey[st.k], r=route(it,st.ans,wear,st.goal), c=it.cost||0, g=(r.kind==='1'||r.kind==='2'||r.kind==='3')?r.kind:'0';
+        tot+=c; if(r.kind==='2') back+=c; n[g]++;
+        rows+='<li>'+icon(CATICON[it.cat]||'i-loop')+'<button class="nm" type="button" data-i="'+i+'">'+esc(it.n)+'</button><span class="ms-tag k'+g+'">'+SHORT[r.kind]+'</span><span class="mono">'+(c?money(c)+'/mo':'free')+'</span><button class="ms-x" type="button" data-x="'+i+'" aria-label="Remove '+esc(it.n)+'">×</button></li>';
+      });
+      var order=['1','2','3','0'].filter(function(k){ return n[k]; });
+      msEl.innerHTML='<div class="ms-head"><h3>Your stack so far</h3><span class="tot"><b>'+stack.length+'</b> '+(stack.length===1?'thing':'things')+' · <b>'+money(tot)+'</b> a month · '+money(tot*12)+' a year at typical prices</span></div>'
+        +'<div class="ms-bar" aria-hidden="true">'+order.map(function(k){ return '<i class="k'+k+'" style="--n:'+n[k]+'"></i>'; }).join('')+'</div>'
+        +'<div class="ms-key">'+order.map(function(k){ return '<span><i class="k'+k+'"></i>'+n[k]+' '+names[k]+'</span>'; }).join('')+'</div>'
+        +'<ul class="ms-list">'+rows+'</ul>'
+        +'<p class="ms-foot">'+(back?'<b>'+money(back)+' a month</b> could come back on day one, before any test. ':'')+'This is day one for what you picked, at typical prices. The free audit does it for everything you take, with your own data.</p>';
+      msEl.hidden=false;
+    }
+    function toggleStack(){ if(!current) return; var i=inStack(current.k); if(i>=0) stack.splice(i,1); else stack.push({k:current.k, ans:copy(answers), goal:goalSel.value}); renderStack(); render(); }
+    out.addEventListener('click',function(ev){ if(ev.target.closest('[data-add]')) toggleStack(); });
+    msEl.addEventListener('click',function(ev){
+      var x=ev.target.closest('[data-x]'), nm=ev.target.closest('[data-i]');
+      if(x){ stack.splice(+x.dataset.x,1); renderStack(); render(); }
+      else if(nm){ var st=stack[+nm.dataset.i]; select(st.k, st); }
+    });
+
+    function select(key, snap){ var it=byKey[key]; if(!it) return; current=it; answers={}; (it.rule||[]).forEach(function(qd){ answers[qd.id]=qd.default; }); if(snap){ Object.keys(snap.ans).forEach(function(id){ answers[id]=snap.ans[id]; }); goalSel.value=snap.goal||''; } q.value=it.n; clearBtn.hidden=false; hideList(); renderQs(); render(); Array.prototype.forEach.call(chipsEl.children,function(c){ c.setAttribute('aria-pressed', c.dataset.k===key?'true':'false'); }); }
 
     function search(term){
       var t=norm(term); if(!t||!DATA) return []; var best={};
@@ -1222,7 +1508,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
     clearBtn.addEventListener('click',function(){ q.value=''; clearBtn.hidden=true; hideList(); q.focus(); });
     goalSel.addEventListener('change',render);
     /* remember the wearable so the sign-up form doesn't ask twice */
-    wearSel.addEventListener('change',function(){ render(); document.querySelectorAll('.audit-form select').forEach(function(s){ if(!s.value) s.value=wearSel.value; }); });
+    wearSel.addEventListener('change',function(){ render(); renderStack(); document.querySelectorAll('.audit-form select').forEach(function(s){ if(!s.value) s.value=wearSel.value; }); });
 
     function renderChips(){ chipsEl.innerHTML=''; DATA.chips.forEach(function(k){ var it=byKey[k]; if(!it) return; var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.k=k; b.textContent=it.n.replace(/\s*\(.*\)$/,''); b.setAttribute('aria-pressed','false'); b.addEventListener('click',function(){ select(k); }); chipsEl.appendChild(b); }); }
 
@@ -1260,11 +1546,10 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
 
   /* popup form: every call to action opens it */
   var dlg=document.getElementById('audit');
-  document.querySelectorAll('[data-open]').forEach(function(b){
-    b.addEventListener('click', function(){
-      if(dlg && typeof dlg.showModal==='function'){ dlg.showModal(); var f=dlg.querySelector('input[type=email]'); if(f) f.focus(); }
-      else { location.hash='#start'; }
-    });
+  document.addEventListener('click', function(ev){
+    if(!ev.target.closest || !ev.target.closest('[data-open]')) return;
+    if(dlg && typeof dlg.showModal==='function'){ dlg.showModal(); var f=dlg.querySelector('input[type=email]'); if(f) f.focus(); }
+    else { location.hash='#start'; }
   });
   document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', function(){ dlg.close(); }); });
   if(dlg){ dlg.addEventListener('click', function(ev){ if(ev.target===dlg) dlg.close(); }); }
