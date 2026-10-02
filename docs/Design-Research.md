@@ -144,3 +144,23 @@ These were not added, because they are promises or facts only the team can make.
 3. **Real proof.** Ratings, member counts and named reviews are still empty. The plan in `Distill-LP-Copy-v2.md` (three free beta users, reviews with name and photo) still stands.
 4. **The word "stack".** It is explained once in the hero ("everything one person takes and does for sleep and recovery"). If testing shows people stumble on it, "routine" is the plain alternative.
 5. **The headline.** If the founder's sentence must be the headline itself, swap the `<h1>` and the `.lede` paragraph in the hero. Nothing else depends on it.
+
+## Part 5. Design elements added after v3, and why each one is there
+
+The rule for this pass: every element has to explain something or give feedback. Anything that only decorates was left out (no marquees, no cursor trails, no tilting cards, no looping background motion). Each row says how to switch it off if the team finds it too much.
+
+| Element | What it does for the visitor | Where it lives in `index.html` |
+|---|---|---|
+| Icon set (20 line icons, one stroke weight) | Marks the kind of thing in the widget (supplement, timing, device, membership) and the kind of answer (test, settled, can't see, left alone). Also used in the trust strip, step labels and promises. | The `<symbol id="i-...">` block at the top of `<body>`; `CATICON` and `VICON` in the widget script. |
+| Skeleton placeholders | The 200 KB table now loads when the widget is close, not on page load. Placeholders hold the exact space of the chips and the answer card, so nothing jumps. On a fast connection they are rarely seen. | `.sk` styles; `SK_CARD`, `SK_CHIPS` and `load()` in the widget script. |
+| Progress line and nav dot | Shows how far down the page you are and which section you are in. | `.nav .prog`, `onScroll()`, the `sio` observer. |
+| The fortnight that plays on scroll | The 14-day calendar fills in day by day as it moves up the screen, and the "Today" card changes between on days and off days. It makes "three on, three off" visible. | `.cal.live`, `setDay()`, `calStep()`. |
+| Swing chart on verdict cards | A shaded band (your normal swing) and a dot (the difference). It shows at a glance why one result is Kept and another is Inconclusive. The big number counts up once. | `.swing`, `.vnum`. |
+| Words that come up to full ink | The "sells you more / sell you less" line lights up word by word as you read past it. Used once. | `.pivot .big.live`, `pivStep()`. |
+| Hero entrance and the drop | Headline, text and buttons rise in once. The drop swells each time an item is struck off, and its highlight leans toward the pointer on a laptop. | `@keyframes rise`; `bump`, `ptx`, `pty` in the drop script. |
+| 60-day timeline | Three tests, a verdict after each, and day 60 as the only day a charge can happen. | `.tl` in the offer section. |
+| Easing FAQ | Answers ease open in browsers that support it; others open instantly. | The `@supports (interpolate-size...)` block. |
+| Sign-up feedback | A spinner while the address is saving and a drawn tick on success. | `.btn.busy`, `.tick`. |
+| Small touches | Teal text selection and caret, a soft wash behind the hero object, faint ripple rings behind the final form. | `::selection`, `.hero` background, `.final::before`. |
+
+To remove any one of them, delete its styles and the matching few lines of script; none of them depends on another. Everything respects the "reduce motion" setting, and the page still reads correctly with JavaScript off.

@@ -8,7 +8,7 @@ The site is one static file. Signups go straight into a Supabase table. Hosting 
 
 ```
 public/index.html     the website: hand-written CSS, no framework, no build step
-public/routing.json   the routing table as data, read by the "What would Distill do with it?" widget
+public/routing.json   the routing table as data, read by the "What would Distill do with it?" widget (fetched when the widget is close to the screen, not on page load)
 scripts/build_routing.py  rebuilds routing.json from docs/Routing-Table.xlsx (python3 scripts/build_routing.py)
 supabase/schema.sql   the signups table and its security rules
 docs/                 the setup guide, copy, research, routing table, design board, domain research
@@ -65,7 +65,7 @@ The engine lives in the `route()` function and decides the tier. The `render()` 
 
 ## Editing the page
 
-Everything is in `public/index.html`. This is version 3 of the page (October 2026). The research it was built from, and a table of what changed and why, is in `docs/Design-Research.md`. The earlier copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design options in `docs/design-directions.html`, and the previous page is kept at `docs/archive/landing-v2-drop-hero.html`.
+Everything is in `public/index.html`. This is version 3 of the page (October 2026). The research it was built from, and a table of what changed and why, is in `docs/Design-Research.md`. Part 5 of that file lists every animated or decorative element on the page, what it is for, and where to find it if it needs turning off. The earlier copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design options in `docs/design-directions.html`, and the previous page is kept at `docs/archive/landing-v2-drop-hero.html`.
 
 The page order is: hero, the try-it widget, the problem, how it works (with the three verdict cards), what you end up with, the four promises, the offer, questions, and the sign-up panel. The hero headline is short and the founder's original sentence sits directly under it; to swap them, exchange the `<h1>` and the `.lede` paragraph in the hero.
 
