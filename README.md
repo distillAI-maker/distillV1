@@ -1,72 +1,57 @@
 # Distill
 
-Landing page for Distill, the wellness app that tests your habit stack on your own wearable data and tells you what to keep and what to stop paying for.
+Distill is being built in eight phases, one pull request per phase. The product brief is [SPEC.md](SPEC.md).
 
-The site is one static file. Signups go straight into a Supabase table. Hosting is Vercel's free plan, which deploys from this repo on every push. Everything here is free; only a custom domain costs money (about $10 a year), and that is optional.
+**Phase 1 implements the catalog foundation:** deterministic workbook ingestion, typed data, 95 hand-written item rules, validation, tests, and CI. Provider integrations, complete stack routing, experiments, statistics, simulation, verdict rendering, and the Next.js UI belong to later PRs. There is no app `dev` command yet.
 
-## What's in here
+The existing marketing site remains in `public/`. Vercel serves that folder directly; its install and build commands are explicitly empty so this phase's workspace tooling does not change the deployed site. The original setup instructions are preserved in [docs/LANDING.md](docs/LANDING.md).
 
-```
-public/index.html     the website: hand-written CSS, no framework, no build step
-public/routing.json   the routing table as data, read by the "What would Distill do with it?" widget
-scripts/build_routing.py  rebuilds routing.json from docs/Routing-Table.xlsx (python3 scripts/build_routing.py)
-supabase/schema.sql   the signups table and its security rules
-docs/                 the setup guide, copy, research, routing table, design board, domain research
-vercel.json           tells Vercel to serve the public folder as-is
-```
+## Local checks
 
-## Look at it on your laptop
+Use **Node.js 24** and **pnpm 10.34.6** (recorded in `.node-version` and `package.json`).
 
-```bash
-python3 -m http.server 3000 -d public
+```sh
+pnpm install --frozen-lockfile
+pnpm catalog:build
+pnpm check
 ```
 
-Then open http://localhost:3000. The form only saves once Supabase is connected (step 2 below).
+`pnpm check` runs ESLint, TypeScript, Vitest, the generated-catalog freshness check, and tone checks over all 17 verdict templates. CI runs the same checks for every PR and push to `main`.
 
-## Going live
+To preview the existing landing page:
 
-The full beginner walkthrough, with every click, is `docs/Setup-Guide.html` (open it in a browser). The short version:
+```sh
+python -m http.server 3000 -d public
+```
 
-### 1. GitHub
+## Files
 
-The code lives in this repository, owned by the `distillAI-maker` account. Keep the repository private (Settings > Danger Zone > Change visibility). To let this Mac push, add the personal account `ivannadil` as a collaborator (Settings > Collaborators > Add people) and accept the invitation from that account.
+| Path | Purpose |
+| --- | --- |
+| `SPEC.md` | Supplied product specification, preserved verbatim |
+| `data/Routing-Table_V3.xlsx` | Supplied source workbook, preserved byte-for-byte |
+| `data/catalog.json` | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
+| `packages/catalog` | SheetJS reader, Zod schemas, validators and ingest tests |
+| `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
+| `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
+| `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
+| `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
+| `.github/workflows/ci.yml` | PR validation |
+| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling |
 
-### 2. Vercel (hosting, free)
+The V3 workbook title includes a “What changed in version 4” section. We retain its supplied filename and record the mismatch instead of silently renaming it. It contains **13 sheets** (including an unlisted Glossary), **210 items**, **18 overlap groups**, **93 fact-check flags**, and **9 observe-only items**. All Summary counts validate. The brief's “19 groups” and the worked example's conflicting prose totals are recorded as open questions.
 
-1. Sign in to GitHub as `distillAI-maker`, then sign up at vercel.com with **Continue with GitHub**. Vercel only lets the repository owner import it, so the accounts must match.
-2. **Add New > Project > Import** `distillV1`. Framework preset **Other**, leave the build settings alone (`vercel.json` already points Vercel at the `public` folder). Click **Deploy**.
-3. About a minute later the site is live at `distill.vercel.app` (or a close variant). Every push to `main` redeploys it.
+The older `docs/Routing-Table.xlsx` and `public/routing.json` serve the marketing widget. New app code uses `data/Routing-Table_V3.xlsx`; the Python landing-page builder does not generate the app catalog.
 
-### 3. Supabase (signups, free)
+## Phase boundaries
 
-1. Create a project at supabase.com. Save the database password somewhere safe.
-2. **SQL Editor > New query**: paste all of `supabase/schema.sql` and run it.
-3. **Settings > API Keys**: copy the **Project URL** and the **Publishable key**.
-4. Paste both into the `window.DISTILL` block at the top of `public/index.html`, commit, push. The form now saves.
-5. Test with your own email, then look at **Table Editor > signups**. That is the founding list.
+1. Catalog ingestion and item rules — this PR.
+2. Provider adapters and data storage/auth integration.
+3. Full first-match stack routing, overlap decisions and the worked-example golden test.
+4. Experiment scheduling and immutable pre-registration.
+5. Statistics and decision rules.
+6. Synthetic people, simulation and demo users.
+7. Filled verdict text and snapshots.
+8. Next.js app flows.
 
-Supabase pauses free projects after about a week with no activity, and the form fails while paused. A signup or a dashboard visit counts as activity, and a paused project restores with one click.
-
-### 4. A domain, later
-
-The `vercel.app` address is free and has no "claude" in it. A custom domain costs about $10 a year; `docs/Domain-Research.md` has the shortlist. Add it under the Vercel project's **Settings > Domains** and follow the DNS instructions it shows.
-
-## How the form works
-
-Both forms (popup and bottom of page) post one row to the `signups` table through Supabase's REST API, using the publishable key. Duplicates are treated as success, so nobody sees an error for signing up twice. A hidden field catches simple bots. Addresses are lower-cased in the database itself.
-
-## The router widget
-
-The section under the hero is the real day-one router. It reads `public/routing.json`, which is generated from the spreadsheet: every item's tier, the number a wearable would watch, the expected effect against a normal night-to-night swing, what the studies found, the safety note, and the sentence the person reads on day one. The follow-up questions (dose and form, timing, visits, last used, still paying) are encoded as data in `scripts/build_routing.py`, in the `RULES` table, because the sheet writes them as prose. When the spreadsheet changes, run the script and commit the new JSON.
-
-The order of checks matches the sheet's "Start Here" tab: Protected first, then anything settled without a test (dose, form, not being used), then the goal, then the 0.8 effect gate, then slow items to the queue.
-
-## Editing the page
-
-Everything is in `public/index.html`. The copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design in `docs/design-directions.html`. The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current), `wm-w1` (Cormorant caps) or `wm-w8` (Tenor Sans).
-
-## Next steps
-
-- Send a confirmation email on signup. Supabase Edge Functions plus Resend (free tier) is the usual pairing, and it also moves validation off the browser.
-- Before paid traffic: get three real reviews from free beta users and add them to the page. The plan is at the end of `docs/Distill-LP-Copy-v2.md`.
-- The wearable connection, the daily tap and the experiment engine come next. Supabase Auth and Postgres are already in place for them.
+Source evidence and copy have been ingested, not independently fact-checked. `unverified` follows every item into rule results. Phase 1 does not publish new user-facing advice or introduce billing.

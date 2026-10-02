@@ -5,3 +5,7 @@
 .claude/
 node_modules/
 __pycache__/
+.local/
+.pnpm-store/
+coverage/
+*.tsbuildinfo

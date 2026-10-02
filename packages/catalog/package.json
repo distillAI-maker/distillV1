@@ -1,0 +1,11 @@
+{
+  "name": "@distill/catalog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./ingest": "./src/ingest.ts" },
+  "dependencies": {
+    "xlsx": "file:../../vendor/xlsx-0.20.3.tgz",
+    "zod": "^4.3.6"
+  }
+}
