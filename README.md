@@ -4,6 +4,13 @@ Landing page for Distill, the wellness app that tests your habit stack on your o
 
 The site is one static file. Signups go straight into a Supabase table. Hosting is Vercel's free plan, which deploys from this repo on every push. Everything here is free; only a custom domain costs money (about $10 a year), and that is optional.
 
+## Where things stand
+
+- **Live:** https://distill-v1-tau.vercel.app, serving version 3 of the page (October 2026).
+- **Connected:** this repo deploys to Vercel on every push to `main`, and the sign-up forms save to the Supabase `signups` table. Both are set up and working; nothing in the "How it was set up" section below needs doing again.
+- **To change the site:** edit `public/index.html`, commit, and push to `main`. Vercel publishes it in about a minute. For bigger changes, work on a branch first and merge it into `main` when it is ready.
+- **To undo a change:** revert the commit and push; Vercel publishes the previous version.
+
 ## What's in here
 
 ```
@@ -23,7 +30,7 @@ python3 -m http.server 3000 -d public
 
 Then open http://localhost:3000. The form only saves once Supabase is connected (step 2 below).
 
-## Going live
+## How it was set up (for reference)
 
 The full beginner walkthrough, with every click, is `docs/Setup-Guide.html` (open it in a browser). The short version:
 
@@ -73,6 +80,9 @@ The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current)
 
 ## Next steps
 
+- Put one real sign-up through the live form and check it lands in the `signups` table. The version 3 form was tested with the network call stubbed, not with a real submission.
+- Decide three things the page does not say yet, listed in part 4 of `docs/Design-Research.md`: a privacy line (your data is never sold), how to cancel, and real reviews.
+- Check the claim "the only app that runs one-habit, on/off experiments on your own wearable data" before paid traffic.
 - Send a confirmation email on signup. Supabase Edge Functions plus Resend (free tier) is the usual pairing, and it also moves validation off the browser.
 - Before paid traffic: get three real reviews from free beta users and add them to the page. The plan is at the end of `docs/Distill-LP-Copy-v2.md`.
 - The wearable connection, the daily tap and the experiment engine come next. Supabase Auth and Postgres are already in place for them.
