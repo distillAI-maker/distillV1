@@ -279,7 +279,6 @@ body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;le
 .pivot .big em{font-style:normal;color:var(--teal)}
 .pivot .big.live .w{opacity:.2;transition:opacity .4s ease}
 .pivot .big.live .w.lit{opacity:1}
-.why{padding-bottom:0}
 .vps{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px);margin-top:clamp(40px,5vw,64px)}
 .vps li{display:grid;grid-template-columns:22px 1fr;gap:6px 16px;align-content:start;padding-block:24px;border-top:1px solid var(--rule-2)}
 .vps .ic{width:22px;height:22px;grid-row:1/3;margin-top:1px}
@@ -624,8 +623,8 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   <div class="wrap">
     <a class="wordmark" href="#top" translate="no">DISTILL</a>
     <ul>
-      <li><a href="#try">Try it</a></li>
       <li><a href="#how">How it works</a></li>
+      <li><a href="#try">Try it</a></li>
       <li><a href="#offer">Price</a></li>
       <li><a href="#faq">Questions</a></li>
     </ul>
@@ -678,113 +677,6 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
     <li><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>Built by a team at UC Berkeley</li>
   </ul>
 </div>
-
-<section class="try" id="try">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>What would Distill do with it?</h2>
-      <p>Pick one thing you take, do or pay for. You'll see what we'd tell you on day one: worth testing on you, already settled, or something no ring or watch can see.</p>
-    </div>
-    <div class="grid">
-      <div class="glass tool pick rv" id="try-tool">
-        <div class="search">
-          <label class="q-label" for="try-q">What's one thing you take or do for your health?</label>
-          <div class="field"><input id="try-q" type="text" placeholder="Try coffee, magnesium, sauna, gym…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
-          <ul class="suggest" id="try-list" role="listbox" hidden></ul>
-        </div>
-        <p class="hint">Or pick a common one. No sign-up, and it takes a few seconds.</p>
-        <div class="chips" id="try-chips" aria-label="Examples"></div>
-      </div>
-      <div class="glass tool tune rv">
-        <p class="q-label">Make it about you</p>
-        <div class="qs" id="try-qs"></div>
-        <div class="ctx">
-          <label>Your wearable<select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
-          <label>What you use it for<select id="try-goal"><option value="">The usual reason</option></select></label>
-        </div>
-      </div>
-      <p class="fine">How we decide: a test is only worth running if the likely change is bigger than most of your normal night-to-night swing. We've worked through 210 common supplements, habits, devices and memberships. Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</p>
-      <article class="glass result rv" id="try-out" aria-live="polite" style="--i:1">
-        <div class="top"><span class="label">What you'd read on day one</span><span class="dev">Oura</span></div>
-        <h3><span class="cat" aria-hidden="true"><svg class="ic"><use href="#i-clock"/></svg></span><span>Coffee after 2pm<small>2 to 5pm</small></span></h3>
-        <div class="verdict v-1"><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><div><strong>We'd test this on you</strong></div></div>
-        <p class="say">The single most reliable experiment we run, and the one most people are wrong about in one direction or the other. Fourteen days and you'll have your own number.</p>
-        <div class="meter"><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" style="width:66.7%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">About a full night-to-night swing. Chance of a clear answer in two weeks: fair.</p></div>
-      </article>
-    </div>
-    <div class="glass mystack" id="mystack" aria-live="polite" hidden></div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
-  </div>
-</section>
-
-<section class="pain band" id="pain">
-  <div class="wrap">
-    <div class="cols">
-      <div class="side">
-        <h2>Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</h2>
-        <p class="tally">23 things. $341 a month. <em>0 answers.</em></p>
-        <p class="tally-cap">One example stack. Yours will have its own numbers.</p>
-      </div>
-      <div class="pas">
-        <p class="dear">Dear wearable owner who's tired of guessing,</p>
-        <ul class="checks">
-          <li>Do you take five different things for sleep and still can't say which one works?</li>
-          <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
-          <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
-        </ul>
-        <p>If so, you're not alone. And you're not the problem.</p>
-        <p>You're not lazy. You're not uninformed.</p>
-        <p>You've done <b>MORE</b> than almost anyone. That's the problem.</p>
-        <p>Every app, every influencer and every ad sells you addition.</p>
-        <p>Take this. Try this. Track this.</p>
-        <p><b>NOBODY'S</b> job is to tell you what to drop.</p>
-        <p>So the stack grows. Twenty things. Twenty-three. Thirty.</p>
-        <p>And the certainty never comes.</p>
-        <p class="lead">Here's what that actually costs you:</p>
-        <ul class="checks">
-          <li>Hundreds of dollars a month on habits with <b>ZERO</b> proof they work on your body</li>
-          <li>A ring or watch that adds daily worry & never adds a single decision</li>
-          <li>Advice from influencers built on <b>THEIR</b> body, not yours</li>
-          <li>A quiet suspicion that you're behind, and it's getting louder every year</li>
-        </ul>
-        <p>About 6 in 10 American adults take a supplement. The typical user spends around $50 a month.</p>
-        <p>That's $600 a year, and nobody hands you proof it works on <b>YOUR</b> body.</p>
-        <p>You have months of sleep and recovery history sitting on your phone right now.</p>
-        <p>It has <b>NEVER</b> once told you what to do.</p>
-        <p class="good">Here's the good news.</p>
-        <p>You <b>DON'T</b> need another supplement.</p>
-        <p>You <b>DON'T</b> need a dashboard, a coach or a chatbot.</p>
-        <p>You <b>DON'T</b> need to log a single meal or mood.</p>
-        <p class="lead">You need a controlled experiment, run on <b>YOUR</b> data.</p>
-        <p>Distill reads your stack against your own tracker history. It picks the one habit your data can test most clearly.</p>
-        <p>Then it tests it. Three days on, three days off, for 14 days.</p>
-        <p>One variable. One tap a day.</p>
-        <p>On day 14 you get one card. The habit, the real number and one word: Kept, Dropped or Inconclusive.</p>
-        <p class="lead">Your stack goes down. Your bill goes down. Your certainty goes up.</p>
-        <p>Three experiments in 60 days. If none of them moves your numbers, you pay <b>NOTHING</b>.</p>
-        <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card. Under 4 minutes.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="why" id="why">
-  <div class="wrap">
-    <div class="pivot">
-      <p class="big">Everyone else in wellness sells you more. Distill is the only one built to <em>sell you less.</em></p>
-    </div>
-    <ul class="vps">
-      <li><svg class="ic" aria-hidden="true"><use href="#i-minusc"/></svg><span class="label">Subtraction first</span><h3>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><span class="label">Tested on your body</span><h3>Test one habit at a time on your own body and know the answer is truly yours</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg><span class="label">Pass line locked first</span><h3>See the pass line written down before day one and trust every verdict without spin</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-eyeoff"/></svg><span class="label">Honest about limits</span><h3>Hear plainly what a ring or watch cannot measure and stop paying for false certainty</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="label">Pay-nothing guarantee</span><h3>Pay nothing for 60 days unless something measurably moves and start with zero risk</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span class="label">One tap a day</span><h3>Give it one tap a day with nothing to log and keep your mornings free</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg><span class="label">History already there</span><h3>Put the months of data your wearable already holds to work and get answers sooner</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span class="label">Never a score about you</span><h3>Get verdicts about the night and the habit, never about you, and feel calm opening the app</h3></li>
-    </ul>
-  </div>
-</section>
 
 <section class="how" id="how">
   <div class="wrap">
@@ -863,7 +755,45 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   </div>
 </section>
 
-<section class="value band" id="value">
+<section class="try band" id="try">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What would Distill do with it?</h2>
+      <p>Pick one thing you take, do or pay for. You'll see what we'd tell you on day one: worth testing on you, already settled, or something no ring or watch can see.</p>
+    </div>
+    <div class="grid">
+      <div class="glass tool pick rv" id="try-tool">
+        <div class="search">
+          <label class="q-label" for="try-q">What's one thing you take or do for your health?</label>
+          <div class="field"><input id="try-q" type="text" placeholder="Try coffee, magnesium, sauna, gym…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
+          <ul class="suggest" id="try-list" role="listbox" hidden></ul>
+        </div>
+        <p class="hint">Or pick a common one. No sign-up, and it takes a few seconds.</p>
+        <div class="chips" id="try-chips" aria-label="Examples"></div>
+      </div>
+      <div class="glass tool tune rv">
+        <p class="q-label">Make it about you</p>
+        <div class="qs" id="try-qs"></div>
+        <div class="ctx">
+          <label>Your wearable<select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
+          <label>What you use it for<select id="try-goal"><option value="">The usual reason</option></select></label>
+        </div>
+      </div>
+      <p class="fine">How we decide: a test is only worth running if the likely change is bigger than most of your normal night-to-night swing. We've worked through 210 common supplements, habits, devices and memberships. Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</p>
+      <article class="glass result rv" id="try-out" aria-live="polite" style="--i:1">
+        <div class="top"><span class="label">What you'd read on day one</span><span class="dev">Oura</span></div>
+        <h3><span class="cat" aria-hidden="true"><svg class="ic"><use href="#i-clock"/></svg></span><span>Coffee after 2pm<small>2 to 5pm</small></span></h3>
+        <div class="verdict v-1"><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><div><strong>We'd test this on you</strong></div></div>
+        <p class="say">The single most reliable experiment we run, and the one most people are wrong about in one direction or the other. Fourteen days and you'll have your own number.</p>
+        <div class="meter"><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" style="width:66.7%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">About a full night-to-night swing. Chance of a clear answer in two weeks: fair.</p></div>
+      </article>
+    </div>
+    <div class="glass mystack" id="mystack" aria-live="polite" hidden></div>
+    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
+  </div>
+</section>
+
+<section class="value" id="value">
   <div class="wrap">
     <div class="cols">
     <h2>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h2>
@@ -901,7 +831,76 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   </div>
 </section>
 
-<section class="proof" id="proof">
+<section class="pain band" id="pain">
+  <div class="wrap">
+    <div class="cols">
+      <div class="side">
+        <h2>Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</h2>
+        <p class="tally">23 things. $341 a month. <em>0 answers.</em></p>
+        <p class="tally-cap">One example stack. Yours will have its own numbers.</p>
+      </div>
+      <div class="pas">
+        <p class="dear">Dear wearable owner who's tired of guessing,</p>
+        <ul class="checks">
+          <li>Do you take five different things for sleep and still can't say which one works?</li>
+          <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
+          <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
+        </ul>
+        <p>If so, you're not alone. And you're not the problem.</p>
+        <p>You're not lazy. You're not uninformed.</p>
+        <p>You've done <b>MORE</b> than almost anyone. That's the problem.</p>
+        <p>Every app, every influencer and every ad sells you addition.</p>
+        <p>Take this. Try this. Track this.</p>
+        <p><b>NOBODY'S</b> job is to tell you what to drop.</p>
+        <p>So the stack grows. Twenty things. Twenty-three. Thirty.</p>
+        <p>And the certainty never comes.</p>
+        <p class="lead">Here's what that actually costs you:</p>
+        <ul class="checks">
+          <li>Hundreds of dollars a month on habits with <b>ZERO</b> proof they work on your body</li>
+          <li>A ring or watch that adds daily worry & never adds a single decision</li>
+          <li>Advice from influencers built on <b>THEIR</b> body, not yours</li>
+          <li>A quiet suspicion that you're behind, and it's getting louder every year</li>
+        </ul>
+        <p>About 6 in 10 American adults take a supplement. The typical user spends around $50 a month.</p>
+        <p>That's $600 a year, and nobody hands you proof it works on <b>YOUR</b> body.</p>
+        <p>You have months of sleep and recovery history sitting on your phone right now.</p>
+        <p>It has <b>NEVER</b> once told you what to do.</p>
+        <p class="good">Here's the good news.</p>
+        <p>You <b>DON'T</b> need another supplement.</p>
+        <p>You <b>DON'T</b> need a dashboard, a coach or a chatbot.</p>
+        <p>You <b>DON'T</b> need to log a single meal or mood.</p>
+        <p class="lead">You need a controlled experiment, run on <b>YOUR</b> data.</p>
+        <p>Distill reads your stack against your own tracker history. It picks the one habit your data can test most clearly.</p>
+        <p>Then it tests it. Three days on, three days off, for 14 days.</p>
+        <p>One variable. One tap a day.</p>
+        <p>On day 14 you get one card. The habit, the real number and one word: Kept, Dropped or Inconclusive.</p>
+        <p class="lead">Your stack goes down. Your bill goes down. Your certainty goes up.</p>
+        <p>Three experiments in 60 days. If none of them moves your numbers, you pay <b>NOTHING</b>.</p>
+        <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card. Under 4 minutes.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="pivot">
+      <p class="big">Everyone else in wellness sells you more. Distill is the only one built to <em>sell you less.</em></p>
+    </div>
+    <ul class="vps">
+      <li><svg class="ic" aria-hidden="true"><use href="#i-minusc"/></svg><span class="label">Subtraction first</span><h3>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><span class="label">Tested on your body</span><h3>Test one habit at a time on your own body and know the answer is truly yours</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg><span class="label">Pass line locked first</span><h3>See the pass line written down before day one and trust every verdict without spin</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-eyeoff"/></svg><span class="label">Honest about limits</span><h3>Hear plainly what a ring or watch cannot measure and stop paying for false certainty</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="label">Pay-nothing guarantee</span><h3>Pay nothing for 60 days unless something measurably moves and start with zero risk</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span class="label">One tap a day</span><h3>Give it one tap a day with nothing to log and keep your mornings free</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg><span class="label">History already there</span><h3>Put the months of data your wearable already holds to work and get answers sooner</h3></li>
+      <li><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span class="label">Never a score about you</span><h3>Get verdicts about the night and the habit, never about you, and feel calm opening the app</h3></li>
+    </ul>
+  </div>
+</section>
+
+<section class="proof band" id="proof">
   <div class="wrap">
     <div class="sec-head">
       <h2>Four promises we put in writing before you pay a cent</h2>
@@ -916,7 +915,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
   </div>
 </section>
 
-<section class="offer band" id="offer">
+<section class="offer" id="offer">
   <div class="wrap">
     <div class="sec-head">
       <h2>In 60 days we'll tell you which habits work on your body, and which to stop paying for. If nothing moves, you don't pay.</h2>
@@ -1010,7 +1009,7 @@ footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px so
 <footer>
   <div class="wrap">
     <a class="wordmark" href="#top" translate="no">DISTILL</a>
-    <nav aria-label="Footer"><a href="#try">Try it</a><a href="#how">How it works</a><a href="#proof">Our promises</a><a href="#offer">Price</a><a href="#faq">Questions</a></nav>
+    <nav aria-label="Footer"><a href="#how">How it works</a><a href="#try">Try it</a><a href="#proof">Our promises</a><a href="#offer">Price</a><a href="#faq">Questions</a></nav>
     <p class="legal">Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. If a clinician prescribed or recommended something, keep taking it and talk to them before changing it. Stack figures and verdicts on this page are examples. Supplement use: CDC/NCHS Data Brief 561 (2026). Typical monthly spend: CRN/Ipsos consumer survey (2024).</p>
   </div>
 </footer>
