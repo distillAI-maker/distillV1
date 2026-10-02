@@ -1,0 +1,10 @@
+* text=auto
+*.ts text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.snap text eol=lf
+*.xlsx binary
+*.tgz binary
+SPEC.md -text
