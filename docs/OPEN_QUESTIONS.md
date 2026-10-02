@@ -29,6 +29,10 @@ These are team decisions or source inconsistencies, not evidence corrections mad
 
 ## Questions retained from the supplied brief
 
+- Phase 2 verification (2026-10-02): Google says the legacy Fitbit API shuts down October 30, 2026, and its replacement is not onboarding new projects. Who owns obtaining Google Health API access? Fitbit legacy support is gated off by default; see [DATA_SOURCES.md](DATA_SOURCES.md).
+- Phase 2 deployment: which Supabase/Vercel projects and approved Oura/WHOOP test clients should be used for live acceptance? Implementation and local tests cannot establish access to external accounts.
+- Phase 2 Apple import: confirm the 90-minute session-gap convention and explicit source selection against representative exports; no sleep latency or temperature deviation is inferred from unsupported fields.
+
 - Who signs off on the 93 fact-check rows, and may an unverified T2 drop be shown before sign-off? The flag is preserved; this phase creates no new advice UI.
 - What pricing, if any, will exist? Billing and related app copy are outside this implementation.
 - When is a native iOS companion planned to replace Apple export uploads?
