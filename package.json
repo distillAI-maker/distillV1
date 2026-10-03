@@ -14,6 +14,7 @@
     "dev": "pnpm --filter @distill/web dev",
     "build:web": "pnpm --filter @distill/web build",
     "providers:worker": "tsx scripts/provider-worker.ts",
+    "routing:golden": "tsx scripts/routing-golden.ts",
     "test": "vitest run",
     "tone-lint": "tsx scripts/tone-lint.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm catalog:check && pnpm tone-lint"

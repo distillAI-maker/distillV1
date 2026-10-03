@@ -47,12 +47,18 @@ importers:
       next:
         specifier: 16.3.8
         version: 16.3.8(@types/node@24.19.1)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      postgres:
+        specifier: 3.4.9
+        version: 3.4.9
       react:
         specifier: 19.3.0
         version: 19.3.0
       react-dom:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
+      unzipper:
+        specifier: 0.12.5
+        version: 0.12.5
       zod:
         specifier: ^4.3.6
         version: 4.6.5
@@ -75,6 +81,9 @@ importers:
 
   packages/data:
     dependencies:
+      '@distill/engine':
+        specifier: workspace:*
+        version: link:../engine
       '@distill/providers':
         specifier: workspace:*
         version: link:../providers
@@ -94,6 +103,9 @@ importers:
       '@distill/catalog':
         specifier: workspace:*
         version: link:../catalog
+      '@distill/providers':
+        specifier: workspace:*
+        version: link:../providers
 
   packages/providers:
     dependencies:

@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse';
 import { z } from 'zod';
-import { emptyMetrics, inRange, nightRecordSchema, primaryNights } from './types.js';
+import { assertRange, emptyMetrics, inRange, nightRecordSchema, primaryNights } from './types.js';
 import type { NightRecord, Provider, ProviderId, RawWriter, Tag, Workout } from './types.js';
 import { ProviderError } from './http.js';
 
@@ -17,16 +17,19 @@ export class ImportedProvider implements Provider {
   ) {}
   async fetchNights(userId: string, from: Date, to: Date) {
     this.check(userId);
+    assertRange(from, to);
     return this.data.nights.filter((n) => inRange(n.sleepDate, from, to));
   }
   async fetchWorkouts(userId: string, from: Date, to: Date) {
     this.check(userId);
+    assertRange(from, to);
     return this.data.workouts.filter(
       (w) => +new Date(w.start) >= +from && +new Date(w.start) < +to,
     );
   }
   async fetchTags(userId: string, from: Date, to: Date) {
     this.check(userId);
+    assertRange(from, to);
     return this.data.tags.filter((t) => +new Date(t.start) >= +from && +new Date(t.start) < +to);
   }
   private check(userId: string) {
@@ -56,8 +59,14 @@ export async function parseNightCsv(
   input: AsyncIterable<Uint8Array>,
   raw: RawWriter,
 ): Promise<ImportedData> {
+  const allowed = new Set(['sleepDate', 'deviceModel', 'hrvMethod', ...Object.keys(emptyMetrics)]);
   const parser = parse({
-    columns: true,
+    columns: (headers: string[]) => {
+      if (new Set(headers).size !== headers.length) throw new Error('Duplicate CSV column');
+      if (!headers.includes('sleepDate')) throw new Error('Missing sleepDate column');
+      if (headers.some((header) => !allowed.has(header))) throw new Error('Unknown CSV column');
+      return headers;
+    },
     bom: true,
     skip_empty_lines: true,
     max_record_size: 32768,
@@ -81,7 +90,6 @@ export async function parseNightCsv(
   })();
   const nights: NightRecord[] = [];
   const dates = new Set<string>();
-  const allowed = new Set(['sleepDate', 'deviceModel', 'hrvMethod', ...Object.keys(emptyMetrics)]);
   try {
     for await (const row of parser) {
       const r = z.record(z.string(), z.string()).parse(row);

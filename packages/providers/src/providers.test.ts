@@ -364,4 +364,24 @@ describe('streaming fallback imports', () => {
     expect(await provider.fetchNights('owner', from, to)).toHaveLength(1);
     await expect(provider.fetchNights('someone-else', from, to)).rejects.toThrow('owner');
   });
+  it('rejects duplicate CSV headers before a metric can be silently overwritten', async () => {
+    await expect(
+      parseNightCsv(chunks('sleepDate,totalSleepMinutes,totalSleepMinutes\n2026-03-08,400,0'), raw),
+    ).rejects.toThrow('Duplicate CSV column');
+  });
+  it('rejects missing or unknown CSV headers even without data rows', async () => {
+    await expect(parseNightCsv(chunks('totalSleepMinutes\n'), raw)).rejects.toThrow(
+      'Missing sleepDate column',
+    );
+    await expect(parseNightCsv(chunks('sleepDate,unknown\n'), raw)).rejects.toThrow(
+      'Unknown CSV column',
+    );
+  });
+  it('import adapters reject invalid date ranges across every data method', async () => {
+    const provider = new ImportedProvider('csv', 'owner', { nights: [], workouts: [], tags: [] });
+    for (const method of ['fetchNights', 'fetchWorkouts', 'fetchTags'] as const) {
+      await expect(provider[method]('owner', to, from)).rejects.toThrow('Invalid date range');
+      await expect(provider[method]('owner', new Date(NaN), to)).rejects.toThrow('Invalid date range');
+    }
+  });
 });
