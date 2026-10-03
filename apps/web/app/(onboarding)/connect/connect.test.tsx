@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ProgressProvider } from '../../../lib/progress/context';
 import { LocalProgressStore } from '../../../lib/progress/local';
+import { emptyProgress } from '../../../lib/progress/types';
 import { ConnectForm, demoNights } from './connect-form';
 
 const push = vi.fn();
@@ -66,15 +67,9 @@ describe('Connect', () => {
     const storage = memory();
     const store = new LocalProgressStore(storage);
     await store.save({
-      version: 1,
-      step: 'connect',
+      ...emptyProgress(),
       dataSource: 'demo',
       backfill: { nights: demoNights, done: true },
-      goals: [],
-      items: [],
-      seenQuestions: [],
-      dayOne: { overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false },
-      reducedMotion: false,
       updatedAt: new Date().toISOString(),
     });
     render(

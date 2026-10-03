@@ -49,7 +49,7 @@ export function ConnectForm() {
   function finish(n: number) {
     setNights(n);
     setPhase('done');
-    update({ dataSource: 'demo', backfill: { nights: n, done: true } });
+    update({ dataSource: 'demo', connectedAt: new Date().toISOString(), backfill: { nights: n, done: true } });
   }
 
   function startDemo() {
@@ -78,7 +78,7 @@ export function ConnectForm() {
       if (!res.ok) throw new Error(String(res.status));
       const { authorizationUrl } = (await res.json()) as { authorizationUrl?: string };
       if (!authorizationUrl) throw new Error('no url');
-      update({ dataSource: id });
+      update({ dataSource: id, connectedAt: new Date().toISOString() });
       window.location.assign(authorizationUrl);
     } catch {
       setBusy(null);

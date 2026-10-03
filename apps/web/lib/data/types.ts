@@ -133,10 +133,12 @@ export interface Verdict {
   decidedAt: string;
 }
 
-/** The seam between the screens and the engine. Demo now; Supabase plus routeStack later. */
+/**
+ * The seam between the screens and the engine for what runs after day one. Demo now; Supabase
+ * plus Phases 4 to 7 later. Day one itself is built by `buildRoutedStack` (routed.ts).
+ */
 export interface DataSource {
   readonly id: 'demo' | 'supabase';
-  routedStack(progress: Progress): Promise<RoutedStack>;
   experiments(progress: Progress): Promise<Experiment[]>;
   verdicts(progress: Progress): Promise<Verdict[]>;
 }

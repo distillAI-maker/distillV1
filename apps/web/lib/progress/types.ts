@@ -40,6 +40,8 @@ export const progressSchema = z
     version: z.literal(1),
     step: stepSchema,
     dataSource: dataSourceIdSchema.optional(),
+    /** When the source was chosen. */
+    connectedAt: z.string().optional(),
     backfill: z.object({ nights: z.number().int().nonnegative(), done: z.boolean() }).optional(),
     /** Set once the demo stack has been copied in, so a cleared list stays cleared. */
     prefilledFrom: z.enum(['demo']).optional(),
@@ -59,6 +61,18 @@ export const progressSchema = z
         started: z.boolean().default(false),
       })
       .default({ overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false }),
+    /** The person's own taps, by experiment and night. Fixture taps live in the data source. */
+    taps: z
+      .record(
+        z.string(),
+        z.record(
+          z.string(),
+          z.object({ value: z.enum(['did', 'didnt', 'unknown']), excluded: z.string().max(60).optional() }).strict(),
+        ),
+      )
+      .default({}),
+    /** What the person decided on each verdict. */
+    verdictChoices: z.record(z.string(), z.enum(['cut', 'kept'])).default({}),
     reducedMotion: z.boolean().default(false),
     updatedAt: z.string(),
   })
@@ -73,6 +87,8 @@ export function emptyProgress(): Progress {
     items: [],
     seenQuestions: [],
     dayOne: { overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false },
+    taps: {},
+    verdictChoices: {},
     reducedMotion: false,
     updatedAt: new Date(0).toISOString(),
   };

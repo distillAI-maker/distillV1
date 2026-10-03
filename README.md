@@ -30,7 +30,7 @@ pnpm check
 pnpm dev
 ```
 
-Opens the Phase 8 screens at http://localhost:3000. With no Supabase keys in `apps/web/.env.local`, the app runs on this device only: no account, progress saved in the browser, and "use demo data" on the Connect screen. The screens, copy and data flow are specified in [docs/ONBOARDING.md](docs/ONBOARDING.md). `pnpm build:web` makes the production build.
+Opens the Phase 8 screens at http://localhost:3000. With no Supabase keys in `apps/web/.env.local`, the app runs on this device only: no account, progress saved in the browser, and "use demo data" on the Connect screen. From there the click-through runs Connect, Your stack, What for, the follow-up questions, Day one (the Worked Example: 21 things, 10 off, $767 a month back), Today, a completed verdict, Your file and Settings. Routing, the experiment and the verdict are fixtures until Phases 3 to 7 land; the screens, copy and data flow are specified in [docs/ONBOARDING.md](docs/ONBOARDING.md). The app runs on Next's webpack bundler (see OPEN_QUESTIONS, ENGINE_IMPORT_EXTENSIONS). `pnpm build:web` makes the production build.
 
 To preview the existing landing page:
 

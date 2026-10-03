@@ -255,7 +255,7 @@ The reveal first, then the groups, then the first experiment. All on one page so
 
 ### The demo data source
 
-`apps/web/lib/data/demo/` reproduces the Worked Example sheet row by row: 21 items, the tapped answers, 10 drops, $767 a month back, 4 lined up, 2 can't measure, 4 keep, 1 Protected (the Oura ring, as a data-source line with no catalog row; logged as WEARABLE_SUBSCRIPTION_ROW). The demo person is on day 15: the first experiment (coffee after 2pm, the sheet's first) finished with a Dropped verdict, and the second (drinks in the evening, observational) starts Monday. Today shows the coffee strip on day 14 with the verdict ready, so the click-through reaches a completed verdict. The headline total is the arithmetic sum of the entered costs, $1,428; the sheet's prose says $1,342, which is $1,428 less the drinks ($80) and the Oura ring ($6). Recorded under WORKED_TOTAL.
+`apps/web/lib/data/demo/` reproduces the Worked Example sheet row by row: 21 items, the tapped answers, 10 drops, $767 a month back, 4 lined up, 2 can't measure, 4 keep, 1 Protected (the Oura ring, as a data-source line with no catalog row; logged as WEARABLE_SUBSCRIPTION_ROW). The demo person is on day 14 of the first experiment (coffee after 2pm, the sheet's first): thirteen mornings are already tapped, one of them missed and left as unknown, and the fourteenth is the tap on screen. That tap completes the fortnight and the verdict (Dropped, 51 minutes against a swing of 40, from the "Tier 1, dropped" template) is ready to read, so the click-through reaches a completed verdict. Today says so in one line: the fortnight is already behind you because this is demo data. The second experiment (drinks in the evening, off nights only) is named as next. The headline total is the arithmetic sum of the entered costs, $1,428; the sheet's prose says $1,342, which is $1,428 less the drinks ($80) and the Oura ring ($6). Recorded under WORKED_TOTAL.
 
 Items you add in demo mode that are not in the fixture are listed under **Not read yet** on Day one with their cost, counted in the total and nowhere else.
 
@@ -317,7 +317,7 @@ Done in the built-in browser against `pnpm dev`, on the demo source, before each
 
 ## 9. Pull requests
 
-All on `phase-8/web-ui`, each small, each with tests and docs, none merged to `main` until you say so:
+All on `phase-8/web-ui`, each a commit with tests and docs, none merged to `main` until you say so. All four are built; the verification sheets are in `docs/screens/`.
 
 1. Scaffold: `apps/web` on Next.js App Router beside Phase 2's layout, tokens, fonts, icons, the components, Welcome, Sign in, Connect on demo, the progress store, the data-source interface, `pnpm check` extended to the app.
 2. Your stack, What for, Follow-ups: the search index and matcher, question generation from the catalog with tests over all 210 rows, threshold follow-ups.
