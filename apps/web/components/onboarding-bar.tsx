@@ -1,15 +1,22 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import type { CSSProperties } from 'react';
 import { copy } from '../lib/copy';
 import { onboardingSteps, stepForPath } from '../lib/steps';
+import { useBack } from './back-handler';
 import { BackButton, Wordmark } from './ui';
 
 /** The bar above every onboarding screen: back, wordmark, "k of 5", and the progress line. */
 export function OnboardingBar() {
   const pathname = usePathname();
   const router = useRouter();
+  const takeover = useBack();
+  // Each step starts at the top, under the bar, whatever the last screen's scroll position was.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
   const step = stepForPath(pathname);
   const index = step ? onboardingSteps.indexOf(step) : -1;
   const total = onboardingSteps.length;
@@ -21,8 +28,8 @@ export function OnboardingBar() {
       <div className="wrap">
         <BackButton
           onClick={() => {
-            if (window.history.length > 1) router.back();
-            else router.push(backHref);
+            if (takeover && takeover()) return;
+            router.push(backHref);
           }}
         />
         <Wordmark />

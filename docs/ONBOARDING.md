@@ -52,7 +52,7 @@ What the prototype got right and the build keeps: one question per screen, the i
 
 Five onboarding steps, so the progress line has five segments. The follow-ups step shows its own count ("Question 3 of 9") because the number depends on the stack. Back always keeps answers. Reloading any screen returns to it with everything intact.
 
-Target time from Connect to Day one on the demo stack: under four minutes. The follow-ups step is budgeted at nine questions for the 21-item Worked Example (six items fire a question, three need an exact value or a confirmation).
+Target time from Connect to Day one on the demo stack: under four minutes. The follow-ups step asks the 21-item Worked Example twelve questions (eight items; the meditation app and the facials each take a yes, a chip and, for the app, an exact day count; training after 7pm is a one-tap confirmation of what the workouts say). Magnesium's goal is never asked because at 120 mg the rule settles on "dose too low" first.
 
 ## 4. Token sheet
 
@@ -296,6 +296,8 @@ Environment: `apps/web/env.example` carries Phase 2's keys plus `NEXT_PUBLIC_SUP
 ### Fitting beside Phase 2
 
 Phase 2 (`origin/phase-2/data-sources`) also creates `apps/web` (`package.json`, `next.config.ts`, `tsconfig.json`, `app/api/[...path]/route.ts`, `src/server/*`) and edits the root `package.json`, `eslint.config.js` and `.gitignore`. Phase 8 starts those files from Phase 2's versions and only adds to them (`@distill/catalog`, `@distill/engine`, `@supabase/ssr`, `devIndicators`, the lint and typecheck globs, Next 16's `allowJs` and `.next/dev/types` entries in `tsconfig.json`). Two lines differ on purpose: `apps/web/package.json` depends on `@distill/catalog` and `@distill/engine` where Phase 2 depends on `@distill/providers` and `@distill/data`, and `next.config.ts` transpiles the former. At merge both lists are kept. `pnpm-lock.yaml` is regenerated with `pnpm install`. `src/server` and `app/api` are not touched. Logged as MERGE_WITH_PHASE_2.
+
+The app runs on Next's webpack bundler (`next dev --webpack`, `next build --webpack`) because Turbopack cannot resolve the engine's and catalog's `.js`-extension imports to their `.ts` sources; `experimental.extensionAlias` maps them. Logged as ENGINE_IMPORT_EXTENSIONS, with the alternative.
 
 ## 7. Tone
 

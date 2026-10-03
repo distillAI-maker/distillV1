@@ -16,10 +16,19 @@ export const stackItemSchema = z
     /** Catalog key, or null for something the person added that is not listed. */
     itemKey: z.string().min(1).nullable(),
     customName: z.string().max(120).optional(),
+    /** The connected wearable's own subscription: counted, never rated. */
+    dataSource: z.boolean().optional(),
     monthlyCost: z.number().finite().nonnegative(),
     origin: originSchema.optional(),
-    /** Typed answers for the item's rule (engine RuleAnswers), kept as the chips were tapped. */
+    /** Typed values for the item's rule (engine RuleAnswers): numbers, booleans, strings. */
     answers: z.record(z.string(), z.unknown()).default({}),
+    /** The chip label tapped for a field, kept beside the value for the record and for ranges. */
+    chips: z.record(z.string(), z.string()).default({}),
+    /** Fields the person answered "not sure" to. The rule stays conservative; we stop asking. */
+    unknown: z.array(z.string()).default([]),
+    /** Answers read from the wearable (or the demo fixture), shown as a confirmation. */
+    readFrom: z.object({ source: z.string(), summary: z.string() }).optional(),
+    confirmedRead: z.boolean().optional(),
     status: z.enum(['listed', 'cut', 'kept', 'testing', 'protected']).default('listed'),
     position: z.number().int().nonnegative(),
   })
@@ -32,9 +41,13 @@ export const progressSchema = z
     step: stepSchema,
     dataSource: dataSourceIdSchema.optional(),
     backfill: z.object({ nights: z.number().int().nonnegative(), done: z.boolean() }).optional(),
+    /** Set once the demo stack has been copied in, so a cleared list stays cleared. */
+    prefilledFrom: z.enum(['demo']).optional(),
+    /** Goal names from the Goal to Number sheet, plus "nothing specific". */
     goals: z.array(z.string()).default([]),
     items: z.array(stackItemSchema).default([]),
-    questionIndex: z.number().int().nonnegative().default(0),
+    /** Follow-up questions already shown, as `${itemId}:${field}`. Back removes the last one. */
+    seenQuestions: z.array(z.string()).default([]),
     dayOne: z
       .object({
         overlapChoices: z.record(z.string(), z.string()).default({}),
@@ -56,11 +69,19 @@ export function emptyProgress(): Progress {
     step: 'connect',
     goals: [],
     items: [],
-    questionIndex: 0,
+    seenQuestions: [],
     dayOne: { overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false },
     reducedMotion: false,
     updatedAt: new Date(0).toISOString(),
   };
+}
+
+export function newItemId(): string {
+  try {
+    return crypto.randomUUID();
+  } catch {
+    return `i-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  }
 }
 
 /** Saved progress. Supabase when configured, this device otherwise. */

@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
-import { copy } from '../../../lib/copy';
+import { catalog } from '../../../lib/catalog/server';
+import { buildIndex } from '../../../lib/search/index';
+import { StackForm } from './stack-form';
 
 export const metadata: Metadata = { title: 'Your stack' };
 
-// Placeholder until the stack screen lands (docs/ONBOARDING.md, pull request 2).
 export default function StackPage() {
-  return (
-    <section className="stack">
-      <h1>{copy.stack.title}</h1>
-      <p className="lede">{copy.stack.line}</p>
-    </section>
-  );
+  // Built once at render; about 25 KB of names, categories, costs and aliases.
+  const index = buildIndex(catalog);
+  return <StackForm index={index} />;
 }

@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ProgressProvider } from '../../../lib/progress/context';
 import { LocalProgressStore } from '../../../lib/progress/local';
 import { ConnectForm, demoNights } from './connect-form';
 
 const push = vi.fn();
-vi.mock('next/navigation', () => ({ useRouter: () => ({ push, back: vi.fn() }) }));
+const router = { push, back: vi.fn() };
+vi.mock('next/navigation', () => ({ useRouter: () => router }));
 
 function memory() {
   const map = new Map<string, string>();
@@ -18,6 +19,7 @@ function memory() {
 }
 
 describe('Connect', () => {
+  afterEach(cleanup);
   beforeEach(() => {
     push.mockClear();
     document.documentElement.dataset.motion = 'reduce';
@@ -70,7 +72,7 @@ describe('Connect', () => {
       backfill: { nights: demoNights, done: true },
       goals: [],
       items: [],
-      questionIndex: 0,
+      seenQuestions: [],
       dayOne: { overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false },
       reducedMotion: false,
       updatedAt: new Date().toISOString(),
