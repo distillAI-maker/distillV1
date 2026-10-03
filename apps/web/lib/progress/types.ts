@@ -54,6 +54,8 @@ export const progressSchema = z
         runAnyway: z.array(z.string()).default([]),
         keepAnyway: z.array(z.string()).default([]),
         months: z.number().int().nonnegative().nullable().optional(),
+        /** The person's pick for the first experiment, when not the engine's first. */
+        firstExperiment: z.string().optional(),
         started: z.boolean().default(false),
       })
       .default({ overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false }),

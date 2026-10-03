@@ -219,6 +219,66 @@ export const copy = {
   },
   dayOne: {
     reading: 'Reading your stack',
+    things: (n: number) => (n === 1 ? '1 thing.' : `${n} things.`),
+    aMonth: (dollars: string) => `$${dollars} a month.`,
+    line: (s: { dropsToday: number; monthlyBack: string; linedUp: number; cantMeasure: number; keep: number; protectedCount: number; notReadYet: number }) => {
+      const parts = [
+        s.dropsToday === 1
+          ? `1 comes off today, $${s.monthlyBack} a month back.`
+          : `${s.dropsToday} come off today, $${s.monthlyBack} a month back.`,
+        s.linedUp === 1 ? '1 lined up for testing.' : `${s.linedUp} lined up for testing.`,
+      ];
+      if (s.cantMeasure) parts.push(s.cantMeasure === 1 ? "1 we can't measure, cost shown." : `${s.cantMeasure} we can't measure, cost shown.`);
+      if (s.keep) parts.push(`${s.keep} to keep.`);
+      if (s.protectedCount) parts.push(`${s.protectedCount} left alone.`);
+      if (s.notReadYet) parts.push(s.notReadYet === 1 ? '1 not read yet.' : `${s.notReadYet} not read yet.`);
+      return parts.join(' ');
+    },
+    showMe: 'Show me',
+    groups: {
+      drop: { title: 'No test needed', line: 'The answer is already known. The money comes back today.' },
+      test: { title: 'Tested on you', line: 'A wearable can see these. Three days on, three off, one number, one word.' },
+      cant: { title: "Can't measure it", line: "We can't see these in your data and we won't pretend to. The cost is shown; the call is yours." },
+      keep: { title: 'Keep', line: 'Worth keeping, on the evidence or on how you use it.' },
+      protected: { title: 'Protected', line: 'We leave these alone.' },
+      unread: { title: 'Not read yet', line: 'Counted in the total. The reading comes when the routing engine lands.' },
+    },
+    reasons: {
+      'dose too low': 'Dose too low',
+      'form not absorbed': 'Form not absorbed',
+      'tested, found nothing': 'Tested, found nothing',
+      'no way it could work': 'No way it could work',
+      'overlaps with something else': 'Overlaps with something else',
+      'not being used': 'Not being used',
+    },
+    perMonth: (dollars: string) => `$${dollars} a month`,
+    perYear: (dollars: string) => `$${dollars} a year`,
+    letItGo: 'Let it go',
+    keepItAnyway: 'Keep it anyway',
+    runItAnyway: 'Run it anyway',
+    leaveIt: 'Leave it',
+    beingChecked: 'Being checked',
+    safety: 'Safety note',
+    watch: (metric: string) => `We'd watch: ${/^[A-Z][a-z]/.test(metric) ? metric[0]!.toLowerCase() + metric.slice(1) : metric}`,
+    chance: (word: string) => `Chance of a clear answer: ${word}`,
+    hypothesisLabel: 'From your history',
+    overlapTitle: 'These two do the same job.',
+    overlapLine: 'Keep the one you use. The other one goes.',
+    keepThis: (name: string) => `Keep ${name}`,
+    suggested: (a: string, b: string) => `Suggested, on visits: ${a} against ${b}.`,
+    firstTitle: 'Your first experiment.',
+    firstLine1: 'Fourteen days from Monday. Three days on, three days off.',
+    firstLine2: 'Each morning: one line, one tap. A missed tap counts as unknown, never as a miss.',
+    observeLine: 'Off nights only. We never assign a drink.',
+    monthsQ: 'Roughly how many months has this been part of your days?',
+    monthsUnit: 'months',
+    start: 'Start the first experiment',
+    notThisOne: 'Not this one',
+    pickAnother: 'Which one instead?',
+    emptyTitle: 'Nothing to read yet.',
+    emptyLine: 'Add at least one thing to your stack and come back.',
+    backToStack: 'Back to your stack',
+    error: "We couldn't read your stack. Nothing was lost.",
   },
 } as const;
 
@@ -239,5 +299,7 @@ export function allStrings(tree: Tree = copy as unknown as Tree, path = ''): [st
 function sample(fn: Leaf): string {
   if (typeof fn === 'string') return fn;
   const f = fn as (...args: unknown[]) => string;
+  if (f.length === 1 && /\bs\b/.test(f.toString().slice(0, 40)))
+    return f({ dropsToday: 10, monthlyBack: '767', linedUp: 4, cantMeasure: 2, keep: 4, protectedCount: 1, notReadYet: 1 });
   return f('Magnesium', 5);
 }
