@@ -9,8 +9,10 @@
   "scripts": {
     "catalog:build": "tsx packages/catalog/src/build.ts",
     "catalog:check": "tsx packages/catalog/src/build.ts --check",
-    "lint": "eslint packages scripts/*.ts",
-    "typecheck": "tsc --noEmit",
+    "lint": "eslint packages apps/web scripts/*.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p apps/web/tsconfig.json",
+    "dev": "pnpm --filter @distill/web dev",
+    "build:web": "pnpm --filter @distill/web build",
     "test": "vitest run",
     "tone-lint": "tsx scripts/tone-lint.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm catalog:check && pnpm tone-lint"

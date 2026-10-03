@@ -295,7 +295,7 @@ Environment: `apps/web/env.example` carries Phase 2's keys plus `NEXT_PUBLIC_SUP
 
 ### Fitting beside Phase 2
 
-Phase 2 (`origin/phase-2/data-sources`) also creates `apps/web` (`package.json`, `next.config.ts`, `tsconfig.json`, `app/api/[...path]/route.ts`, `src/server/*`) and edits the root `package.json`, `eslint.config.js` and `.gitignore`. Phase 8 starts those files from Phase 2's versions byte for byte and only adds to them (`@distill/catalog`, `@distill/engine`, `@supabase/ssr`, the lint and typecheck globs), so the merge is clean apart from `pnpm-lock.yaml`, which is regenerated. `src/server` and `app/api` are not touched. Logged as MERGE_WITH_PHASE_2.
+Phase 2 (`origin/phase-2/data-sources`) also creates `apps/web` (`package.json`, `next.config.ts`, `tsconfig.json`, `app/api/[...path]/route.ts`, `src/server/*`) and edits the root `package.json`, `eslint.config.js` and `.gitignore`. Phase 8 starts those files from Phase 2's versions and only adds to them (`@distill/catalog`, `@distill/engine`, `@supabase/ssr`, `devIndicators`, the lint and typecheck globs, Next 16's `allowJs` and `.next/dev/types` entries in `tsconfig.json`). Two lines differ on purpose: `apps/web/package.json` depends on `@distill/catalog` and `@distill/engine` where Phase 2 depends on `@distill/providers` and `@distill/data`, and `next.config.ts` transpiles the former. At merge both lists are kept. `pnpm-lock.yaml` is regenerated with `pnpm install`. `src/server` and `app/api` are not touched. Logged as MERGE_WITH_PHASE_2.
 
 ## 7. Tone
 
