@@ -9,6 +9,7 @@ The existing marketing site remains in `public/`. Vercel serves that folder dire
 ## Where things stand
 
 - **Live:** https://distill-v1-tau.vercel.app, serving version 3 of the page (October 2026).
+- **App:** https://distill-app-nu.vercel.app, the Phase 8 screens on demo data, a second Vercel project rooted at `apps/web` that also redeploys on every push to `main`.
 - **Connected:** this repo deploys to Vercel on every push to `main`, and the sign-up forms save to the Supabase `signups` table.
 - **To change the site:** edit `public/index.html`, commit, and push to `main`. Vercel publishes it in about a minute.
 

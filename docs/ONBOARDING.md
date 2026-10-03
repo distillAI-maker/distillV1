@@ -330,10 +330,8 @@ Added to `docs/OPEN_QUESTIONS.md` under "Phase 8": GUARANTEE_COPY, EMAIL_TEMPLAT
 
 ## 11. The one line for the landing page
 
-Not applied. If the app needs a way in from the site, add to the footer `<nav>` in `public/index.html`, after the Questions link:
+Not applied. The app is live at https://distill-app-nu.vercel.app (Vercel project `distill-app`, root directory `apps/web`, redeployed on every push to `main`). If the site needs a way in, add to the footer `<nav>` in `public/index.html`, after the Questions link:
 
 ```html
-<a href="https://app.distill-v1.vercel.app/">Sign in</a>
+<a href="https://distill-app-nu.vercel.app/">Open the app</a>
 ```
-
-with the real app URL once the `apps/web` Vercel project exists.
