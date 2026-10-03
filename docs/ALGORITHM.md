@@ -1,6 +1,6 @@
 # Routing, experiment and statistics algorithms (Phases 3–5)
 
-This document covers day-one stack routing, the experiment engine and statistical analysis. Simulation and protocol acceptance belong to Phase 6. The effect threshold is the workbook's working estimate, not a simulation-validated power claim.
+This document covers day-one stack routing, experiments, statistical analysis and the Phase 6 findings. [POWER.md](POWER.md) contains conditional simulation evidence. The 0.8 threshold remains a candidate-priority rule; it cannot promise a two-week result.
 
 ## Contract
 
@@ -96,7 +96,7 @@ Run `pnpm routing:golden` for the strict acceptance check. **It currently exits 
 
 Routing tests cover first-match precedence, safety, goals, effect boundaries and personal adjustments, queues, observe-only flags, conditional/selected overlap decisions, exact accounting, input rejection, input immutability, summary buckets, and strict source rejection. Existing catalog, provider, database and API tests continue to run under `pnpm check`.
 
-Phases 4–5 validation is described below. Phase 6 must establish power, interval coverage and false-positive behavior before the protocol is claimed as validated.
+Phases 4–5 checks are described below. Phase 6 measures power, interval coverage and false positives under declared assumptions. Failures and remaining product decisions are recorded in [POWER.md](POWER.md).
 
 ## Phase 4 contract and selection
 
@@ -172,7 +172,7 @@ const card = experimentResultCard(analysis);
 
 The server must load the authenticated owner's saved registration/check-ins and derive the local date. It must not accept a client-authored registration, verdict, p-value or future date. Phase 5 supplies the library and UI payload contract; experiment HTTP routes, persistence of rendered results and screens are not introduced here.
 
-Every result is marked `validation: awaiting_phase_6`. Unit fixtures check the calculation, not empirical false-positive rates, autocorrelation robustness, interval coverage or product power. These results are ready for simulation and UI integration, not protocol acceptance.
+Results now carry `validation: simulation_evidence_available`. This points to the conditional evidence in [POWER.md](POWER.md), not universal or real-user validation. The internal bootstrap remains available for analysis, but the public card hides it because tested coverage is insufficient in some profiles.
 
 ## Locked policy: benefit only versus both directions
 
@@ -210,7 +210,7 @@ For a benefit-only test, more than 20 assignments are necessary for strict p < 0
 | 28 days `[3,3,3,3,1,1]` repeated twice                 | 60               | 1/60                               | Yes before ties; carryover can erase one-day blocks |
 | 42 days, fourteen three-day blocks                     | 138              | 1/138                              | Yes; carryover leaves two usable nights per block   |
 
-No longer layout becomes the product default in Phase 5. Phase 6 must compare their power and burden with the starting design.
+No longer layout became the product default in Phase 5. Phase 6 compares their power with the starting design; choosing the offered duration remains a product decision.
 
 The 90% interval is a **condition-stratified whole-block percentile bootstrap** of the raw-unit mean difference. Within each actual exposure side, it draws the observed scheduled blocks with replacement, concatenates all measurements in each selected block, and recomputes the night-weighted mean. It preserves within-block dependence and unequal block lengths. At least two observed blocks per side are needed. If a scheduled block has valid nights in both exposure sides, independent stratified resampling would break their shared dependence, so the interval is unavailable with `bootstrap_condition_clusters_overlap`. Default replicates are 5,000; explicit counts must be 1,000–50,000. The saved schedule seed derives a separate deterministic bootstrap seed, which is reported internally; no hidden randomness changes a rerun.
 
@@ -233,6 +233,6 @@ Equality to a threshold is Inconclusive. Inconclusive is a recorded answer, not 
 
 ## UI boundary and validation
 
-`AnalysisResult` contains internal p-values and diagnostics for testing/audit. It must never be serialized directly into a user result card. `experimentResultCard` explicitly selects the metric, means, real-unit change, personal swing, swing-unit change, 90% interval, condition definitions, night counts, unverified/observational flags and verdict word. No p-values, alpha, assignment counts, bootstrap seeds or raw test diagnostics enter this payload. Phase 7 owns sensible rounding, template rendering and tone tests; Phase 8 owns screens.
+`AnalysisResult` contains internal p-values and diagnostics for testing/audit. It must never be serialized directly into a user result card. `experimentResultCard` explicitly selects the metric, means, real-unit change, personal swing, swing-unit change, condition definitions, night counts, unverified/observational flags and verdict word. Its `interval` is now null, with `intervalStatus: coverage_not_established` when an internal interval exists. No p-values, alpha, assignment counts, bootstrap seeds or raw test diagnostics enter this payload. Phase 7 owns sensible rounding, template rendering and tone tests; Phase 8 owns screens.
 
 Tests cover both signs of both beneficial directions, legacy policies, strict thresholds, restriction conditions, complete assignment support, ties including carryover aliases, insufficient/unknown/flagged nights, noncompliance, observation-only handling, baseline snapshots/legacy evidence, log-HRV, zero swing, whole-block resampling and the p-free presentation boundary. Database regression tests also reject post-start edits to the new policy and baseline measurements. Passing these tests does not waive the blocked worked example, missing live provider acceptance or Phase 6 simulation requirement.

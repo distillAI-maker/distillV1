@@ -1,6 +1,6 @@
 # MVP status
 
-The project now has a data foundation, the core of a day-one audit engine, an experiment engine with private storage, and statistical analysis. It is not yet an app a new person can use from start to finish.
+The project now has a data foundation, the core of a day-one audit engine, an experiment engine with private storage, statistical analysis, and a simulation/demo-data system. It is not yet an app a new person can use from start to finish.
 
 ## What the code does in plain English
 
@@ -14,22 +14,24 @@ The experiment engine can choose one candidate, watch a baseline, create a repea
 
 The statistics engine compares on and off nights, shows the change against the person's usual variability, and produces Kept, Dropped or Inconclusive. New experiments ask whether the saved on condition helps or hurts, with stricter evidence needed in each direction; existing experiments retain their saved rules. Missing data, broken compliance and observational comparisons cannot quietly become decisive results. A separate result-card payload keeps internal p-values out of the eventual screen.
 
-These are backend capabilities. There is no onboarding or morning check-in screen, rendered result card, or personal results file yet. Statistical protocol performance still needs simulation. The existing public landing page is separate from the application.
+The new simulator creates fictional people, adds known helpful/harmful effects, and runs the actual experiment code to see how often it finds an answer or makes a mistake. The power report compares test lengths, missed answers, baseline lengths, correlation, all ten outcomes and interval coverage. Three demo people now have six months of stored history, a Worked Example inventory, completed experiments and results available through a local read-only API. No wearable or live account is needed to seed them.
+
+These are backend capabilities. There is no onboarding or morning check-in screen, rendered result card, or personal results file yet. The simulations are evidence under stated assumptions, not proof for real users. The existing public landing page is separate from the application.
 
 ## Progress toward the specified MVP
 
-| Phase                         | Status                                                                 | What it contributes                                                                                                                      |
-| ----------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 1: Catalog and item rules     | Implemented and locally tested                                         | The checked source catalog and rules for each item.                                                                                      |
-| 2: Wearable data and accounts | Implemented and locally tested; live acceptance pending                | Imports, OAuth, account auth, private storage, backfill, sync, deletion.                                                                 |
-| 3: Day-one stack audit        | Core implemented and locally tested; worked-example acceptance blocked | Complete-stack routing, spending/savings, explicit overlap decisions, test ordering, strict source diagnostics.                          |
-| 4: Experiments                | Implemented and locally tested; live migration pending                 | Candidate selection, baseline, seeded schedules, immutable registration, compliance, switching and history hypotheses.                   |
-| 5: Statistics                 | Implemented and locally tested; protocol validation pending Phase 6    | Personal swing, actual on/off effects, exact block randomization, 90% bootstrap interval, locked decision policies and result-card data. |
-| 6: Simulation and demo people | Pending                                                                | Check the algorithm against known simulated effects and make demo accounts usable without a wearable.                                    |
-| 7: Verdict text               | Pending                                                                | Produce the final readable result cards from the spreadsheet's templates and check their tone.                                           |
-| 8: App screens                | Pending                                                                | Connect, onboarding, day-one audit, daily check-in, verdicts, personal file, settings.                                                   |
+| Phase                         | Status                                                                 | What it contributes                                                                                                                                |
+| ----------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1: Catalog and item rules     | Implemented and locally tested                                         | The checked source catalog and rules for each item.                                                                                                |
+| 2: Wearable data and accounts | Implemented and locally tested; live acceptance pending                | Imports, OAuth, account auth, private storage, backfill, sync, deletion.                                                                           |
+| 3: Day-one stack audit        | Core implemented and locally tested; worked-example acceptance blocked | Complete-stack routing, spending/savings, explicit overlap decisions, test ordering, strict source diagnostics.                                    |
+| 4: Experiments                | Implemented and locally tested; live migration pending                 | Candidate selection, baseline, seeded schedules, immutable registration, compliance, switching and history hypotheses.                             |
+| 5: Statistics                 | Implemented and locally tested; simulation limitations documented      | Personal swing, actual on/off effects, exact block randomization, internal bootstrap interval, locked decision policies and safe result-card data. |
+| 6: Simulation and demo people | Implemented, measured and locally tested                               | Synthetic people, full Monte Carlo report/chart, scoped power labels, and three persistent demo profiles with six months of history.               |
+| 7: Verdict text               | Pending                                                                | Produce the final readable result cards from the spreadsheet's templates and check their tone.                                                     |
+| 8: App screens                | Pending                                                                | Connect, onboarding, day-one audit, daily check-in, verdicts, personal file, settings.                                                             |
 
-The remaining work is not just screens. A working MVP needs evidence from simulation that the statistical protocol behaves correctly, readable verdicts, and the complete demo journey. The specification also requires a successful Oura test-account connection.
+The remaining work includes readable verdicts, app screens, a complete demo journey and live acceptance. The specification also requires a successful Oura test-account connection. Simulation found limits that must stay visible when choosing the product protocol.
 
 ## Current blockers and next work
 
@@ -37,6 +39,8 @@ Phase 3's strict example check cannot pass until the conflicting totals, conditi
 
 Real integrations need Supabase/Vercel configuration and approved provider accounts. Google Health access and Garmin partner approval remain external dependencies. Source fact-check flags still require team sign-off before launch-facing advice is approved. [DATA_SOURCES.md](DATA_SOURCES.md) lists the setup and acceptance steps.
 
-The default 14-day schedules satisfy balance and minimum-night capacity, but have too few possible assignments to support a decisive result under either saved statistical policy. Phase 5 returns Inconclusive for that reason, even for a large measured change. Longer configurable layouts can make a decisive result possible, but ties, carryover and missing nights can still prevent it. They need simulation before becoming a product default. See [ALGORITHM.md](ALGORITHM.md) for the exact layouts and decision table.
+The saved 14-day schedules satisfy balance and minimum-night capacity, but have too few possible assignments to support a decisive result under either statistical policy. They return Inconclusive even for a large change. Phase 6 compares longer layouts; the explicit 42-day reference is available with scoped power guidance. The duration offered to users still needs a product decision. See [ALGORITHM.md](ALGORITHM.md) for the exact layouts and decision table.
 
-The next code phase is Phase 6: realistic synthetic people, Monte Carlo validation, the power report and demo history. It must check false positives, wrong-direction decisions, autocorrelation, exclusions and interval coverage, then confirm or revise the schedule and effect gate. Phases 7–8 will render verdicts and connect the capabilities into the end-to-end demo path.
+Phase 6 found about 38% power at 0.8 swings and 70% at 1.2 for the 42-day reference, with false positives around 5% under independent exclusions. These claims do not apply to the 14-day default. A deliberately biased missing-answer stress test exposes the assumption’s limits. The nominal 90% bootstrap interval undercovers in some profiles and is hidden from public cards. [POWER.md](POWER.md) contains counts and uncertainty; [DEMO.md](DEMO.md) contains local seed/API instructions.
+
+The 0.8 routing threshold remains a candidate-priority rule. Source good/fair/low labels are preserved for review; a separate empirical overlay describes only supported simulated protocols. Choosing whether to offer four or six weeks, and how to handle outcome-dependent missed answers, remains a product/algorithm decision. Phase 7 is the next code phase: verdict templates, rounding and tone checks. Phase 8 connects those outputs into the demo app.

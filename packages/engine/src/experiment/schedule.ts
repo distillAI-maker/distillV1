@@ -32,6 +32,8 @@ const layouts = (config: ScheduleConfig) => {
     throw new Error('Invalid block layout');
   return { total, lengths };
 };
+// Bounded memoization of immutable design support makes repeated Monte Carlo analysis practical.
+const supportCache = new Map<string, readonly (readonly ('on' | 'off')[])[]>();
 
 /** Full constrained support, used by both randomization and the future exact test. */
 export function enumerateAssignments(
@@ -43,6 +45,9 @@ export function enumerateAssignments(
   const minimum = config.minimumNightsPerSide ?? 5;
   if (!Number.isInteger(minimum) || minimum < 5)
     throw new Error('At least five valid nights per side are required');
+  const cacheKey = JSON.stringify([lengths, !!config.dropFirstNightOfBlock, minimum]);
+  const cached = supportCache.get(cacheKey);
+  if (cached) return cached;
   // Calendar membership is fixed across the entire randomization space.
   let calendarOffset = 0;
   const weekendsByBlock = lengths.map((length) => {
@@ -87,7 +92,10 @@ export function enumerateAssignments(
   }
   if (!assignments.length)
     throw new Error('No balanced schedule meets weekend, block and usable-night constraints');
-  return immutable(assignments);
+  const result = immutable(assignments);
+  if (supportCache.size >= 32) supportCache.delete(supportCache.keys().next().value!);
+  supportCache.set(cacheKey, result);
+  return result;
 }
 
 /** Rejection sampling prevents modulo bias when selecting from the exact support. */

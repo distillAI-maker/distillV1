@@ -25,7 +25,11 @@ export interface AnalysisInput {
   readonly checkIns: readonly CheckIn[];
   /** Local wake-date cutoff; the caller derives this from the authenticated person's timezone. */
   readonly through: string;
-  readonly bootstrap?: { readonly seed?: number; readonly iterations?: number };
+  readonly bootstrap?: {
+    readonly seed?: number;
+    readonly iterations?: number;
+    readonly enabled?: boolean;
+  };
 }
 export interface EffectEstimate {
   readonly onMean: number;
@@ -68,6 +72,6 @@ export interface AnalysisResult {
   /** Internal diagnostics, never serialized directly into a result card. */
   readonly randomization: RandomizationResult | null;
   readonly interval: BootstrapInterval | null;
-  readonly validation: 'awaiting_phase_6';
+  readonly validation: 'simulation_evidence_available';
   readonly limitations: readonly string[];
 }

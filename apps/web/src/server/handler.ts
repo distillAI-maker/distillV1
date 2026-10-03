@@ -4,6 +4,7 @@ import { ProviderError, sleepDateSchema } from '@distill/providers';
 import { stateHash } from '@distill/providers/server';
 import { HttpError } from './service.js';
 import type { Service } from './service.js';
+import { handleDemoRequest } from './demo.js';
 
 const response = (data: unknown, status = 200, headers: Record<string, string> = {}) =>
   Response.json(data, {
@@ -53,6 +54,7 @@ export function secretEqual(actual: string, expected: string) {
 export function createHandler(
   service: () => Service,
   defer: (task: () => Promise<unknown>) => void,
+  demo: (request: Request) => Promise<Response> = handleDemoRequest,
 ) {
   return async (request: Request): Promise<Response> => {
     try {
@@ -60,6 +62,7 @@ export function createHandler(
         path = url.pathname.replace(/\/$/, ''),
         method = request.method;
       if (path === '/api/health' && method === 'GET') return response({ phase: 2, status: 'ok' });
+      if (path === '/api/demo' || path.startsWith('/api/demo/')) return demo(request);
       const app = service();
       if (path === '/api/cron/sync' && method === 'GET') {
         if (!secretEqual(request.headers.get('authorization') ?? '', `Bearer ${app.cronSecret}`))

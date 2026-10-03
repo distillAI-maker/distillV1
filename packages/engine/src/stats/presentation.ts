@@ -25,7 +25,8 @@ export interface ExperimentResultCard {
   readonly word: Verdict;
   readonly reasons: readonly InconclusiveReason[];
   readonly evidence: 'randomized' | 'observational';
-  readonly validation: 'awaiting_phase_6';
+  readonly validation: AnalysisResult['validation'];
+  readonly intervalStatus: 'coverage_not_established' | 'not_available';
   readonly onCondition: string;
   readonly offCondition: string;
   readonly nights: { readonly on: number; readonly off: number };
@@ -62,8 +63,8 @@ export function experimentResultCard(result: AnalysisResult): ExperimentResultCa
         }
       : null,
     changeInSwingUnits: result.effect?.swingUnits ?? null,
-    interval: result.interval
-      ? { level: 0.9, lower: result.interval.lower, upper: result.interval.upper }
-      : null,
+    // Phase 6 evaluates the internal interval; nominal 90% coverage is not established.
+    interval: null,
+    intervalStatus: result.interval ? 'coverage_not_established' : 'not_available',
   });
 }

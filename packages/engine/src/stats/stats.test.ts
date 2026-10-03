@@ -534,7 +534,9 @@ describe('bootstrap and result-card boundary', () => {
         /pvalue|beneficialP|oppositeP|alpha|randomization|seed|assignmentCount/i.test(key),
       ),
     ).toBe(false);
-    expect(card.validation).toBe('awaiting_phase_6');
+    expect(card.validation).toBe('simulation_evidence_available');
+    expect(card.interval).toBeNull();
+    expect(card.intervalStatus).toBe('coverage_not_established');
     expect(() => {
       (card.nights as { on: number }).on = 1;
     }).toThrow();

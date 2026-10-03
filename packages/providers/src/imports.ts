@@ -49,11 +49,15 @@ export class UnavailableProvider implements Provider {
   }
 }
 export const garminProvider = new UnavailableProvider('garmin', 'garmin_partner_approval_required');
-// Phase 6 owns generation. Tests and callers can already inject explicit synthetic records.
-export const syntheticProvider = new UnavailableProvider(
-  'synthetic',
-  'synthetic_generator_is_phase_6',
-);
+/** Synthetic fixtures are owner-bound, just like imports; there is no shared global user. */
+export function syntheticProvider(owner: string, data: ImportedData): Provider {
+  if (
+    !owner ||
+    [...data.nights, ...data.workouts, ...data.tags].some((record) => record.source !== 'synthetic')
+  )
+    throw new Error('Synthetic provider requires an owner and synthetic-only records');
+  return new ImportedProvider('synthetic', owner, structuredClone(data));
+}
 
 export async function parseNightCsv(
   input: AsyncIterable<Uint8Array>,

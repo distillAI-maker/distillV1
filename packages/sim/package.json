@@ -1,0 +1,17 @@
+{
+  "name": "@distill/sim",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./guidance": "./src/guidance.ts",
+    "./local": "./src/local.ts"
+  },
+  "dependencies": {
+    "@distill/catalog": "workspace:*",
+    "@distill/engine": "workspace:*",
+    "@distill/providers": "workspace:*",
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

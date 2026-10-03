@@ -2,11 +2,11 @@
 
 Distill is being built in eight phases, one pull request per phase. The product brief is [SPEC.md](SPEC.md).
 
-**Phases 1–5 are implemented locally; overall algorithm acceptance remains pending:** deterministic workbook ingestion, typed data, 95 hand-written item rules, provider adapters, streaming imports, encrypted OAuth, Supabase auth/storage, durable sync workers, and a Next.js API. The stack engine adds first-match routing, overlap decisions, spending/savings, and ranked test candidates. The experiment engine adds baseline assessment, seeded schedules, locked measurement rules, daily compliance, history hypotheses and private experiment persistence. Phase 5 adds personal variability, on/off comparisons, exact block randomization, 90% bootstrap intervals, locked decision policies and p-free result-card data. Simulation, verdict rendering, and app screens belong to later phases.
+**Phases 1–6 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiment scheduling and statistical decisions. Phase 6 adds seeded synthetic people, Monte Carlo power/coverage checks, an empirical label overlay, and three persistent local demo profiles with six months of history. [docs/POWER.md](docs/POWER.md) records the actual results; [docs/DEMO.md](docs/DEMO.md) explains how to run the demo data/API. Verdict rendering and app screens remain for Phases 7–8.
 
 Phase 3's worked-example acceptance remains blocked by source contradictions and missing answers; the engine keeps those cases conservative. See [docs/ALGORITHM.md](docs/ALGORITHM.md) for contracts and [docs/MVP_STATUS.md](docs/MVP_STATUS.md) for a plain-English progress overview.
 
-Phase 4's default 14-day schedules have insufficient randomization resolution for a decisive statistical result. Phase 5 enforces that limit and preserves saved rules on existing experiments. New experiments test both directions with a shared 5% error budget. Longer configurable schedules and interval coverage require Phase 6 validation before protocol acceptance. Experiment HTTP routes and screens are not yet wired.
+The saved 14-day default has insufficient randomization resolution for a decisive result. Phase 6 measures explicit 28/42-day alternatives; the 42-day reference supports the 0.8/1.2 power claims only under the declared synthetic assumptions. It is exported as an explicit protocol option, with no change to saved registrations. New experiments test both directions with a shared 5% error budget. Interval coverage is insufficient in some tested profiles, so result cards suppress the interval. Experiment HTTP routes and screens are not yet wired.
 
 Phase 2 setup, API contracts, platform constraints, and live acceptance steps are in [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Local implementation does not establish real-account provider access or deploy the database.
 
@@ -27,6 +27,7 @@ pnpm install --frozen-lockfile
 pnpm catalog:build
 pnpm check
 pnpm build:web
+pnpm sim:check
 ```
 
 `pnpm check` runs ESLint, TypeScript, Vitest, the generated-catalog freshness check, and tone checks over all 17 verdict templates. CI runs the same checks and the web production build for every PR and push to `main`. After configuring `apps/web/.env.local`, run `pnpm dev` for the Phase 2 API.
@@ -74,8 +75,8 @@ The older `docs/Routing-Table.xlsx` and `public/routing.json` serve the marketin
 2. Provider adapters and data storage/auth integration — implemented locally; live acceptance requires credentials.
 3. First-match stack routing and overlap decisions — core implemented; strict `pnpm routing:golden` acceptance remains blocked by the source.
 4. Experiment scheduling and immutable pre-registration — implemented and locally tested; live migration pending.
-5. Statistics and decision rules — implemented and locally tested; simulation acceptance pending Phase 6.
-6. Synthetic people, simulation and demo users.
+5. Statistics and decision rules — implemented and locally tested; conditional simulation evidence and remaining limitations documented.
+6. Synthetic people, simulation and demo users — implemented and measured locally; conditional model evidence, with coverage/missingness limitations.
 7. Filled verdict text and snapshots.
 8. Next.js app flows.
 

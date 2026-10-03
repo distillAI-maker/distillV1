@@ -1,6 +1,6 @@
 # Phase 2 data sources
 
-Implementation status: provider adapters, import parsers, persistence, OAuth, sync workers and API routes are implemented. The Phase 3 stack router, Phase 4 experiment library/storage and Phase 5 statistics library are also implemented locally; experiment HTTP routes and the app UI are not yet wired. Deployment and real-account acceptance require the configuration below. Statistical protocol validation and the synthetic generator belong to Phase 6.
+Implementation status: provider adapters, import parsers, persistence, OAuth, sync workers and API routes are implemented. Phases 3–6 add stack routing, experiments, statistics, simulation and local demo data; experiment HTTP routes and app screens are not yet wired. Deployment and real-account acceptance require the configuration below. Conditional power evidence is in [POWER.md](POWER.md); local demo setup is in [DEMO.md](DEMO.md).
 
 ## Platform verification (2026-10-02)
 
@@ -13,7 +13,7 @@ Implementation status: provider adapters, import parsers, persistence, OAuth, sy
 | Apple Health                | HealthKit is a native SDK, not a browser API. Import `export.zip` in this phase. The SAX parser streams `export.xml`; it does not construct a whole XML tree or extract ZIP paths onto disk. [HealthKit](https://developer.apple.com/documentation/healthkit), [export instructions](https://support.apple.com/en-ca/guide/iphone/iph5ede58c3d/ios).                                                                                                                                              |
 | Garmin                      | Explicit unavailable adapter until partner approval. Apply through the Garmin Connect Developer Program, describe the product/use case, complete approval and the evaluation environment, then implement against the granted documentation. No invented public endpoint. [Health API program](https://developer.garmin.com/gc-developer-program/health-api/).                                                                                                                                     |
 | CSV                         | Fallback import only. Explicit unit columns, blank means unknown, zero remains zero.                                                                                                                                                                                                                                                                                                                                                                                                              |
-| Synthetic                   | The common adapter supports injected records. Generating synthetic people and demo history is Phase 6.                                                                                                                                                                                                                                                                                                                                                                                            |
+| Synthetic                   | Owner-bound provider with seeded metric generation, workout/tag fixtures and three persistent local demo profiles. See [DEMO.md](DEMO.md); this does not create a real wearable connection.                                                                                                                                                                                                                                                                                                       |
 
 ## Data contract
 
@@ -40,7 +40,7 @@ The web scripts use webpack with `.js` → TypeScript extension resolution becau
 
 No database migration, provider registration or live deployment is performed merely by installing this code.
 
-Phase 5 uses the Phase 4 tables without a new SQL migration. New registration JSON includes the saved test policy and raw baseline values; the existing immutable-registration trigger protects both. Legacy records retain their original one-sided policy. The server should pass owner-bound normalized records and saved check-ins to `@distill/engine/stats`, then use `experimentResultCard` for UI data rather than exposing the internal analysis diagnostics. Protocol validation still requires Phase 6.
+Phase 5 uses the Phase 4 tables without a new SQL migration. New registration JSON includes the saved test policy and raw baseline values; the existing immutable-registration trigger protects both. Legacy records retain their original one-sided policy. The server should pass owner-bound normalized records and saved check-ins to `@distill/engine/stats`, then use `experimentResultCard` for UI data rather than exposing internal diagnostics. Phase 6 measures conditional power and hides intervals without demonstrated coverage. Its demo-profile table and Auth/Storage scaffold exist only in the local fixture database; no hosted migration is added.
 
 ## API
 

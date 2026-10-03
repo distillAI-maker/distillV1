@@ -167,14 +167,17 @@ export function analyzeExperiment(input: AnalysisInput): AnalysisResult {
   const offBlocks = new Set(off.map((sample) => sample.block));
   const mixedExposureBlocks = on.some((sample) => offBlocks.has(sample.block));
   // Independent condition strata cannot resample a cluster that belongs to both sides.
-  const interval = bootstrapInterval(
-    mixedExposureBlocks ? [] : grouped('on'),
-    mixedExposureBlocks ? [] : grouped('off'),
-    {
-      seed: input.bootstrap?.seed ?? (schedule.seed ^ 0xa5a5a5a5) >>> 0,
-      iterations: input.bootstrap?.iterations,
-    },
-  );
+  const interval =
+    input.bootstrap?.enabled === false
+      ? null
+      : bootstrapInterval(
+          mixedExposureBlocks ? [] : grouped('on'),
+          mixedExposureBlocks ? [] : grouped('off'),
+          {
+            seed: input.bootstrap?.seed ?? (schedule.seed ^ 0xa5a5a5a5) >>> 0,
+            iterations: input.bootstrap?.iterations,
+          },
+        );
   const testPolicy = record.testPolicy ?? 'benefit_only';
   const perTailAlpha = testPolicy === 'both_directions' ? record.alpha / 2 : record.alpha;
   const blockers: InconclusiveReason[] = [];
@@ -232,9 +235,10 @@ export function analyzeExperiment(input: AnalysisInput): AnalysisResult {
     lockedSwing: record.personalSwing,
     randomization,
     interval,
-    validation: 'awaiting_phase_6',
+    validation: 'simulation_evidence_available',
     limitations: [
-      'protocol_and_interval_coverage_await_phase_6',
+      'simulation_is_conditional_on_declared_model_not_real_user_validation',
+      'bootstrap_interval_coverage_not_established',
       'randomization_tests_sharp_no_effect_not_all_average_effect_nulls',
       ...(excluded.some(
         (entry) => entry.reason !== 'carryover' && entry.reason !== 'not_yet_observed',
@@ -245,11 +249,13 @@ export function analyzeExperiment(input: AnalysisInput): AnalysisResult {
         ? ['observed_exposure_is_not_a_randomized_condition']
         : []),
       ...(noncompliantDates.length ? ['actual_exposure_does_not_match_randomized_assignment'] : []),
-      ...(mixedExposureBlocks
-        ? ['bootstrap_condition_clusters_overlap']
-        : !interval
-          ? ['bootstrap_requires_two_observed_blocks_per_condition']
-          : []),
+      ...(input.bootstrap?.enabled === false
+        ? ['bootstrap_not_requested']
+        : mixedExposureBlocks
+          ? ['bootstrap_condition_clusters_overlap']
+          : !interval
+            ? ['bootstrap_requires_two_observed_blocks_per_condition']
+            : []),
     ],
   });
 }
