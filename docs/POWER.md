@@ -85,13 +85,14 @@ The 42-day layout is available as an explicit simulation-backed option; the save
 ```json
 {
   "version": 1,
+  "sourceHashScope": "Simulation and calculation sources; verdict presentation is excluded",
   "seed": 20261003,
   "trials": 500,
   "nullTrials": 2000,
   "coverageTrials": 250,
   "bootstrapIterations": 1000,
   "attemptedTrials": 105500,
-  "sourceHash": "ccad94a6ab9872007f6c63bf40e0b6134f2c60449277376055c89038c4306e78",
+  "sourceHash": "6ee22201d9eb71a4cb91452706e48a6422a00477a55aa7bc8afb05c19d5bab88",
   "generator": "stationary AR(1), independent streams, bounded metrics, lognormal HRV",
   "metricModels": {
     "totalSleepMinutes": {

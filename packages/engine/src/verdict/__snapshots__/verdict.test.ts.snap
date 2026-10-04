@@ -1,0 +1,61 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`exact filled workbook templates > fills and snapshots dose 1`] = `"Magnesium: the amount you're taking (120 mg elemental) is below what the studies used (200 mg elemental). Nothing about you is the problem; the amount is. $22 a month back, or step up to the studied amount and we'll test it properly."`;
+
+exports[`exact filled workbook templates > fills and snapshots dropped 1`] = `"Late training: your total sleep was 41 minutes worse on the days you did it, outside your normal swing of 30 minutes. 14 months in, on a friend's word. Dropped, and $25 a month back."`;
+
+exports[`exact filled workbook templates > fills and snapshots duplicate 1`] = `"Oura and WHOOP do the same job. Keep the one you like; the other $30 a month can go."`;
+
+exports[`exact filled workbook templates > fills and snapshots form 1`] = `"Magnesium: this version (oxide) isn't absorbed well enough to do what you bought it for. Same ingredient, different version, and it becomes testable. $8 a month back either way."`;
+
+exports[`exact filled workbook templates > fills and snapshots free 1`] = `"Gratitude journal: costs nothing, can't be measured, and if it's yours, it's yours."`;
+
+exports[`exact filled workbook templates > fills and snapshots gated 1`] = `"Magnesium glycinate. Even when it works, the studies found a change of about a third of one night's normal swing, so a two-week test would very likely come back inconclusive. We'll show you what the trials found and what it costs. If you'd still like to run the test, you can, knowing that going in."`;
+
+exports[`exact filled workbook templates > fills and snapshots hypothesis 1`] = `"Late training: on the 22 nights in the last 6 months when you trained late, your total sleep was 34 minutes worse than the other 140 nights. That's a pattern, not proof yet; other things differed on those nights too. Want to test it properly?"`;
+
+exports[`exact filled workbook templates > fills and snapshots inconclusive 1`] = `"Melatonin: 3 minutes less on your time to fall asleep, inside your normal swing of 10 minutes. At this dose, your body didn't show a change we could detect. That's a real answer, not a failed one. Your call whether it stays. It costs $10 a month."`;
+
+exports[`exact filled workbook templates > fills and snapshots keep 1`] = `"Creatine: a ring can't see this, and the evidence is strong anyway. Keep. Nothing to test here."`;
+
+exports[`exact filled workbook templates > fills and snapshots kept 1`] = `"Morning walk: your overnight HRV was 6 ms better on the days you did it, against your normal swing of 3%. That's real, and it's yours. Kept."`;
+
+exports[`exact filled workbook templates > fills and snapshots noEvidence 1`] = `"Ginkgo: this has been tested properly, more than once, and it didn't do what it's sold for. You did the reasonable thing with the information you had. 24 months in, after a podcast. $15 a month back."`;
+
+exports[`exact filled workbook templates > fills and snapshots noGoal 1`] = `"Multivitamin: you're taking this for general health, which is a real reason and not one a wearable can check. $180 a year. We'll leave it in your count and out of your experiments."`;
+
+exports[`exact filled workbook templates > fills and snapshots noMechanism 1`] = `"Salt lamp: there's no known way for this to do what it claims, and no study says otherwise. If it's part of a routine you like, keep the routine. The $12 is the only thing on trial."`;
+
+exports[`exact filled workbook templates > fills and snapshots observe 1`] = `"Last night: drinking. Your HRV came in 19 ms under your usual, and you were awake 34 minutes more than normal. That's one drinking-night logged. 12 to go."`;
+
+exports[`exact filled workbook templates > fills and snapshots protected 1`] = `"Iron: this came from your clinician, so we don't rate it, test it, or suggest stopping it. It stays in your count only if you want it there."`;
+
+exports[`exact filled workbook templates > fills and snapshots rating 1`] = `"Collagen: we can't see this in your data, and we won't pretend to. It costs $420 a year. What the studies found: people reported small skin changes after eight weeks. If you want an answer, a one-tap skin rating each day for 8 weeks is the honest way to get one."`;
+
+exports[`exact filled workbook templates > fills and snapshots slow 1`] = `"Ashwagandha: this works over weeks, not nights, so a two-week on/off test would be unfair to it. What the trials found: people reported less stress after six to eight weeks. We've put it in the queue for a longer test."`;
+
+exports[`exact filled workbook templates > records the source-clause lookup verbatim so workbook revisions require review 1`] = `"influencer: ', from something you saw online' | friend: ', on a friend's word' | podcast: ', after a podcast' | ad: ', from an ad' | don't remember: ', and you don't remember why, which is its own kind of answer' | doctor: never reached, it's Protected"`;
+
+exports[`experiment result semantics > explains assignment_resolution without claiming no effect 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. This schedule cannot give a clear answer under its saved rules. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > explains baseline_unavailable without claiming no effect 1`] = `"Skip coffee after 2pm: Your usual swing was not available for a reliable comparison. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > explains effect_direction_disagreement without claiming no effect 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. The two ways of comparing this number pointed in different directions. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > explains experiment_not_finished without claiming no effect 1`] = `"Skip coffee after 2pm: this test is still in progress. There isn't a finished result yet."`;
+
+exports[`experiment result semantics > explains insufficient_nights without claiming no effect 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. There were not enough usable nights on both sides. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > explains noncompliance without claiming no effect 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. The recorded on and off days did not match the assigned days. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > explains opposite_direction_not_tested without claiming no effect 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. The change went in a direction this saved test did not ask about. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > renders the saved on-condition for Alex without statistical diagnostics 1`] = `"Skip coffee after 2pm: your total sleep was 49 minutes better on the days you did it, against your normal swing of 44 minutes. That's real, and it's yours. Kept."`;
+
+exports[`experiment result semantics > renders the saved on-condition for Jordan without statistical diagnostics 1`] = `"Skip coffee after 2pm: 31 minutes higher on your total sleep, against your normal swing of 41 minutes. This test did not give a clear answer. Inconclusive. Your call whether it stays."`;
+
+exports[`experiment result semantics > renders the saved on-condition for Sam without statistical diagnostics 1`] = `"Skip coffee after 2pm: your total sleep was 40 minutes worse on the days you did it, against your normal swing of 54 minutes. Dropped. Your call whether the usual routine stays."`;
+
+exports[`history and confirmed observational nights > renders an observed lower HRV with rounded ms and waking, and rejects unmatched source claims 1`] = `"Last night: drinking. Your overnight HRV came in 19 ms under your usual, and you were awake 34 minutes more than normal. That's one drinking-night logged. 12 to go."`;
+
+exports[`history and confirmed observational nights > uses confirmed history as a hypothesis with counts, units and no causal verdict 1`] = `"Skip afternoon coffee: on the 18 nights in the last 6 months when you skipped afternoon coffee, your total sleep was 49 minutes better than the other 19 nights. That's a pattern, not proof yet; other things differed on those nights too. Want to test it properly?"`;

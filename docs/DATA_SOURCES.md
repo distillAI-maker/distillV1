@@ -1,6 +1,6 @@
 # Phase 2 data sources
 
-Implementation status: provider adapters, import parsers, persistence, OAuth, sync workers and API routes are implemented. Phases 3–6 add stack routing, experiments, statistics, simulation and local demo data; experiment HTTP routes and app screens are not yet wired. Deployment and real-account acceptance require the configuration below. Conditional power evidence is in [POWER.md](POWER.md); local demo setup is in [DEMO.md](DEMO.md).
+Implementation status: provider adapters, import parsers, persistence, OAuth, sync workers and API routes are implemented. Phases 3–7 add stack routing, experiments, statistics, simulation, local demo data and verdict text; experiment HTTP routes and app screens are not yet wired. Deployment and real-account acceptance require the configuration below. Conditional power evidence is in [POWER.md](POWER.md); local demo setup is in [DEMO.md](DEMO.md) and text rendering is in [VERDICTS.md](VERDICTS.md).
 
 ## Platform verification (2026-10-02)
 

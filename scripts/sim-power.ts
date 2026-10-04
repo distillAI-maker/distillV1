@@ -21,8 +21,9 @@ export async function sourceHash() {
   async function walk(path: string) {
     for (const entry of await readdir(path, { withFileTypes: true })) {
       const child = `${path}/${entry.name}`;
-      if (entry.isDirectory()) await walk(child);
-      else if (
+      if (entry.isDirectory()) {
+        if (entry.name !== 'verdict') await walk(child);
+      } else if (
         entry.name.endsWith('.ts') &&
         !entry.name.endsWith('.test.ts') &&
         !['index.ts', 'demo.ts', 'local.ts', 'guidance.ts'].includes(entry.name)
@@ -233,6 +234,7 @@ async function main() {
     throw new Error('Simulation sources changed during the run; regenerate from a stable tree');
   const metadata = {
     version: 1,
+    sourceHashScope: 'Simulation and calculation sources; verdict presentation is excluded',
     seed,
     trials,
     nullTrials,

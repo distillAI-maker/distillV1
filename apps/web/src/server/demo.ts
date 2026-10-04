@@ -18,6 +18,7 @@ const viewSchema = z.object({
   inventory: z.array(z.unknown()),
   answers: z.record(z.string(), z.unknown()),
   audit: z.record(z.string(), z.unknown()),
+  auditText: z.array(z.unknown()).optional(),
   nights: z.array(nightRecordSchema.extend({ source: z.literal('synthetic') })),
   workouts: z.array(z.object({ source: z.literal('synthetic') }).passthrough()),
   tags: z.array(z.object({ source: z.literal('synthetic') }).passthrough()),

@@ -28,7 +28,7 @@ Rerunning the same seed replaces only the three marked local fixture accounts in
 
 The API fixture file is replaced atomically only after a successful database seed. An unseeded, disabled or invalid fixture is handled explicitly. On hosted deployments this local file is absent; keep demo disabled until Phase 8 chooses how to bundle or provision synthetic demo data. A cloud database migration or deployment is not performed by this command.
 
-See [POWER.md](POWER.md) for model assumptions and measured power. Internal statistical diagnostics stay in the local database; public result cards exclude p-values and hide unvalidated uncertainty intervals. Phase 7 still owns the final readable verdict wording.
+See [POWER.md](POWER.md) for model assumptions and measured power. Internal statistical diagnostics stay in the local database; public result cards exclude p-values and hide unvalidated uncertainty intervals. Phase 7 now adds `experiment.verdict` and per-item `auditText`; [VERDICTS.md](VERDICTS.md) explains the copy and context requirements. Rerun the seed after updating the code to refresh the fixture text.
 
 The library entry points are `@distill/sim` for generation/trials/demo bundles, `@distill/sim/local` for isolated persistence, and `@distill/sim/guidance` for the measured power labels and explicit reference protocol. Run `pnpm sim:labels` to rebuild the 210-row review overlay after the power report. `pnpm sim:check` checks report provenance and label freshness; CI runs it without rerunning the expensive Monte Carlo study.
 

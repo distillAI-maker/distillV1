@@ -142,6 +142,9 @@ describe('synthetic data and actual-engine simulation', () => {
     expect(users[0]!.registration.schedule.totalDays).toBe(42);
     expect(users).toEqual(createDemoUsers('2026-10-03'));
     const view = demoView(users[0]!);
+    expect(view.experiment.verdict.status).toBe('ready');
+    expect(view.experiment.verdict.text).toContain('Kept.');
+    expect(view.auditText).toHaveLength(users[0]!.audit.items.length);
     expect(view.experiment.result.interval).toBeNull();
     expect(view.experiment.result.intervalStatus).toBe('coverage_not_established');
     const serialized = JSON.stringify(view.experiment.result);

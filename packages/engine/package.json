@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./experiment": "./src/experiment/index.ts",
-    "./stats": "./src/stats/index.ts"
+    "./stats": "./src/stats/index.ts",
+    "./verdict": "./src/verdict/index.ts"
   },
   "dependencies": {
     "@distill/catalog": "workspace:*",

@@ -16,7 +16,9 @@ The statistics engine compares on and off nights, shows the change against the p
 
 The new simulator creates fictional people, adds known helpful/harmful effects, and runs the actual experiment code to see how often it finds an answer or makes a mistake. The power report compares test lengths, missed answers, baseline lengths, correlation, all ten outcomes and interval coverage. Three demo people now have six months of stored history, a Worked Example inventory, completed experiments and results available through a local read-only API. No wearable or live account is needed to seed them.
 
-These are backend capabilities. There is no onboarding or morning check-in screen, rendered result card, or personal results file yet. The simulations are evidence under stated assumptions, not proof for real users. The existing public landing page is separate from the application.
+The verdict renderer now turns the calculated results and routed items into short readable text. It fills all 17 source templates, rounds numbers, adds known source/use context, and checks every completed string's tone. Accurate variants explain incomplete or inconclusive tests, avoid invented savings from restrictions and keep Protected items neutral. Demo API results now include these narratives. See [VERDICTS.md](VERDICTS.md).
+
+These are backend capabilities. There is no onboarding or morning check-in screen, visual result card or personal results file yet. The simulations are evidence under stated assumptions, not proof for real users. The existing public landing page is separate from the application.
 
 ## Progress toward the specified MVP
 
@@ -28,10 +30,10 @@ These are backend capabilities. There is no onboarding or morning check-in scree
 | 4: Experiments                | Implemented and locally tested; live migration pending                 | Candidate selection, baseline, seeded schedules, immutable registration, compliance, switching and history hypotheses.                             |
 | 5: Statistics                 | Implemented and locally tested; simulation limitations documented      | Personal swing, actual on/off effects, exact block randomization, internal bootstrap interval, locked decision policies and safe result-card data. |
 | 6: Simulation and demo people | Implemented, measured and locally tested                               | Synthetic people, full Monte Carlo report/chart, scoped power labels, and three persistent demo profiles with six months of history.               |
-| 7: Verdict text               | Pending                                                                | Produce the final readable result cards from the spreadsheet's templates and check their tone.                                                     |
+| 7: Verdict text               | Implemented and locally tested                                         | All 17 filled templates, contextual variants, rounding, tone/snapshot checks and demo API narratives.                                              |
 | 8: App screens                | Pending                                                                | Connect, onboarding, day-one audit, daily check-in, verdicts, personal file, settings.                                                             |
 
-The remaining work includes readable verdicts, app screens, a complete demo journey and live acceptance. The specification also requires a successful Oura test-account connection. Simulation found limits that must stay visible when choosing the product protocol.
+The remaining work includes app screens, a complete demo journey and live acceptance. The specification also requires a successful Oura test-account connection. Simulation found limits that must stay visible when choosing the product protocol.
 
 ## Current blockers and next work
 
@@ -43,4 +45,4 @@ The saved 14-day schedules satisfy balance and minimum-night capacity, but have 
 
 Phase 6 found about 38% power at 0.8 swings and 70% at 1.2 for the 42-day reference, with false positives around 5% under independent exclusions. These claims do not apply to the 14-day default. A deliberately biased missing-answer stress test exposes the assumption’s limits. The nominal 90% bootstrap interval undercovers in some profiles and is hidden from public cards. [POWER.md](POWER.md) contains counts and uncertainty; [DEMO.md](DEMO.md) contains local seed/API instructions.
 
-The 0.8 routing threshold remains a candidate-priority rule. Source good/fair/low labels are preserved for review; a separate empirical overlay describes only supported simulated protocols. Choosing whether to offer four or six weeks, and how to handle outcome-dependent missed answers, remains a product/algorithm decision. Phase 7 is the next code phase: verdict templates, rounding and tone checks. Phase 8 connects those outputs into the demo app.
+The 0.8 routing threshold remains a candidate-priority rule. Source good/fair/low labels are preserved for review; a separate empirical overlay describes only supported simulated protocols. Choosing whether to offer four or six weeks, and how to handle outcome-dependent missed answers, remains a product/algorithm decision. Phase 6's complete study was rerun for this verification and all 142 cells reproduced exactly. Phase 7 is implemented; Phase 8 is the next code phase and connects these outputs into the demo app.

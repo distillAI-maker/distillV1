@@ -2,7 +2,7 @@
 
 Distill is being built in eight phases, one pull request per phase. The product brief is [SPEC.md](SPEC.md).
 
-**Phases 1–6 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiment scheduling and statistical decisions. Phase 6 adds seeded synthetic people, Monte Carlo power/coverage checks, an empirical label overlay, and three persistent local demo profiles with six months of history. [docs/POWER.md](docs/POWER.md) records the actual results; [docs/DEMO.md](docs/DEMO.md) explains how to run the demo data/API. Verdict rendering and app screens remain for Phases 7–8.
+**Phases 1–7 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiments, statistics, synthetic people, power checks and local demo profiles. Phase 7 adds all 17 filled verdict templates, accurate contextual variants, rounded measurements and runtime tone checks; demo API results include their narratives. See [docs/POWER.md](docs/POWER.md), [docs/DEMO.md](docs/DEMO.md) and [docs/VERDICTS.md](docs/VERDICTS.md). Phase 8 app screens remain.
 
 Phase 3's worked-example acceptance remains blocked by source contradictions and missing answers; the engine keeps those cases conservative. See [docs/ALGORITHM.md](docs/ALGORITHM.md) for contracts and [docs/MVP_STATUS.md](docs/MVP_STATUS.md) for a plain-English progress overview.
 
@@ -77,7 +77,7 @@ The older `docs/Routing-Table.xlsx` and `public/routing.json` serve the marketin
 4. Experiment scheduling and immutable pre-registration — implemented and locally tested; live migration pending.
 5. Statistics and decision rules — implemented and locally tested; conditional simulation evidence and remaining limitations documented.
 6. Synthetic people, simulation and demo users — implemented and measured locally; conditional model evidence, with coverage/missingness limitations.
-7. Filled verdict text and snapshots.
+7. Filled verdict text and snapshots — implemented and locally tested, with result-aware variants and demo narratives.
 8. Next.js app flows.
 
 Source evidence and copy have been ingested, not independently fact-checked. `unverified` follows every item into rule results. Phase 1 does not publish new user-facing advice or introduce billing.

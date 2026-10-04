@@ -6,6 +6,7 @@ import {
   createSchedule,
 } from '@distill/engine/experiment';
 import { analyzeExperiment, experimentResultCard } from '@distill/engine/stats';
+import { renderExperimentVerdict, renderAuditVerdict } from '@distill/engine/verdict';
 import type { PreRegistration, CheckIn } from '@distill/engine/experiment';
 import type { AnalysisResult } from '@distill/engine/stats';
 import { workedAnswers, workedInventory } from '../../engine/src/route/worked-example.js';
@@ -167,6 +168,7 @@ export function createDemoUsers(asOf: string, seed = 20261003): readonly DemoUse
 }
 /** Safe demo screen payload: diagnostics, injected truth and seeds are not UI content. */
 export function demoView(user: DemoUser) {
+  const coffee = user.inventory.find((item) => item.id === user.registration.itemId)!;
   return {
     synthetic: true,
     userId: user.userId,
@@ -177,6 +179,10 @@ export function demoView(user: DemoUser) {
     inventory: user.inventory,
     answers: user.answers,
     audit: user.audit,
+    auditText: user.audit.items.map((item) => ({
+      itemId: item.id,
+      verdict: renderAuditVerdict(item, user.answers[item.id] ?? {}),
+    })),
     nights: user.person.history.map((entry) => entry.night),
     workouts: user.person.workouts,
     tags: user.person.tags,
@@ -185,6 +191,12 @@ export function demoView(user: DemoUser) {
       days: user.registration.schedule.days,
       checkIns: user.checkIns,
       result: experimentResultCard(user.analysis),
+      verdict: renderExperimentVerdict(user.analysis, {
+        itemName: coffee.name ?? user.audit.items.find((item) => item.id === coffee.id)!.name,
+        monthlyCost: coffee.monthlyCost,
+        source: user.answers[coffee.id]?.source,
+        subject: 'on_condition',
+      }),
     },
   };
 }

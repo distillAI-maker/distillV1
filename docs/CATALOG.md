@@ -10,15 +10,15 @@ The package exports `Item`, `Metric`, `Goal`, `OverlapGroup`, `FollowUpQuestion`
 
 The catalog retains all 38 source columns through normalized fields and the source-cell snapshots, with sheet/row provenance. Source narrative is kept verbatim apart from outer whitespace. Costs and expected effects must be numeric; zero stays zero and an absent effect stays `null`. There is no inferred scientific evidence. On-days are `assign`, `observe`, or `null` when the source has no assignment mode; a blank never becomes `assign`.
 
-| Source after-gate tier | Enum |
-| --- | --- |
-| `1` | `T1` |
-| `1, queued (slow)` | `T1_QUEUED_SLOW` |
+| Source after-gate tier       | Enum                |
+| ---------------------------- | ------------------- |
+| `1`                          | `T1`                |
+| `1, queued (slow)`           | `T1_QUEUED_SLOW`    |
 | `1, queued (special design)` | `T1_QUEUED_SPECIAL` |
-| `3, effect too small` | `T3_TOO_SMALL` |
-| `2` | `T2` |
-| `3` | `T3` |
-| `P` | `PROTECTED` |
+| `3, effect too small`        | `T3_TOO_SMALL`      |
+| `2`                          | `T2`                |
+| `3`                          | `T3`                |
+| `P`                          | `PROTECTED`         |
 
 Validators cover duplicate keys, every enum, missing required fields, malformed/unknown template placeholders, unknown group items, group membership counts, unknown group names, missing T2 reasons, annual costs, and Summary totals by tier, category, reason, evidence and fact-check status. Names containing commas resolve by exact longest-name matching, not comma splitting.
 
@@ -33,7 +33,7 @@ import { evaluateItemRule } from '@distill/engine';
 import type { Catalog } from '@distill/catalog';
 
 function example(catalog: Catalog) {
-  const item = catalog.items.find(i => i.key === 'magnesium-any-form')!;
+  const item = catalog.items.find((i) => i.key === 'magnesium-any-form')!;
   return evaluateItemRule(item, {
     source: 'friend',
     goal: 'sleep',
@@ -61,7 +61,7 @@ Unknown required answers return T3 with cost shown. Ambiguous source branches ad
 
 CI checks all 17 source templates. The final row in Verdict Templates is the source-clause lookup, retained separately instead of mistaken for a verdict. All exact placeholder spellings are accepted explicitly, including `did it` and `better/worse`; arbitrary placeholders fail validation.
 
-Active voice, effort-before-number, nonmedical meaning, contextual exceptions and implicit second-person address still need editorial review. The linter is not presented as a semantic guarantee. Raw evidence, research notes, examples and day-one text are reference data; some violate the Tone Guide and cannot be shipped verbatim. Phase 7 must lint every final generated verdict, including substitutions and source clauses.
+Phase 7 now provides `@distill/engine/verdict`, filling all 17 templates and checking each final string after substitutions/source clauses. Typed adapters use rounded measurements and accurate contextual variants where the source's factual wording does not fit; exact-source mode remains available. See [VERDICTS.md](VERDICTS.md). Active voice, effort-before-number, nonmedical meaning and source evidence still need editorial review; the linter is not a semantic guarantee. Raw evidence, research notes, examples and day-one text remain reference data and are not shipped automatically.
 
 ## Updating the workbook
 
