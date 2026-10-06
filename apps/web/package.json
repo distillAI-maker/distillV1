@@ -9,23 +9,24 @@
   },
   "dependencies": {
     "@distill/catalog": "workspace:*",
+    "@distill/data": "workspace:*",
     "@distill/engine": "workspace:*",
+    "@distill/providers": "workspace:*",
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.117.2",
     "next": "16.3.8",
+    "postgres": "3.4.9",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "zod": "^4.3.6",
-    "@distill/providers": "workspace:*",
-    "@distill/data": "workspace:*",
-    "postgres": "3.4.9",
-    "unzipper": "0.12.5"
+    "unzipper": "0.12.5",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "drizzle-orm": "0.45.3",
     "jsdom": "30.1.1"
   }
 }

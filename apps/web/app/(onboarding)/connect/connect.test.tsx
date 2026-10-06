@@ -45,7 +45,7 @@ describe('Connect', () => {
     expect(await screen.findByText('Six months of nights, ready.')).toBeTruthy();
     expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('100');
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+      fireEvent.click(await screen.findByRole('button', { name: /Save and continue/ }));
     });
     expect(push).toHaveBeenCalledWith('/today');
     await waitFor(async () => {

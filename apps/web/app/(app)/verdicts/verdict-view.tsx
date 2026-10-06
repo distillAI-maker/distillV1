@@ -13,7 +13,13 @@ import { useProgress } from '../../../lib/progress/context';
 const lowerFirst = (s: string) => (/^[A-Z][a-z]/.test(s) ? s[0]!.toLowerCase() + s.slice(1) : s);
 
 /** The habit, the number, the swing and the word, with the template's sentence and the nights. */
-export function VerdictView({ id, loadTemplates }: { id: string; loadTemplates?: Parameters<typeof useDataSource>[1] }) {
+export function VerdictView({
+  id,
+  loadTemplates,
+}: {
+  id: string;
+  loadTemplates?: Parameters<typeof useDataSource>[1];
+}) {
   const router = useRouter();
   const { ready, progress, update } = useProgress();
   const { source, failed, retry } = useDataSource(progress, loadTemplates);
@@ -22,7 +28,9 @@ export function VerdictView({ id, loadTemplates }: { id: string; loadTemplates?:
   useEffect(() => {
     if (!ready || !source) return;
     let alive = true;
-    source.verdicts(progress).then((list) => alive && setVerdict(list.find((v) => v.id === id) ?? null));
+    source
+      .verdicts(progress)
+      .then((list) => alive && setVerdict(list.find((v) => v.id === id) ?? null));
     return () => {
       alive = false;
     };
@@ -71,28 +79,41 @@ export function VerdictView({ id, loadTemplates }: { id: string; loadTemplates?:
     );
 
   const counted = verdict.nights.filter((n) => n.counted && n.value !== null).length;
-  const sign = verdict.change < 0 ? '−' : '+';
+  const sign = verdict.change !== null && verdict.change < 0 ? '−' : '+';
   return (
     <section className="stack">
       <span className="label">{copy.verdict.eyebrow(verdict.name)}</span>
       <article className="glass vcard" aria-label={copy.verdict.eyebrow(verdict.name)}>
         <p className="effort">{copy.verdict.effort(verdict.effort.days, verdict.effort.taps)}</p>
         <h1 className="big">
-          {sign}
-          {Math.abs(verdict.change)} {verdict.unit}
+          {verdict.change === null
+            ? 'Not enough measurements'
+            : `${sign}${Math.abs(verdict.change)} ${verdict.unit}`}
           <small>{copy.verdict.numberLine(lowerFirst(verdict.metric))}</small>
         </h1>
         <dl>
           <dt>{copy.verdict.swingLabel}</dt>
-          <dd>{copy.verdict.unit(verdict.swing, verdict.unit)}</dd>
+          <dd>
+            {verdict.swing === null
+              ? 'Unavailable'
+              : copy.verdict.unit(verdict.swing, verdict.swingUnit ?? verdict.unit)}
+          </dd>
           <dt>{copy.verdict.nightsLabel}</dt>
           <dd>{copy.verdict.of(counted, verdict.nights.length)}</dd>
         </dl>
         <p className="word">{verdict.word}</p>
+        {verdict.synthetic ? (
+          <p className="notice">Calculated from synthetic demo measurements.</p>
+        ) : null}
+        {verdict.reasons?.length ? (
+          <p className="muted">{verdict.reasons.map((r) => r.replaceAll('_', ' ')).join('; ')}.</p>
+        ) : null}
         <p className="say">{verdict.text}</p>
         <NightsChart nights={verdict.nights} unit={verdict.unit} onLabel={verdict.name} />
         {decided ? (
-          <p aria-live="polite">{decided === 'cut' ? copy.verdict.decidedCut : copy.verdict.decidedKept}</p>
+          <p aria-live="polite">
+            {decided === 'cut' ? copy.verdict.decidedCut : copy.verdict.decidedKept}
+          </p>
         ) : (
           <div className="actions-row">
             {verdict.word === 'Kept' ? (
@@ -102,7 +123,10 @@ export function VerdictView({ id, loadTemplates }: { id: string; loadTemplates?:
                 <Button onClick={() => decide(verdict.word === 'Dropped' ? 'cut' : 'kept')}>
                   {verdict.word === 'Dropped' ? copy.verdict.letItGo : copy.verdict.keepIt}
                 </Button>
-                <Button variant="ghost" onClick={() => decide(verdict.word === 'Dropped' ? 'kept' : 'cut')}>
+                <Button
+                  variant="ghost"
+                  onClick={() => decide(verdict.word === 'Dropped' ? 'kept' : 'cut')}
+                >
                   {verdict.word === 'Dropped' ? copy.verdict.keepItAnyway : copy.verdict.letItGo}
                 </Button>
               </>

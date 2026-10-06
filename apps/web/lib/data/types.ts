@@ -107,6 +107,11 @@ export interface Experiment {
   instruction: { on: string; off: string };
   monthlyCost: number;
   monthsIn?: number | null;
+  nights?: Night[];
+  through?: string;
+  synthetic?: boolean;
+  canFinish?: boolean;
+  instructionForToday?: string;
 }
 
 export interface Night {
@@ -128,8 +133,11 @@ export interface Verdict {
   text: string;
   metric: string;
   unit: string;
-  change: number;
-  swing: number;
+  change: number | null;
+  swing: number | null;
+  swingUnit?: string;
+  synthetic?: boolean;
+  reasons?: string[];
   nights: Night[];
   effort: { days: number; taps: number };
   monthlyCost: number;

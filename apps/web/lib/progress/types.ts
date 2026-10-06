@@ -1,10 +1,24 @@
 import { z } from 'zod';
 
 /** Where an item came from. Doctor or blood test means Protected (SPEC 11.2). */
-export const originSchema = z.enum(['doctor', 'blood test', 'friend', 'podcast', 'online', 'other']);
+export const originSchema = z.enum([
+  'doctor',
+  'blood test',
+  'friend',
+  'podcast',
+  'online',
+  'other',
+]);
 export type Origin = z.infer<typeof originSchema>;
 
-export const dataSourceIdSchema = z.enum(['demo', 'oura', 'whoop', 'fitbit', 'apple_export']);
+export const dataSourceIdSchema = z.enum([
+  'demo',
+  'oura',
+  'whoop',
+  'fitbit',
+  'apple_export',
+  'csv',
+]);
 export type DataSourceId = z.infer<typeof dataSourceIdSchema>;
 
 /** Onboarding steps, in the order the Figma flow runs them. 'goals' and 'day-one' are older saves. */
@@ -87,7 +101,12 @@ export const progressSchema = z
         z.string(),
         z.record(
           z.string(),
-          z.object({ value: z.enum(['did', 'didnt', 'unknown']), excluded: z.string().max(60).optional() }).strict(),
+          z
+            .object({
+              value: z.enum(['did', 'didnt', 'unknown']),
+              excluded: z.string().max(60).optional(),
+            })
+            .strict(),
         ),
       )
       .default({}),

@@ -25,6 +25,7 @@ export function SettingsView({
   const [confirm, setConfirm] = useState<'delete' | 'disconnect' | null>(null);
   const [gone, setGone] = useState(false);
   const [less, setLess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -60,25 +61,40 @@ export function SettingsView({
   }
 
   async function doDelete() {
-    await onDelete();
-    await reset();
+    const result = await onDelete();
+    if (result.status === 'failed') {
+      setError('Your account could not be deleted. Please retry.');
+      return;
+    }
+    await reset(result.status === 'deleted');
     setConfirm(null);
     setGone(true);
     router.push('/');
   }
   async function disconnect() {
-    await reset();
-    setConfirm(null);
-    router.push('/connect');
+    try {
+      await reset();
+      setConfirm(null);
+      router.push('/connect');
+    } catch {
+      setError('Finish or cancel your active test before resetting progress.');
+    }
   }
 
   const sourceName = progress.dataSource ? copy.settings.sourceNames[progress.dataSource] : null;
   const sinceDate = progress.connectedAt ?? progress.updatedAt;
-  const since = sinceDate ? new Date(sinceDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '';
+  const since = sinceDate
+    ? new Date(sinceDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })
+    : '';
 
   return (
     <section className="stack">
       <h1>{copy.settings.title}</h1>
+      {error ? (
+        <p className="notice" role="alert">
+          {error}
+        </p>
+      ) : null}
       {gone ? <p className="notice">{copy.settings.deleted}</p> : null}
 
       <section className="stack-tight" aria-labelledby="s-src">
@@ -94,7 +110,7 @@ export function SettingsView({
               </span>
             </span>
             <Button variant="ghost" size="sm" onClick={() => setConfirm('disconnect')}>
-              {copy.settings.disconnect}
+              {progress.dataSource === 'demo' ? copy.settings.disconnect : 'Reset onboarding'}
             </Button>
           </div>
         ) : (
@@ -168,7 +184,11 @@ export function SettingsView({
         )}
       </section>
 
-      <Dialog open={confirm === 'delete'} onClose={() => setConfirm(null)} label={copy.settings.deleteTitle}>
+      <Dialog
+        open={confirm === 'delete'}
+        onClose={() => setConfirm(null)}
+        label={copy.settings.deleteTitle}
+      >
         <h2 style={{ fontSize: 22 }}>{copy.settings.deleteTitle}</h2>
         <p>{copy.settings.deleteLine}</p>
         <div className="actions-row">
@@ -178,7 +198,11 @@ export function SettingsView({
           </Button>
         </div>
       </Dialog>
-      <Dialog open={confirm === 'disconnect'} onClose={() => setConfirm(null)} label={copy.settings.disconnectTitle}>
+      <Dialog
+        open={confirm === 'disconnect'}
+        onClose={() => setConfirm(null)}
+        label={copy.settings.disconnectTitle}
+      >
         <h2 style={{ fontSize: 22 }}>{copy.settings.disconnectTitle}</h2>
         <p>{copy.settings.disconnectLine}</p>
         <div className="actions-row">

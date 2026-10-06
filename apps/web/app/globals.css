@@ -2553,3 +2553,17 @@ body[data-ground='dusk'] .foot {
 .screen-q .chips[role='radiogroup'] .chip {
   min-height: 48px;
 }
+
+/* the first reading, at the end of Connect */
+.first-reading {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  margin-top: 8px;
+}
+.first-name {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+}

@@ -1,4 +1,5 @@
 'use client';
+import { api } from '../../../lib/api';
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -6,9 +7,8 @@ import type { CSSProperties } from 'react';
 import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
-import { statusesAfterDayOne } from '../../../lib/data/routed';
-import { useRouted } from '../../../lib/data/use-routed';
 import { env } from '../../../lib/env';
+import { FirstReading } from './first-reading';
 import { useProgress } from '../../../lib/progress/context';
 import type { DataSourceId } from '../../../lib/progress/types';
 
@@ -32,17 +32,17 @@ function motionOff(): boolean {
 
 export function ConnectForm() {
   const router = useRouter();
-  const { ready, progress, update } = useProgress();
+  const { ready, progress, update, saveNow, store } = useProgress();
+  const [liveMessage, setLiveMessage] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>('pick');
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
   const frame = useRef<number | null>(null);
-  const { routed } = useRouted();
 
-  // A reload during or after the demo backfill lands on the finished state, not the start.
+  // A reload after the backfill, or a finished import, lands on the finished state, not the start.
   useEffect(() => {
-    if (ready && progress.dataSource === 'demo' && progress.backfill?.done) {
-      setNights(progress.backfill.nights);
+    if (ready && progress.dataSource && progress.backfill?.done) {
+      setNights(progress.dataSource === 'demo' ? progress.backfill.nights : demoNights);
       setPhase('done');
     }
   }, [ready, progress.dataSource, progress.backfill]);
@@ -52,7 +52,11 @@ export function ConnectForm() {
   function finish(n: number) {
     setNights(n);
     setPhase('done');
-    update({ dataSource: 'demo', connectedAt: new Date().toISOString(), backfill: { nights: n, done: true } });
+    update({
+      dataSource: 'demo',
+      connectedAt: new Date().toISOString(),
+      backfill: { nights: n, done: true },
+    });
   }
 
   function startDemo() {
@@ -73,15 +77,23 @@ export function ConnectForm() {
   async function startLive(id: DataSourceId) {
     setBusy(id);
     try {
-      const res = await fetch(`/api/providers/${id}/connect`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: '{}',
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      const { authorizationUrl } = (await res.json()) as { authorizationUrl?: string };
+      const { authorizationUrl } = await api<{ authorizationUrl?: string }>(
+        `/api/providers/${id}/connect`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: '{}',
+        },
+      );
       if (!authorizationUrl) throw new Error('no url');
-      update({ dataSource: id, connectedAt: new Date().toISOString() });
+      const next = {
+        ...progress,
+        dataSource: id,
+        connectedAt: new Date().toISOString(),
+        backfill: { nights: 0, done: false },
+      };
+      await saveNow(next);
+      update(next);
       window.location.assign(authorizationUrl);
     } catch {
       setBusy(null);
@@ -89,16 +101,38 @@ export function ConnectForm() {
     }
   }
 
-  /** Connect is the last onboarding step: save where everything landed, then go to Today. */
-  function next() {
-    const statuses = routed ? statusesAfterDayOne(routed, progress.dayOne) : {};
-    update((p) => ({
-      ...p,
-      step: 'done',
-      dayOne: { ...p.dayOne, started: true },
-      items: p.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
-    }));
-    router.push('/today');
+  async function checkLive() {
+    setBusy('status');
+    try {
+      const status = await api<{
+        connections: {
+          provider: string;
+          disabled: boolean;
+          errorCode: string | null;
+          backfillBefore: string | null;
+        }[];
+      }>('/api/providers');
+      const connection = status.connections.find((c) => c.provider === progress.dataSource);
+      if (!connection || connection.disabled || connection.errorCode) {
+        setLiveMessage('The connection needs attention. Reconnect or import a file.');
+        return;
+      }
+      if (connection.backfillBefore) {
+        await api('/api/sync', { method: 'POST', body: '{}' });
+        setLiveMessage('History is still syncing. Check again shortly.');
+        return;
+      }
+      // Connect is the last onboarding step: once history is in, the first reading is set up here.
+      const next = { ...progress, backfill: { nights: 0, done: true } };
+      await saveNow(next);
+      update(next);
+      setNights(demoNights);
+      setPhase('done');
+    } catch {
+      setLiveMessage('Connection status could not be loaded. Please retry.');
+    } finally {
+      setBusy(null);
+    }
   }
 
   if (!ready) {
@@ -117,7 +151,9 @@ export function ConnectForm() {
     return (
       <section className="stack" aria-live="polite">
         <h2>{copy.connect.backfillTitle}</h2>
-        <p className="lede mono">{done ? copy.connect.backfillDone : copy.connect.backfillCount(nights)}</p>
+        <p className="lede mono">
+          {done ? copy.connect.backfillDone : copy.connect.backfillCount(nights)}
+        </p>
         <div
           className="bar"
           role="progressbar"
@@ -128,13 +164,7 @@ export function ConnectForm() {
         >
           <i style={{ '--w': `${pct}%` } as CSSProperties} />
         </div>
-        {done ? (
-          <div className="actions">
-            <Button onClick={next} autoFocus>
-              {copy.common.continue}
-            </Button>
-          </div>
-        ) : null}
+        {done ? <FirstReading /> : null}
       </section>
     );
   }
@@ -143,6 +173,20 @@ export function ConnectForm() {
     <section className="stack">
       <h1>{copy.connect.title}</h1>
       <p className="lede">{copy.connect.line}</p>
+      {store.id === 'supabase' &&
+      progress.dataSource &&
+      ['oura', 'whoop', 'fitbit'].includes(progress.dataSource) ? (
+        <div className="stack-tight">
+          <Button variant="ghost" disabled={Boolean(busy)} onClick={() => void checkLive()}>
+            Check connection and continue
+          </Button>
+          {liveMessage ? (
+            <p className="notice" role="status">
+              {liveMessage}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       {phase === 'error' ? (
         <p className="notice" role="alert">
           {copy.connect.errorStart}
@@ -172,12 +216,21 @@ export function ConnectForm() {
             className="option"
             disabled={!env.providersEnabled}
             aria-describedby={env.providersEnabled ? undefined : 'connect-unavailable'}
-            onClick={() => router.push('/connect/apple')}
+            onClick={() => router.push('/connect/import')}
           >
             <Icon name="heart" />
             <span>
               <b>{copy.connect.apple}</b>
               <small>{copy.connect.appleHint}</small>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
+            <Icon name="heart" />
+            <span>
+              <b>Import sleep data</b>
+              <small>Apple Health ZIP or CSV nights</small>
             </span>
           </button>
         </li>

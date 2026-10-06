@@ -28,6 +28,12 @@ The goal an item is judged by: the one the person gave for it, else the usual re
 
 The Worked Example fixture still drives the demo person once demo data is connected (`usesDemoFixture`), so the team's sheet tests hold.
 
+## Merged with Rohan's backend (main, 6 October)
+
+- Kept: the API client (`lib/api.ts`), Supabase progress for signed-in people (`RemoteProgressStore`, `saveNow`), the live connection check, file import (Apple Health ZIP or CSV), and the experiment start (`POST /api/app/experiments` with test length and the person's own on and off conditions).
+- The audit behind Sorted and Ready is the engine routing in `lib/data/engine.ts` (Veer's call). `lib/data/audit-action.ts` and `src/server/audit.ts` are no longer used by any screen; delete them or fold what they add into `engine.ts`.
+- The first-experiment card from the old day-one screen now ends Connect (`app/(onboarding)/connect/first-reading.tsx`), since Connect is the last onboarding step. A finished import returns to Connect for it.
+
 ## Look
 
 `app/globals.css` tokens are the DESIGN.md identity under the old names where the idea matches (`--mint` is retired for `--accent`). Fonts are Cormorant Garamond and Manrope via `next/font`. Square corners, hairlines, no glass or blur except the locked reasons. The writing screens sit on the bronze dusk (`components/onboarding/ground.tsx`).
