@@ -39,6 +39,14 @@ To preview the existing landing page:
 python -m http.server 3000 -d public
 ```
 
+## Run the app
+
+```sh
+pnpm dev
+```
+
+Opens the Phase 8 screens at http://localhost:3000. With no Supabase keys in `apps/web/.env.local`, the app runs on this device only: no account, progress saved in the browser, and "use demo data" on the Connect screen. The click-through runs Connect, Your stack, What for, the follow-up questions, Day one (the Worked Example: 21 things, 10 off, $767 a month back), Today, a completed verdict, Your file and Settings. The screens still read their routing, experiment and verdict from fixtures; wiring them to the Phase 3 to 7 engines is the next step. Screens, copy and data flow are specified in [docs/ONBOARDING.md](docs/ONBOARDING.md). `pnpm build:web` makes the production build, which runs on Next's webpack bundler (see OPEN_QUESTIONS, ENGINE_IMPORT_EXTENSIONS). The live app is https://distill-app-nu.vercel.app.
+
 ## Files
 
 | Path | Purpose |
@@ -48,6 +56,8 @@ python -m http.server 3000 -d public
 | `data/catalog.json` | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
 | `packages/catalog` | SheetJS reader, Zod schemas, validators and ingest tests |
 | `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
+| `apps/web` | Next.js app: the Phase 8 screens plus the Phase 2 API routes under `app/api` and `src/server` |
+| `docs/ONBOARDING.md` | Phase 8 screen spec: screens, tokens, copy, data |
 | `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
 | `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
 | `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
