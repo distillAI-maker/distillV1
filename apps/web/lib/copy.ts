@@ -356,7 +356,7 @@ export const copy = {
     title: 'Settings',
     sourcesTitle: 'Connected sources',
     demoName: 'Demo data',
-    sourceNames: { demo: 'Demo data', oura: 'Oura', whoop: 'WHOOP', fitbit: 'Fitbit', apple_export: 'Apple Health export' },
+    sourceNames: { demo: 'Demo data', oura: 'Oura', whoop: 'WHOOP', fitbit: 'Fitbit', apple_export: 'Apple Health export', csv: 'CSV import' },
     since: (date: string) => `since ${date}`,
     noSource: 'No source connected.',
     disconnect: 'Disconnect',

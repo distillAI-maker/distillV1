@@ -2,11 +2,11 @@
 
 Distill is being built in eight phases, one pull request per phase. The product brief is [SPEC.md](SPEC.md).
 
-**Phases 1–7 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiments, statistics, synthetic people, power checks and local demo profiles. Phase 7 adds all 17 filled verdict templates, accurate contextual variants, rounded measurements and runtime tone checks; demo API results include their narratives. See [docs/POWER.md](docs/POWER.md), [docs/DEMO.md](docs/DEMO.md) and [docs/VERDICTS.md](docs/VERDICTS.md). Phase 8 app screens are also implemented on demo data; live backend integration remains pending.
+**Phases 1–7 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiments, statistics, synthetic people, power checks and local demo profiles. Phase 7 adds all 17 filled verdict templates, accurate contextual variants, rounded measurements and runtime tone checks; demo API results include their narratives. See [docs/POWER.md](docs/POWER.md), [docs/DEMO.md](docs/DEMO.md) and [docs/VERDICTS.md](docs/VERDICTS.md). Phase 8 screens are connected to authenticated progress, calculated audits and the experiment/results engine. Hosted runtime acceptance remains pending; see [docs/APP_INTEGRATION.md](docs/APP_INTEGRATION.md).
 
 Phase 3's worked-example acceptance remains blocked by source contradictions and missing answers; the engine keeps those cases conservative. See [docs/ALGORITHM.md](docs/ALGORITHM.md) for contracts and [docs/MVP_STATUS.md](docs/MVP_STATUS.md) for a plain-English progress overview.
 
-The saved 14-day default has insufficient randomization resolution for a decisive result. Phase 6 measures explicit 28/42-day alternatives; the 42-day reference supports the 0.8/1.2 power claims only under the declared synthetic assumptions. It is exported as an explicit protocol option, with no change to saved registrations. New experiments test both directions with a shared 5% error budget. Interval coverage is insufficient in some tested profiles, so result cards suppress the interval. Experiment HTTP routes and screens are not yet wired.
+The saved 14-day default has insufficient randomization resolution for a decisive result. Phase 6 measures explicit 28/42-day alternatives; the 42-day reference supports the 0.8/1.2 power claims only under the declared synthetic assumptions. It is exported as an explicit protocol option, with no change to saved registrations. New experiments test both directions with a shared 5% error budget. Interval coverage is insufficient in some tested profiles, so result cards suppress the interval. Experiment HTTP routes now connect the app to saved registrations, compliance and results; see [docs/APP_INTEGRATION.md](docs/APP_INTEGRATION.md).
 
 Phase 2 setup, API contracts, platform constraints, and live acceptance steps are in [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Local implementation does not establish real-account provider access or deploy the database.
 
@@ -41,19 +41,19 @@ python -m http.server 3000 -d public
 
 ## Files
 
-| Path | Purpose |
-| --- | --- |
-| `SPEC.md` | Supplied product specification, preserved verbatim |
-| `data/Routing-Table_V3.xlsx` | Supplied source workbook, preserved byte-for-byte |
-| `data/catalog.json` | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
-| `packages/catalog` | SheetJS reader, Zod schemas, validators and ingest tests |
-| `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
-| `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
-| `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
-| `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
-| `docs/LANDING.md` | Landing page setup and editing instructions |
-| `.github/workflows/ci.yml` | PR validation |
-| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling |
+| Path                                             | Purpose                                                                        |
+| ------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `SPEC.md`                                        | Supplied product specification, preserved verbatim                             |
+| `data/Routing-Table_V3.xlsx`                     | Supplied source workbook, preserved byte-for-byte                              |
+| `data/catalog.json`                              | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
+| `packages/catalog`                               | SheetJS reader, Zod schemas, validators and ingest tests                       |
+| `packages/engine`                                | Pure TypeScript item rules and tone checks; no runtime I/O                     |
+| `vendor/xlsx-0.20.3.tgz`                         | Official SheetJS archive, pinned locally with integrity in the lockfile        |
+| `docs/CATALOG.md`                                | Phase 1 contracts, examples and workbook update process                        |
+| `docs/OPEN_QUESTIONS.md`                         | Source conflicts and decisions requiring the team                              |
+| `docs/LANDING.md`                                | Landing page setup and editing instructions                                    |
+| `.github/workflows/ci.yml`                       | PR validation                                                                  |
+| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling                              |
 
 The V3 workbook title includes a "What changed in version 4" section. We retain its supplied filename and record the mismatch instead of silently renaming it. It contains **13 sheets** (including an unlisted Glossary), **210 items**, **18 overlap groups**, **93 fact-check flags**, and **9 observe-only items**. All Summary counts validate. The brief's "19 groups" and the worked example's conflicting prose totals are recorded as open questions.
 

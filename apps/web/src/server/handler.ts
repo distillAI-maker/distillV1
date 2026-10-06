@@ -96,7 +96,9 @@ export function createHandler(
         const code = z.string().min(1).max(4096).parse(url.searchParams.get('code'));
         const userId = await app.finishOAuth(provider, state, code);
         defer(() => app.worker.run(userId));
-        return response({ status: 'connected', backfill: 'queued' }, 200, {
+        const browser = request.headers.get('accept')?.includes('text/html');
+        return response({ status: 'connected', backfill: 'queued' }, browser ? 303 : 200, {
+          ...(browser ? { Location: `${app.appUrl}/connect` } : {}),
           'Set-Cookie': `oauth_${provider}=; HttpOnly; SameSite=Lax; Path=/api/providers; Max-Age=0${app.appUrl.startsWith('https:') ? '; Secure' : ''}`,
         });
       }

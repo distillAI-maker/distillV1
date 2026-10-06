@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist_Mono, Italiana, Sora } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
+import { currentUser } from '../lib/supabase/server';
 import './globals.css';
 
 const sora = Sora({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
@@ -29,7 +30,8 @@ export const viewport: Viewport = {
 const motionBoot =
   "try{if(localStorage.getItem('distill.motion')==='reduce')document.documentElement.dataset.motion='reduce'}catch(e){}";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const user = await currentUser();
   return (
     <html
       lang="en"
@@ -41,7 +43,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>
-        <ProgressProvider>{children}</ProgressProvider>
+        <ProgressProvider key={user?.id ?? 'device'} userId={user?.id}>
+          {children}
+        </ProgressProvider>
       </body>
     </html>
   );

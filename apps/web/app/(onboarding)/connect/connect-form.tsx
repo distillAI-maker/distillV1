@@ -1,4 +1,5 @@
 'use client';
+import { api } from '../../../lib/api';
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -30,7 +31,8 @@ function motionOff(): boolean {
 
 export function ConnectForm() {
   const router = useRouter();
-  const { ready, progress, update } = useProgress();
+  const { ready, progress, update, saveNow, store } = useProgress();
+  const [liveMessage, setLiveMessage] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>('pick');
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
@@ -49,7 +51,11 @@ export function ConnectForm() {
   function finish(n: number) {
     setNights(n);
     setPhase('done');
-    update({ dataSource: 'demo', connectedAt: new Date().toISOString(), backfill: { nights: n, done: true } });
+    update({
+      dataSource: 'demo',
+      connectedAt: new Date().toISOString(),
+      backfill: { nights: n, done: true },
+    });
   }
 
   function startDemo() {
@@ -70,19 +76,59 @@ export function ConnectForm() {
   async function startLive(id: DataSourceId) {
     setBusy(id);
     try {
-      const res = await fetch(`/api/providers/${id}/connect`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: '{}',
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      const { authorizationUrl } = (await res.json()) as { authorizationUrl?: string };
+      const { authorizationUrl } = await api<{ authorizationUrl?: string }>(
+        `/api/providers/${id}/connect`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: '{}',
+        },
+      );
       if (!authorizationUrl) throw new Error('no url');
-      update({ dataSource: id, connectedAt: new Date().toISOString() });
+      const next = {
+        ...progress,
+        dataSource: id,
+        connectedAt: new Date().toISOString(),
+        backfill: { nights: 0, done: false },
+      };
+      await saveNow(next);
+      update(next);
       window.location.assign(authorizationUrl);
     } catch {
       setBusy(null);
       setPhase('error');
+    }
+  }
+
+  async function checkLive() {
+    setBusy('status');
+    try {
+      const status = await api<{
+        connections: {
+          provider: string;
+          disabled: boolean;
+          errorCode: string | null;
+          backfillBefore: string | null;
+        }[];
+      }>('/api/providers');
+      const connection = status.connections.find((c) => c.provider === progress.dataSource);
+      if (!connection || connection.disabled || connection.errorCode) {
+        setLiveMessage('The connection needs attention. Reconnect or import a file.');
+        return;
+      }
+      if (connection.backfillBefore) {
+        await api('/api/sync', { method: 'POST', body: '{}' });
+        setLiveMessage('History is still syncing. Check again shortly.');
+        return;
+      }
+      const next = { ...progress, step: 'stack' as const, backfill: { nights: 0, done: true } };
+      await saveNow(next);
+      update(next);
+      router.push('/stack');
+    } catch {
+      setLiveMessage('Connection status could not be loaded. Please retry.');
+    } finally {
+      setBusy(null);
     }
   }
 
@@ -107,7 +153,9 @@ export function ConnectForm() {
     return (
       <section className="stack" aria-live="polite">
         <h2>{copy.connect.backfillTitle}</h2>
-        <p className="lede mono">{done ? copy.connect.backfillDone : copy.connect.backfillCount(nights)}</p>
+        <p className="lede mono">
+          {done ? copy.connect.backfillDone : copy.connect.backfillCount(nights)}
+        </p>
         <div
           className="bar"
           role="progressbar"
@@ -133,6 +181,20 @@ export function ConnectForm() {
     <section className="stack">
       <h1>{copy.connect.title}</h1>
       <p className="lede">{copy.connect.line}</p>
+      {store.id === 'supabase' &&
+      progress.dataSource &&
+      ['oura', 'whoop', 'fitbit'].includes(progress.dataSource) ? (
+        <div className="stack-tight">
+          <Button variant="ghost" disabled={Boolean(busy)} onClick={() => void checkLive()}>
+            Check connection and continue
+          </Button>
+          {liveMessage ? (
+            <p className="notice" role="status">
+              {liveMessage}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       {phase === 'error' ? (
         <p className="notice" role="alert">
           {copy.connect.errorStart}
@@ -162,12 +224,21 @@ export function ConnectForm() {
             className="option"
             disabled={!env.providersEnabled}
             aria-describedby={env.providersEnabled ? undefined : 'connect-unavailable'}
-            onClick={() => router.push('/connect/apple')}
+            onClick={() => router.push('/connect/import')}
           >
             <Icon name="heart" />
             <span>
               <b>{copy.connect.apple}</b>
               <small>{copy.connect.appleHint}</small>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
+            <Icon name="heart" />
+            <span>
+              <b>Import sleep data</b>
+              <small>Apple Health ZIP or CSV nights</small>
             </span>
           </button>
         </li>
