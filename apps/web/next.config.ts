@@ -1,12 +1,15 @@
 import type { NextConfig } from 'next';
 const config: NextConfig = {
-  transpilePackages: ['@distill/catalog', '@distill/engine'],
-  serverExternalPackages: ['postgres', 'unzipper'],
-  // The dev overlay takes a Tab stop and covers the screens in screenshots.
+  transpilePackages: ['@distill/providers', '@distill/data', '@distill/engine', '@distill/catalog'],
   devIndicators: false,
-  // The engine and catalog packages import with `.js` extensions that point at `.ts` files
-  // (NodeNext). Turbopack cannot resolve those, webpack can with this map, so the app runs on
-  // webpack (`next dev --webpack`, `next build --webpack`). OPEN_QUESTIONS: ENGINE_IMPORT_EXTENSIONS.
-  experimental: { extensionAlias: { '.js': ['.ts', '.tsx', '.js'] } },
+  serverExternalPackages: ['postgres', 'unzipper'],
+  // Workspace packages use NodeNext .js imports pointing to TypeScript source.
+  webpack(config) {
+    config.resolve.extensionAlias = {
+      ...config.resolve.extensionAlias,
+      '.js': ['.ts', '.tsx', '.js'],
+    };
+    return config;
+  },
 };
 export default config;

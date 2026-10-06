@@ -1,0 +1,3046 @@
+{
+  "version": 1,
+  "powerSourceHash": "6ee22201d9eb71a4cb91452706e48a6422a00477a55aa7bc8afb05c19d5bab88",
+  "purpose": "Review overlay for source labels; conditional synthetic power, not clinical evidence or a personal forecast",
+  "routingGate": 0.8,
+  "referenceProtocol": {
+    "totalDays": 42,
+    "blockLengths": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "dropFirstNightOfBlock": false,
+    "minimumNightsPerSide": 5
+  },
+  "items": [
+    {
+      "key": "magnesium-any-form",
+      "sourceRow": 2,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "magnesium-spray-oil-transdermal",
+      "sourceRow": 3,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "magnesium-l-threonate",
+      "sourceRow": 4,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "melatonin",
+      "sourceRow": 5,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.8,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "estimated",
+        "label": "fair",
+        "probability": 0.394,
+        "interval95": [
+          0.3521341694850665,
+          0.4374821906927827
+        ],
+        "attempts": 500,
+        "scenarioId": "metric-sleepLatencyMinutes",
+        "interpretation": "conditional_synthetic_model_not_personal_prediction",
+        "assumptions": {
+          "baselineDays": 28,
+          "rho": 0.35,
+          "missedTapRate": 0.1,
+          "illnessRate": 0.02,
+          "missingMetricRate": 0.02,
+          "deviceNoiseFraction": 0.1,
+          "weekendSwing": 0.25,
+          "testPolicy": "both_directions",
+          "id": "metric-sleepLatencyMinutes",
+          "label": "sleepLatencyMinutes",
+          "schedule": {
+            "totalDays": 42,
+            "blockLengths": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          },
+          "metric": "sleepLatencyMinutes"
+        }
+      }
+    },
+    {
+      "key": "l-theanine",
+      "sourceRow": 6,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "glycine",
+      "sourceRow": 7,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "apigenin",
+      "sourceRow": 8,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "ashwagandha-ksm-66-sensoril",
+      "sourceRow": 9,
+      "unverified": true,
+      "sourceChance": "not in two weeks",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "valerian",
+      "sourceRow": 10,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "chamomile-tea",
+      "sourceRow": 11,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "sleep-tea-blend-valerian-passionflower-lemon-balm",
+      "sourceRow": 12,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "tart-cherry-juice-extract",
+      "sourceRow": 13,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "estimated",
+        "label": "low",
+        "probability": 0.124,
+        "interval95": [
+          0.09794609113930344,
+          0.15578741288778383
+        ],
+        "attempts": 500,
+        "scenarioId": "42d-3d-reference",
+        "interpretation": "conditional_synthetic_model_not_personal_prediction",
+        "assumptions": {
+          "baselineDays": 28,
+          "rho": 0.35,
+          "missedTapRate": 0.1,
+          "illnessRate": 0.02,
+          "missingMetricRate": 0.02,
+          "deviceNoiseFraction": 0.1,
+          "weekendSwing": 0.25,
+          "testPolicy": "both_directions",
+          "id": "42d-3d-reference",
+          "label": "42 days / three-day blocks",
+          "schedule": {
+            "totalDays": 42,
+            "blockLengths": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          }
+        }
+      }
+    },
+    {
+      "key": "cbd",
+      "sourceRow": 14,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "thc-cannabis-for-sleep",
+      "sourceRow": 15,
+      "unverified": true,
+      "sourceChance": "not in two weeks",
+      "sourceExpectedEffect": 1.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "kava",
+      "sourceRow": 16,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "passionflower",
+      "sourceRow": 17,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "lemon-balm",
+      "sourceRow": 18,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "5-htp",
+      "sourceRow": 19,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "gaba-oral",
+      "sourceRow": 20,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "lavender-oil-oral-silexan",
+      "sourceRow": 21,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "sleep-gummies-blend",
+      "sourceRow": 22,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.6,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "zma",
+      "sourceRow": 23,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "vitamin-d3",
+      "sourceRow": 24,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "vitamin-b12",
+      "sourceRow": 25,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "b-complex",
+      "sourceRow": 26,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "iron",
+      "sourceRow": 27,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "multivitamin",
+      "sourceRow": 28,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "omega-3-fish-oil",
+      "sourceRow": 29,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "krill-oil",
+      "sourceRow": 30,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "flaxseed-oil-as-omega-3",
+      "sourceRow": 31,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "creatine-monohydrate",
+      "sourceRow": 32,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "protein-powder",
+      "sourceRow": 33,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "bcaas",
+      "sourceRow": 34,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "glutamine",
+      "sourceRow": 35,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "beta-alanine",
+      "sourceRow": 36,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "pre-workout",
+      "sourceRow": 37,
+      "unverified": false,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "electrolytes-lmnt-etc",
+      "sourceRow": 38,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "greens-powder-ag1-etc",
+      "sourceRow": 39,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "collagen-peptides",
+      "sourceRow": 40,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "biotin",
+      "sourceRow": 41,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hyaluronic-acid-oral",
+      "sourceRow": 42,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "turmeric-curcumin",
+      "sourceRow": 43,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "glucosamine-chondroitin",
+      "sourceRow": 44,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "coq10",
+      "sourceRow": 45,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nmn-nr",
+      "sourceRow": 46,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "resveratrol",
+      "sourceRow": 47,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "lion-s-mane",
+      "sourceRow": 48,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "rhodiola",
+      "sourceRow": 49,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "ginkgo-biloba",
+      "sourceRow": 50,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "saffron",
+      "sourceRow": 51,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "phosphatidylserine",
+      "sourceRow": 52,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "zinc-daily",
+      "sourceRow": 53,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "vitamin-c-daily",
+      "sourceRow": 54,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "elderberry",
+      "sourceRow": 55,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "probiotic-generic-daily",
+      "sourceRow": 56,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "psyllium-fibre",
+      "sourceRow": 57,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "digestive-enzymes",
+      "sourceRow": 58,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "apple-cider-vinegar",
+      "sourceRow": 59,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "berberine",
+      "sourceRow": 60,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "green-tea-extract-egcg",
+      "sourceRow": 61,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "fat-burner-thermogenic",
+      "sourceRow": 62,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "testosterone-booster-tribulus-fenugreek-d-aa",
+      "sourceRow": 63,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "tongkat-ali",
+      "sourceRow": 64,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "maca",
+      "sourceRow": 65,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "dhea-pregnenolone",
+      "sourceRow": 66,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "taurine",
+      "sourceRow": 67,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "activated-charcoal",
+      "sourceRow": 68,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sea-moss",
+      "sourceRow": 69,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "shilajit",
+      "sourceRow": 70,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "chlorophyll-water",
+      "sourceRow": 71,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "colostrum",
+      "sourceRow": 72,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "mushroom-coffee",
+      "sourceRow": 73,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nootropic-stack-alpha-gpc-etc",
+      "sourceRow": 74,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "inositol",
+      "sourceRow": 75,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "vitamin-k2",
+      "sourceRow": 76,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "calcium",
+      "sourceRow": 77,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "evening-primrose-oil",
+      "sourceRow": 78,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "coffee-after-2pm",
+      "sourceRow": 79,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "second-or-third-coffee",
+      "sourceRow": 80,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "energy-drinks",
+      "sourceRow": 81,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.7,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "decaf-swap-after-noon",
+      "sourceRow": 82,
+      "unverified": false,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "matcha-green-tea-in-the-afternoon",
+      "sourceRow": 83,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "alcohol-in-the-evening",
+      "sourceRow": 84,
+      "unverified": true,
+      "sourceChance": "good",
+      "sourceExpectedEffect": 1.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "late-dinner-within-2-3-h-of-bed",
+      "sourceRow": 85,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "big-carbohydrate-dinner",
+      "sourceRow": 86,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "dessert-sugar-before-bed",
+      "sourceRow": 87,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "fasting-window-skipping-breakfast",
+      "sourceRow": 88,
+      "unverified": false,
+      "sourceChance": "not in two weeks",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "fluids-after-8pm",
+      "sourceRow": 89,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.6,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "nicotine-pouches-vape",
+      "sourceRow": 90,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "kombucha-probiotic-drinks",
+      "sourceRow": 91,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "bone-broth",
+      "sourceRow": 92,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "training-after-7pm",
+      "sourceRow": 93,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.8,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "morning-workout-before-8am",
+      "sourceRow": 94,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hiit-in-the-evening",
+      "sourceRow": 95,
+      "unverified": false,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "10-000-steps-daily-walk",
+      "sourceRow": 96,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "zone-2-cardio-3-h-week",
+      "sourceRow": 97,
+      "unverified": true,
+      "sourceChance": "not in two weeks",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "strength-training",
+      "sourceRow": 98,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "stretching-yoga-before-bed",
+      "sourceRow": 99,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "cold-plunge-ice-bath",
+      "sourceRow": 100,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "cold-shower-morning",
+      "sourceRow": 101,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sauna-post-workout-or-evening",
+      "sourceRow": 102,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hot-bath-shower-1-2-h-before-bed",
+      "sourceRow": 103,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 1,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "breathwork-box-4-7-8-physiological-sigh",
+      "sourceRow": 104,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "meditation-app-calm-headspace",
+      "sourceRow": 105,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nsdr-yoga-nidra",
+      "sourceRow": 106,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "journaling-worry-list-before-bed",
+      "sourceRow": 107,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "gratitude-practice",
+      "sourceRow": 108,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "reading-paper-before-bed",
+      "sourceRow": 109,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "screens-phone-in-bed",
+      "sourceRow": 110,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "work-email-after-9pm",
+      "sourceRow": 111,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "tv-in-the-bedroom",
+      "sourceRow": 112,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "consistent-wake-time-30-min",
+      "sourceRow": 113,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "weekend-sleep-in-over-1-h",
+      "sourceRow": 114,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.7,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "afternoon-nap-after-3pm-or-over-30-min",
+      "sourceRow": 115,
+      "unverified": true,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.8,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "snoozing-the-alarm",
+      "sourceRow": 116,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "checking-the-sleep-score-every-morning",
+      "sourceRow": 117,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "morning-sunlight-10-min-outdoors",
+      "sourceRow": 118,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "grounding-earthing-sheets-mats",
+      "sourceRow": 119,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "weighted-blanket",
+      "sourceRow": 120,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "mouth-tape",
+      "sourceRow": 121,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nasal-strips-dilator",
+      "sourceRow": 122,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "blue-light-blocking-glasses",
+      "sourceRow": 123,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "eye-mask",
+      "sourceRow": 124,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "earplugs",
+      "sourceRow": 125,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.6,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "white-noise-sound-machine",
+      "sourceRow": 126,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sleep-headphones-sleep-stories",
+      "sourceRow": 127,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "sunrise-alarm-hatch-etc",
+      "sourceRow": 128,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "light-therapy-box-10-000-lux",
+      "sourceRow": 129,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "red-light-therapy-panel",
+      "sourceRow": 130,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "eight-sleep-cooling-mattress-pad",
+      "sourceRow": 131,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "massage-gun",
+      "sourceRow": 132,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "compression-boots-normatec",
+      "sourceRow": 133,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "continuous-glucose-monitor-no-diabetes",
+      "sourceRow": 134,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "second-wearable-oura-plus-whoop",
+      "sourceRow": 135,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "air-purifier-bedroom",
+      "sourceRow": 136,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "humidifier",
+      "sourceRow": 137,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.1,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "salt-lamp",
+      "sourceRow": 138,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "bedroom-plants-for-air",
+      "sourceRow": 139,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "emf-blockers-anti-radiation-stickers",
+      "sourceRow": 140,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hydrogen-alkaline-water",
+      "sourceRow": 141,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "vibration-plate",
+      "sourceRow": 142,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "led-face-mask",
+      "sourceRow": 143,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "jaw-exerciser",
+      "sourceRow": 144,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "water-filter",
+      "sourceRow": 145,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "smart-lights-warm-dim-in-the-evening",
+      "sourceRow": 146,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.7,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "sauna-bathhouse-membership",
+      "sourceRow": 147,
+      "unverified": false,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "cryotherapy-sessions",
+      "sourceRow": 148,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "iv-vitamin-drips",
+      "sourceRow": 149,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "massage-monthly",
+      "sourceRow": 150,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "facials-monthly",
+      "sourceRow": 151,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "acupuncture",
+      "sourceRow": 152,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.3,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "chiropractor-maintenance-visits",
+      "sourceRow": 153,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "physical-therapy",
+      "sourceRow": 154,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "therapy-counselling",
+      "sourceRow": 155,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "personal-trainer",
+      "sourceRow": 156,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nutritionist-dietitian",
+      "sourceRow": 157,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "gym-membership",
+      "sourceRow": 158,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "yoga-pilates-studio",
+      "sourceRow": 159,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "float-tank",
+      "sourceRow": 160,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "hyperbaric-oxygen-wellness-use",
+      "sourceRow": 161,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "lymphatic-drainage-massage",
+      "sourceRow": 162,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "colonic-detox-cleanse",
+      "sourceRow": 163,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "consumer-dna-wellness-test",
+      "sourceRow": 164,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "blood-panel-subscription-function-etc",
+      "sourceRow": 165,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hormone-peptide-clinic-trt-glp-1-peptides",
+      "sourceRow": 166,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sleep-coach-cbt-i",
+      "sourceRow": 167,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "stretch-studio-assisted-stretching",
+      "sourceRow": 168,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "retreat-wellness-weekend",
+      "sourceRow": 169,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "bedroom-temperature-thermostat",
+      "sourceRow": 170,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.7,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "blackout-light-leak",
+      "sourceRow": 171,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.6,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "phone-charging-in-the-bedroom",
+      "sourceRow": 172,
+      "unverified": false,
+      "sourceChance": "fair",
+      "sourceExpectedEffect": 0.9,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "pet-in-the-bed",
+      "sourceRow": 173,
+      "unverified": true,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "partner-s-snoring-or-schedule",
+      "sourceRow": 174,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "kids-waking-you",
+      "sourceRow": 175,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": 0,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "window-open-fan-at-night",
+      "sourceRow": 176,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.4,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "mattress-age-over-8-years",
+      "sourceRow": 177,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "pillow",
+      "sourceRow": 178,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.2,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "silk-pillowcase",
+      "sourceRow": 179,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "candles-incense-in-the-bedroom",
+      "sourceRow": 180,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "bedroom-used-for-work",
+      "sourceRow": 181,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.5,
+      "original14DayLabel": "low",
+      "original14DayReason": "assignment_resolution_prevents_a_decisive_verdict",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "effect_or_metric_not_estimated_with_enough_attempts"
+      }
+    },
+    {
+      "key": "separate-bedrooms-some-nights",
+      "sourceRow": 182,
+      "unverified": false,
+      "sourceChance": "low",
+      "sourceExpectedEffect": 0.7,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "premium-gym-membership-equinox-life-time",
+      "sourceRow": 183,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "boutique-class-membership-barry-s-soulcycle-f45-orangetheory",
+      "sourceRow": 184,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "second-gym-or-studio-membership",
+      "sourceRow": 185,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "class-pack-or-studio-credits",
+      "sourceRow": 186,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "fitness-app-subscription-peloton-app-apple-fitness-ladder",
+      "sourceRow": 187,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "recovery-studio-membership-restore-remedy-place-othership",
+      "sourceRow": 188,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sauna-or-cold-plunge-studio-when-you-own-one-at-home",
+      "sourceRow": 189,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "massage-membership-massage-envy-squeeze",
+      "sourceRow": 190,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "meal-delivery-or-meal-prep-service",
+      "sourceRow": 191,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "nutrition-or-calorie-app-premium",
+      "sourceRow": 192,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "second-meditation-or-sleep-app",
+      "sourceRow": 193,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "annual-physical-with-bloodwork",
+      "sourceRow": 194,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "electrolytes-plus-sports-drink",
+      "sourceRow": 195,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "collagen-drinks-and-beauty-gummies",
+      "sourceRow": 196,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "hair-growth-gummies-biotin-blends",
+      "sourceRow": 197,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "sunscreen-daily-spf-30",
+      "sourceRow": 198,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "retinol-retinoid-nightly",
+      "sourceRow": 199,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "vitamin-c-serum",
+      "sourceRow": 200,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+      "sourceRow": 201,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "two-exfoliants-scrub-plus-acid-or-two-acids",
+      "sourceRow": 202,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "toner-hydrating-or-balancing",
+      "sourceRow": 203,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "multiple-hydrating-serums-two-hyaluronic-acid-products",
+      "sourceRow": 204,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "eye-cream-when-you-already-use-a-moisturiser",
+      "sourceRow": 205,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "facial-plus-at-home-led-plus-microcurrent-all-three",
+      "sourceRow": 206,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "microcurrent-device-nuface",
+      "sourceRow": 207,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "gua-sha-ice-roller",
+      "sourceRow": 208,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "cold-plunge-ice-bath-tub-owned",
+      "sourceRow": 209,
+      "unverified": false,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "unlisted-device-you-haven-t-used-in-30-days",
+      "sourceRow": 210,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    },
+    {
+      "key": "unlisted-subscription-you-re-still-paying-for",
+      "sourceRow": 211,
+      "unverified": true,
+      "sourceChance": "not tested",
+      "sourceExpectedEffect": null,
+      "original14DayLabel": null,
+      "original14DayReason": "not_a_supported_randomized_outcome",
+      "reference42Day": {
+        "status": "unavailable",
+        "label": null,
+        "reason": "requires_a_resolved_fast_randomized_metric_and_effect"
+      }
+    }
+  ]
+}

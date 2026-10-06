@@ -2,7 +2,13 @@
 
 Distill is being built in eight phases, one pull request per phase. The product brief is [SPEC.md](SPEC.md).
 
-**Phase 1 implements the catalog foundation:** deterministic workbook ingestion, typed data, 95 hand-written item rules, validation, tests, and CI. Provider integrations, complete stack routing, experiments, statistics, simulation, verdict rendering, and the Next.js UI belong to later PRs. `pnpm dev` runs the Phase 8 screens on demo data.
+**Phases 1–7 are implemented locally; overall MVP acceptance remains pending.** The backend includes the catalog, item rules, provider adapters/imports, auth/private storage, stack audit, experiments, statistics, synthetic people, power checks and local demo profiles. Phase 7 adds all 17 filled verdict templates, accurate contextual variants, rounded measurements and runtime tone checks; demo API results include their narratives. See [docs/POWER.md](docs/POWER.md), [docs/DEMO.md](docs/DEMO.md) and [docs/VERDICTS.md](docs/VERDICTS.md). Phase 8 app screens are also implemented on demo data; live backend integration remains pending.
+
+Phase 3's worked-example acceptance remains blocked by source contradictions and missing answers; the engine keeps those cases conservative. See [docs/ALGORITHM.md](docs/ALGORITHM.md) for contracts and [docs/MVP_STATUS.md](docs/MVP_STATUS.md) for a plain-English progress overview.
+
+The saved 14-day default has insufficient randomization resolution for a decisive result. Phase 6 measures explicit 28/42-day alternatives; the 42-day reference supports the 0.8/1.2 power claims only under the declared synthetic assumptions. It is exported as an explicit protocol option, with no change to saved registrations. New experiments test both directions with a shared 5% error budget. Interval coverage is insufficient in some tested profiles, so result cards suppress the interval. Experiment HTTP routes and screens are not yet wired.
+
+Phase 2 setup, API contracts, platform constraints, and live acceptance steps are in [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Local implementation does not establish real-account provider access or deploy the database.
 
 The existing marketing site remains in `public/`. Vercel serves that folder directly; its install and build commands are explicitly empty so this phase's workspace tooling does not change the deployed site. The original setup instructions are preserved in [docs/LANDING.md](docs/LANDING.md).
 
@@ -21,17 +27,11 @@ Use **Node.js 24** and **pnpm 10.34.6** (recorded in `.node-version` and `packag
 pnpm install --frozen-lockfile
 pnpm catalog:build
 pnpm check
+pnpm build:web
+pnpm sim:check
 ```
 
 `pnpm check` runs ESLint, TypeScript, Vitest, the generated-catalog freshness check, and tone checks over all 17 verdict templates. CI runs the same checks for every PR and push to `main`.
-
-## Run the app
-
-```sh
-pnpm dev
-```
-
-Opens the Phase 8 screens at http://localhost:3000. With no Supabase keys in `apps/web/.env.local`, the app runs on this device only: no account, progress saved in the browser, and "use demo data" on the Connect screen. From there the click-through runs Connect, Your stack, What for, the follow-up questions, Day one (the Worked Example: 21 things, 10 off, $767 a month back), Today, a completed verdict, Your file and Settings. Routing, the experiment and the verdict are fixtures until Phases 3 to 7 land; the screens, copy and data flow are specified in [docs/ONBOARDING.md](docs/ONBOARDING.md). The app runs on Next's webpack bundler (see OPEN_QUESTIONS, ENGINE_IMPORT_EXTENSIONS). `pnpm build:web` makes the production build.
 
 To preview the existing landing page:
 
@@ -48,12 +48,9 @@ python -m http.server 3000 -d public
 | `data/catalog.json` | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
 | `packages/catalog` | SheetJS reader, Zod schemas, validators and ingest tests |
 | `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
-| `apps/web` | Next.js app: onboarding and daily screens (Phase 8), on fixtures until routing lands |
-| `supabase/migrations` | Phase 8 tables (`202610030001_phase_eight.sql`); Phase 2 adds the wearable tables |
 | `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
 | `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
 | `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
-| `docs/ONBOARDING.md` | Phase 8 screen spec: screens, tokens, copy, data |
 | `docs/LANDING.md` | Landing page setup and editing instructions |
 | `.github/workflows/ci.yml` | PR validation |
 | `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling |
@@ -65,12 +62,12 @@ The older `docs/Routing-Table.xlsx` and `public/routing.json` serve the marketin
 ## Phase boundaries
 
 1. Catalog ingestion and item rules — this PR.
-2. Provider adapters and data storage/auth integration.
-3. Full first-match stack routing, overlap decisions and the worked-example golden test.
-4. Experiment scheduling and immutable pre-registration.
-5. Statistics and decision rules.
-6. Synthetic people, simulation and demo users.
-7. Filled verdict text and snapshots.
-8. Next.js app flows.
+2. Provider adapters and data storage/auth integration — implemented locally; live acceptance requires credentials.
+3. First-match stack routing and overlap decisions — core implemented; strict `pnpm routing:golden` acceptance remains blocked by the source.
+4. Experiment scheduling and immutable pre-registration — implemented and locally tested; live migration pending.
+5. Statistics and decision rules — implemented and locally tested; conditional simulation evidence and remaining limitations documented.
+6. Synthetic people, simulation and demo users — implemented and measured locally; conditional model evidence, with coverage/missingness limitations.
+7. Filled verdict text and snapshots — implemented and locally tested, with result-aware variants and demo narratives.
+8. Next.js app flows — implemented on demo data; live integration pending.
 
 Source evidence and copy have been ingested, not independently fact-checked. `unverified` follows every item into rule results. Phase 1 does not publish new user-facing advice or introduce billing.
