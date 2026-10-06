@@ -1,26 +1,26 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist_Mono, Italiana, Sora } from 'next/font/google';
+import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
 import './globals.css';
 
-const sora = Sora({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
-const italiana = Italiana({
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const serif = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: '400',
-  variable: '--font-wordmark',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: { default: 'Distill', template: '%s · Distill' },
   description:
-    'Everything you take, buy and do for sleep and recovery, read against your own nights.',
+    'What you do for yourself, edited. Everything you take, buy and do, read against your own data.',
   robots: { index: false },
 };
 export const viewport: Viewport = {
-  themeColor: '#15211F',
+  themeColor: '#100f0b',
   width: 'device-width',
   initialScale: 1,
 };
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${mono.variable} ${italiana.variable}`}
+      className={`${sans.variable} ${serif.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

@@ -1,6 +1,7 @@
 import type { Item } from '@distill/catalog';
 import type { Progress, StackItem } from '../progress/types';
 import { demoHypotheses, demoOverlaps, demoRouting } from './demo/routing';
+import { buildEngineStack } from './engine';
 import type { DayOneSummary, Landing, OverlapPair, RoutedItem, RoutedStack } from './types';
 
 /**
@@ -51,7 +52,19 @@ export function protectedSentence(name: string): string {
   return `${name}: this came from your clinician, so we don't rate it, test it, or suggest stopping it. It stays in your count only if you want it there.`;
 }
 
-export function buildRoutedStack(progress: Progress, items: Map<string, Item>): RoutedStack {
+/**
+ * The demo person (the Worked Example, untouched) keeps the team's hand-routed fixture, which the
+ * tests pin to the sheet. Every other stack goes through the real routing engine.
+ */
+export function usesDemoFixture(progress: Pick<Progress, 'dataSource' | 'prefilledFrom'>): boolean {
+  return progress.dataSource === 'demo' && progress.prefilledFrom === 'demo';
+}
+
+export function buildRoutedStack(
+  progress: Pick<Progress, 'items' | 'goals' | 'dataSource' | 'prefilledFrom'>,
+  items: Map<string, Item>,
+): RoutedStack {
+  if (!usesDemoFixture(progress)) return buildEngineStack(progress, items);
   const routed: RoutedItem[] = progress.items.map((s) => {
     const item = s.itemKey ? items.get(s.itemKey) : undefined;
     return {
@@ -96,6 +109,8 @@ export type Group = 'drop' | 'test' | 'cant' | 'keep' | 'protected' | 'unread';
 export function groupOf(r: RoutedItem, routed: RoutedStack, dayOne: Progress['dayOne']): Group {
   const l = r.landing;
   if (l.tier === 'PROTECTED') return 'protected';
+  // What the person said they'd never give up is theirs: never tested, never suggested to drop.
+  if (dayOne.yours?.includes(r.stackItemId)) return 'keep';
   if (l.sentenceSource === 'none') return 'unread';
   // An overlap pair: the one the person keeps stays where the engine put it; the other goes.
   for (const pair of routed.overlaps) {

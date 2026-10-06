@@ -4,7 +4,7 @@ import type { EvaluatedRule, RuleAnswers } from '@distill/engine';
 import type { StackItem } from '../progress/types';
 import { fieldSpecs } from './fields';
 import type { AskableField, RangeChip } from './fields';
-import { engineGoalsFor } from './goals';
+import { engineGoalsFor, usualRuleGoalFor } from './goals';
 import { itemSpecs } from './items';
 import type { DoseUnit, ItemSpec } from './items';
 
@@ -111,8 +111,11 @@ export function ruleAnswers(
     if (unit) base.doseUnit = unit;
   }
   if (base.goal === undefined) {
+    // The usual reason people take it first (a facial is for skin), then a single headline goal.
+    const usual = usualRuleGoalFor(item);
     const mine = engineGoalsFor(ctx.goals);
-    if (mine.length === 1) base.goal = mine[0];
+    if (usual) base.goal = usual;
+    else if (mine.length === 1) base.goal = mine[0];
   }
   const needsExact: AskableField[] = [];
   for (const [field, label] of Object.entries(stored.chips)) {

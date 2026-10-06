@@ -7,7 +7,21 @@ export type Origin = z.infer<typeof originSchema>;
 export const dataSourceIdSchema = z.enum(['demo', 'oura', 'whoop', 'fitbit', 'apple_export']);
 export type DataSourceId = z.infer<typeof dataSourceIdSchema>;
 
-export const stepSchema = z.enum(['connect', 'stack', 'goals', 'questions', 'day-one', 'done']);
+/** Onboarding steps, in the order the Figma flow runs them. 'goals' and 'day-one' are older saves. */
+export const stepSchema = z.enum([
+  'stack',
+  'life',
+  'questions',
+  'number',
+  'heard',
+  'sorted',
+  'ready',
+  'invitation',
+  'connect',
+  'done',
+  'goals',
+  'day-one',
+]);
 export type Step = z.infer<typeof stepSchema>;
 
 export const stackItemSchema = z
@@ -47,12 +61,18 @@ export const progressSchema = z
     prefilledFrom: z.enum(['demo']).optional(),
     /** Goal names from the Goal to Number sheet, plus "nothing specific". */
     goals: z.array(z.string()).default([]),
+    /** What the person wrote about the life they want. Shown back to them, never analysed. */
+    lifeText: z.string().max(4000).default(''),
+    /** Founding membership: free while the app is in beta. Unlocks the private reading. */
+    member: z.boolean().default(false),
     items: z.array(stackItemSchema).default([]),
     /** Follow-up questions already shown, as `${itemId}:${field}`. Back removes the last one. */
     seenQuestions: z.array(z.string()).default([]),
     dayOne: z
       .object({
         overlapChoices: z.record(z.string(), z.string()).default({}),
+        /** Stack item IDs the person would never give up. Never tested, never suggested to drop. */
+        yours: z.array(z.string()).default([]),
         runAnyway: z.array(z.string()).default([]),
         keepAnyway: z.array(z.string()).default([]),
         months: z.number().int().nonnegative().nullable().optional(),
@@ -60,7 +80,7 @@ export const progressSchema = z
         firstExperiment: z.string().optional(),
         started: z.boolean().default(false),
       })
-      .default({ overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false }),
+      .default({ overlapChoices: {}, yours: [], runAnyway: [], keepAnyway: [], started: false }),
     /** The person's own taps, by experiment and night. Fixture taps live in the data source. */
     taps: z
       .record(
@@ -82,11 +102,13 @@ export type Progress = z.infer<typeof progressSchema>;
 export function emptyProgress(): Progress {
   return {
     version: 1,
-    step: 'connect',
+    step: 'stack',
     goals: [],
+    lifeText: '',
+    member: false,
     items: [],
     seenQuestions: [],
-    dayOne: { overlapChoices: {}, runAnyway: [], keepAnyway: [], started: false },
+    dayOne: { overlapChoices: {}, yours: [], runAnyway: [], keepAnyway: [], started: false },
     taps: {},
     verdictChoices: {},
     reducedMotion: false,

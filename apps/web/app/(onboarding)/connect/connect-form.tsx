@@ -6,6 +6,8 @@ import type { CSSProperties } from 'react';
 import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
+import { statusesAfterDayOne } from '../../../lib/data/routed';
+import { useRouted } from '../../../lib/data/use-routed';
 import { env } from '../../../lib/env';
 import { useProgress } from '../../../lib/progress/context';
 import type { DataSourceId } from '../../../lib/progress/types';
@@ -35,6 +37,7 @@ export function ConnectForm() {
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
   const frame = useRef<number | null>(null);
+  const { routed } = useRouted();
 
   // A reload during or after the demo backfill lands on the finished state, not the start.
   useEffect(() => {
@@ -86,9 +89,16 @@ export function ConnectForm() {
     }
   }
 
+  /** Connect is the last onboarding step: save where everything landed, then go to Today. */
   function next() {
-    update({ step: 'stack' });
-    router.push('/stack');
+    const statuses = routed ? statusesAfterDayOne(routed, progress.dayOne) : {};
+    update((p) => ({
+      ...p,
+      step: 'done',
+      dayOne: { ...p.dayOne, started: true },
+      items: p.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
+    }));
+    router.push('/today');
   }
 
   if (!ready) {

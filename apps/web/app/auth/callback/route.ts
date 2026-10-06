@@ -32,5 +32,5 @@ export async function GET(request: Request) {
     // The profile row is the anchor for saved progress; creating it is idempotent.
     await client.from('app_profiles').upsert({ user_id: data.user.id }, { onConflict: 'user_id' });
   }
-  return NextResponse.redirect(new URL('/connect', url.origin));
+  return NextResponse.redirect(new URL('/stack', url.origin));
 }

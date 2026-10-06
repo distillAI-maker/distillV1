@@ -6,6 +6,10 @@ import { LocalProgressStore } from '../../../lib/progress/local';
 import { emptyProgress } from '../../../lib/progress/types';
 import { ConnectForm, demoNights } from './connect-form';
 
+vi.mock('../../../lib/data/route-action', () => ({
+  routeProgress: async () => ({ items: [], overlaps: [], queue: [] }),
+}));
+
 const push = vi.fn();
 const router = { push, back: vi.fn() };
 vi.mock('next/navigation', () => ({ useRouter: () => router }));
@@ -27,7 +31,7 @@ describe('Connect', () => {
     document.documentElement.style.setProperty('--motion', '0');
   });
 
-  it('runs the demo backfill and continues to the stack', async () => {
+  it('runs the demo backfill and finishes onboarding on Today', async () => {
     const store = new LocalProgressStore(memory());
     render(
       <ProgressProvider store={store}>
@@ -43,12 +47,13 @@ describe('Connect', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     });
-    expect(push).toHaveBeenCalledWith('/stack');
+    expect(push).toHaveBeenCalledWith('/today');
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.dataSource).toBe('demo');
       expect(saved?.backfill).toEqual({ nights: demoNights, done: true });
-      expect(saved?.step).toBe('stack');
+      expect(saved?.step).toBe('done');
+      expect(saved?.dayOne.started).toBe(true);
     });
   });
 

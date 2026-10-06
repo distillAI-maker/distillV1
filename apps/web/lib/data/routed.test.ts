@@ -9,8 +9,9 @@ import { buildRoutedStack, groupOf, protectedSentence, statusesAfterDayOne, summ
 const items = new Map(catalog.items.map((i) => [i.key, i]));
 const demoProgress = () => ({
   ...emptyProgress(),
-  step: 'day-one' as const,
+  step: 'sorted' as const,
   dataSource: 'demo' as const,
+  prefilledFrom: 'demo' as const,
   goals: demoGoals,
   items: demoStack(),
 });
@@ -95,12 +96,43 @@ describe('the Worked Example, as a day-one summary', () => {
 });
 
 describe('a stack that is not the demo', () => {
-  it('waits under "not read yet" with its cost counted and Protected still honoured', () => {
+  it('is routed by the real engine, with Protected still honoured', () => {
     const progress = { ...emptyProgress(), dataSource: 'oura' as const, items: demoStack().slice(0, 3) };
     progress.items[0]!.origin = 'doctor';
     const routed = buildRoutedStack(progress, items);
     const s = summarise(routed, progress.dayOne);
-    expect(s).toMatchObject({ count: 3, monthlyTotal: 700, notReadYet: 2, protectedCount: 1, dropsToday: 0 });
-    expect(routed.items[0]?.landing.sentence).toContain('this came from your clinician');
+    expect(s).toMatchObject({ count: 3, monthlyTotal: 700, protectedCount: 1 });
+    expect(routed.items[0]?.landing.tier).toBe('PROTECTED');
+    expect(routed.items[0]?.landing.sentence).toContain('came from your clinician');
+    for (const r of routed.items.slice(1)) expect(r.landing.sentenceSource).not.toBe('template.protected');
+  });
+  it('reads a dose and form answer: magnesium oxide settles as a drop on the day', () => {
+    const magnesium = demoStack().find((s) => s.itemKey === 'magnesium-any-form')!;
+    const progress = {
+      ...emptyProgress(),
+      items: [{ ...magnesium, answers: { form: 'oxide', dose: 100, goal: 'sleep' } }],
+    };
+    const routed = buildRoutedStack(progress, items);
+    const r = routed.items[0]!;
+    expect(r.landing).toMatchObject({ tier: 'T2', reason: 'form not absorbed', sentenceSource: 'engine.audit' });
+    expect(groupOf(r, routed, progress.dayOne)).toBe('drop');
+    expect(toneLint(r.landing.sentence, catalog.toneRules)).toEqual([]);
+  });
+  it('keeps what the person would never give up, whatever the engine says', () => {
+    const magnesium = demoStack().find((s) => s.itemKey === 'magnesium-any-form')!;
+    const progress = {
+      ...emptyProgress(),
+      items: [{ ...magnesium, answers: { form: 'oxide', dose: 100, goal: 'sleep' } }],
+    };
+    const routed = buildRoutedStack(progress, items);
+    const dayOne = { ...progress.dayOne, yours: [magnesium.id] };
+    expect(groupOf(routed.items[0]!, routed, dayOne)).toBe('keep');
+    expect(summarise(routed, dayOne)).toMatchObject({ dropsToday: 0, keep: 1 });
+  });
+  it('leaves an item it cannot read yet under "not read yet", cost still counted', () => {
+    const facial = demoStack().find((s) => s.itemKey === 'facials-monthly')!;
+    const progress = { ...emptyProgress(), items: [{ ...facial, answers: {}, chips: {} }] };
+    const routed = buildRoutedStack(progress, items);
+    expect(summarise(routed, progress.dayOne)).toMatchObject({ count: 1, notReadYet: 1, monthlyTotal: 150 });
   });
 });

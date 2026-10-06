@@ -1,24 +1,28 @@
 'use client';
 
 import type { Item } from '@distill/catalog';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useBackHandler } from '../../../components/back-handler';
+import { useGo } from '../../../components/onboarding/go';
 import { Button, Skeleton } from '../../../components/ui';
 import { fetchItems } from '../../../lib/catalog/actions';
 import { copy } from '../../../lib/copy';
 import { contextFor, flowState } from '../../../lib/followups/resolve';
 import type { Asked } from '../../../lib/followups/resolve';
 import { useProgress } from '../../../lib/progress/context';
+import { PersonQuestion } from './person-question';
 import { QuestionView, applyPatch } from './question-view';
 import type { AnswerPatch } from './question-view';
+
+const personIds = ['person:doctor', 'person:keep'] as const;
+const protectedOrigins = new Set(['doctor', 'blood test']);
 
 /**
  * One question per screen, generated from the person's stack and the engine's "unanswered
  * fields" signal. Answers already on file (demo data, a wearable) are shown once as a confirmation.
  */
 export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof fetchItems }) {
-  const router = useRouter();
+  const go = useGo();
   const { ready, progress, update } = useProgress();
   const [items, setItems] = useState<Map<string, Item> | null>(null);
   const [failed, setFailed] = useState(false);
@@ -48,25 +52,27 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
 
   const seen = useMemo(() => new Set(progress.seenQuestions), [progress.seenQuestions]);
   const ctx = useMemo(() => contextFor(progress), [progress]);
+  const yours = useMemo(() => new Set(progress.dayOne.yours), [progress.dayOne.yours]);
+  // What the person would never give up is theirs: no follow-ups, nothing to test.
   const pairs = useMemo(
     () =>
       items
         ? progress.items
-            .filter((s) => s.itemKey && items.has(s.itemKey))
+            .filter((s) => s.itemKey && items.has(s.itemKey) && !yours.has(s.id))
             .map((s) => ({ stack: s, item: items.get(s.itemKey as string) as Item }))
         : [],
-    [items, progress.items],
+    [items, progress.items, yours],
   );
+  const person = personIds.find((id) => !seen.has(id));
   const state = useMemo(() => (items ? flowState(pairs, ctx, seen) : null), [items, pairs, ctx, seen]);
-  const done = Boolean(ready && items && state && !state.current);
+  const done = Boolean(ready && items && state && !state.current && !person);
   const left = useRef(false);
 
   useEffect(() => {
     if (!done || left.current) return;
     left.current = true;
-    update({ step: 'day-one' });
-    router.push('/day-one');
-  }, [done, router, update]);
+    go('number');
+  }, [done, go]);
 
   useBackHandler(() => {
     if (progress.seenQuestions.length === 0) return false;
@@ -125,7 +131,7 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
       </section>
     );
 
-  if (!ready || !items || !state || !state.current)
+  if (!ready || !items || !state || (!state.current && !person))
     return (
       <section className="stack" aria-busy="true" aria-live="polite">
         <p className="lede">{done ? copy.questions.reading : copy.common.loading}</p>
@@ -135,15 +141,77 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
       </section>
     );
 
-  const k = state.answered.length + 1;
+  const nameOf = (s: (typeof progress.items)[number]) =>
+    (s.itemKey ? items.get(s.itemKey)?.name : s.customName) ?? '';
+  if (person) {
+    const k = personIds.indexOf(person) + 1;
+    const n = personIds.length + state.answered.length + (state.current ? 1 + state.waiting : 0);
+    const seeOnce = () => update((p) => ({ ...p, seenQuestions: [...p.seenQuestions, person] }));
+    if (person === 'person:doctor') {
+      const options = progress.items.filter((s) => !s.dataSource).map((s) => ({ id: s.id, name: nameOf(s) }));
+      const selected = new Set(progress.items.filter((s) => s.origin && protectedOrigins.has(s.origin)).map((s) => s.id));
+      return (
+        <div className="swap" key={person}>
+          <PersonQuestion
+            kind="doctor"
+            options={options}
+            selected={selected}
+            count={{ k, n }}
+            onToggle={(id) =>
+              update((p) => ({
+                ...p,
+                items: p.items.map((s) =>
+                  s.id !== id ? s : { ...s, origin: s.origin && protectedOrigins.has(s.origin) ? undefined : 'doctor' },
+                ),
+              }))
+            }
+            onNone={() =>
+              update((p) => ({
+                ...p,
+                items: p.items.map((s) => (s.origin && protectedOrigins.has(s.origin) ? { ...s, origin: undefined } : s)),
+              }))
+            }
+            onContinue={seeOnce}
+          />
+        </div>
+      );
+    }
+    const options = progress.items
+      .filter((s) => !s.dataSource && !(s.origin && protectedOrigins.has(s.origin)))
+      .map((s) => ({ id: s.id, name: nameOf(s) }));
+    return (
+      <div className="swap" key={person}>
+        <PersonQuestion
+          kind="keep"
+          options={options}
+          selected={yours}
+          count={{ k, n }}
+          onToggle={(id) =>
+            update((p) => ({
+              ...p,
+              dayOne: {
+                ...p.dayOne,
+                yours: p.dayOne.yours.includes(id) ? p.dayOne.yours.filter((y) => y !== id) : [...p.dayOne.yours, id],
+              },
+            }))
+          }
+          onContinue={seeOnce}
+        />
+      </div>
+    );
+  }
+
+  const current = state.current;
+  if (!current) return null;
+  const k = personIds.length + state.answered.length + 1;
   const n = k + state.waiting;
   return (
-    <div className="swap" key={state.current.id}>
+    <div className="swap" key={current.id}>
       <QuestionView
-        asked={state.current}
+        asked={current}
         count={{ k, n }}
         goals={progress.goals}
-        onSubmit={(patch) => submit(state.current as Asked, patch)}
+        onSubmit={(patch) => submit(current, patch)}
       />
     </div>
   );

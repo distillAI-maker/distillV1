@@ -82,7 +82,7 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
         <h1>{copy.today.emptyTitle}</h1>
         <p className="lede">{progress.dayOne.started ? copy.today.emptyLine : copy.today.notStartedLine}</p>
         <div className="actions-row">
-          <ButtonLink href="/day-one" variant="ghost">
+          <ButtonLink href="/sorted" variant="ghost">
             {copy.today.seeDayOne}
           </ButtonLink>
         </div>

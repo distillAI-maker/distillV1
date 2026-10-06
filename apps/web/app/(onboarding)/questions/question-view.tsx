@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
+import { Icon } from '../../../components/icon';
 import { Button, Chip, Field } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import type { AskableField } from '../../../lib/followups/fields';
@@ -81,10 +82,17 @@ export function QuestionView({
   const [problem, setProblem] = useState<string | null>(null);
 
   const head = (
-    <div className="q-top">
-      <span className="q-item">{name}</span>
-      <span className="q-count">{copy.questions.count(count.k, count.n)}</span>
-    </div>
+    <>
+      <div className="q-progress" aria-hidden="true">
+        {Array.from({ length: Math.min(count.n, 12) }, (_, i) => (
+          <span key={i} className={i < Math.min(count.k, 12) ? 'on' : ''} />
+        ))}
+      </div>
+      <div className="q-top">
+        <span className="q-item">{name}</span>
+        <span className="q-count">{copy.questions.count(count.k, count.n)}</span>
+      </div>
+    </>
   );
 
   function need(msg: string) {
@@ -94,7 +102,7 @@ export function QuestionView({
   // Confirmation of something read from the wearable or the demo fixture.
   if (q.kind === 'confirm') {
     return (
-      <section className="stack">
+      <section className="stack screen-q">
         {head}
         <h1>{copy.questions.readFrom(q.source)}</h1>
         <div className="glass read-card">
@@ -306,12 +314,11 @@ export function QuestionView({
 
   const isNumberLike = q.kind === 'number' || q.kind === 'exact' || q.kind === 'dose';
   return (
-    <section className="stack">
+    <section className="stack screen-q">
       {head}
-      {isNumberLike ? null : <h1>{title}</h1>}
-      {isNumberLike ? <h1 className="sr-only">{title}</h1> : null}
+      <h1>{title}</h1>
       {line ? <p className="lede">{line}</p> : null}
-      {body}
+      <div className={isNumberLike ? 'q-number' : undefined}>{body}</div>
       {problem ? (
         <p className="notice" role="alert">
           {problem}
@@ -327,6 +334,7 @@ export function QuestionView({
           }}
         >
           {copy.common.continue}
+          <Icon name="arrow" size={18} />
         </Button>
       </div>
     </section>
