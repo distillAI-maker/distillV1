@@ -1,10 +1,19 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { ReactNode } from 'react';
 import { LocalProgressStore } from './local';
 import { emptyProgress } from './types';
 import type { Progress, ProgressStore } from './types';
+import { RemoteProgressStore } from './remote';
 
 type Patch = Partial<Progress> | ((current: Progress) => Progress);
 
@@ -13,7 +22,8 @@ interface ProgressContextValue {
   ready: boolean;
   progress: Progress;
   update: (patch: Patch) => void;
-  reset: () => Promise<void>;
+  reset: (memoryOnly?: boolean) => Promise<void>;
+  saveNow: (value?: Progress) => Promise<void>;
   store: ProgressStore;
 }
 
@@ -23,34 +33,53 @@ const ProgressContext = createContext<ProgressContextValue | null>(null);
 export function ProgressProvider({
   children,
   store: given,
+  userId,
 }: {
   children: ReactNode;
   store?: ProgressStore;
+  userId?: string;
 }) {
-  const store = useMemo(() => given ?? new LocalProgressStore(), [given]);
+  const store = useMemo(
+    () => given ?? (userId ? new RemoteProgressStore(userId) : new LocalProgressStore()),
+    [given, userId],
+  );
   const [progress, setProgress] = useState<Progress>(emptyProgress);
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
   const dirty = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let alive = true;
-    store.load().then((saved) => {
-      if (!alive) return;
-      if (saved) setProgress(saved);
-      setReady(true);
-    });
+    setReady(false);
+    setError(null);
+    setProgress(emptyProgress());
+    store
+      .load()
+      .then((saved) => {
+        if (!alive) return;
+        if (saved) setProgress(saved);
+        setReady(true);
+      })
+      .catch(() => alive && setError('Your saved progress could not be loaded. Please retry.'));
     return () => {
       alive = false;
     };
-  }, [store]);
+  }, [store, attempt]);
 
   useEffect(() => {
     if (!ready || !dirty.current) return;
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       dirty.current = false;
-      void store.save(progress);
+      void store
+        .save(progress)
+        .then(() => setError(null))
+        .catch(() => {
+          dirty.current = true;
+          setError('Your changes have not been saved. Please retry.');
+        });
     }, 400);
     return () => {
       if (timer.current) clearTimeout(timer.current);
@@ -61,7 +90,9 @@ export function ProgressProvider({
     const flush = () => {
       if (dirty.current) {
         dirty.current = false;
-        void store.save(progress);
+        void store.save(progress).catch(() => {
+          dirty.current = true;
+        });
       }
     };
     window.addEventListener('pagehide', flush);
@@ -76,17 +107,54 @@ export function ProgressProvider({
     });
   }, []);
 
-  const reset = useCallback(async () => {
-    dirty.current = false;
-    await store.clear();
-    setProgress(emptyProgress());
-  }, [store]);
+  const saveNow = useCallback(
+    async (value = progress) => {
+      if (timer.current) clearTimeout(timer.current);
+      try {
+        await store.save(value);
+        dirty.current = false;
+        setError(null);
+      } catch (err) {
+        dirty.current = true;
+        setError('Your changes have not been saved. Please retry.');
+        throw err;
+      }
+    },
+    [progress, store],
+  );
+
+  const reset = useCallback(
+    async (memoryOnly = false) => {
+      dirty.current = false;
+      if (timer.current) clearTimeout(timer.current);
+      if (!memoryOnly) await store.clear();
+      setProgress(emptyProgress());
+    },
+    [store],
+  );
 
   const value = useMemo(
-    () => ({ ready, progress, update, reset, store }),
-    [ready, progress, update, reset, store],
+    () => ({ ready, progress, update, reset, saveNow, store }),
+    [ready, progress, update, reset, saveNow, store],
   );
-  return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
+  return (
+    <ProgressContext.Provider value={value}>
+      {error ? (
+        <div className="notice" role="alert">
+          {error}{' '}
+          <button
+            type="button"
+            onClick={() =>
+              ready ? void saveNow().catch(() => undefined) : setAttempt((a) => a + 1)
+            }
+          >
+            Retry
+          </button>
+        </div>
+      ) : null}
+      {children}
+    </ProgressContext.Provider>
+  );
 }
 
 export function useProgress(): ProgressContextValue {

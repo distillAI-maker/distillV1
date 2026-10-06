@@ -9,11 +9,18 @@ import type { IconName } from '../../../components/icon';
 import { Button, ButtonLink, Chip, Field, Skeleton } from '../../../components/ui';
 import { fetchItems } from '../../../lib/catalog/actions';
 import { copy } from '../../../lib/copy';
-import { buildRoutedStack, groupOf, statusesAfterDayOne, summarise } from '../../../lib/data/routed';
+import {
+  buildRoutedStack,
+  groupOf,
+  statusesAfterDayOne,
+  summarise,
+} from '../../../lib/data/routed';
 import type { Group } from '../../../lib/data/routed';
 import type { RoutedItem, RoutedStack } from '../../../lib/data/types';
 import { env } from '../../../lib/env';
 import { useProgress } from '../../../lib/progress/context';
+import { calculateAudit } from '../../../lib/data/audit-action';
+import { api } from '../../../lib/api';
 
 const groupOrder: Group[] = ['drop', 'test', 'cant', 'keep', 'protected', 'unread'];
 const groupIcon: Record<Group, IconName> = {
@@ -29,11 +36,19 @@ const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
 export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchItems }) {
   const router = useRouter();
-  const { ready, progress, update } = useProgress();
+  const { ready, progress, update, store, saveNow } = useProgress();
+  const [calculated, setCalculated] = useState<RoutedStack | null>(null);
+  const [startError, setStartError] = useState<string | null>(null);
+  const [starting, setStarting] = useState(false);
+  const [days, setDays] = useState<14 | 28 | 42>(14);
+  const [onDefinition, setOnDefinition] = useState('');
+  const [offDefinition, setOffDefinition] = useState('');
   const [items, setItems] = useState<Map<string, Item> | null>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
-  const [months, setMonths] = useState<string>(progress.dayOne.months != null ? String(progress.dayOne.months) : '');
+  const [months, setMonths] = useState<string>(
+    progress.dayOne.months != null ? String(progress.dayOne.months) : '',
+  );
   const [picking, setPicking] = useState(false);
 
   const keys = useMemo(
@@ -53,27 +68,87 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
   }, [ready, keys, attempt, loadItems]);
 
   const routed: RoutedStack | null = useMemo(
-    () => (items ? buildRoutedStack(progress, items) : null),
-    [items, progress],
+    () =>
+      store.id === 'supabase' || loadItems === fetchItems
+        ? calculated
+        : items
+          ? buildRoutedStack(progress, items)
+          : null,
+    [items, progress, calculated, store, loadItems],
   );
-  const summary = useMemo(() => (routed ? summarise(routed, progress.dayOne) : null), [routed, progress.dayOne]);
+  useEffect(() => {
+    if (!ready) return;
+    let alive = true;
+    calculateAudit(progress)
+      .then((value) => {
+        if (alive) {
+          setCalculated(value);
+          setFailed(false);
+        }
+      })
+      .catch(() => alive && setFailed(true));
+    return () => {
+      alive = false;
+    };
+  }, [ready, progress, attempt]);
+  const summary = useMemo(
+    () => (routed ? summarise(routed, progress.dayOne) : null),
+    [routed, progress.dayOne],
+  );
 
   const dayOne = progress.dayOne;
-  const setDayOne = (patch: Partial<typeof dayOne>) => update((p) => ({ ...p, dayOne: { ...p.dayOne, ...patch } }));
+  const setDayOne = (patch: Partial<typeof dayOne>) =>
+    update((p) => ({ ...p, dayOne: { ...p.dayOne, ...patch } }));
   const toggleIn = (list: 'keepAnyway' | 'runAnyway', id: string, on: boolean) =>
-    setDayOne({ [list]: on ? [...new Set([...dayOne[list], id])] : dayOne[list].filter((x) => x !== id) });
+    setDayOne({
+      [list]: on ? [...new Set([...dayOne[list], id])] : dayOne[list].filter((x) => x !== id),
+    });
 
-  function start() {
+  async function start() {
     if (!routed) return;
+    setStarting(true);
+    setStartError(null);
     const statuses = statusesAfterDayOne(routed, dayOne);
     const m = months.trim() === '' ? null : Number(months);
-    update((p) => ({
-      ...p,
+    const next = {
+      ...progress,
       step: 'done',
-      dayOne: { ...p.dayOne, started: true, months: Number.isFinite(m as number) ? m : null },
-      items: p.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
-    }));
-    router.push('/today');
+      dayOne: {
+        ...progress.dayOne,
+        started: true,
+        months: Number.isFinite(m as number) ? m : null,
+      },
+      items: progress.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
+      updatedAt: new Date().toISOString(),
+    } as typeof progress;
+    try {
+      await saveNow(next);
+      if (store.id === 'supabase' && first) {
+        await api('/api/app/experiments', {
+          method: 'POST',
+          body: JSON.stringify({
+            itemKey: first.itemKey,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            days,
+            onDefinition,
+            offDefinition,
+          }),
+        });
+      }
+      update(next);
+      router.push('/today');
+    } catch (error) {
+      const code = error instanceof Error ? error.message : '';
+      setStartError(
+        code.startsWith('baseline_')
+          ? 'We need more usable nights for your baseline. Import or sync your history, then try again.'
+          : code === 'experiment_already_active'
+            ? 'A test is already running. Open Today to continue it.'
+            : 'The test could not be started. Your audit is saved; please retry.',
+      );
+    } finally {
+      setStarting(false);
+    }
   }
 
   if (failed)
@@ -114,7 +189,9 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
     byGroup.set(g, [...(byGroup.get(g) ?? []), r]);
   }
   const inPair = new Set(routed.overlaps.flatMap((o) => o.keys));
-  const first = routed.queue.find((q) => q.itemKey === (dayOne.firstExperiment ?? routed.queue[0]?.itemKey)) ?? routed.queue[0];
+  const first =
+    routed.queue.find((q) => q.itemKey === (dayOne.firstExperiment ?? routed.queue[0]?.itemKey)) ??
+    routed.queue[0];
   const firstItem = first ? routed.items.find((r) => r.itemKey === first.itemKey) : undefined;
 
   return (
@@ -156,12 +233,20 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
                   ? routed.overlaps.map((pair) => {
                       const a = routed.items.find((r) => r.itemKey === pair.keys[0])!;
                       const b = routed.items.find((r) => r.itemKey === pair.keys[1])!;
-                      const kept = dayOne.overlapChoices[pair.group] ?? pair.keys.find((k) => k !== pair.suggestedDrop);
+                      const kept =
+                        dayOne.overlapChoices[pair.group] ??
+                        pair.keys.find((k) => k !== pair.suggestedDrop);
                       const stays = pair.keys.find((k) => k !== pair.suggestedDrop) as string;
                       const goes = pair.suggestedDrop;
-                      const nameOf = (k: string) => routed.items.find((r) => r.itemKey === k)?.name ?? k;
+                      const nameOf = (k: string) =>
+                        routed.items.find((r) => r.itemKey === k)?.name ?? k;
                       return (
-                        <div key={pair.group} className="glass dcard pair" role="group" aria-label={copy.dayOne.overlapTitle}>
+                        <div
+                          key={pair.group}
+                          className="glass dcard pair"
+                          role="group"
+                          aria-label={copy.dayOne.overlapTitle}
+                        >
                           <div>
                             <h3>{copy.dayOne.overlapTitle}</h3>
                             <p className="muted" style={{ fontSize: 15 }}>
@@ -179,13 +264,21 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
                               </div>
                             ))}
                           </div>
-                          <div className="chips" role="radiogroup" aria-label={copy.dayOne.overlapTitle}>
+                          <div
+                            className="chips"
+                            role="radiogroup"
+                            aria-label={copy.dayOne.overlapTitle}
+                          >
                             {pair.keys.map((k) => (
                               <Chip
                                 key={k}
                                 radio
                                 selected={kept === k}
-                                onClick={() => setDayOne({ overlapChoices: { ...dayOne.overlapChoices, [pair.group]: k } })}
+                                onClick={() =>
+                                  setDayOne({
+                                    overlapChoices: { ...dayOne.overlapChoices, [pair.group]: k },
+                                  })
+                                }
                               >
                                 {copy.dayOne.keepThis(nameOf(k))}
                               </Chip>
@@ -225,8 +318,19 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
           </h2>
           <p className="first">{firstItem.name}</p>
           <div className="lines">
-            <p>{copy.dayOne.firstLine1}</p>
-            <p>{copy.dayOne.firstLine2}</p>
+            <p>
+              {store.id === 'supabase'
+                ? 'Choose the conditions and duration before starting. They are locked for this test.'
+                : copy.dayOne.firstLine1}
+            </p>
+            {store.id === 'supabase' ? (
+              <p>
+                Fourteen days cannot support a decisive result with this design. Longer tests remain
+                subject to data quality and simulation limitations.
+              </p>
+            ) : (
+              <p>{copy.dayOne.firstLine2}</p>
+            )}
             {first.observeOnly ? <p>{copy.dayOne.observeLine}</p> : null}
           </div>
           <Field
@@ -240,8 +344,57 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
             value={months}
             onChange={(e) => setMonths(e.target.value)}
           />
+          {store.id === 'supabase' ? (
+            <div className="stack-tight">
+              <label>
+                Test duration{' '}
+                <select
+                  value={days}
+                  onChange={(e) => setDays(Number(e.target.value) as 14 | 28 | 42)}
+                >
+                  <option value={14}>14 days (limited evidence)</option>
+                  <option value={28}>28 days</option>
+                  <option value={42}>42 days</option>
+                </select>
+              </label>
+              <Field
+                label={first.observeOnly ? 'What counts as happening?' : 'Your on condition'}
+                value={onDefinition}
+                onChange={(e) => setOnDefinition(e.target.value)}
+                maxLength={1000}
+              />
+              <Field
+                label={first.observeOnly ? 'What counts as not happening?' : 'Your off condition'}
+                value={offDefinition}
+                onChange={(e) => setOffDefinition(e.target.value)}
+                maxLength={1000}
+              />
+              {first.observeOnly ? (
+                <p>
+                  Keep your usual routine. These labels describe what happens; no on or off days are
+                  assigned.
+                </p>
+              ) : null}
+              {startError ? (
+                <p className="notice" role="alert">
+                  {startError}
+                </p>
+              ) : null}
+            </div>
+          ) : null}
           <div className="actions-row">
-            <Button onClick={start}>{copy.dayOne.start}</Button>
+            <Button
+              onClick={() => void start()}
+              disabled={
+                starting ||
+                (store.id === 'supabase' &&
+                  (!onDefinition.trim() ||
+                    !offDefinition.trim() ||
+                    onDefinition.trim() === offDefinition.trim()))
+              }
+            >
+              {starting ? 'Starting…' : copy.dayOne.start}
+            </Button>
             {routed.queue.length > 1 ? (
               <Button variant="ghost" onClick={() => setPicking((p) => !p)} aria-expanded={picking}>
                 {copy.dayOne.notThisOne}
@@ -272,6 +425,14 @@ export function DayOne({ loadItems = fetchItems }: { loadItems?: typeof fetchIte
           ) : null}
         </section>
       ) : null}
+      {!first ? (
+        <div className="actions-row">
+          <Button onClick={() => void start()} disabled={starting}>
+            Save audit and continue
+          </Button>
+          {startError ? <p role="alert">{startError}</p> : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -294,7 +455,8 @@ function ItemCard({
   first: boolean;
 }) {
   const l = r.landing;
-  const chanceWord = l.chance && l.chance !== 'not tested' && l.chance !== 'not in two weeks' ? l.chance : null;
+  const chanceWord =
+    l.chance && l.chance !== 'not tested' && l.chance !== 'not in two weeks' ? l.chance : null;
   return (
     <article className="glass dcard" aria-label={r.name}>
       <div className="top">
@@ -305,7 +467,9 @@ function ItemCard({
         </div>
         {group === 'protected' ? null : (
           <span className="cost">
-            {group === 'cant' ? copy.dayOne.perYear(money(r.monthlyCost * 12)) : copy.dayOne.perMonth(money(r.monthlyCost))}
+            {group === 'cant'
+              ? copy.dayOne.perYear(money(r.monthlyCost * 12))
+              : copy.dayOne.perMonth(money(r.monthlyCost))}
           </span>
         )}
       </div>
@@ -328,7 +492,9 @@ function ItemCard({
           {l.safety}
         </div>
       ) : null}
-      {l.unverified && env.showUnverified ? <span className="tag">{copy.dayOne.beingChecked}</span> : null}
+      {l.unverified && env.showUnverified ? (
+        <span className="tag">{copy.dayOne.beingChecked}</span>
+      ) : null}
       {l.tier === 'T2' ? (
         <div className="switch" role="radiogroup" aria-label={r.name}>
           <Chip radio selected={!keepAnyway} onClick={() => onKeep(false)}>

@@ -1,5 +1,7 @@
 # Phase 2 data sources
 
+The app now connects these provider/import APIs to authenticated onboarding, calculated audits and persisted experiments/results. For the current browser workflow, migration version and hosted acceptance steps, see [APP_INTEGRATION.md](APP_INTEGRATION.md). The API-only setup below remains supported.
+
 Implementation status: provider adapters, import parsers, persistence, OAuth, sync workers and API routes are implemented. Phases 3–7 add stack routing, experiments, statistics, simulation, local demo data and verdict text; experiment HTTP routes and app screens are not yet wired. Deployment and real-account acceptance require the configuration below. Conditional power evidence is in [POWER.md](POWER.md); local demo setup is in [DEMO.md](DEMO.md) and text rendering is in [VERDICTS.md](VERDICTS.md).
 
 ## Platform verification (2026-10-02)
