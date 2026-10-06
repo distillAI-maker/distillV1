@@ -39,21 +39,31 @@ To preview the existing landing page:
 python -m http.server 3000 -d public
 ```
 
+## Run the app
+
+```sh
+pnpm dev
+```
+
+Opens the app at http://localhost:3000. With no Supabase keys in `apps/web/.env.local`, the app runs on this device only, with browser-saved progress and demo fixtures. With the hosted services configured, signed-in users can save progress, import data, receive a calculated stack audit, register experiments, record compliance and save calculated verdicts. Configuration and verification steps are in [docs/APP_INTEGRATION.md](docs/APP_INTEGRATION.md). Screens and copy are specified in [docs/ONBOARDING.md](docs/ONBOARDING.md). `pnpm build:web` makes the production build using Next's webpack bundler. The live app is https://distill-app-nu.vercel.app; these changes become live after the branch is merged and deployed.
+
 ## Files
 
-| Path                                             | Purpose                                                                        |
-| ------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `SPEC.md`                                        | Supplied product specification, preserved verbatim                             |
-| `data/Routing-Table_V3.xlsx`                     | Supplied source workbook, preserved byte-for-byte                              |
-| `data/catalog.json`                              | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
-| `packages/catalog`                               | SheetJS reader, Zod schemas, validators and ingest tests                       |
-| `packages/engine`                                | Pure TypeScript item rules and tone checks; no runtime I/O                     |
-| `vendor/xlsx-0.20.3.tgz`                         | Official SheetJS archive, pinned locally with integrity in the lockfile        |
-| `docs/CATALOG.md`                                | Phase 1 contracts, examples and workbook update process                        |
-| `docs/OPEN_QUESTIONS.md`                         | Source conflicts and decisions requiring the team                              |
-| `docs/LANDING.md`                                | Landing page setup and editing instructions                                    |
-| `.github/workflows/ci.yml`                       | PR validation                                                                  |
-| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling                              |
+| Path | Purpose |
+| --- | --- |
+| `SPEC.md` | Supplied product specification, preserved verbatim |
+| `data/Routing-Table_V3.xlsx` | Supplied source workbook, preserved byte-for-byte |
+| `data/catalog.json` | Generated typed catalog, workbook hash, and all nonblank source cells/formulas |
+| `packages/catalog` | SheetJS reader, Zod schemas, validators and ingest tests |
+| `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
+| `apps/web` | Next.js app: the Phase 8 screens plus the Phase 2 API routes under `app/api` and `src/server` |
+| `docs/ONBOARDING.md` | Phase 8 screen spec: screens, tokens, copy, data |
+| `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
+| `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
+| `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
+| `docs/LANDING.md` | Landing page setup and editing instructions |
+| `.github/workflows/ci.yml` | PR validation |
+| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling |
 
 The V3 workbook title includes a "What changed in version 4" section. We retain its supplied filename and record the mismatch instead of silently renaming it. It contains **13 sheets** (including an unlisted Glossary), **210 items**, **18 overlap groups**, **93 fact-check flags**, and **9 observe-only items**. All Summary counts validate. The brief's "19 groups" and the worked example's conflicting prose totals are recorded as open questions.
 
