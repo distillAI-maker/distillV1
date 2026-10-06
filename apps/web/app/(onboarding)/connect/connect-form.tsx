@@ -8,6 +8,7 @@ import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
+import { FirstReading } from './first-reading';
 import { useProgress } from '../../../lib/progress/context';
 import type { DataSourceId } from '../../../lib/progress/types';
 
@@ -38,10 +39,10 @@ export function ConnectForm() {
   const [busy, setBusy] = useState<string | null>(null);
   const frame = useRef<number | null>(null);
 
-  // A reload during or after the demo backfill lands on the finished state, not the start.
+  // A reload after the backfill, or a finished import, lands on the finished state, not the start.
   useEffect(() => {
-    if (ready && progress.dataSource === 'demo' && progress.backfill?.done) {
-      setNights(progress.backfill.nights);
+    if (ready && progress.dataSource && progress.backfill?.done) {
+      setNights(progress.dataSource === 'demo' ? progress.backfill.nights : demoNights);
       setPhase('done');
     }
   }, [ready, progress.dataSource, progress.backfill]);
@@ -121,20 +122,17 @@ export function ConnectForm() {
         setLiveMessage('History is still syncing. Check again shortly.');
         return;
       }
-      const next = { ...progress, step: 'stack' as const, backfill: { nights: 0, done: true } };
+      // Connect is the last onboarding step: once history is in, the first reading is set up here.
+      const next = { ...progress, backfill: { nights: 0, done: true } };
       await saveNow(next);
       update(next);
-      router.push('/stack');
+      setNights(demoNights);
+      setPhase('done');
     } catch {
       setLiveMessage('Connection status could not be loaded. Please retry.');
     } finally {
       setBusy(null);
     }
-  }
-
-  function next() {
-    update({ step: 'stack' });
-    router.push('/stack');
   }
 
   if (!ready) {
@@ -166,13 +164,7 @@ export function ConnectForm() {
         >
           <i style={{ '--w': `${pct}%` } as CSSProperties} />
         </div>
-        {done ? (
-          <div className="actions">
-            <Button onClick={next} autoFocus>
-              {copy.common.continue}
-            </Button>
-          </div>
-        ) : null}
+        {done ? <FirstReading /> : null}
       </section>
     );
   }

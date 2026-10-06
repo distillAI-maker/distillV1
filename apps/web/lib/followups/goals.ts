@@ -61,3 +61,34 @@ export function goalOptionsFor(sheetGoals: string[]): EngineGoal[] {
     if (!out.includes(extra)) out.push(extra);
   return out;
 }
+
+/** Goal words the engine's goal map understands, matched inside the catalog's free-text "usual goal". */
+const usualWords = [
+  'sleep', 'cramps', 'recovery', 'stress', 'energy', 'fitness', 'focus', 'memory', 'mood', 'anxiety',
+  'skin', 'hair', 'gut', 'bloating', 'pain', 'soreness', 'fat loss', 'weight', 'immunity', 'longevity',
+  'testosterone', 'hormones', 'general health',
+];
+
+/** The usual reason people take an item, as one goal word, from the catalog's own text. */
+export function usualGoalFor(item: { usualGoal?: string | null }): string | undefined {
+  const text = (item.usualGoal ?? '').toLowerCase();
+  if (!text) return undefined;
+  for (const part of text.split(/,|\/|;| and | or /)) {
+    const hit = usualWords.find((w) => part.includes(w));
+    if (hit) return hit;
+  }
+  return undefined;
+}
+
+const ruleWordFor: Record<string, EngineGoal> = {
+  sleep: 'sleep', cramps: 'cramps', energy: 'energy', focus: 'focus', memory: 'focus', mood: 'mood',
+  anxiety: 'mood', skin: 'skin', hair: 'skin', gut: 'gut', bloating: 'gut', pain: 'pain', soreness: 'soreness',
+  'fat loss': 'fat loss', weight: 'fat loss', longevity: 'general health', 'general health': 'general health',
+  testosterone: 'testosterone', hormones: 'testosterone',
+};
+
+/** The rule's goal word for an item's usual reason, when the rules have one. */
+export function usualRuleGoalFor(item: { usualGoal?: string | null }): EngineGoal | undefined {
+  const word = usualGoalFor(item);
+  return word ? ruleWordFor[word] : undefined;
+}

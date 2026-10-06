@@ -146,7 +146,7 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
           {progress.dayOne.started ? copy.today.emptyLine : copy.today.notStartedLine}
         </p>
         <div className="actions-row">
-          <ButtonLink href="/day-one" variant="ghost">
+          <ButtonLink href="/sorted" variant="ghost">
             {copy.today.seeDayOne}
           </ButtonLink>
         </div>
@@ -161,7 +161,7 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
             ? 'Return to your audit to choose another resolved item.'
             : copy.today.nextLine('Alcohol in the evening')}
         </p>
-        <ButtonLink href="/day-one" variant="ghost">
+        <ButtonLink href="/sorted" variant="ghost">
           {copy.today.seeDayOne}
         </ButtonLink>
       </section>

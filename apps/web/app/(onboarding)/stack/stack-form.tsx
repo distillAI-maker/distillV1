@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useId, useMemo, useState } from 'react';
+import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Field, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
@@ -14,14 +14,14 @@ import type { IndexEntry } from '../../../lib/search/match';
 import { Typeahead } from './typeahead';
 
 const categoryOrder = [
+  'service',
   'supplement',
   'food/drink',
-  'timing',
-  'habit',
-  'device',
-  'service',
-  'environment',
   'skincare',
+  'device',
+  'habit',
+  'timing',
+  'environment',
   'custom',
 ] as const;
 type Category = (typeof categoryOrder)[number];
@@ -32,50 +32,58 @@ function money(n: number): string {
   return Math.round(n).toLocaleString('en-US');
 }
 
+function catalogRow(entry: IndexEntry, position: number): StackItem {
+  return {
+    id: newItemId(),
+    itemKey: entry.key,
+    monthlyCost: entry.cost,
+    answers: {},
+    chips: {},
+    unknown: [],
+    status: 'listed',
+    position,
+  };
+}
+
+/**
+ * Your stack, in the Figma build's two stages. First the person talks it through and we match what
+ * we recognise in the routing table; then they edit the list: costs, where each came from, and
+ * anything we missed.
+ */
 export function StackForm({ index }: { index: IndexEntry[] }) {
-  const router = useRouter();
+  const go = useGo();
   const { ready, progress, update } = useProgress();
   const byKey = useMemo(() => new Map(index.map((e) => [e.key, e])), [index]);
+  const [stage, setStage] = useState<'listen' | 'edit' | null>(null);
+  const [notes, setNotes] = useState('');
   const [custom, setCustom] = useState<{ open: boolean; name: string; cost: string }>({
     open: false,
     name: '',
     cost: '',
   });
+  const [originFor, setOriginFor] = useState<string | null>(null);
   const [needOne, setNeedOne] = useState(false);
-  const [scratchOpen, setScratchOpen] = useState(false);
-  const [notes, setNotes] = useState('');
-  const scratchId = useId();
+  const notesId = useId();
 
-  // The demo person arrives with the Worked Example already listed. Once only.
+  // Someone coming back to a list they started lands on the list, not the blank page.
   useEffect(() => {
-    if (ready && progress.dataSource === 'demo' && !progress.prefilledFrom && progress.items.length === 0)
-      update({ items: demoStack(), goals: demoGoals, prefilledFrom: 'demo' });
-  }, [ready, progress.dataSource, progress.prefilledFrom, progress.items.length, update]);
+    if (ready && stage === null) setStage(progress.items.length ? 'edit' : 'listen');
+  }, [ready, stage, progress.items.length]);
 
   const items = progress.items;
   const listed = useMemo(
     () => new Set(items.map((i) => i.itemKey).filter((k): k is string => Boolean(k))),
     [items],
   );
+  const heard = useMemo(() => matchText(notes, index).filter((e) => !listed.has(e.key)), [notes, index, listed]);
 
-  function addCatalog(entry: IndexEntry) {
-    if (listed.has(entry.key)) return;
+  function addCatalog(entries: IndexEntry[]) {
+    const fresh = entries.filter((e) => !listed.has(e.key));
+    if (!fresh.length) return;
     setNeedOne(false);
     update((p) => ({
       ...p,
-      items: [
-        ...p.items,
-        {
-          id: newItemId(),
-          itemKey: entry.key,
-          monthlyCost: entry.cost,
-          answers: {},
-          chips: {},
-          unknown: [],
-          status: 'listed',
-          position: p.items.length,
-        },
-      ],
+      items: [...p.items, ...fresh.map((e, i) => catalogRow(e, p.items.length + i))],
     }));
   }
   function addCustom(name: string, cost: number) {
@@ -105,15 +113,84 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     update((p) => ({ ...p, items: p.items.map((i) => (i.id === id ? { ...i, ...change } : i)) }));
   }
   function remove(id: string) {
-    update((p) => ({ ...p, items: p.items.filter((i) => i.id !== id) }));
+    update((p) => ({
+      ...p,
+      items: p.items.filter((i) => i.id !== id),
+      dayOne: { ...p.dayOne, yours: p.dayOne.yours.filter((y) => y !== id) },
+    }));
+  }
+  function useExample() {
+    update({ items: demoStack(), goals: demoGoals, prefilledFrom: 'demo' });
+    setStage('edit');
   }
   function next() {
     if (!items.length) {
       setNeedOne(true);
       return;
     }
-    update({ step: 'goals' });
-    router.push('/goals');
+    go('life');
+  }
+
+  if (!ready || stage === null) {
+    return (
+      <section className="stack" aria-busy="true">
+        <p className="eyebrow">{copy.stack.listen.eyebrow}</p>
+        <h1>{copy.stack.listen.title}</h1>
+        <Skeleton kind="title" />
+        <Skeleton kind="option" count={2} />
+      </section>
+    );
+  }
+
+  if (stage === 'listen') {
+    return (
+      <section className="stack screen-listen">
+        <p className="eyebrow">{copy.stack.listen.eyebrow}</p>
+        <h1>{copy.stack.listen.title}</h1>
+        <p className="lede">{copy.stack.listen.line}</p>
+        <div className="writing">
+          <label className="sr-only" htmlFor={notesId}>
+            {copy.stack.listen.label}
+          </label>
+          <textarea
+            id={notesId}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={copy.stack.listen.placeholder}
+            rows={5}
+          />
+          <div className="writing-foot" aria-live="polite">
+            <span>{notes.trim() ? copy.stack.listen.heard(heard.length) : copy.life.empty}</span>
+          </div>
+        </div>
+        {heard.length ? (
+          <ul className="heard-list" aria-label={copy.stack.listen.heard(heard.length)}>
+            {heard.slice(0, 12).map((h) => (
+              <li key={h.key}>{h.name}</li>
+            ))}
+          </ul>
+        ) : null}
+        <div className="actions">
+          <Button
+            onClick={() => {
+              addCatalog(heard);
+              setStage('edit');
+            }}
+          >
+            {copy.stack.listen.find}
+            <Icon name="arrow" size={18} />
+          </Button>
+          <Button variant="link" onClick={() => setStage('edit')}>
+            {copy.stack.listen.chooseMyself}
+          </Button>
+          {items.length === 0 ? (
+            <Button variant="link" onClick={useExample}>
+              {copy.stack.listen.example}
+            </Button>
+          ) : null}
+        </div>
+      </section>
+    );
   }
 
   const total = items.reduce((t, i) => t + (Number.isFinite(i.monthlyCost) ? i.monthlyCost : 0), 0);
@@ -123,68 +200,113 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   const groups = categoryOrder
     .map((cat) => ({ cat, rows: items.filter((i) => categoryOf(i) === cat) }))
     .filter((g) => g.rows.length > 0);
-  const matches = scratchOpen ? matchText(notes, index).filter((e) => !listed.has(e.key)) : [];
-
-  if (!ready) {
-    return (
-      <section className="stack" aria-busy="true">
-        <h1>{copy.stack.title}</h1>
-        <p className="lede">{copy.stack.line}</p>
-        <Skeleton kind="title" />
-        <Skeleton kind="option" count={3} />
-      </section>
-    );
-  }
 
   return (
-    <section className="stack">
-      <h1>{copy.stack.title}</h1>
-      <p className="lede">{copy.stack.line}</p>
+    <section className="stack screen-edit">
+      <p className="eyebrow">{copy.stack.edit.eyebrow}</p>
+      <h1>{copy.stack.edit.title}</h1>
+      <p className="lede">{copy.stack.edit.line}</p>
+      <p className="edit-note">{items.length ? copy.stack.edit.note : copy.stack.edit.emptyNote}</p>
       {progress.prefilledFrom === 'demo' ? <p className="notice">{copy.stack.demoLine}</p> : null}
 
       <Typeahead
         index={index}
         listed={listed}
-        onPick={addCatalog}
+        onPick={(e) => addCatalog([e])}
         onCustom={(name) => setCustom({ open: true, name, cost: '' })}
       />
 
-      <div className="scratch">
-        <button
-          type="button"
-          className="disclose"
-          aria-expanded={scratchOpen}
-          aria-controls={scratchId}
-          onClick={() => setScratchOpen((o) => !o)}
-        >
-          {copy.stack.scratchToggle}
-          <Icon name="down" size={16} />
-        </button>
-        {scratchOpen ? (
-          <div className="field" id={scratchId}>
-            <label htmlFor={`${scratchId}-t`}>{copy.stack.scratchLabel}</label>
-            <textarea
-              id={`${scratchId}-t`}
-              placeholder={copy.stack.scratchPlaceholder}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              aria-describedby={`${scratchId}-h`}
-            />
-            <p className="hint" id={`${scratchId}-h`}>
-              {copy.stack.scratchHint}
-            </p>
-            {matches.length ? (
-              <div className="chips" aria-live="polite">
-                {matches.map((m) => (
-                  <Chip key={m.key} selected={false} onClick={() => addCatalog(m)}>
-                    {copy.stack.addMatch(m.name)}
-                  </Chip>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
+      {groups.map((g) => (
+        <section key={g.cat} className="cat" aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
+          {g.cat === 'supplement' || g.cat === 'habit' ? (
+            <p className="aside">{copy.stack.asides[g.cat]}</p>
+          ) : null}
+          <h2 className="cat-label" id={`cat-${g.cat.replace('/', '-')}`}>
+            {copy.stack.categories[g.cat]}
+          </h2>
+          <ul className="rows">
+            {g.rows.map((row) => {
+              const name = nameOf(row);
+              const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
+              const open = originFor === row.id;
+              return (
+                <li key={row.id} className="row-wrap">
+                  <div className="row">
+                    <span className="row-name">
+                      {name}
+                      {isProtected ? (
+                        <span className="tag">
+                          <Icon name="shield" size={14} />
+                          {copy.stack.protectedTag}
+                        </span>
+                      ) : null}
+                      {row.dataSource ? (
+                        <span className="tag">
+                          <Icon name="watch" size={14} />
+                          {copy.stack.dataSourceTag}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="row-cost">
+                      <span aria-hidden="true">$</span>
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        min={0}
+                        step={1}
+                        aria-label={copy.stack.costFor(name)}
+                        value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
+                        onChange={(e) => {
+                          const n = e.target.value === '' ? 0 : Number(e.target.value);
+                          patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
+                        }}
+                      />
+                      <span className="unit">{copy.stack.costLabel}</span>
+                    </span>
+                    <button
+                      type="button"
+                      className="row-x"
+                      aria-label={copy.stack.remove(name)}
+                      onClick={() => remove(row.id)}
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  {row.dataSource ? null : open ? (
+                    <div className="origin-card" role="radiogroup" aria-label={copy.stack.originFor(name)}>
+                      <span>{copy.stack.originAsk}</span>
+                      <div className="chips">
+                        {originSchema.options.map((o) => (
+                          <Chip
+                            key={o}
+                            radio
+                            selected={row.origin === o}
+                            onClick={() => {
+                              patch(row.id, { origin: o });
+                              setOriginFor(null);
+                            }}
+                          >
+                            {copy.stack.origins[o]}
+                          </Chip>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="origin-link"
+                      aria-expanded={false}
+                      onClick={() => setOriginFor(row.id)}
+                    >
+                      {row.origin ? copy.stack.origins[row.origin] : copy.stack.originAsk}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
 
       {custom.open ? (
         <form
@@ -223,100 +345,14 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
           </div>
         </form>
       ) : (
-        <div>
-          <Button variant="ghost" size="sm" onClick={() => setCustom({ open: true, name: '', cost: '' })}>
-            <Icon name="plus" size={16} />
-            {copy.stack.addCustom}
-          </Button>
-        </div>
+        <button type="button" className="row add-row" onClick={() => setCustom({ open: true, name: '', cost: '' })}>
+          <span className="row-name">{copy.stack.addCustom}</span>
+          <span aria-hidden="true">+</span>
+        </button>
       )}
 
-      {groups.map((g) => (
-        <section key={g.cat} aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
-          <div className="cat-head">
-            <h2 className="label" id={`cat-${g.cat.replace('/', '-')}`} style={{ fontSize: 12 }}>
-              {copy.stack.categories[g.cat]}
-            </h2>
-          </div>
-          <ul className="item-list" style={{ marginTop: 10 }}>
-            {g.rows.map((row) => {
-              const name = nameOf(row);
-              const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
-              return (
-                <li key={row.id} className="glass item-row">
-                  <div className="head">
-                    <div>
-                      <div className="name">{name}</div>
-                      {isProtected || row.dataSource ? (
-                        <div className="tags">
-                          {isProtected ? (
-                            <span className="tag">
-                              <Icon name="shield" />
-                              {copy.stack.protectedTag}
-                            </span>
-                          ) : null}
-                          {row.dataSource ? (
-                            <span className="tag">
-                              <Icon name="watch" />
-                              {copy.stack.dataSourceTag}
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
-                    </div>
-                    <button
-                      type="button"
-                      className="iconbtn"
-                      aria-label={copy.stack.remove(name)}
-                      onClick={() => remove(row.id)}
-                    >
-                      <Icon name="minusc" />
-                    </button>
-                  </div>
-                  <div className="cost">
-                    <span aria-hidden="true">$</span>
-                    <input
-                      type="number"
-                      inputMode="decimal"
-                      min={0}
-                      step={1}
-                      aria-label={copy.stack.costFor(name)}
-                      value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
-                      onChange={(e) => {
-                        const n = e.target.value === '' ? 0 : Number(e.target.value);
-                        patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
-                      }}
-                    />
-                    <span>{copy.stack.costLabel}</span>
-                  </div>
-                  {row.dataSource ? null : (
-                    <div className="origin" role="radiogroup" aria-label={copy.stack.originFor(name)}>
-                      <span className="field-label">{copy.stack.originLabel}</span>
-                      <div className="chips">
-                        {originSchema.options.map((o) => (
-                          <Chip
-                            key={o}
-                            radio
-                            selected={row.origin === o}
-                            onClick={() => patch(row.id, { origin: o })}
-                          >
-                            {copy.stack.origins[o]}
-                          </Chip>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
-
       <div className="total" aria-live="polite">
-        <span className="mono">
-          {items.length === 1 ? copy.stack.totalOne(money(total)) : copy.stack.total(items.length, money(total))}
-        </span>
+        <span>{items.length === 1 ? copy.stack.totalOne(money(total)) : copy.stack.total(items.length, money(total))}</span>
       </div>
       {needOne ? (
         <p className="notice" role="alert">
@@ -324,7 +360,15 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
         </p>
       ) : null}
       <div className="actions">
-        <Button onClick={next}>{copy.stack.done}</Button>
+        <Button onClick={next}>
+          {copy.stack.done}
+          <Icon name="arrow" size={18} />
+        </Button>
+        {items.length === 0 ? (
+          <Button variant="link" onClick={useExample}>
+            {copy.stack.listen.example}
+          </Button>
+        ) : null}
       </div>
     </section>
   );

@@ -23,8 +23,11 @@ export interface Landing {
   unverified: boolean;
   /** A day-one hypothesis from history, when the fixture or engine has one. Always labelled as such. */
   hypothesis?: string;
-  /** Where the sentence came from, for the record (DAY_ONE_SAMPLE_NUMBERS). */
-  sentenceSource: 'catalog.dayOne' | 'template.protected' | 'none';
+  /**
+   * Where the sentence came from, for the record (DAY_ONE_SAMPLE_NUMBERS). 'engine.audit' is the
+   * Phase 7 renderer for where the item actually landed; 'reason' means only the drop reason is shown.
+   */
+  sentenceSource: 'engine.audit' | 'catalog.dayOne' | 'template.protected' | 'reason' | 'none';
 }
 
 export interface RoutedItem {

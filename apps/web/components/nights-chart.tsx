@@ -48,7 +48,7 @@ export function NightsChart({ nights, unit, onLabel }: { nights: Night[]; unit: 
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label={copy.verdict.chartTitle}>
         {onMean !== null ? (
-          <line x1={left} x2={W - left} y1={y(onMean)} y2={y(onMean)} stroke="var(--mint)" strokeWidth={1.5} />
+          <line x1={left} x2={W - left} y1={y(onMean)} y2={y(onMean)} stroke="var(--accent)" strokeWidth={1.5} />
         ) : null}
         {offMean !== null ? (
           <line
@@ -74,8 +74,8 @@ export function NightsChart({ nights, unit, onLabel }: { nights: Night[]; unit: 
                   cx={cx}
                   cy={y(n.value)}
                   r={n.condition === 'on' ? 7 : 6}
-                  fill={n.condition === 'on' ? 'var(--mint)' : 'var(--bg)'}
-                  stroke={n.condition === 'on' ? 'var(--mint)' : 'var(--muted)'}
+                  fill={n.condition === 'on' ? 'var(--accent)' : 'var(--bg)'}
+                  stroke={n.condition === 'on' ? 'var(--accent)' : 'var(--muted)'}
                   strokeWidth={1.5}
                   opacity={n.counted ? 1 : 0.35}
                   tabIndex={0}

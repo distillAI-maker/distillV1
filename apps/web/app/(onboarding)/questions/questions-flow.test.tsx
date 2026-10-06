@@ -31,11 +31,12 @@ describe('Follow-ups', () => {
     document.documentElement.dataset.motion = 'reduce';
   });
 
-  it('walks the demo person through twelve confirmations and lands on day one', async () => {
+  it('walks the demo person through twelve confirmations and lands on the number', async () => {
     const store = new LocalProgressStore(memory());
     await store.save({
       ...emptyProgress(),
       step: 'questions',
+      seenQuestions: ['person:doctor', 'person:keep'],
       dataSource: 'demo',
       prefilledFrom: 'demo',
       goals: demoGoals,
@@ -49,7 +50,7 @@ describe('Follow-ups', () => {
     );
     expect(await screen.findByRole('heading', { name: 'Still paying for it?' })).toBeTruthy();
     expect(screen.getByText('Meditation app (Calm, Headspace)')).toBeTruthy();
-    expect(screen.getByText(/Question 1 of/).textContent).toBe('Question 1 of 8');
+    expect(screen.getByText(/Question 3 of/).textContent).toBe('Question 3 of 10');
     expect(screen.getByRole('radio', { name: 'Yes' }).getAttribute('aria-checked')).toBe('true');
 
     const headings: string[] = [];
@@ -76,11 +77,11 @@ describe('Follow-ups', () => {
       'We read this from your workouts.',
       'How long between dinner and bed, usually?',
     ]);
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/day-one'));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/number'));
     await waitFor(async () => {
       const saved = await store.load();
-      expect(saved?.step).toBe('day-one');
-      expect(saved?.seenQuestions).toHaveLength(12);
+      expect(saved?.step).toBe('number');
+      expect(saved?.seenQuestions).toHaveLength(14);
     });
   });
 
@@ -89,6 +90,7 @@ describe('Follow-ups', () => {
     await store.save({
       ...emptyProgress(),
       step: 'questions',
+      seenQuestions: ['person:doctor', 'person:keep'],
       goals: ['sleep (general)'],
       items: [
         { id: 'a', itemKey: 'cbd', monthlyCost: 40, origin: 'online', answers: {}, chips: {}, unknown: [], status: 'listed', position: 0 },
@@ -109,7 +111,7 @@ describe('Follow-ups', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     });
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/day-one'));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/number'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.items[0]?.unknown).toEqual(['onMedication']);
@@ -122,6 +124,7 @@ describe('Follow-ups', () => {
     await store.save({
       ...emptyProgress(),
       step: 'questions',
+      seenQuestions: ['person:doctor', 'person:keep'],
       goals: [],
       items: [
         {
@@ -159,6 +162,7 @@ describe('Follow-ups', () => {
     await store.save({
       ...emptyProgress(),
       step: 'questions',
+      seenQuestions: ['person:doctor', 'person:keep'],
       goals: [],
       items: [
         { id: 'o', itemKey: 'omega-3-fish-oil', monthlyCost: 20, origin: 'friend', answers: {}, chips: {}, unknown: [], status: 'listed', position: 0 },
@@ -178,5 +182,51 @@ describe('Follow-ups', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     });
     await waitFor(async () => expect((await store.load())?.items[0]?.answers.dose).toBe(600));
+  });
+
+  it('asks about a doctor and what they would never give up, then skips that item\'s follow-ups', async () => {
+    const store = new LocalProgressStore(memory());
+    const stack = demoStack().filter((s) =>
+      ['meditation-app-calm-headspace', 'magnesium-any-form', 'greens-powder-ag1-etc'].includes(s.itemKey ?? ''),
+    );
+    await store.save({
+      ...emptyProgress(),
+      step: 'questions',
+      goals: demoGoals,
+      items: stack,
+      updatedAt: new Date().toISOString(),
+    });
+    render(
+      <ProgressProvider store={store}>
+        <QuestionsFlow loadItems={loadItems} />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByRole('heading', { name: 'Did a doctor put you on any of these?' })).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Greens powder/ }));
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    });
+    expect(await screen.findByRole('heading', { name: 'What would you never give up?' })).toBeTruthy();
+    // The doctor's item is Protected now, so it is not offered here.
+    expect(screen.queryByRole('button', { name: /Greens powder/ })).toBeNull();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Meditation app/ }));
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    });
+    // Magnesium is the only item left with questions; the meditation app is theirs, so it gets none.
+    expect(await screen.findByText('Magnesium (any form)')).toBeTruthy();
+    expect(screen.queryByText('Meditation app (Calm, Headspace)')).toBeNull();
+    await waitFor(async () => {
+      const saved = await store.load();
+      const greens = saved?.items.find((i) => i.itemKey === 'greens-powder-ag1-etc');
+      const meditation = saved?.items.find((i) => i.itemKey === 'meditation-app-calm-headspace');
+      expect(greens?.origin).toBe('doctor');
+      expect(saved?.dayOne.yours).toEqual([meditation?.id]);
+      expect(saved?.seenQuestions.slice(0, 2)).toEqual(['person:doctor', 'person:keep']);
+    });
   });
 });

@@ -71,12 +71,12 @@ export function ImportForm() {
         const next = {
           ...progress,
           dataSource: source,
-          step: 'stack' as const,
+          step: 'connect' as const,
           backfill: { nights: 0, done: true },
         };
         await saveNow(next);
         update(next);
-        router.push('/stack');
+        router.push('/connect');
       } else
         setMessage(
           current?.status === 'failed'
