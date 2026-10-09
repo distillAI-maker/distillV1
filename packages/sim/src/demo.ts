@@ -130,6 +130,7 @@ export function createDemoUsers(asOf: string, seed = 20261003): readonly DemoUse
         offDefinition: 'Keep the usual afternoon coffee routine',
         seed: scheduleSeed,
         config: demoScheduleConfig,
+        decisionPolicy: 'legacy',
       });
       const checkIns = registration.schedule.days.map((day) => {
         const generated = person.days.find((entry) => entry.sleepDate === day.sleepDate)!;

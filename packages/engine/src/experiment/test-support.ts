@@ -45,6 +45,8 @@ export function startInput(overrides: Partial<StartExperimentInput> = {}): Start
     direction: 'lower',
     onDefinition: 'Your existing late-coffee timing',
     offDefinition: 'No coffee after noon',
+    // The legacy fixtures test the exact randomization path; estimate-based tests opt in.
+    decisionPolicy: 'legacy',
     ...overrides,
   };
 }

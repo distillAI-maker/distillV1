@@ -2,7 +2,7 @@ import type { Item } from '@distill/catalog';
 import { routeStack } from '@distill/engine';
 import type { InventoryItem, RoutedItem as EngineItem, StackAnswers } from '@distill/engine';
 import { renderAuditVerdict } from '@distill/engine/verdict';
-import { usualGoalFor } from '../followups/goals';
+import { usualGoalsFor } from '../followups/goals';
 import { contextFor, ruleAnswers } from '../followups/resolve';
 import type { Progress, StackItem } from '../progress/types';
 import type { ExperimentPlan, Landing, OverlapPair, RoutedItem, RoutedStack } from './types';
@@ -17,7 +17,7 @@ type Input = Pick<Progress, 'items' | 'goals'>;
 
 const protectedOrigins = new Set(['doctor', 'blood test']);
 
-function answersFor(stack: StackItem, item: Item | undefined, input: Input): StackAnswers {
+export function answersFor(stack: StackItem, item: Item | undefined, input: Input): StackAnswers {
   const out: Record<string, unknown> = {};
   if (item) {
     const { answers } = ruleAnswers(item, stack, contextFor(input));
@@ -26,10 +26,23 @@ function answersFor(stack: StackItem, item: Item | undefined, input: Input): Sta
   if (stack.origin) out.source = stack.origin;
   if (stack.dataSource) out.dataSource = true;
   // The goal an item is judged by: the one the person gave for it, else the usual reason people
-  // take it (a facial is for skin even when the headline goal is sleep), else their headline goal.
+  // take it (a facial is for skin even when the headline goal is sleep). Otherwise the engine
+  // tries each of the person's goals in order and the first that settles the item wins.
   if (item) {
     const explicit = typeof stack.answers.goal === 'string' ? stack.answers.goal : undefined;
-    out.goal = explicit ?? usualGoalFor(item) ?? out.goal ?? 'general health';
+    if (explicit !== undefined) out.goal = explicit;
+    else {
+      // Every reason the catalogue lists for the item, then the person's own goals, then the two
+      // things a wearable can always read, so a visible effect is offered whatever the goal was.
+      delete out.goal; // the follow-up resolver injects a single headline goal; the engine tries them all
+      const tried = [
+        ...usualGoalsFor(item),
+        ...input.goals,
+        'sleep (general)',
+        'recovery / stress / HRV',
+      ].filter((g, i, all) => all.indexOf(g) === i);
+      out.goals = tried;
+    }
   }
   return out as StackAnswers;
 }
@@ -86,22 +99,23 @@ export function buildEngineStack(input: Input, items: Map<string, Item>): Routed
   const overlaps: OverlapPair[] = [];
   const partnerOf = new Map<string, { name: string; monthlyCost: number }>();
   for (const o of engine?.overlaps ?? []) {
-    if (o.itemIds.length !== 2 || o.dropIds.length !== 1 || !o.keepId) continue;
-    const [a, b] = o.itemIds.map((id) => stackById.get(id));
-    if (!a?.itemKey || !b?.itemKey || a.itemKey === b.itemKey) continue;
-    const drop = stackById.get(o.dropIds[0] as string);
+    // A group may hold three items (two gyms and an app); the card shows the keeper against the drop.
+    if (o.dropIds.length !== 1 || !o.keepId) continue;
     const keep = stackById.get(o.keepId);
-    if (!drop?.itemKey || !keep?.itemKey) continue;
+    const drop = stackById.get(o.dropIds[0] as string);
+    const keepKey = keep?.itemKey,
+      dropKey = drop?.itemKey;
+    if (!keep || !drop || !keepKey || !dropKey || keepKey === dropKey) continue;
     overlaps.push({
       group: o.group,
-      keys: [a.itemKey, b.itemKey],
-      suggestedDrop: drop.itemKey,
+      keys: [keepKey, dropKey],
+      suggestedDrop: dropKey,
       facts: {
-        [a.itemKey]: factsFor(o.comparisons.find((c) => c.id === a.id)),
-        [b.itemKey]: factsFor(o.comparisons.find((c) => c.id === b.id)),
+        [keepKey]: factsFor(o.comparisons.find((c) => c.id === keep.id)),
+        [dropKey]: factsFor(o.comparisons.find((c) => c.id === drop.id)),
       },
     });
-    partnerOf.set(drop.id, { name: items.get(keep.itemKey)?.name ?? keep.itemKey, monthlyCost: keep.monthlyCost });
+    partnerOf.set(drop.id, { name: items.get(keepKey)?.name ?? keepKey, monthlyCost: keep.monthlyCost });
   }
 
   const routedItems: RoutedItem[] = input.items.map((s) => {

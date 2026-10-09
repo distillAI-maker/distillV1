@@ -88,7 +88,16 @@ export interface Experiment {
   status: 'queued' | 'running' | 'done';
   /** ISO date of day 1. */
   startDate: string;
+  /** The horizon the person sees now: 14, then 21 or 28 when a read came back too close. */
   days: number;
+  maxDays?: number;
+  plannedDays?: number;
+  decision?: {
+    status: 'in_progress' | 'extend' | 'ready';
+    outcome?: string | null;
+    nextLook?: string | null;
+    chanceHelps?: number | null;
+  };
   schedule: Condition[];
   observeOnly: boolean;
   metric: string;
@@ -134,6 +143,8 @@ export interface Verdict {
   metric: string;
   unit: string;
   change: number | null;
+  /** Unit of `change` when it differs from the metric's (percent for HRV); the chart keeps `unit`. */
+  changeUnit?: string;
   swing: number | null;
   swingUnit?: string;
   synthetic?: boolean;
@@ -142,6 +153,10 @@ export interface Verdict {
   effort: { days: number; taps: number };
   monthlyCost: number;
   decidedAt: string;
+  /** Estimate-based outcome behind the word: helps, costs_you, no_detectable_benefit, too_close_final. */
+  outcome?: string;
+  chanceHelps?: number;
+  likelyRange?: { lower: number; upper: number; unit: string };
 }
 
 /**

@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 const config: NextConfig = {
-  transpilePackages: ['@distill/providers', '@distill/data', '@distill/engine', '@distill/catalog'],
+  transpilePackages: ['@distill/providers', '@distill/data', '@distill/engine', '@distill/catalog', '@distill/sim'],
   devIndicators: false,
   serverExternalPackages: ['postgres', 'unzipper'],
   // Workspace packages use NodeNext .js imports pointing to TypeScript source.

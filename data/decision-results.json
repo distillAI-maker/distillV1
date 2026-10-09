@@ -1,0 +1,4807 @@
+{
+  "trials": 1500,
+  "seed": 20261008,
+  "cells": [
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1145,
+        "no_detectable_benefit": 355,
+        "too_close_extend": 0,
+        "too_close_final": 0,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1145,
+        "trials": 1500,
+        "value": 0.7633333333333333,
+        "interval95": [
+          0.7411682357827225,
+          0.7841530973713151
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 355,
+        "trials": 1500,
+        "value": 0.23666666666666666,
+        "interval95": [
+          0.21584690262868483,
+          0.2588317642172774
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 546,
+        "21": 368,
+        "28": 586
+      },
+      "meanDays": 21.186666666666667
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 711,
+        "no_detectable_benefit": 766,
+        "too_close_extend": 0,
+        "too_close_final": 23,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 711,
+        "trials": 1500,
+        "value": 0.474,
+        "interval95": [
+          0.4488298287445873,
+          0.4993030016528621
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 766,
+        "trials": 1500,
+        "value": 0.5106666666666667,
+        "interval95": [
+          0.4853744676936894,
+          0.5359043711176136
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 288,
+        "21": 239,
+        "28": 973
+      },
+      "meanDays": 24.196666666666665
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 7,
+        "costs_you": 372,
+        "no_detectable_benefit": 1027,
+        "too_close_extend": 0,
+        "too_close_final": 94,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 372,
+        "trials": 1500,
+        "value": 0.248,
+        "interval95": [
+          0.22680784049822267,
+          0.2704795925847488
+        ]
+      },
+      "wrongDirection": {
+        "count": 7,
+        "trials": 1500,
+        "value": 0.004666666666666667,
+        "interval95": [
+          0.0022623540815072275,
+          0.009601568618619234
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 151,
+        "21": 124,
+        "28": 1225
+      },
+      "meanDays": 26.012
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 79,
+        "costs_you": 77,
+        "no_detectable_benefit": 903,
+        "too_close_extend": 0,
+        "too_close_final": 441,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 156,
+        "trials": 1500,
+        "value": 0.104,
+        "interval95": [
+          0.08955014082427697,
+          0.12047296830610678
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 903,
+        "trials": 1500,
+        "value": 0.602,
+        "interval95": [
+          0.5769988080153498,
+          0.6264800881177331
+        ]
+      },
+      "decidedByDay": {
+        "14": 69,
+        "21": 58,
+        "28": 1373
+      },
+      "meanDays": 27.085333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 378,
+        "costs_you": 5,
+        "no_detectable_benefit": 357,
+        "too_close_extend": 0,
+        "too_close_final": 760,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 378,
+        "trials": 1500,
+        "value": 0.252,
+        "interval95": [
+          0.23068124850606295,
+          0.2745857491311471
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 155,
+        "21": 135,
+        "28": 1210
+      },
+      "meanDays": 25.923333333333332
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 728,
+        "costs_you": 1,
+        "no_detectable_benefit": 131,
+        "too_close_extend": 0,
+        "too_close_final": 640,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 728,
+        "trials": 1500,
+        "value": 0.48533333333333334,
+        "interval95": [
+          0.460110956725487,
+          0.5106306399089717
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": {
+        "count": 131,
+        "trials": 1500,
+        "value": 0.08733333333333333,
+        "interval95": [
+          0.07407958945830004,
+          0.1026953340294231
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 308,
+        "21": 226,
+        "28": 966
+      },
+      "meanDays": 24.070666666666668
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-reference",
+        "label": "Reference: rho 0.35, 10% missed taps, row prior"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1151,
+        "costs_you": 0,
+        "no_detectable_benefit": 21,
+        "too_close_extend": 0,
+        "too_close_final": 328,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1151,
+        "trials": 1500,
+        "value": 0.7673333333333333,
+        "interval95": [
+          0.7452842084934089,
+          0.7880166892148673
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 21,
+        "trials": 1500,
+        "value": 0.014,
+        "interval95": [
+          0.009174941314692178,
+          0.02130796534532423
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 569,
+        "21": 367,
+        "28": 564
+      },
+      "meanDays": 20.976666666666667
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1129,
+        "no_detectable_benefit": 370,
+        "too_close_extend": 0,
+        "too_close_final": 1,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1129,
+        "trials": 1500,
+        "value": 0.7526666666666667,
+        "interval95": [
+          0.730205008863828,
+          0.7738374854789071
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 370,
+        "trials": 1500,
+        "value": 0.24666666666666667,
+        "interval95": [
+          0.22551725818994203,
+          0.2691103200416166
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 528,
+        "21": 365,
+        "28": 607
+      },
+      "meanDays": 21.368666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 3,
+        "costs_you": 678,
+        "no_detectable_benefit": 801,
+        "too_close_extend": 0,
+        "too_close_final": 18,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 678,
+        "trials": 1500,
+        "value": 0.452,
+        "interval95": [
+          0.4269683425493188,
+          0.4772768827998186
+        ]
+      },
+      "wrongDirection": {
+        "count": 3,
+        "trials": 1500,
+        "value": 0.002,
+        "interval95": [
+          0.0006804084719908739,
+          0.005863804525309888
+        ]
+      },
+      "missedAsNothing": {
+        "count": 801,
+        "trials": 1500,
+        "value": 0.534,
+        "interval95": [
+          0.5087008051335401,
+          0.5591254935774875
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 269,
+        "21": 228,
+        "28": 1003
+      },
+      "meanDays": 24.425333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 4,
+        "costs_you": 346,
+        "no_detectable_benefit": 1074,
+        "too_close_extend": 0,
+        "too_close_final": 76,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 346,
+        "trials": 1500,
+        "value": 0.23066666666666666,
+        "interval95": [
+          0.2100525128118286,
+          0.2526568072027758
+        ]
+      },
+      "wrongDirection": {
+        "count": 4,
+        "trials": 1500,
+        "value": 0.0026666666666666666,
+        "interval95": [
+          0.0010374882451031462,
+          0.006836652177904041
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 139,
+        "21": 110,
+        "28": 1251
+      },
+      "meanDays": 26.189333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 64,
+        "costs_you": 60,
+        "no_detectable_benefit": 920,
+        "too_close_extend": 0,
+        "too_close_final": 456,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 124,
+        "trials": 1500,
+        "value": 0.08266666666666667,
+        "interval95": [
+          0.06977397936285945,
+          0.0976914521449187
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 920,
+        "trials": 1500,
+        "value": 0.6133333333333333,
+        "interval95": [
+          0.588429176036808,
+          0.637658486333284
+        ]
+      },
+      "decidedByDay": {
+        "14": 59,
+        "21": 29,
+        "28": 1412
+      },
+      "meanDays": 27.314
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 365,
+        "costs_you": 5,
+        "no_detectable_benefit": 370,
+        "too_close_extend": 0,
+        "too_close_final": 760,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 365,
+        "trials": 1500,
+        "value": 0.24333333333333335,
+        "interval95": [
+          0.22229202788959912,
+          0.2656859132134274
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 133,
+        "21": 124,
+        "28": 1243
+      },
+      "meanDays": 26.18
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 700,
+        "costs_you": 0,
+        "no_detectable_benefit": 140,
+        "too_close_extend": 0,
+        "too_close_final": 660,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 700,
+        "trials": 1500,
+        "value": 0.4666666666666667,
+        "interval95": [
+          0.4415372020498134,
+          0.49196642666486534
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 140,
+        "trials": 1500,
+        "value": 0.09333333333333334,
+        "interval95": [
+          0.07963304722003077,
+          0.10911122309905018
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 257,
+        "21": 255,
+        "28": 988
+      },
+      "meanDays": 24.411333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-flat-prior",
+        "label": "Neutral prior",
+        "prior": "flat"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1126,
+        "costs_you": 0,
+        "no_detectable_benefit": 14,
+        "too_close_extend": 0,
+        "too_close_final": 360,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1126,
+        "trials": 1500,
+        "value": 0.7506666666666667,
+        "interval95": [
+          0.728151412706422,
+          0.7719012993591937
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 14,
+        "trials": 1500,
+        "value": 0.009333333333333334,
+        "interval95": [
+          0.005567765171535828,
+          0.015605649508535607
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 533,
+        "21": 378,
+        "28": 589
+      },
+      "meanDays": 21.261333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1150,
+        "no_detectable_benefit": 350,
+        "too_close_extend": 0,
+        "too_close_final": 0,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1150,
+        "trials": 1500,
+        "value": 0.7666666666666667,
+        "interval95": [
+          0.7445980289683917,
+          0.7873729413141782
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 350,
+        "trials": 1500,
+        "value": 0.23333333333333334,
+        "interval95": [
+          0.21262705868582174,
+          0.25540197103160833
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 553,
+        "21": 356,
+        "28": 591
+      },
+      "meanDays": 21.177333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 694,
+        "no_detectable_benefit": 793,
+        "too_close_extend": 0,
+        "too_close_final": 13,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 694,
+        "trials": 1500,
+        "value": 0.46266666666666667,
+        "interval95": [
+          0.43756170537926614,
+          0.48796235878117405
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 793,
+        "trials": 1500,
+        "value": 0.5286666666666666,
+        "interval95": [
+          0.5033642131912955,
+          0.5538226661140807
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 289,
+        "21": 229,
+        "28": 982
+      },
+      "meanDays": 24.234
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 371,
+        "no_detectable_benefit": 1059,
+        "too_close_extend": 0,
+        "too_close_final": 70,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 371,
+        "trials": 1500,
+        "value": 0.24733333333333332,
+        "interval95": [
+          0.22616251452109296,
+          0.26979499113617206
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 149,
+        "21": 120,
+        "28": 1231
+      },
+      "meanDays": 26.049333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 63,
+        "costs_you": 69,
+        "no_detectable_benefit": 963,
+        "too_close_extend": 0,
+        "too_close_final": 405,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 132,
+        "trials": 1500,
+        "value": 0.088,
+        "interval95": [
+          0.07469568518530124,
+          0.10340916572812829
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 963,
+        "trials": 1500,
+        "value": 0.642,
+        "interval95": [
+          0.6174044065528671,
+          0.6658701351226014
+        ]
+      },
+      "decidedByDay": {
+        "14": 55,
+        "21": 49,
+        "28": 1396
+      },
+      "meanDays": 27.258
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 345,
+        "costs_you": 3,
+        "no_detectable_benefit": 358,
+        "too_close_extend": 0,
+        "too_close_final": 794,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 345,
+        "trials": 1500,
+        "value": 0.23,
+        "interval95": [
+          0.20940906280945334,
+          0.25197032977944467
+        ]
+      },
+      "wrongDirection": {
+        "count": 3,
+        "trials": 1500,
+        "value": 0.002,
+        "interval95": [
+          0.0006804084719908739,
+          0.005863804525309888
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 132,
+        "21": 132,
+        "28": 1236
+      },
+      "meanDays": 26.152
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 678,
+        "costs_you": 0,
+        "no_detectable_benefit": 114,
+        "too_close_extend": 0,
+        "too_close_final": 708,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 678,
+        "trials": 1500,
+        "value": 0.452,
+        "interval95": [
+          0.4269683425493188,
+          0.4772768827998186
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 114,
+        "trials": 1500,
+        "value": 0.076,
+        "interval95": [
+          0.06364598808451702,
+          0.09052016916619687
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 272,
+        "21": 239,
+        "28": 989
+      },
+      "meanDays": 24.346
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-opposed-prior",
+        "label": "Prior points the wrong way",
+        "prior": "opposed"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1149,
+        "costs_you": 0,
+        "no_detectable_benefit": 15,
+        "too_close_extend": 0,
+        "too_close_final": 336,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1149,
+        "trials": 1500,
+        "value": 0.766,
+        "interval95": [
+          0.7439119233627612,
+          0.7867291194941023
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 15,
+        "trials": 1500,
+        "value": 0.01,
+        "interval95": [
+          0.006069437504076523,
+          0.016433904601701334
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 525,
+        "21": 375,
+        "28": 600
+      },
+      "meanDays": 21.35
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1217,
+        "no_detectable_benefit": 283,
+        "too_close_extend": 0,
+        "too_close_final": 0,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1217,
+        "trials": 1500,
+        "value": 0.8113333333333334,
+        "interval95": [
+          0.7907480778218616,
+          0.8303280299830387
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 283,
+        "trials": 1500,
+        "value": 0.18866666666666668,
+        "interval95": [
+          0.16967197001696135,
+          0.20925192217813834
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 629,
+        "21": 350,
+        "28": 521
+      },
+      "meanDays": 20.496
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 724,
+        "no_detectable_benefit": 765,
+        "too_close_extend": 0,
+        "too_close_final": 11,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 724,
+        "trials": 1500,
+        "value": 0.4826666666666667,
+        "interval95": [
+          0.4574554059351735,
+          0.5079664809964595
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 765,
+        "trials": 1500,
+        "value": 0.51,
+        "interval95": [
+          0.4847088092636054,
+          0.535240102121991
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 285,
+        "21": 246,
+        "28": 969
+      },
+      "meanDays": 24.192
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 4,
+        "costs_you": 364,
+        "no_detectable_benefit": 1081,
+        "too_close_extend": 0,
+        "too_close_final": 51,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 364,
+        "trials": 1500,
+        "value": 0.24266666666666667,
+        "interval95": [
+          0.22164719345306003,
+          0.26500082022426
+        ]
+      },
+      "wrongDirection": {
+        "count": 4,
+        "trials": 1500,
+        "value": 0.0026666666666666666,
+        "interval95": [
+          0.0010374882451031462,
+          0.006836652177904041
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 126,
+        "21": 136,
+        "28": 1238
+      },
+      "meanDays": 26.189333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 47,
+        "costs_you": 60,
+        "no_detectable_benefit": 990,
+        "too_close_extend": 0,
+        "too_close_final": 403,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 107,
+        "trials": 1500,
+        "value": 0.07133333333333333,
+        "interval95": [
+          0.05937394629575595,
+          0.08548271897501297
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 990,
+        "trials": 1500,
+        "value": 0.66,
+        "interval95": [
+          0.6356459095554214,
+          0.6835366726141205
+        ]
+      },
+      "decidedByDay": {
+        "14": 47,
+        "21": 29,
+        "28": 1424
+      },
+      "meanDays": 27.426
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 375,
+        "costs_you": 2,
+        "no_detectable_benefit": 353,
+        "too_close_extend": 0,
+        "too_close_final": 770,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 375,
+        "trials": 1500,
+        "value": 0.25,
+        "interval95": [
+          0.22874423443477887,
+          0.27253298092531186
+        ]
+      },
+      "wrongDirection": {
+        "count": 2,
+        "trials": 1500,
+        "value": 0.0013333333333333333,
+        "interval95": [
+          0.00036572427558412626,
+          0.0048485612960102115
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 136,
+        "21": 120,
+        "28": 1244
+      },
+      "meanDays": 26.170666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 688,
+        "costs_you": 0,
+        "no_detectable_benefit": 116,
+        "too_close_extend": 0,
+        "too_close_final": 696,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 688,
+        "trials": 1500,
+        "value": 0.45866666666666667,
+        "interval95": [
+          0.43358783547853375,
+          0.4839566641276679
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 116,
+        "trials": 1500,
+        "value": 0.07733333333333334,
+        "interval95": [
+          0.06486930993335295,
+          0.09195670216877382
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 286,
+        "21": 211,
+        "28": 1003
+      },
+      "meanDays": 24.346
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0",
+        "label": "Independent nights (rho 0)"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1179,
+        "costs_you": 0,
+        "no_detectable_benefit": 10,
+        "too_close_extend": 0,
+        "too_close_final": 311,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1179,
+        "trials": 1500,
+        "value": 0.786,
+        "interval95": [
+          0.7645281890405553,
+          0.806010676587501
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 10,
+        "trials": 1500,
+        "value": 0.006666666666666667,
+        "interval95": [
+          0.003625216034182259,
+          0.01222848894306348
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 569,
+        "21": 367,
+        "28": 564
+      },
+      "meanDays": 20.976666666666667
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1161,
+        "no_detectable_benefit": 339,
+        "too_close_extend": 0,
+        "too_close_final": 0,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1161,
+        "trials": 1500,
+        "value": 0.774,
+        "interval95": [
+          0.7521501186321357,
+          0.794450053333205
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 339,
+        "trials": 1500,
+        "value": 0.226,
+        "interval95": [
+          0.20554994666679507,
+          0.24784988136786437
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 589,
+        "21": 364,
+        "28": 547
+      },
+      "meanDays": 20.804
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1,
+        "costs_you": 737,
+        "no_detectable_benefit": 745,
+        "too_close_extend": 0,
+        "too_close_final": 17,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 737,
+        "trials": 1500,
+        "value": 0.49133333333333334,
+        "interval95": [
+          0.4660885703790727,
+          0.5166223730867439
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": {
+        "count": 745,
+        "trials": 1500,
+        "value": 0.49666666666666665,
+        "interval95": [
+          0.4714050534189805,
+          0.5219453094524873
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 298,
+        "21": 229,
+        "28": 973
+      },
+      "meanDays": 24.15
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 5,
+        "costs_you": 362,
+        "no_detectable_benefit": 1045,
+        "too_close_extend": 0,
+        "too_close_final": 88,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 362,
+        "trials": 1500,
+        "value": 0.24133333333333334,
+        "interval95": [
+          0.2203577377744358,
+          0.26363042105147144
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 146,
+        "21": 123,
+        "28": 1231
+      },
+      "meanDays": 26.063333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 72,
+        "costs_you": 56,
+        "no_detectable_benefit": 935,
+        "too_close_extend": 0,
+        "too_close_final": 437,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 128,
+        "trials": 1500,
+        "value": 0.08533333333333333,
+        "interval95": [
+          0.07223279395214137,
+          0.10055234725846247
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 935,
+        "trials": 1500,
+        "value": 0.6233333333333333,
+        "interval95": [
+          0.5985264269075568,
+          0.6475101468481317
+        ]
+      },
+      "decidedByDay": {
+        "14": 55,
+        "21": 30,
+        "28": 1415
+      },
+      "meanDays": 27.346666666666668
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 376,
+        "costs_you": 0,
+        "no_detectable_benefit": 307,
+        "too_close_extend": 0,
+        "too_close_final": 817,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 376,
+        "trials": 1500,
+        "value": 0.25066666666666665,
+        "interval95": [
+          0.22938983713174374,
+          0.2732173056540534
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 162,
+        "21": 119,
+        "28": 1219
+      },
+      "meanDays": 25.932666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 748,
+        "costs_you": 0,
+        "no_detectable_benefit": 104,
+        "too_close_extend": 0,
+        "too_close_final": 648,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 748,
+        "trials": 1500,
+        "value": 0.49866666666666665,
+        "interval95": [
+          0.4733994740369536,
+          0.5239406711116336
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 104,
+        "trials": 1500,
+        "value": 0.06933333333333333,
+        "interval95": [
+          0.057547868080283275,
+          0.0833190149133664
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 320,
+        "21": 238,
+        "28": 942
+      },
+      "meanDays": 23.902666666666665
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.7,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-rho-0.7",
+        "label": "Highly correlated nights (rho 0.7)"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1178,
+        "costs_you": 0,
+        "no_detectable_benefit": 11,
+        "too_close_extend": 0,
+        "too_close_final": 311,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1178,
+        "trials": 1500,
+        "value": 0.7853333333333333,
+        "interval95": [
+          0.7638398438407691,
+          0.8053690943615807
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 11,
+        "trials": 1500,
+        "value": 0.007333333333333333,
+        "interval95": [
+          0.004099723207137282,
+          0.01308390919581488
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 593,
+        "21": 389,
+        "28": 518
+      },
+      "meanDays": 20.65
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1185,
+        "no_detectable_benefit": 314,
+        "too_close_extend": 0,
+        "too_close_final": 1,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1185,
+        "trials": 1500,
+        "value": 0.79,
+        "interval95": [
+          0.7686599719312812,
+          0.8098584582510135
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 314,
+        "trials": 1500,
+        "value": 0.20933333333333334,
+        "interval95": [
+          0.18950053271223888,
+          0.23065110967976
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 462,
+        "21": 507,
+        "28": 531
+      },
+      "meanDays": 21.322
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 3,
+        "costs_you": 750,
+        "no_detectable_benefit": 738,
+        "too_close_extend": 0,
+        "too_close_final": 9,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 750,
+        "trials": 1500,
+        "value": 0.5,
+        "interval95": [
+          0.47472931184068445,
+          0.5252706881593155
+        ]
+      },
+      "wrongDirection": {
+        "count": 3,
+        "trials": 1500,
+        "value": 0.002,
+        "interval95": [
+          0.0006804084719908739,
+          0.005863804525309888
+        ]
+      },
+      "missedAsNothing": {
+        "count": 738,
+        "trials": 1500,
+        "value": 0.492,
+        "interval95": [
+          0.4667529738778334,
+          0.5172878970136896
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 239,
+        "21": 306,
+        "28": 955
+      },
+      "meanDays": 24.341333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 5,
+        "costs_you": 411,
+        "no_detectable_benefit": 1019,
+        "too_close_extend": 0,
+        "too_close_final": 65,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 411,
+        "trials": 1500,
+        "value": 0.274,
+        "interval95": [
+          0.25202800305164486,
+          0.2971265996338772
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 123,
+        "21": 172,
+        "28": 1205
+      },
+      "meanDays": 26.049333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 61,
+        "costs_you": 74,
+        "no_detectable_benefit": 949,
+        "too_close_extend": 0,
+        "too_close_final": 416,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 135,
+        "trials": 1500,
+        "value": 0.09,
+        "interval95": [
+          0.0765454288549283,
+          0.10554920433562054
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 949,
+        "trials": 1500,
+        "value": 0.6326666666666667,
+        "interval95": [
+          0.6079605178501455,
+          0.6566950398654332
+        ]
+      },
+      "decidedByDay": {
+        "14": 55,
+        "21": 41,
+        "28": 1404
+      },
+      "meanDays": 27.295333333333332
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 386,
+        "costs_you": 5,
+        "no_detectable_benefit": 377,
+        "too_close_extend": 0,
+        "too_close_final": 732,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 386,
+        "trials": 1500,
+        "value": 0.25733333333333336,
+        "interval95": [
+          0.235849614251511,
+          0.2800568027913504
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 121,
+        "21": 151,
+        "28": 1228
+      },
+      "meanDays": 26.166
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 722,
+        "costs_you": 0,
+        "no_detectable_benefit": 137,
+        "too_close_extend": 0,
+        "too_close_final": 641,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 722,
+        "trials": 1500,
+        "value": 0.48133333333333334,
+        "interval95": [
+          0.4561278998662053,
+          0.5066341322140149
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 137,
+        "trials": 1500,
+        "value": 0.09133333333333334,
+        "interval95": [
+          0.07777978093486398,
+          0.1069747071070977
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 240,
+        "21": 283,
+        "28": 977
+      },
+      "meanDays": 24.439333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-didnt-15",
+        "label": "15% of nights done the opposite way",
+        "didntRate": 0.15
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1156,
+        "costs_you": 0,
+        "no_detectable_benefit": 16,
+        "too_close_extend": 0,
+        "too_close_final": 328,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1156,
+        "trials": 1500,
+        "value": 0.7706666666666667,
+        "interval95": [
+          0.7487162226820377,
+          0.7912343121547708
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 16,
+        "trials": 1500,
+        "value": 0.010666666666666666,
+        "interval95": [
+          0.006576312321062792,
+          0.01725695721042149
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 480,
+        "21": 455,
+        "28": 565
+      },
+      "meanDays": 21.39666666666667
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1011,
+        "no_detectable_benefit": 479,
+        "too_close_extend": 0,
+        "too_close_final": 4,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1011,
+        "trials": 1500,
+        "value": 0.674,
+        "interval95": [
+          0.6498602280441003,
+          0.6972508300652768
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 479,
+        "trials": 1500,
+        "value": 0.31933333333333336,
+        "interval95": [
+          0.2962269974983491,
+          0.3433626701352099
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 281,
+        "21": 470,
+        "28": 749
+      },
+      "meanDays": 23.184
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 574,
+        "no_detectable_benefit": 882,
+        "too_close_extend": 0,
+        "too_close_final": 38,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 574,
+        "trials": 1500,
+        "value": 0.38266666666666665,
+        "interval95": [
+          0.35839953121412316,
+          0.40753324186154605
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 882,
+        "trials": 1500,
+        "value": 0.588,
+        "interval95": [
+          0.5628979775526101,
+          0.612652442640638
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 154,
+        "21": 227,
+        "28": 1119
+      },
+      "meanDays": 25.503333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 3,
+        "costs_you": 278,
+        "no_detectable_benefit": 1093,
+        "too_close_extend": 0,
+        "too_close_final": 120,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 278,
+        "trials": 1500,
+        "value": 0.18533333333333332,
+        "interval95": [
+          0.16648193677926562,
+          0.2057923182873019
+        ]
+      },
+      "wrongDirection": {
+        "count": 3,
+        "trials": 1500,
+        "value": 0.002,
+        "interval95": [
+          0.0006804084719908739,
+          0.005863804525309888
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 70,
+        "21": 107,
+        "28": 1323
+      },
+      "meanDays": 26.847333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 52,
+        "costs_you": 53,
+        "no_detectable_benefit": 883,
+        "too_close_extend": 0,
+        "too_close_final": 506,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 105,
+        "trials": 1500,
+        "value": 0.07,
+        "interval95": [
+          0.05815622865824503,
+          0.08404058176111108
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 883,
+        "trials": 1500,
+        "value": 0.5886666666666667,
+        "interval95": [
+          0.5635689733481216,
+          0.6133113742708328
+        ]
+      },
+      "decidedByDay": {
+        "14": 18,
+        "21": 42,
+        "28": 1440
+      },
+      "meanDays": 27.636
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 281,
+        "costs_you": 4,
+        "no_detectable_benefit": 345,
+        "too_close_extend": 0,
+        "too_close_final": 864,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 281,
+        "trials": 1500,
+        "value": 0.18733333333333332,
+        "interval95": [
+          0.16839567413168505,
+          0.20786836321200175
+        ]
+      },
+      "wrongDirection": {
+        "count": 4,
+        "trials": 1500,
+        "value": 0.0026666666666666666,
+        "interval95": [
+          0.0010374882451031462,
+          0.006836652177904041
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 64,
+        "21": 126,
+        "28": 1310
+      },
+      "meanDays": 26.814666666666668
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 585,
+        "costs_you": 0,
+        "no_detectable_benefit": 130,
+        "too_close_extend": 0,
+        "too_close_final": 779,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 585,
+        "trials": 1500,
+        "value": 0.39,
+        "interval95": [
+          0.365627832971752,
+          0.4149341417866879
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 130,
+        "trials": 1500,
+        "value": 0.08666666666666667,
+        "interval95": [
+          0.07346374062883368,
+          0.10198125543318304
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 144,
+        "21": 250,
+        "28": 1106
+      },
+      "meanDays": 25.489333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.25,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-missed-25",
+        "label": "25% missed taps"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1012,
+        "costs_you": 0,
+        "no_detectable_benefit": 25,
+        "too_close_extend": 0,
+        "too_close_final": 457,
+        "not_enough_nights": 6,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1012,
+        "trials": 1500,
+        "value": 0.6746666666666666,
+        "interval95": [
+          0.650537692184,
+          0.6979032933510831
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 25,
+        "trials": 1500,
+        "value": 0.016666666666666666,
+        "interval95": [
+          0.011314304240525479,
+          0.024488312122316627
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 270,
+        "21": 465,
+        "28": 765
+      },
+      "meanDays": 23.31
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1197,
+        "no_detectable_benefit": 299,
+        "too_close_extend": 0,
+        "too_close_final": 2,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1197,
+        "trials": 1500,
+        "value": 0.798,
+        "interval95": [
+          0.7769325374819857,
+          0.8175450218087862
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 299,
+        "trials": 1500,
+        "value": 0.19933333333333333,
+        "interval95": [
+          0.179895527706852,
+          0.22030720329955047
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 649,
+        "21": 345,
+        "28": 504
+      },
+      "meanDays": 20.322429906542055
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 6,
+        "costs_you": 801,
+        "no_detectable_benefit": 675,
+        "too_close_extend": 0,
+        "too_close_final": 16,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 801,
+        "trials": 1500,
+        "value": 0.534,
+        "interval95": [
+          0.5087008051335401,
+          0.5591254935774875
+        ]
+      },
+      "wrongDirection": {
+        "count": 6,
+        "trials": 1500,
+        "value": 0.004,
+        "interval95": [
+          0.0018344861657217117,
+          0.008699509108698324
+        ]
+      },
+      "missedAsNothing": {
+        "count": 675,
+        "trials": 1500,
+        "value": 0.45,
+        "interval95": [
+          0.42498337990542195,
+          0.47527206316659626
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 386,
+        "21": 220,
+        "28": 892
+      },
+      "meanDays": 23.364485981308412
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 11,
+        "costs_you": 483,
+        "no_detectable_benefit": 925,
+        "too_close_extend": 0,
+        "too_close_final": 79,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 483,
+        "trials": 1500,
+        "value": 0.322,
+        "interval95": [
+          0.29883520859575796,
+          0.3460741687406267
+        ]
+      },
+      "wrongDirection": {
+        "count": 11,
+        "trials": 1500,
+        "value": 0.007333333333333333,
+        "interval95": [
+          0.004099723207137282,
+          0.01308390919581488
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 254,
+        "21": 127,
+        "28": 1117
+      },
+      "meanDays": 25.03271028037383
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 103,
+        "costs_you": 108,
+        "no_detectable_benefit": 889,
+        "too_close_extend": 0,
+        "too_close_final": 398,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": {
+        "count": 211,
+        "trials": 1500,
+        "value": 0.14066666666666666,
+        "interval95": [
+          0.12398850875882729,
+          0.1591806087854098
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 889,
+        "trials": 1500,
+        "value": 0.5926666666666667,
+        "interval95": [
+          0.5675959364457036,
+          0.6172639757274895
+        ]
+      },
+      "decidedByDay": {
+        "14": 96,
+        "21": 65,
+        "28": 1337
+      },
+      "meanDays": 26.799065420560748
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 448,
+        "costs_you": 15,
+        "no_detectable_benefit": 356,
+        "too_close_extend": 0,
+        "too_close_final": 679,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 448,
+        "trials": 1500,
+        "value": 0.2986666666666667,
+        "interval95": [
+          0.276043801518458,
+          0.3223181159182018
+        ]
+      },
+      "wrongDirection": {
+        "count": 15,
+        "trials": 1500,
+        "value": 0.01,
+        "interval95": [
+          0.006069437504076523,
+          0.016433904601701334
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 205,
+        "21": 151,
+        "28": 1142
+      },
+      "meanDays": 25.378504672897197
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 779,
+        "costs_you": 7,
+        "no_detectable_benefit": 110,
+        "too_close_extend": 0,
+        "too_close_final": 602,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 779,
+        "trials": 1500,
+        "value": 0.5193333333333333,
+        "interval95": [
+          0.4940321095307233,
+          0.5445357858147629
+        ]
+      },
+      "wrongDirection": {
+        "count": 7,
+        "trials": 1500,
+        "value": 0.004666666666666667,
+        "interval95": [
+          0.0022623540815072275,
+          0.009601568618619234
+        ]
+      },
+      "missedAsNothing": {
+        "count": 110,
+        "trials": 1500,
+        "value": 0.07333333333333333,
+        "interval95": [
+          0.06120295070979578,
+          0.08764349683809242
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 356,
+        "21": 254,
+        "28": 888
+      },
+      "meanDays": 23.485981308411215
+    },
+    {
+      "scenario": {
+        "baselineDays": 7,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-baseline-7",
+        "label": "7-night baseline"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1156,
+        "costs_you": 0,
+        "no_detectable_benefit": 20,
+        "too_close_extend": 0,
+        "too_close_final": 322,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 2
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1156,
+        "trials": 1500,
+        "value": 0.7706666666666667,
+        "interval95": [
+          0.7487162226820377,
+          0.7912343121547708
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 20,
+        "trials": 1500,
+        "value": 0.013333333333333334,
+        "interval95": [
+          0.008647712947540034,
+          0.02050526628676995
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 629,
+        "21": 342,
+        "28": 527
+      },
+      "meanDays": 20.523364485981308
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 585,
+        "no_detectable_benefit": 900,
+        "too_close_extend": 0,
+        "too_close_final": 13,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 585,
+        "trials": 1500,
+        "value": 0.39,
+        "interval95": [
+          0.365627832971752,
+          0.4149341417866879
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 900,
+        "trials": 1500,
+        "value": 0.6,
+        "interval95": [
+          0.5749831227205979,
+          0.6245059911353656
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 115,
+        "21": 235,
+        "28": 1150
+      },
+      "meanDays": 25.83
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 267,
+        "no_detectable_benefit": 1170,
+        "too_close_extend": 0,
+        "too_close_final": 61,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 267,
+        "trials": 1500,
+        "value": 0.178,
+        "interval95": [
+          0.15947231647565113,
+          0.19817273690814569
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 1170,
+        "trials": 1500,
+        "value": 0.78,
+        "interval95": [
+          0.758335967531003,
+          0.8002335512656954
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 45,
+        "21": 118,
+        "28": 1337
+      },
+      "meanDays": 27.029333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1,
+        "costs_you": 113,
+        "no_detectable_benefit": 1191,
+        "too_close_extend": 0,
+        "too_close_final": 193,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 113,
+        "trials": 1500,
+        "value": 0.07533333333333334,
+        "interval95": [
+          0.06303477251113851,
+          0.08980145731386899
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 19,
+        "21": 44,
+        "28": 1437
+      },
+      "meanDays": 27.617333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 18,
+        "costs_you": 10,
+        "no_detectable_benefit": 834,
+        "too_close_extend": 0,
+        "too_close_final": 636,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 28,
+        "trials": 1500,
+        "value": 0.018666666666666668,
+        "interval95": [
+          0.01294606406020905,
+          0.02684633457975234
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 834,
+        "trials": 1500,
+        "value": 0.556,
+        "interval95": [
+          0.5307448542358725,
+          0.5809690495234673
+        ]
+      },
+      "decidedByDay": {
+        "14": 2,
+        "21": 16,
+        "28": 1482
+      },
+      "meanDays": 27.906666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 117,
+        "costs_you": 1,
+        "no_detectable_benefit": 284,
+        "too_close_extend": 0,
+        "too_close_final": 1096,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 117,
+        "trials": 1500,
+        "value": 0.078,
+        "interval95": [
+          0.06548140922514466,
+          0.09267453030268853
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 23,
+        "21": 47,
+        "28": 1430
+      },
+      "meanDays": 27.566
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 250,
+        "costs_you": 0,
+        "no_detectable_benefit": 119,
+        "too_close_extend": 0,
+        "too_close_final": 1129,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 250,
+        "trials": 1500,
+        "value": 0.16666666666666666,
+        "interval95": [
+          0.1486632487873617,
+          0.18637303835942592
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 119,
+        "trials": 1500,
+        "value": 0.07933333333333334,
+        "interval95": [
+          0.06670646762987423,
+          0.09410932674937181
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 43,
+        "21": 110,
+        "28": 1347
+      },
+      "meanDays": 27.085333333333335
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-observed",
+        "label": "Observed exposure (alcohol-style)",
+        "observed": true
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 599,
+        "costs_you": 0,
+        "no_detectable_benefit": 19,
+        "too_close_extend": 0,
+        "too_close_final": 880,
+        "not_enough_nights": 2,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 599,
+        "trials": 1500,
+        "value": 0.3993333333333333,
+        "interval95": [
+          0.37483592885108813,
+          0.4243450298672417
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 19,
+        "trials": 1500,
+        "value": 0.012666666666666666,
+        "interval95": [
+          0.008123957091804919,
+          0.019699094716798638
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 109,
+        "21": 255,
+        "28": 1136
+      },
+      "meanDays": 25.792666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1141,
+        "no_detectable_benefit": 356,
+        "too_close_extend": 0,
+        "too_close_final": 2,
+        "not_enough_nights": 1,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1141,
+        "trials": 1500,
+        "value": 0.7606666666666667,
+        "interval95": [
+          0.7384257136985264,
+          0.7815759097526858
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 356,
+        "trials": 1500,
+        "value": 0.23733333333333334,
+        "interval95": [
+          0.21649109079617618,
+          0.2595175034754925
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 552,
+        "21": 356,
+        "28": 592
+      },
+      "meanDays": 21.186666666666667
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 732,
+        "no_detectable_benefit": 737,
+        "too_close_extend": 0,
+        "too_close_final": 22,
+        "not_enough_nights": 9,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 732,
+        "trials": 1500,
+        "value": 0.488,
+        "interval95": [
+          0.46276722541945475,
+          0.5132940809178296
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 737,
+        "trials": 1500,
+        "value": 0.49133333333333334,
+        "interval95": [
+          0.4660885703790727,
+          0.5166223730867439
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 297,
+        "21": 239,
+        "28": 964
+      },
+      "meanDays": 24.112666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 5,
+        "costs_you": 389,
+        "no_detectable_benefit": 975,
+        "too_close_extend": 0,
+        "too_close_final": 86,
+        "not_enough_nights": 45,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 389,
+        "trials": 1500,
+        "value": 0.25933333333333336,
+        "interval95": [
+          0.23778886106597932,
+          0.2821073382540014
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 155,
+        "21": 141,
+        "28": 1204
+      },
+      "meanDays": 25.895333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 63,
+        "costs_you": 66,
+        "no_detectable_benefit": 896,
+        "too_close_extend": 0,
+        "too_close_final": 409,
+        "not_enough_nights": 66,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 129,
+        "trials": 1500,
+        "value": 0.086,
+        "interval95": [
+          0.07284814125711198,
+          0.10126692737919829
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 896,
+        "trials": 1500,
+        "value": 0.5973333333333334,
+        "interval95": [
+          0.5722962090091096,
+          0.6218731951440285
+        ]
+      },
+      "decidedByDay": {
+        "14": 50,
+        "21": 42,
+        "28": 1408
+      },
+      "meanDays": 27.337333333333333
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 348,
+        "costs_you": 6,
+        "no_detectable_benefit": 334,
+        "too_close_extend": 0,
+        "too_close_final": 775,
+        "not_enough_nights": 37,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 348,
+        "trials": 1500,
+        "value": 0.232,
+        "interval95": [
+          0.2113396370242471,
+          0.25402953784177024
+        ]
+      },
+      "wrongDirection": {
+        "count": 6,
+        "trials": 1500,
+        "value": 0.004,
+        "interval95": [
+          0.0018344861657217117,
+          0.008699509108698324
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 147,
+        "21": 117,
+        "28": 1236
+      },
+      "meanDays": 26.082
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 666,
+        "costs_you": 1,
+        "no_detectable_benefit": 118,
+        "too_close_extend": 0,
+        "too_close_final": 704,
+        "not_enough_nights": 11,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 666,
+        "trials": 1500,
+        "value": 0.444,
+        "interval95": [
+          0.4190309504765328,
+          0.4692551457641275
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": {
+        "count": 118,
+        "trials": 1500,
+        "value": 0.07866666666666666,
+        "interval95": [
+          0.06609379622802347,
+          0.09339207072551614
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 275,
+        "21": 217,
+        "28": 1008
+      },
+      "meanDays": 24.420666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-hrv",
+        "label": "Overnight HRV",
+        "metric": "overnightHrvMs"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1130,
+        "costs_you": 0,
+        "no_detectable_benefit": 15,
+        "too_close_extend": 0,
+        "too_close_final": 354,
+        "not_enough_nights": 1,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1130,
+        "trials": 1500,
+        "value": 0.7533333333333333,
+        "interval95": [
+          0.7308896799583833,
+          0.7744827418100579
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 15,
+        "trials": 1500,
+        "value": 0.01,
+        "interval95": [
+          0.006069437504076523,
+          0.016433904601701334
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 562,
+        "21": 323,
+        "28": 615
+      },
+      "meanDays": 21.247333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1091,
+        "no_detectable_benefit": 406,
+        "too_close_extend": 0,
+        "too_close_final": 3,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1091,
+        "trials": 1500,
+        "value": 0.7273333333333334,
+        "interval95": [
+          0.7042375025870704,
+          0.7492677495788205
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 406,
+        "trials": 1500,
+        "value": 0.27066666666666667,
+        "interval95": [
+          0.24878909703822205,
+          0.29371586851876785
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 521,
+        "21": 355,
+        "28": 624
+      },
+      "meanDays": 21.480666666666668
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1,
+        "costs_you": 661,
+        "no_detectable_benefit": 814,
+        "too_close_extend": 0,
+        "too_close_final": 24,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 661,
+        "trials": 1500,
+        "value": 0.44066666666666665,
+        "interval95": [
+          0.4157256426045911,
+          0.4659108165075371
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": {
+        "count": 814,
+        "trials": 1500,
+        "value": 0.5426666666666666,
+        "interval95": [
+          0.5173789294518997,
+          0.5677364257933114
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 263,
+        "21": 217,
+        "28": 1020
+      },
+      "meanDays": 24.532666666666668
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 5,
+        "costs_you": 330,
+        "no_detectable_benefit": 1072,
+        "too_close_extend": 0,
+        "too_close_final": 93,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 330,
+        "trials": 1500,
+        "value": 0.22,
+        "interval95": [
+          0.19976644873430455,
+          0.2416640324689971
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 139,
+        "21": 113,
+        "28": 1248
+      },
+      "meanDays": 26.175333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 63,
+        "costs_you": 58,
+        "no_detectable_benefit": 933,
+        "too_close_extend": 0,
+        "too_close_final": 446,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 121,
+        "trials": 1500,
+        "value": 0.08066666666666666,
+        "interval95": [
+          0.06793265072083973,
+          0.09554299850981915
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 933,
+        "trials": 1500,
+        "value": 0.622,
+        "interval95": [
+          0.5971794905872297,
+          0.646197228317046
+        ]
+      },
+      "decidedByDay": {
+        "14": 39,
+        "21": 49,
+        "28": 1412
+      },
+      "meanDays": 27.407333333333334
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 336,
+        "costs_you": 5,
+        "no_detectable_benefit": 344,
+        "too_close_extend": 0,
+        "too_close_final": 815,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 336,
+        "trials": 1500,
+        "value": 0.224,
+        "interval95": [
+          0.20362141733407219,
+          0.245788628423468
+        ]
+      },
+      "wrongDirection": {
+        "count": 5,
+        "trials": 1500,
+        "value": 0.0033333333333333335,
+        "interval95": [
+          0.0014246155236142537,
+          0.00777945232509936
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 113,
+        "21": 140,
+        "28": 1247
+      },
+      "meanDays": 26.292
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 691,
+        "costs_you": 1,
+        "no_detectable_benefit": 126,
+        "too_close_extend": 0,
+        "too_close_final": 682,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 691,
+        "trials": 1500,
+        "value": 0.46066666666666667,
+        "interval95": [
+          0.43557456689739993,
+          0.48595971498592105
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": {
+        "count": 126,
+        "trials": 1500,
+        "value": 0.084,
+        "interval95": [
+          0.07100286623041224,
+          0.09912242012877878
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 247,
+        "21": 256,
+        "28": 997
+      },
+      "meanDays": 24.5
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-latency",
+        "label": "Time to fall asleep",
+        "metric": "sleepLatencyMinutes"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1082,
+        "costs_you": 0,
+        "no_detectable_benefit": 17,
+        "too_close_extend": 0,
+        "too_close_final": 401,
+        "not_enough_nights": 0,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1082,
+        "trials": 1500,
+        "value": 0.7213333333333334,
+        "interval95": [
+          0.6981010219548798,
+          0.7434348833796534
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 17,
+        "trials": 1500,
+        "value": 0.011333333333333334,
+        "interval95": [
+          0.007087940474416899,
+          0.018075256482773812
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 519,
+        "21": 357,
+        "28": 624
+      },
+      "meanDays": 21.49
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": -1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 1262,
+        "no_detectable_benefit": 167,
+        "too_close_extend": 0,
+        "too_close_final": 0,
+        "not_enough_nights": 71,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1262,
+        "trials": 1500,
+        "value": 0.8413333333333334,
+        "interval95": [
+          0.8219747998307712,
+          0.8589480421309184
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 167,
+        "trials": 1500,
+        "value": 0.11133333333333334,
+        "interval95": [
+          0.09639767368628424,
+          0.12825463712687019
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 291,
+        "21": 596,
+        "28": 613
+      },
+      "meanDays": 22.502666666666666
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": -0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 0,
+        "costs_you": 955,
+        "no_detectable_benefit": 470,
+        "too_close_extend": 0,
+        "too_close_final": 4,
+        "not_enough_nights": 71,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 955,
+        "trials": 1500,
+        "value": 0.6366666666666667,
+        "interval95": [
+          0.6120066897935231,
+          0.660628432476294
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 470,
+        "trials": 1500,
+        "value": 0.31333333333333335,
+        "interval95": [
+          0.2903617633390116,
+          0.3372585574631895
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 186,
+        "21": 429,
+        "28": 885
+      },
+      "meanDays": 24.262
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": -0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1,
+        "costs_you": 614,
+        "no_detectable_benefit": 794,
+        "too_close_extend": 0,
+        "too_close_final": 20,
+        "not_enough_nights": 71,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 614,
+        "trials": 1500,
+        "value": 0.4093333333333333,
+        "interval95": [
+          0.3847121130073942,
+          0.434417757096532
+        ]
+      },
+      "wrongDirection": {
+        "count": 1,
+        "trials": 1500,
+        "value": 0.0006666666666666666,
+        "interval95": [
+          0.00011769273167436408,
+          0.0037666654142135486
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 115,
+        "21": 256,
+        "28": 1129
+      },
+      "meanDays": 25.732
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": 0,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 193,
+        "costs_you": 7,
+        "no_detectable_benefit": 449,
+        "too_close_extend": 0,
+        "too_close_final": 809,
+        "not_enough_nights": 42,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": {
+        "count": 200,
+        "trials": 1500,
+        "value": 0.13333333333333333,
+        "interval95": [
+          0.11706368213859258,
+          0.15147623372287383
+        ]
+      },
+      "power": null,
+      "wrongDirection": null,
+      "missedAsNothing": null,
+      "correctNothing": {
+        "count": 449,
+        "trials": 1500,
+        "value": 0.29933333333333334,
+        "interval95": [
+          0.2766940136115323,
+          0.32299783125083387
+        ]
+      },
+      "decidedByDay": {
+        "14": 42,
+        "21": 78,
+        "28": 1380
+      },
+      "meanDays": 27.244
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": 0.5,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 654,
+        "costs_you": 0,
+        "no_detectable_benefit": 94,
+        "too_close_extend": 0,
+        "too_close_final": 710,
+        "not_enough_nights": 42,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 654,
+        "trials": 1500,
+        "value": 0.436,
+        "interval95": [
+          0.41110013465394724,
+          0.46122683247823604
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": null,
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 126,
+        "21": 282,
+        "28": 1092
+      },
+      "meanDays": 25.508
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": 0.8,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 982,
+        "costs_you": 0,
+        "no_detectable_benefit": 24,
+        "too_close_extend": 0,
+        "too_close_final": 452,
+        "not_enough_nights": 42,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 982,
+        "trials": 1500,
+        "value": 0.6546666666666666,
+        "interval95": [
+          0.6302370801724201,
+          0.6783060825914703
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 24,
+        "trials": 1500,
+        "value": 0.016,
+        "interval95": [
+          0.010775268327281805,
+          0.02369742060985388
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 234,
+        "21": 423,
+        "28": 843
+      },
+      "meanDays": 23.842
+    },
+    {
+      "scenario": {
+        "baselineDays": 28,
+        "rho": 0.35,
+        "missedTapRate": 0.1,
+        "illnessRate": 0.02,
+        "missingMetricRate": 0.02,
+        "deviceNoiseFraction": 0.1,
+        "weekendSwing": 0.25,
+        "id": "v2-omit-bad-on-nights",
+        "label": "INVALID: omit bad on-nights",
+        "missingness": "outcome_assignment_dependent"
+      },
+      "effect": 1.2,
+      "trials": 1500,
+      "outcomes": {
+        "helps": 1276,
+        "costs_you": 0,
+        "no_detectable_benefit": 3,
+        "too_close_extend": 0,
+        "too_close_final": 179,
+        "not_enough_nights": 42,
+        "in_progress": 0,
+        "baseline_not_ready": 0
+      },
+      "falsePositive": null,
+      "power": {
+        "count": 1276,
+        "trials": 1500,
+        "value": 0.8506666666666667,
+        "interval95": [
+          0.8317348632671132,
+          0.8678069626544663
+        ]
+      },
+      "wrongDirection": {
+        "count": 0,
+        "trials": 1500,
+        "value": 0,
+        "interval95": [
+          0,
+          0.002554430720181488
+        ]
+      },
+      "missedAsNothing": {
+        "count": 3,
+        "trials": 1500,
+        "value": 0.002,
+        "interval95": [
+          0.0006804084719908739,
+          0.005863804525309888
+        ]
+      },
+      "correctNothing": null,
+      "decidedByDay": {
+        "14": 359,
+        "21": 592,
+        "28": 549
+      },
+      "meanDays": 21.886666666666667
+    }
+  ]
+}

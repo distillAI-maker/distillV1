@@ -18,8 +18,10 @@ import type {
 } from '@distill/engine/experiment';
 import { analyzeExperiment, experimentResultCard } from '@distill/engine/stats';
 import { renderExperimentVerdict, roundMeasurement } from '@distill/engine/verdict';
-import { emptyMetrics, localDate } from '@distill/providers';
+import { localDate } from '@distill/providers';
 import type { ProviderId } from '@distill/providers';
+import { demoEffectFor, syntheticNights } from '../../lib/data/synthetic';
+import { catalog } from '../../lib/catalog/server';
 import { progressSchema } from '../../lib/progress/types';
 import type { Progress } from '../../lib/progress/types';
 import type { Experiment, Night, Verdict } from '../../lib/data/types';
@@ -31,8 +33,8 @@ async function rows<T>(db: Executor, query: SQL): Promise<T[]> {
   const result = await db.execute(query);
   return (Array.isArray(result) ? result : (result as { rows: T[] }).rows) as T[];
 }
-export const shiftDate = (date: string, days: number) =>
-  new Date(+new Date(`${date}T12:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
+export { shiftDate } from '../../lib/data/synthetic';
+import { shiftDate } from '../../lib/data/synthetic';
 type Context = {
   synthetic: boolean;
   name: string;
@@ -49,39 +51,30 @@ type Stored = {
   verdict?: Verdict;
 };
 
-/** Stable synthetic measurements; never stored in wearable tables or mixed with real measurements. */
+/** A stable synthetic person per demo user, from the shared generator; never stored as real data. */
 export function syntheticHistory(
   through: string,
   registration?: PreRegistration,
+  seedText = 'demo',
 ): HistoricalNight[] {
-  return Array.from({ length: 240 }, (_, i) => {
-    const date = shiftDate(through, i - 239);
-    const offset = Math.round(+new Date(date) / 86400000);
-    const noise = ((offset * 17) % 23) - 11;
-    const on = registration?.schedule.days.find((d) => d.sleepDate === date)?.condition === 'on';
-    return {
-      night: {
-        ...emptyMetrics,
-        totalSleepMinutes: 420 + noise * 2 - (on ? 20 : 0),
-        sleepLatencyMinutes: 25 + noise / 2 + (on ? 5 : 0),
-        deepSleepMinutes: 75 + noise,
-        remSleepMinutes: 90 + noise,
-        wakeAfterSleepOnsetMinutes: 30 + noise / 2,
-        sleepEfficiencyPercent: 90 + noise / 4,
-        overnightHrvMs: 60 + noise,
-        restingHeartRateBpm: 60 + noise / 3,
-        breathingRatePerMinute: 15 + noise / 10,
-        skinTemperatureDeviationC: noise / 20,
-        source: 'synthetic' as const,
-        sourceId: `demo-${date}`,
-        rawPayloadId: `demo-${date}`,
-        deviceModel: 'Synthetic demo',
-        hrvMethod: 'rmssd' as const,
-        sleepDate: date,
-        sleepStart: null,
-        sleepEnd: null,
-      },
-    };
+  const item = registration ? catalog.items.find((i) => i.key === registration.itemKey) : undefined;
+  const onDates =
+    registration?.schedule.days
+      .filter((d) => d.condition !== 'off' && d.sleepDate <= shiftDate(through, 1))
+      .map((d) => d.sleepDate) ?? [];
+  return syntheticNights({
+    through,
+    seedText,
+    ...(registration && item && onDates.length
+      ? {
+          effect: demoEffectFor(
+            { adjustedExpectedEffect: item.expectedEffect, directionText: item.directionText },
+            registration.metric,
+            registration.direction,
+            onDates,
+          ),
+        }
+      : {}),
   });
 }
 
@@ -139,7 +132,7 @@ export class Journey {
     registration?: PreRegistration,
     db: Executor = this.db,
   ) {
-    if (source === 'synthetic') return syntheticHistory(through, registration);
+    if (source === 'synthetic') return syntheticHistory(through, registration, userId);
     return (
       await rows<{ record: HistoricalNight['night'] }>(
         db,
@@ -164,8 +157,21 @@ export class Journey {
     const today = localDate(now.toISOString(), input.timeZone);
     const progress = await this.load(userId);
     if (!progress) throw new HttpError(409, 'save_stack_before_starting');
-    const candidate = audit(progress).runnable.find((i) => i.key === input.itemKey);
+    const routed = audit(progress);
+    const runAnywayIds = new Set(progress.dayOne.runAnyway);
+    const candidate =
+      routed.runnable.find((i) => i.key === input.itemKey) ??
+      routed.items.find(
+        (i) =>
+          i.key === input.itemKey &&
+          i.tier === 'T3_TOO_SMALL' &&
+          i.canRunAnyway &&
+          runAnywayIds.has(i.id) &&
+          !i.needsAnswers?.length &&
+          !i.teamQuestions?.length,
+      );
     if (!candidate) throw new HttpError(409, 'item_not_ready_for_testing');
+    const runAnyway = candidate.tier === 'T3_TOO_SMALL';
     const stack = progress.items.find((i) => i.id === candidate.id)!;
     const source: ProviderId | undefined =
       progress.dataSource === 'demo' ? 'synthetic' : progress.dataSource;
@@ -213,7 +219,7 @@ export class Journey {
         : 'higher',
       onDefinition: input.onDefinition,
       offDefinition: input.offDefinition,
-      config: { totalDays: input.days, minimumNightsPerSide: 5 },
+      runAnyway,
     });
     const context: Context = {
       synthetic: source === 'synthetic',
@@ -316,6 +322,25 @@ export class Journey {
       });
       const card = experimentResultCard(analysis);
       const activity = r.schedule.days.find((d) => d.date === through);
+      // The horizon the person sees: the planned fortnight, then one week more each time it is too close.
+      const lock = r.decision;
+      const looksReached = lock ? lock.looks.filter((d) => d <= through).length : 0;
+      const decisive = analysis.verdict !== 'Inconclusive';
+      const complete = lock ? Boolean(analysis.look?.complete) : through >= r.schedule.days.at(-1)!.sleepDate;
+      const horizonDays = lock
+        ? decisive || complete
+          ? lock.policy.looks[Math.max(0, looksReached - 1)]!
+          : lock.policy.looks[Math.min(looksReached, lock.policy.looks.length - 1)]!
+        : r.schedule.totalDays;
+      const decisionStatus = !lock
+        ? complete
+          ? ('ready' as const)
+          : ('in_progress' as const)
+        : decisive || complete
+          ? ('ready' as const)
+          : looksReached
+            ? ('extend' as const)
+            : ('in_progress' as const);
       if (row.status === 'active' || row.status === 'completed')
         experiments.push({
           id: row.id,
@@ -324,7 +349,15 @@ export class Journey {
           status:
             row.status === 'completed' ? 'done' : row.status === 'active' ? 'running' : 'done',
           startDate: r.schedule.startDate,
-          days: r.schedule.totalDays,
+          days: horizonDays,
+          maxDays: r.schedule.totalDays,
+          plannedDays: lock?.plannedDays ?? r.schedule.totalDays,
+          decision: {
+            status: decisionStatus,
+            outcome: analysis.outcome,
+            nextLook: analysis.look?.next ?? null,
+            chanceHelps: card.chance?.helps ?? null,
+          },
           schedule: nights.map((n) => n.condition),
           observeOnly: r.onDays === 'observe',
           metric: r.metricName,
@@ -341,10 +374,10 @@ export class Journey {
           instruction: { on: r.onDefinition, off: r.offDefinition },
           monthlyCost: c.cost,
           monthsIn: c.months,
-          nights,
+          nights: nights.slice(0, horizonDays),
           through,
           synthetic: c.synthetic,
-          canFinish: row.status === 'active' && through >= r.schedule.days.at(-1)!.sleepDate,
+          canFinish: row.status === 'active' && decisionStatus === 'ready',
           instructionForToday: activity
             ? activity.condition === 'observe'
               ? 'Keep your usual routine; record what happens.'
@@ -370,8 +403,6 @@ export class Journey {
       const r = row.pre_registration,
         c = row.app_context;
       const through = await this.through(userId, row, now, tx);
-      if (through < r.schedule.days.at(-1)!.sleepDate)
-        throw new HttpError(409, 'experiment_not_finished');
       const checks = await this.checks(userId, id, tx);
       const history = await this.history(userId, c.source, through, r, tx);
       const analysis = analyzeExperiment({
@@ -381,13 +412,18 @@ export class Journey {
         through,
         bootstrap: { enabled: false },
       });
+      const finished = r.decision
+        ? analysis.verdict !== 'Inconclusive' || Boolean(analysis.look?.complete)
+        : through >= r.schedule.days.at(-1)!.sleepDate;
+      if (!finished) throw new HttpError(409, 'experiment_not_finished');
       const card = experimentResultCard(analysis);
       const narrative = renderExperimentVerdict(analysis, {
         itemName: c.name,
+        subject: 'item',
         monthlyCost: c.cost,
         monthsUsed: c.months,
         source: c.origin,
-        dropsCharge: false,
+        dropsCharge: c.cost > 0,
       });
       const snap = await this.snapshot(userId, now, tx);
       const verdict: Verdict = {
@@ -401,7 +437,12 @@ export class Journey {
         text: narrative.text ?? 'This result needs review before a recommendation can be shown.',
         metric: r.metricName,
         unit: card.unit,
-        change: card.number ? roundMeasurement(card.number.change, card.unit) : null,
+        change: card.number
+          ? card.percentChange !== null
+            ? roundMeasurement(card.percentChange, 'percent')
+            : roundMeasurement(card.number.change, card.unit)
+          : null,
+        changeUnit: card.percentChange !== null ? 'percent' : card.unit,
         swing: card.swing ? roundMeasurement(card.swing.value, card.swing.unit) : null,
         nights: snap.experiments.find((e) => e.id === id)!.nights!,
         effort: {
@@ -413,6 +454,15 @@ export class Journey {
         synthetic: c.synthetic,
         reasons: [...card.reasons],
         swingUnit: card.swing?.unit,
+        outcome: card.outcome ?? undefined,
+        chanceHelps: card.chance?.helps,
+        likelyRange: card.likelyRange
+          ? {
+              lower: roundMeasurement(card.likelyRange.lower, card.likelyRange.unit),
+              upper: roundMeasurement(card.likelyRange.upper, card.likelyRange.unit),
+              unit: card.likelyRange.unit,
+            }
+          : undefined,
       };
       await tx.execute(
         sql`insert into public.experiment_results(experiment_id,verdict) values (${id}::uuid,${JSON.stringify(verdict)}::jsonb)`,
@@ -445,9 +495,7 @@ export class Journey {
           const entry = recordCheckIn(row.pre_registration, {
             sleepDate: day.sleepDate,
             tap: 'did',
-            ...(day.condition === 'observe'
-              ? { exposure: day.block % 2 ? ('on' as const) : ('off' as const) }
-              : {}),
+            ...(day.condition === 'observe' ? { exposure: 'on' as const } : {}),
           });
           await tx.execute(sql`insert into public.experiment_check_ins(experiment_id,sleep_date,entry,recorded_at)
           values (${id}::uuid,${day.sleepDate}::date,${JSON.stringify(entry)}::jsonb,${now}) on conflict do nothing`);

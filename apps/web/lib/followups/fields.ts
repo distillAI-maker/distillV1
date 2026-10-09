@@ -156,6 +156,13 @@ export const fieldSpecs: Record<AskableField, FieldSpec> = {
   subscriptionHasAdditionalTests: { kind: 'bool', notSure: true },
   bothWearables: { kind: 'bool' },
   roomTemperatureC: { kind: 'number', unit: '°C', min: 5, max: 35, step: 0.5 },
+  onStatin: { kind: 'bool', notSure: true },
+  lactoseIntolerant: { kind: 'bool', notSure: true },
+  productOxidised: { kind: 'bool', notSure: true },
+  mealsSkippedMostWeeks: { kind: 'bool' },
+  ownsEquivalentHeatOrCold: { kind: 'bool' },
+  sameNightExfoliation: { kind: 'bool', notSure: true },
+  eyeCreamHasAdditionalActive: { kind: 'bool', notSure: true },
 };
 
 export const askableFields = Object.keys(fieldSpecs) as AskableField[];

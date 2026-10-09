@@ -54,15 +54,27 @@ describe('the Worked Example, as a day-one summary', () => {
       notReadYet: 0,
     });
   });
-  it('queues coffee, drinks, training, dinner in the sheet order', () => {
+  it('queues drinks, coffee, training, dinner by expected effect, drinks observed only', () => {
     expect(routed.queue.map((q) => q.itemKey)).toEqual([
-      'coffee-after-2pm',
       'alcohol-in-the-evening',
+      'coffee-after-2pm',
       'training-after-7pm',
       'late-dinner-within-2-3-h-of-bed',
     ]);
-    expect(routed.queue[1]?.observeOnly).toBe(true);
-    expect(routed.queue[2]?.hypothesis).toBeTruthy();
+    expect(routed.queue[0]?.observeOnly).toBe(true);
+    expect(routed.queue[1]?.observeOnly).toBe(false);
+  });
+  it('lands every item where the sheet says (the hand-routed table is the expectation, the engine the result)', () => {
+    for (const r of routed.items) {
+      if (!r.itemKey) continue;
+      const expected = demoRouting[r.itemKey]!;
+      expect({ key: r.itemKey, tier: r.landing.tier, reason: r.landing.reason, keep: r.landing.keep || undefined }).toEqual({
+        key: r.itemKey,
+        tier: expected.tier,
+        reason: expected.reason,
+        keep: expected.keep,
+      });
+    }
   });
   it('shows the gym pair side by side with Equinox suggested to stay', () => {
     expect(routed.overlaps).toHaveLength(1);

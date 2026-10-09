@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { catalog } from '../../lib/catalog/server';
+import { createDemoSource } from '../../lib/data/demo';
 import { demoExperimentId } from '../../lib/data/demo/experiments';
 import { demoGoals, demoStack } from '../../lib/data/demo/stack';
 import { ProgressProvider } from '../../lib/progress/context';
@@ -32,11 +33,20 @@ function memory() {
 }
 const today = new Date();
 today.setHours(12, 0, 0, 0);
-const iso = (d: Date) => d.toISOString().slice(0, 10);
+/** The demo's nights at a given stage (0: day 14, 2: day 28), from the engine-driven source. */
+async function demoNightsAt(progress: Progress, stage: 0 | 1 | 2) {
+  const [exp] = await createDemoSource(undefined, today).experiments({ ...progress, demoSkipDays: stage });
+  return exp!.nights!;
+}
 
-function startedProgress(): Progress {
+/**
+ * Day one done and the first reading started. With no pick of the person's own the demo runs the
+ * engine's first item, alcohol (observed, too close at the first read); picking coffee runs an
+ * assigned test that is clear at day 14.
+ */
+function startedProgress(firstExperiment?: string): Progress {
   const p: Progress = { ...emptyProgress(), step: 'done', dataSource: 'demo', goals: demoGoals, items: demoStack(), updatedAt: new Date().toISOString() };
-  p.dayOne = { ...p.dayOne, started: true, months: 8 };
+  p.dayOne = { ...p.dayOne, started: true, months: 8, firstExperiment };
   p.items = p.items.map((i) => {
     if (i.itemKey === 'coffee-after-2pm' || i.itemKey === 'alcohol-in-the-evening' || i.itemKey === 'training-after-7pm' || i.itemKey === 'late-dinner-within-2-3-h-of-bed')
       return { ...i, status: 'testing' };
@@ -56,18 +66,19 @@ describe('Today', () => {
     document.documentElement.dataset.motion = 'reduce';
   });
 
-  it('asks for one tap on day 14, then offers the verdict; a night can be left out', async () => {
+  it('asks for one tap on day 14, says it is too close, and reaches the verdict by day 28', async () => {
     const store = new LocalProgressStore(memory());
     await store.save(startedProgress());
+    const first = await demoNightsAt(startedProgress(), 0);
     render(
       <ProgressProvider store={store}>
         <Today loadTemplates={loadTemplates} />
       </ProgressProvider>,
     );
-    expect(await screen.findByText('Day 14 of 14 · an off day')).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Today: no coffee after 2pm.' })).toBeTruthy();
+    // The engine's first pick is alcohol: observed nights, so the label says so.
+    expect(await screen.findByText('Observation day 14 of 14')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /drink/i })).toBeTruthy();
     expect(screen.getByRole('list', { name: 'Fourteen days, three on and three off' }).children).toHaveLength(14);
-    expect(screen.getByRole('listitem', { name: 'Day 9, on, unknown' })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: "Don't count last night" }));
     fireEvent.click(screen.getByRole('radio', { name: 'Ill' }));
@@ -79,15 +90,49 @@ describe('Today', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Did it' }));
     });
-    expect(await screen.findByText('Your verdict is ready.')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Read the verdict' }).getAttribute('href')).toBe(`/verdicts/${demoExperimentId}`);
+    // A modest effect rarely clears the bar in a fortnight: the engine asks for one more week.
+    expect(await screen.findByText('Too close to call yet.')).toBeTruthy();
     await waitFor(async () => {
       const saved = await store.load();
-      expect(saved?.taps[demoExperimentId]?.[iso(today)]).toEqual({ value: 'did' });
-      const y = new Date(today);
-      y.setDate(y.getDate() - 1);
-      expect(saved?.taps[demoExperimentId]?.[iso(y)]?.excluded).toBe('Ill');
+      expect(saved?.taps[demoExperimentId]?.[first.at(-1)!.date]).toEqual({ value: 'did' });
+      expect(saved?.taps[demoExperimentId]?.[first.at(-2)!.date]?.excluded).toBe('Ill');
     });
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Skip ahead a week (demo)' }));
+    });
+    expect(await screen.findByText('Observation day 21 of 21')).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Did it' }));
+    });
+    expect(await screen.findByText('Too close to call yet.')).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Skip ahead a week (demo)' }));
+    });
+    expect(await screen.findByText('Observation day 28 of 28')).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Did it' }));
+    });
+    expect(await screen.findByText('Your verdict is ready.')).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Read the verdict' }).getAttribute('href')).toBe(`/verdicts/${demoExperimentId}`);
+  });
+
+  it('reaches a verdict at the first read when the effect is clear', async () => {
+    const store = new LocalProgressStore(memory());
+    await store.save(startedProgress('coffee-after-2pm'));
+    render(
+      <ProgressProvider store={store}>
+        <Today loadTemplates={loadTemplates} />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText(/^Day 14 of 14/)).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /coffee/i })).toBeTruthy();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Did it' }));
+    });
+    // Two swings of lost sleep clear the bar at day 14: no extra week, the verdict is ready.
+    expect(await screen.findByText('Your verdict is ready.')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Skip ahead a week (demo)' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Read the verdict' }).getAttribute('href')).toBe(`/verdicts/${demoExperimentId}`);
   });
 
   it('shows the empty state before the first experiment starts', async () => {
@@ -104,21 +149,24 @@ describe('Today', () => {
 
 describe('Verdict', () => {
   afterEach(cleanup);
-  it('shows the number, the swing, the word and the template sentence, and takes the decision', async () => {
+  it('shows the number, the swing, the word and the engine sentence, and takes the decision', async () => {
     const store = new LocalProgressStore(memory());
-    const p = startedProgress();
-    p.taps = { [demoExperimentId]: { [iso(today)]: { value: 'did' } } };
+    // Coffee is clear at the first read, so the verdict comes after the day-14 tap.
+    const p = startedProgress('coffee-after-2pm');
+    const nights = await demoNightsAt(p, 0);
+    p.taps = { [demoExperimentId]: { [nights.at(-1)!.date]: { value: 'did' } } };
     await store.save(p);
     render(
       <ProgressProvider store={store}>
         <VerdictView id={demoExperimentId} loadTemplates={loadTemplates} />
       </ProgressProvider>,
     );
-    expect(await screen.findByText('14 days, 13 taps.')).toBeTruthy();
-    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('−51 min');
+    expect(await screen.findByText('14 days, 14 taps.')).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('−71 minutes');
     expect(screen.getByText('Dropped', { selector: '.word' })).toBeTruthy();
-    expect(screen.getByText(/Coffee after 2pm: your total sleep was 51 minutes worse/)).toBeTruthy();
-    expect(screen.getByText('40 min')).toBeTruthy();
+    expect(screen.getByText('It costs you.')).toBeTruthy();
+    expect(screen.getByText(/Coffee after 2pm: your total sleep was 71 minutes worse on the nights you did it/)).toBeTruthy();
+    expect(screen.getByText('36 minutes')).toBeTruthy();
     expect(screen.getAllByRole('img', { name: /^Night \d+/ })).toHaveLength(14);
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Let it go' }));
@@ -136,8 +184,9 @@ describe('Your file', () => {
   afterEach(cleanup);
   it('counts down after day one and a verdict', async () => {
     const store = new LocalProgressStore(memory());
-    const p = startedProgress();
-    p.taps = { [demoExperimentId]: { [iso(today)]: { value: 'did' } } };
+    const p = startedProgress('coffee-after-2pm');
+    const nights = await demoNightsAt(p, 0);
+    p.taps = { [demoExperimentId]: { [nights.at(-1)!.date]: { value: 'did' } } };
     p.verdictChoices = { [demoExperimentId]: 'cut' };
     p.items = p.items.map((i) => (i.itemKey === 'coffee-after-2pm' ? { ...i, status: 'cut' } : i));
     await store.save(p);

@@ -32,6 +32,7 @@ export function exactRandomizationTest(
     blockLengths: schedule.blockLengths,
     dropFirstNightOfBlock: schedule.dropFirstNightOfBlock,
     minimumNightsPerSide: schedule.minimumNightsPerSide,
+    balancedPrefixDays: schedule.balancedPrefixDays,
   };
   if (!sameJson(schedule, createSchedule(schedule.startDate, schedule.seed, false, config)))
     throw new Error('Schedule is not reproducible');

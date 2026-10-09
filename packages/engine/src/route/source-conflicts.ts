@@ -1,12 +1,18 @@
-/** TODO(team): AC describes conditions while AG says name-only. Do not select a column silently. */
-export const conditionalSourceConflicts = new Set([
+/**
+ * Rows whose conditions lived in the goal-notes column while the rule column said name-only.
+ * Resolved on 2026-10-08 by the routing-table owner: the conditions are now rules in
+ * `rules/items.ts` (see OPEN_QUESTIONS.md, COLUMN_CONFLICTS). The set is kept empty so the
+ * router's conflict step still exists for any future source disagreement.
+ */
+export const conditionalSourceConflicts = new Set<string>([]);
+/** The rows resolved from goal-notes into typed rules; their rule column still says name-only. */
+export const resolvedFromGoalNotes = new Set([
   'zma',
   'flaxseed-oil-as-omega-3',
   'coq10',
   'digestive-enzymes',
   'apple-cider-vinegar',
   'grounding-earthing-sheets-mats',
-  'sleep-coach-cbt-i',
   'premium-gym-membership-equinox-life-time',
   'boutique-class-membership-barry-s-soulcycle-f45-orangetheory',
   'class-pack-or-studio-credits',

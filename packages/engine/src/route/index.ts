@@ -103,8 +103,11 @@ export function createStackRouter(catalog: Catalog) {
       });
       if (provenanceProtected || item?.tier === 'PROTECTED') return protectedRow('protected');
       if (!item) throw new Error(`Unknown catalog item: ${entry.key}`);
-      const goal = resolveGoal(catalog, a.goal);
-      const ruleAnswers = { ...a, goal: ruleGoal(a.goal, goal), inventoryKeys };
+      // An item asked its own goal routes on it. Otherwise each of the person's goals is tried in
+      // order and the first that settles the item (a drop, a test, a keep) wins; else the first goal.
+      const attempt = (goalName: string | undefined): WorkingItem => {
+      const goal = resolveGoal(catalog, goalName);
+      const ruleAnswers = { ...a, goal: ruleGoal(goalName, goal), inventoryKeys };
       const rule = evaluateItemRule(item, ruleAnswers);
       // Item-specific safety redirects precede the goal and all financial recommendations.
       if (rule.tier === 'PROTECTED') return protectedRow('safety');
@@ -124,32 +127,35 @@ export function createStackRouter(catalog: Catalog) {
         routed: base,
         overlapEligible: false,
       };
+      // The clinical boundary comes before any recommendation.
+      if (goal?.name === 'testosterone / hormones') return protectedRow('protected');
+      const conflict = conditionalSourceConflicts.has(item.key);
+      // A drop settled by dose, form, evidence or mechanism holds whatever the goal is, and needs
+      // none: 300 mg of fish oil is below the studied dose for every reason a person takes it.
+      if (!conflict && rule.tier === 'T2' && rule.reason !== 'overlaps with something else') {
+        row.routed = { ...base, tier: 'T2', step: 'item_rule', reason: rule.reason };
+        return row;
+      }
+      // Something not being used is not being used for any goal either.
+      if (unused(ruleAnswers) === true || (a.stillPaying === true && a.usesLast30Days === 0)) {
+        row.routed = { ...base, tier: 'T2', step: 'usage', reason: 'not being used' };
+        return row;
+      }
       if (!goal) {
         row.routed = {
           ...base,
           step: 'goal',
-          detail: a.goal ? 'unknown_goal' : 'goal_required',
+          detail: goalName ? 'unknown_goal' : 'goal_required',
           needsAnswers: ['goal'],
         };
         return row;
       }
-      if (goal.name === 'testosterone / hormones') return protectedRow('protected');
       if (goal.name === 'longevity / general health') {
         row.routed = { ...base, step: 'goal', detail: 'untestable_goal' };
         return row;
       }
       if (rule.excludeFromInventory) {
         row.routed = { ...base, step: 'excluded', excluded: true };
-        return row;
-      }
-      const conflict = conditionalSourceConflicts.has(item.key);
-      if (!conflict && rule.tier === 'T2' && rule.reason !== 'overlaps with something else') {
-        row.routed = { ...base, tier: 'T2', step: 'item_rule', reason: rule.reason };
-        return row;
-      }
-      // Generic usage follows the row's settled dose/form/evidence decision.
-      if (unused(ruleAnswers) === true || (a.stillPaying === true && a.usesLast30Days === 0)) {
-        row.routed = { ...base, tier: 'T2', step: 'usage', reason: 'not being used' };
         return row;
       }
       if (conflict) {
@@ -196,6 +202,7 @@ export function createStackRouter(catalog: Catalog) {
         adjustedExpectedEffect: effect,
         metric,
         directionText: item.directionText,
+        evidenceGrade: item.evidenceGrade,
       };
       if (rule.tier === 'T3' || !metric || item.visibility === 'no') {
         row.routed = {
@@ -241,6 +248,20 @@ export function createStackRouter(catalog: Catalog) {
         };
       }
       return row;
+      };
+      const settled = (row: WorkingItem) =>
+        ['PROTECTED', 'T2', 'T1', 'T1_QUEUED_SLOW', 'T1_QUEUED_SPECIAL', 'T3_TOO_SMALL'].includes(
+          row.routed.tier,
+        ) || Boolean(row.routed.keep);
+      const choices: (string | undefined)[] =
+        a.goal !== undefined ? [a.goal] : a.goals?.length ? [...a.goals] : [undefined];
+      let chosen = attempt(choices[0]);
+      for (const alternative of choices.slice(1)) {
+        if (settled(chosen)) break;
+        const candidate = attempt(alternative);
+        if (settled(candidate) || (candidate.routed.metric && !chosen.routed.metric)) chosen = candidate;
+      }
+      return chosen;
     });
     const overlaps = applyOverlaps(catalog, rows, options);
     const items = rows.map((row) => row.routed);

@@ -71,15 +71,30 @@ describe('first-match stack routing', () => {
     });
   });
   it.each(['general health', 'nothing specific', 'longevity / general health'])(
-    'routes %s before a low dose, old use, or known duplicate',
+    'a settled drop or an unused item holds for %s; otherwise the goal is untestable',
     (goal) => {
+      expect(single('magnesium-any-form', { goal, form: 'oxide', daysSinceLastUse: 90 })).toMatchObject(
+        { tier: 'T2', step: 'item_rule', reason: 'form not absorbed' },
+      );
       expect(
-        single('magnesium-any-form', { goal, form: 'oxide', daysSinceLastUse: 90 }),
+        single('magnesium-any-form', {
+          goal,
+          form: 'citrate',
+          dose: 400,
+          doseUnit: 'mg elemental',
+          daysSinceLastUse: 90,
+        }),
+      ).toMatchObject({ tier: 'T2', step: 'usage', reason: 'not being used' });
+      expect(
+        single('magnesium-any-form', { goal, form: 'citrate', dose: 400, doseUnit: 'mg elemental' }),
       ).toMatchObject({ tier: 'T3', step: 'goal', detail: 'untestable_goal' });
     },
   );
+  it('drops a known no-mechanism item without asking what it is for', () => {
+    expect(single('gaba-oral', {})).toMatchObject({ tier: 'T2', reason: 'no way it could work' });
+  });
   it.each([undefined, 'unknown goal', 'constructor'])('asks for a recognized goal (%s)', (goal) => {
-    expect(single('gaba-oral', { goal })).toMatchObject({
+    expect(single('protein-powder', { goal })).toMatchObject({
       tier: 'T3',
       step: 'goal',
       needsAnswers: ['goal'],
@@ -494,21 +509,20 @@ describe('accounting, input contracts and source acceptance', () => {
       );
     }
   });
-  it('keeps the golden example blocked with precise source and routing mismatches', () => {
+  it('passes the golden example: 21 items, $1,428, 10 drops, $767 back, 4 lined up', () => {
     const { issues, stack } = inspectWorkedExample(catalog);
-    expect(stack.summary.monthlyTotal).toBe(1428);
-    expect(issues.map((issue) => issue.code)).toEqual(
-      expect.arrayContaining([
-        'WORKED_TOTAL',
-        'WORKED_COUNTS',
-        'WORKED_ORDER',
-        'WORKED_ITEM:vitamin-c',
-        'WORKED_ITEM:training',
-        'WORKED_SUMMARY:monthlyBack',
-      ]),
-    );
-    expect(() => assertWorkedExample(catalog)).toThrow('Worked Example acceptance blocked');
-    expect(() => assertWorkedExample(catalog)).toThrow('$1342');
+    expect(issues).toEqual([]);
+    expect(stack.summary).toMatchObject({
+      itemsOnArrival: 21,
+      monthlyTotal: 1428,
+      dropsToday: 10,
+      monthlyBack: 767,
+      linedUpForTesting: 4,
+      cantMeasure: 2,
+      keep: 4,
+    });
+    expect(stack.runnable.map((item) => item.id)).toEqual(['alcohol', 'coffee', 'training', 'dinner']);
+    expect(assertWorkedExample(catalog).summary.monthlyBack).toBe(767);
   });
   it('rejects unknown ordinary items, duplicate IDs, invalid costs and foreign answers', () => {
     expect(() => single('unknown', { goal: 'sleep' })).toThrow('Unknown catalog item');

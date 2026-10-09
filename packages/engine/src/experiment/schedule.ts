@@ -19,7 +19,9 @@ const layouts = (config: ScheduleConfig) => {
       ? config.dropFirstNightOfBlock
         ? [3, 3, 4, 4]
         : [3, 3, 3, 3, 1, 1]
-      : [
+      : total === 28 && block === 3
+        ? [3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1]
+        : [
           ...Array(Math.floor(total / block)).fill(block),
           ...(total % block ? [total % block] : []),
         ];
@@ -45,7 +47,10 @@ export function enumerateAssignments(
   const minimum = config.minimumNightsPerSide ?? 5;
   if (!Number.isInteger(minimum) || minimum < 5)
     throw new Error('At least five valid nights per side are required');
-  const cacheKey = JSON.stringify([lengths, !!config.dropFirstNightOfBlock, minimum]);
+  const prefixes = [...(config.balancedPrefixDays ?? [])];
+  if (prefixes.some((p) => !Number.isInteger(p) || p < 2 || p % 2 || p > total))
+    throw new Error('Balanced prefixes must be even night counts within the schedule');
+  const cacheKey = JSON.stringify([lengths, !!config.dropFirstNightOfBlock, minimum, prefixes]);
   const cached = supportCache.get(cacheKey);
   if (cached) return cached;
   // Calendar membership is fixed across the entire randomization space.
@@ -82,11 +87,23 @@ export function enumerateAssignments(
       if (active) weekendOn += weekendsByBlock[block]!;
       else weekendOff += weekendsByBlock[block]!;
     });
+    const prefixesBalanced = prefixes.every((prefix) => {
+      let seen = 0,
+        onInPrefix = 0;
+      for (const [block, length] of lengths.entries()) {
+        const take = Math.min(length, prefix - seen);
+        if (take <= 0) break;
+        if (assignment[block] === 'on') onInPrefix += take;
+        seen += take;
+      }
+      return seen === prefix && onInPrefix === prefix / 2;
+    });
     if (
       on === total / 2 &&
       usableOn >= minimum &&
       usableOff >= minimum &&
-      Math.abs(weekendOn - weekendOff) <= 1
+      Math.abs(weekendOn - weekendOff) <= 1 &&
+      prefixesBalanced
     )
       assignments.push(assignment);
   }
@@ -147,6 +164,7 @@ export function createSchedule(
     blockLengths: lengths,
     dropFirstNightOfBlock: !!config.dropFirstNightOfBlock,
     minimumNightsPerSide: config.minimumNightsPerSide ?? 5,
+    balancedPrefixDays: [...(config.balancedPrefixDays ?? [])],
     design: observeOnly ? 'observational' : 'randomized',
     assignmentIndex,
     assignmentCount: space.length,

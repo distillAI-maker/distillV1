@@ -28,6 +28,30 @@ export interface ItemSpec {
  * strings each hand-written rule compares against. A test checks every entry against the engine.
  */
 export const itemSpecs: Record<string, ItemSpec> = {
+  'grounding-earthing-sheets-mats': {
+    forms: [
+      { label: 'Sheets or a mat', value: 'sheets or mat' },
+      { label: 'Walking barefoot', value: 'barefoot walking' },
+    ],
+  },
+  'vitamin-c-serum': {
+    forms: [
+      { label: 'L-ascorbic acid, 10 to 20%, dark bottle', value: 'L-ascorbic acid 10 to 20% in opaque packaging' },
+      { label: 'Something else', value: 'other' },
+      { label: 'Not sure', value: 'unknown' },
+    ],
+  },
+  'collagen-drinks-and-beauty-gummies': {
+    unit: 'g',
+    perServing: { serving: 'g per drink or gummy', count: 'a day' },
+    presets: [2, 2.5, 5, 10],
+  },
+  'digestive-enzymes': {
+    forms: [
+      { label: 'Lactase', value: 'lactase' },
+      { label: 'A general blend', value: 'blend' },
+    ],
+  },
   'magnesium-any-form': {
     forms: [
       { label: 'Glycinate', value: 'glycinate' },

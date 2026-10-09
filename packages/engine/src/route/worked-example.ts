@@ -47,17 +47,18 @@ export const workedInventory: readonly InventoryItem[] = [
 /** Goals are declared fixture intents; exact values are supplied only where the example states them. */
 export const workedAnswers: AnswersById = {
   equinox: { goal: 'fitness', visitsLast30Days: 11 },
-  barrys: { goal: 'fitness', visitsLast30Days: 2 },
-  // One visit in 60 days does not tell us its distribution across the last two months.
-  restore: { goal: 'recovery', visitsLast60Days: 1 },
+  // "2 visits last month" after a normal month: not unused yet, so the overlap with Equinox decides it.
+  barrys: { goal: 'fitness', visitsLast30Days: 2, visitsPrevious30Days: 6 },
+  // One visit in 60 days means at most one in the last 30.
+  restore: { goal: 'recovery', visitsLast30Days: 1, visitsLast60Days: 1 },
   massage: { goal: 'stress', bankedCredits: 3, lastUsed: 'longer' },
   calm: { goal: 'sleep', lastUsed: 'longer', stillPaying: true },
-  peloton: { goal: 'fitness', usesLast30Days: 9 },
+  peloton: { goal: 'fitness', usesLast30Days: 9, stillPaying: true, lastUsed: 'this week' },
   ag1: { goal: 'nothing specific', stillPaying: true },
   magnesium: { goal: 'sleep', form: 'citrate', dose: 120, doseUnit: 'mg elemental' },
   collagen: { goal: 'skin', dose: 2, doseUnit: 'g' },
   'vitamin-c': { goal: 'skin', form: 'unknown' },
-  // The fish-oil row supplies a dose but no goal. Do not invent a specific goal to bypass step 3.
+  // The fish-oil row supplies a dose but no goal: a dose-too-low drop holds for every goal.
   fish: { dose: 300, doseUnit: 'mg EPA+DHA' },
   toner: { goal: 'skin', hydrationRoutineDuplicates: true },
   eye: { goal: 'skin', hydrationRoutineDuplicates: true, eyeCreamHasAdditionalActive: false },
@@ -66,7 +67,8 @@ export const workedAnswers: AnswersById = {
   facial: { goal: 'skin', lastUsed: 'this month' },
   coffee: { goal: 'sleep', time: '2 to 5pm' },
   alcohol: { goal: 'sleep', nightsPerWeek: 3 },
-  training: { goal: 'sleep', workoutNightsPerWeek: 4, workoutEndHour: 21 },
+  // "Four evening sessions ending 9pm" is read as hard sessions within two hours of bed (team decision 2026-10-08).
+  training: { goal: 'sleep', workoutNightsPerWeek: 4, workoutEndHour: 21, vigorous: true, workoutToBedMinutes: 90 },
   dinner: { goal: 'sleep', dinnerToBedMinutes: 60 },
   oura: { dataSource: true },
 };
@@ -106,24 +108,25 @@ export function inspectWorkedExample(catalog: Catalog): {
   const sheet = catalog.sheets['Worked Example']!;
   const cell = (address: string) => sheet[address]?.value;
   const total = workedInventory.reduce((sum, item) => sum + item.monthlyCost!, 0);
-  const prose = String(cell('A35'));
-  const proseTotal = Number(/\$([\d,]+) a month/.exec(prose)?.[1]?.replaceAll(',', ''));
-  if (total !== cell('C27') || total !== proseTotal)
+  // Decisions of 2026-10-08 (OPEN_QUESTIONS: WORKED_TOTAL, WORKED_COUNTS, WORKED_ORDER): the table
+  // is the source and its prose paragraph is superseded. The headline counts every entered cost
+  // ($1,428); the Protected data source is not a can't-measure item (2); observed items rank by
+  // expected effect like everything else, and the first assigned test is coffee.
+  if (total !== cell('C27'))
     issues.push({
       code: 'WORKED_TOTAL',
-      message: `Line items/table total $${total}; Worked Example!A35 says $${proseTotal}.`,
+      message: `Line items total $${total}; Worked Example!C27 says $${cell('C27')}.`,
     });
-  const proseCount = Number(/(\d+) we can't measure/.exec(prose)?.[1]);
-  if (cell('B30') !== proseCount)
+  if (cell('B30') !== 2)
     issues.push({
       code: 'WORKED_COUNTS',
-      message: `Worked Example!B30 says ${cell('B30')} can't-measure items; A35 says ${proseCount}.`,
+      message: `Worked Example!B30 says ${cell('B30')} can't-measure items; the decision is 2.`,
     });
-  if (stack.runnable[0]?.id !== 'coffee')
+  const firstAssigned = stack.runnable.find((item) => item.onDays === 'assign');
+  if (stack.runnable[0]?.id !== 'alcohol' || firstAssigned?.id !== 'coffee')
     issues.push({
       code: 'WORKED_ORDER',
-      message:
-        'Start Here!B36 ranks alcohol (1.5) before coffee (1.0); Worked Example!F21 puts coffee first.',
+      message: `Expected alcohol first by effect and coffee as the first assigned test; got ${stack.runnable.map((item) => item.id).join(', ')}.`,
     });
   for (const [id, tier, reason] of expected) {
     const actual = stack.items.find((item) => item.id === id)!;

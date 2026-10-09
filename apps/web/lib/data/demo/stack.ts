@@ -11,10 +11,34 @@ type Seed = Omit<StackItem, 'id' | 'position' | 'answers' | 'chips' | 'unknown' 
   Partial<Pick<StackItem, 'answers' | 'chips' | 'unknown' | 'status'>>;
 
 const seeds: Seed[] = [
-  { itemKey: 'premium-gym-membership-equinox-life-time', monthlyCost: 250, origin: 'other' },
-  { itemKey: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', monthlyCost: 200, origin: 'friend' },
-  { itemKey: 'recovery-studio-membership-restore-remedy-place-othership', monthlyCost: 250, origin: 'online' },
-  { itemKey: 'massage-membership-massage-envy-squeeze', monthlyCost: 90, origin: 'other' },
+  {
+    itemKey: 'premium-gym-membership-equinox-life-time',
+    monthlyCost: 250,
+    origin: 'other',
+    answers: { visitsLast30Days: 11 },
+    chips: { visitsLast30Days: '8 or more' },
+  },
+  {
+    itemKey: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory',
+    monthlyCost: 200,
+    origin: 'friend',
+    answers: { visitsLast30Days: 2, visitsPrevious30Days: 6 },
+    chips: { visitsLast30Days: '1 to 3', visitsPrevious30Days: '4 to 7' },
+  },
+  {
+    itemKey: 'recovery-studio-membership-restore-remedy-place-othership',
+    monthlyCost: 250,
+    origin: 'online',
+    answers: { visitsLast30Days: 1 },
+    chips: { visitsLast30Days: '1 to 3' },
+  },
+  {
+    itemKey: 'massage-membership-massage-envy-squeeze',
+    monthlyCost: 90,
+    origin: 'other',
+    answers: { bankedCredits: 3, daysSinceLastUse: 75 },
+    chips: { lastUsed: '1 to 3 months ago' },
+  },
   {
     itemKey: 'meditation-app-calm-headspace',
     monthlyCost: 15,
@@ -22,7 +46,13 @@ const seeds: Seed[] = [
     answers: { stillPaying: true, daysSinceLastUse: 60 },
     chips: { lastUsed: '1 to 3 months ago' },
   },
-  { itemKey: 'fitness-app-subscription-peloton-app-apple-fitness-ladder', monthlyCost: 25, origin: 'friend' },
+  {
+    itemKey: 'fitness-app-subscription-peloton-app-apple-fitness-ladder',
+    monthlyCost: 25,
+    origin: 'friend',
+    answers: { stillPaying: true, daysSinceLastUse: 2 },
+    chips: { lastUsed: 'This week' },
+  },
   { itemKey: 'greens-powder-ag1-etc', monthlyCost: 90, origin: 'podcast', answers: { stillPaying: true } },
   {
     itemKey: 'magnesium-any-form',
@@ -31,16 +61,26 @@ const seeds: Seed[] = [
     answers: { form: 'citrate', dose: 120, goal: 'sleep' },
     chips: { form: 'Citrate', goal: 'Sleep' },
   },
-  { itemKey: 'collagen-drinks-and-beauty-gummies', monthlyCost: 40, origin: 'online' },
+  {
+    itemKey: 'collagen-drinks-and-beauty-gummies',
+    monthlyCost: 40,
+    origin: 'online',
+    answers: { dose: 2, servingAmount: 2, servingsPerDay: 1 },
+  },
   {
     itemKey: 'omega-3-fish-oil',
     monthlyCost: 20,
     origin: 'friend',
     answers: { dose: 300, servingAmount: 300, servingsPerDay: 1 },
   },
-  { itemKey: 'vitamin-c-serum', monthlyCost: 60, origin: 'online' },
-  { itemKey: 'toner-hydrating-or-balancing', monthlyCost: 25, origin: 'other' },
-  { itemKey: 'eye-cream-when-you-already-use-a-moisturiser', monthlyCost: 45, origin: 'other' },
+  { itemKey: 'vitamin-c-serum', monthlyCost: 60, origin: 'online', answers: { form: 'unknown' }, chips: { form: 'Not sure' } },
+  { itemKey: 'toner-hydrating-or-balancing', monthlyCost: 25, origin: 'other', answers: { hydrationRoutineDuplicates: true } },
+  {
+    itemKey: 'eye-cream-when-you-already-use-a-moisturiser',
+    monthlyCost: 45,
+    origin: 'other',
+    answers: { hydrationRoutineDuplicates: true, eyeCreamHasAdditionalActive: false },
+  },
   { itemKey: 'retinol-retinoid-nightly', monthlyCost: 40, origin: 'online' },
   { itemKey: 'sunscreen-daily-spf-30', monthlyCost: 20, origin: 'other' },
   {

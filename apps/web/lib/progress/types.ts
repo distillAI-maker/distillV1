@@ -113,6 +113,8 @@ export const progressSchema = z
     /** What the person decided on each verdict. */
     verdictChoices: z.record(z.string(), z.enum(['cut', 'kept'])).default({}),
     reducedMotion: z.boolean().default(false),
+    /** Signed-out demo only: how many weeks past the first read the person skipped ahead (0 to 2). */
+    demoSkipDays: z.number().int().min(0).max(2).default(0),
     updatedAt: z.string(),
   })
   .strict();
@@ -131,6 +133,7 @@ export function emptyProgress(): Progress {
     taps: {},
     verdictChoices: {},
     reducedMotion: false,
+    demoSkipDays: 0,
     updatedAt: new Date(0).toISOString(),
   };
 }

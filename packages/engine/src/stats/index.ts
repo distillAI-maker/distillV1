@@ -3,3 +3,5 @@ export * from './analyze.js';
 export * from './bootstrap.js';
 export * from './randomization.js';
 export * from './presentation.js';
+export * from './estimate.js';
+export * from './policy.js';

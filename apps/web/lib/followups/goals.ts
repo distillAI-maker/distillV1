@@ -69,15 +69,20 @@ const usualWords = [
   'testosterone', 'hormones', 'general health',
 ];
 
-/** The usual reason people take an item, as one goal word, from the catalog's own text. */
-export function usualGoalFor(item: { usualGoal?: string | null }): string | undefined {
+/** Every usual reason people take an item, as goal words in the catalog's order. */
+export function usualGoalsFor(item: { usualGoal?: string | null }): string[] {
   const text = (item.usualGoal ?? '').toLowerCase();
-  if (!text) return undefined;
+  if (!text) return [];
+  const out: string[] = [];
   for (const part of text.split(/,|\/|;| and | or /)) {
     const hit = usualWords.find((w) => part.includes(w));
-    if (hit) return hit;
+    if (hit && !out.includes(hit)) out.push(hit);
   }
-  return undefined;
+  return out;
+}
+/** The usual reason people take an item, as one goal word, from the catalog's own text. */
+export function usualGoalFor(item: { usualGoal?: string | null }): string | undefined {
+  return usualGoalsFor(item)[0];
 }
 
 const ruleWordFor: Record<string, EngineGoal> = {

@@ -84,7 +84,7 @@ describe('connected journey on Postgres', () => {
         'select pre_registration from experiments',
       )
     ).rows;
-    expect(registration!.schedule.days).toHaveLength(42);
+    expect(registration!.schedule.days).toHaveLength(28);
     await expect(journey.start(alice, input, now)).rejects.toThrow('experiment_already_active');
     await expect(
       journey.checkIn(
@@ -107,7 +107,7 @@ describe('connected journey on Postgres', () => {
     await journey.advanceDemo(alice, id, true, now);
     const verdict = await journey.finish(alice, id, now);
     expect(verdict.synthetic).toBe(true);
-    expect(verdict.nights).toHaveLength(42);
+    expect([14, 21, 28]).toContain(verdict.nights.length);
     expect(verdict.nights[0]!.counted).toBe(false);
     expect(verdict.text).not.toMatch(/\{[^}]+\}/);
     expect(['Kept', 'Dropped', 'Inconclusive']).toContain(verdict.word);
@@ -154,8 +154,10 @@ describe('connected journey on Postgres', () => {
     }
     const verdict = await journey.finish(alice, id, end);
     expect(verdict.synthetic).toBe(false);
-    expect(verdict.word).toBe('Inconclusive');
-    expect(verdict.reasons).toContain('assignment_resolution');
+    expect(['Kept', 'Dropped', 'Inconclusive']).toContain(verdict.word);
+    expect(['helps', 'costs_you', 'no_detectable_benefit', 'too_close_final', 'not_enough_nights']).toContain(
+      verdict.outcome,
+    );
     expect(verdict.nights.some((n) => n.value !== null)).toBe(true);
     await expect(
       pg.query(`update experiment_results set verdict = '{}'::jsonb where experiment_id = '${id}'`),

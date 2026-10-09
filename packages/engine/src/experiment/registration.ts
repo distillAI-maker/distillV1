@@ -4,10 +4,19 @@ import { createSchedule } from './schedule.js';
 import type {
   BaselinePlan,
   BehaviorRule,
+  DecisionLock,
   PreRegistration,
   ScheduleConfig,
   TestPolicy,
 } from './types.js';
+import { estimateRho } from '../stats/estimate.js';
+import {
+  assertDecisionPolicy,
+  estimateV2,
+  expectedDirection,
+  literaturePrior,
+} from '../stats/policy.js';
+import type { DecisionPolicy } from '../stats/policy.js';
 import {
   addDays,
   assertDate,
@@ -33,6 +42,10 @@ export interface StartExperimentInput {
   readonly offDefinition: string;
   readonly config?: ScheduleConfig;
   readonly complianceRule?: BehaviorRule;
+  /** Default is the estimate-based policy; 'legacy' keeps the exact randomization test. */
+  readonly decisionPolicy?: DecisionPolicy | 'legacy';
+  /** A gated item may start only when the person chose to run it anyway. */
+  readonly runAnyway?: boolean;
 }
 const carryoverItems = new Set(['alcohol-in-the-evening', 'thc-cannabis-for-sleep']);
 const observeOnlyItems = new Set([
@@ -84,8 +97,9 @@ export function startExperiment(
 ): PreRegistration {
   if (active.length) throw new Error('An experiment is already active');
   const item = input.candidate;
+  const gatedByChoice = item.tier === 'T3_TOO_SMALL' && item.canRunAnyway === true && input.runAnyway === true;
   if (
-    item.tier !== 'T1' ||
+    (item.tier !== 'T1' && !gatedByChoice) ||
     item.excluded ||
     item.needsAnswers?.length ||
     item.teamQuestions?.length ||
@@ -109,10 +123,46 @@ export function startExperiment(
   if (!['higher', 'lower'].includes(input.direction))
     throw new Error('Explicit metric direction required');
   if (input.complianceRule) validateBehaviorRule(input.complianceRule);
-  const config = {
-    ...input.config,
-    dropFirstNightOfBlock: input.config?.dropFirstNightOfBlock ?? carryoverItems.has(item.key),
-  };
+  const policy = input.decisionPolicy === 'legacy' ? null : (input.decisionPolicy ?? estimateV2);
+  if (policy) assertDecisionPolicy(policy);
+  const observe = item.onDays === 'observe';
+  // The estimate-based design runs to the last look; carryover is handled night by night.
+  const config: ScheduleConfig = policy
+    ? {
+        totalDays: policy.looks.at(-1)!,
+        minimumNightsPerSide: policy.minimumNightsPerSide,
+        dropFirstNightOfBlock: false,
+        balancedPrefixDays: [policy.looks[0]!],
+      }
+    : {
+        ...input.config,
+        dropFirstNightOfBlock: input.config?.dropFirstNightOfBlock ?? carryoverItems.has(item.key),
+      };
+  const schedule = createSchedule(nextMonday(today), input.seed, observe, config);
+  let decision: DecisionLock | undefined;
+  if (policy) {
+    const logScale = metricFields[item.metric ?? ''] === 'overnightHrvMs';
+    const transformed = baseline.swing.sampleValues.map((value) =>
+      logScale ? Math.log(value) : value,
+    );
+    const rho = estimateRho(
+      baseline.swing.sampleDates.map((date, i) => ({ date, value: transformed[i]! })),
+      { defaultRho: policy.defaultRho, priorWeight: policy.rhoPriorWeight, max: policy.rhoMax },
+    );
+    const basis = {
+      expectedEffect: item.adjustedExpectedEffect ?? null,
+      evidenceGrade: item.evidenceGrade ?? null,
+      expected: expectedDirection(item.directionText),
+    };
+    decision = {
+      policy,
+      prior: { ...literaturePrior(policy, basis), basis },
+      rho,
+      looks: policy.looks.map((day) => schedule.days[day - 1]!.sleepDate),
+      plannedDays: policy.looks[0]!,
+      carryover: carryoverItems.has(item.key),
+    };
+  }
   const record: PreRegistration = {
     version: 1,
     experimentId: input.experimentId,
@@ -133,11 +183,38 @@ export function startExperiment(
     channel: baseline.channel,
     baseline,
     personalSwing: baseline.swing,
-    schedule: createSchedule(nextMonday(today), input.seed, item.onDays === 'observe', config),
+    schedule,
     complianceRule: input.complianceRule ?? null,
+    ...(decision ? { decision } : {}),
   };
   assertPreRegistration(record);
   return immutable(record);
+}
+export function assertDecisionLock(record: PreRegistration): void {
+  const lock = record.decision;
+  if (!lock) return;
+  assertDecisionPolicy(lock.policy);
+  const grade = lock.prior.basis.evidenceGrade;
+  if (
+    !Number.isFinite(lock.prior.mean) ||
+    !(lock.prior.sd > 0) ||
+    !['helps', 'hurts', 'unknown'].includes(lock.prior.basis.expected) ||
+    (grade !== null && !['A', 'B', 'C', 'D', 'N'].includes(grade)) ||
+    (lock.prior.basis.expectedEffect !== null && !Number.isFinite(lock.prior.basis.expectedEffect)) ||
+    !sameJson(lock.prior, { ...literaturePrior(lock.policy, lock.prior.basis), basis: lock.prior.basis }) ||
+    !(lock.rho.value >= 0 && lock.rho.value <= lock.policy.rhoMax) ||
+    !['estimated', 'default'].includes(lock.rho.basis) ||
+    !Number.isInteger(lock.rho.pairs) ||
+    lock.looks.length !== lock.policy.looks.length ||
+    lock.looks.some((date, i) => date !== record.schedule.days[lock.policy.looks[i]! - 1]?.sleepDate) ||
+    lock.plannedDays !== lock.policy.looks[0] ||
+    record.schedule.totalDays !== lock.policy.looks.at(-1) ||
+    record.schedule.dropFirstNightOfBlock ||
+    !sameJson(record.schedule.balancedPrefixDays, [lock.policy.looks[0]]) ||
+    typeof lock.carryover !== 'boolean' ||
+    lock.carryover !== carryoverItems.has(record.itemKey)
+  )
+    throw new Error('Invalid decision lock');
 }
 /** Revalidate persisted JSON and its reproducible schedule before trusting it. */
 export function assertPreRegistration(record: PreRegistration): void {
@@ -219,6 +296,7 @@ export function assertPreRegistration(record: PreRegistration): void {
       blockLengths: record.schedule.blockLengths,
       dropFirstNightOfBlock: record.schedule.dropFirstNightOfBlock,
       minimumNightsPerSide: record.schedule.minimumNightsPerSide,
+      balancedPrefixDays: record.schedule.balancedPrefixDays,
     },
   );
   if (!sameJson(schedule, record.schedule))
@@ -231,6 +309,7 @@ export function assertPreRegistration(record: PreRegistration): void {
   if (observeOnlyItems.has(record.itemKey) && record.schedule.design !== 'observational')
     throw new Error('Observe-only item cannot have assigned on-days');
   if (record.complianceRule) validateBehaviorRule(record.complianceRule);
+  assertDecisionLock(record);
 }
 /** A switch closes the old test and creates a new record; it never changes the old metric/schedule. */
 export function switchExperiment(current: PreRegistration, input: StartExperimentInput) {
