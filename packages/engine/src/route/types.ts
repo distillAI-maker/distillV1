@@ -11,14 +11,13 @@ export interface InventoryItem {
 }
 export interface StackAnswers extends Omit<RuleAnswers, 'goal' | 'inventoryKeys'> {
   readonly goal?: string;
+  /** The person's goals in order; used for items that were not asked a goal of their own. */
+  readonly goals?: readonly string[];
   readonly dataSource?: boolean;
   readonly usesLast30Days?: number;
-  readonly ownsEquivalentHeatOrCold?: boolean;
   readonly caffeineWithinHourOfCoffee?: boolean;
   readonly multiContainsStudiedDose?: boolean;
-  readonly sameNightExfoliation?: boolean;
   readonly hydrationRoutineDuplicates?: boolean;
-  readonly eyeCreamHasAdditionalActive?: boolean;
 }
 export type AnswersById = Readonly<Record<string, Readonly<StackAnswers>>>;
 export interface RoutingOptions {
@@ -55,6 +54,7 @@ export interface RoutedItem {
   readonly adjustedExpectedEffect?: number | null;
   readonly metric?: string;
   readonly directionText?: string | null;
+  readonly evidenceGrade?: 'A' | 'B' | 'C' | 'D' | 'N' | null;
   readonly canRunAnyway?: boolean;
   readonly dailyRating?: string;
   readonly needsAnswers?: readonly string[];

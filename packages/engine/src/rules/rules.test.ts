@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { needsItemRule, readCatalog } from '../../../catalog/src/ingest.js';
 import { evaluateItemRule, itemRules, type RuleAnswers, type RuleOutcome } from './index.js';
+import { resolvedFromGoalNotes } from '../route/source-conflicts.js';
 import type { Item } from '@distill/catalog';
 
 const catalog = readCatalog(
@@ -50,7 +51,123 @@ const floors: readonly [
   ['saffron', 30, 'mg', 'T3'],
   ['berberine', 1000, 'mg', 'T3', { onMedication: false, diabetes: false, prediabetes: false }],
 ];
+const DROP_UNUSED = UNUSED;
 const cases = {
+  // ---- rows resolved from the goal-notes column (OPEN_QUESTIONS: COLUMN_CONFLICTS, 2026-10-08) ----
+  zma: [
+    [{ goal: 'testosterone' }, { tier: 'T2', reason: 'tested, found nothing' }],
+    [{ goal: 'sleep' }, SMALL],
+    [{ goal: 'energy' }, T3],
+    [{}, { needsAnswers: ['goal'] }],
+  ],
+  'flaxseed-oil-as-omega-3': [
+    [{ goal: 'energy' }, { tier: 'T2', reason: 'form not absorbed' }],
+    [{ goal: 'general health' }, T3],
+  ],
+  coq10: [
+    [{ onStatin: true }, KEEP],
+    [{ onStatin: false }, T3],
+    [{}, { needsAnswers: ['onStatin'] }],
+  ],
+  'digestive-enzymes': [
+    [{ lactoseIntolerant: true, form: 'lactase' }, KEEP],
+    [{ lactoseIntolerant: true }, { needsAnswers: ['form'] }],
+    [{ lactoseIntolerant: false }, { tier: 'T3', dailyRating: 'gut' }],
+    [{}, { needsAnswers: ['lactoseIntolerant'] }],
+  ],
+  'apple-cider-vinegar': [
+    [{ goal: 'fat loss' }, { tier: 'T2', reason: 'tested, found nothing' }],
+    [{ goal: 'gut' }, { tier: 'T3', safetyNoteRequired: true }],
+    [{}, { needsAnswers: ['goal'] }],
+  ],
+  'grounding-earthing-sheets-mats': [
+    [{ form: 'sheets or mat' }, { tier: 'T2', reason: 'no way it could work' }],
+    [{ form: 'barefoot walking' }, KEEP],
+    [{}, { needsAnswers: ['form'] }],
+  ],
+  'premium-gym-membership-equinox-life-time': [
+    [{ visitsLast30Days: 11 }, KEEP],
+    [{ visitsLast30Days: 5 }, { tier: 'T3', notes: ['COST_PER_VISIT'] }],
+    [{ visitsLast30Days: 2 }, { needsAnswers: ['visitsPrevious30Days'] }],
+    [{ visitsLast30Days: 2, visitsPrevious30Days: 3 }, DROP_UNUSED],
+    [{ visitsLast30Days: 2, visitsPrevious30Days: 9 }, { tier: 'T3', notes: ['COST_PER_VISIT'] }],
+    [{}, { needsAnswers: ['visitsLast30Days'] }],
+  ],
+  'boutique-class-membership-barry-s-soulcycle-f45-orangetheory': [
+    [{ visitsLast30Days: 8 }, KEEP],
+    [{ visitsLast30Days: 2, visitsPrevious30Days: 2 }, DROP_UNUSED],
+  ],
+  'class-pack-or-studio-credits': [
+    [{ daysSinceLastUse: 61 }, DROP_UNUSED],
+    [{ daysSinceLastUse: 60 }, KEEP],
+    [{ lastUsed: 'this month' }, { needsAnswers: ['daysSinceLastUse'] }],
+  ],
+  'fitness-app-subscription-peloton-app-apple-fitness-ladder': [
+    [{ stillPaying: true, daysSinceLastUse: 45 }, DROP_UNUSED],
+    [{ stillPaying: true, lastUsed: 'this week' }, KEEP],
+    [{ stillPaying: false }, KEEP],
+    [{}, { needsAnswers: ['stillPaying', 'daysSinceLastUse'] }],
+  ],
+  'recovery-studio-membership-restore-remedy-place-othership': [
+    [{ visitsLast30Days: 1 }, DROP_UNUSED],
+    [{ visitsLast30Days: 4, ownsEquivalentHeatOrCold: true }, { tier: 'T2', reason: 'overlaps with something else' }],
+    [{ visitsLast30Days: 4, ownsEquivalentHeatOrCold: false }, { tier: 'T1', expectedEffect: 0.9, metric: 'Overnight HRV' }],
+    [{ visitsLast30Days: 4 }, { needsAnswers: ['ownsEquivalentHeatOrCold'] }],
+    [{}, { needsAnswers: ['visitsLast30Days'] }],
+  ],
+  'massage-membership-massage-envy-squeeze': [
+    [{ bankedCredits: 3, daysSinceLastUse: 70 }, DROP_UNUSED],
+    [{ bankedCredits: 3, daysSinceLastUse: 20 }, T3],
+    [{ bankedCredits: 0 }, T3],
+    [{ bankedCredits: 3 }, { needsAnswers: ['daysSinceLastUse'] }],
+    [{}, { needsAnswers: ['bankedCredits'] }],
+  ],
+  'meal-delivery-or-meal-prep-service': [
+    [{ stillPaying: true, mealsSkippedMostWeeks: true }, DROP_UNUSED],
+    [{ stillPaying: true, mealsSkippedMostWeeks: false }, KEEP],
+    [{}, { needsAnswers: ['stillPaying', 'mealsSkippedMostWeeks'] }],
+  ],
+  'nutrition-or-calorie-app-premium': [
+    [{ stillPaying: true, daysSinceLastUse: 40 }, DROP_UNUSED],
+    [{ stillPaying: true, daysSinceLastUse: 3 }, T3],
+  ],
+  'collagen-drinks-and-beauty-gummies': [
+    [{ dose: 2, doseUnit: 'g' }, { tier: 'T2', reason: 'dose too low' }],
+    [{ dose: 10, doseUnit: 'g' }, { tier: 'T3', dailyRating: 'skin' }],
+  ],
+  'vitamin-c-serum': [
+    [{ productOxidised: true }, { tier: 'T2', reason: 'form not absorbed' }],
+    [{ form: 'unknown' }, { tier: 'T2', reason: 'form not absorbed' }],
+    [{ form: 'L-ascorbic acid 10 to 20% in opaque packaging', productOxidised: false }, { tier: 'T3', dailyRating: 'skin' }],
+    [{ form: 'L-ascorbic acid 10 to 20% in opaque packaging' }, { needsAnswers: ['productOxidised'] }],
+    [{}, { needsAnswers: ['form'] }],
+  ],
+  'eye-cream-when-you-already-use-a-moisturiser': [
+    [{ eyeCreamHasAdditionalActive: false }, { tier: 'T2', reason: 'overlaps with something else' }],
+    [{ eyeCreamHasAdditionalActive: true }, { tier: 'T3', dailyRating: 'skin' }],
+    [{}, { needsAnswers: ['eyeCreamHasAdditionalActive'] }],
+  ],
+  'retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights': [
+    [{ sameNightExfoliation: true }, { tier: 'T2', reason: 'overlaps with something else' }],
+    [{ sameNightExfoliation: false }, T3],
+    [{}, { needsAnswers: ['sameNightExfoliation'] }],
+  ],
+  'facial-plus-at-home-led-plus-microcurrent-all-three': [
+    [{ daysSinceLastUse: 31 }, DROP_UNUSED],
+    [{ daysSinceLastUse: 5 }, { tier: 'T3', notes: ['PICK_ONE'] }],
+  ],
+  'microcurrent-device-nuface': [
+    [{ daysSinceLastUse: 31 }, DROP_UNUSED],
+    [{ daysSinceLastUse: 5 }, { tier: 'T3', dailyRating: 'skin' }],
+  ],
+  'unlisted-device-you-haven-t-used-in-30-days': [
+    [{ lastUsed: 'longer' }, DROP_UNUSED],
+    [{ lastUsed: 'this week' }, T3],
+  ],
+  'unlisted-subscription-you-re-still-paying-for': [
+    [{ stillPaying: true, lastUsed: 'cannot remember' }, DROP_UNUSED],
+    [{ stillPaying: false }, T3],
+  ],
   'magnesium-any-form': [
     [
       { form: 'oxide', dose: 400, doseUnit: 'mg elemental' },
@@ -520,10 +637,12 @@ const cases = {
 
 describe('source rule coverage', () => {
   it('has exactly one typed function per nontrivial rule sentence, and tests for every function', () => {
-    const required = catalog.items
-      .filter(needsItemRule)
-      .map((i) => i.key)
-      .sort();
+    const required = [
+      ...new Set([
+        ...catalog.items.filter(needsItemRule).map((i) => i.key),
+        ...resolvedFromGoalNotes,
+      ]),
+    ].sort();
     expect(Object.keys(itemRules).sort()).toEqual(required);
     expect([...new Set([...Object.keys(cases), ...floors.map(([key]) => key)])].sort()).toEqual(
       required,

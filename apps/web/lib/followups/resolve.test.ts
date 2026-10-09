@@ -183,7 +183,7 @@ describe('the demo stack', () => {
     expect(stack).toHaveLength(21);
     expect(stack.reduce((t, s) => t + s.monthlyCost, 0)).toBe(1428);
   });
-  it('shows every prefilled answer once as a confirmation, twelve in all', () => {
+  it('shows every prefilled answer once as a confirmation, twenty-four in all', () => {
     const seen = new Set<string>();
     const order: string[] = [];
     let live = pairs;
@@ -202,12 +202,24 @@ describe('the demo stack', () => {
     }
     // Magnesium's goal is never asked: at 120 mg the rule settles on "dose too low" first.
     expect(order).toEqual([
+      'premium-gym-membership-equinox-life-time:range',
+      'boutique-class-membership-barry-s-soulcycle-f45-orangetheory:range',
+      'boutique-class-membership-barry-s-soulcycle-f45-orangetheory:range',
+      'recovery-studio-membership-restore-remedy-place-othership:range',
+      'massage-membership-massage-envy-squeeze:number',
+      'massage-membership-massage-envy-squeeze:range',
+      'massage-membership-massage-envy-squeeze:exact',
       'meditation-app-calm-headspace:bool',
       'meditation-app-calm-headspace:range',
       'meditation-app-calm-headspace:exact',
+      'fitness-app-subscription-peloton-app-apple-fitness-ladder:bool',
+      'fitness-app-subscription-peloton-app-apple-fitness-ladder:range',
       'magnesium-any-form:form',
       'magnesium-any-form:dose',
+      'collagen-drinks-and-beauty-gummies:dose',
       'omega-3-fish-oil:dose',
+      'vitamin-c-serum:form',
+      'eye-cream-when-you-already-use-a-moisturiser:bool',
       'facials-monthly:bool',
       'facials-monthly:range',
       'coffee-after-2pm:time',
@@ -231,7 +243,7 @@ describe('the demo stack', () => {
     expect(land('late-dinner-within-2-3-h-of-bed')).toMatchObject({ tier: 'T1', expectedEffect: 0.8 });
     expect(land('facials-monthly')).toMatchObject({ tier: 'T3' });
   });
-  it('asks the demo person about twelve things when the answers are cleared', () => {
+  it('asks the demo person about two dozen things when the answers are cleared', () => {
     let count = 0;
     for (const p of pairs) {
       let stored: Stored = { origin: p.stack.origin, answers: {}, chips: {}, unknown: [], readFrom: p.stack.readFrom };
@@ -242,7 +254,9 @@ describe('the demo stack', () => {
         stored = answer(stored, q);
       }
     }
-    expect(count).toBeGreaterThanOrEqual(10);
-    expect(count).toBeLessThanOrEqual(16);
+    // Routing on answers costs questions: memberships need visits, apps need last use, serums need
+    // a form. Grouping the membership questions onto one screen is logged in OPEN_QUESTIONS.
+    expect(count).toBeGreaterThanOrEqual(20);
+    expect(count).toBeLessThanOrEqual(28);
   });
 });

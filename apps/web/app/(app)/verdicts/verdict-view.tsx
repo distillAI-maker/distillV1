@@ -88,7 +88,7 @@ export function VerdictView({
         <h1 className="big">
           {verdict.change === null
             ? 'Not enough measurements'
-            : `${sign}${Math.abs(verdict.change)} ${verdict.unit}`}
+            : `${sign}${copy.verdict.unit(Math.abs(verdict.change), verdict.changeUnit ?? verdict.unit)}`}
           <small>{copy.verdict.numberLine(lowerFirst(verdict.metric))}</small>
         </h1>
         <dl>
@@ -102,10 +102,24 @@ export function VerdictView({
           <dd>{copy.verdict.of(counted, verdict.nights.length)}</dd>
         </dl>
         <p className="word">{verdict.word}</p>
+        {verdict.outcome && copy.verdict.outcome[verdict.outcome] ? (
+          <p className="lede">{copy.verdict.outcome[verdict.outcome]}</p>
+        ) : null}
+        {verdict.outcome === 'helps' && typeof verdict.chanceHelps === 'number' ? (
+          <p className="muted">{copy.verdict.chance(verdict.chanceHelps)}</p>
+        ) : null}
+        {verdict.likelyRange && verdict.outcome !== 'no_detectable_benefit' ? (
+          <p className="muted">
+            {copy.verdict.likelyRange(
+              `${verdict.likelyRange.lower} ${verdict.likelyRange.unit}`,
+              `${verdict.likelyRange.upper} ${verdict.likelyRange.unit}`,
+            )}
+          </p>
+        ) : null}
         {verdict.synthetic ? (
           <p className="notice">Calculated from synthetic demo measurements.</p>
         ) : null}
-        {verdict.reasons?.length ? (
+        {verdict.reasons?.length && !verdict.outcome ? (
           <p className="muted">{verdict.reasons.map((r) => r.replaceAll('_', ' ')).join('; ')}.</p>
         ) : null}
         <p className="say">{verdict.text}</p>

@@ -1,6 +1,8 @@
 import type { CheckIn, HistoricalNight, PreRegistration, TestPolicy } from '../experiment/types.js';
 import type { BootstrapInterval } from './bootstrap.js';
 import type { RandomizationResult } from './randomization.js';
+import type { EffectEstimateV2 } from './estimate.js';
+import type { Outcome } from './policy.js';
 
 export type Verdict = 'Kept' | 'Dropped' | 'Inconclusive';
 export type InconclusiveReason =
@@ -15,7 +17,11 @@ export type InconclusiveReason =
   | 'opposite_direction_not_tested'
   | 'effect_direction_disagreement'
   | 'no_difference'
-  | 'not_significant';
+  | 'not_significant'
+  | 'in_progress'
+  | 'too_close_extend'
+  | 'too_close_final'
+  | 'not_enough_nights';
 export type ExclusionReason =
   'not_yet_observed' | 'carryover' | 'flagged' | 'unknown_exposure' | 'measurement_unavailable';
 export interface AnalysisInput {
@@ -72,6 +78,18 @@ export interface AnalysisResult {
   /** Internal diagnostics, never serialized directly into a result card. */
   readonly randomization: RandomizationResult | null;
   readonly interval: BootstrapInterval | null;
+  /** Estimate-based decision (policy estimate_v2); null for legacy registrations. */
+  readonly estimate: EffectEstimateV2 | null;
+  readonly outcome: Outcome | null;
+  readonly leans?: 'help' | 'harm';
+  readonly look: {
+    readonly index: number | null;
+    readonly date: string | null;
+    readonly next: string | null;
+    readonly complete: boolean;
+  } | null;
+  /** Share of usable nights whose actual exposure differed from the assignment. */
+  readonly deviationShare: number | null;
   readonly validation: 'simulation_evidence_available';
   readonly limitations: readonly string[];
 }

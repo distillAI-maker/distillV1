@@ -195,7 +195,25 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
             {exp.instruction.on} / {exp.instruction.off}
           </p>
         ) : null}
-        {allTapped ? (
+        {exp.decision?.status === 'extend' && (allTapped || tappedToday) ? (
+          <div className="stack-tight">
+            <p>{copy.today.noted}</p>
+            <h2 style={{ fontSize: 22 }}>{copy.today.extendTitle}</h2>
+            <p className="muted">{copy.today.extendLine(exp.decision.nextLook ? (exp.maxDays ?? exp.days) : exp.days)}</p>
+            {!exp.through && exp.synthetic ? (
+              <div className="actions-row">
+                <Button
+                  variant="ghost"
+                  onClick={() =>
+                    update((p) => ({ ...p, demoSkipDays: Math.min(2, (p.demoSkipDays ?? 0) + 1) }))
+                  }
+                >
+                  {copy.today.skipWeek}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        ) : allTapped ? (
           <div className="stack-tight">
             <p>{copy.today.noted}</p>
             <h2 style={{ fontSize: 22 }}>{copy.today.verdictReady}</h2>
@@ -236,6 +254,11 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
       <p className="muted" style={{ fontSize: 14 }}>
         {copy.today.watching(exp.metric.toLowerCase())}
       </p>
+      {exp.decision?.status === 'in_progress' && exp.decision.nextLook ? (
+        <p className="muted" style={{ fontSize: 14 }}>
+          {copy.today.firstReadLine(exp.decision.nextLook)}
+        </p>
+      ) : null}
       {lastNight ? (
         <div className="stack-tight">
           {own[lastNight.date]?.excluded ? (
@@ -306,7 +329,7 @@ export function Today({ loadTemplates }: { loadTemplates?: Parameters<typeof use
       ) : null}
       {progress.dataSource === 'demo' && !exp.through ? (
         <p className="notice" style={{ fontSize: 14 }}>
-          {copy.today.demoNote}
+          {copy.today.demoNote(exp.days)}
         </p>
       ) : null}
     </section>

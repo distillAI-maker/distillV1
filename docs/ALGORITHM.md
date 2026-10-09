@@ -1,5 +1,7 @@
 # Routing, experiment and statistics algorithms (Phases 3–5)
 
+> **Superseded for verdicts (2026-10-08).** New experiments decide with the estimate-based policy in [ALGORITHM-IDENTITY.md](ALGORITHM-IDENTITY.md), measured in [DECISION-POWER.md](DECISION-POWER.md). The exact randomization test below still runs for experiments registered before that date. The routing sections remain current, with the order changes listed under "Algorithm identity" in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
+
 This document covers day-one stack routing, experiments, statistical analysis and the Phase 6 findings. [POWER.md](POWER.md) contains conditional simulation evidence. The 0.8 threshold remains a candidate-priority rule; it cannot promise a two-week result.
 
 ## Contract

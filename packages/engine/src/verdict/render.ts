@@ -99,6 +99,93 @@ function directionalChange(result: AnalysisResult) {
     ? 'no measured change'
     : `${formatChange(value, experimentResultCard(result).unit)} ${value > 0 ? 'higher' : 'lower'}`;
 }
+/** "about 9 in 10", from a probability; never more precise than tenths. */
+function chanceText(probability: number): string {
+  const tenths = Math.max(1, Math.min(10, Math.round(probability * 10)));
+  return tenths >= 10 ? 'Better than 19 in 20' : `About ${tenths} in 10`;
+}
+/** Sentences for the estimate-based policy (docs/ALGORITHM-IDENTITY.md). Every line is tone-checked. */
+function renderEstimateVerdict(result: AnalysisResult, context: VerdictContext): VerdictText {
+  const outcome = result.outcome!;
+  const card = experimentResultCard(result);
+  const subject = label(context.subject === 'item' ? context.itemName : result.onDefinition);
+  const number = metricLabel(result.metricName);
+  const swing = card.swing ? formatMeasurement(card.swing.value, card.swing.unit) : null;
+  // The change is read in the swing's own unit: percent for HRV, the metric's unit otherwise.
+  const change = result.effect
+    ? card.percentChange !== null
+      ? formatChange(card.percentChange, 'percent')
+      : formatChange(result.effect.difference, card.unit)
+    : null;
+  const beneficial =
+    result.effect &&
+    (result.direction === 'higher'
+      ? result.effect.transformedDifference > 0
+      : result.effect.transformedDifference < 0);
+  const nights = result.validNights.on + result.validNights.off;
+  const monthly = cost(context.monthlyCost);
+  const paid = context.dropsCharge === true && context.subject === 'item' && (context.monthlyCost ?? 0) > 0;
+  const observed = result.design === 'observational';
+  const onNights = observed ? 'on the nights it happened' : 'on the nights you did it';
+  const compared = observed ? ' than on the other nights' : '';
+  const caveat = observed ? ' Those nights were not assigned, so other things may differ too.' : '';
+  const use =
+    context.monthsUsed === undefined
+      ? ''
+      : ` ${formatCount(context.monthsUsed)} months in${sourceClause(context.source)}.`;
+  const bill = monthly === undefined || context.monthlyCost === 0 ? '' : ` It costs ${monthly} a month.`;
+  const text = (line: string, id: TemplateId | null) => contextual(line, id, result.unverified);
+  if (outcome === 'in_progress')
+    return text(
+      `${subject}: this test is still in progress. The first read comes on ${result.look?.next ?? 'the next look'}.`,
+      'inconclusive',
+    );
+  if (outcome === 'not_enough_nights')
+    return text(
+      `${subject}: too few usable nights on one side to compare fairly (${result.validNights.on} on, ${result.validNights.off} off). ${result.look?.complete ? 'No verdict. Your call whether it stays.' : 'No verdict yet. Keep tapping and the comparison fills in.'}`,
+      'inconclusive',
+    );
+  if (!change || !swing || !result.estimate)
+    return blocked('needs_review', 'ESTIMATE_RESULT_MISSING_EVIDENCE', result.unverified);
+  const chance = result.estimate.probabilities;
+  if (outcome === 'helps') {
+    if (!beneficial) return blocked('needs_review', 'VERDICT_DIRECTION_MISMATCH', result.unverified);
+    return text(
+      `${subject}: ${number} was ${change} better ${onNights}${compared}, against your normal swing of ${swing}.${caveat} ${chanceText(chance.helps)} that it helps. That's real, and it's yours. Kept.`,
+      'kept',
+    );
+  }
+  if (outcome === 'costs_you') {
+    if (beneficial) return blocked('needs_review', 'VERDICT_DIRECTION_MISMATCH', result.unverified);
+    const close = paid
+      ? ` Dropped, and ${monthly} a month back.`
+      : ' Dropped. Your call whether the usual routine stays.';
+    return text(
+      `${subject}: ${number} was ${change} worse ${onNights}${compared}, against your normal swing of ${swing}.${caveat}${use} ${chanceText(chance.hurts)} that it costs you.${close}`,
+      'dropped',
+    );
+  }
+  const direction = result.effect!.difference === 0 ? 'no change' : `${change} ${result.effect!.difference > 0 ? 'higher' : 'lower'}`;
+  if (outcome === 'no_detectable_benefit') {
+    const lean = result.leans === 'harm' ? ' If anything, the nights leaned the other way.' : '';
+    const close = paid
+      ? ` It does nothing we can see, and it costs ${monthly} a month. Dropped.`
+      : ' It does nothing we can see. It costs nothing, so keep it if you like it; it just comes off the list of things that work.';
+    return text(
+      `${subject}: ${direction} on ${number} across ${nights} nights, against your normal swing of ${swing}. We looked for a benefit and could not find one.${lean}${close}`,
+      'dropped',
+    );
+  }
+  if (outcome === 'too_close_extend')
+    return text(
+      `${subject}: ${direction} on ${number} so far, close to your normal swing of ${swing}. Too close to call yet. One more week settles it, and the daily line carries on.`,
+      'inconclusive',
+    );
+  return text(
+    `${subject}: ${direction} on ${number} after ${nights} nights, against your normal swing of ${swing}. Too close to call, and we won't pretend otherwise. Your call whether it stays.${bill}`,
+    'inconclusive',
+  );
+}
 export function renderExperimentVerdict(
   result: AnalysisResult,
   context: VerdictContext,
@@ -106,6 +193,7 @@ export function renderExperimentVerdict(
   return attempt(result.unverified, () => {
     if (context.source === 'doctor' || context.source === 'blood test')
       return blocked('needs_review', 'PROTECTED_SOURCE', result.unverified);
+    if (result.outcome) return renderEstimateVerdict(result, context);
     const card = experimentResultCard(result),
       policy = context.copyPolicy ?? 'contextual';
     const subject = label(context.subject === 'item' ? context.itemName : result.onDefinition);

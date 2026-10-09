@@ -64,7 +64,9 @@ export function buildRoutedStack(
   progress: Pick<Progress, 'items' | 'goals' | 'dataSource' | 'prefilledFrom'>,
   items: Map<string, Item>,
 ): RoutedStack {
-  if (!usesDemoFixture(progress)) return buildEngineStack(progress, items);
+  // Every stack, the demo included, goes through the real engine (2026-10-08). The hand-routed
+  // table in demo/routing.ts is now only what the tests check the engine against.
+  return buildEngineStack(progress, items);
   const routed: RoutedItem[] = progress.items.map((s) => {
     const item = s.itemKey ? items.get(s.itemKey) : undefined;
     return {

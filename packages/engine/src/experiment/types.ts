@@ -1,4 +1,5 @@
 import type { NightRecord, ProviderId } from '@distill/providers';
+import type { DecisionPolicy } from '../stats/policy.js';
 
 export type MetricField =
   | 'totalSleepMinutes'
@@ -25,6 +26,8 @@ export interface ScheduleConfig {
   readonly blockLengths?: readonly number[];
   readonly dropFirstNightOfBlock?: boolean;
   readonly minimumNightsPerSide?: number;
+  /** Prefix lengths (in nights) that must also be balanced, e.g. [14] so the first read is 7 on, 7 off. */
+  readonly balancedPrefixDays?: readonly number[];
 }
 export interface ScheduledDay {
   /** Local date on which the instruction applies; measurements arrive the next morning. */
@@ -42,6 +45,7 @@ export interface Schedule {
   readonly blockLengths: readonly number[];
   readonly dropFirstNightOfBlock: boolean;
   readonly minimumNightsPerSide: number;
+  readonly balancedPrefixDays: readonly number[];
   readonly design: 'randomized' | 'observational';
   readonly assignmentIndex: number;
   readonly assignmentCount: number;
@@ -57,6 +61,25 @@ export interface SwingEstimate {
   readonly sampleValues?: readonly number[];
 }
 export type TestPolicy = 'benefit_only' | 'both_directions';
+/** Everything the estimate-based decision needs, locked before day one. */
+export interface DecisionLock {
+  readonly policy: DecisionPolicy;
+  readonly prior: {
+    readonly mean: number;
+    readonly sd: number;
+    readonly basis: {
+      readonly expectedEffect: number | null;
+      readonly evidenceGrade: 'A' | 'B' | 'C' | 'D' | 'N' | null;
+      readonly expected: 'helps' | 'hurts' | 'unknown';
+    };
+  };
+  readonly rho: { readonly value: number; readonly basis: 'estimated' | 'default'; readonly pairs: number };
+  /** Sleep dates at which the posterior is read, in order; the last is the end of the schedule. */
+  readonly looks: readonly string[];
+  readonly plannedDays: number;
+  /** Observed designs drop an off-night that follows an on-night when the item carries over. */
+  readonly carryover: boolean;
+}
 export interface BaselinePlan {
   readonly status: 'watching' | 'ready' | 'insufficient_data';
   readonly skipped: boolean;
@@ -91,6 +114,8 @@ export interface PreRegistration {
   readonly personalSwing: SwingEstimate;
   readonly schedule: Schedule;
   readonly complianceRule: BehaviorRule | null;
+  /** Absent on legacy registrations, which keep the exact randomization decision. */
+  readonly decision?: DecisionLock;
 }
 export interface CheckIn {
   readonly sleepDate: string;

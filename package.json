@@ -16,6 +16,7 @@
     "providers:worker": "tsx scripts/provider-worker.ts",
     "routing:golden": "tsx scripts/routing-golden.ts",
     "sim:power": "tsx scripts/sim-power.ts",
+    "sim:decide": "tsx scripts/sim-decide.ts",
     "sim:plot": "python scripts/plot-power.py",
     "sim:labels": "tsx scripts/power-labels.ts",
     "sim:check": "tsx scripts/sim-power.ts --check && tsx scripts/power-labels.ts --check",

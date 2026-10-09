@@ -31,7 +31,7 @@ describe('Follow-ups', () => {
     document.documentElement.dataset.motion = 'reduce';
   });
 
-  it('walks the demo person through twelve confirmations and lands on the number', async () => {
+  it('walks the demo person through two dozen confirmations and lands on the number', async () => {
     const store = new LocalProgressStore(memory());
     await store.save({
       ...emptyProgress(),
@@ -48,13 +48,15 @@ describe('Follow-ups', () => {
         <QuestionsFlow loadItems={loadItems} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Still paying for it?' })).toBeTruthy();
-    expect(screen.getByText('Meditation app (Calm, Headspace)')).toBeTruthy();
-    expect(screen.getByText(/Question 3 of/).textContent).toBe('Question 3 of 10');
-    expect(screen.getByRole('radio', { name: 'Yes' }).getAttribute('aria-checked')).toBe('true');
+    expect(
+      await screen.findByRole('heading', { name: 'How many times in the last 30 days?' }),
+    ).toBeTruthy();
+    expect(screen.getByText('Premium gym membership (Equinox, Life Time)')).toBeTruthy();
+    expect(screen.getByText(/Question 3 of/).textContent).toMatch(/^Question 3 of \d+$/);
+    expect(screen.getByRole('radio', { name: '8 or more' }).getAttribute('aria-checked')).toBe('true');
 
     const headings: string[] = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 24; i++) {
       const h = await screen.findByRole('heading', { level: 1 });
       headings.push(h.textContent ?? '');
       const cta = screen.queryByRole('button', { name: "That's right" }) ?? screen.getByRole('button', { name: 'Continue' });
@@ -64,12 +66,24 @@ describe('Follow-ups', () => {
       if (push.mock.calls.length) break;
     }
     expect(headings).toEqual([
+      'How many times in the last 30 days?',
+      'How many times in the last 30 days?',
+      'And the 30 days before that?',
+      'How many times in the last 30 days?',
+      'How many credits are banked?',
+      'When did you last use it?',
+      'About how many days ago?',
       'Still paying for it?',
       'When did you last use it?',
       'About how many days ago?',
+      'Still paying for it?',
+      'When did you last use it?',
       'Which form?',
       'How much a day?',
       'How much a day?',
+      'How much a day?',
+      'Which form?',
+      'Does the eye cream list an active your moisturiser does not, like retinol or caffeine?',
       'Still paying for it?',
       'When did you last use it?',
       'What time, usually?',
@@ -81,7 +95,7 @@ describe('Follow-ups', () => {
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.step).toBe('number');
-      expect(saved?.seenQuestions).toHaveLength(14);
+      expect(saved?.seenQuestions).toHaveLength(26);
     });
   });
 

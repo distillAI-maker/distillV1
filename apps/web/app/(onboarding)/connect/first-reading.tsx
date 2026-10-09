@@ -46,7 +46,13 @@ export function FirstReading() {
     const next: Progress = {
       ...progress,
       step: 'done',
-      dayOne: { ...dayOne, started: true, months: Number.isFinite(m as number) ? m : null },
+      // The first reading's item is written down, so the demo and the verdict stay on it.
+      dayOne: {
+        ...dayOne,
+        started: true,
+        months: Number.isFinite(m as number) ? m : null,
+        firstExperiment: dayOne.firstExperiment ?? first?.itemKey,
+      },
       items: progress.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
       updatedAt: new Date().toISOString(),
     };

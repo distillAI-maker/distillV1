@@ -19,7 +19,99 @@ import {
 
 // Hand-transcribed from Items!AG. No natural-language parsing at runtime.
 // TODO(team): resolve the documented boundary gaps and conflicting fields in OPEN_QUESTIONS.md.
+/** Visits per month: 8 or more is a keep; under 4 for two months running is a drop. */
+const gymVisits: ItemRule = (a) => {
+  if (a.visitsLast30Days === undefined) return missing('visitsLast30Days');
+  return twoMonthFloor(a, 4, a.visitsLast30Days >= 8 ? keep() : t3({ notes: ['COST_PER_VISIT'] }));
+};
 export const itemRules = {
+  // ---- Rows whose conditions lived in the goal-notes column (resolved 2026-10-08, see OPEN_QUESTIONS) ----
+  zma: (a) =>
+    a.goal === 'testosterone'
+      ? drop('tested, found nothing')
+      : a.goal === 'sleep'
+        ? small()
+        : a.goal
+          ? t3()
+          : missing('goal'),
+  'flaxseed-oil-as-omega-3': (a) =>
+    a.goal === 'general health' || a.goal === 'nothing specific'
+      ? t3({ notes: ['FINE_AS_A_FOOD'] })
+      : drop('form not absorbed'),
+  coq10: (a) =>
+    a.onStatin === true
+      ? keep()
+      : a.onStatin === undefined
+        ? missing('onStatin')
+        : t3({ notes: ['NOT_FOR_ENERGY_IN_HEALTHY_PEOPLE'] }),
+  'digestive-enzymes': (a) =>
+    a.lactoseIntolerant === undefined
+      ? missing('lactoseIntolerant')
+      : a.lactoseIntolerant && a.form === 'lactase'
+        ? keep()
+        : a.lactoseIntolerant && a.form === undefined
+          ? missing('form')
+          : t3({ dailyRating: 'gut', notes: ['THIN_EVIDENCE'] }),
+  'apple-cider-vinegar': (a) =>
+    a.goal === 'fat loss'
+      ? { ...drop('tested, found nothing'), safetyNoteRequired: true }
+      : a.goal
+        ? t3({ safetyNoteRequired: true })
+        : missing('goal'),
+  'grounding-earthing-sheets-mats': (a) =>
+    a.form === 'barefoot walking'
+      ? keep()
+      : a.form === undefined
+        ? missing('form')
+        : drop('no way it could work'),
+  'premium-gym-membership-equinox-life-time': gymVisits,
+  'boutique-class-membership-barry-s-soulcycle-f45-orangetheory': gymVisits,
+  'class-pack-or-studio-credits': (a) => usage(a, keep(), 60),
+  'fitness-app-subscription-peloton-app-apple-fitness-ladder': (a) => paidUsage(a, keep()),
+  'recovery-studio-membership-restore-remedy-place-othership': (a) => {
+    if (a.visitsLast30Days === undefined) return missing('visitsLast30Days');
+    if (a.visitsLast30Days < 3) return drop('not being used');
+    if (a.ownsEquivalentHeatOrCold === true) return drop('overlaps with something else');
+    if (a.ownsEquivalentHeatOrCold === undefined) return missing('ownsEquivalentHeatOrCold');
+    return t1(0.9, { metric: 'Overnight HRV', notes: ['TESTED_AS_SAUNA_AND_COLD'] });
+  },
+  'massage-membership-massage-envy-squeeze': (a) => {
+    if (a.bankedCredits === undefined) return missing('bankedCredits');
+    if (a.bankedCredits === 0) return t3({ notes: ['STRESS_RATING_OPTIONAL'] });
+    const old = unused(a, 60);
+    if (old === undefined) return missing('daysSinceLastUse');
+    return old ? drop('not being used') : t3({ notes: ['STRESS_RATING_OPTIONAL'] });
+  },
+  'meal-delivery-or-meal-prep-service': (a) =>
+    a.stillPaying === undefined || a.mealsSkippedMostWeeks === undefined
+      ? missing('stillPaying', 'mealsSkippedMostWeeks')
+      : a.stillPaying && a.mealsSkippedMostWeeks
+        ? drop('not being used')
+        : keep(),
+  'nutrition-or-calorie-app-premium': (a) => paidUsage(a, t3()),
+  'collagen-drinks-and-beauty-gummies': (a) => dose(a, 5, 'g', t3({ dailyRating: 'skin' })),
+  'vitamin-c-serum': (a) => {
+    if (a.productOxidised === true) return drop('form not absorbed');
+    if (a.form === undefined) return missing('form');
+    if (a.form !== 'L-ascorbic acid 10 to 20% in opaque packaging') return drop('form not absorbed');
+    return a.productOxidised === undefined ? missing('productOxidised') : t3({ dailyRating: 'skin' });
+  },
+  'eye-cream-when-you-already-use-a-moisturiser': (a) =>
+    a.eyeCreamHasAdditionalActive === undefined
+      ? missing('eyeCreamHasAdditionalActive')
+      : a.eyeCreamHasAdditionalActive
+        ? t3({ dailyRating: 'skin' })
+        : drop('overlaps with something else'),
+  'retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights': (a) =>
+    a.sameNightExfoliation === undefined
+      ? missing('sameNightExfoliation')
+      : a.sameNightExfoliation
+        ? drop('overlaps with something else')
+        : t3({ notes: ['ALTERNATE_NIGHTS'] }),
+  'facial-plus-at-home-led-plus-microcurrent-all-three': (a) => usage(a, t3({ notes: ['PICK_ONE'] })),
+  'microcurrent-device-nuface': (a) => usage(a, t3({ dailyRating: 'skin' })),
+  'unlisted-device-you-haven-t-used-in-30-days': (a) => usage(a, t3()),
+  'unlisted-subscription-you-re-still-paying-for': (a) => paidUsage(a, t3()),
   'magnesium-any-form': (a) => {
     if (['oxide', 'spray', 'spray or oil'].includes(a.form ?? '')) return drop('form not absorbed');
     if (!['glycinate', 'citrate', 'malate', 'threonate'].includes(a.form ?? ''))

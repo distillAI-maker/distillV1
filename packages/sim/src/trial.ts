@@ -112,6 +112,7 @@ export function runTrial(config: TrialConfig): TrialResult {
     seed: scheduleSeed,
     config: config.schedule,
     testPolicy: config.testPolicy ?? 'both_directions',
+    decisionPolicy: 'legacy',
   });
   const checkIns = schedule.days.map((day) => {
     const generated = person.days.find((entry) => entry.sleepDate === day.sleepDate)!;

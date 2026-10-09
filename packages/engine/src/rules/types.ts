@@ -91,6 +91,13 @@ export interface RuleAnswers {
   readonly subscriptionHasAdditionalTests?: boolean;
   readonly bothWearables?: boolean;
   readonly roomTemperatureC?: number;
+  readonly onStatin?: boolean;
+  readonly lactoseIntolerant?: boolean;
+  readonly productOxidised?: boolean;
+  readonly mealsSkippedMostWeeks?: boolean;
+  readonly ownsEquivalentHeatOrCold?: boolean;
+  readonly sameNightExfoliation?: boolean;
+  readonly eyeCreamHasAdditionalActive?: boolean;
   readonly inventoryKeys?: readonly string[];
 }
 
