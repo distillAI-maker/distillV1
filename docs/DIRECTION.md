@@ -30,10 +30,10 @@ The engine stays and decides what is said (routing, Rishabh's estimate-based pol
 
 ## Brand
 
-- **Anchor:** the Delphic maxims at the temple of Apollo: *Know thyself* and *Nothing in excess*. Self-knowledge and subtraction.
-- **Feel:** artistic, historical, culturally powerful (Greece, Rome), not cute. No mascot or avatar; the app speaks like a curator.
-- **Look:** gallery white (#ffffff) with the warm off-white (#f6f5f2) and gold (#b48c37, text #8a6a1f) as secondary, as on the new landing page. Switzer for everything; Roman inscriptional capitals (Cinzel) only for rare, big moments. Public-domain classical sculpture imagery (museum open access). Items as museum placards: name, cost, where it came from, status.
-- **Voice:** Stoic brevity. Short, calm, certain. One line where we used three. Second person, no exclamation marks, nothing that makes anyone feel behind.
+- **Positioning:** a retreat from optimization culture. Gyms and wellness brands sell the grind: hustle, metrics, more. Distill is the way out of it: drop the stress, the comparison and the feeling of not being good enough, and keep everything that makes you feel and look your best. Take your life back from the noise, still looking great.
+- **Feel:** artistic, editorial, calm, like a great hotel rather than a gym. Not cute: no mascot or avatar; the app speaks like a curator. Classical references (the Delphic maxims, sculpture) are a possible later layer, not used yet: on 9 October they read as coming out of nowhere.
+- **Look:** gallery white (#ffffff) with the warm off-white (#f6f5f2) and gold (#b48c37, text #8a6a1f) as secondary, as on the new landing page. Newsreader for titles (a quiet book serif), Switzer for everything else, spaced small caps for labels. Public-domain fine-art imagery (museum open access, CC0), such as calm landscapes. Items as museum placards: name, what it is, where it came from, status.
+- **Voice:** short, calm, certain. One line where we used three. Second person, no exclamation marks, nothing that makes anyone feel behind. Sign-off: "Less noise. More you."
 
 ## Open, for the team
 
