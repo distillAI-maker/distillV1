@@ -2423,7 +2423,7 @@ body[data-ground='dusk'] .foot {
 }
 .report-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 24px 0 0;
   padding-block: 18px;
   border-block: 1px solid var(--rule);

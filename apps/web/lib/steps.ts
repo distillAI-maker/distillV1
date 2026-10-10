@@ -1,12 +1,12 @@
-/** The onboarding steps, in order. The progress line counts exactly these. Arrival is '/'. */
+/**
+ * The onboarding steps, in order: intake and one moment (docs/DIRECTION.md). The questions, the
+ * sort and what can go happen in the app, over days, not here. Arrival is '/'.
+ */
 export const onboardingSteps = [
   'name',
   'stack',
   'life',
-  'questions',
   'number',
-  'sorted',
-  'ready',
   'invitation',
   'connect',
 ] as const;
@@ -22,11 +22,11 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
   return onboardingSteps[i + 1] ?? 'done';
 }
 
-/** Where a saved person picks up: the step they reached, or Today once onboarding is done. */
+/** Where a saved person picks up: the step they reached, or the app once onboarding is done. */
 export function resumePath(step: string): string {
   if (step === 'done') return '/today';
-  if (step === 'goals') return '/life';
-  // "Here's what we heard" and the old day-one screen are gone; both resume at the sort.
-  if (step === 'day-one' || step === 'heard') return '/sorted';
+  // Older saves from the longer flow: the questions resume at the number, the sort at the invitation.
+  if (step === 'goals' || step === 'questions') return step === 'goals' ? '/life' : '/number';
+  if (['heard', 'sorted', 'ready', 'day-one'].includes(step)) return '/invitation';
   return (onboardingSteps as readonly string[]).includes(step) ? `/${step}` : '/stack';
 }

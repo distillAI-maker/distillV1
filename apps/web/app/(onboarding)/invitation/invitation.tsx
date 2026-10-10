@@ -35,8 +35,6 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
       </section>
     );
 
-  const first = routed.queue[0];
-  const firstName = first ? routed.items.find((r) => r.itemKey === first.itemKey)?.name : undefined;
   const member = progress.member;
 
   async function join() {
@@ -80,15 +78,10 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
             <dd>{summary.count}</dd>
           </div>
           <div>
-            <dt>{copy.invitation.release}</dt>
-            <dd>{String(summary.dropsToday).padStart(2, '0')}</dd>
-          </div>
-          <div>
-            <dt>{copy.invitation.back}</dt>
-            <dd>${money(summary.monthlyBack)}</dd>
+            <dt>{copy.invitation.monthly}</dt>
+            <dd>${money(summary.monthlyTotal)}</dd>
           </div>
         </dl>
-        {firstName ? <p className="report-first">{copy.invitation.firstUp(firstName)}</p> : null}
         <p className="report-quote">“{copy.invitation.quote}”</p>
         <div className="report-manifesto">
           {copy.invitation.manifesto.map((m) => (

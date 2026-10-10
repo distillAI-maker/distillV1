@@ -8,7 +8,6 @@ import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
-import { FirstReading } from './first-reading';
 import { useProgress } from '../../../lib/progress/context';
 import type { DataSourceId } from '../../../lib/progress/types';
 
@@ -163,7 +162,29 @@ export function ConnectForm() {
         >
           <i style={{ '--w': `${pct}%` } as CSSProperties} />
         </div>
-        {done ? <FirstReading /> : null}
+        {done ? (
+          <div className="actions">
+            <Button
+              onClick={() => {
+                // Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time.
+                const next = {
+                  ...progress,
+                  step: 'done' as const,
+                  updatedAt: new Date().toISOString(),
+                };
+                void saveNow(next)
+                  .catch(() => undefined)
+                  .finally(() => {
+                    update(next);
+                    router.push('/today');
+                  });
+              }}
+            >
+              {copy.connect.open}
+              <Icon name="arrow" size={18} />
+            </Button>
+          </div>
+        ) : null}
       </section>
     );
   }

@@ -68,7 +68,7 @@ export function LifeForm() {
         </div>
       </div>
       <div className="actions">
-        <Button onClick={() => go('questions')}>
+        <Button onClick={() => go('number')}>
           {copy.life.done}
           <Icon name="arrow" size={18} />
         </Button>

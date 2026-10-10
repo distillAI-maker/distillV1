@@ -72,6 +72,7 @@ export const copy = {
     backfillTitle: 'Reading your history.',
     backfillCount: (n: number) => `${n} nights so far`,
     backfillDone: 'Six months of nights, ready.',
+    open: 'Open your Standard',
     errorStart: "We couldn't start that connection. Try again, or use demo data for now.",
     errorFile: "We couldn't read that file. Pick the export.zip the Health app made.",
   },
@@ -192,9 +193,7 @@ export const copy = {
     line: 'We read your essentials against your own data to find your ideal stack.',
     reportTitle: 'Summary',
     essentials: 'Essentials',
-    release: 'Ready to release',
-    back: 'Back monthly',
-    firstUp: (name: string) => `First reading: ${name}.`,
+    monthly: 'A month',
     quote: 'Lighter, and more me.',
     manifesto: [
       'Fewer things.',

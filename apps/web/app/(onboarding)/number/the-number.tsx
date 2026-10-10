@@ -61,7 +61,7 @@ export function TheNumber() {
         <p className="reckon reckon-3">{copy.number.line}</p>
       </div>
       <div className="reckon reckon-4 actions">
-        <Button onClick={() => go('sorted')}>
+        <Button onClick={() => go('invitation')}>
           {copy.number.showMe}
           <Icon name="arrow" size={18} />
         </Button>

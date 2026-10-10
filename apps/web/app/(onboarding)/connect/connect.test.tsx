@@ -45,7 +45,7 @@ describe('Connect', () => {
     expect(await screen.findByText('Six months of nights, ready.')).toBeTruthy();
     expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('100');
     await act(async () => {
-      fireEvent.click(await screen.findByRole('button', { name: /Save and continue/ }));
+      fireEvent.click(await screen.findByRole('button', { name: /Open your Standard/ }));
     });
     expect(push).toHaveBeenCalledWith('/today');
     await waitFor(async () => {
@@ -53,7 +53,6 @@ describe('Connect', () => {
       expect(saved?.dataSource).toBe('demo');
       expect(saved?.backfill).toEqual({ nights: demoNights, done: true });
       expect(saved?.step).toBe('done');
-      expect(saved?.dayOne.started).toBe(true);
     });
   });
 

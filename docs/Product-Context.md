@@ -135,3 +135,7 @@ Distill is a thriving, supportive friend, not a coach and not a scold. The full 
 - **Product decisions still open:** where exactly the paywall sits (likely after the number, before connect), and whether the sort screen stays in the flow.
 - **Untested belief to check in interviews:** that people feel guilt or defensiveness when they see a bad score after a good night. Ask what they feel and what they do next.
 - **The test for the onboarding prototype:** show it to five real target users and ask whether they feel lighter or heavier afterwards.
+
+## Direction, 9 October 2026
+
+The founder reset the product story after the class review: Distill is a supportive companion that helps people know themselves and their stack, not an experiment app. Onboarding becomes intake plus the number; the analysis happens in the app, one gentle thing a day; tests and verdicts leave the person's view. The brand moves to a classical, gallery-white identity anchored on the Delphic maxims. Full text in [DIRECTION.md](DIRECTION.md); it supersedes the test-first and dark-identity parts above.
