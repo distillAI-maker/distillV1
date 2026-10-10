@@ -4,6 +4,7 @@ import { useEffect, useId, useMemo, useState } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Field, Skeleton } from '../../../components/ui';
+import { displayName, shortName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import { demoGoals, demoStack } from '../../../lib/data/demo/stack';
 import { useProgress } from '../../../lib/progress/context';
@@ -28,10 +29,24 @@ type Category = (typeof categoryOrder)[number];
 
 const protectedOrigins: Origin[] = ['doctor', 'blood test'];
 
-function catalogRow(entry: IndexEntry, position: number): StackItem {
+/**
+ * The brand as the person wrote it ("Equinox", "AG1"), when what they typed matched one of the
+ * item's names with a capital or a digit; plain words ("magnesium") use the short label instead.
+ */
+function typedLabel(text: string, entry: IndexEntry): string | undefined {
+  for (const alias of entry.aliases) {
+    const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const found = text.match(new RegExp(`\\b${escaped}\\b`, 'i'))?.[0];
+    if (found && found.length <= 40 && /^[A-Z0-9]/.test(found)) return found;
+  }
+  return undefined;
+}
+
+function catalogRow(entry: IndexEntry, position: number, label?: string): StackItem {
   return {
     id: newItemId(),
     itemKey: entry.key,
+    ...(label ? { label } : {}),
     monthlyCost: entry.cost,
     answers: {},
     chips: {},
@@ -80,13 +95,16 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     [notes, index, listed],
   );
 
-  function addCatalog(entries: IndexEntry[]) {
+  function addCatalog(entries: IndexEntry[], said = '') {
     const fresh = entries.filter((e) => !listed.has(e.key));
     if (!fresh.length) return;
     setNeedOne(false);
     update((p) => ({
       ...p,
-      items: [...p.items, ...fresh.map((e, i) => catalogRow(e, p.items.length + i))],
+      items: [
+        ...p.items,
+        ...fresh.map((e, i) => catalogRow(e, p.items.length + i, typedLabel(said, e))),
+      ],
     }));
   }
   function addCustom(name: string, cost: number) {
@@ -167,14 +185,14 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
         {heard.length ? (
           <ul className="heard-list" aria-label={copy.stack.listen.heard(heard.length)}>
             {heard.slice(0, 12).map((h) => (
-              <li key={h.key}>{h.name}</li>
+              <li key={h.key}>{typedLabel(notes, h) ?? shortName(h.key, h.name)}</li>
             ))}
           </ul>
         ) : null}
         <div className="actions">
           <Button
             onClick={() => {
-              addCatalog(heard);
+              addCatalog(heard, notes);
               setStage('edit');
             }}
           >
@@ -192,7 +210,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   }
 
   const nameOf = (i: StackItem) =>
-    i.itemKey ? (byKey.get(i.itemKey)?.name ?? i.itemKey) : (i.customName ?? '');
+    displayName(i, i.itemKey ? byKey.get(i.itemKey)?.name : undefined);
   const categoryOf = (i: StackItem): Category =>
     i.itemKey ? ((byKey.get(i.itemKey)?.category as Category) ?? 'custom') : 'custom';
   const groups = categoryOrder
@@ -253,7 +271,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
                           patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
                         }}
                       />
-                      <span className="unit">{copy.stack.costLabel}</span>
                     </span>
                     <button
                       type="button"

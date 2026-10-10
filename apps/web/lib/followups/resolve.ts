@@ -24,7 +24,7 @@ export interface Context {
 
 export type Stored = Pick<
   StackItem,
-  'origin' | 'answers' | 'chips' | 'unknown' | 'readFrom' | 'confirmedRead'
+  'origin' | 'answers' | 'chips' | 'unknown' | 'readFrom' | 'confirmedRead' | 'label'
 >;
 
 export type Question =
@@ -105,7 +105,8 @@ export function ruleAnswers(
   base.inventoryKeys = ctx.inventoryKeys;
   const spec = itemSpecs[item.key];
   for (const [k, v] of Object.entries(stored.answers))
-    if (v !== undefined && v !== null && k !== 'servingAmount' && k !== 'servingsPerDay') base[k] = v;
+    if (v !== undefined && v !== null && k !== 'servingAmount' && k !== 'servingsPerDay')
+      base[k] = v;
   if (base.dose !== undefined && base.doseUnit === undefined) {
     const unit = unitFor(spec, base.form);
     if (unit) base.doseUnit = unit;
@@ -187,7 +188,14 @@ export function nextQuestion(item: Item, stored: Stored, ctx: Context): Question
       const chip = stored.chips[chipField];
       if (stored.answers[field] !== undefined) continue;
       if (chip && needsExact.includes(field))
-        return { kind: 'exact', field, unit: fs.exactUnit, min: fs.exactMin, max: fs.exactMax, chip };
+        return {
+          kind: 'exact',
+          field,
+          unit: fs.exactUnit,
+          min: fs.exactMin,
+          max: fs.exactMax,
+          chip,
+        };
       if (!chip) return { kind: 'range', field: chipField, chips: fs.chips };
       continue;
     }
@@ -263,9 +271,21 @@ export interface Asked {
  * answers to move on. Stops at the first question not yet seen; that is the current one. A
  * prefilled answer (demo data, a wearable) is still shown once, as a confirmation.
  */
-export function replay(stackId: string, item: Item, stored: Stored, ctx: Context, seen: Set<string>): { asked: Asked[]; current: Asked | null } {
+export function replay(
+  stackId: string,
+  item: Item,
+  stored: Stored,
+  ctx: Context,
+  seen: Set<string>,
+): { asked: Asked[]; current: Asked | null } {
   const asked: Asked[] = [];
-  let cur: Stored = { origin: stored.origin, answers: {}, chips: {}, unknown: [], readFrom: stored.readFrom };
+  let cur: Stored = {
+    origin: stored.origin,
+    answers: {},
+    chips: {},
+    unknown: [],
+    readFrom: stored.readFrom,
+  };
   for (let n = 0; n < 24; n++) {
     const question = nextQuestion(item, cur, ctx);
     if (!question) break;

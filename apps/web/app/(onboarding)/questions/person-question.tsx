@@ -33,17 +33,15 @@ export function PersonQuestion({
         ))}
       </div>
       <h1>{title}</h1>
-      <div className="answers" role="group" aria-label={title}>
+      <div className="chips person-chips" role="group" aria-label={title}>
         {options.map((o) => (
           <Chip key={o.id} selected={selected.has(o.id)} onClick={() => onToggle(o.id)}>
-            <span>{o.name}</span>
-            <b aria-hidden="true">{selected.has(o.id) ? '✓' : ''}</b>
+            {o.name}
           </Chip>
         ))}
         {onNone ? (
           <Chip selected={selected.size === 0} onClick={onNone}>
-            <span>{copy.person.none}</span>
-            <b aria-hidden="true">{selected.size === 0 ? '✓' : ''}</b>
+            {copy.person.none}
           </Chip>
         ) : null}
       </div>

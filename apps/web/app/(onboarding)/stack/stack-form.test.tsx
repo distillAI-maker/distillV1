@@ -45,14 +45,12 @@ describe('Your stack', () => {
     const option = await screen.findByRole('option', { name: /Greens powder/ });
     expect(option).toBeTruthy();
     fireEvent.keyDown(box, { key: 'Enter' });
-    const row = (await screen.findByText('Greens powder (AG1 etc.)')).closest('li') as HTMLElement;
+    const row = (await screen.findByText('Greens powder')).closest('li') as HTMLElement;
     expect(row).toBeTruthy();
     // Where it came from is asked later, in the app; the list keeps only the cost.
     expect(within(row).queryByRole('button', { name: 'Where did this come from?' })).toBeNull();
 
-    const cost = within(row).getByLabelText(
-      'Monthly cost of Greens powder (AG1 etc.)',
-    ) as HTMLInputElement;
+    const cost = within(row).getByLabelText('Monthly cost of Greens powder') as HTMLInputElement;
     expect(cost.value).toBe('90');
     fireEvent.change(cost, { target: { value: '50' } });
     await waitFor(async () => expect((await store.load())?.items[0]?.monthlyCost).toBe(50));
@@ -63,8 +61,8 @@ describe('Your stack', () => {
     );
 
     fireEvent.keyDown(box, { key: 'Escape' });
-    fireEvent.click(within(row).getByRole('button', { name: 'Remove Greens powder (AG1 etc.)' }));
-    expect(screen.queryByText('Greens powder (AG1 etc.)')).toBeNull();
+    fireEvent.click(within(row).getByRole('button', { name: 'Remove Greens powder' }));
+    expect(screen.queryByText('Greens powder')).toBeNull();
 
     fireEvent.click(screen.getByRole('button', { name: /That's everything/ }));
     expect(screen.getByRole('alert').textContent).toBe('Add at least one thing to go on.');
@@ -72,7 +70,7 @@ describe('Your stack', () => {
 
     fireEvent.change(box, { target: { value: 'equinox' } });
     fireEvent.keyDown(box, { key: 'Enter' });
-    await screen.findByText('Premium gym membership (Equinox, Life Time)');
+    await screen.findByText('Premium gym');
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /That's everything/ }));
     });
@@ -98,8 +96,8 @@ describe('Your stack', () => {
     });
     expect(screen.getByText('We recognise 2 things so far.')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Find my essentials/ }));
-    expect(await screen.findByText('Greens powder (AG1 etc.)')).toBeTruthy();
-    expect(screen.getByText('Premium gym membership (Equinox, Life Time)')).toBeTruthy();
+    expect(await screen.findByText('AG1')).toBeTruthy();
+    expect(screen.getByText('Equinox')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /Add something not listed/ }));
     fireEvent.change(screen.getByLabelText('What is it?'), { target: { value: 'Oura ring' } });

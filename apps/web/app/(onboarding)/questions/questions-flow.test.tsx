@@ -14,9 +14,9 @@ vi.mock('next/navigation', () => ({ useRouter: () => router }));
 
 /** The three item questions the demo person sees: two by money at stake, then the habit most worth reading. */
 const DEMO_HEADINGS = [
-  'Premium gym membership: how many times in the last 30 days?',
-  'Recovery studio membership: how many times in the last 30 days?',
-  'Alcohol in the evening: how many nights a week, usually?',
+  'Equinox: how many times in the last 30 days?',
+  'Restore studio: how many times in the last 30 days?',
+  'Evening drinks: how many nights a week, usually?',
 ];
 
 const byKey = new Map(catalog.items.map((i) => [i.key, i]));
@@ -59,7 +59,7 @@ describe('Follow-ups', () => {
     // The item sits inside the question; no label above it and no "Question k of n".
     expect(
       await screen.findByRole('heading', {
-        name: 'Premium gym membership: how many times in the last 30 days?',
+        name: 'Equinox: how many times in the last 30 days?',
       }),
     ).toBeTruthy();
     expect(screen.queryByText(/Question \d+ of/)).toBeNull();
@@ -233,7 +233,7 @@ describe('Follow-ups', () => {
       await screen.findByRole('heading', { name: 'Did a doctor put you on any of these?' }),
     ).toBeTruthy();
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /Greens powder/ }));
+      fireEvent.click(screen.getByRole('button', { name: /AG1/ }));
     });
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
@@ -242,16 +242,16 @@ describe('Follow-ups', () => {
       await screen.findByRole('heading', { name: 'What would you never give up?' }),
     ).toBeTruthy();
     // The doctor's item is Protected now, so it is not offered here.
-    expect(screen.queryByRole('button', { name: /Greens powder/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /AG1/ })).toBeNull();
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /Meditation app/ }));
+      fireEvent.click(screen.getByRole('button', { name: /Calm/ }));
     });
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
     });
     // Magnesium is the only item left with questions; the meditation app is theirs, so it gets none.
     expect(await screen.findByRole('heading', { name: /^Magnesium: / })).toBeTruthy();
-    expect(screen.queryByRole('heading', { name: /^Meditation app/ })).toBeNull();
+    expect(screen.queryByRole('heading', { name: /^Calm/ })).toBeNull();
     await waitFor(async () => {
       const saved = await store.load();
       const greens = saved?.items.find((i) => i.itemKey === 'greens-powder-ag1-etc');

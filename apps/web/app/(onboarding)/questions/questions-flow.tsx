@@ -6,6 +6,7 @@ import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
 import { Button, Skeleton } from '../../../components/ui';
 import { fetchItems } from '../../../lib/catalog/actions';
+import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import { contextFor, flowState } from '../../../lib/followups/resolve';
 import type { Asked } from '../../../lib/followups/resolve';
@@ -16,6 +17,8 @@ import type { AnswerPatch } from './question-view';
 
 const personIds = ['person:doctor', 'person:keep'] as const;
 const protectedOrigins = new Set(['doctor', 'blood test']);
+/** Only what a doctor actually prescribes is offered on the doctor question. */
+const prescribable = new Set(['supplement', 'skincare']);
 
 /**
  * Onboarding asks five things in all: the two about the person, then three about items. The rest
@@ -82,7 +85,19 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
         : [],
     [items, progress.items, yours],
   );
-  const person = personIds.find((id) => !seen.has(id));
+  // With nothing a doctor would prescribe in the stack, the doctor question is skipped, not shown empty.
+  const noDoctorOptions = useMemo(
+    () =>
+      Boolean(items) &&
+      !progress.items.some(
+        (s) =>
+          !s.dataSource && s.itemKey && prescribable.has(items?.get(s.itemKey)?.category ?? ''),
+      ),
+    [items, progress.items],
+  );
+  const person = personIds.find(
+    (id) => !seen.has(id) && !(id === 'person:doctor' && noDoctorOptions),
+  );
   const state = useMemo(() => {
     if (!items) return null;
     const full = flowState(byStake(pairs), ctx, seen);
@@ -184,7 +199,7 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
     );
 
   const nameOf = (s: (typeof progress.items)[number]) =>
-    (s.itemKey ? items.get(s.itemKey)?.name : s.customName) ?? '';
+    displayName(s, s.itemKey ? items.get(s.itemKey)?.name : undefined);
   if (person) {
     const k = personIds.indexOf(person) + 1;
     const n =
@@ -194,8 +209,12 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
     const seeOnce = () => update((p) => ({ ...p, seenQuestions: [...p.seenQuestions, person] }));
     if (person === 'person:doctor') {
       const options = progress.items
-        .filter((s) => !s.dataSource)
+        .filter(
+          (s) =>
+            !s.dataSource && s.itemKey && prescribable.has(items.get(s.itemKey)?.category ?? ''),
+        )
         .map((s) => ({ id: s.id, name: nameOf(s) }));
+
       const selected = new Set(
         progress.items.filter((s) => s.origin && protectedOrigins.has(s.origin)).map((s) => s.id),
       );

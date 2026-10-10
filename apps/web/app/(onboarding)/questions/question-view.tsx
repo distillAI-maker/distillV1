@@ -3,6 +3,7 @@
 import { useId, useState } from 'react';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Field } from '../../../components/ui';
+import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import type { AskableField } from '../../../lib/followups/fields';
 import { engineGoalLabels, goalOptionsFor } from '../../../lib/followups/goals';
@@ -44,16 +45,11 @@ const fieldCopy = copy.questions.fields as Record<
   { q: string; line?: string; exact?: string }
 >;
 
-/** "Premium gym membership (Equinox, Life Time)" becomes "Premium gym membership". */
-export function shortName(name: string): string {
-  return name.replace(/\s*\([^)]*\)\s*$/, '').trim() || name;
-}
-
 /** The question with its item in front: "Magnesium: which form is it?". */
 export function withItem(name: string, question: string): string {
   const keepCase = /^(I\b|[A-Z]{2})/.test(question);
   const q = keepCase ? question : question.charAt(0).toLowerCase() + question.slice(1);
-  return `${shortName(name)}: ${q}`;
+  return `${name}: ${q}`;
 }
 
 /** One answer as a ruled row with a square check, as in the Figma build. */
@@ -92,7 +88,7 @@ export function QuestionView({
   onSubmit: (patch: AnswerPatch) => void;
 }) {
   const q = asked.question;
-  const name = asked.item.name;
+  const name = displayName({ itemKey: asked.item.key, label: asked.stored.label }, asked.item.name);
   const pre = asked.prefilled;
   const id = useId();
   const [choice, setChoice] = useState<string | null | undefined>(

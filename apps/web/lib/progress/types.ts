@@ -45,6 +45,8 @@ export const stackItemSchema = z
     /** Catalog key, or null for something the person added that is not listed. */
     itemKey: z.string().min(1).nullable(),
     customName: z.string().max(120).optional(),
+    /** The person's own word for a catalog item ("Equinox"), shown instead of the row's name. */
+    label: z.string().max(60).optional(),
     /** The connected wearable's own subscription: counted, never rated. */
     dataSource: z.boolean().optional(),
     monthlyCost: z.number().finite().nonnegative(),
