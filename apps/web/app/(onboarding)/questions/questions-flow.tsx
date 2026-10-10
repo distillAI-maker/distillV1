@@ -93,12 +93,24 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
   }, [items, pairs, ctx, seen]);
   const done = Boolean(ready && items && state && !state.current && !person);
   const left = useRef(false);
+  // Whether everything was already answered when this screen opened: null until the flow loads.
+  const arrivedDone = useRef<boolean | null>(null);
 
   useEffect(() => {
+    if (!ready || !items || !state) return;
+    if (arrivedDone.current === null) {
+      arrivedDone.current = done;
+      // Back from the number lands here with nothing left to ask: show the last question again
+      // instead of moving straight on, so back keeps going back.
+      if (done) {
+        update((p) => ({ ...p, seenQuestions: p.seenQuestions.slice(0, -1) }));
+        return;
+      }
+    }
     if (!done || left.current) return;
     left.current = true;
     go('number');
-  }, [done, go]);
+  }, [ready, items, state, done, go, update]);
 
   useBackHandler(() => {
     if (progress.seenQuestions.length === 0) return false;
