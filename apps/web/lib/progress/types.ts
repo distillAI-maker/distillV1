@@ -21,8 +21,9 @@ export const dataSourceIdSchema = z.enum([
 ]);
 export type DataSourceId = z.infer<typeof dataSourceIdSchema>;
 
-/** Onboarding steps, in the order the Figma flow runs them. 'goals' and 'day-one' are older saves. */
+/** Onboarding steps, in the order the Figma flow runs them. 'heard', 'goals' and 'day-one' are older saves. */
 export const stepSchema = z.enum([
+  'name',
   'stack',
   'life',
   'questions',
@@ -75,7 +76,9 @@ export const progressSchema = z
     prefilledFrom: z.enum(['demo']).optional(),
     /** Goal names from the Goal to Number sheet, plus "nothing specific". */
     goals: z.array(z.string()).default([]),
-    /** What the person wrote about the life they want. Shown back to them, never analysed. */
+    /** The first name they gave on the name screen, used to address them. Optional. */
+    name: z.string().max(80).default(''),
+    /** What the person wrote about their ideal day. Kept for them, never analysed. */
     lifeText: z.string().max(4000).default(''),
     /** Founding membership: free while the app is in beta. Unlocks the private reading. */
     member: z.boolean().default(false),
@@ -125,6 +128,7 @@ export function emptyProgress(): Progress {
     version: 1,
     step: 'stack',
     goals: [],
+    name: '',
     lifeText: '',
     member: false,
     items: [],

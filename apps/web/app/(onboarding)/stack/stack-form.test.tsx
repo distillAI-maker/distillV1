@@ -30,7 +30,7 @@ describe('Your stack', () => {
     document.documentElement.dataset.motion = 'reduce';
   });
 
-  it('adds from the search, sets an origin and a cost, removes, and goes on', async () => {
+  it('adds from the search, sets a cost, removes, and goes on', async () => {
     const store = new LocalProgressStore(memory());
     await store.save({ ...emptyProgress(), step: 'stack', updatedAt: new Date().toISOString() });
     render(
@@ -38,7 +38,8 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    fireEvent.click(await screen.findByRole('button', { name: "I'd rather choose them myself" }));
+    // Nothing said yet: "Find my essentials" goes straight to the list.
+    fireEvent.click(await screen.findByRole('button', { name: /Find my essentials/ }));
     const box = await screen.findByRole('combobox');
     fireEvent.change(box, { target: { value: 'ag1' } });
     const option = await screen.findByRole('option', { name: /Greens powder/ });
@@ -46,18 +47,20 @@ describe('Your stack', () => {
     fireEvent.keyDown(box, { key: 'Enter' });
     const row = (await screen.findByText('Greens powder (AG1 etc.)')).closest('li') as HTMLElement;
     expect(row).toBeTruthy();
-    expect(screen.getByText('1 thing · $90 a month')).toBeTruthy();
+    // Where it came from is asked later, in the app; the list keeps only the cost.
+    expect(within(row).queryByRole('button', { name: 'Where did this come from?' })).toBeNull();
 
-    fireEvent.click(within(row).getByRole('button', { name: 'Where did this come from?' }));
-    fireEvent.click(within(row).getByRole('radio', { name: 'A doctor' }));
-    expect(within(row).getByText('Protected')).toBeTruthy();
-
-    const cost = within(row).getByLabelText('Monthly cost of Greens powder (AG1 etc.)');
+    const cost = within(row).getByLabelText(
+      'Monthly cost of Greens powder (AG1 etc.)',
+    ) as HTMLInputElement;
+    expect(cost.value).toBe('90');
     fireEvent.change(cost, { target: { value: '50' } });
-    expect(screen.getByText('1 thing · $50 a month')).toBeTruthy();
+    await waitFor(async () => expect((await store.load())?.items[0]?.monthlyCost).toBe(50));
 
     fireEvent.change(box, { target: { value: 'ag1' } });
-    expect((await screen.findByRole('option', { name: /Greens powder/ })).textContent).toContain('Already listed');
+    expect((await screen.findByRole('option', { name: /Greens powder/ })).textContent).toContain(
+      'Already listed',
+    );
 
     fireEvent.keyDown(box, { key: 'Escape' });
     fireEvent.click(within(row).getByRole('button', { name: 'Remove Greens powder (AG1 etc.)' }));
@@ -77,7 +80,9 @@ describe('Your stack', () => {
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.step).toBe('life');
-      expect(saved?.items.map((i) => i.itemKey)).toEqual(['premium-gym-membership-equinox-life-time']);
+      expect(saved?.items.map((i) => i.itemKey)).toEqual([
+        'premium-gym-membership-equinox-life-time',
+      ]);
     });
   });
 
@@ -102,7 +107,20 @@ describe('Your stack', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add it' }));
     expect(screen.getByText('Oura ring')).toBeTruthy();
     expect(screen.getByText('Not listed')).toBeTruthy();
-    expect(screen.getByText(/^3 things · \$/)).toBeTruthy();
+    await waitFor(async () => expect((await store.load())?.items).toHaveLength(3));
+  });
+
+  it('leaves out the running total, so the number stays for its own screen', async () => {
+    const store = new LocalProgressStore(memory());
+    render(
+      <ProgressProvider store={store}>
+        <StackForm index={index} />
+      </ProgressProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: 'Try it with an example stack' }));
+    await screen.findByText('Prefilled from the demo person. Change anything.');
+    expect(screen.queryByText(/things · \$/)).toBeNull();
+    expect(screen.queryByRole('button', { name: "I'd rather choose them myself" })).toBeNull();
   });
 
   it('offers the example stack on a blank start', async () => {
@@ -114,9 +132,15 @@ describe('Your stack', () => {
       </ProgressProvider>,
     );
     fireEvent.click(await screen.findByRole('button', { name: 'Try it with an example stack' }));
-    expect(await screen.findByText('21 things · $1,428 a month')).toBeTruthy();
-    expect(screen.getByText('Prefilled from the demo person. Change anything.')).toBeTruthy();
+    expect(
+      await screen.findByText('Prefilled from the demo person. Change anything.'),
+    ).toBeTruthy();
     expect(screen.getByText('Your data source')).toBeTruthy();
-    await waitFor(async () => expect((await store.load())?.prefilledFrom).toBe('demo'));
+    await waitFor(async () => {
+      const saved = await store.load();
+      expect(saved?.prefilledFrom).toBe('demo');
+      expect(saved?.items).toHaveLength(21);
+      expect(saved?.items.reduce((t, i) => t + i.monthlyCost, 0)).toBe(1428);
+    });
   });
 });

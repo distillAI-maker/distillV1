@@ -39,7 +39,40 @@ export function applyPatch(item: StackItem, patch: AnswerPatch): StackItem {
   };
 }
 
-const fieldCopy = copy.questions.fields as Record<string, { q: string; line?: string; exact?: string }>;
+const fieldCopy = copy.questions.fields as Record<
+  string,
+  { q: string; line?: string; exact?: string }
+>;
+
+/** "Premium gym membership (Equinox, Life Time)" becomes "Premium gym membership". */
+export function shortName(name: string): string {
+  return name.replace(/\s*\([^)]*\)\s*$/, '').trim() || name;
+}
+
+/** The question with its item in front: "Magnesium: which form is it?". */
+export function withItem(name: string, question: string): string {
+  const keepCase = /^(I\b|[A-Z]{2})/.test(question);
+  const q = keepCase ? question : question.charAt(0).toLowerCase() + question.slice(1);
+  return `${shortName(name)}: ${q}`;
+}
+
+/** One answer as a ruled row with a square check, as in the Figma build. */
+function Answer({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: string;
+}) {
+  return (
+    <button type="button" role="radio" aria-checked={selected} className="chip" onClick={onClick}>
+      <span>{children}</span>
+      <b aria-hidden="true">{selected ? '✓' : ''}</b>
+    </button>
+  );
+}
 
 function numberOrNull(s: string): number | null {
   if (s.trim() === '') return null;
@@ -63,7 +96,11 @@ export function QuestionView({
   const pre = asked.prefilled;
   const id = useId();
   const [choice, setChoice] = useState<string | null | undefined>(
-    q.kind === 'form' || q.kind === 'range' || q.kind === 'time' || q.kind === 'goal' || q.kind === 'bool'
+    q.kind === 'form' ||
+      q.kind === 'range' ||
+      q.kind === 'time' ||
+      q.kind === 'goal' ||
+      q.kind === 'bool'
       ? pre === undefined
         ? undefined
         : pre === null
@@ -82,17 +119,11 @@ export function QuestionView({
   const [problem, setProblem] = useState<string | null>(null);
 
   const head = (
-    <>
-      <div className="q-progress" aria-hidden="true">
-        {Array.from({ length: Math.min(count.n, 12) }, (_, i) => (
-          <span key={i} className={i < Math.min(count.k, 12) ? 'on' : ''} />
-        ))}
-      </div>
-      <div className="q-top">
-        <span className="q-item">{name}</span>
-        <span className="q-count">{copy.questions.count(count.k, count.n)}</span>
-      </div>
-    </>
+    <div className="q-progress" aria-hidden="true">
+      {Array.from({ length: count.n }, (_, i) => (
+        <span key={i} className={i < count.k ? 'on' : ''} />
+      ))}
+    </div>
   );
 
   function need(msg: string) {
@@ -113,7 +144,10 @@ export function QuestionView({
           <Button onClick={() => onSubmit({ confirmedRead: true })} autoFocus>
             {copy.questions.thatsRight}
           </Button>
-          <Button variant="ghost" onClick={() => onSubmit({ confirmedRead: true, clearAnswers: true })}>
+          <Button
+            variant="ghost"
+            onClick={() => onSubmit({ confirmedRead: true, clearAnswers: true })}
+          >
             {copy.questions.changeIt}
           </Button>
         </div>
@@ -122,19 +156,8 @@ export function QuestionView({
   }
 
   const fc = fieldCopy[q.field] ?? { q: q.field };
-  const title = q.kind === 'exact' ? (fc.exact ?? fc.q) : fc.q;
-  const line =
-    q.kind === 'exact'
-      ? copy.questions.exactLine
-      : q.kind === 'dose'
-        ? q.perServing
-          ? copy.questions.doseServingLine
-          : copy.questions.doseLine
-        : q.kind === 'form'
-          ? copy.questions.formLine
-          : q.kind === 'goal'
-            ? copy.questions.goalLine
-            : fc.line;
+  // The item is written into the question, as the Figma does, instead of a label above it.
+  const title = withItem(name, q.kind === 'exact' ? (fc.exact ?? fc.q) : fc.q);
 
   function submitChips() {
     if (choice === undefined) return need(copy.common.pickOne);
@@ -142,16 +165,28 @@ export function QuestionView({
       const chip = q.chips.find((c) => c.label === choice);
       if (!chip) return need(copy.common.pickOne);
       if (chip.value === null) return onSubmit({ unknown: ['form'], chips: { form: chip.label } });
-      return onSubmit({ answers: { form: chip.value }, chips: { form: chip.label }, known: ['form'] });
+      return onSubmit({
+        answers: { form: chip.value },
+        chips: { form: chip.label },
+        known: ['form'],
+      });
     }
     if (q.kind === 'time') {
       const chip = q.chips.find((c) => c.label === choice);
       if (!chip) return need(copy.common.pickOne);
-      return onSubmit({ answers: { time: chip.value }, chips: { time: chip.label }, known: ['time'] });
+      return onSubmit({
+        answers: { time: chip.value },
+        chips: { time: chip.label },
+        known: ['time'],
+      });
     }
     if (q.kind === 'goal') {
       const value = choice as string;
-      return onSubmit({ answers: { goal: value }, chips: { goal: engineGoalLabels[value as keyof typeof engineGoalLabels] ?? value }, known: ['goal'] });
+      return onSubmit({
+        answers: { goal: value },
+        chips: { goal: engineGoalLabels[value as keyof typeof engineGoalLabels] ?? value },
+        known: ['goal'],
+      });
     }
     if (q.kind === 'range') {
       return onSubmit({ chips: { [q.field]: choice as string } });
@@ -173,7 +208,10 @@ export function QuestionView({
       const a = numberOrNull(serving);
       const c = numberOrNull(servings);
       if (a === null || c === null) return need(copy.common.enterNumber);
-      return onSubmit({ answers: { dose: a * c, servingAmount: a, servingsPerDay: c }, known: ['dose', 'doseUnit'] });
+      return onSubmit({
+        answers: { dose: a * c, servingAmount: a, servingsPerDay: c },
+        known: ['dose', 'doseUnit'],
+      });
     }
     const n = numberOrNull(text);
     if (n === null) return need(copy.common.enterNumber);
@@ -184,37 +222,37 @@ export function QuestionView({
   if (q.kind === 'form' || q.kind === 'time' || q.kind === 'range') {
     const chips = q.chips.map((c) => c.label);
     body = (
-      <div className="chips" role="radiogroup" aria-label={title}>
+      <div className="answers" role="radiogroup" aria-label={title}>
         {chips.map((label) => (
-          <Chip key={label} radio selected={choice === label} onClick={() => setChoice(label)}>
+          <Answer key={label} selected={choice === label} onClick={() => setChoice(label)}>
             {label}
-          </Chip>
+          </Answer>
         ))}
       </div>
     );
   } else if (q.kind === 'goal') {
     body = (
-      <div className="chips" role="radiogroup" aria-label={title}>
+      <div className="answers" role="radiogroup" aria-label={title}>
         {goalOptionsFor(goals).map((g) => (
-          <Chip key={g} radio selected={choice === g} onClick={() => setChoice(g)}>
+          <Answer key={g} selected={choice === g} onClick={() => setChoice(g)}>
             {engineGoalLabels[g]}
-          </Chip>
+          </Answer>
         ))}
       </div>
     );
   } else if (q.kind === 'bool') {
     body = (
-      <div className="chips" role="radiogroup" aria-label={title}>
-        <Chip radio selected={choice === 'true'} onClick={() => setChoice('true')}>
+      <div className="answers" role="radiogroup" aria-label={title}>
+        <Answer selected={choice === 'true'} onClick={() => setChoice('true')}>
           {copy.common.yes}
-        </Chip>
-        <Chip radio selected={choice === 'false'} onClick={() => setChoice('false')}>
+        </Answer>
+        <Answer selected={choice === 'false'} onClick={() => setChoice('false')}>
           {copy.common.no}
-        </Chip>
+        </Answer>
         {q.notSure ? (
-          <Chip radio selected={choice === null} onClick={() => setChoice(null)}>
+          <Answer selected={choice === null} onClick={() => setChoice(null)}>
             {copy.common.notSure}
-          </Chip>
+          </Answer>
         ) : null}
       </div>
     );
@@ -275,7 +313,12 @@ export function QuestionView({
         />
         {numberOrNull(serving) !== null && numberOrNull(servings) !== null ? (
           <p className="sum">
-            <b>{copy.questions.dailyTotal(String((numberOrNull(serving) ?? 0) * (numberOrNull(servings) ?? 0)), unit)}</b>
+            <b>
+              {copy.questions.dailyTotal(
+                String((numberOrNull(serving) ?? 0) * (numberOrNull(servings) ?? 0)),
+                unit,
+              )}
+            </b>
           </p>
         ) : null}
       </form>
@@ -317,7 +360,6 @@ export function QuestionView({
     <section className="stack screen-q">
       {head}
       <h1>{title}</h1>
-      {line ? <p className="lede">{line}</p> : null}
       <div className={isNumberLike ? 'q-number' : undefined}>{body}</div>
       {problem ? (
         <p className="notice" role="alert">

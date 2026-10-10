@@ -21,7 +21,6 @@ type Phase = 'pick' | 'backfill' | 'done' | 'error';
 const live: { id: DataSourceId; label: string }[] = [
   { id: 'oura', label: copy.connect.oura },
   { id: 'whoop', label: copy.connect.whoop },
-  { id: 'fitbit', label: copy.connect.fitbit },
 ];
 
 function motionOff(): boolean {
@@ -211,26 +210,11 @@ export function ConnectForm() {
           </li>
         ))}
         <li>
-          <button
-            type="button"
-            className="option"
-            disabled={!env.providersEnabled}
-            aria-describedby={env.providersEnabled ? undefined : 'connect-unavailable'}
-            onClick={() => router.push('/connect/import')}
-          >
+          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
             <Icon name="heart" />
             <span>
               <b>{copy.connect.apple}</b>
               <small>{copy.connect.appleHint}</small>
-            </span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
-            <Icon name="heart" />
-            <span>
-              <b>Import sleep data</b>
-              <small>Apple Health ZIP or CSV nights</small>
             </span>
           </button>
         </li>

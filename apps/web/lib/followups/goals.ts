@@ -24,6 +24,16 @@ export const goalChips: { sheet: string; label: string; engine: EngineGoal | nul
   { sheet: nothingSpecific, label: 'Nothing specific', engine: 'nothing specific' },
 ];
 
+/** The six goals offered on the life screen, in the order shown. The rest stay valid for older saves. */
+export const lifeGoalSheets = [
+  'sleep (general)',
+  'energy',
+  'skin / hair',
+  'recovery / stress / HRV',
+  'mood / anxiety',
+  'fitness',
+];
+
 /** Labels for the engine's goal words, for the per-item goal question. */
 export const engineGoalLabels: Record<EngineGoal, string> = {
   sleep: 'Sleep',
@@ -64,9 +74,29 @@ export function goalOptionsFor(sheetGoals: string[]): EngineGoal[] {
 
 /** Goal words the engine's goal map understands, matched inside the catalog's free-text "usual goal". */
 const usualWords = [
-  'sleep', 'cramps', 'recovery', 'stress', 'energy', 'fitness', 'focus', 'memory', 'mood', 'anxiety',
-  'skin', 'hair', 'gut', 'bloating', 'pain', 'soreness', 'fat loss', 'weight', 'immunity', 'longevity',
-  'testosterone', 'hormones', 'general health',
+  'sleep',
+  'cramps',
+  'recovery',
+  'stress',
+  'energy',
+  'fitness',
+  'focus',
+  'memory',
+  'mood',
+  'anxiety',
+  'skin',
+  'hair',
+  'gut',
+  'bloating',
+  'pain',
+  'soreness',
+  'fat loss',
+  'weight',
+  'immunity',
+  'longevity',
+  'testosterone',
+  'hormones',
+  'general health',
 ];
 
 /** Every usual reason people take an item, as goal words in the catalog's order. */
@@ -86,10 +116,25 @@ export function usualGoalFor(item: { usualGoal?: string | null }): string | unde
 }
 
 const ruleWordFor: Record<string, EngineGoal> = {
-  sleep: 'sleep', cramps: 'cramps', energy: 'energy', focus: 'focus', memory: 'focus', mood: 'mood',
-  anxiety: 'mood', skin: 'skin', hair: 'skin', gut: 'gut', bloating: 'gut', pain: 'pain', soreness: 'soreness',
-  'fat loss': 'fat loss', weight: 'fat loss', longevity: 'general health', 'general health': 'general health',
-  testosterone: 'testosterone', hormones: 'testosterone',
+  sleep: 'sleep',
+  cramps: 'cramps',
+  energy: 'energy',
+  focus: 'focus',
+  memory: 'focus',
+  mood: 'mood',
+  anxiety: 'mood',
+  skin: 'skin',
+  hair: 'skin',
+  gut: 'gut',
+  bloating: 'gut',
+  pain: 'pain',
+  soreness: 'soreness',
+  'fat loss': 'fat loss',
+  weight: 'fat loss',
+  longevity: 'general health',
+  'general health': 'general health',
+  testosterone: 'testosterone',
+  hormones: 'testosterone',
 };
 
 /** The rule's goal word for an item's usual reason, when the rules have one. */

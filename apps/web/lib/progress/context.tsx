@@ -57,8 +57,20 @@ export function ProgressProvider({
     setProgress(emptyProgress());
     store
       .load()
-      .then((saved) => {
+      .then(async (saved) => {
         if (!alive) return;
+        if (!saved && store.id === 'supabase') {
+          // The email is asked at the invitation, after onboarding ran on this device: the first
+          // sign-in carries that progress into the new account, then saves it there.
+          const onDevice = await new LocalProgressStore().load().catch(() => null);
+          if (!alive) return;
+          if (onDevice) {
+            dirty.current = true;
+            setProgress(onDevice);
+            setReady(true);
+            return;
+          }
+        }
         if (saved) setProgress(saved);
         setReady(true);
       })

@@ -12,8 +12,16 @@ const push = vi.fn();
 const router = { push, back: vi.fn() };
 vi.mock('next/navigation', () => ({ useRouter: () => router }));
 
+/** The three item questions the demo person sees: two by money at stake, then the habit most worth reading. */
+const DEMO_HEADINGS = [
+  'Premium gym membership: how many times in the last 30 days?',
+  'Recovery studio membership: how many times in the last 30 days?',
+  'Alcohol in the evening: how many nights a week, usually?',
+];
+
 const byKey = new Map(catalog.items.map((i) => [i.key, i]));
-const loadItems = async (keys: string[]) => keys.map((k) => byKey.get(k)).filter((i) => i !== undefined);
+const loadItems = async (keys: string[]) =>
+  keys.map((k) => byKey.get(k)).filter((i) => i !== undefined);
 
 function memory() {
   const map = new Map<string, string>();
@@ -31,7 +39,7 @@ describe('Follow-ups', () => {
     document.documentElement.dataset.motion = 'reduce';
   });
 
-  it('walks the demo person through two dozen confirmations and lands on the number', async () => {
+  it('asks the demo person three item questions, biggest money first, and lands on the number', async () => {
     const store = new LocalProgressStore(memory());
     await store.save({
       ...emptyProgress(),
@@ -48,54 +56,36 @@ describe('Follow-ups', () => {
         <QuestionsFlow loadItems={loadItems} />
       </ProgressProvider>,
     );
+    // The item sits inside the question; no label above it and no "Question k of n".
     expect(
-      await screen.findByRole('heading', { name: 'How many times in the last 30 days?' }),
+      await screen.findByRole('heading', {
+        name: 'Premium gym membership: how many times in the last 30 days?',
+      }),
     ).toBeTruthy();
-    expect(screen.getByText('Premium gym membership (Equinox, Life Time)')).toBeTruthy();
-    expect(screen.getByText(/Question 3 of/).textContent).toMatch(/^Question 3 of \d+$/);
-    expect(screen.getByRole('radio', { name: '8 or more' }).getAttribute('aria-checked')).toBe('true');
+    expect(screen.queryByText(/Question \d+ of/)).toBeNull();
+    expect(screen.getByRole('radio', { name: '8 or more' }).getAttribute('aria-checked')).toBe(
+      'true',
+    );
 
     const headings: string[] = [];
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < 10; i++) {
       const h = await screen.findByRole('heading', { level: 1 });
       headings.push(h.textContent ?? '');
-      const cta = screen.queryByRole('button', { name: "That's right" }) ?? screen.getByRole('button', { name: 'Continue' });
+      const cta =
+        screen.queryByRole('button', { name: "That's right" }) ??
+        screen.getByRole('button', { name: 'Continue' });
       await act(async () => {
         fireEvent.click(cta);
       });
       if (push.mock.calls.length) break;
     }
-    expect(headings).toEqual([
-      'How many times in the last 30 days?',
-      'How many times in the last 30 days?',
-      'And the 30 days before that?',
-      'How many times in the last 30 days?',
-      'How many credits are banked?',
-      'When did you last use it?',
-      'About how many days ago?',
-      'Still paying for it?',
-      'When did you last use it?',
-      'About how many days ago?',
-      'Still paying for it?',
-      'When did you last use it?',
-      'Which form?',
-      'How much a day?',
-      'How much a day?',
-      'How much a day?',
-      'Which form?',
-      'Does the eye cream list an active your moisturiser does not, like retinol or caffeine?',
-      'Still paying for it?',
-      'When did you last use it?',
-      'What time, usually?',
-      'How many nights a week, usually?',
-      'We read this from your workouts.',
-      'How long between dinner and bed, usually?',
-    ]);
+    expect(headings).toEqual(DEMO_HEADINGS);
     await waitFor(() => expect(push).toHaveBeenCalledWith('/number'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.step).toBe('number');
-      expect(saved?.seenQuestions).toHaveLength(26);
+      // Two about the person, three about items: five in all.
+      expect(saved?.seenQuestions).toHaveLength(5);
     });
   });
 
@@ -107,7 +97,17 @@ describe('Follow-ups', () => {
       seenQuestions: ['person:doctor', 'person:keep'],
       goals: ['sleep (general)'],
       items: [
-        { id: 'a', itemKey: 'cbd', monthlyCost: 40, origin: 'online', answers: {}, chips: {}, unknown: [], status: 'listed', position: 0 },
+        {
+          id: 'a',
+          itemKey: 'cbd',
+          monthlyCost: 40,
+          origin: 'online',
+          answers: {},
+          chips: {},
+          unknown: [],
+          status: 'listed',
+          position: 0,
+        },
       ],
       updatedAt: new Date().toISOString(),
     });
@@ -116,7 +116,9 @@ describe('Follow-ups', () => {
         <QuestionsFlow loadItems={loadItems} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Are you on any prescription medication?' })).toBeTruthy();
+    expect(
+      await screen.findByRole('heading', { name: /: are you on any prescription medication\?$/ }),
+    ).toBeTruthy();
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     });
@@ -160,12 +162,12 @@ describe('Follow-ups', () => {
         <QuestionsFlow loadItems={loadItems} />
       </ProgressProvider>,
     );
-    await screen.findByRole('heading', { name: 'Which form?' });
+    await screen.findByRole('heading', { name: /: which form\?$/ });
     fireEvent.click(screen.getByRole('radio', { name: 'Extract' }));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     });
-    const box = await screen.findByLabelText('How much a day?');
+    const box = await screen.findByLabelText(/: how much a day\?$/);
     expect((box as HTMLInputElement).value).toBe('');
     expect(screen.getByText('mg a day')).toBeTruthy();
     await waitFor(async () => expect((await store.load())?.items[0]?.answers.dose).toBeUndefined());
@@ -179,7 +181,17 @@ describe('Follow-ups', () => {
       seenQuestions: ['person:doctor', 'person:keep'],
       goals: [],
       items: [
-        { id: 'o', itemKey: 'omega-3-fish-oil', monthlyCost: 20, origin: 'friend', answers: {}, chips: {}, unknown: [], status: 'listed', position: 0 },
+        {
+          id: 'o',
+          itemKey: 'omega-3-fish-oil',
+          monthlyCost: 20,
+          origin: 'friend',
+          answers: {},
+          chips: {},
+          unknown: [],
+          status: 'listed',
+          position: 0,
+        },
       ],
       updatedAt: new Date().toISOString(),
     });
@@ -198,10 +210,12 @@ describe('Follow-ups', () => {
     await waitFor(async () => expect((await store.load())?.items[0]?.answers.dose).toBe(600));
   });
 
-  it('asks about a doctor and what they would never give up, then skips that item\'s follow-ups', async () => {
+  it("asks about a doctor and what they would never give up, then skips that item's follow-ups", async () => {
     const store = new LocalProgressStore(memory());
     const stack = demoStack().filter((s) =>
-      ['meditation-app-calm-headspace', 'magnesium-any-form', 'greens-powder-ag1-etc'].includes(s.itemKey ?? ''),
+      ['meditation-app-calm-headspace', 'magnesium-any-form', 'greens-powder-ag1-etc'].includes(
+        s.itemKey ?? '',
+      ),
     );
     await store.save({
       ...emptyProgress(),
@@ -215,14 +229,18 @@ describe('Follow-ups', () => {
         <QuestionsFlow loadItems={loadItems} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Did a doctor put you on any of these?' })).toBeTruthy();
+    expect(
+      await screen.findByRole('heading', { name: 'Did a doctor put you on any of these?' }),
+    ).toBeTruthy();
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Greens powder/ }));
     });
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
     });
-    expect(await screen.findByRole('heading', { name: 'What would you never give up?' })).toBeTruthy();
+    expect(
+      await screen.findByRole('heading', { name: 'What would you never give up?' }),
+    ).toBeTruthy();
     // The doctor's item is Protected now, so it is not offered here.
     expect(screen.queryByRole('button', { name: /Greens powder/ })).toBeNull();
     await act(async () => {
@@ -232,8 +250,8 @@ describe('Follow-ups', () => {
       fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
     });
     // Magnesium is the only item left with questions; the meditation app is theirs, so it gets none.
-    expect(await screen.findByText('Magnesium (any form)')).toBeTruthy();
-    expect(screen.queryByText('Meditation app (Calm, Headspace)')).toBeNull();
+    expect(await screen.findByRole('heading', { name: /^Magnesium: / })).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: /^Meditation app/ })).toBeNull();
     await waitFor(async () => {
       const saved = await store.load();
       const greens = saved?.items.find((i) => i.itemKey === 'greens-powder-ag1-etc');

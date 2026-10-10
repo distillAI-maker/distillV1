@@ -1,10 +1,10 @@
 /** The onboarding steps, in order. The progress line counts exactly these. Arrival is '/'. */
 export const onboardingSteps = [
+  'name',
   'stack',
   'life',
   'questions',
   'number',
-  'heard',
   'sorted',
   'ready',
   'invitation',
@@ -26,6 +26,7 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
 export function resumePath(step: string): string {
   if (step === 'done') return '/today';
   if (step === 'goals') return '/life';
-  if (step === 'day-one') return '/sorted';
+  // "Here's what we heard" and the old day-one screen are gone; both resume at the sort.
+  if (step === 'day-one' || step === 'heard') return '/sorted';
   return (onboardingSteps as readonly string[]).includes(step) ? `/${step}` : '/stack';
 }

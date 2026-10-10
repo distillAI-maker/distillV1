@@ -3,11 +3,11 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
-import { Button, Chip, Field, Skeleton } from '../../../components/ui';
+import { Button, Field, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { demoGoals, demoStack } from '../../../lib/data/demo/stack';
 import { useProgress } from '../../../lib/progress/context';
-import { newItemId, originSchema } from '../../../lib/progress/types';
+import { newItemId } from '../../../lib/progress/types';
 import type { Origin, StackItem } from '../../../lib/progress/types';
 import { matchText } from '../../../lib/search/match';
 import type { IndexEntry } from '../../../lib/search/match';
@@ -28,10 +28,6 @@ type Category = (typeof categoryOrder)[number];
 
 const protectedOrigins: Origin[] = ['doctor', 'blood test'];
 
-function money(n: number): string {
-  return Math.round(n).toLocaleString('en-US');
-}
-
 function catalogRow(entry: IndexEntry, position: number): StackItem {
   return {
     id: newItemId(),
@@ -47,8 +43,8 @@ function catalogRow(entry: IndexEntry, position: number): StackItem {
 
 /**
  * Your stack, in the Figma build's two stages. First the person talks it through and we match what
- * we recognise in the routing table; then they edit the list: costs, where each came from, and
- * anything we missed.
+ * we recognise in the routing table; then they edit the list: costs, and anything we missed. Where
+ * each thing came from is asked later, in the app, not here.
  */
 export function StackForm({ index }: { index: IndexEntry[] }) {
   const go = useGo();
@@ -61,7 +57,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     name: '',
     cost: '',
   });
-  const [originFor, setOriginFor] = useState<string | null>(null);
   const [needOne, setNeedOne] = useState(false);
   const notesId = useId();
 
@@ -70,12 +65,20 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     if (ready && stage === null) setStage(progress.items.length ? 'edit' : 'listen');
   }, [ready, stage, progress.items.length]);
 
+  // Moving from talking to the list starts the list at its title.
+  useEffect(() => {
+    if (stage === 'edit') window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [stage]);
+
   const items = progress.items;
   const listed = useMemo(
     () => new Set(items.map((i) => i.itemKey).filter((k): k is string => Boolean(k))),
     [items],
   );
-  const heard = useMemo(() => matchText(notes, index).filter((e) => !listed.has(e.key)), [notes, index, listed]);
+  const heard = useMemo(
+    () => matchText(notes, index).filter((e) => !listed.has(e.key)),
+    [notes, index, listed],
+  );
 
   function addCatalog(entries: IndexEntry[]) {
     const fresh = entries.filter((e) => !listed.has(e.key));
@@ -134,7 +137,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   if (!ready || stage === null) {
     return (
       <section className="stack" aria-busy="true">
-        <p className="eyebrow">{copy.stack.listen.eyebrow}</p>
         <h1>{copy.stack.listen.title}</h1>
         <Skeleton kind="title" />
         <Skeleton kind="option" count={2} />
@@ -145,7 +147,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   if (stage === 'listen') {
     return (
       <section className="stack screen-listen">
-        <p className="eyebrow">{copy.stack.listen.eyebrow}</p>
         <h1>{copy.stack.listen.title}</h1>
         <p className="lede">{copy.stack.listen.line}</p>
         <div className="writing">
@@ -180,9 +181,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             {copy.stack.listen.find}
             <Icon name="arrow" size={18} />
           </Button>
-          <Button variant="link" onClick={() => setStage('edit')}>
-            {copy.stack.listen.chooseMyself}
-          </Button>
           {items.length === 0 ? (
             <Button variant="link" onClick={useExample}>
               {copy.stack.listen.example}
@@ -193,8 +191,8 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     );
   }
 
-  const total = items.reduce((t, i) => t + (Number.isFinite(i.monthlyCost) ? i.monthlyCost : 0), 0);
-  const nameOf = (i: StackItem) => (i.itemKey ? (byKey.get(i.itemKey)?.name ?? i.itemKey) : (i.customName ?? ''));
+  const nameOf = (i: StackItem) =>
+    i.itemKey ? (byKey.get(i.itemKey)?.name ?? i.itemKey) : (i.customName ?? '');
   const categoryOf = (i: StackItem): Category =>
     i.itemKey ? ((byKey.get(i.itemKey)?.category as Category) ?? 'custom') : 'custom';
   const groups = categoryOrder
@@ -203,9 +201,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
   return (
     <section className="stack screen-edit">
-      <p className="eyebrow">{copy.stack.edit.eyebrow}</p>
       <h1>{copy.stack.edit.title}</h1>
-      <p className="lede">{copy.stack.edit.line}</p>
       <p className="edit-note">{items.length ? copy.stack.edit.note : copy.stack.edit.emptyNote}</p>
       {progress.prefilledFrom === 'demo' ? <p className="notice">{copy.stack.demoLine}</p> : null}
 
@@ -218,9 +214,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
       {groups.map((g) => (
         <section key={g.cat} className="cat" aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
-          {g.cat === 'supplement' || g.cat === 'habit' ? (
-            <p className="aside">{copy.stack.asides[g.cat]}</p>
-          ) : null}
           <h2 className="cat-label" id={`cat-${g.cat.replace('/', '-')}`}>
             {copy.stack.categories[g.cat]}
           </h2>
@@ -228,7 +221,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             {g.rows.map((row) => {
               const name = nameOf(row);
               const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
-              const open = originFor === row.id;
               return (
                 <li key={row.id} className="row-wrap">
                   <div className="row">
@@ -272,35 +264,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
                       <span aria-hidden="true">×</span>
                     </button>
                   </div>
-                  {row.dataSource ? null : open ? (
-                    <div className="origin-card" role="radiogroup" aria-label={copy.stack.originFor(name)}>
-                      <span>{copy.stack.originAsk}</span>
-                      <div className="chips">
-                        {originSchema.options.map((o) => (
-                          <Chip
-                            key={o}
-                            radio
-                            selected={row.origin === o}
-                            onClick={() => {
-                              patch(row.id, { origin: o });
-                              setOriginFor(null);
-                            }}
-                          >
-                            {copy.stack.origins[o]}
-                          </Chip>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className="origin-link"
-                      aria-expanded={false}
-                      onClick={() => setOriginFor(row.id)}
-                    >
-                      {row.origin ? copy.stack.origins[row.origin] : copy.stack.originAsk}
-                    </button>
-                  )}
                 </li>
               );
             })}
@@ -339,21 +302,26 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             <Button type="submit" size="sm">
               {copy.stack.addIt}
             </Button>
-            <Button variant="link" size="sm" onClick={() => setCustom({ open: false, name: '', cost: '' })}>
+            <Button
+              variant="link"
+              size="sm"
+              onClick={() => setCustom({ open: false, name: '', cost: '' })}
+            >
               {copy.common.cancel}
             </Button>
           </div>
         </form>
       ) : (
-        <button type="button" className="row add-row" onClick={() => setCustom({ open: true, name: '', cost: '' })}>
+        <button
+          type="button"
+          className="row add-row"
+          onClick={() => setCustom({ open: true, name: '', cost: '' })}
+        >
           <span className="row-name">{copy.stack.addCustom}</span>
           <span aria-hidden="true">+</span>
         </button>
       )}
 
-      <div className="total" aria-live="polite">
-        <span>{items.length === 1 ? copy.stack.totalOne(money(total)) : copy.stack.total(items.length, money(total))}</span>
-      </div>
       {needOne ? (
         <p className="notice" role="alert">
           {copy.stack.needOne}

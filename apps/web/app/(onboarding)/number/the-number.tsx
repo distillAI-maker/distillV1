@@ -33,7 +33,10 @@ export function TheNumber() {
       </section>
     );
 
-  const names = routed.items.map((r) => r.name).filter(Boolean).slice(0, 14);
+  const names = routed.items
+    .map((r) => r.name)
+    .filter(Boolean)
+    .slice(0, 14);
   return (
     <section className="theatre" aria-live="polite">
       <div className="drift" aria-hidden="true">
@@ -58,7 +61,7 @@ export function TheNumber() {
         <p className="reckon reckon-3">{copy.number.line}</p>
       </div>
       <div className="reckon reckon-4 actions">
-        <Button onClick={() => go('heard')}>
+        <Button onClick={() => go('sorted')}>
           {copy.number.showMe}
           <Icon name="arrow" size={18} />
         </Button>

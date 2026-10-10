@@ -5,12 +5,12 @@ import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
-import { goalChips, nothingSpecific } from '../../../lib/followups/goals';
+import { goalChips, lifeGoalSheets, nothingSpecific } from '../../../lib/followups/goals';
 import { useProgress } from '../../../lib/progress/context';
 
 /**
- * The life they want, in their words, and what they'd most like to change. The words are shown
- * back to them on "Here's what we heard" and never analysed; the goals tell the engine what to read.
+ * Their ideal day, in their words, and the six goals the engine reads by. The words are kept for
+ * them and never analysed; the goals tell the engine what to read.
  */
 export function LifeForm() {
   const go = useGo();
@@ -31,7 +31,6 @@ export function LifeForm() {
   if (!ready)
     return (
       <section className="stack" aria-busy="true">
-        <p className="eyebrow">{copy.life.eyebrow}</p>
         <h1>{copy.life.title}</h1>
         <Skeleton kind="option" count={2} />
       </section>
@@ -39,7 +38,6 @@ export function LifeForm() {
 
   return (
     <section className="stack screen-life">
-      <p className="eyebrow">{copy.life.eyebrow}</p>
       <h1>{copy.life.title}</h1>
       <div className="writing">
         <label className="sr-only" htmlFor={id}>
@@ -57,25 +55,16 @@ export function LifeForm() {
           <span className="num">{text ? copy.life.chars(text.length) : copy.life.empty}</span>
         </div>
       </div>
-      {text ? null : (
-        <button
-          type="button"
-          className="suggestion"
-          onClick={() => update({ lifeText: `${copy.life.starter} ` })}
-        >
-          <span>{copy.life.beginWith}</span>
-          <q>{copy.life.starter}…</q>
-        </button>
-      )}
       <div className="stack-tight goals-block">
-        <h2 className="h-small">{copy.life.goalsTitle}</h2>
-        <p className="lede">{copy.life.goalsLine}</p>
+        <h2 className="goals-label">{copy.life.goalsTitle}</h2>
         <div className="chips" role="group" aria-label={copy.life.goalsTitle}>
-          {goalChips.map((g) => (
-            <Chip key={g.sheet} selected={chosen.has(g.sheet)} onClick={() => toggle(g.sheet)}>
-              {g.label}
-            </Chip>
-          ))}
+          {goalChips
+            .filter((g) => lifeGoalSheets.includes(g.sheet))
+            .map((g) => (
+              <Chip key={g.sheet} selected={chosen.has(g.sheet)} onClick={() => toggle(g.sheet)}>
+                {g.label}
+              </Chip>
+            ))}
         </div>
       </div>
       <div className="actions">
