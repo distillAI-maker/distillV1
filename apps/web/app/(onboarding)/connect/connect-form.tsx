@@ -176,7 +176,7 @@ export function ConnectForm() {
                   .catch(() => undefined)
                   .finally(() => {
                     update(next);
-                    router.push('/today');
+                    router.push('/home');
                   });
               }}
             >

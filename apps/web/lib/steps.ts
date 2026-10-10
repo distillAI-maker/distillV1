@@ -24,7 +24,7 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
 
 /** Where a saved person picks up: the step they reached, or the app once onboarding is done. */
 export function resumePath(step: string): string {
-  if (step === 'done') return '/today';
+  if (step === 'done') return '/home';
   // Older saves from the longer flow: the questions resume at the number, the sort at the invitation.
   if (step === 'goals' || step === 'questions') return step === 'goals' ? '/life' : '/number';
   if (['heard', 'sorted', 'ready', 'day-one'].includes(step)) return '/invitation';

@@ -1,10 +1,19 @@
 import type { Metadata, Viewport } from 'next';
+import { Newsreader } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
 import { currentUser } from '../lib/supabase/server';
 import './globals.css';
 
 /** Switzer, the landing page's face, from Fontshare (free licence). TODO: self-host the files. */
+/** Headings: a book serif with a quiet luxury, paired with Switzer for everything else. */
+const display = Newsreader({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+  display: 'swap',
+});
 const switzer = 'https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600&display=swap';
 
 export const metadata: Metadata = {
@@ -26,7 +35,12 @@ const motionBoot =
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const user = await currentUser();
   return (
-    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={display.variable}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={switzer} />

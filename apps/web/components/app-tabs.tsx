@@ -7,9 +7,9 @@ import { Icon } from './icon';
 import type { IconName } from './icon';
 
 const tabs: { href: string; label: string; icon: IconName }[] = [
+  { href: '/home', label: copy.tabs.file, icon: 'pass' },
   { href: '/today', label: copy.tabs.today, icon: 'cal' },
   { href: '/verdicts', label: copy.tabs.verdicts, icon: 'checkc' },
-  { href: '/file', label: copy.tabs.file, icon: 'pass' },
   { href: '/settings', label: copy.tabs.settings, icon: 'toggle' },
 ];
 

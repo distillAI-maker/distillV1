@@ -10,6 +10,8 @@ const overrides: Record<string, string> = {
   'recovery-studio-membership-restore-remedy-place-othership': 'Recovery studio',
   'massage-membership-massage-envy-squeeze': 'Massage membership',
   'fitness-app-subscription-peloton-app-apple-fitness-ladder': 'Fitness app',
+  'meditation-app-calm-headspace': 'Meditation app',
+  'greens-powder-ag1-etc': 'Greens powder',
   'second-gym-or-studio-membership': 'Second membership',
   'class-pack-or-studio-credits': 'Class credits',
   'sauna-or-cold-plunge-studio-when-you-own-one-at-home': 'Sauna studio',
