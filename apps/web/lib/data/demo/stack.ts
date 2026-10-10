@@ -53,7 +53,12 @@ const seeds: Seed[] = [
     answers: { stillPaying: true, daysSinceLastUse: 2 },
     chips: { lastUsed: 'This week' },
   },
-  { itemKey: 'greens-powder-ag1-etc', monthlyCost: 90, origin: 'podcast', answers: { stillPaying: true } },
+  {
+    itemKey: 'greens-powder-ag1-etc',
+    monthlyCost: 90,
+    origin: 'podcast',
+    answers: { stillPaying: true },
+  },
   {
     itemKey: 'magnesium-any-form',
     monthlyCost: 22,
@@ -73,8 +78,19 @@ const seeds: Seed[] = [
     origin: 'friend',
     answers: { dose: 300, servingAmount: 300, servingsPerDay: 1 },
   },
-  { itemKey: 'vitamin-c-serum', monthlyCost: 60, origin: 'online', answers: { form: 'unknown' }, chips: { form: 'Not sure' } },
-  { itemKey: 'toner-hydrating-or-balancing', monthlyCost: 25, origin: 'other', answers: { hydrationRoutineDuplicates: true } },
+  {
+    itemKey: 'vitamin-c-serum',
+    monthlyCost: 60,
+    origin: 'online',
+    answers: { form: 'unknown' },
+    chips: { form: 'Not sure' },
+  },
+  {
+    itemKey: 'toner-hydrating-or-balancing',
+    monthlyCost: 25,
+    origin: 'other',
+    answers: { hydrationRoutineDuplicates: true },
+  },
   {
     itemKey: 'eye-cream-when-you-already-use-a-moisturiser',
     monthlyCost: 45,
@@ -90,21 +106,54 @@ const seeds: Seed[] = [
     answers: { stillPaying: true },
     chips: { lastUsed: 'This month' },
   },
-  { itemKey: 'coffee-after-2pm', monthlyCost: 0, origin: 'other', answers: { time: '2 to 5pm' }, chips: { time: '2 to 5pm' } },
-  { itemKey: 'alcohol-in-the-evening', monthlyCost: 80, origin: 'other', chips: { nightsPerWeek: '3 to 4' } },
+  {
+    itemKey: 'coffee-after-2pm',
+    monthlyCost: 0,
+    origin: 'other',
+    answers: { time: '2 to 5pm' },
+    chips: { time: '2 to 5pm' },
+  },
+  {
+    itemKey: 'alcohol-in-the-evening',
+    monthlyCost: 80,
+    origin: 'other',
+    chips: { nightsPerWeek: '3 to 4' },
+  },
   {
     itemKey: 'training-after-7pm',
     monthlyCost: 0,
     origin: 'other',
-    answers: { vigorous: true, workoutToBedMinutes: 90, workoutNightsPerWeek: 4, workoutEndHour: 21 },
+    answers: {
+      vigorous: true,
+      workoutToBedMinutes: 90,
+      workoutNightsPerWeek: 4,
+      workoutEndHour: 21,
+    },
     readFrom: { source: 'workouts', summary: 'Four evening sessions a week, ending around 9pm.' },
   },
-  { itemKey: 'late-dinner-within-2-3-h-of-bed', monthlyCost: 0, origin: 'other', chips: { dinnerToBedMinutes: 'Under 1.5 hours' } },
+  {
+    itemKey: 'late-dinner-within-2-3-h-of-bed',
+    monthlyCost: 0,
+    origin: 'other',
+    chips: { dinnerToBedMinutes: 'Under 1.5 hours' },
+  },
   { itemKey: null, customName: 'Oura ring', dataSource: true, monthlyCost: 6, origin: 'other' },
 ];
 
+/** The demo person's own words for their things, as the landing page shows them. */
+const demoLabels: Record<string, string> = {
+  'premium-gym-membership-equinox-life-time': 'Equinox',
+  'boutique-class-membership-barry-s-soulcycle-f45-orangetheory': "Barry's",
+  'recovery-studio-membership-restore-remedy-place-othership': 'Restore studio',
+  'massage-membership-massage-envy-squeeze': 'Massage credits',
+  'meditation-app-calm-headspace': 'Calm',
+  'fitness-app-subscription-peloton-app-apple-fitness-ladder': 'Peloton app',
+  'greens-powder-ag1-etc': 'AG1',
+};
+
 export function demoStack(): StackItem[] {
   return seeds.map((s, i) => ({
+    ...(s.itemKey && demoLabels[s.itemKey] ? { label: demoLabels[s.itemKey] } : {}),
     answers: {},
     chips: {},
     unknown: [],

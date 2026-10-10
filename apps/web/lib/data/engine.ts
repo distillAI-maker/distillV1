@@ -2,6 +2,7 @@ import type { Item } from '@distill/catalog';
 import { routeStack } from '@distill/engine';
 import type { InventoryItem, RoutedItem as EngineItem, StackAnswers } from '@distill/engine';
 import { renderAuditVerdict } from '@distill/engine/verdict';
+import { displayName } from '../catalog/short-names';
 import { usualGoalsFor } from '../followups/goals';
 import { contextFor, ruleAnswers } from '../followups/resolve';
 import type { Progress, StackItem } from '../progress/types';
@@ -61,11 +62,14 @@ function sentenceFor(
   if (text.status === 'ready') return { sentence: text.text, sentenceSource: 'engine.audit' };
   if (routed.needsAnswers?.length) return { sentence: '', sentenceSource: 'none' };
   // The catalog's day-one sentence was written for the item's usual landing; use it only there.
-  if (item && item.tier === routed.tier) return { sentence: item.dayOne, sentenceSource: 'catalog.dayOne' };
+  if (item && item.tier === routed.tier)
+    return { sentence: item.dayOne, sentenceSource: 'catalog.dayOne' };
   return { sentence: '', sentenceSource: 'reason' };
 }
 
-function factsFor(c: { usesLast30Days: number | null; costPerUse: number | null } | undefined): string {
+function factsFor(
+  c: { usesLast30Days: number | null; costPerUse: number | null } | undefined,
+): string {
   if (!c) return '';
   if (c.usesLast30Days !== null && c.costPerUse !== null)
     return `${c.usesLast30Days} visits in 30 days, $${Math.round(c.costPerUse)} a visit`;
@@ -75,7 +79,10 @@ function factsFor(c: { usesLast30Days: number | null; costPerUse: number | null 
 
 export function buildEngineStack(input: Input, items: Map<string, Item>): RoutedStack {
   const routable = input.items.filter(
-    (s) => (s.itemKey && items.has(s.itemKey)) || s.dataSource || (s.origin && protectedOrigins.has(s.origin)),
+    (s) =>
+      (s.itemKey && items.has(s.itemKey)) ||
+      s.dataSource ||
+      (s.origin && protectedOrigins.has(s.origin)),
   );
   const inventory: InventoryItem[] = routable.map((s) => ({
     id: s.id,
@@ -84,7 +91,8 @@ export function buildEngineStack(input: Input, items: Map<string, Item>): Routed
     monthlyCost: Number.isFinite(s.monthlyCost) ? Math.max(0, s.monthlyCost) : 0,
   }));
   const answers: Record<string, StackAnswers> = {};
-  for (const s of routable) answers[s.id] = answersFor(s, s.itemKey ? items.get(s.itemKey) : undefined, input);
+  for (const s of routable)
+    answers[s.id] = answersFor(s, s.itemKey ? items.get(s.itemKey) : undefined, input);
 
   let engine: ReturnType<typeof routeStack> | null = null;
   try {
@@ -115,7 +123,10 @@ export function buildEngineStack(input: Input, items: Map<string, Item>): Routed
         [dropKey]: factsFor(o.comparisons.find((c) => c.id === drop.id)),
       },
     });
-    partnerOf.set(drop.id, { name: items.get(keepKey)?.name ?? keepKey, monthlyCost: keep.monthlyCost });
+    partnerOf.set(drop.id, {
+      name: displayName(keep, items.get(keepKey)?.name ?? keepKey),
+      monthlyCost: keep.monthlyCost,
+    });
   }
 
   const routedItems: RoutedItem[] = input.items.map((s) => {
@@ -124,7 +135,8 @@ export function buildEngineStack(input: Input, items: Map<string, Item>): Routed
     const base = {
       stackItemId: s.id,
       itemKey: s.itemKey,
-      name: item?.name ?? s.customName ?? '',
+      // Screens show the short label; the engine's sentences are rewritten to match below.
+      name: displayName(s, item?.name),
       category: item?.category ?? ('custom' as const),
       monthlyCost: s.monthlyCost,
       origin: s.origin,
@@ -132,10 +144,16 @@ export function buildEngineStack(input: Input, items: Map<string, Item>): Routed
     if (!r) {
       return {
         ...base,
-        landing: { tier: 'T3', sentence: '', unverified: false, sentenceSource: 'none' } satisfies Landing,
+        landing: {
+          tier: 'T3',
+          sentence: '',
+          unverified: false,
+          sentenceSource: 'none',
+        } satisfies Landing,
       };
     }
     const said = sentenceFor(r, item, answers[s.id] ?? {}, partnerOf.get(s.id));
+    if (item && said.sentence) said.sentence = said.sentence.split(item.name).join(base.name);
     const landing: Landing = {
       tier: r.tier,
       reason: r.reason,

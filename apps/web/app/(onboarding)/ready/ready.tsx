@@ -21,7 +21,8 @@ export function Ready() {
   const { progress, update } = useProgress();
   const { routed, summary, failed, retry } = useRouted();
   const dayOne = progress.dayOne;
-  const setDayOne = (patch: Partial<typeof dayOne>) => update((p) => ({ ...p, dayOne: { ...p.dayOne, ...patch } }));
+  const setDayOne = (patch: Partial<typeof dayOne>) =>
+    update((p) => ({ ...p, dayOne: { ...p.dayOne, ...patch } }));
 
   if (failed)
     return (
@@ -37,7 +38,6 @@ export function Ready() {
   if (!routed || !summary)
     return (
       <section className="stack" aria-busy="true">
-        <p className="eyebrow">{copy.ready.eyebrow}</p>
         <Skeleton kind="title" count={2} />
         <Skeleton kind="option" count={3} />
       </section>
@@ -55,16 +55,23 @@ export function Ready() {
 
   return (
     <section className="stack screen-ready">
-      <p className="eyebrow">{copy.ready.eyebrow}</p>
       <h1>{copy.ready.title(summary.dropsToday)}</h1>
-      {summary.dropsToday === 0 && routed.overlaps.length === 0 ? <p className="lede">{copy.ready.noneLine}</p> : null}
+      {summary.dropsToday === 0 && routed.overlaps.length === 0 ? (
+        <p className="lede">{copy.ready.noneLine}</p>
+      ) : null}
 
       {routed.overlaps.map((pair) => {
-        const kept = dayOne.overlapChoices[pair.group] ?? pair.keys.find((k) => k !== pair.suggestedDrop);
+        const kept =
+          dayOne.overlapChoices[pair.group] ?? pair.keys.find((k) => k !== pair.suggestedDrop);
         const nameOf = (k: string) => routed.items.find((r) => r.itemKey === k)?.name ?? k;
         const costOf = (k: string) => routed.items.find((r) => r.itemKey === k)?.monthlyCost ?? 0;
         return (
-          <div key={pair.group} className="pair-card" role="group" aria-label={copy.dayOne.overlapTitle}>
+          <div
+            key={pair.group}
+            className="pair-card"
+            role="group"
+            aria-label={copy.dayOne.overlapTitle}
+          >
             <h2 className="h-small">{copy.dayOne.overlapTitle}</h2>
             <p className="muted">{copy.dayOne.overlapLine}</p>
             <div className="pair-two">
@@ -72,7 +79,9 @@ export function Ready() {
                 <div key={k}>
                   <span className="pair-name">{nameOf(k)}</span>
                   <span className="pair-facts num">
-                    {[pair.facts[k], copy.dayOne.perMonth(money(costOf(k)))].filter(Boolean).join(' · ')}
+                    {[pair.facts[k], copy.dayOne.perMonth(money(costOf(k)))]
+                      .filter(Boolean)
+                      .join(' · ')}
                   </span>
                 </div>
               ))}
@@ -83,7 +92,9 @@ export function Ready() {
                   key={k}
                   radio
                   selected={kept === k}
-                  onClick={() => setDayOne({ overlapChoices: { ...dayOne.overlapChoices, [pair.group]: k } })}
+                  onClick={() =>
+                    setDayOne({ overlapChoices: { ...dayOne.overlapChoices, [pair.group]: k } })
+                  }
                 >
                   {copy.dayOne.keepThis(nameOf(k))}
                 </Chip>
@@ -115,14 +126,22 @@ export function Ready() {
                         <Chip
                           radio
                           selected={!keepAnyway}
-                          onClick={() => setDayOne({ keepAnyway: dayOne.keepAnyway.filter((x) => x !== r.stackItemId) })}
+                          onClick={() =>
+                            setDayOne({
+                              keepAnyway: dayOne.keepAnyway.filter((x) => x !== r.stackItemId),
+                            })
+                          }
                         >
                           {copy.dayOne.letItGo}
                         </Chip>
                         <Chip
                           radio
                           selected={keepAnyway}
-                          onClick={() => setDayOne({ keepAnyway: [...new Set([...dayOne.keepAnyway, r.stackItemId])] })}
+                          onClick={() =>
+                            setDayOne({
+                              keepAnyway: [...new Set([...dayOne.keepAnyway, r.stackItemId])],
+                            })
+                          }
                         >
                           {copy.dayOne.keepItAnyway}
                         </Chip>
@@ -143,7 +162,6 @@ export function Ready() {
 
       {going.length || summary.monthlyBack ? (
         <div className="saving">
-          <span className="eyebrow">{copy.ready.back}</span>
           <strong>${money(summary.monthlyBack)}</strong>
           <p>{copy.ready.aMonthBack}</p>
         </div>

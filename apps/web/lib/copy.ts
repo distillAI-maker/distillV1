@@ -27,11 +27,16 @@ export const copy = {
   },
   welcome: {
     title: 'Distill your life.',
-    line: 'What you do for yourself, edited.',
+    line: 'Not who you were told to be. Who you are.',
     begin: 'Begin',
     resume: 'Pick up where you left off',
     tapToBegin: 'Distill your life. Begin.',
     haveAccount: 'I already have an account',
+  },
+  name: {
+    title: 'Distill your life.',
+    label: 'Name',
+    placeholder: 'Your first name',
   },
   signIn: {
     title: 'Where can we send your link?',
@@ -57,9 +62,8 @@ export const copy = {
     line: 'Distill reads sleep and recovery from the wearable you already own. Nothing to log by hand.',
     oura: 'Oura',
     whoop: 'WHOOP',
-    fitbit: 'Fitbit',
-    apple: 'Apple Health export',
-    appleHint: 'Upload export.zip',
+    apple: 'Import your nights',
+    appleHint: 'Apple Health export or a CSV file',
     appleHow: 'How to export from the Health app',
     demo: 'Use demo data',
     demoLine:
@@ -68,6 +72,7 @@ export const copy = {
     backfillTitle: 'Reading your history.',
     backfillCount: (n: number) => `${n} nights so far`,
     backfillDone: 'Six months of nights, ready.',
+    open: 'Open your Standard',
     errorStart: "We couldn't start that connection. Try again, or use demo data for now.",
     errorFile: "We couldn't read that file. Pick the export.zip the Health app made.",
   },
@@ -83,7 +88,7 @@ export const copy = {
     scratchToggle: 'Or write it out',
     scratchLabel: 'Notes',
     scratchPlaceholder: 'I go to Equinox, take AG1 most mornings, do Pilates twice a week.',
-    scratchHint: "We match what we recognise as you type. Anything else stays in your notes.",
+    scratchHint: 'We match what we recognise as you type. Anything else stays in your notes.',
     addMatch: (name: string) => `Add ${name}`,
     addCustom: 'Add something not listed',
     customName: 'What is it?',
@@ -104,32 +109,23 @@ export const copy = {
     },
     originAsk: 'Where did this come from?',
     listen: {
-      eyebrow: "First, what's already in the mix?",
       title: 'Talk us through what you do for yourself.',
-      line: "The memberships, supplements, treatments and habits. Don't make a list. Just tell us. We'll listen for the details.",
+      line: 'Include memberships, supplements, treatments and habits.',
       label: 'Tell us what you already do for yourself',
       placeholder: 'I go to Equinox, take AG1 most mornings, do Pilates twice a week…',
-      heard: (n: number) => (n === 1 ? 'We recognise 1 thing so far.' : `We recognise ${n} things so far.`),
+      heard: (n: number) =>
+        n === 1 ? 'We recognise 1 thing so far.' : `We recognise ${n} things so far.`,
       find: 'Find my essentials',
-      chooseMyself: "I'd rather choose them myself",
       example: 'Try it with an example stack',
     },
     edit: {
-      eyebrow: 'Your essentials',
-      title: 'What are you doing for yourself right now?',
-      line: "Everything. The rituals, the products, the habits. Even the ones you're unsure about.",
-      note: "We've begun the list. Add what we missed and remove what isn't yours.",
-      emptyNote: 'Search the 210 things we can read, or add something we don\'t list.',
-    },
-    asides: {
-      supplement: 'Anything in your bathroom cabinet?',
-      habit: 'And your phone, before bed?',
+      title: 'Your current stack',
+      note: "Add what we missed and remove what isn't yours.",
+      emptyNote: "Search the 210 things we can read, or add something we don't list.",
     },
     protectedTag: 'Protected',
     dataSourceTag: 'Your data source',
     remove: (name: string) => `Remove ${name}`,
-    total: (n: number, dollars: string) => `${n} things · $${dollars} a month`,
-    totalOne: (dollars: string) => `1 thing · $${dollars} a month`,
     done: "That's everything",
     needOne: 'Add at least one thing to go on.',
     demoLine: 'Prefilled from the demo person. Change anything.',
@@ -151,25 +147,17 @@ export const copy = {
     continue: 'Continue',
   },
   life: {
-    eyebrow: 'Your life',
-    title: 'Tell us about the life you want.',
-    label: 'Tell us about the life you want',
-    placeholder:
-      "Your ideal mornings. What you love doing. The best times with the people you love. And what's getting in the way. Say it how it is.",
+    title: 'Tell us about your ideal day',
+    label: 'Tell us about your ideal day',
+    placeholder: 'I start the day with a morning meditation in the sunlight…',
     empty: 'Take your time.',
     chars: (n: number) => (n === 1 ? '1 character' : `${n} characters`),
-    beginWith: 'Begin with',
-    starter: 'A good morning, for me, looks like',
-    goalsTitle: 'And what would you most like to change?',
-    goalsLine: 'Pick as many as fit. "Nothing specific" is a real answer.',
-    done: "I've said enough",
+    goalsTitle: 'What would you most like to change?',
+    done: 'All done',
   },
   person: {
-    eyebrow: 'A few questions',
     doctorQ: 'Did a doctor put you on any of these?',
-    doctorLine: 'Choose anything that applies. We leave those alone.',
     keepQ: 'What would you never give up?',
-    keepLine: 'The things that already feel like yours. We will never test them or ask you to drop them.',
     none: 'None of these',
   },
   number: {
@@ -178,103 +166,97 @@ export const copy = {
     line: 'None of it measured on you yet.',
     showMe: 'Show me',
   },
-  heard: {
-    prepared: 'Prepared for you',
-    private: 'Private · 01',
-    eyebrow: "Here's what we heard",
-    title: 'In your words.',
-    blank: "You kept the page blank. Here's what you picked instead.",
-    keepLine: (list: string) => `You said you'd never give up ${list}.`,
-    keepPromise: "You keep these. We won't test them, and we won't ask you to drop them.",
-    noneKept: 'Nothing is off limits yet. You can mark something as yours at any point.',
-    yoursLabel: 'Yours, untouched.',
-    next: 'See what stays',
-  },
   sorted: {
-    eyebrow: 'Your essentials · edited',
-    title: 'Your stack, sorted.',
-    line: 'Tap a group to see what found its way there.',
+    title: 'Your real stack.',
     groups: {
-      yours: { title: 'Yours.', note: "We won't touch these." },
-      read: { title: 'Worth reading on you.', note: 'Your own nights can answer these.' },
-      go: { title: 'Ready to let go.', note: 'Settled today, no test needed.' },
-      call: { title: 'Your call.', note: "We can't see these in your data. The cost and the studies, then it's yours to decide." },
+      yours: { title: 'Protected.' },
+      read: { title: 'To possibly remove.' },
+      go: { title: 'Ready to let go.' },
+      call: { title: 'Your call.' },
     },
     empty: 'Nothing here.',
     next: 'Show me what can go',
   },
   ready: {
-    eyebrow: 'Ready to let go',
     title: (n: number) =>
       n === 0
         ? 'Nothing to let go of today.'
         : `${['One thing', 'Two things', 'Three things', 'Four things', 'Five things', 'Six things', 'Seven things', 'Eight things', 'Nine things', 'Ten things'][n - 1] ?? `${n} things`} you can let go of today.`,
-    noneLine: 'Everything you do is yours, worth reading on you, or your call.',
+    noneLine: 'Everything is protected, still to be read on you, or your call.',
     privateReading: 'Private reading',
-    back: 'Back to you',
     aMonthBack: 'a month, back.',
     next: 'See why',
     memberNext: 'Continue',
   },
   invitation: {
-    eyebrow: 'A private invitation',
-    title: 'Your standard starts here.',
-    lines: [
-      'We read your essentials against your own data.',
-      'Founding members join free while we build it.',
-      'Leave whenever. Your data leaves with you.',
-    ],
-    reportHead: 'Your private reading',
-    reportNo: 'Distill · No. 001',
-    reportTitle: 'A life, edited to fit.',
+    title: 'Find your standard.',
+    line: 'We read your essentials against your own data to find your ideal stack.',
+    reportTitle: 'Summary',
     essentials: 'Essentials',
-    release: 'Ready to release',
-    back: 'Back monthly',
-    firstUp: (name: string) => `First reading: ${name}.`,
+    monthly: 'A month',
     quote: 'Lighter, and more me.',
-    manifesto: ['Fewer things.', 'The right things, lived consistently.', 'Anything new, chosen deliberately.'],
-    seal: 'Prepared only for you',
+    manifesto: [
+      'Fewer things.',
+      'The right things, lived consistently.',
+      'Anything new, chosen deliberately.',
+    ],
     includesTitle: 'What founding membership includes',
     includes: [
       { label: 'The full reading', detail: 'Every reason, for everything in your stack.' },
-      { label: 'Readings on your own data', detail: 'One thing at a time, judged against your normal swing.' },
+      {
+        label: 'Readings on your own data',
+        detail: 'One thing at a time, judged against your normal swing.',
+      },
       { label: 'Your Standard', detail: 'What stays yours, and what you let go, in one place.' },
       { label: 'Your patterns, over time', detail: 'A clearer picture of what works for you.' },
     ],
     free: 'Free while we build it',
     freeLine: 'No card. Nothing to buy today.',
     begin: 'Join as a founding member',
-    notYet: 'Not yet',
+    emailLabel: 'Email',
+    emailPlaceholder: 'you@example.com',
+    emailError: 'That address does not look right. Check it and try again.',
     joined: 'Welcome, founding member.',
+    joinedNamed: (name: string) => `Welcome, ${name}.`,
     joinedLine: 'Your reading is open. Connect your wearable next.',
+    linkSent: (email: string) =>
+      `We sent a link to ${email}. Open it on this device to keep your reading.`,
+    linkFailed: "We couldn't send the link. Your reading is still saved on this device.",
     connect: 'Connect my wearable',
   },
   firstReading: {
     title: 'Your first reading.',
     none: 'Nothing in your stack can be read from your nights yet. Your sort is saved.',
-    lineLocal: 'Fourteen days from Monday. Three days on, three days off.',
-    lineLive: 'Choose the conditions and the length before you start. Both stay locked for this test.',
-    lengthNote: 'Fourteen days rarely gives a clear answer with this design. Longer tests still depend on how complete your data is.',
+    lineLocal: 'A first read at day 14, and a verdict by day 28.',
+    lineLive:
+      'Choose the conditions and the length before you start. Both stay locked for this test.',
+    lengthNote:
+      'Fourteen days rarely gives a clear answer with this design. Longer tests still depend on how complete your data is.',
     duration: 'Test length',
     days: { 14: '14 days, a first look', 28: '28 days', 42: '42 days' },
     onLabel: 'Your on condition',
     offLabel: 'Your off condition',
     onObserve: 'What counts as happening?',
     offObserve: 'What counts as not happening?',
-    observeNote: 'Keep your usual routine. These labels describe what happens; no on or off days are assigned.',
+    observeNote:
+      'Keep your usual routine. These labels describe what happens; no on or off days are assigned.',
     start: 'Start my first reading',
     starting: 'Starting',
     finish: 'Save and continue',
-    errorBaseline: 'We have too few usable nights for your baseline. Import or sync your history, then try again.',
+    errorBaseline:
+      'We have too few usable nights for your baseline. Import or sync your history, then try again.',
     errorActive: 'A test is already running. Open Today to carry on.',
     errorOther: "The test didn't start. Your sort is saved; try again.",
   },
   routing: {
     /** One plain sentence per drop reason, for when the engine has no reviewed figure to quote yet. */
     reasonLine: {
-      'dose too low': 'Studies saw a change at higher amounts than this. The amount is the problem, not you.',
-      'form not absorbed': 'Studies found this form is poorly absorbed. The form is the problem, not you.',
-      'tested, found nothing': 'This has been tested properly, and the studies found nothing to measure.',
+      'dose too low':
+        'Studies saw a change at higher amounts than this. The amount is the problem, not you.',
+      'form not absorbed':
+        'Studies found this form is poorly absorbed. The form is the problem, not you.',
+      'tested, found nothing':
+        'This has been tested properly, and the studies found nothing to measure.',
       'no way it could work': "There's no known way this could do what it's sold for.",
       'overlaps with something else': 'Something else in your stack already does this job.',
       'not being used': "You're not using this right now. Your call whether it stays.",
@@ -295,7 +277,8 @@ export const copy = {
     thatsRight: "That's right",
     changeIt: 'Change it',
     readFrom: (source: string) => `We read this from your ${source}.`,
-    exactLine: 'The answer you picked sits on the line this one is read on, so the exact number matters.',
+    exactLine:
+      'The answer you picked sits on the line this one is read on, so the exact number matters.',
     doseLine: 'The label on the bottle has the number.',
     doseServingLine: 'The label gives it per serving; we add it up for the day.',
     dailyTotal: (n: string, unit: string) => `${n} ${unit}`,
@@ -322,7 +305,10 @@ export const copy = {
       liverCondition: { q: 'Any liver condition you know of?' },
       vegan: { q: 'Are you vegan?' },
       vegetarian: { q: 'Are you vegetarian?' },
-      age: { q: 'How old are you?', line: 'Only for this one item; it changes what the studies say.' },
+      age: {
+        q: 'How old are you?',
+        line: 'Only for this one item; it changes what the studies say.',
+      },
       onMetformin: { q: 'Are you on metformin?' },
       onAcidReducers: { q: 'Do you take an acid reducer, like omeprazole?' },
       deficiency: { q: 'Has a blood test shown you low in it?' },
@@ -334,7 +320,10 @@ export const copy = {
       keto: { q: 'Are you on a keto diet?' },
       stillPaying: { q: 'Still paying for it?' },
       cupsPerDay: { q: 'How many cups a day?', exact: 'How many cups, exactly?' },
-      nightsPerWeek: { q: 'How many nights a week, usually?', exact: 'How many nights a week, exactly?' },
+      nightsPerWeek: {
+        q: 'How many nights a week, usually?',
+        exact: 'How many nights a week, exactly?',
+      },
       dinnerToBedMinutes: {
         q: 'How long between dinner and bed, usually?',
         exact: 'About how many minutes between dinner and bed?',
@@ -343,9 +332,15 @@ export const copy = {
         q: 'How many nights a week do you get up for the bathroom?',
         exact: 'How many nights, exactly?',
       },
-      vigorous: { q: 'Are those sessions hard ones?', line: 'Hard means out of breath, not a stroll.' },
+      vigorous: {
+        q: 'Are those sessions hard ones?',
+        line: 'Hard means out of breath, not a stroll.',
+      },
       workoutToBedMinutes: { q: 'About how many minutes between the end of a session and bed?' },
-      workoutEndHour: { q: 'When do your sessions usually end?', exact: 'What hour does it end, 0 to 23?' },
+      workoutEndHour: {
+        q: 'When do your sessions usually end?',
+        exact: 'What hour does it end, 0 to 23?',
+      },
       workoutNightsPerWeek: { q: 'How many evenings a week?' },
       daysSinceLastUse: { q: 'When did you last use it?', exact: 'About how many days ago?' },
       lastUsed: { q: 'When did you last use it?', exact: 'About how many days ago?' },
@@ -369,49 +364,88 @@ export const copy = {
       sleepsHot: { q: 'Do you sleep hot?' },
       allergies: { q: 'Do you have allergies?' },
       heavyTraffic: { q: 'Heavy traffic or city air outside?' },
-      visitsLast30Days: { q: 'How many times in the last 30 days?', exact: 'How many visits, exactly?' },
-      visitsPrevious30Days: { q: 'And the 30 days before that?', exact: 'How many visits, exactly?' },
+      visitsLast30Days: {
+        q: 'How many times in the last 30 days?',
+        exact: 'How many visits, exactly?',
+      },
+      visitsPrevious30Days: {
+        q: 'And the 30 days before that?',
+        exact: 'How many visits, exactly?',
+      },
       visitsLast60Days: { q: 'How many visits in the last 60 days?' },
       packageUnused: { q: 'Is there an unused package or pack of sessions?' },
       bankedCredits: { q: 'How many credits are banked?' },
       currentPain: { q: 'Is there pain right now?' },
-      subscriptionHasAdditionalTests: { q: 'Does the subscription include tests beyond the basic panel?' },
+      subscriptionHasAdditionalTests: {
+        q: 'Does the subscription include tests beyond the basic panel?',
+      },
       bothWearables: { q: 'Do you wear both?' },
       roomTemperatureC: { q: "What's the thermostat set to at night?" },
       onStatin: { q: 'Are you on a statin?', line: 'CoQ10 has a real use alongside one.' },
       lactoseIntolerant: { q: 'Does dairy upset your stomach?' },
-      productOxidised: { q: 'Has the serum turned orange or brown?', line: 'If it has, the vitamin C is already gone.' },
+      productOxidised: {
+        q: 'Has the serum turned orange or brown?',
+        line: 'If it has, the vitamin C is already gone.',
+      },
       mealsSkippedMostWeeks: { q: 'Do most weeks end with deliveries skipped or thrown out?' },
       ownsEquivalentHeatOrCold: { q: 'Do you have a sauna or cold plunge at home?' },
       sameNightExfoliation: { q: 'Do you use the retinoid and the acid on the same night?' },
-      eyeCreamHasAdditionalActive: { q: 'Does the eye cream list an active your moisturiser does not, like retinol or caffeine?' },
+      eyeCreamHasAdditionalActive: {
+        q: 'Does the eye cream list an active your moisturiser does not, like retinol or caffeine?',
+      },
     } satisfies Record<AskableField, { q: string; line?: string; exact?: string }>,
   },
   dayOne: {
     reading: 'Reading your stack',
     things: (n: number) => (n === 1 ? '1 thing.' : `${n} things.`),
     aMonth: (dollars: string) => `$${dollars} a month.`,
-    line: (s: { dropsToday: number; monthlyBack: string; linedUp: number; cantMeasure: number; keep: number; protectedCount: number; notReadYet: number }) => {
+    line: (s: {
+      dropsToday: number;
+      monthlyBack: string;
+      linedUp: number;
+      cantMeasure: number;
+      keep: number;
+      protectedCount: number;
+      notReadYet: number;
+    }) => {
       const parts = [
         s.dropsToday === 1
           ? `1 comes off today, $${s.monthlyBack} a month back.`
           : `${s.dropsToday} come off today, $${s.monthlyBack} a month back.`,
         s.linedUp === 1 ? '1 lined up for testing.' : `${s.linedUp} lined up for testing.`,
       ];
-      if (s.cantMeasure) parts.push(s.cantMeasure === 1 ? "1 we can't measure, cost shown." : `${s.cantMeasure} we can't measure, cost shown.`);
+      if (s.cantMeasure)
+        parts.push(
+          s.cantMeasure === 1
+            ? "1 we can't measure, cost shown."
+            : `${s.cantMeasure} we can't measure, cost shown.`,
+        );
       if (s.keep) parts.push(`${s.keep} to keep.`);
       if (s.protectedCount) parts.push(`${s.protectedCount} left alone.`);
-      if (s.notReadYet) parts.push(s.notReadYet === 1 ? '1 not read yet.' : `${s.notReadYet} not read yet.`);
+      if (s.notReadYet)
+        parts.push(s.notReadYet === 1 ? '1 not read yet.' : `${s.notReadYet} not read yet.`);
       return parts.join(' ');
     },
     showMe: 'Show me',
     groups: {
-      drop: { title: 'No test needed', line: 'The answer is already known. The money comes back today.' },
-      test: { title: 'Tested on you', line: 'A wearable can see these. Three days on, three off, one number, one word.' },
-      cant: { title: "Can't measure it", line: "We can't see these in your data and we won't pretend to. The cost is shown; the call is yours." },
+      drop: {
+        title: 'No test needed',
+        line: 'The answer is already known. The money comes back today.',
+      },
+      test: {
+        title: 'Tested on you',
+        line: 'A wearable can see these. Three days on, three off, one number, one word.',
+      },
+      cant: {
+        title: "Can't measure it",
+        line: "We can't see these in your data and we won't pretend to. The cost is shown; the call is yours.",
+      },
       keep: { title: 'Keep', line: 'Worth keeping, on the evidence or on how you use it.' },
       protected: { title: 'Protected', line: 'We leave these alone.' },
-      unread: { title: 'Not read yet', line: 'Counted in the total. One more answer and we can read it.' },
+      unread: {
+        title: 'Not read yet',
+        line: 'Counted in the total. One more answer and we can read it.',
+      },
     },
     reasons: {
       'dose too low': 'Dose too low',
@@ -429,7 +463,8 @@ export const copy = {
     leaveIt: 'Leave it',
     beingChecked: 'Being checked',
     safety: 'Safety note',
-    watch: (metric: string) => `We'd watch: ${/^[A-Z][a-z]/.test(metric) ? metric[0]!.toLowerCase() + metric.slice(1) : metric}`,
+    watch: (metric: string) =>
+      `We'd watch: ${/^[A-Z][a-z]/.test(metric) ? metric[0]!.toLowerCase() + metric.slice(1) : metric}`,
     chance: (word: string) => `Chance of a clear answer: ${word}`,
     hypothesisLabel: 'From your history',
     overlapTitle: 'These two do the same job.',
@@ -450,16 +485,68 @@ export const copy = {
     backToStack: 'Back to your stack',
     error: "We couldn't read your stack. Nothing was lost.",
   },
+  home: {
+    eyebrow: 'Your Standard',
+    title: (name: string) => (name ? `${name}, at your best.` : 'You, at your best.'),
+    inYourWords: 'In your words.',
+    noWords: 'Tell us about your ideal day',
+    things: (n: number) => (n === 1 ? 'thing' : 'things'),
+    from: (n: number) => `from ${n}`,
+    aMonth: 'a month',
+    aMonthFrom: (dollars: string) => `a month, from $${dollars}`,
+    back: (dollars: string) => `$${dollars} a month back to you.`,
+    todayEyebrow: 'Today · one thing',
+    letGo: 'Let it go',
+    keep: 'Keep it',
+    letGoneTitle: 'Let go.',
+    letGoneLine: (dollars: string) => `$${dollars} a month back. Lighter already.`,
+    keptTitle: 'Kept. It stays yours.',
+    keptLine: 'Nothing else to do today.',
+    undo: 'Undo',
+    nothingTitle: 'Nothing to decide today.',
+    nothingLine: 'Enjoy it.',
+    noticingEyebrow: "What we're noticing",
+    noticingEmpty: "We're reading your nights. What we notice will show here, a little at a time.",
+    noticingConnect: 'Connect your wearable and we start noticing.',
+    connect: 'Connect',
+    ritualsEyebrow: 'Your rituals',
+    all: (n: number) => `All ${n}`,
+    status: {
+      kept: 'Kept',
+      protected: 'Protected',
+      reading: 'Being read',
+      go: 'Ready to go',
+      call: 'Your call',
+      gone: 'Let go',
+    },
+    fromOrigin: (origin: string) => `from ${origin}`,
+    origins: {
+      doctor: 'a doctor',
+      'blood test': 'a blood test',
+      friend: 'a friend',
+      podcast: 'a podcast',
+      online: 'social media',
+    } as Record<string, string>,
+    costBack: (dollars: string) => `$${dollars} back`,
+    soonEyebrow: 'Soon',
+    soonTitle: 'One ritual, chosen for you.',
+    soonLine:
+      "When the noise is gone, we'll suggest one thing that fits you: a class, a place, a weekend away.",
+    closing: 'Less noise. More you.',
+    plate: 'Lake George. The Met, open access.',
+    plateAlt: 'A calm mountain lake at dawn, painted.',
+  },
   tabs: {
     label: 'App',
     today: 'Today',
-    verdicts: 'Verdicts',
+    verdicts: 'Readings',
     file: 'Standard',
     settings: 'Settings',
   },
   today: {
     title: 'Today',
-    dayOf: (k: number, n: number, condition: 'on' | 'off') => `Day ${k} of ${n} · an ${condition} day`,
+    dayOf: (k: number, n: number, condition: 'on' | 'off') =>
+      `Day ${k} of ${n} · an ${condition} day`,
     didIt: 'Did it',
     didnt: "Didn't",
     noted: 'Noted. The test carries on.',
@@ -472,19 +559,23 @@ export const copy = {
     leaveOut: 'Leave it out',
     keepIn: 'Keep it in',
     leftOut: 'Last night is left out.',
-    watching: (metric: string) => `The number we watch: ${metric}. Written down on day one; it doesn't move.`,
+    watching: (metric: string) =>
+      `The number we watch: ${metric}. Written down on day one; it doesn't move.`,
     verdictReady: 'Your verdict is ready.',
     readVerdict: 'Read the verdict',
     extendTitle: 'Too close to call yet.',
-    extendLine: (days: number) => `The numbers are close, so this runs to day ${days}. Same daily line, nothing new to do.`,
+    extendLine: (days: number) =>
+      `The numbers are close, so this runs to day ${days}. Same daily line, nothing new to do.`,
     skipWeek: 'Skip ahead a week (demo)',
-    firstReadLine: (date: string) => `First read on ${date}. If it is clear by then, that is the verdict; if it is close, one more week.`,
+    firstReadLine: (date: string) =>
+      `First read on ${date}. If it is clear by then, that is the verdict; if it is close, one more week.`,
     emptyTitle: 'Nothing to tap today.',
     emptyLine: 'Your first experiment starts Monday.',
     notStartedLine: 'Start the first experiment on day one and the daily line appears here.',
     seeDayOne: 'See your stack, sorted',
     nextLine: (name: string) => `Next: ${name}. Starts Monday.`,
-    demoNote: (day: number) => `Demo data: the nights so far are already behind you, so today is day ${day}.`,
+    demoNote: (day: number) =>
+      `Demo data: the nights so far are already behind you, so today is day ${day}.`,
     errorSave: "We couldn't save that. Tap again.",
   },
   verdict: {
@@ -515,12 +606,16 @@ export const copy = {
       not_enough_nights: 'Not enough usable nights.',
       in_progress: 'Still running.',
     } as Record<string, string>,
-    chance: (p: number) => `About ${Math.max(1, Math.min(10, Math.round(p * 10)))} in 10 that it helps.`,
-    likelyRange: (lower: string, upper: string) => `The likely size: between ${lower} and ${upper}.`,
+    chance: (p: number) =>
+      `About ${Math.max(1, Math.min(10, Math.round(p * 10)))} in 10 that it helps.`,
+    likelyRange: (lower: string, upper: string) =>
+      `The likely size: between ${lower} and ${upper}.`,
     chartOff: 'Without it',
-    chartLines: 'The solid line is the average of the filled nights, the dashed line the average of the others.',
+    chartLines:
+      'The solid line is the average of the filled nights, the dashed line the average of the others.',
     chartHint: 'Hover or tap a night to see it.',
-    night: (k: number, condition: 'on' | 'off', value: string, tap: string) => `Night ${k}, ${condition}: ${value}, ${tap}`,
+    night: (k: number, condition: 'on' | 'off', value: string, tap: string) =>
+      `Night ${k}, ${condition}: ${value}, ${tap}`,
     nightMissing: (k: number, condition: 'on' | 'off') => `Night ${k}, ${condition}: no reading`,
     unit: (v: number, unit: string) => (unit === 'percent' ? `${v}%` : `${v} ${unit}`),
   },
@@ -541,7 +636,14 @@ export const copy = {
     title: 'Settings',
     sourcesTitle: 'Connected sources',
     demoName: 'Demo data',
-    sourceNames: { demo: 'Demo data', oura: 'Oura', whoop: 'WHOOP', fitbit: 'Fitbit', apple_export: 'Apple Health export', csv: 'CSV import' },
+    sourceNames: {
+      demo: 'Demo data',
+      oura: 'Oura',
+      whoop: 'WHOOP',
+      fitbit: 'Fitbit',
+      apple_export: 'Apple Health export',
+      csv: 'CSV import',
+    },
     since: (date: string) => `since ${date}`,
     noSource: 'No source connected.',
     disconnect: 'Disconnect',
@@ -554,12 +656,14 @@ export const copy = {
     exportHint: 'A JSON file of everything the app holds on you.',
     deleteAll: 'Delete everything',
     deleteTitle: 'Delete everything?',
-    deleteLine: 'Your account, your stack, your taps and every night we pulled. Gone, not archived.',
+    deleteLine:
+      'Your account, your stack, your taps and every night we pulled. Gone, not archived.',
     keepAccount: 'Keep my account',
     deleted: 'Everything is deleted.',
     displayTitle: 'Display',
     lessMotion: 'Less motion',
-    lessMotionHint: 'Turns off the count-ups and the fades. Your system setting is honoured either way.',
+    lessMotionHint:
+      'Turns off the count-ups and the fades. Your system setting is honoured either way.',
     accountTitle: 'Account',
     signOut: 'Sign out',
   },
@@ -583,6 +687,14 @@ function sample(fn: Leaf): string {
   if (typeof fn === 'string') return fn;
   const f = fn as (...args: unknown[]) => string;
   if (f.length === 1 && /\bs\b/.test(f.toString().slice(0, 40)))
-    return f({ dropsToday: 10, monthlyBack: '767', linedUp: 4, cantMeasure: 2, keep: 4, protectedCount: 1, notReadYet: 1 });
+    return f({
+      dropsToday: 10,
+      monthlyBack: '767',
+      linedUp: 4,
+      cantMeasure: 2,
+      keep: 4,
+      protectedCount: 1,
+      notReadYet: 1,
+    });
   return f('Magnesium', 5);
 }

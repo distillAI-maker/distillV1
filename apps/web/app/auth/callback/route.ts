@@ -34,5 +34,6 @@ export async function GET(request: Request) {
       .from('app_profiles')
       .upsert({ user_id: data.user.id }, { onConflict: 'user_id', ignoreDuplicates: true });
   }
-  return NextResponse.redirect(new URL('/stack', url.origin));
+  // The arrival screen resumes saved progress, so someone joining from the invitation lands back there.
+  return NextResponse.redirect(new URL('/', url.origin));
 }

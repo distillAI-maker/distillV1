@@ -26,7 +26,6 @@ export function FirstReading() {
   const [days, setDays] = useState<Days>(28);
   const [onDefinition, setOnDefinition] = useState('');
   const [offDefinition, setOffDefinition] = useState('');
-  const [months, setMonths] = useState<string>(progress.dayOne.months != null ? String(progress.dayOne.months) : '');
   const [picking, setPicking] = useState(false);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +33,8 @@ export function FirstReading() {
   const dayOne = progress.dayOne;
 
   const queue = routed?.queue ?? [];
-  const first = queue.find((q) => q.itemKey === (dayOne.firstExperiment ?? queue[0]?.itemKey)) ?? queue[0];
+  const first =
+    queue.find((q) => q.itemKey === (dayOne.firstExperiment ?? queue[0]?.itemKey)) ?? queue[0];
   const nameOf = (key: string) => routed?.items.find((r) => r.itemKey === key)?.name ?? key;
 
   async function start() {
@@ -42,7 +42,6 @@ export function FirstReading() {
     setStarting(true);
     setError(null);
     const statuses = statusesAfterDayOne(routed, dayOne);
-    const m = months.trim() === '' ? null : Number(months);
     const next: Progress = {
       ...progress,
       step: 'done',
@@ -50,7 +49,6 @@ export function FirstReading() {
       dayOne: {
         ...dayOne,
         started: true,
-        months: Number.isFinite(m as number) ? m : null,
         firstExperiment: dayOne.firstExperiment ?? first?.itemKey,
       },
       items: progress.items.map((i) => ({ ...i, status: statuses[i.id] ?? i.status })),
@@ -87,7 +85,9 @@ export function FirstReading() {
   }
 
   const needsDefinitions =
-    live && first && (!onDefinition.trim() || !offDefinition.trim() || onDefinition.trim() === offDefinition.trim());
+    live &&
+    first &&
+    (!onDefinition.trim() || !offDefinition.trim() || onDefinition.trim() === offDefinition.trim());
 
   return (
     <div className="glass first-reading">
@@ -98,17 +98,6 @@ export function FirstReading() {
           <p className="muted">{live ? copy.firstReading.lineLive : copy.firstReading.lineLocal}</p>
           {live ? <p className="muted">{copy.firstReading.lengthNote}</p> : null}
           {first.observeOnly ? <p className="muted">{copy.dayOne.observeLine}</p> : null}
-          <Field
-            label={copy.dayOne.monthsQ}
-            type="number"
-            inputMode="numeric"
-            min={0}
-            max={600}
-            step={1}
-            unit={copy.dayOne.monthsUnit}
-            value={months}
-            onChange={(e) => setMonths(e.target.value)}
-          />
           {live ? (
             <>
               <div className="field">
@@ -128,7 +117,9 @@ export function FirstReading() {
                 maxLength={1000}
               />
               <Field
-                label={first.observeOnly ? copy.firstReading.offObserve : copy.firstReading.offLabel}
+                label={
+                  first.observeOnly ? copy.firstReading.offObserve : copy.firstReading.offLabel
+                }
                 value={offDefinition}
                 onChange={(e) => setOffDefinition(e.target.value)}
                 maxLength={1000}
@@ -149,7 +140,10 @@ export function FirstReading() {
                       radio
                       selected={first.itemKey === q.itemKey}
                       onClick={() => {
-                        update((p) => ({ ...p, dayOne: { ...p.dayOne, firstExperiment: q.itemKey } }));
+                        update((p) => ({
+                          ...p,
+                          dayOne: { ...p.dayOne, firstExperiment: q.itemKey },
+                        }));
                         setPicking(false);
                       }}
                     >
@@ -170,8 +164,16 @@ export function FirstReading() {
         </p>
       ) : null}
       <div className="actions">
-        <Button onClick={() => void start()} disabled={!routed || starting || Boolean(needsDefinitions)} busy={starting}>
-          {starting ? copy.firstReading.starting : first ? copy.firstReading.start : copy.firstReading.finish}
+        <Button
+          onClick={() => void start()}
+          disabled={!routed || starting || Boolean(needsDefinitions)}
+          busy={starting}
+        >
+          {starting
+            ? copy.firstReading.starting
+            : first
+              ? copy.firstReading.start
+              : copy.firstReading.finish}
           {starting ? null : <Icon name="arrow" size={18} />}
         </Button>
       </div>

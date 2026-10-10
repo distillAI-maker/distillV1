@@ -6,6 +6,7 @@ import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
 import { Button, Skeleton } from '../../../components/ui';
 import { fetchItems } from '../../../lib/catalog/actions';
+import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import { contextFor, flowState } from '../../../lib/followups/resolve';
 import type { Asked } from '../../../lib/followups/resolve';
@@ -16,6 +17,27 @@ import type { AnswerPatch } from './question-view';
 
 const personIds = ['person:doctor', 'person:keep'] as const;
 const protectedOrigins = new Set(['doctor', 'blood test']);
+/** Only what a doctor actually prescribes is offered on the doctor question. */
+const prescribable = new Set(['supplement', 'skincare']);
+
+/**
+ * Onboarding asks five things in all: the two about the person, then three about items. The rest
+ * stay unanswered, land in "Your call", and are asked later in the app.
+ */
+export const itemQuestionCap = 3;
+
+/** Biggest money first, with the one habit most worth reading on you moved up into the last place. */
+export function byStake<
+  T extends { stack: { monthlyCost: number }; item: Pick<Item, 'expectedEffect'> },
+>(pairs: T[]): T[] {
+  const sorted = [...pairs].sort((a, b) => b.stack.monthlyCost - a.stack.monthlyCost);
+  const habit = [...sorted]
+    .filter((p) => (p.item.expectedEffect ?? 0) >= 0.8)
+    .sort((a, b) => (b.item.expectedEffect ?? 0) - (a.item.expectedEffect ?? 0))[0];
+  if (!habit || sorted.indexOf(habit) < itemQuestionCap) return sorted;
+  const rest = sorted.filter((p) => p !== habit);
+  return [...rest.slice(0, itemQuestionCap - 1), habit, ...rest.slice(itemQuestionCap - 1)];
+}
 
 /**
  * One question per screen, generated from the person's stack and the engine's "unanswered
@@ -63,16 +85,47 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
         : [],
     [items, progress.items, yours],
   );
-  const person = personIds.find((id) => !seen.has(id));
-  const state = useMemo(() => (items ? flowState(pairs, ctx, seen) : null), [items, pairs, ctx, seen]);
+  // With nothing a doctor would prescribe in the stack, the doctor question is skipped, not shown empty.
+  const noDoctorOptions = useMemo(
+    () =>
+      Boolean(items) &&
+      !progress.items.some(
+        (s) =>
+          !s.dataSource && s.itemKey && prescribable.has(items?.get(s.itemKey)?.category ?? ''),
+      ),
+    [items, progress.items],
+  );
+  const person = personIds.find(
+    (id) => !seen.has(id) && !(id === 'person:doctor' && noDoctorOptions),
+  );
+  const state = useMemo(() => {
+    if (!items) return null;
+    const full = flowState(byStake(pairs), ctx, seen);
+    // A follow-up on the same field (the exact number after a range) shares its id: count it once.
+    const left = itemQuestionCap - new Set(full.answered.map((a) => a.id)).size;
+    if (left <= 0) return { ...full, current: null, waiting: 0 };
+    return { ...full, waiting: Math.min(full.waiting, left - (full.current ? 1 : 0)) };
+  }, [items, pairs, ctx, seen]);
   const done = Boolean(ready && items && state && !state.current && !person);
   const left = useRef(false);
+  // Whether everything was already answered when this screen opened: null until the flow loads.
+  const arrivedDone = useRef<boolean | null>(null);
 
   useEffect(() => {
+    if (!ready || !items || !state) return;
+    if (arrivedDone.current === null) {
+      arrivedDone.current = done;
+      // Back from the number lands here with nothing left to ask: show the last question again
+      // instead of moving straight on, so back keeps going back.
+      if (done) {
+        update((p) => ({ ...p, seenQuestions: p.seenQuestions.slice(0, -1) }));
+        return;
+      }
+    }
     if (!done || left.current) return;
     left.current = true;
     go('number');
-  }, [done, go]);
+  }, [ready, items, state, done, go, update]);
 
   useBackHandler(() => {
     if (progress.seenQuestions.length === 0) return false;
@@ -115,7 +168,11 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
         }
         next = { ...next, answers, chips, unknown: next.unknown.filter((u) => !later.includes(u)) };
       }
-      return { ...p, seenQuestions: seenNow, items: p.items.map((i) => (i.id === asked.stackId ? next : i)) };
+      return {
+        ...p,
+        seenQuestions: seenNow,
+        items: p.items.map((i) => (i.id === asked.stackId ? next : i)),
+      };
     });
   }
 
@@ -142,14 +199,25 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
     );
 
   const nameOf = (s: (typeof progress.items)[number]) =>
-    (s.itemKey ? items.get(s.itemKey)?.name : s.customName) ?? '';
+    displayName(s, s.itemKey ? items.get(s.itemKey)?.name : undefined);
   if (person) {
     const k = personIds.indexOf(person) + 1;
-    const n = personIds.length + state.answered.length + (state.current ? 1 + state.waiting : 0);
+    const n =
+      personIds.length +
+      new Set(state.answered.map((a) => a.id)).size +
+      (state.current ? 1 + state.waiting : 0);
     const seeOnce = () => update((p) => ({ ...p, seenQuestions: [...p.seenQuestions, person] }));
     if (person === 'person:doctor') {
-      const options = progress.items.filter((s) => !s.dataSource).map((s) => ({ id: s.id, name: nameOf(s) }));
-      const selected = new Set(progress.items.filter((s) => s.origin && protectedOrigins.has(s.origin)).map((s) => s.id));
+      const options = progress.items
+        .filter(
+          (s) =>
+            !s.dataSource && s.itemKey && prescribable.has(items.get(s.itemKey)?.category ?? ''),
+        )
+        .map((s) => ({ id: s.id, name: nameOf(s) }));
+
+      const selected = new Set(
+        progress.items.filter((s) => s.origin && protectedOrigins.has(s.origin)).map((s) => s.id),
+      );
       return (
         <div className="swap" key={person}>
           <PersonQuestion
@@ -161,14 +229,21 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
               update((p) => ({
                 ...p,
                 items: p.items.map((s) =>
-                  s.id !== id ? s : { ...s, origin: s.origin && protectedOrigins.has(s.origin) ? undefined : 'doctor' },
+                  s.id !== id
+                    ? s
+                    : {
+                        ...s,
+                        origin: s.origin && protectedOrigins.has(s.origin) ? undefined : 'doctor',
+                      },
                 ),
               }))
             }
             onNone={() =>
               update((p) => ({
                 ...p,
-                items: p.items.map((s) => (s.origin && protectedOrigins.has(s.origin) ? { ...s, origin: undefined } : s)),
+                items: p.items.map((s) =>
+                  s.origin && protectedOrigins.has(s.origin) ? { ...s, origin: undefined } : s,
+                ),
               }))
             }
             onContinue={seeOnce}
@@ -191,7 +266,9 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
               ...p,
               dayOne: {
                 ...p.dayOne,
-                yours: p.dayOne.yours.includes(id) ? p.dayOne.yours.filter((y) => y !== id) : [...p.dayOne.yours, id],
+                yours: p.dayOne.yours.includes(id)
+                  ? p.dayOne.yours.filter((y) => y !== id)
+                  : [...p.dayOne.yours, id],
               },
             }))
           }
@@ -203,7 +280,7 @@ export function QuestionsFlow({ loadItems = fetchItems }: { loadItems?: typeof f
 
   const current = state.current;
   if (!current) return null;
-  const k = personIds.length + state.answered.length + 1;
+  const k = personIds.length + new Set(state.answered.map((a) => a.id)).size + 1;
   const n = k + state.waiting;
   return (
     <div className="swap" key={current.id}>

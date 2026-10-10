@@ -25,30 +25,23 @@ export function PersonQuestion({
   onContinue: () => void;
 }) {
   const title = kind === 'doctor' ? copy.person.doctorQ : copy.person.keepQ;
-  const line = kind === 'doctor' ? copy.person.doctorLine : copy.person.keepLine;
   return (
     <section className="stack screen-question">
       <div className="q-progress" aria-hidden="true">
-        {Array.from({ length: Math.min(count.n, 12) }, (_, i) => (
+        {Array.from({ length: count.n }, (_, i) => (
           <span key={i} className={i < count.k ? 'on' : ''} />
         ))}
       </div>
-      <p className="eyebrow">
-        {copy.person.eyebrow} · {copy.questions.count(count.k, count.n)}
-      </p>
       <h1>{title}</h1>
-      <p className="lede">{line}</p>
-      <div className="answers" role="group" aria-label={title}>
+      <div className="chips person-chips" role="group" aria-label={title}>
         {options.map((o) => (
           <Chip key={o.id} selected={selected.has(o.id)} onClick={() => onToggle(o.id)}>
-            <span>{o.name}</span>
-            <b aria-hidden="true">{selected.has(o.id) ? '✓' : ''}</b>
+            {o.name}
           </Chip>
         ))}
         {onNone ? (
           <Chip selected={selected.size === 0} onClick={onNone}>
-            <span>{copy.person.none}</span>
-            <b aria-hidden="true">{selected.size === 0 ? '✓' : ''}</b>
+            {copy.person.none}
           </Chip>
         ) : null}
       </div>

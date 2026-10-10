@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { BackProvider } from '../../components/back-handler';
 import { OnboardingBar } from '../../components/onboarding-bar';
 import { Ground } from '../../components/onboarding/ground';
-import { Footer } from '../../components/ui';
+import { OnboardingFoot } from '../../components/onboarding/onboarding-foot';
 
 export default function OnboardingLayout({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +11,7 @@ export default function OnboardingLayout({ children }: { children: ReactNode }) 
       <div className="page">
         <OnboardingBar />
         <main className="main wrap">{children}</main>
-        <Footer />
+        <OnboardingFoot />
       </div>
     </BackProvider>
   );

@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { Newsreader } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
 import { currentUser } from '../lib/supabase/server';
 import './globals.css';
 
-const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const serif = Cormorant_Garamond({
+/** Switzer, the landing page's face, from Fontshare (free licence). TODO: self-host the files. */
+/** Headings: a book serif with a quiet luxury, paired with Switzer for everything else. */
+const display = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500'],
   style: ['normal', 'italic'],
-  variable: '--font-serif',
+  variable: '--font-display',
   display: 'swap',
 });
+const switzer = 'https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600&display=swap';
 
 export const metadata: Metadata = {
   title: { default: 'Distill', template: '%s · Distill' },
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 export const viewport: Viewport = {
-  themeColor: '#100f0b',
+  themeColor: '#ffffff',
   width: 'device-width',
   initialScale: 1,
 };
@@ -35,11 +37,13 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${serif.variable}`}
+      className={display.variable}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={switzer} />
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>

@@ -1,0 +1,312 @@
+/* Home: Your Standard. Gallery white, warm off-white panels, one gold; Newsreader for titles,
+   Switzer for everything else (docs/DIRECTION.md). */
+.page {
+  --ink: #0c0c0d;
+  --ink-2: #4c4d52;
+  --ink-3: #6c6d73;
+  --rule: #e8e7e3;
+  --rule-2: #d9d8d3;
+  --panel: #f6f5f2;
+  --gold-ink: #8a6a1f;
+  min-height: 100dvh;
+  background: #ffffff;
+  color: var(--ink);
+  font-family:
+    'Switzer',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+.plate,
+.wide {
+  margin: 0;
+}
+.plate img,
+.wide img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  background: var(--panel);
+}
+.plate img {
+  aspect-ratio: 16 / 10;
+}
+.wide img {
+  aspect-ratio: 16 / 10;
+}
+.plate figcaption,
+.wide figcaption,
+.caption {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.title {
+  margin: 10px 0 18px;
+  font-size: clamp(36px, 10vw, 46px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+.portrait {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.portrait li {
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+.portrait li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.standard {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--panel);
+  border-radius: 16px;
+}
+.figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.figures strong {
+  display: block;
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.figures span {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.back {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule-2);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gold-ink);
+}
+
+.today {
+  margin-top: 16px;
+  padding: 24px;
+  border: 1px solid var(--rule-2);
+  border-radius: 16px;
+}
+.today h2,
+.forYou h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.today p:not(.eyebrow),
+.forYou > p:not(.eyebrow) {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.primary,
+.secondary {
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font: 500 15px/1 inherit;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+.primary {
+  border: 0;
+  background: var(--ink);
+  color: #ffffff;
+}
+.secondary {
+  border: 1px solid var(--rule-2);
+  background: #ffffff;
+  color: var(--ink);
+}
+.forYou .secondary {
+  margin-top: 16px;
+}
+.link {
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.primary:focus-visible,
+.secondary:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 3px;
+}
+
+.noticing {
+  margin-top: 40px;
+}
+.noticing article {
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+}
+.noticing article p {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+.noticing article span {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+.all {
+  font-size: 13px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.placards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.placards li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 136px;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--panel);
+  border-radius: 12px;
+}
+.status {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+.pname {
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.pmeta {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.pcost {
+  margin-top: auto;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.placards li.gone {
+  background: #ffffff;
+  border: 1px dashed var(--rule-2);
+}
+.placards li.gone .pname {
+  color: var(--ink-2);
+}
+.placards li.gone .status,
+.placards li.gone .pcost {
+  color: var(--ink-3);
+}
+
+.forYou {
+  margin-top: 48px;
+}
+.forYou .eyebrow {
+  margin-top: 20px;
+}
+
+.title,
+.today h2,
+.soon h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+}
+.plate + .eyebrow {
+  margin-top: 28px;
+}
+.title {
+  margin: 0 0 18px;
+}
+.soon {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--panel);
+  border-radius: 16px;
+}
+.soon h2 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.15;
+}
+.soon p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.closing {
+  margin: 48px 0 8px;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink-2);
+}

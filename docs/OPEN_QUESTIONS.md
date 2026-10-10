@@ -116,3 +116,17 @@ Decisions made while replacing the verdict engine; see [ALGORITHM-IDENTITY.md](A
 | DEMO_SERVER | The signed-out demo computes on the server through two server actions (`apps/web/lib/data/demo/actions.ts`): the catalog is a megabyte and the generator pulls in the provider parsers, neither of which belongs in the browser bundle. The browser keeps the taps; the server keeps nothing. |
 | DEMO_FIRST_ITEM | The item the first reading runs is written to `dayOne.firstExperiment` when it starts, so the demo (and a verdict the person has acted on) stays on that item. With the Worked Example stack the engine's own first pick is alcohol (observed, too close at day 14 and 21, "does nothing we can see, leaned the other way" at day 28); coffee, if picked, is clear at day 14. |
 | HRV_UNITS | HRV is read on a log scale, so the swing is a percentage. The change is now reported in the same unit (percent) in the sentence and on the card, so a verdict never mixes "6 ms" with "17.6%". The nights chart keeps milliseconds. |
+
+## Onboarding v2 (2026-10-09)
+
+The onboarding was cut down to the second Figma Make build (`distill-brand/figma-v2`), with the pieces of the live app the project owner chose to keep. Picks were made screen by screen on a review page and are recorded here.
+
+| ID | Decision |
+| --- | --- |
+| FLOW_V2 | Arrival, name, stack, life, questions, the number, sorted, ready, invitation, connect. "Here's what we heard" is cut; saved steps at `heard` resume at `/sorted`. |
+| NAME_FIRST | A first name is asked on a paper screen after the arrival and used to greet the person at the invitation. The email moves to the invitation (when accounts are on): joining sends the magic link, and the first sign-in carries the progress saved on the device into the account (`lib/progress/context.tsx`). Rohan to review. |
+| QUESTION_CAP | Onboarding asks five questions: the doctor question, the never-give-up question, and three item questions, ordered by monthly cost with the highest-effect testable habit moved into the third place (`byStake` in `questions-flow.tsx`). Unasked items land in "Your call". Trade-off, open: a typed ten-item stack can now reach Ready with nothing settled (memberships take the three questions), where ten questions settled two items. Options: raise the cap, or ask several items on one screen (for example one "which of these did you use in the last 30 days?" screen for memberships and apps). |
+| SORTED_V2 | The Figma's group names (Protected, To possibly remove, Ready to let go, Your call) and coloured cards, without red: Ready to let go is bronze, and the clay is darkened until cream text passes contrast. |
+| TEXT_CUT | Eyebrows, subheads, asides between groups, the running total, "where did this come from" on the list, "I'd rather choose them myself", the invitation's extra lines, folio and seal, and "Not yet" are gone. The item is written into each question ("Magnesium: which form?"). The medical note shows once, at the foot of the first stack screen. |
+| CONNECT_V2 | Fitbit is off the connect screen (its API shuts down 30 October); the two Apple import tiles are one; the first-reading card drops the "how many months" box and says "a first read at day 14, and a verdict by day 28". |
+| ARRIVAL_LINE | The Figma's "Not who they imagined. Who you are." fails the tone check (third person). The app uses "Not who you were told to be. Who you are." until the owner rewords it. |

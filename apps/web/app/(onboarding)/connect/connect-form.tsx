@@ -8,7 +8,6 @@ import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
-import { FirstReading } from './first-reading';
 import { useProgress } from '../../../lib/progress/context';
 import type { DataSourceId } from '../../../lib/progress/types';
 
@@ -21,7 +20,6 @@ type Phase = 'pick' | 'backfill' | 'done' | 'error';
 const live: { id: DataSourceId; label: string }[] = [
   { id: 'oura', label: copy.connect.oura },
   { id: 'whoop', label: copy.connect.whoop },
-  { id: 'fitbit', label: copy.connect.fitbit },
 ];
 
 function motionOff(): boolean {
@@ -164,7 +162,29 @@ export function ConnectForm() {
         >
           <i style={{ '--w': `${pct}%` } as CSSProperties} />
         </div>
-        {done ? <FirstReading /> : null}
+        {done ? (
+          <div className="actions">
+            <Button
+              onClick={() => {
+                // Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time.
+                const next = {
+                  ...progress,
+                  step: 'done' as const,
+                  updatedAt: new Date().toISOString(),
+                };
+                void saveNow(next)
+                  .catch(() => undefined)
+                  .finally(() => {
+                    update(next);
+                    router.push('/home');
+                  });
+              }}
+            >
+              {copy.connect.open}
+              <Icon name="arrow" size={18} />
+            </Button>
+          </div>
+        ) : null}
       </section>
     );
   }
@@ -211,26 +231,11 @@ export function ConnectForm() {
           </li>
         ))}
         <li>
-          <button
-            type="button"
-            className="option"
-            disabled={!env.providersEnabled}
-            aria-describedby={env.providersEnabled ? undefined : 'connect-unavailable'}
-            onClick={() => router.push('/connect/import')}
-          >
+          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
             <Icon name="heart" />
             <span>
               <b>{copy.connect.apple}</b>
               <small>{copy.connect.appleHint}</small>
-            </span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
-            <Icon name="heart" />
-            <span>
-              <b>Import sleep data</b>
-              <small>Apple Health ZIP or CSV nights</small>
             </span>
           </button>
         </li>

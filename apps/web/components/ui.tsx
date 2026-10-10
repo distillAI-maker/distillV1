@@ -64,7 +64,13 @@ export function ButtonLink({
   return (
     <Link
       href={href}
-      className={cls('btn', `btn-${variant}`, size === 'sm' && 'btn-sm', block && 'btn-block', className)}
+      className={cls(
+        'btn',
+        `btn-${variant}`,
+        size === 'sm' && 'btn-sm',
+        block && 'btn-block',
+        className,
+      )}
     >
       {children}
     </Link>
@@ -142,7 +148,13 @@ export function Field({
   );
 }
 
-export function Skeleton({ kind, count = 1 }: { kind: 'option' | 'line' | 'title'; count?: number }) {
+export function Skeleton({
+  kind,
+  count = 1,
+}: {
+  kind: 'option' | 'line' | 'title';
+  count?: number;
+}) {
   return (
     <div className="stack-tight" aria-hidden="true">
       {Array.from({ length: count }, (_, i) => (
@@ -157,12 +169,12 @@ export function Wordmark({ large, href }: { large?: boolean; href?: string }) {
   if (href)
     return (
       <Link href={href} className={className} translate="no" aria-label="Distill">
-        DISTILL
+        Distill
       </Link>
     );
   return (
     <span className={className} translate="no" aria-label="Distill">
-      DISTILL
+      Distill
     </span>
   );
 }

@@ -31,7 +31,7 @@ describe('Connect', () => {
     document.documentElement.style.setProperty('--motion', '0');
   });
 
-  it('runs the demo backfill and finishes onboarding on Today', async () => {
+  it('runs the demo backfill and finishes onboarding on Your Standard', async () => {
     const store = new LocalProgressStore(memory());
     render(
       <ProgressProvider store={store}>
@@ -45,15 +45,14 @@ describe('Connect', () => {
     expect(await screen.findByText('Six months of nights, ready.')).toBeTruthy();
     expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('100');
     await act(async () => {
-      fireEvent.click(await screen.findByRole('button', { name: /Save and continue/ }));
+      fireEvent.click(await screen.findByRole('button', { name: /Open your Standard/ }));
     });
-    expect(push).toHaveBeenCalledWith('/today');
+    expect(push).toHaveBeenCalledWith('/home');
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.dataSource).toBe('demo');
       expect(saved?.backfill).toEqual({ nights: demoNights, done: true });
       expect(saved?.step).toBe('done');
-      expect(saved?.dayOne.started).toBe(true);
     });
   });
 

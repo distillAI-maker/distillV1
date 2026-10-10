@@ -9,12 +9,13 @@ import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
 
-/** Four groups on one surface. The names and counts do the sorting; nothing is coloured to judge. */
+/** Four groups, as the Figma build draws them: a coloured card each, tap to open. No red. */
 export function Sorted() {
   const go = useGo();
   const { progress } = useProgress();
   const { routed, failed, retry } = useRouted();
-  const [open, setOpen] = useState<number>(0);
+  // Null until they tap: then the first group that holds anything starts open.
+  const [open, setOpen] = useState<number | null>(null);
 
   if (failed)
     return (
@@ -30,25 +31,28 @@ export function Sorted() {
   if (!routed)
     return (
       <section className="stack" aria-busy="true">
-        <p className="eyebrow">{copy.sorted.eyebrow}</p>
         <h1>{copy.sorted.title}</h1>
         <Skeleton kind="option" count={4} />
       </section>
     );
 
   const groups = onShelves(routed, progress.dayOne);
+  const opened =
+    open ??
+    Math.max(
+      0,
+      shelves.findIndex((k) => groups[k].length > 0),
+    );
   return (
     <section className="stack screen-sorted">
-      <p className="eyebrow">{copy.sorted.eyebrow}</p>
       <h1>{copy.sorted.title}</h1>
-      <p className="lede">{copy.sorted.line}</p>
       <div className="shelves">
         {shelves.map((key, index) => {
           const rows = groups[key];
-          const isOpen = open === index;
+          const isOpen = opened === index;
           const head = copy.sorted.groups[key];
           return (
-            <div key={key} className={`shelf${isOpen ? ' open' : ''}`}>
+            <div key={key} className={`shelf shelf-${key}${isOpen ? ' open' : ''}`}>
               <button
                 type="button"
                 className="shelf-head"
@@ -56,12 +60,10 @@ export function Sorted() {
                 aria-controls={`shelf-${key}`}
                 onClick={() => setOpen(isOpen ? -1 : index)}
               >
-                <span className="shelf-top">
-                  <span className="num">{String(rows.length).padStart(2, '0')}</span>
-                  <span aria-hidden="true">{isOpen ? '−' : '+'}</span>
+                <span className="shelf-top" aria-hidden="true">
+                  {isOpen ? '−' : '+'}
                 </span>
                 <span className="shelf-title">{head.title}</span>
-                <span className="shelf-note">{head.note}</span>
               </button>
               <div className="shelf-body" id={`shelf-${key}`} hidden={!isOpen}>
                 {rows.length ? (

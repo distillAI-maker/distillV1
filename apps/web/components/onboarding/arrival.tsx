@@ -9,9 +9,10 @@ import { Mark } from './mark';
 
 /**
  * The first screen: "Distill" settles, then the sentence completes. Tap, Enter or Space moves on;
- * otherwise it moves on by itself. Someone with saved progress picks up where they left off.
+ * otherwise it moves on by itself. Someone with saved progress picks up where they left off; anyone
+ * new gives their name next. The email comes at the invitation, once there is something to keep.
  */
-export function Arrival({ signInFirst }: { signInFirst: boolean }) {
+export function Arrival() {
   const router = useRouter();
   const { ready, progress } = useProgress();
   const [phase, setPhase] = useState(0);
@@ -20,9 +21,10 @@ export function Arrival({ signInFirst }: { signInFirst: boolean }) {
   const next = useCallback(() => {
     if (left.current) return;
     left.current = true;
-    const started = progress.items.length > 0 || progress.step !== 'stack';
-    router.push(started ? resumePath(progress.step) : signInFirst ? '/sign-in' : '/stack');
-  }, [progress.items.length, progress.step, router, signInFirst]);
+    const started =
+      progress.items.length > 0 || (progress.step !== 'stack' && progress.step !== 'name');
+    router.push(started ? resumePath(progress.step) : '/name');
+  }, [progress.items.length, progress.step, router]);
 
   useEffect(() => {
     const reveal = window.setTimeout(() => setPhase(1), 1600);

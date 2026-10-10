@@ -3,41 +3,44 @@
    Tokens are the only place a colour lives. Names match the earlier sheet where the idea is the same. */
 
 :root {
-  --bg: #100f0b;
-  --surface: #17150f;
-  --glass: #1c1a13;
-  --glass-edge: rgba(245, 237, 215, 0.14);
-  --ink: #f5edd7;
-  --accent: #b89552;
-  --accent-light: #d6b078;
-  --on-accent: #100f0b;
-  --muted: #a7a292;
-  --faint: #959081;
-  --rule: rgba(245, 237, 215, 0.14);
-  --rule-2: rgba(245, 237, 215, 0.26);
-  --paper: #ede3cc;
-  --paper-light: #f5edd7;
-  --on-paper: #131009;
-  --muted-on-paper: #67604f;
-  --accent-on-paper: #7d6029;
-  --dusk: linear-gradient(158deg, #1a1508 0%, #4a2814 62%, #6a3a1c 100%);
-  --serif: var(--font-serif), 'Cormorant Garamond', Georgia, serif;
-  --sans: var(--font-sans), 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  /* Light identity, matching the new landing page: white ground, warm off-white panels,
+     near-black ink, one gold accent. Switzer throughout. */
+  --bg: #ffffff;
+  --surface: #f6f5f2;
+  --glass: #f6f5f2;
+  --glass-edge: #e8e7e3;
+  --ink: #0c0c0d;
+  --accent: #8a6a1f;
+  --accent-light: #8a6a1f;
+  --gold: #b48c37;
+  --on-accent: #ffffff;
+  --muted: #4c4d52;
+  --faint: #6c6d73;
+  --rule: #e8e7e3;
+  --rule-2: #d9d8d3;
+  --paper: #f5eedc;
+  --paper-light: #ffffff;
+  --on-paper: #0c0c0d;
+  --muted-on-paper: #4c4d52;
+  --accent-on-paper: #8a6a1f;
+  --dusk: linear-gradient(180deg, #ffffff 0%, #f6f5f2 100%);
+  --serif: var(--font-display), 'Newsreader', Georgia, serif;
+  --sans: 'Switzer', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: var(--sans);
-  --wordmark: var(--serif);
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --wordmark: var(--sans);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --r-card: 0;
-  --r-ctl: 0;
+  --r-card: 16px;
+  --r-ctl: 12px;
   --r-pill: 999px;
-  --gutter: clamp(16px, 4vw, 48px);
+  --gutter: clamp(20px, 4vw, 48px);
   --col: 560px;
   --bar-h: 64px;
   /* 1 = full motion, 0 = reduced. Every duration multiplies by it. */
   --motion: 1;
-  color-scheme: dark;
-  accent-color: var(--accent);
-  caret-color: var(--accent);
+  color-scheme: light;
+  accent-color: var(--ink);
+  caret-color: var(--ink);
 }
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -50,16 +53,16 @@
 /* Paper panels: the same components on the inverse ground. */
 [data-theme='light'],
 .inverse {
-  --bg: #f5edd7;
-  --surface: #ede3cc;
-  --glass: #fbf6e8;
-  --glass-edge: rgba(19, 16, 9, 0.14);
-  --ink: #131009;
-  --accent: #7d6029;
-  --muted: #67604f;
-  --faint: #67604f;
-  --rule: rgba(19, 16, 9, 0.14);
-  --rule-2: rgba(19, 16, 9, 0.26);
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --glass: #ffffff;
+  --glass-edge: #e8e7e3;
+  --ink: #0c0c0d;
+  --accent: #8a6a1f;
+  --muted: #4c4d52;
+  --faint: #6c6d73;
+  --rule: #e2e0da;
+  --rule-2: #d9d8d3;
   color-scheme: light;
 }
 
@@ -86,8 +89,8 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 400;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -112,13 +115,13 @@ h1,
 h2,
 h3 {
   font-family: var(--serif);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(40px, 10vw, 56px);
-  line-height: 0.95;
+  font-size: clamp(34px, 9vw, 50px);
+  line-height: 1.05;
 }
 h2 {
   font-size: clamp(28px, 6vw, 38px);
@@ -147,7 +150,7 @@ textarea {
   color: inherit;
 }
 ::selection {
-  background: rgba(184, 149, 82, 0.32);
+  background: rgba(180, 140, 55, 0.32);
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -190,7 +193,7 @@ textarea {
 }
 .display {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(48px, 13vw, 64px);
   line-height: 0.95;
   letter-spacing: -0.025em;
@@ -243,8 +246,8 @@ textarea {
 .wordmark {
   font-family: var(--wordmark);
   font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 0.18em;
+  font-size: 20px;
+  letter-spacing: -0.035em;
   text-decoration: none;
   color: var(--ink);
   white-space: nowrap;
@@ -358,7 +361,7 @@ textarea {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid rgba(19, 16, 9, 0.3);
+  border: 2px solid rgba(12, 12, 13, 0.3);
   border-top-color: var(--on-paper);
   animation: spin 0.7s linear infinite;
 }
@@ -560,7 +563,7 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(16, 15, 11, 0.96);
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--rule);
 }
 .obar .wrap {
@@ -646,7 +649,7 @@ textarea {
   display: block;
   position: relative;
   overflow: hidden;
-  background: rgba(245, 237, 215, 0.06);
+  background: rgba(12, 12, 13, 0.03);
   border-radius: 0;
 }
 .sk::after {
@@ -656,9 +659,9 @@ textarea {
   transform: translateX(-100%);
   background: linear-gradient(
     90deg,
-    rgba(245, 237, 215, 0),
-    rgba(245, 237, 215, 0.12),
-    rgba(245, 237, 215, 0)
+    rgba(12, 12, 13, 0),
+    rgba(12, 12, 13, 0.06),
+    rgba(12, 12, 13, 0)
   );
   animation: sk calc(1.3s * var(--motion) + 0.001s) linear infinite;
 }
@@ -798,7 +801,7 @@ textarea {
   white-space: nowrap;
 }
 .listbox [role='option'][aria-selected='true'] {
-  background: rgba(184, 149, 82, 0.16);
+  background: rgba(180, 140, 55, 0.16);
 }
 .listbox .empty {
   padding: 10px 12px;
@@ -907,7 +910,7 @@ textarea {
 .item-row .cost input:focus {
   outline: 0;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(184, 149, 82, 0.25);
+  box-shadow: 0 0 0 3px rgba(180, 140, 55, 0.25);
 }
 .item-row .origin {
   display: grid;
@@ -949,7 +952,7 @@ textarea {
 .scratch textarea:focus {
   outline: 0;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(184, 149, 82, 0.25);
+  box-shadow: 0 0 0 3px rgba(180, 140, 55, 0.25);
 }
 .scratch textarea::placeholder {
   color: var(--muted);
@@ -1195,7 +1198,7 @@ textarea {
     z-index: 10;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background: rgba(16, 15, 11, 0.92);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: saturate(1.3) blur(12px);
     -webkit-backdrop-filter: saturate(1.3) blur(12px);
     border-top: 1px solid var(--rule);
@@ -1275,7 +1278,7 @@ textarea {
   border-color: var(--rule-2);
 }
 .days i.on.unknown {
-  background: rgba(184, 149, 82, 0.35);
+  background: rgba(180, 140, 55, 0.35);
   color: var(--ink);
 }
 .days i.now {
@@ -1437,7 +1440,7 @@ textarea {
 }
 .score b {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(34px, 8vw, 44px);
   letter-spacing: -0.01em;
   line-height: 1.05;
@@ -1503,10 +1506,12 @@ textarea {
   height: 24px;
   border-radius: 50%;
   background: var(--muted);
-  transition: transform calc(0.2s * var(--motion)) var(--ease-out), background-color calc(0.2s * var(--motion)) ease;
+  transition:
+    transform calc(0.2s * var(--motion)) var(--ease-out),
+    background-color calc(0.2s * var(--motion)) ease;
 }
 .switch-btn[aria-checked='true'] {
-  background: rgba(184, 149, 82, 0.25);
+  background: rgba(180, 140, 55, 0.25);
   border-color: var(--accent);
 }
 .switch-btn[aria-checked='true']::after {
@@ -1544,7 +1549,7 @@ body[data-ground='dusk']::before {
   pointer-events: none;
 }
 body[data-ground='dusk'] .obar {
-  background: rgba(26, 21, 8, 0.94);
+  background: rgba(255, 255, 255, 0.94);
 }
 body[data-ground='dusk'] .foot {
   border-top-color: var(--rule);
@@ -1564,8 +1569,9 @@ body[data-ground='dusk'] .foot {
 .h-small {
   font-family: var(--serif);
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.15;
+  letter-spacing: -0.012em;
 }
 .h-label {
   font-family: var(--sans);
@@ -1610,7 +1616,7 @@ body[data-ground='dusk'] .foot {
   width: 460px;
   height: 460px;
   transform: translate(-50%, -48%);
-  background: radial-gradient(ellipse, rgba(184, 149, 82, 0.18), transparent 62%);
+  background: radial-gradient(ellipse, rgba(180, 140, 55, 0.18), transparent 62%);
   pointer-events: none;
 }
 .arrival-mark {
@@ -1671,7 +1677,8 @@ body[data-ground='dusk'] .foot {
   text-transform: uppercase;
   color: var(--muted);
   opacity: 0;
-  animation: rise calc(0.9s * var(--motion) + 0.001s) calc(2.4s * var(--motion)) var(--ease-out) both;
+  animation: rise calc(0.9s * var(--motion) + 0.001s) calc(2.4s * var(--motion)) var(--ease-out)
+    both;
 }
 @keyframes markFade {
   0% {
@@ -1689,7 +1696,7 @@ body[data-ground='dusk'] .foot {
 /* the writing field: what a person writes is set in the serif */
 .writing {
   border: 1px solid var(--rule-2);
-  background: rgba(245, 237, 215, 0.08);
+  background: rgba(12, 12, 13, 0.04);
   padding: 18px 18px 0;
   transition: border-color calc(0.2s * var(--motion)) var(--ease-out);
 }
@@ -1706,8 +1713,9 @@ body[data-ground='dusk'] .foot {
   color: var(--ink);
   font-family: var(--serif);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.35;
+  letter-spacing: -0.012em;
 }
 .screen-life .writing textarea {
   min-height: 210px;
@@ -1759,7 +1767,8 @@ body[data-ground='dusk'] .foot {
 .suggestion q {
   font-family: var(--serif);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: -0.012em;
 }
 .goals-block {
   margin-top: 8px;
@@ -1781,8 +1790,9 @@ body[data-ground='dusk'] .foot {
 .aside {
   font-family: var(--serif);
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.15;
+  letter-spacing: -0.012em;
 }
 .cat-label {
   font-family: var(--sans);
@@ -1804,13 +1814,12 @@ body[data-ground='dusk'] .foot {
   grid-template-columns: minmax(0, 1fr) auto 44px;
   align-items: center;
   gap: 8px;
-  min-height: 58px;
-  padding-left: 14px;
-  background: rgba(245, 237, 215, 0.06);
-  border-left: 2px solid var(--accent);
+  min-height: 56px;
+  padding-left: 0;
+  background: transparent;
   border-bottom: 1px solid var(--rule);
   color: var(--ink);
-  font-size: 15px;
+  font-size: 16px;
 }
 .row-name {
   min-width: 0;
@@ -1901,7 +1910,7 @@ body[data-ground='dusk'] .foot {
   display: grid;
   gap: 10px;
   padding: 14px;
-  background: rgba(245, 237, 215, 0.05);
+  background: rgba(12, 12, 13, 0.03);
   border-left: 2px solid var(--rule-2);
   font-size: 13px;
 }
@@ -1945,7 +1954,7 @@ body[data-ground='dusk'] .foot {
   border-bottom: 1px solid var(--rule);
   border-radius: 0;
   background: transparent;
-  color: var(--muted);
+  color: var(--ink);
   font: 400 15px var(--sans);
   text-align: left;
 }
@@ -1957,12 +1966,14 @@ body[data-ground='dusk'] .foot {
   border: 1px solid var(--rule-2);
   font-size: 11px;
 }
-.answers .chip[aria-pressed='true'] {
+.answers .chip[aria-pressed='true'],
+.answers .chip[aria-checked='true'] {
   background: transparent;
   color: var(--ink);
   border-color: var(--rule);
 }
-.answers .chip[aria-pressed='true'] b {
+.answers .chip[aria-pressed='true'] b,
+.answers .chip[aria-checked='true'] b {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--on-accent);
@@ -1985,7 +1996,7 @@ body[data-ground='dusk'] .foot {
   justify-items: center;
   text-align: center;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 42%, rgba(184, 149, 82, 0.1), transparent 45%);
+  background: radial-gradient(circle at 50% 42%, rgba(180, 140, 55, 0.1), transparent 45%);
 }
 .drift span {
   position: absolute;
@@ -1997,7 +2008,9 @@ body[data-ground='dusk'] .foot {
   font-size: 17px;
   color: var(--faint);
   opacity: 0;
-  animation: gather calc(5.5s * var(--motion) + 0.001s) calc(var(--i) * 80ms * var(--motion)) var(--ease-in-out) both;
+  animation: gather calc(5.5s * var(--motion) + 0.001s) calc(var(--i) * 80ms * var(--motion))
+    var(--ease-in-out) both;
+  letter-spacing: -0.012em;
 }
 .reckoning {
   position: relative;
@@ -2017,10 +2030,11 @@ body[data-ground='dusk'] .foot {
 .reckon-2 {
   font-family: var(--serif);
   font-size: clamp(46px, 13vw, 56px);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1;
   color: var(--accent-light);
   animation-delay: calc(3.8s * var(--motion));
+  letter-spacing: -0.012em;
 }
 .reckon-3 {
   margin-top: 20px;
@@ -2094,8 +2108,9 @@ body[data-ground='dusk'] .foot {
 .letter-copy {
   font-family: var(--serif);
   font-size: 27px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.35;
+  letter-spacing: -0.012em;
 }
 .letter-quote {
   margin: 0;
@@ -2107,14 +2122,15 @@ body[data-ground='dusk'] .foot {
   font-family: var(--serif);
   font-size: 22px;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.3;
   color: var(--accent);
+  letter-spacing: -0.012em;
 }
 .best {
   margin-inline: calc(var(--gutter) * -1);
   padding: 28px var(--gutter);
-  background: rgba(245, 237, 215, 0.05);
+  background: rgba(12, 12, 13, 0.03);
   border-block: 1px solid var(--rule);
 }
 .best-label {
@@ -2139,65 +2155,72 @@ body[data-ground='dusk'] .foot {
   font-family: var(--serif);
   font-size: 22px;
   line-height: 1.2;
+  letter-spacing: -0.012em;
 }
 
-/* sorted: one surface for every group */
+/* sorted: the Figma build's four coloured cards. No red: "Ready to let go" is bronze, and the clay
+   is darkened until cream text passes (sage 4.7, clay 5.4, bronze 6.1, stone 6.2). */
 .shelves {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 .shelf {
-  background: var(--glass);
-  border: 1px solid var(--rule);
-  border-left: 2px solid var(--rule);
-  transition: border-color calc(0.2s * var(--motion)) var(--ease-out);
+  --shelf: var(--glass);
+  background: var(--shelf);
+  color: var(--paper-light);
 }
-.shelf.open {
-  border-color: var(--rule-2);
-  border-left-color: var(--accent);
+.shelf-yours {
+  --shelf: #5e6d58;
+}
+.shelf-read {
+  --shelf: #8a5236;
+}
+.shelf-go {
+  --shelf: #6e5330;
+}
+.shelf-call {
+  --shelf: #575752;
 }
 .shelf-head {
   display: grid;
-  gap: 4px;
   width: 100%;
-  padding: 16px 18px 20px;
+  min-height: 138px;
+  padding: 17px 18px 21px;
   border: 0;
   background: transparent;
-  color: var(--ink);
+  color: inherit;
   text-align: left;
   cursor: pointer;
+  align-content: space-between;
 }
 .shelf-top {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--muted);
-}
-.shelf.open .shelf-top {
-  color: var(--accent);
+  justify-self: end;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
 }
 .shelf-title {
-  margin-top: 12px;
+  margin-top: 18px;
   font-family: var(--serif);
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.1;
-}
-.shelf-note {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.5;
+  letter-spacing: -0.012em;
 }
 .shelf-body {
-  padding: 0 18px 20px;
+  padding: 0 18px 21px;
 }
 .shelf-body ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rule);
+  gap: 12px 16px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   font-size: 14px;
+}
+.shelf-body .muted {
+  color: var(--paper-light);
+  opacity: 0.8;
 }
 
 /* ready to let go */
@@ -2222,6 +2245,7 @@ body[data-ground='dusk'] .foot {
   font-family: var(--serif);
   font-size: 20px;
   line-height: 1.15;
+  letter-spacing: -0.012em;
 }
 .pair-facts {
   font-size: 13px;
@@ -2256,8 +2280,9 @@ body[data-ground='dusk'] .foot {
 .release-title span {
   font-family: var(--serif);
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.1;
+  letter-spacing: -0.012em;
 }
 .release-title b {
   font-size: 13px;
@@ -2328,10 +2353,12 @@ body[data-ground='dusk'] .foot {
   font-weight: 400;
   line-height: 1;
   color: var(--accent-light);
+  letter-spacing: -0.012em;
 }
 .saving p {
   font-family: var(--serif);
   font-size: 22px;
+  letter-spacing: -0.012em;
 }
 
 /* invitation */
@@ -2358,12 +2385,9 @@ body[data-ground='dusk'] .foot {
   border: 1px solid var(--rule-2);
   border-radius: 50%;
 }
-.invite-lines {
-  border-top: 1px solid var(--rule-2);
-}
-.invite-lines li {
+.invite-line {
   padding-block: 14px;
-  border-bottom: 1px solid var(--rule-2);
+  border-block: 1px solid var(--rule-2);
   font-size: 15px;
   font-weight: 300;
 }
@@ -2375,7 +2399,7 @@ body[data-ground='dusk'] .foot {
   display: grid;
   gap: 18px;
   padding: 28px var(--gutter) 40px;
-  background: linear-gradient(rgba(19, 16, 9, 0.04) 1px, transparent 1px), var(--bg);
+  background: linear-gradient(rgba(12, 12, 13, 0.04) 1px, transparent 1px), var(--bg);
   background-size: 100% 24px;
 }
 .report-head {
@@ -2393,12 +2417,13 @@ body[data-ground='dusk'] .foot {
   max-width: 12ch;
   font-family: var(--serif);
   font-size: 44px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1;
+  letter-spacing: -0.012em;
 }
 .report-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 24px 0 0;
   padding-block: 18px;
   border-block: 1px solid var(--rule);
@@ -2422,6 +2447,7 @@ body[data-ground='dusk'] .foot {
   margin: 8px 0 0;
   font-family: var(--serif);
   font-size: 32px;
+  letter-spacing: -0.012em;
 }
 .report-first {
   font-size: 14px;
@@ -2431,8 +2457,9 @@ body[data-ground='dusk'] .foot {
   margin-block: 28px 4px;
   font-family: var(--serif);
   font-size: 28px;
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
+  letter-spacing: -0.012em;
 }
 .report-manifesto {
   padding-block: 16px;
@@ -2504,8 +2531,9 @@ body[data-ground='dusk'] .foot {
 .join-price {
   font-family: var(--serif);
   font-size: 40px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.05;
+  letter-spacing: -0.012em;
 }
 .join-line {
   font-size: 14px;
@@ -2525,8 +2553,9 @@ body[data-ground='dusk'] .foot {
 .joined-title {
   font-family: var(--serif);
   font-size: 36px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.1;
+  letter-spacing: -0.012em;
 }
 .joined .actions {
   width: 100%;
@@ -2564,6 +2593,159 @@ body[data-ground='dusk'] .foot {
 .first-name {
   font-family: var(--serif);
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.1;
+  letter-spacing: -0.012em;
+}
+
+/* the name screen, on paper (Figma v2 "Identity") */
+body[data-ground='paper'] {
+  --bg: #f6f5f2;
+  --glass: #ffffff;
+  --ink: #0c0c0d;
+  --muted: #4c4d52;
+  --faint: #4c4d52;
+  --rule: rgba(12, 12, 13, 0.14);
+  --rule-2: rgba(12, 12, 13, 0.26);
+  --accent: #8a6a1f;
+  color-scheme: light;
+  background: var(--bg);
+  color: var(--ink);
+}
+body[data-ground='paper'] .obar {
+  background: rgba(246, 245, 242, 0.96);
+}
+.screen-name {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--bar-h) - 72px);
+}
+.screen-name h1 {
+  color: var(--ink);
+}
+.name-mark {
+  width: 31px;
+  height: 31px;
+  margin-top: 24px;
+  color: #b48c37;
+}
+.name-fields {
+  margin-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+.name-fields label {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: center;
+  min-height: 76px;
+  border-bottom: 1px solid var(--rule);
+}
+.name-fields label > span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.name-fields input {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 24px;
+  outline: 0;
+  letter-spacing: -0.012em;
+}
+.name-fields input::placeholder {
+  color: rgba(12, 12, 13, 0.42);
+}
+.name-fields label:focus-within {
+  border-bottom-color: var(--accent);
+}
+.screen-name .actions {
+  margin-top: auto;
+  padding-top: 48px;
+}
+.btn-ink {
+  background: var(--on-paper);
+  color: var(--paper-light);
+}
+
+/* the six goals under the ideal day */
+.goals-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* questions carry their item in the title, so they run longer than the Figma's */
+.screen-q h1 {
+  font-size: clamp(34px, 9vw, 46px);
+}
+.join-form {
+  display: grid;
+  gap: 8px;
+}
+.join-form .field {
+  text-align: left;
+  margin-top: 8px;
+}
+
+/* Buttons and chips in the landing page's language: black, rounded, sentence case. */
+.btn {
+  min-height: 56px;
+  border-radius: var(--r-ctl);
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+.btn-sm {
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.btn-primary,
+.inverse .btn-primary,
+.btn-ink {
+  background: var(--ink);
+  color: #ffffff;
+}
+.btn-link {
+  font-size: 15px;
+}
+.chip {
+  background: #ffffff;
+  border-color: var(--rule-2);
+  color: var(--ink);
+}
+.chip[aria-pressed='true'],
+.chip[aria-checked='true'],
+.inverse .chip[aria-pressed='true'],
+.inverse .chip[aria-checked='true'] {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: var(--ink);
+}
+
+/* the stack list: plain hairline rows, as on the landing page */
+.rows {
+  gap: 0;
+}
+.cat {
+  gap: 4px;
+}
+.shelf {
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.pair-card,
+.first-reading,
+.read-card,
+.glass {
+  border-radius: var(--r-card);
 }
