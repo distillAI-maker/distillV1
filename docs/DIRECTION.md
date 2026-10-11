@@ -26,7 +26,29 @@ Arrival, name, your stack, your ideal day, **the number** (count and monthly cos
 - **The collection:** everything they do, as placards: kept, being read, let go.
 - **Made for you (later):** one aligned suggestion at a time.
 
-The engine stays and decides what is said (routing, Rishabh's estimate-based policy); the person never sees its machinery. Assigned on/off tests become rare and opt-in.
+The engine stays and decides what is said (routing, the estimate-based decision policy from PR #3); the person never sees its machinery. Assigned on/off tests become rare and opt-in.
+
+## How Distill decides (11 October)
+
+Every person has three inputs, ranked:
+
+1. **Their values:** their ideal day in their own words, what they'd never give up, their ritual notes, their daily answers.
+2. **Their signals:** their nights, from the wearable.
+3. **The evidence:** the routing table.
+
+**Values beat data.** Wine Fridays cost some recovery and are also connection, photos and memories: we celebrate them ("Fridays are yours") and offer a gentle tweak only if they ask. The person is a co-creator throughout: every suggestion is a proposal they shape (keep, let go, not now), and when they say why something is theirs ("it's my thing with my sister"), it is marked theirs and not raised again unless they ask.
+
+- **One thing a day,** rotating: learn about them (one short question, not journaling), let something go, notice a pattern, celebrate a ritual that is clearly theirs, and rarely suggest something. Always skippable, no streaks.
+- **Ritual notes:** tap a ritual and write anything, like Apple Notes. We distill the notes into two or three sentences that keep their meaning, in line with the mission (growth, human, no comparison). The model never writes numbers, verdicts or health claims.
+- **Their photo:** the top of Your Standard is a moment they love, chosen by them. Until they add one, a quiet painting holds the place.
+
+## Order of execution
+
+1. Ritual notes with AI distillation.
+2. The daily "one thing", version 1, on rules over the data we already have.
+3. Routing table v4: the human layer, top 50 items first (Ishan; brief in [ROUTING-V4.md](ROUTING-V4.md)).
+4. What we're noticing, from wearable history, phrased as observations.
+5. Made for you (suggestions), later.
 
 ## Brand
 
@@ -38,5 +60,5 @@ The engine stays and decides what is said (routing, Rishabh's estimate-based pol
 ## Open, for the team
 
 - The new landing page still sells testing ("Test one thing for 14 nights"). It needs to move to this story.
-- The 28-day decision engine stays as the engine; its framing changes. Talk to Rishabh and Ishan before changing anything they own.
+- The 28-day decision engine stays as the engine; its framing changes. Talk to Ishan and Rohan before changing anything they own.
 - Act 3's business model (independence versus commission).
