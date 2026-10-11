@@ -51,9 +51,11 @@ export function LifeForm() {
           placeholder={copy.life.placeholder}
           rows={7}
         />
-        <div className="writing-foot">
-          <span className="num">{text ? copy.life.chars(text.length) : null}</span>
-        </div>
+        {text ? (
+          <div className="writing-foot">
+            <span className="num">{copy.life.chars(text.length)}</span>
+          </div>
+        ) : null}
       </div>
       <div className="stack-tight goals-block">
         <h2 className="goals-label">{copy.life.goalsTitle}</h2>
