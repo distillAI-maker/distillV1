@@ -52,6 +52,7 @@ function catalogRow(entry: IndexEntry, position: number, label?: string): StackI
     chips: {},
     unknown: [],
     status: 'listed',
+    notes: [],
     position,
   };
 }
@@ -124,6 +125,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
           chips: {},
           unknown: [],
           status: 'listed',
+          notes: [],
           position: p.items.length,
         },
       ],

@@ -7,8 +7,11 @@ import type { StackItem } from '../../progress/types';
  */
 export const demoGoals = ['sleep (general)', 'skin / hair'];
 
-type Seed = Omit<StackItem, 'id' | 'position' | 'answers' | 'chips' | 'unknown' | 'status'> &
-  Partial<Pick<StackItem, 'answers' | 'chips' | 'unknown' | 'status'>>;
+type Seed = Omit<
+  StackItem,
+  'id' | 'position' | 'answers' | 'chips' | 'unknown' | 'status' | 'notes'
+> &
+  Partial<Pick<StackItem, 'answers' | 'chips' | 'unknown' | 'status' | 'notes'>>;
 
 const seeds: Seed[] = [
   {
@@ -158,6 +161,7 @@ export function demoStack(): StackItem[] {
     chips: {},
     unknown: [],
     status: 'listed',
+    notes: [],
     ...s,
     id: `demo-${i + 1}`,
     position: i,

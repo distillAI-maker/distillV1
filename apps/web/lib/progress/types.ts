@@ -61,6 +61,17 @@ export const stackItemSchema = z
     readFrom: z.object({ source: z.string(), summary: z.string() }).optional(),
     confirmedRead: z.boolean().optional(),
     status: z.enum(['listed', 'cut', 'kept', 'testing', 'protected']).default('listed'),
+    /** What the person wrote about this ritual, Apple Notes style. Theirs; deletable. */
+    notes: z
+      .array(
+        z
+          .object({ id: z.string().min(1), text: z.string().min(1).max(4000), at: z.string() })
+          .strict(),
+      )
+      .max(200)
+      .default([]),
+    /** Their notes, distilled into two or three sentences that keep what it means to them. */
+    essence: z.string().max(600).optional(),
     position: z.number().int().nonnegative(),
   })
   .strict();
@@ -118,6 +129,23 @@ export const progressSchema = z
     /** What the person decided on each verdict. */
     verdictChoices: z.record(z.string(), z.enum(['cut', 'kept'])).default({}),
     reducedMotion: z.boolean().default(false),
+    /** A moment they love, chosen by them, shown at the top of Your Standard (a small JPEG data URL). */
+    photo: z.string().max(450_000).optional(),
+    /** Today's one thing: what was offered, and what they did with it. */
+    daily: z
+      .object({
+        date: z.string(),
+        kind: z.enum(['letgo', 'learn', 'celebrate']),
+        ref: z.string().optional(),
+        done: z.boolean().default(false),
+      })
+      .strict()
+      .optional(),
+    /** Their answers to the daily question: who they are, in their words. */
+    asks: z
+      .array(z.object({ q: z.string().max(200), a: z.string().max(2000), at: z.string() }).strict())
+      .max(400)
+      .default([]),
     /** Signed-out demo only: how many weeks past the first read the person skipped ahead (0 to 2). */
     demoSkipDays: z.number().int().min(0).max(2).default(0),
     updatedAt: z.string(),
@@ -139,6 +167,7 @@ export function emptyProgress(): Progress {
     taps: {},
     verdictChoices: {},
     reducedMotion: false,
+    asks: [],
     demoSkipDays: 0,
     updatedAt: new Date(0).toISOString(),
   };

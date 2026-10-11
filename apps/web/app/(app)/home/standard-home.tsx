@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '../../../components/ui';
 import { shortName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
@@ -8,6 +9,7 @@ import { groupOf } from '../../../lib/data/routed';
 import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
+import type { Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
 
 /** CC0, The Metropolitan Museum of Art open access, via Wikimedia Commons. */
@@ -41,14 +43,98 @@ export function portraitOf(text: string): string[] {
 }
 
 type Shelf = keyof typeof copy.home.status;
+type Daily = NonNullable<Progress['daily']>;
+
+function shelfFor(
+  r: RoutedItem,
+  routed: NonNullable<ReturnType<typeof useRouted>['routed']>,
+  progress: Progress,
+): Shelf {
+  const status = progress.items.find((i) => i.id === r.stackItemId)?.status ?? 'listed';
+  if (status === 'cut') return 'gone';
+  if (status === 'kept') return 'kept';
+  const g = groupOf(r, routed, progress.dayOne);
+  if (g === 'protected') return 'protected';
+  if (g === 'keep') return 'kept';
+  if (g === 'test') return 'reading';
+  if (g === 'drop') return 'go';
+  return 'call';
+}
 
 /**
- * Home: Your Standard. Who they are at their best in their own words, what their stack is down to,
- * one thing for today, what we're noticing, and their rituals. The engine decides; this only says.
+ * Today's one thing, chosen once a day and kept for the day: something to let go of, one question
+ * about them, or a ritual of theirs to celebrate, in rotation, skipping what doesn't apply.
+ */
+export function pickDaily(
+  date: string,
+  routed: NonNullable<ReturnType<typeof useRouted>['routed']>,
+  progress: Progress,
+): Daily {
+  const day = Math.floor(Date.parse(`${date}T12:00:00Z`) / 86_400_000);
+  const statusOf = (id: string) => progress.items.find((i) => i.id === id)?.status ?? 'listed';
+  const letgo = routed.items.find(
+    (r) => statusOf(r.stackItemId) === 'listed' && shelfFor(r, routed, progress) === 'go',
+  );
+  const theirs = routed.items.filter((r) => shelfFor(r, routed, progress) === 'kept');
+  const order: Daily['kind'][] = ['letgo', 'learn', 'celebrate'];
+  for (let k = 0; k < order.length; k++) {
+    const kind = order[(day + k) % order.length] as Daily['kind'];
+    if (kind === 'letgo' && letgo) return { date, kind, ref: letgo.stackItemId, done: false };
+    if (kind === 'celebrate' && theirs.length) {
+      const pick = theirs[day % theirs.length] as RoutedItem;
+      return { date, kind, ref: pick.stackItemId, done: false };
+    }
+    if (kind === 'learn') {
+      const q = copy.home.questions[day % copy.home.questions.length] as string;
+      return { date, kind, ref: q, done: false };
+    }
+  }
+  return { date, kind: 'learn', ref: copy.home.questions[0], done: false };
+}
+
+/** A photo they choose, made small enough to keep with their progress (a JPEG under ~330 KB). */
+async function toSmallJpeg(file: File): Promise<string | null> {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const el = new Image();
+      el.onload = () => resolve(el);
+      el.onerror = reject;
+      el.src = url;
+    });
+    const scale = Math.min(1, 1200 / Math.max(img.width, img.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height);
+    for (const quality of [0.82, 0.7, 0.55]) {
+      const data = canvas.toDataURL('image/jpeg', quality);
+      if (data.length <= 440_000) return data;
+    }
+    return null;
+  } catch {
+    return null;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+/**
+ * Home: Your Standard. A moment they love, who they are at their best in their own words, what their
+ * stack is, one thing for today, what we're noticing, and their rituals, each one theirs to open.
  */
 export function StandardHome() {
   const { progress, update } = useProgress();
   const { routed } = useRouted();
+  const [answer, setAnswer] = useState('');
+  const [photoProblem, setPhotoProblem] = useState(false);
+  const todayKey = new Date().toLocaleDateString('en-CA');
+
+  useEffect(() => {
+    if (!routed || progress.daily?.date === todayKey) return;
+    update((p) => ({ ...p, daily: pickDaily(todayKey, routed, p) }));
+  }, [routed, progress.daily?.date, todayKey, update]);
+
   if (!routed)
     return (
       <section className={s.page} aria-busy="true">
@@ -62,28 +148,13 @@ export function StandardHome() {
   const kept = routed.items.filter((r) => statusOf(r.stackItemId) !== 'cut');
   const total = routed.items.reduce((t, r) => t + r.monthlyCost, 0);
   const back = gone.reduce((t, r) => t + r.monthlyCost, 0);
-  const shelfOf = (r: RoutedItem): Shelf => {
-    const status = statusOf(r.stackItemId);
-    if (status === 'cut') return 'gone';
-    if (status === 'kept') return 'kept';
-    const g = groupOf(r, routed, progress.dayOne);
-    return g === 'protected'
-      ? 'protected'
-      : g === 'keep'
-        ? 'kept'
-        : g === 'test'
-          ? 'reading'
-          : g === 'drop'
-            ? 'go'
-            : 'call';
-  };
-  // Today: the first thing the engine settled that they haven't decided on yet.
-  const today = routed.items.find(
-    (r) => statusOf(r.stackItemId) === 'listed' && shelfOf(r) === 'go',
-  );
-  const lastDecision = [...items].reverse().find((i) => i.status === 'cut' || i.status === 'kept');
+  const shelfOf = (r: RoutedItem) => shelfFor(r, routed, progress);
   const setStatus = (id: string, status: 'cut' | 'kept' | 'listed') =>
-    update((p) => ({ ...p, items: p.items.map((i) => (i.id === id ? { ...i, status } : i)) }));
+    update((p) => ({
+      ...p,
+      items: p.items.map((i) => (i.id === id ? { ...i, status } : i)),
+      daily: p.daily ? { ...p.daily, done: status !== 'listed' } : p.daily,
+    }));
   const portrait = portraitOf(progress.lifeText);
   const reasonOf = (r: RoutedItem) =>
     r.landing.reason ? copy.dayOne.reasons[r.landing.reason] : null;
@@ -93,13 +164,41 @@ export function StandardHome() {
     const kind = own && r.itemKey ? shortName(r.itemKey, '') : '';
     return kind || copy.stack.categories[r.category as keyof typeof copy.stack.categories];
   };
+  const daily = progress.daily?.date === todayKey ? progress.daily : undefined;
+  const dailyItem =
+    daily?.kind !== 'learn' ? routed.items.find((r) => r.stackItemId === daily?.ref) : undefined;
+  const dailyStack = dailyItem ? items.find((i) => i.id === dailyItem.stackItemId) : undefined;
+
+  async function choosePhoto(file: File | undefined) {
+    if (!file) return;
+    setPhotoProblem(false);
+    const data = await toSmallJpeg(file);
+    if (data) update({ photo: data });
+    else setPhotoProblem(true);
+  }
 
   return (
     <div className={s.page}>
-      <figure className={s.plate}>
-        <img src={plate} alt={copy.home.plateAlt} />
-        <figcaption>{copy.home.plate}</figcaption>
-      </figure>
+      <div className={s.photoButton}>
+        <figure className={s.plate}>
+          {progress.photo ? (
+            <img src={progress.photo} alt={copy.home.photoLabel} />
+          ) : (
+            <img src={plate} alt={copy.home.plateAlt} />
+          )}
+        </figure>
+        <input
+          id="home-photo"
+          type="file"
+          accept="image/*"
+          className="sr-only"
+          onChange={(e) => void choosePhoto(e.target.files?.[0])}
+        />
+        <label htmlFor="home-photo" className={s.photoHint}>
+          {progress.photo ? copy.home.changePhoto : copy.home.addPhoto}
+        </label>
+      </div>
+      {photoProblem ? <p className={s.caption}>{copy.home.photoTooBig}</p> : null}
 
       {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
       <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
@@ -132,53 +231,94 @@ export function StandardHome() {
         {back > 0 ? <p className={s.back}>{copy.home.back(money(back))}</p> : null}
       </section>
 
-      <section className={s.today} aria-label={copy.home.todayEyebrow}>
+      <section className={`${s.today} ${s.learn}`} aria-label={copy.home.todayEyebrow}>
         <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
-        {today ? (
+        {!daily ? null : daily.kind === 'letgo' && dailyItem && dailyStack ? (
+          dailyStack.status === 'listed' ? (
+            <>
+              <h2>{dailyItem.name}</h2>
+              <p>
+                {[reasonOf(dailyItem), copy.dayOne.perMonth(money(dailyItem.monthlyCost))]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </p>
+              <div className={s.actions}>
+                <button
+                  type="button"
+                  className={s.primary}
+                  onClick={() => setStatus(dailyItem.stackItemId, 'cut')}
+                >
+                  {copy.home.letGo}
+                </button>
+                <button
+                  type="button"
+                  className={s.secondary}
+                  onClick={() => setStatus(dailyItem.stackItemId, 'kept')}
+                >
+                  {copy.home.keep}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2>{dailyStack.status === 'cut' ? copy.home.letGoneTitle : copy.home.keptTitle}</h2>
+              <p>
+                {dailyStack.status === 'cut'
+                  ? copy.home.letGoneLine(money(dailyStack.monthlyCost))
+                  : copy.home.keptLine}
+              </p>
+              <button
+                type="button"
+                className={s.link}
+                onClick={() => setStatus(dailyStack.id, 'listed')}
+              >
+                {copy.home.undo}
+              </button>
+              <p className={s.done}>{copy.home.doneToday}</p>
+            </>
+          )
+        ) : daily.kind === 'celebrate' && dailyItem ? (
           <>
-            <h2>{today.name}</h2>
-            <p>
-              {[reasonOf(today), copy.dayOne.perMonth(money(today.monthlyCost))]
-                .filter(Boolean)
-                .join(' · ')}
-            </p>
+            <h2>{copy.home.celebrateTitle(dailyItem.name)}</h2>
+            <p>{dailyStack?.essence ?? copy.home.celebrateLine}</p>
+            <Link className={s.link} href={`/home/ritual/${dailyItem.stackItemId}`}>
+              {copy.home.celebrateNote}
+            </Link>
+          </>
+        ) : daily.done ? (
+          <>
+            <h2>{copy.home.learnThanks}</h2>
+            <p className={s.done}>{copy.home.doneToday}</p>
+          </>
+        ) : (
+          <>
+            <h2>{daily.ref}</h2>
+            <textarea
+              aria-label={daily.ref}
+              rows={3}
+              maxLength={2000}
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              placeholder={copy.home.learnPlaceholder}
+            />
             <div className={s.actions}>
               <button
                 type="button"
                 className={s.primary}
-                onClick={() => setStatus(today.stackItemId, 'cut')}
+                disabled={!answer.trim()}
+                onClick={() => {
+                  const a = answer.trim();
+                  update((p) => ({
+                    ...p,
+                    asks: [...p.asks, { q: daily.ref ?? '', a, at: new Date().toISOString() }],
+                    daily: p.daily ? { ...p.daily, done: true } : p.daily,
+                  }));
+                  setAnswer('');
+                }}
               >
-                {copy.home.letGo}
-              </button>
-              <button
-                type="button"
-                className={s.secondary}
-                onClick={() => setStatus(today.stackItemId, 'kept')}
-              >
-                {copy.home.keep}
+                {copy.home.learnSave}
               </button>
             </div>
-          </>
-        ) : lastDecision ? (
-          <>
-            <h2>{lastDecision.status === 'cut' ? copy.home.letGoneTitle : copy.home.keptTitle}</h2>
-            <p>
-              {lastDecision.status === 'cut'
-                ? copy.home.letGoneLine(money(lastDecision.monthlyCost))
-                : copy.home.keptLine}
-            </p>
-            <button
-              type="button"
-              className={s.link}
-              onClick={() => setStatus(lastDecision.id, 'listed')}
-            >
-              {copy.home.undo}
-            </button>
-          </>
-        ) : (
-          <>
-            <h2>{copy.home.nothingTitle}</h2>
-            <p>{copy.home.nothingLine}</p>
           </>
         )}
       </section>
@@ -210,18 +350,20 @@ export function StandardHome() {
             const origin = r.origin ? copy.home.origins[r.origin] : undefined;
             return (
               <li key={r.stackItemId} className={shelf === 'gone' ? s.gone : undefined}>
-                <span className={s.status}>{copy.home.status[shelf]}</span>
-                <span className={s.pname}>{r.name}</span>
-                <span className={s.pmeta}>
-                  {[kindOf(r), origin ? copy.home.fromOrigin(origin) : null]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </span>
-                <span className={s.pcost}>
-                  {shelf === 'gone'
-                    ? copy.home.costBack(money(r.monthlyCost))
-                    : copy.dayOne.perMonth(money(r.monthlyCost))}
-                </span>
+                <Link className={s.placardLink} href={`/home/ritual/${r.stackItemId}`}>
+                  <span className={s.status}>{copy.home.status[shelf]}</span>
+                  <span className={s.pname}>{r.name}</span>
+                  <span className={s.pmeta}>
+                    {[kindOf(r), origin ? copy.home.fromOrigin(origin) : null]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </span>
+                  <span className={s.pcost}>
+                    {shelf === 'gone'
+                      ? copy.home.costBack(money(r.monthlyCost))
+                      : copy.dayOne.perMonth(money(r.monthlyCost))}
+                  </span>
+                </Link>
               </li>
             );
           })}
