@@ -178,9 +178,11 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             placeholder={copy.stack.listen.placeholder}
             rows={5}
           />
-          <div className="writing-foot" aria-live="polite">
-            <span>{notes.trim() ? copy.stack.listen.heard(heard.length) : copy.life.empty}</span>
-          </div>
+          {notes.trim() ? (
+            <div className="writing-foot" aria-live="polite">
+              <span>{copy.stack.listen.heard(heard.length)}</span>
+            </div>
+          ) : null}
         </div>
         {heard.length ? (
           <ul className="heard-list" aria-label={copy.stack.listen.heard(heard.length)}>
