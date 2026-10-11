@@ -179,7 +179,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             rows={5}
           />
           <div className="writing-foot" aria-live="polite">
-            <span>{notes.trim() ? copy.stack.listen.heard(heard.length) : copy.life.empty}</span>
+            <span>{notes.trim() ? copy.stack.listen.heard(heard.length) : null}</span>
           </div>
         </div>
         {heard.length ? (

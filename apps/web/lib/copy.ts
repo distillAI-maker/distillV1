@@ -149,8 +149,7 @@ export const copy = {
   life: {
     title: 'Tell us about your ideal day',
     label: 'Tell us about your ideal day',
-    placeholder: 'I start the day with a morning meditation in the sunlight…',
-    empty: 'Take your time.',
+    placeholder: 'I start my day with morning meditation and sunlight',
     chars: (n: number) => (n === 1 ? '1 character' : `${n} characters`),
     goalsTitle: 'What would you most like to change?',
     done: 'All done',
@@ -163,7 +162,7 @@ export const copy = {
   number: {
     things: (n: number) => (n === 1 ? '1 thing.' : `${n} things.`),
     aMonth: (dollars: string) => `$${dollars} a month.`,
-    line: 'None of it measured on you yet.',
+    line: 'What actually works for you?',
     showMe: 'Show me',
   },
   sorted: {

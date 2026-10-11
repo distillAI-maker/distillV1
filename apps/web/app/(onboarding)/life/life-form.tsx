@@ -52,7 +52,7 @@ export function LifeForm() {
           rows={7}
         />
         <div className="writing-foot">
-          <span className="num">{text ? copy.life.chars(text.length) : copy.life.empty}</span>
+          <span className="num">{text ? copy.life.chars(text.length) : null}</span>
         </div>
       </div>
       <div className="stack-tight goals-block">
