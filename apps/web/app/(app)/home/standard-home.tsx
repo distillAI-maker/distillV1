@@ -101,8 +101,8 @@ export function StandardHome() {
         <figcaption>{copy.home.plate}</figcaption>
       </figure>
 
-      <p className={s.eyebrow}>{copy.home.eyebrow}</p>
-      <h1 className={s.title}>{copy.home.title(progress.name.trim())}</h1>
+      {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
+      <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
       {portrait.length ? (
         <>
           <ul className={s.portrait} aria-label={copy.home.inYourWords}>
@@ -112,13 +112,10 @@ export function StandardHome() {
           </ul>
           <p className={s.caption}>{copy.home.inYourWords}</p>
         </>
-      ) : (
-        <Link className={s.link} href="/life">
-          {copy.home.noWords}
-        </Link>
-      )}
+      ) : null}
 
-      <section className={s.standard} aria-label={copy.home.eyebrow}>
+      <section className={s.standard} aria-label={copy.home.stack}>
+        <p className={s.eyebrow}>{copy.home.stack}</p>
         <div className={s.figures}>
           <div>
             <strong>{kept.length}</strong>
@@ -232,12 +229,9 @@ export function StandardHome() {
       </section>
 
       <section className={s.soon} aria-label={copy.home.soonTitle}>
-        <p className={s.eyebrow}>{copy.home.soonEyebrow}</p>
         <h2>{copy.home.soonTitle}</h2>
         <p>{copy.home.soonLine}</p>
       </section>
-
-      <p className={s.closing}>{copy.home.closing}</p>
     </div>
   );
 }

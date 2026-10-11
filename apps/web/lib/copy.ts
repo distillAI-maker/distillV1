@@ -485,10 +485,9 @@ export const copy = {
     error: "We couldn't read your stack. Nothing was lost.",
   },
   home: {
-    eyebrow: 'Your Standard',
+    stack: 'Your current stack',
     title: (name: string) => (name ? `${name}, at your best.` : 'You, at your best.'),
     inYourWords: 'In your words.',
-    noWords: 'Tell us about your ideal day',
     things: (n: number) => (n === 1 ? 'thing' : 'things'),
     from: (n: number) => `from ${n}`,
     aMonth: 'a month',
@@ -527,11 +526,9 @@ export const copy = {
       online: 'social media',
     } as Record<string, string>,
     costBack: (dollars: string) => `$${dollars} back`,
-    soonEyebrow: 'Soon',
     soonTitle: 'One ritual, chosen for you.',
     soonLine:
       "When the noise is gone, we'll suggest one thing that fits you: a class, a place, a weekend away.",
-    closing: 'Less noise. More you.',
     plate: 'Lake George. The Met, open access.',
     plateAlt: 'A calm mountain lake at dawn, painted.',
   },
