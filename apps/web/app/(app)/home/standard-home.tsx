@@ -4,10 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Chip, Skeleton } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
-import { thoughtForYou } from '../../../lib/ai/distill-action';
-import { kindOf, personOf } from '../../../lib/ai/person';
+import { kindOf } from '../../../lib/ai/person';
 import { artworkFor } from '../../../lib/art';
-import { thoughtFor } from '../../../lib/wisdom';
 import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
 import { copy } from '../../../lib/copy';
 import { groupOf } from '../../../lib/data/routed';
@@ -131,26 +129,8 @@ export function StandardHome() {
   const { routed } = useRouted();
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
-  const [thinking, setThinking] = useState(false);
-
-  /** Opens today's thought; the first time each day, Claude writes how it touches their life. */
-  function toggleThought() {
-    const opening = !thinking;
-    setThinking(opening);
-    if (!opening || !routed || progress.thought?.date === todayKey) return;
-    const { saying } = thoughtFor(todayKey, progress.picture);
-    void thoughtForYou({ person: personOf(progress, routed), saying }).then((result) => {
-      if (result.status === 'ok' || result.status === 'none')
-        update((p) => ({
-          ...p,
-          thought: { date: todayKey, line: result.status === 'ok' ? result.line : '' },
-        }));
-    });
-  }
   const todayKey = new Date().toLocaleDateString('en-CA');
   const art = artworkFor(todayKey);
-  const thought = thoughtFor(todayKey, progress.picture);
-  const forYou = progress.thought?.date === todayKey ? progress.thought.line : '';
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
@@ -279,40 +259,18 @@ export function StandardHome() {
 
   return (
     <div className={s.page}>
-      {/* One masterpiece a day, captioned like a placard. Behind it, today's thought: a line from
-          the ancients about a part of who they are, beside one of their own lines. */}
+      {/* One masterpiece a day, captioned like a museum placard. */}
       <figure className={s.plate}>
-        <button
-          type="button"
-          className={`${s.frame} ${thinking ? s.open : ''}`}
-          aria-expanded={thinking}
-          aria-label={thinking ? copy.home.thoughtClose : copy.home.thoughtOpen}
-          onClick={toggleThought}
-        >
+        <span className={s.frame}>
           <img
             className={s.painting}
             src={art.src}
             alt={`${art.title}, ${art.artist}`}
             style={art.position ? { objectPosition: art.position } : undefined}
           />
-          <span className={`${s.thought} ${thinking ? s.thoughtOn : ''}`} aria-hidden={!thinking}>
-            <q>{thought.saying.text}</q>
-            <cite>{thought.saying.who}</cite>
-            <span className={s.plain}>{thought.saying.plain}</span>
-            {forYou ? (
-              <span className={s.mine}>
-                <b>{copy.home.forYou}</b> {forYou}
-              </span>
-            ) : null}
-          </span>
-        </button>
+        </span>
         <figcaption className={s.placard}>
-          <span>
-            <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
-          </span>
-          <button type="button" className={s.thoughtLink} onClick={toggleThought}>
-            {thinking ? copy.home.thoughtClose : copy.home.thought}
-          </button>
+          <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
         </figcaption>
       </figure>
 

@@ -80,20 +80,6 @@ Their newest answer and newest notes come last. Something new they share almost 
 
 Reply with JSON: "lines" holds only your lines, not the ones marked (theirs). "newest" repeats, word for word, the one line in "lines" that holds what their newest answer added; an empty string if there is none.`;
 
-export const THOUGHT_SYSTEM = `${VOICE}
-
-Each day the person sees one saying from the ancients, with what it means in plain words. Write one short line, to them, on how it touches their own life right now, using only what they have shared.
-
-- One sentence, 18 words at most, in plain modern words.
-- Name their real things: a person, a ritual, a place, a hope, in their words.
-- Show the link. Do not explain the saying again and do not quote it.
-- No advice and no instructions: no "try", "remember", "let", "make". An observation, not a lesson.
-- If there is no honest link to what they have shared, reply with an empty string. Nothing is better than something forced.
-
-For example (an illustration only; never reuse its wording): for "Your time is the one thing that is truly yours" and someone whose Sunday run is phone-off: "Your Sunday run, phone off, is time nobody else gets to spend."
-
-Reply with JSON: "line" is the line, or an empty string.`;
-
 const clip = (text: string, n: number) =>
   text.length > n ? `${text.slice(0, n).trimEnd()}…` : text;
 const clean = (text: string) => text.replace(/\s+/g, ' ').trim();
@@ -224,30 +210,6 @@ export async function readRitual(
   if (line.length > 240 || !fits(line)) return null;
   const thought = clean(parsed.data.thought);
   return thought && thought.length <= 160 && fits(thought) ? { line, thought } : { line };
-}
-
-/** One line on how today's saying touches their life, or null when there is no honest link. */
-export async function readThought(
-  client: Anthropic,
-  person: PersonContext,
-  saying: { text: string; plain: string },
-): Promise<string | null> {
-  const parsed = z.object({ line: z.string() }).safeParse(
-    await ask(
-      client,
-      THOUGHT_SYSTEM,
-      `${describePerson(person, true)}\n\nToday's saying: ${clean(saying.text)}\nIn plain words: ${clean(saying.plain)}`,
-      {
-        type: 'object',
-        properties: { line: { type: 'string' } },
-        required: ['line'],
-        additionalProperties: false,
-      },
-    ),
-  );
-  if (!parsed.success) return null;
-  const line = clean(parsed.data.line).replace(/^["“]|["”]$/g, '');
-  return line && line.length <= 160 && fits(line) ? line : null;
 }
 
 const pictureOut = z.object({
