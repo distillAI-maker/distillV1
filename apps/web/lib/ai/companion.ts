@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { toneLint } from '@distill/engine';
 import { z } from 'zod';
-import { catalog } from '../catalog/server';
+import { catalog, itemByKey } from '../catalog/server';
 import { pictureKindSchema } from '../progress/types';
 import type { PersonContext } from './person';
 
@@ -33,11 +33,11 @@ The person has written private notes about one of their rituals. Tell them what 
 Your job is insight, not summary. Read between the lines and name the real thing. Often what matters is not the activity but what comes with it: a person, a feeling, time that belongs only to them, a version of themselves they like.
 
 The line:
-- One or two short sentences, 20 words at most. Fragments are fine. Plain words, no poetry.
+- One or two short sentences, 20 words at most, never more than two sentences. Fragments are fine. Plain words, no poetry.
 - Name the specific thing from their notes: the person, the place, the moment, in their words.
 - Connect it to who they are when the link is real (their ideal day, what they have told us, their other rituals). Never force a link.
 - If the notes say little, say little: one plain, kind sentence that stays with exactly what they wrote. Do not guess what it does for them.
-- Be honest when the notes show it means little to them, say, it came from a feed or someone else's advice and no feeling is attached. Say so gently, as context, never as a verdict, and do not invent an attachment or praise it.
+- Be honest when the notes show it means little to them, say, it came from a feed or someone else's advice and no feeling is attached. Say so gently, as context, never as a verdict, and do not invent an attachment. (Unless the evidence is strong: see below.)
 - Do not restate the note. If your line could be made by shortening their note, it is wrong: say what the note means.
 - Each of their rituals deserves its own words. Look at what their other rituals already say: if one of them opens with "Not the..." or calls something "the excuse", find another way in.
 
@@ -45,6 +45,12 @@ For example (an illustration only; never reuse its wording):
 Notes: "Sunday long run. Phone off, no watch, same loop along the river since college."
 Restating, wrong: "Your Sunday river run, phone off, a habit since college."
 Naming it, right: "The one hour nobody can reach you. Yours since college."
+
+The evidence: under <evidence> is what Distill's own research says about this kind of thing. The person did not write it. Their values come first, then the evidence. It is background: never quote it, and never mention studies, numbers or what it does in the body.
+- Strong or good evidence, they do it regularly, and they doubt it or feel nothing: never suggest it is not theirs, not worth it, or noise; much of what works is never felt. Tell them, in your own fresh words, that it is one of the well-founded things in their stack, wherever it came from.
+- When they already love it, their own reasons are enough: leave the evidence out.
+- Strong or good evidence, but they have stopped or only do it now and then: the evidence does not change that. Be honest and kind about where it stands now.
+- Mixed, weak or no evidence: if their notes show no attachment, you may say gently that it came from the noise. If they love it, what it gives them is the whole story.
 
 The thought: usually there is none; leave it empty. Offer one only when the notes clearly point to it: one small, specific possibility in the shape of something they already love, that would give them more of what this ritual gives them (for someone whose notes are about cooking with a brother who visits rarely: "Your brother might love a cooking class together, next visit."). It is an idea to take or leave, never advice: no "try", "make sure", "consider", "you could". 14 words at most. Never a product or supplement, never doing less of something they love, never anything listed as already declined.
 
@@ -148,7 +154,24 @@ async function ask(
 
 export interface RitualInput {
   person: PersonContext;
-  ritual: { name: string; kind?: string; notes: string[]; declined?: string[] };
+  ritual: {
+    name: string;
+    kind?: string;
+    /** Routing-table row, when it is one: its evidence is looked up here, on the server. */
+    itemKey?: string | null;
+    notes: string[];
+    declined?: string[];
+  };
+}
+
+const grades = { A: 'strong', B: 'good', C: 'mixed', D: 'weak', N: 'none' } as const;
+
+/** What our research says about this kind of thing, for Claude's eyes only. */
+function evidenceFor(itemKey: string | null | undefined): string {
+  const item = itemKey ? itemByKey(itemKey) : undefined;
+  if (!item) return '';
+  const note = [item.evidence, item.dayOne].filter(Boolean).join(' ');
+  return `<evidence>\nHow well supported: ${grades[item.evidenceGrade]}\n${clip(clean(note), 700)}\n</evidence>`;
 }
 export type RitualReading = { line: string; thought?: string };
 
@@ -169,6 +192,7 @@ export async function readRitual(
     ),
     `\nThe ritual: ${clean(ritual.name)}${ritual.kind ? ` (${clean(ritual.kind)})` : ''}`,
     `<notes>\n${notes.map((n) => `- ${clip(n, 1500)}`).join('\n')}\n</notes>`,
+    evidenceFor(ritual.itemKey),
     declined.length ? `Thoughts already declined: ${declined.join(' / ')}` : '',
   ]
     .filter(Boolean)

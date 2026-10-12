@@ -29,6 +29,7 @@ export async function rereadRitual(
     ritual: {
       name: r.name,
       kind: kindOf(r, progress),
+      itemKey: r.itemKey,
       notes: item.notes.map((n) => n.text),
       declined: item.ideasDeclined,
     },

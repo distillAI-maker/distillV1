@@ -12,6 +12,8 @@ import { newItemId } from '../progress/types';
 export interface RitualContext {
   name: string;
   kind?: string;
+  /** Routing-table row, so the server can add what the evidence says. */
+  itemKey?: string | null;
   /** Marked "This is mine", or kept. */
   theirs: boolean;
   letGo: boolean;
@@ -48,6 +50,7 @@ export function personOf(progress: Progress, routed: RoutedStack): PersonContext
         {
           name: r.name,
           kind: kindOf(r, progress),
+          itemKey: r.itemKey,
           theirs: item.status === 'kept' || progress.dayOne.yours.includes(item.id),
           letGo: item.status === 'cut',
           essence: item.essence,

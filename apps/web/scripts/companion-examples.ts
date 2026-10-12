@@ -32,6 +32,20 @@ const ritual = (name: string, kind: string, notes: string[] = [], theirs = false
   letGo: false,
 });
 
+/** Routing-table rows for the made-up rituals, so the evidence reaches Claude as in the app. */
+const rows: Record<string, string> = {
+  'Club Pilates': 'yoga-pilates-studio',
+  AG1: 'greens-powder-ag1-etc',
+  Magnesium: 'magnesium-any-form',
+  Equinox: 'premium-gym-membership-equinox-life-time',
+  Creatine: 'creatine-monohydrate',
+  Peloton: 'fitness-app-subscription-peloton-app-apple-fitness-ladder',
+  'Epsom bath': 'hot-bath-shower-1-2-h-before-bed',
+  'Protein powder': 'protein-powder',
+  Calm: 'meditation-app-calm-headspace',
+  'Cold plunge': 'cold-plunge-ice-bath',
+};
+
 const examples: Example[] = [
   {
     who: 'Maya, 29',
@@ -211,7 +225,10 @@ const log = (...lines: string[]) => {
   }
 };
 
-for (const ex of examples) {
+// ONLY=Jake,Priya runs just those people.
+const only = process.env.ONLY?.split(',').map((s) => s.trim().toLowerCase());
+for (const ex of examples.filter((e) => !only || only.some((o) => e.who.toLowerCase().startsWith(o)))) {
+  for (const r of ex.person.rituals) r.itemKey = rows[r.name] ?? null;
   log(`## ${ex.who}`);
   // First open: the picture, from everything they have shared so far.
   const first = (await timed('picture', () => readPerson(client, ex.person))) ?? [];

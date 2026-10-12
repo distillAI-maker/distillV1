@@ -40,6 +40,7 @@ const ritualSchema = z.object({
   ritual: z.object({
     name: text(120),
     kind: text(80).optional(),
+    itemKey: text(120).nullable().optional(),
     notes: z.array(text(4000)).max(200),
     declined: z.array(text(300)).max(30).optional(),
   }),
