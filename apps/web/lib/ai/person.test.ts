@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { pickQuestion } from '../../app/(app)/home/standard-home';
+import { pickDaily, pickQuestion } from '../../app/(app)/home/standard-home';
+import { morePlaces } from '../catalog/common';
 import { copy } from '../copy';
 import { emptyProgress, type PictureLine, type Progress } from '../progress/types';
 import { describePerson } from './companion';
@@ -82,5 +83,22 @@ describe('pickQuestion', () => {
     expect(toward).toContain(pickQuestion(3, progress));
     const asked = toward.map((q) => ({ q, a: 'x', at: '' }));
     expect(toward).not.toContain(pickQuestion(3, { ...progress, asks: asked }));
+  });
+});
+
+describe('pickDaily', () => {
+  const routed = { items: [], overlaps: [], queue: [] };
+  const days = ['2026-10-12', '2026-10-13'];
+
+  it('asks "anything we haven\'t seen?" every other day, a new place each time, until all are asked', () => {
+    const fresh = { ...emptyProgress() };
+    const picks = days.map((d) => pickDaily(d, routed, fresh));
+    expect(picks.filter((p) => p.kind === 'more').map((p) => p.ref)).toEqual([morePlaces[0]?.id]);
+    const later = { ...fresh, moreAsked: [morePlaces[0]?.id ?? ''] };
+    expect(days.map((d) => pickDaily(d, routed, later)).find((p) => p.kind === 'more')?.ref).toBe(
+      morePlaces[1]?.id,
+    );
+    const allAsked = { ...fresh, moreAsked: morePlaces.map((p) => p.id) };
+    expect(days.map((d) => pickDaily(d, routed, allAsked).kind)).not.toContain('more');
   });
 });

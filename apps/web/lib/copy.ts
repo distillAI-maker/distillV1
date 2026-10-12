@@ -108,6 +108,21 @@ export const copy = {
       other: "Can't remember",
     },
     originAsk: 'Where did this come from?',
+    tap: {
+      title: 'Tap everything you do.',
+      line: 'The small things count too. Most of us do more than we think.',
+      groups: {
+        supplements: 'Supplements',
+        memberships: 'Memberships and classes',
+        habits: 'Habits',
+        apps: 'Apps, tests and services',
+        body: 'Body, skin and sleep',
+        food: 'Food and drink',
+      },
+      next: 'Continue',
+      talk: 'Rather talk it through?',
+      back: 'Tap through the common things',
+    },
     listen: {
       title: 'Talk us through what you do for yourself.',
       line: 'Include memberships, supplements, treatments and habits.',
@@ -544,6 +559,24 @@ export const copy = {
     celebrateNote: 'Add a note about it',
     doneToday: "That's today. See you tomorrow.",
     learnedLink: "Added to what we've learned about you",
+    /** One place at a time, for the things people forget when they first list what they do. */
+    more: {
+      ask: {
+        shelf: "Anything on your bathroom shelf or kitchen counter we haven't seen?",
+        bookings: "Anything you book or see someone for that we haven't seen?",
+        phone: "Anything on your phone or in your inbox we haven't seen?",
+        bedside: "Anything by your bed or in your bathroom cabinet we haven't seen?",
+        kitchen: "Anything you eat or drink for how you feel that we haven't seen?",
+      },
+      line: 'Tap anything that is yours.',
+      other: 'Something else',
+      otherLabel: 'What is it?',
+      add: 'Add',
+      done: "That's everything",
+      added: (n: number, total: number) =>
+        `${n === 1 ? 'One more' : `${n} more`}. Your stack is ${total} things.`,
+      none: 'Nothing missed. Good to know.',
+    },
     /**
      * Daily questions, by the part of "What we've learned about you" they fill in. Each has an
      * example answer, shown in the box, so it is clear how small and personal an answer can be.

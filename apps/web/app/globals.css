@@ -2683,6 +2683,29 @@ body[data-ground='paper'] .obar {
   color: var(--muted);
 }
 
+/* tap everything you do: groups of chips, one breath apart */
+.screen-tap .tap-group {
+  margin-top: 8px;
+}
+.screen-tap .chip {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.screen-tap .tap-other {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+/* Only "Continue" stays in reach while they tap. */
+.screen-tap .tap-next {
+  position: sticky;
+  bottom: 0;
+  margin-top: 0;
+  padding: 24px 0 calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to bottom, transparent, var(--bg) 40%);
+}
+
 /* questions carry their item in the title, so they run longer than the Figma's */
 .screen-q h1 {
   font-size: clamp(34px, 9vw, 46px);

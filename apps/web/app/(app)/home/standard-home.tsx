@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Skeleton } from '../../../components/ui';
+import { Chip, Skeleton } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
 import { kindOf } from '../../../lib/ai/person';
+import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
 import { copy } from '../../../lib/copy';
 import { groupOf } from '../../../lib/data/routed';
 import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
-import { pictureKindSchema, type Progress } from '../../../lib/progress/types';
+import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
 
 /** CC0, The Metropolitan Museum of Art open access, via Wikimedia Commons. */
@@ -91,7 +92,9 @@ function exampleFor(q: string | undefined): string {
 
 /**
  * Today's one thing, chosen once a day and kept for the day: something to let go of, one question
- * about them, or a ritual of theirs to celebrate, in rotation, skipping what doesn't apply.
+ * about them, or a ritual of theirs to celebrate, in rotation, skipping what doesn't apply. Every
+ * other day, until each place has been asked about once, it is "Anything we haven't seen?" so the
+ * stack they first listed grows into the one they really have.
  */
 export function pickDaily(
   date: string,
@@ -99,6 +102,9 @@ export function pickDaily(
   progress: Progress,
 ): Daily {
   const day = Math.floor(Date.parse(`${date}T12:00:00Z`) / 86_400_000);
+  const asked = new Set(progress.moreAsked ?? []);
+  const place = morePlaces.find((p) => !asked.has(p.id));
+  if (place && day % 2 === 0) return { date, kind: 'more', ref: place.id, done: false };
   const statusOf = (id: string) => progress.items.find((i) => i.id === id)?.status ?? 'listed';
   const letgo = routed.items.find(
     (r) => statusOf(r.stackItemId) === 'listed' && shelfFor(r, routed, progress) === 'go',
@@ -152,12 +158,17 @@ export function StandardHome() {
   const { progress, update } = useProgress();
   const { routed } = useRouted();
   const [answer, setAnswer] = useState('');
+  const [other, setOther] = useState('');
   const [photoProblem, setPhotoProblem] = useState(false);
   const todayKey = new Date().toLocaleDateString('en-CA');
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
-    update((p) => ({ ...p, daily: pickDaily(todayKey, routed, p) }));
+    update((p) => {
+      const next = pickDaily(todayKey, routed, p);
+      const asked = next.kind === 'more' ? [...(p.moreAsked ?? []), next.ref ?? ''] : p.moreAsked;
+      return { ...p, daily: next, ...(asked ? { moreAsked: asked } : {}) };
+    });
   }, [routed, progress.daily?.date, todayKey, update]);
 
   // The first time home opens, we read what they have shared so far (their ideal day, any notes)
@@ -212,6 +223,70 @@ export function StandardHome() {
     daily?.kind !== 'learn' ? routed.items.find((r) => r.stackItemId === daily?.ref) : undefined;
   const dailyStack = dailyItem ? items.find((i) => i.id === dailyItem.stackItemId) : undefined;
 
+  // "Anything we haven't seen?": the place's chips they don't have yet, and what they added today.
+  const place = daily?.kind === 'more' ? morePlaces.find((p) => p.id === daily.ref) : undefined;
+  const addedToday = daily?.added ?? [];
+  const inStack = new Set(items.map((i) => i.itemKey));
+  const placeChips = place
+    ? place.items.filter((i) => !inStack.has(i.key) || addedToday.includes(i.key))
+    : [];
+  const ownToday = items.filter((i) => addedToday.includes(`id:${i.id}`));
+  const setAdded = (p: Progress, added: string[]): Progress =>
+    p.daily ? { ...p, daily: { ...p.daily, added } } : p;
+  function toggleMore(item: CommonItem) {
+    update((p) => {
+      const added = p.daily?.added ?? [];
+      const there = p.items.find((i) => i.itemKey === item.key);
+      if (there && added.includes(item.key))
+        return setAdded(
+          { ...p, items: p.items.filter((i) => i.id !== there.id) },
+          added.filter((k) => k !== item.key),
+        );
+      if (there) return p;
+      return setAdded({ ...p, items: [...p.items, commonRow(item, p.items.length)] }, [
+        ...added,
+        item.key,
+      ]);
+    });
+  }
+  function addOther() {
+    const name = other.trim().slice(0, 120);
+    if (!name) return;
+    const id = newItemId();
+    update((p) =>
+      setAdded(
+        {
+          ...p,
+          items: [
+            ...p.items,
+            {
+              id,
+              itemKey: null,
+              customName: name,
+              monthlyCost: 0,
+              answers: {},
+              chips: {},
+              unknown: [],
+              status: 'listed',
+              notes: [],
+              position: p.items.length,
+            },
+          ],
+        },
+        [...(p.daily?.added ?? []), `id:${id}`],
+      ),
+    );
+    setOther('');
+  }
+  function removeOwn(id: string) {
+    update((p) =>
+      setAdded(
+        { ...p, items: p.items.filter((i) => i.id !== id) },
+        (p.daily?.added ?? []).filter((k) => k !== `id:${id}`),
+      ),
+    );
+  }
+
   async function choosePhoto(file: File | undefined) {
     if (!file) return;
     setPhotoProblem(false);
@@ -222,25 +297,26 @@ export function StandardHome() {
 
   return (
     <div className={s.page}>
-      <div className={s.photoButton}>
-        <figure className={s.plate}>
+      {/* The picture is the button: tap it to choose a moment of theirs. No label on top of it. */}
+      <label htmlFor="home-photo" className={s.photoButton}>
+        <span className={s.plate}>
           {progress.photo ? (
             <img src={progress.photo} alt={copy.home.photoLabel} />
           ) : (
             <img className={s.painting} src={plate} alt={copy.home.plateAlt} />
           )}
-        </figure>
-        <input
-          id="home-photo"
-          type="file"
-          accept="image/*"
-          className="sr-only"
-          onChange={(e) => void choosePhoto(e.target.files?.[0])}
-        />
-        <label htmlFor="home-photo" className={s.photoHint}>
+        </span>
+        <span className="sr-only">
           {progress.photo ? copy.home.changePhoto : copy.home.addPhoto}
-        </label>
-      </div>
+        </span>
+      </label>
+      <input
+        id="home-photo"
+        type="file"
+        accept="image/*"
+        className="sr-only"
+        onChange={(e) => void choosePhoto(e.target.files?.[0])}
+      />
       {photoProblem ? <p className={s.caption}>{copy.home.photoTooBig}</p> : null}
 
       {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
@@ -281,7 +357,75 @@ export function StandardHome() {
 
       <section className={`${s.today} ${s.learn}`} aria-label={copy.home.todayEyebrow}>
         <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
-        {!daily ? null : daily.kind === 'letgo' && dailyItem && dailyStack ? (
+        {!daily ? null : daily.kind === 'more' && place ? (
+          daily.done ? (
+            <>
+              <h2>
+                {addedToday.length
+                  ? copy.home.more.added(
+                      addedToday.length,
+                      items.filter((i) => i.status !== 'cut').length,
+                    )
+                  : copy.home.more.none}
+              </h2>
+              <p className={s.done}>{copy.home.doneToday}</p>
+            </>
+          ) : (
+            <>
+              <h2>{copy.home.more.ask[place.id]}</h2>
+              <p>{copy.home.more.line}</p>
+              <div
+                className={`chips ${s.moreChips}`}
+                role="group"
+                aria-label={copy.home.more.ask[place.id]}
+              >
+                {placeChips.map((item) => (
+                  <Chip
+                    key={item.key}
+                    selected={addedToday.includes(item.key)}
+                    onClick={() => toggleMore(item)}
+                  >
+                    {item.text}
+                  </Chip>
+                ))}
+                {ownToday.map((i) => (
+                  <Chip key={i.id} selected onClick={() => removeOwn(i.id)}>
+                    {i.customName}
+                  </Chip>
+                ))}
+              </div>
+              <form
+                className={s.other}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  addOther();
+                }}
+              >
+                <input
+                  aria-label={copy.home.more.otherLabel}
+                  placeholder={copy.home.more.other}
+                  maxLength={120}
+                  value={other}
+                  onChange={(e) => setOther(e.target.value)}
+                />
+                <button type="submit" className={s.secondary} disabled={!other.trim()}>
+                  {copy.home.more.add}
+                </button>
+              </form>
+              <div className={s.actions}>
+                <button
+                  type="button"
+                  className={s.primary}
+                  onClick={() =>
+                    update((p) => (p.daily ? { ...p, daily: { ...p.daily, done: true } } : p))
+                  }
+                >
+                  {copy.home.more.done}
+                </button>
+              </div>
+            </>
+          )
+        ) : daily.kind === 'letgo' && dailyItem && dailyStack ? (
           dailyStack.status === 'listed' ? (
             <>
               <h2>{dailyItem.name}</h2>

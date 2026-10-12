@@ -155,9 +155,11 @@ export const progressSchema = z
     daily: z
       .object({
         date: z.string(),
-        kind: z.enum(['letgo', 'learn', 'celebrate']),
+        kind: z.enum(['letgo', 'learn', 'celebrate', 'more']),
         ref: z.string().optional(),
         done: z.boolean().default(false),
+        /** For 'more': what they added today (catalog keys, or `id:` and the row id for their own). */
+        added: z.array(z.string().max(120)).max(60).optional(),
         /** What their answer added to the picture, shown back for the rest of the day. */
         learned: z.array(z.string().max(200)).max(3).optional(),
       })
@@ -168,6 +170,8 @@ export const progressSchema = z
       .array(z.object({ q: z.string().max(200), a: z.string().max(2000), at: z.string() }).strict())
       .max(400)
       .default([]),
+    /** Places already asked about in "Anything we haven't seen?" (lib/catalog/common.ts). */
+    moreAsked: z.array(z.string().max(40)).max(20).optional(),
     /** What we've learned about them: short lines from their own words, theirs to edit or delete. */
     picture: z
       .object({
