@@ -3,7 +3,13 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { pictureKindSchema } from '../progress/types';
-import { readPerson, readRitual, type PersonReading, type RitualReading } from './companion';
+import {
+  readPerson,
+  readRitual,
+  readThought,
+  type PersonReading,
+  type RitualReading,
+} from './companion';
 import type { PersonContext } from './person';
 
 /**
@@ -79,6 +85,24 @@ export async function learnAbout(
   try {
     const reading = await readPerson(new Anthropic(), parsed.data);
     return reading ? { status: 'ok', ...reading } : { status: 'failed' };
+  } catch (error) {
+    return failed(error);
+  }
+}
+
+/** One line on how today's saying touches their life; 'none' when there is no honest link. */
+export async function thoughtForYou(input: {
+  person: PersonContext;
+  saying: { text: string; plain: string };
+}): Promise<{ status: 'ok'; line: string } | { status: 'none' } | Off> {
+  if (!process.env.ANTHROPIC_API_KEY) return { status: 'off' };
+  const parsed = z
+    .object({ person: personSchema, saying: z.object({ text: text(300), plain: text(200) }) })
+    .safeParse(input);
+  if (!parsed.success) return { status: 'failed' };
+  try {
+    const line = await readThought(new Anthropic(), parsed.data.person, parsed.data.saying);
+    return line ? { status: 'ok', line } : { status: 'none' };
   } catch (error) {
     return failed(error);
   }

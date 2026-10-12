@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Chip, Skeleton } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
-import { kindOf } from '../../../lib/ai/person';
+import { thoughtForYou } from '../../../lib/ai/distill-action';
+import { kindOf, personOf } from '../../../lib/ai/person';
 import { artworkFor } from '../../../lib/art';
 import { thoughtFor } from '../../../lib/wisdom';
 import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
@@ -131,9 +132,25 @@ export function StandardHome() {
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
   const [thinking, setThinking] = useState(false);
+
+  /** Opens today's thought; the first time each day, Claude writes how it touches their life. */
+  function toggleThought() {
+    const opening = !thinking;
+    setThinking(opening);
+    if (!opening || !routed || progress.thought?.date === todayKey) return;
+    const { saying } = thoughtFor(todayKey, progress.picture);
+    void thoughtForYou({ person: personOf(progress, routed), saying }).then((result) => {
+      if (result.status === 'ok' || result.status === 'none')
+        update((p) => ({
+          ...p,
+          thought: { date: todayKey, line: result.status === 'ok' ? result.line : '' },
+        }));
+    });
+  }
   const todayKey = new Date().toLocaleDateString('en-CA');
   const art = artworkFor(todayKey);
   const thought = thoughtFor(todayKey, progress.picture);
+  const forYou = progress.thought?.date === todayKey ? progress.thought.line : '';
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
@@ -270,7 +287,7 @@ export function StandardHome() {
           className={s.frame}
           aria-expanded={thinking}
           aria-label={thinking ? copy.home.thoughtClose : copy.home.thoughtOpen}
-          onClick={() => setThinking((t) => !t)}
+          onClick={toggleThought}
         >
           <img
             className={s.painting}
@@ -281,9 +298,10 @@ export function StandardHome() {
           <span className={`${s.thought} ${thinking ? s.thoughtOn : ''}`} aria-hidden={!thinking}>
             <q>{thought.saying.text}</q>
             <cite>{thought.saying.who}</cite>
-            {thought.mine ? (
+            <span className={s.plain}>{thought.saying.plain}</span>
+            {forYou ? (
               <span className={s.mine}>
-                <b>{copy.home.forYou}</b> {thought.mine}
+                <b>{copy.home.forYou}</b> {forYou}
               </span>
             ) : null}
           </span>
@@ -292,7 +310,7 @@ export function StandardHome() {
           <span>
             <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
           </span>
-          <button type="button" className={s.thoughtLink} onClick={() => setThinking((t) => !t)}>
+          <button type="button" className={s.thoughtLink} onClick={toggleThought}>
             {thinking ? copy.home.thoughtClose : copy.home.thought}
           </button>
         </figcaption>

@@ -11,26 +11,26 @@ const line = (kind: PictureLine['kind'], text: string): PictureLine => ({
 });
 
 describe("today's thought", () => {
-  it('takes turns before we know them, with no line of theirs', () => {
-    const first = thoughtFor('2026-10-12', undefined);
-    expect(first.mine).toBeUndefined();
-    expect(thoughtFor('2026-10-13', undefined).saying).not.toBe(first.saying);
+  it('takes turns before we know them', () => {
+    expect(thoughtFor('2026-10-13', undefined).saying).not.toBe(
+      thoughtFor('2026-10-12', undefined).saying,
+    );
   });
 
-  it('pairs a saying about a part of their picture with one of their own lines from it', () => {
+  it('picks a saying about a part of their picture', () => {
     const picture = {
-      lines: [line('people', 'Leah, and the talk after class.'), line('joy', 'Mornings on the balcony.')],
+      lines: [line('people', 'Leah, and the talk after class.')],
       removed: [],
       updatedAt: '',
     };
-    for (const date of ['2026-10-12', '2026-10-13', '2026-10-14', '2026-10-15']) {
-      const { saying, mine } = thoughtFor(date, picture);
-      const kind = picture.lines.find((l) => l.text === mine)?.kind;
-      expect(kind && saying.about).toContain(kind);
-    }
+    for (const date of ['2026-10-12', '2026-10-13', '2026-10-14'])
+      expect(thoughtFor(date, picture).saying.about).toContain('people');
   });
 
-  it('every saying names who said it and where it is from', () => {
-    for (const s of sayings) expect(s.who && s.source && s.text.length <= 200).toBeTruthy();
+  it('every saying says what it means in plain words, and who said it', () => {
+    for (const s of sayings) {
+      expect(s.who && s.source).toBeTruthy();
+      expect(s.plain.length).toBeLessThan(90);
+    }
   });
 });

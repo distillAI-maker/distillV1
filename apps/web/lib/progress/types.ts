@@ -170,6 +170,8 @@ export const progressSchema = z
       .array(z.object({ q: z.string().max(200), a: z.string().max(2000), at: z.string() }).strict())
       .max(400)
       .default([]),
+    /** Today's thought behind the painting: Claude's line for them, kept for the day ('' for none). */
+    thought: z.object({ date: z.string(), line: z.string().max(200) }).strict().optional(),
     /** Places already asked about in "Anything we haven't seen?" (lib/catalog/common.ts). */
     moreAsked: z.array(z.string().max(40)).max(20).optional(),
     /** What we've learned about them: short lines from their own words, theirs to edit or delete. */
