@@ -78,7 +78,7 @@ The lines marked (theirs) were written or edited by the person: keep them out of
 Keep your own existing lines word for word unless something new changes them. Drop a line of yours when nothing they have shared supports it any more.
 Their newest answer and newest notes come last. Something new they share almost always teaches you something: add a line for it, or sharpen an existing line with it. If its part already has three lines, replace the weakest.
 
-Reply with JSON: "lines" holds only your lines, not the ones marked (theirs).`;
+Reply with JSON: "lines" holds only your lines, not the ones marked (theirs). "newest" repeats, word for word, the one line in "lines" that holds what their newest answer added; an empty string if there is none.`;
 
 const clip = (text: string, n: number) =>
   text.length > n ? `${text.slice(0, n).trimEnd()}…` : text;
@@ -214,13 +214,20 @@ export async function readRitual(
 
 const pictureOut = z.object({
   lines: z.array(z.object({ kind: pictureKindSchema, text: z.string() })),
+  newest: z.string(),
 });
+
+export interface PersonReading {
+  lines: { kind: z.infer<typeof pictureKindSchema>; text: string }[];
+  /** The line that holds what their newest answer added, to show back to them. */
+  newest?: string;
+}
 
 /** Claude's lines for the picture of who they are. Lines that fail the tone check are dropped. */
 export async function readPerson(
   client: Anthropic,
   person: PersonContext,
-): Promise<{ kind: z.infer<typeof pictureKindSchema>; text: string }[] | null> {
+): Promise<PersonReading | null> {
   const parsed = pictureOut.safeParse(
     await ask(client, PICTURE_SYSTEM, describePerson(person, true), {
       type: 'object',
@@ -237,14 +244,18 @@ export async function readPerson(
             additionalProperties: false,
           },
         },
+        newest: { type: 'string' },
       },
-      required: ['lines'],
+      required: ['lines', 'newest'],
       additionalProperties: false,
     }),
   );
   if (!parsed.success) return null;
-  return parsed.data.lines
-    .map((l) => ({ kind: l.kind, text: clean(l.text).replace(/^["“]|["”]$/g, '') }))
+  const unquote = (t: string) => clean(t).replace(/^["“]|["”]$/g, '');
+  const lines = parsed.data.lines
+    .map((l) => ({ kind: l.kind, text: unquote(l.text) }))
     .filter((l) => l.text.length <= 140 && fits(l.text))
     .slice(0, 12);
+  const newest = unquote(parsed.data.newest);
+  return { lines, newest: lines.some((l) => l.text === newest) ? newest : undefined };
 }

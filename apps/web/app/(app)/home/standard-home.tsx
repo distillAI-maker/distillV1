@@ -73,11 +73,20 @@ export function pickQuestion(day: number, progress: Progress): string {
   const turn = (k: string) => (kinds.indexOf(k as (typeof kinds)[number]) + day) % kinds.length;
   const asked = new Set(progress.asks.map((a) => a.q));
   for (const kind of [...kinds].sort((a, b) => known(a) - known(b) || turn(a) - turn(b))) {
-    const q = copy.home.questions[kind].find((x) => !asked.has(x));
-    if (q) return q;
+    const next = (copy.home.questions[kind] as readonly Question[]).find((x) => !asked.has(x.q));
+    if (next) return next.q;
   }
-  const all = kinds.flatMap((k) => copy.home.questions[k]);
-  return all[day % all.length] as string;
+  const all = allQuestions();
+  return (all[day % all.length] as Question).q;
+}
+
+type Question = { q: string; eg: string };
+const allQuestions = (): readonly Question[] =>
+  pictureKindSchema.options.flatMap((k): readonly Question[] => copy.home.questions[k]);
+
+/** The example answer shown in the box for a question. */
+function exampleFor(q: string | undefined): string {
+  return allQuestions().find((x) => x.q === q)?.eg ?? copy.home.learnPlaceholder;
 }
 
 /**
@@ -186,7 +195,16 @@ export function StandardHome() {
       daily: p.daily ? { ...p.daily, done: status !== 'listed' } : p.daily,
     }));
   const portrait = portraitOf(progress.lifeText);
-  const learned = progress.picture?.lines.length ?? 0;
+  // Under their name: what we've learned about them, one line from each part. Until Claude has
+  // read them (or if it is off), their ideal day in their own words.
+  const pictureLines = progress.picture?.lines ?? [];
+  const firsts = pictureKindSchema.options
+    .map((kind) => pictureLines.find((l) => l.kind === kind))
+    .filter((l): l is NonNullable<typeof l> => !!l);
+  const learned = [...firsts, ...pictureLines.filter((l) => !firsts.includes(l))]
+    .slice(0, 3)
+    .map((l) => l.text);
+  const about = learned.length ? learned : portrait;
   const reasonOf = (r: RoutedItem) =>
     r.landing.reason ? copy.dayOne.reasons[r.landing.reason] : null;
   const daily = progress.daily?.date === todayKey ? progress.daily : undefined;
@@ -209,7 +227,7 @@ export function StandardHome() {
           {progress.photo ? (
             <img src={progress.photo} alt={copy.home.photoLabel} />
           ) : (
-            <img src={plate} alt={copy.home.plateAlt} />
+            <img className={s.painting} src={plate} alt={copy.home.plateAlt} />
           )}
         </figure>
         <input
@@ -227,20 +245,20 @@ export function StandardHome() {
 
       {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
       <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
-      {portrait.length ? (
-        <>
-          <ul className={s.portrait} aria-label={copy.home.inYourWords}>
-            {portrait.map((line) => (
+      {about.length ? (
+        <section aria-label={learned.length ? copy.you.link : copy.home.idealDay}>
+          <p className={s.eyebrow}>{learned.length ? copy.you.link : copy.home.idealDay}</p>
+          <ul className={s.portrait}>
+            {about.map((line) => (
               <li key={line}>{line}</li>
             ))}
           </ul>
-          <p className={s.caption}>{copy.home.inYourWords}</p>
-        </>
-      ) : null}
-      {learned ? (
-        <Link className={s.link} href="/home/you">
-          {copy.you.link} →
-        </Link>
+          {learned.length ? (
+            <Link className={s.link} href="/home/you">
+              {copy.home.seeAll} →
+            </Link>
+          ) : null}
+        </section>
       ) : null}
 
       <section className={s.standard} aria-label={copy.home.stack}>
@@ -339,7 +357,7 @@ export function StandardHome() {
               maxLength={2000}
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
-              placeholder={copy.home.learnPlaceholder}
+              placeholder={exampleFor(daily.ref)}
             />
             <div className={s.actions}>
               <button
@@ -356,11 +374,11 @@ export function StandardHome() {
                   setAnswer('');
                   // Show back what this answer added to the picture, once Claude has read it.
                   void relearn({ ...progress, asks: [...progress.asks, ask] }, routed, update).then(
-                    (added) => {
-                      if (!added.length) return;
+                    (newest) => {
+                      if (!newest) return;
                       update((p) =>
                         p.daily?.date === daily.date
-                          ? { ...p, daily: { ...p.daily, learned: added.slice(0, 3) } }
+                          ? { ...p, daily: { ...p.daily, learned: [newest] } }
                           : p,
                       );
                     },

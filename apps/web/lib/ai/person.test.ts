@@ -78,8 +78,9 @@ describe('pickQuestion', () => {
         updatedAt: '',
       },
     };
-    expect(copy.home.questions.toward).toContain(pickQuestion(3, progress));
-    const asked = copy.home.questions.toward.map((q) => ({ q, a: 'x', at: '' }));
-    expect(copy.home.questions.toward).not.toContain(pickQuestion(3, { ...progress, asks: asked }));
+    const toward = copy.home.questions.toward.map((x) => x.q);
+    expect(toward).toContain(pickQuestion(3, progress));
+    const asked = toward.map((q) => ({ q, a: 'x', at: '' }));
+    expect(toward).not.toContain(pickQuestion(3, { ...progress, asks: asked }));
   });
 });

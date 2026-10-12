@@ -3,7 +3,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { pictureKindSchema } from '../progress/types';
-import { readPerson, readRitual, type RitualReading } from './companion';
+import { readPerson, readRitual, type PersonReading, type RitualReading } from './companion';
 import type { PersonContext } from './person';
 
 /**
@@ -72,15 +72,13 @@ export async function distillNotes(
 /** Claude's lines for "What we've learned about you", from everything they have shared. */
 export async function learnAbout(
   input: PersonContext,
-): Promise<
-  { status: 'ok'; lines: { kind: z.infer<typeof pictureKindSchema>; text: string }[] } | Off
-> {
+): Promise<({ status: 'ok' } & PersonReading) | Off> {
   if (!process.env.ANTHROPIC_API_KEY) return { status: 'off' };
   const parsed = personSchema.safeParse(input);
   if (!parsed.success) return { status: 'failed' };
   try {
-    const lines = await readPerson(new Anthropic(), parsed.data);
-    return lines ? { status: 'ok', lines } : { status: 'failed' };
+    const reading = await readPerson(new Anthropic(), parsed.data);
+    return reading ? { status: 'ok', ...reading } : { status: 'failed' };
   } catch (error) {
     return failed(error);
   }

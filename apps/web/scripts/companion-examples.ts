@@ -231,7 +231,7 @@ for (const ex of examples.filter((e) => !only || only.some((o) => e.who.toLowerC
   for (const r of ex.person.rituals) r.itemKey = rows[r.name] ?? null;
   log(`## ${ex.who}`);
   // First open: the picture, from everything they have shared so far.
-  const first = (await timed('picture', () => readPerson(client, ex.person))) ?? [];
+  const first = (await timed('picture', () => readPerson(client, ex.person)))?.lines ?? [];
   const picture: Progress['picture'] = mergePicture(undefined, first).picture;
   log('', '**What we\'ve learned about you**', '');
   for (const l of first) log(`- ${l.kind}: ${l.text}`);
@@ -256,10 +256,11 @@ for (const ex of examples.filter((e) => !only || only.some((o) => e.who.toLowerC
       answers: [...person.answers, ex.later],
       picture: picture.lines.map((l) => ({ kind: l.kind, text: l.text, theirs: false })),
     };
-    const lines = (await timed('picture again', () => readPerson(client, next))) ?? [];
-    const merged = mergePicture(picture, lines);
+    const again = await timed('picture again', () => readPerson(client, next));
+    const merged = mergePicture(picture, again?.lines ?? []);
     log('', `**Later, they answer:** ${ex.later.q} "${ex.later.a}"`, '');
-    log(`Added: ${merged.added.length ? merged.added.join(' / ') : '(nothing new)'}`);
+    log(`Shown back: ${again?.newest ?? '(nothing)'}`);
+    log(`All new or changed lines: ${merged.added.length ? merged.added.join(' / ') : '(none)'}`);
   }
   log('');
 }

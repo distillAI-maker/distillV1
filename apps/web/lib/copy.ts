@@ -488,6 +488,8 @@ export const copy = {
     stack: 'Your current stack',
     title: (name: string) => (name ? `${name}, at your best.` : 'You, at your best.'),
     inYourWords: 'In your words.',
+    idealDay: 'Your ideal day, in your words',
+    seeAll: 'See all, or change it',
     things: (n: number) => (n === 1 ? 'thing' : 'things'),
     from: (n: number) => `from ${n}`,
     aMonth: 'a month',
@@ -542,17 +544,59 @@ export const copy = {
     celebrateNote: 'Add a note about it',
     doneToday: "That's today. See you tomorrow.",
     learnedLink: "Added to what we've learned about you",
-    /** Daily questions, by the part of "What we've learned about you" they fill in. */
+    /**
+     * Daily questions, by the part of "What we've learned about you" they fill in. Each has an
+     * example answer, shown in the box, so it is clear how small and personal an answer can be.
+     */
     questions: {
       joy: [
-        'What made this week feel good?',
-        'Where do you feel most like yourself?',
-        'What would you do with a free Saturday?',
-        'What is one thing you do just for joy?',
+        {
+          q: 'What made this week feel good?',
+          eg: 'Dinner on the roof with Sam. We stayed out far too late.',
+        },
+        {
+          q: 'Where do you feel most like yourself?',
+          eg: "On a long walk with headphones in, or in my grandma's kitchen.",
+        },
+        {
+          q: 'What would you do with a free Saturday?',
+          eg: 'Farmers market, then the beach with a book until sunset.',
+        },
+        {
+          q: 'What do you do just because you love it?',
+          eg: 'Baking bread on Sundays. Nobody asks me to.',
+        },
       ],
-      people: ['Who do you feel your best around?', 'Who would you call first with good news?'],
-      toward: ['When did you last feel proud of yourself?', 'What are you working toward right now?'],
-      theirs: ['Which ritual would you miss most?', 'What would you never give up?'],
+      people: [
+        {
+          q: 'Who do you feel your best around?',
+          eg: 'My sister. We laugh at the same silly things.',
+        },
+        {
+          q: 'Who would you call first with good news?',
+          eg: 'My dad. He always wants every detail.',
+        },
+      ],
+      toward: [
+        {
+          q: 'What are you working toward right now?',
+          eg: 'Running a half marathon in the spring, for me this time.',
+        },
+        {
+          q: 'When did you last feel proud of yourself?',
+          eg: 'Finishing my first race, with my sister beside me.',
+        },
+      ],
+      theirs: [
+        {
+          q: 'If you could keep only one thing you do, what would it be?',
+          eg: "My Saturday class with Leah. Really, it's the coffee after.",
+        },
+        {
+          q: 'What would you never give up, whatever anyone says?',
+          eg: "Wine on Fridays with friends. It's how my week ends.",
+        },
+      ],
     },
     plateAlt: 'A calm mountain lake at dawn, painted.',
   },

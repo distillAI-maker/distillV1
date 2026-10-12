@@ -39,15 +39,15 @@ export async function rereadRitual(
 
 /**
  * Brings "What we've learned about you" up to date with everything they have shared. Returns the
- * lines that are new, so the moment can be shown back to them.
+ * line that holds what their newest answer added, so the moment can be shown back to them.
  */
 export async function relearn(
   progress: Progress,
   routed: RoutedStack,
   update: Update,
-): Promise<string[]> {
+): Promise<string | undefined> {
   const result = await learnAbout(personOf(progress, routed));
-  if (result.status !== 'ok') return [];
+  if (result.status !== 'ok') return undefined;
   update((p) => ({ ...p, picture: mergePicture(p.picture, result.lines).picture }));
-  return mergePicture(progress.picture, result.lines).added;
+  return result.newest;
 }
