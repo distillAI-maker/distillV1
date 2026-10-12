@@ -329,6 +329,99 @@
   line-height: 1.35;
   letter-spacing: -0.01em;
 }
+.idea {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule-2);
+}
+.idea p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.idea p span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+.idea .link {
+  margin-top: 8px;
+  font-size: 13px;
+}
+/* what we've learned about you */
+.part {
+  margin-top: 32px;
+}
+.plines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.plines li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+}
+.plines li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.plines p {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+.plines small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--gold-ink);
+}
+.lineActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+}
+.lineActions .link,
+.part > .link {
+  margin-top: 0;
+  font-size: 13px;
+}
+.part > .link {
+  margin-top: 12px;
+}
+.lineEdit {
+  display: grid;
+  width: 100%;
+  margin-top: 8px;
+}
+.lineEdit textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--rule-2);
+  border-radius: 12px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink);
+  resize: vertical;
+}
+.lineEdit textarea:focus {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 1px;
+}
+.lineEdit .actions {
+  margin-top: 10px;
+}
 .composer {
   margin-top: 32px;
   display: grid;

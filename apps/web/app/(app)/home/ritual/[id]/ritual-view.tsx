@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Skeleton } from '../../../../../components/ui';
-import { distillNotes } from '../../../../../lib/ai/distill-action';
-import { shortName } from '../../../../../lib/catalog/short-names';
+import { relearn, rereadRitual } from '../../../../../lib/ai/companion-client';
+import { kindOf } from '../../../../../lib/ai/person';
 import { copy } from '../../../../../lib/copy';
 import { useRouted } from '../../../../../lib/data/use-routed';
 import { useProgress } from '../../../../../lib/progress/context';
-import { newItemId } from '../../../../../lib/progress/types';
+import { newItemId, type Progress } from '../../../../../lib/progress/types';
 import s from '../../home.module.css';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -41,28 +41,39 @@ export function RitualView({ id }: { id: string }) {
       </section>
     );
 
-  const kind =
-    (item.label && item.itemKey ? shortName(item.itemKey, '') : '') ||
-    copy.stack.categories[routedItem.category as keyof typeof copy.stack.categories];
+  const kind = kindOf(routedItem, progress);
   const isMine = item.status === 'kept' || progress.dayOne.yours.includes(id);
   const patchItem = (change: Partial<typeof item>) =>
     update((p) => ({ ...p, items: p.items.map((i) => (i.id === id ? { ...i, ...change } : i)) }));
 
-  async function save() {
-    const text = draft.trim().slice(0, 4000);
-    if (!text || !item || !routedItem) return;
-    const note = { id: newItemId(), text, at: new Date().toISOString() };
-    const notes = [...item.notes, note];
+  /** Their notes changed: read the ritual again, then what we've learned about them. */
+  async function changed(notes: NonNullable<typeof item>['notes']) {
+    if (!routed) return;
     patchItem({ notes });
-    setDraft('');
+    const next: Progress = {
+      ...progress,
+      items: progress.items.map((i) => (i.id === id ? { ...i, notes } : i)),
+    };
     setBusy(true);
-    const result = await distillNotes({
-      ritual: routedItem.name,
-      kind,
-      notes: notes.map((n) => n.text),
-    });
+    await rereadRitual(id, next, routed, update);
     setBusy(false);
-    if (result.status === 'ok') patchItem({ notes, essence: result.essence });
+    void relearn(next, routed, update);
+  }
+
+  function save() {
+    const text = draft.trim().slice(0, 4000);
+    if (!text || !item) return;
+    setDraft('');
+    void changed([...item.notes, { id: newItemId(), text, at: new Date().toISOString() }]);
+  }
+
+  /** "Not for me": the thought goes, and is never offered again. */
+  function decline() {
+    if (!item?.idea) return;
+    patchItem({
+      idea: undefined,
+      ideasDeclined: [...(item.ideasDeclined ?? []), item.idea].slice(-30),
+    });
   }
 
   return (
@@ -79,6 +90,17 @@ export function RitualView({ id }: { id: string }) {
         <section className={s.essence} aria-label={copy.ritual.meansEyebrow}>
           <p className={s.eyebrow}>{copy.ritual.meansEyebrow}</p>
           <p className={s.essenceText}>{item.essence}</p>
+          {item.idea && item.status !== 'cut' ? (
+            <div className={s.idea}>
+              <p>
+                <span>{copy.ritual.thought}</span>
+                {item.idea}
+              </p>
+              <button type="button" className={s.link} onClick={decline}>
+                {copy.ritual.notForMe}
+              </button>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
@@ -98,7 +120,7 @@ export function RitualView({ id }: { id: string }) {
           <button
             type="button"
             className={s.primary}
-            onClick={() => void save()}
+            onClick={save}
             disabled={!draft.trim() || busy}
           >
             {busy ? copy.ritual.distilling : copy.ritual.save}
@@ -115,7 +137,7 @@ export function RitualView({ id }: { id: string }) {
                     type="button"
                     className={s.link}
                     aria-label={copy.ritual.deleteNote}
-                    onClick={() => patchItem({ notes: item.notes.filter((x) => x.id !== n.id) })}
+                    onClick={() => void changed(item.notes.filter((x) => x.id !== n.id))}
                   >
                     ×
                   </button>

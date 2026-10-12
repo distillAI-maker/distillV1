@@ -139,6 +139,17 @@ export function SettingsView({
           </Button>
         </div>
         <div className="srow">
+          <span>
+            {copy.settings.learned}
+            <span className="hint" style={{ display: 'block' }}>
+              {copy.settings.learnedHint}
+            </span>
+          </span>
+          <ButtonLink href="/home/you" variant="ghost" size="sm">
+            {copy.settings.open}
+          </ButtonLink>
+        </div>
+        <div className="srow">
           <span>{copy.settings.deleteAll}</span>
           <Button variant="ghost" size="sm" onClick={() => setConfirm('delete')}>
             {copy.settings.deleteAll}

@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '../../../components/ui';
-import { shortName } from '../../../lib/catalog/short-names';
+import { relearn } from '../../../lib/ai/companion-client';
+import { kindOf } from '../../../lib/ai/person';
 import { copy } from '../../../lib/copy';
 import { groupOf } from '../../../lib/data/routed';
 import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
-import type { Progress } from '../../../lib/progress/types';
+import { pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
 
 /** CC0, The Metropolitan Museum of Art open access, via Wikimedia Commons. */
@@ -62,6 +63,24 @@ function shelfFor(
 }
 
 /**
+ * The day's question: one not asked before, about the part of "What we've learned about you" we
+ * know least, so each answer fills in the picture. Once all are asked, they come round again.
+ */
+export function pickQuestion(day: number, progress: Progress): string {
+  const kinds = pictureKindSchema.options;
+  const lines = progress.picture?.lines ?? [];
+  const known = (k: string) => lines.filter((l) => l.kind === k).length;
+  const turn = (k: string) => (kinds.indexOf(k as (typeof kinds)[number]) + day) % kinds.length;
+  const asked = new Set(progress.asks.map((a) => a.q));
+  for (const kind of [...kinds].sort((a, b) => known(a) - known(b) || turn(a) - turn(b))) {
+    const q = copy.home.questions[kind].find((x) => !asked.has(x));
+    if (q) return q;
+  }
+  const all = kinds.flatMap((k) => copy.home.questions[k]);
+  return all[day % all.length] as string;
+}
+
+/**
  * Today's one thing, chosen once a day and kept for the day: something to let go of, one question
  * about them, or a ritual of theirs to celebrate, in rotation, skipping what doesn't apply.
  */
@@ -84,12 +103,9 @@ export function pickDaily(
       const pick = theirs[day % theirs.length] as RoutedItem;
       return { date, kind, ref: pick.stackItemId, done: false };
     }
-    if (kind === 'learn') {
-      const q = copy.home.questions[day % copy.home.questions.length] as string;
-      return { date, kind, ref: q, done: false };
-    }
+    if (kind === 'learn') return { date, kind, ref: pickQuestion(day, progress), done: false };
   }
-  return { date, kind: 'learn', ref: copy.home.questions[0], done: false };
+  return { date, kind: 'learn', ref: pickQuestion(day, progress), done: false };
 }
 
 /** A photo they choose, made small enough to keep with their progress (a JPEG under ~330 KB). */
@@ -135,6 +151,20 @@ export function StandardHome() {
     update((p) => ({ ...p, daily: pickDaily(todayKey, routed, p) }));
   }, [routed, progress.daily?.date, todayKey, update]);
 
+  // The first time home opens, we read what they have shared so far (their ideal day, any notes)
+  // and start "What we've learned about you". Once only; after that, notes and answers update it.
+  const hasPicture = !!progress.picture;
+  useEffect(() => {
+    if (!routed || hasPicture) return;
+    const shared =
+      progress.lifeText.trim() || progress.asks.length || progress.items.some((i) => i.notes.length);
+    if (!shared) return;
+    const empty = { lines: [], removed: [], updatedAt: new Date().toISOString() };
+    update((p) => (p.picture ? p : { ...p, picture: empty }));
+    void relearn({ ...progress, picture: empty }, routed, update);
+    // Runs once per person: `hasPicture` turns true straight away.
+  }, [routed, hasPicture]);
+
   if (!routed)
     return (
       <section className={s.page} aria-busy="true">
@@ -156,14 +186,9 @@ export function StandardHome() {
       daily: p.daily ? { ...p.daily, done: status !== 'listed' } : p.daily,
     }));
   const portrait = portraitOf(progress.lifeText);
+  const learned = progress.picture?.lines.length ?? 0;
   const reasonOf = (r: RoutedItem) =>
     r.landing.reason ? copy.dayOne.reasons[r.landing.reason] : null;
-  // What it is, under their own word for it: "Barry's" reads "Boutique classes".
-  const kindOf = (r: RoutedItem) => {
-    const own = items.find((i) => i.id === r.stackItemId)?.label;
-    const kind = own && r.itemKey ? shortName(r.itemKey, '') : '';
-    return kind || copy.stack.categories[r.category as keyof typeof copy.stack.categories];
-  };
   const daily = progress.daily?.date === todayKey ? progress.daily : undefined;
   const dailyItem =
     daily?.kind !== 'learn' ? routed.items.find((r) => r.stackItemId === daily?.ref) : undefined;
@@ -211,6 +236,11 @@ export function StandardHome() {
           </ul>
           <p className={s.caption}>{copy.home.inYourWords}</p>
         </>
+      ) : null}
+      {learned ? (
+        <Link className={s.link} href="/home/you">
+          {copy.you.link} →
+        </Link>
       ) : null}
 
       <section className={s.standard} aria-label={copy.home.stack}>
@@ -286,10 +316,20 @@ export function StandardHome() {
             </Link>
           </>
         ) : daily.done ? (
-          <>
-            <h2>{copy.home.learnThanks}</h2>
-            <p className={s.done}>{copy.home.doneToday}</p>
-          </>
+          daily.learned?.length ? (
+            <>
+              <h2>{daily.learned[0]}</h2>
+              <Link className={s.link} href="/home/you">
+                {copy.home.learnedLink}
+              </Link>
+              <p className={s.done}>{copy.home.doneToday}</p>
+            </>
+          ) : (
+            <>
+              <h2>{copy.home.learnThanks}</h2>
+              <p className={s.done}>{copy.home.doneToday}</p>
+            </>
+          )
         ) : (
           <>
             <h2>{daily.ref}</h2>
@@ -307,13 +347,24 @@ export function StandardHome() {
                 className={s.primary}
                 disabled={!answer.trim()}
                 onClick={() => {
-                  const a = answer.trim();
+                  const ask = { q: daily.ref ?? '', a: answer.trim(), at: new Date().toISOString() };
                   update((p) => ({
                     ...p,
-                    asks: [...p.asks, { q: daily.ref ?? '', a, at: new Date().toISOString() }],
+                    asks: [...p.asks, ask],
                     daily: p.daily ? { ...p.daily, done: true } : p.daily,
                   }));
                   setAnswer('');
+                  // Show back what this answer added to the picture, once Claude has read it.
+                  void relearn({ ...progress, asks: [...progress.asks, ask] }, routed, update).then(
+                    (added) => {
+                      if (!added.length) return;
+                      update((p) =>
+                        p.daily?.date === daily.date
+                          ? { ...p, daily: { ...p.daily, learned: added.slice(0, 3) } }
+                          : p,
+                      );
+                    },
+                  );
                 }}
               >
                 {copy.home.learnSave}
@@ -354,7 +405,7 @@ export function StandardHome() {
                   <span className={s.status}>{copy.home.status[shelf]}</span>
                   <span className={s.pname}>{r.name}</span>
                   <span className={s.pmeta}>
-                    {[kindOf(r), origin ? copy.home.fromOrigin(origin) : null]
+                    {[kindOf(r, progress), origin ? copy.home.fromOrigin(origin) : null]
                       .filter(Boolean)
                       .join(' · ')}
                   </span>
