@@ -284,7 +284,7 @@ export function StandardHome() {
       <figure className={s.plate}>
         <button
           type="button"
-          className={s.frame}
+          className={`${s.frame} ${thinking ? s.open : ''}`}
           aria-expanded={thinking}
           aria-label={thinking ? copy.home.thoughtClose : copy.home.thoughtOpen}
           onClick={toggleThought}
