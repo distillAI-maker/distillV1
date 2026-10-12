@@ -38,8 +38,8 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    // Nothing said yet: "Find my essentials" goes straight to the list.
-    fireEvent.click(await screen.findByRole('button', { name: /Find my essentials/ }));
+    // Nothing tapped yet: "Continue" goes straight to the list.
+    fireEvent.click(await screen.findByRole('button', { name: /Continue/ }));
     const box = await screen.findByRole('combobox');
     fireEvent.change(box, { target: { value: 'ag1' } });
     const option = await screen.findByRole('option', { name: /Greens powder/ });
@@ -91,6 +91,7 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
+    fireEvent.click(await screen.findByRole('button', { name: 'Rather talk it through?' }));
     fireEvent.change(await screen.findByLabelText('Tell us what you already do for yourself'), {
       target: { value: 'I go to Equinox and take AG1 most mornings' },
     });
@@ -106,6 +107,33 @@ describe('Your stack', () => {
     expect(screen.getByText('Oura ring')).toBeTruthy();
     expect(screen.getByText('Not listed')).toBeTruthy();
     await waitFor(async () => expect((await store.load())?.items).toHaveLength(3));
+  });
+
+  it('starts with the common things to tap: on adds at the table cost, off takes it out', async () => {
+    const store = new LocalProgressStore(memory());
+    render(
+      <ProgressProvider store={store}>
+        <StackForm index={index} />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByRole('heading', { name: 'Tap everything you do.' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Creatine' }));
+    fireEvent.click(screen.getByRole('button', { name: 'AG1 or greens' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Daily walk' }));
+    fireEvent.click(screen.getByRole('button', { name: 'AG1 or greens' }));
+    expect(screen.getByRole('button', { name: 'Creatine' }).getAttribute('aria-pressed')).toBe(
+      'true',
+    );
+    await waitFor(async () => {
+      const saved = await store.load();
+      expect(saved?.items.map((i) => [i.itemKey, i.monthlyCost])).toEqual([
+        ['creatine-monohydrate', 14],
+        ['10-000-steps-daily-walk', 0],
+      ]);
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    // A chip that names one thing keeps that name in the list.
+    expect(await screen.findByText('Creatine')).toBeTruthy();
   });
 
   it('leaves out the running total, so the number stays for its own screen', async () => {

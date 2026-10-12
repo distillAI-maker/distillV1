@@ -70,12 +70,32 @@ export const stackItemSchema = z
       )
       .max(200)
       .default([]),
-    /** Their notes, distilled into two or three sentences that keep what it means to them. */
+    /** What this ritual gives them, in one short line read from their notes. */
     essence: z.string().max(600).optional(),
+    /** One small thought, offered only when their notes earn it ("Leah would love a Pilates weekend"). */
+    idea: z.string().max(300).optional(),
+    /** Thoughts they said no to. Never offered again. */
+    ideasDeclined: z.array(z.string().max(300)).max(30).optional(),
     position: z.number().int().nonnegative(),
   })
   .strict();
 export type StackItem = z.infer<typeof stackItemSchema>;
+
+/** The four parts of "What we've learned about you". */
+export const pictureKindSchema = z.enum(['joy', 'people', 'toward', 'theirs']);
+export type PictureKind = z.infer<typeof pictureKindSchema>;
+
+export const pictureLineSchema = z
+  .object({
+    id: z.string().min(1),
+    kind: pictureKindSchema,
+    text: z.string().min(1).max(200),
+    /** 'you' once they wrote or edited it: kept word for word. */
+    by: z.enum(['distill', 'you']),
+    at: z.string(),
+  })
+  .strict();
+export type PictureLine = z.infer<typeof pictureLineSchema>;
 
 export const progressSchema = z
   .object({
@@ -135,9 +155,13 @@ export const progressSchema = z
     daily: z
       .object({
         date: z.string(),
-        kind: z.enum(['letgo', 'learn', 'celebrate']),
+        kind: z.enum(['letgo', 'learn', 'celebrate', 'more']),
         ref: z.string().optional(),
         done: z.boolean().default(false),
+        /** For 'more': what they added today (catalog keys, or `id:` and the row id for their own). */
+        added: z.array(z.string().max(120)).max(60).optional(),
+        /** What their answer added to the picture, shown back for the rest of the day. */
+        learned: z.array(z.string().max(200)).max(3).optional(),
       })
       .strict()
       .optional(),
@@ -146,6 +170,18 @@ export const progressSchema = z
       .array(z.object({ q: z.string().max(200), a: z.string().max(2000), at: z.string() }).strict())
       .max(400)
       .default([]),
+    /** Places already asked about in "Anything we haven't seen?" (lib/catalog/common.ts). */
+    moreAsked: z.array(z.string().max(40)).max(20).optional(),
+    /** What we've learned about them: short lines from their own words, theirs to edit or delete. */
+    picture: z
+      .object({
+        lines: z.array(pictureLineSchema).max(40).default([]),
+        /** Lines they deleted. Never brought back. */
+        removed: z.array(z.string().max(200)).max(100).default([]),
+        updatedAt: z.string(),
+      })
+      .strict()
+      .optional(),
     /** Signed-out demo only: how many weeks past the first read the person skipped ahead (0 to 2). */
     demoSkipDays: z.number().int().min(0).max(2).default(0),
     updatedAt: z.string(),

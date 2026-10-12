@@ -3,7 +3,8 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
-import { Button, Field, Skeleton } from '../../../components/ui';
+import { Button, Chip, Field, Skeleton } from '../../../components/ui';
+import { commonGroups, commonRow, type CommonItem } from '../../../lib/catalog/common';
 import { displayName, shortName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import { demoGoals, demoStack } from '../../../lib/data/demo/stack';
@@ -58,15 +59,15 @@ function catalogRow(entry: IndexEntry, position: number, label?: string): StackI
 }
 
 /**
- * Your stack, in the Figma build's two stages. First the person talks it through and we match what
- * we recognise in the routing table; then they edit the list: costs, and anything we missed. Where
- * each thing came from is asked later, in the app, not here.
+ * Your stack. First they tap what they do from the things people most often have (recognising is
+ * easier than remembering), or talk it through and we match what we recognise; then they edit the
+ * list: costs, and anything we missed. Where each thing came from is asked later, in the app.
  */
 export function StackForm({ index }: { index: IndexEntry[] }) {
   const go = useGo();
   const { ready, progress, update } = useProgress();
   const byKey = useMemo(() => new Map(index.map((e) => [e.key, e])), [index]);
-  const [stage, setStage] = useState<'listen' | 'edit' | null>(null);
+  const [stage, setStage] = useState<'tap' | 'listen' | 'edit' | null>(null);
   const [notes, setNotes] = useState('');
   const [custom, setCustom] = useState<{ open: boolean; name: string; cost: string }>({
     open: false,
@@ -78,12 +79,12 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
   // Someone coming back to a list they started lands on the list, not the blank page.
   useEffect(() => {
-    if (ready && stage === null) setStage(progress.items.length ? 'edit' : 'listen');
+    if (ready && stage === null) setStage(progress.items.length ? 'edit' : 'tap');
   }, [ready, stage, progress.items.length]);
 
-  // Moving from talking to the list starts the list at its title.
+  // Each stage starts at its title.
   useEffect(() => {
-    if (stage === 'edit') window.scrollTo({ top: 0, behavior: 'instant' });
+    if (stage) window.scrollTo({ top: 0, behavior: 'instant' });
   }, [stage]);
 
   const items = progress.items;
@@ -132,6 +133,20 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     }));
     setCustom({ open: false, name: '', cost: '' });
   }
+  /** A chip: on adds it at the table's cost, off takes it out again. */
+  function toggleCommon(item: CommonItem) {
+    setNeedOne(false);
+    update((p) => {
+      const there = p.items.find((i) => i.itemKey === item.key);
+      if (there)
+        return {
+          ...p,
+          items: p.items.filter((i) => i.id !== there.id),
+          dayOne: { ...p.dayOne, yours: p.dayOne.yours.filter((y) => y !== there.id) },
+        };
+      return { ...p, items: [...p.items, commonRow(item, p.items.length)] };
+    });
+  }
   function patch(id: string, change: Partial<StackItem>) {
     update((p) => ({ ...p, items: p.items.map((i) => (i.id === id ? { ...i, ...change } : i)) }));
   }
@@ -160,6 +175,47 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
         <h1>{copy.stack.listen.title}</h1>
         <Skeleton kind="title" />
         <Skeleton kind="option" count={2} />
+      </section>
+    );
+  }
+
+  if (stage === 'tap') {
+    return (
+      <section className="stack screen-tap">
+        <h1>{copy.stack.tap.title}</h1>
+        <p className="lede">{copy.stack.tap.line}</p>
+        {commonGroups.map((g) => (
+          <div key={g.id} className="stack-tight tap-group">
+            <h2 className="goals-label">{copy.stack.tap.groups[g.id]}</h2>
+            <div className="chips" role="group" aria-label={copy.stack.tap.groups[g.id]}>
+              {g.items.map((item) => (
+                <Chip
+                  key={item.key}
+                  selected={listed.has(item.key)}
+                  onClick={() => toggleCommon(item)}
+                >
+                  {item.text}
+                </Chip>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="tap-other">
+          <Button variant="link" onClick={() => setStage('listen')}>
+            {copy.stack.tap.talk}
+          </Button>
+          {items.length === 0 ? (
+            <Button variant="link" onClick={useExample}>
+              {copy.stack.listen.example}
+            </Button>
+          ) : null}
+        </div>
+        <div className="actions tap-next">
+          <Button onClick={() => setStage('edit')}>
+            {copy.stack.tap.next}
+            <Icon name="arrow" size={18} />
+          </Button>
+        </div>
       </section>
     );
   }
@@ -352,6 +408,9 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
         <Button onClick={next}>
           {copy.stack.done}
           <Icon name="arrow" size={18} />
+        </Button>
+        <Button variant="link" onClick={() => setStage('tap')}>
+          {copy.stack.tap.back}
         </Button>
         {items.length === 0 ? (
           <Button variant="link" onClick={useExample}>

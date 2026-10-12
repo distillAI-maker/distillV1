@@ -108,6 +108,21 @@ export const copy = {
       other: "Can't remember",
     },
     originAsk: 'Where did this come from?',
+    tap: {
+      title: 'Tap everything you do.',
+      line: 'The small things count too. Most of us do more than we think.',
+      groups: {
+        supplements: 'Supplements',
+        memberships: 'Memberships and classes',
+        habits: 'Habits',
+        apps: 'Apps, tests and services',
+        body: 'Body, skin and sleep',
+        food: 'Food and drink',
+      },
+      next: 'Continue',
+      talk: 'Rather talk it through?',
+      back: 'Tap through the common things',
+    },
     listen: {
       title: 'Talk us through what you do for yourself.',
       line: 'Include memberships, supplements, treatments and habits.',
@@ -488,6 +503,8 @@ export const copy = {
     stack: 'Your current stack',
     title: (name: string) => (name ? `${name}, at your best.` : 'You, at your best.'),
     inYourWords: 'In your words.',
+    idealDay: 'Your ideal day, in your words',
+    seeAll: 'See all, or change it',
     things: (n: number) => (n === 1 ? 'thing' : 'things'),
     from: (n: number) => `from ${n}`,
     aMonth: 'a month',
@@ -529,11 +546,6 @@ export const copy = {
     soonTitle: 'One ritual, chosen for you.',
     soonLine:
       "When the noise is gone, we'll suggest one thing that fits you: a class, a place, a weekend away.",
-    plate: 'Lake George. The Met, open access.',
-    addPhoto: 'Add a moment you love',
-    changePhoto: 'Change photo',
-    photoLabel: 'A moment you love',
-    photoTooBig: "That photo didn't fit. Try another one.",
     learnSave: 'Keep this',
     learnPlaceholder: 'In a sentence or two',
     learnThanks: 'Thank you. It stays with us.',
@@ -541,16 +553,83 @@ export const copy = {
     celebrateLine: 'Something you chose for yourself. Keep enjoying it.',
     celebrateNote: 'Add a note about it',
     doneToday: "That's today. See you tomorrow.",
-    questions: [
-      'What made this week feel good?',
-      'Which ritual would you miss most?',
-      'Where do you feel most like yourself?',
-      'What would you do with a free Saturday?',
-      'Who do you feel your best around?',
-      'What is one thing you do just for joy?',
-      'When did you last feel proud of yourself?',
-    ],
-    plateAlt: 'A calm mountain lake at dawn, painted.',
+    learnedLink: "Added to what we've learned about you",
+    thought: "Today's thought",
+    thoughtOpen: "Show today's thought",
+    thoughtClose: 'Back to the painting',
+    forYou: 'For you',
+    /** One place at a time, for the things people forget when they first list what they do. */
+    more: {
+      ask: {
+        shelf: "Anything on your bathroom shelf or kitchen counter we haven't seen?",
+        bookings: "Anything you book or see someone for that we haven't seen?",
+        phone: "Anything on your phone or in your inbox we haven't seen?",
+        bedside: "Anything by your bed or in your bathroom cabinet we haven't seen?",
+        kitchen: "Anything you eat or drink for how you feel that we haven't seen?",
+      },
+      line: 'Tap anything that is yours.',
+      other: 'Something else',
+      otherLabel: 'What is it?',
+      add: 'Add',
+      done: "That's everything",
+      added: (n: number, total: number) =>
+        `${n === 1 ? 'One more' : `${n} more`}. Your stack is ${total} things.`,
+      none: 'Nothing missed. Good to know.',
+    },
+    /**
+     * Daily questions, by the part of "What we've learned about you" they fill in. Each has an
+     * example answer, shown in the box, so it is clear how small and personal an answer can be.
+     */
+    questions: {
+      joy: [
+        {
+          q: 'What made this week feel good?',
+          eg: 'Dinner on the roof with Sam. We stayed out far too late.',
+        },
+        {
+          q: 'Where do you feel most like yourself?',
+          eg: "On a long walk with headphones in, or in my grandma's kitchen.",
+        },
+        {
+          q: 'What would you do with a free Saturday?',
+          eg: 'Farmers market, then the beach with a book until sunset.',
+        },
+        {
+          q: 'What do you do just because you love it?',
+          eg: 'Baking bread on Sundays. Nobody asks me to.',
+        },
+      ],
+      people: [
+        {
+          q: 'Who do you feel your best around?',
+          eg: 'My sister. We laugh at the same silly things.',
+        },
+        {
+          q: 'Who would you call first with good news?',
+          eg: 'My dad. He always wants every detail.',
+        },
+      ],
+      toward: [
+        {
+          q: 'What are you working toward right now?',
+          eg: 'Running a half marathon in the spring, for me this time.',
+        },
+        {
+          q: 'When did you last feel proud of yourself?',
+          eg: 'Finishing my first race, with my sister beside me.',
+        },
+      ],
+      theirs: [
+        {
+          q: 'If you could keep only one thing you do, what would it be?',
+          eg: "My Saturday class with Leah. Really, it's the coffee after.",
+        },
+        {
+          q: 'What would you never give up, whatever anyone says?',
+          eg: "Wine on Fridays with friends. It's how my week ends.",
+        },
+      ],
+    },
   },
   ritual: {
     back: 'Your rituals',
@@ -566,6 +645,29 @@ export const copy = {
     letGone: 'Let go.',
     undo: 'Undo',
     missing: "We couldn't find that ritual.",
+    thought: 'A thought',
+    notForMe: 'Not for me',
+  },
+  you: {
+    link: "What we've learned about you",
+    title: "What we've learned about you.",
+    line: 'From your own words. Change anything, or delete it.',
+    parts: {
+      joy: 'What brings you joy',
+      people: 'Who matters',
+      toward: "What you're working toward",
+      theirs: 'What is yours',
+    },
+    empty: "Write about a ritual or answer today's question, and this fills in.",
+    add: 'Add',
+    addLabel: (part: string) => `Add to ${part.toLowerCase()}`,
+    placeholder: 'In your words',
+    save: 'Save',
+    cancel: 'Cancel',
+    edit: 'Edit',
+    remove: 'Delete this line',
+    yours: 'Your words',
+    back: 'Your Standard',
   },
   tabs: {
     label: 'App',
@@ -685,6 +787,10 @@ export const copy = {
     dataTitle: 'Your data',
     exportData: 'Export my data',
     exportHint: 'A JSON file of everything the app holds on you.',
+    learned: "What we've learned about you",
+    learnedHint:
+      "Your notes, answers and ideal day are read by Claude, Anthropic's AI, to write it. Yours to change or delete.",
+    open: 'Open',
     deleteAll: 'Delete everything',
     deleteTitle: 'Delete everything?',
     deleteLine:
