@@ -11,8 +11,10 @@ const line = (kind: PictureLine['kind'], text: string): PictureLine => ({
 });
 
 describe("today's thought", () => {
-  it('starts with "Know thyself" before we know them', () => {
-    expect(thoughtFor('2026-10-12', undefined).saying.text).toBe('Know thyself.');
+  it('takes turns before we know them, with no line of theirs', () => {
+    const first = thoughtFor('2026-10-12', undefined);
+    expect(first.mine).toBeUndefined();
+    expect(thoughtFor('2026-10-13', undefined).saying).not.toBe(first.saying);
   });
 
   it('pairs a saying about a part of their picture with one of their own lines from it', () => {

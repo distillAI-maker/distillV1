@@ -15,13 +15,6 @@ export interface Saying {
 
 export const sayings: readonly Saying[] = [
   {
-    text: 'Know thyself.',
-    who: 'Inscribed at Delphi',
-    source: 'Temple of Apollo',
-    // The first thought, before we know them; after that, a saying about a part of who they are.
-    about: [],
-  },
-  {
     text: 'It is not the man who has too little, but the man who craves more, that is poor.',
     who: 'Seneca',
     source: 'Letters to Lucilius, tr. Richard M. Gummere',
@@ -32,12 +25,6 @@ export const sayings: readonly Saying[] = [
     who: 'Seneca',
     source: 'Letters to Lucilius, tr. Richard M. Gummere',
     about: ['joy', 'theirs'],
-  },
-  {
-    text: 'If you would be loved, love.',
-    who: 'Hecato, as quoted by Seneca',
-    source: 'Letters to Lucilius, tr. Richard M. Gummere',
-    about: ['people'],
   },
   {
     text: 'Of all the means which are procured by wisdom to ensure happiness throughout the whole of life, by far the most important is the acquisition of friends.',
@@ -100,7 +87,7 @@ export function thoughtFor(date: string, picture: Progress['picture']): Thought 
   const kinds = (['joy', 'people', 'toward', 'theirs'] as const).filter((k) =>
     lines.some((l) => l.kind === k),
   );
-  if (!kinds.length) return { saying: sayings[0] as Saying };
+  if (!kinds.length) return { saying: at(sayings, day) };
   const kind = at(kinds, day);
   const fits = sayings.filter((s) => s.about.includes(kind));
   const mine = lines.filter((l) => l.kind === kind);
