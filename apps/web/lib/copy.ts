@@ -546,11 +546,6 @@ export const copy = {
     soonTitle: 'One ritual, chosen for you.',
     soonLine:
       "When the noise is gone, we'll suggest one thing that fits you: a class, a place, a weekend away.",
-    plate: 'Lake George. The Met, open access.',
-    addPhoto: 'Add a moment you love',
-    changePhoto: 'Change photo',
-    photoLabel: 'A moment you love',
-    photoTooBig: "That photo didn't fit. Try another one.",
     learnSave: 'Keep this',
     learnPlaceholder: 'In a sentence or two',
     learnThanks: 'Thank you. It stays with us.',
@@ -631,7 +626,6 @@ export const copy = {
         },
       ],
     },
-    plateAlt: 'A calm mountain lake at dawn, painted.',
   },
   ritual: {
     back: 'Your rituals',

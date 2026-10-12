@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Chip, Skeleton } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
 import { kindOf } from '../../../lib/ai/person';
+import { artworkFor } from '../../../lib/art';
 import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
 import { copy } from '../../../lib/copy';
 import { groupOf } from '../../../lib/data/routed';
@@ -13,10 +14,6 @@ import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
 import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
-
-/** CC0, The Metropolitan Museum of Art open access, via Wikimedia Commons. */
-const plate =
-  'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Lake_George_MET_DT84.jpg/1280px-Lake_George_MET_DT84.jpg';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -123,35 +120,8 @@ export function pickDaily(
   return { date, kind: 'learn', ref: pickQuestion(day, progress), done: false };
 }
 
-/** A photo they choose, made small enough to keep with their progress (a JPEG under ~330 KB). */
-async function toSmallJpeg(file: File): Promise<string | null> {
-  const url = URL.createObjectURL(file);
-  try {
-    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const el = new Image();
-      el.onload = () => resolve(el);
-      el.onerror = reject;
-      el.src = url;
-    });
-    const scale = Math.min(1, 1200 / Math.max(img.width, img.height));
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.round(img.width * scale);
-    canvas.height = Math.round(img.height * scale);
-    canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height);
-    for (const quality of [0.82, 0.7, 0.55]) {
-      const data = canvas.toDataURL('image/jpeg', quality);
-      if (data.length <= 440_000) return data;
-    }
-    return null;
-  } catch {
-    return null;
-  } finally {
-    URL.revokeObjectURL(url);
-  }
-}
-
 /**
- * Home: Your Standard. A moment they love, who they are at their best in their own words, what their
+ * Home: Your Standard. Today's masterpiece, who they are at their best in their own words, what their
  * stack is, one thing for today, what we're noticing, and their rituals, each one theirs to open.
  */
 export function StandardHome() {
@@ -159,8 +129,8 @@ export function StandardHome() {
   const { routed } = useRouted();
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
-  const [photoProblem, setPhotoProblem] = useState(false);
   const todayKey = new Date().toLocaleDateString('en-CA');
+  const art = artworkFor(todayKey);
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
@@ -287,37 +257,22 @@ export function StandardHome() {
     );
   }
 
-  async function choosePhoto(file: File | undefined) {
-    if (!file) return;
-    setPhotoProblem(false);
-    const data = await toSmallJpeg(file);
-    if (data) update({ photo: data });
-    else setPhotoProblem(true);
-  }
-
   return (
     <div className={s.page}>
-      {/* The picture is the button: tap it to choose a moment of theirs. No label on top of it. */}
-      <label htmlFor="home-photo" className={s.photoButton}>
-        <span className={s.plate}>
-          {progress.photo ? (
-            <img src={progress.photo} alt={copy.home.photoLabel} />
-          ) : (
-            <img className={s.painting} src={plate} alt={copy.home.plateAlt} />
-          )}
+      {/* One masterpiece a day, captioned like a museum placard. */}
+      <figure className={s.plate}>
+        <span className={s.frame}>
+          <img
+            className={s.painting}
+            src={art.src}
+            alt={`${art.title}, ${art.artist}`}
+            style={art.position ? { objectPosition: art.position } : undefined}
+          />
         </span>
-        <span className="sr-only">
-          {progress.photo ? copy.home.changePhoto : copy.home.addPhoto}
-        </span>
-      </label>
-      <input
-        id="home-photo"
-        type="file"
-        accept="image/*"
-        className="sr-only"
-        onChange={(e) => void choosePhoto(e.target.files?.[0])}
-      />
-      {photoProblem ? <p className={s.caption}>{copy.home.photoTooBig}</p> : null}
+        <figcaption className={s.placard}>
+          <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
+        </figcaption>
+      </figure>
 
       {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
       <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>

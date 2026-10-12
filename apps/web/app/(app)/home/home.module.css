@@ -478,26 +478,27 @@
   gap: 4px;
   height: 100%;
 }
-.photoButton {
-  position: relative;
-  display: block;
-  width: 100%;
-  margin-bottom: 28px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  text-align: left;
-}
-/* The painting's scan has dark edges: crop them inside the frame. */
+/* Today's masterpiece: the frame crops the scan's dark edges; the placard sits beneath. */
 .plate {
+  margin: 0 0 28px;
+}
+.frame {
   display: block;
   overflow: hidden;
   border-radius: 16px;
+  background: var(--panel);
 }
-.photoButton:focus-within .plate {
-  outline: 2px solid var(--gold-ink);
-  outline-offset: 3px;
+.placard {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+.placard em {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-2);
 }
 
 /* anything we haven't seen: chips for one place, and their own word for anything else */
@@ -536,7 +537,7 @@
   opacity: 0.4;
   cursor: default;
 }
-.plate img.painting {
+.frame img.painting {
   transform: scale(1.05);
 }
 .learn textarea {
