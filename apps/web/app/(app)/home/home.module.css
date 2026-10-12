@@ -483,16 +483,92 @@
   margin: 0 0 28px;
 }
 .frame {
+  position: relative;
   display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
   overflow: hidden;
   border-radius: 16px;
   background: var(--panel);
+  cursor: pointer;
+  text-align: left;
+}
+.frame:focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 3px;
+}
+/* today's thought: a veil over the painting, the line in the serif, theirs beneath */
+.thought {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 24px;
+  overflow: auto;
+  background: rgba(12, 12, 13, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity calc(0.35s * var(--motion, 1)) ease;
+}
+.thoughtOn {
+  opacity: 1;
+}
+.thought q {
+  font-family: var(--serif);
+  font-size: clamp(17px, 4.8vw, 22px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  quotes: '“' '”';
+}
+.thought cite {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #d9bf7f;
+}
+.mine {
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.86);
+}
+.mine b {
+  margin-right: 6px;
+  font-weight: 600;
+  color: #d9bf7f;
 }
 .placard {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 10px;
   font-size: 12px;
   line-height: 1.45;
   color: var(--ink-3);
+}
+.thoughtLink {
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 .placard em {
   font-family: var(--serif);

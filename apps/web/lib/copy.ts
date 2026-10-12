@@ -554,6 +554,10 @@ export const copy = {
     celebrateNote: 'Add a note about it',
     doneToday: "That's today. See you tomorrow.",
     learnedLink: "Added to what we've learned about you",
+    thought: "Today's thought",
+    thoughtOpen: "Show today's thought",
+    thoughtClose: 'Back to the painting',
+    forYou: 'For you',
     /** One place at a time, for the things people forget when they first list what they do. */
     more: {
       ask: {

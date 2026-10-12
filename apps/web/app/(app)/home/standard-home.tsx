@@ -6,6 +6,7 @@ import { Chip, Skeleton } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
 import { kindOf } from '../../../lib/ai/person';
 import { artworkFor } from '../../../lib/art';
+import { thoughtFor } from '../../../lib/wisdom';
 import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
 import { copy } from '../../../lib/copy';
 import { groupOf } from '../../../lib/data/routed';
@@ -129,8 +130,10 @@ export function StandardHome() {
   const { routed } = useRouted();
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
+  const [thinking, setThinking] = useState(false);
   const todayKey = new Date().toLocaleDateString('en-CA');
   const art = artworkFor(todayKey);
+  const thought = thoughtFor(todayKey, progress.picture);
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
@@ -259,18 +262,39 @@ export function StandardHome() {
 
   return (
     <div className={s.page}>
-      {/* One masterpiece a day, captioned like a museum placard. */}
+      {/* One masterpiece a day, captioned like a placard. Behind it, today's thought: a line from
+          the ancients about a part of who they are, beside one of their own lines. */}
       <figure className={s.plate}>
-        <span className={s.frame}>
+        <button
+          type="button"
+          className={s.frame}
+          aria-expanded={thinking}
+          aria-label={thinking ? copy.home.thoughtClose : copy.home.thoughtOpen}
+          onClick={() => setThinking((t) => !t)}
+        >
           <img
             className={s.painting}
             src={art.src}
             alt={`${art.title}, ${art.artist}`}
             style={art.position ? { objectPosition: art.position } : undefined}
           />
-        </span>
+          <span className={`${s.thought} ${thinking ? s.thoughtOn : ''}`} aria-hidden={!thinking}>
+            <q>{thought.saying.text}</q>
+            <cite>{thought.saying.who}</cite>
+            {thought.mine ? (
+              <span className={s.mine}>
+                <b>{copy.home.forYou}</b> {thought.mine}
+              </span>
+            ) : null}
+          </span>
+        </button>
         <figcaption className={s.placard}>
-          <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
+          <span>
+            <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
+          </span>
+          <button type="button" className={s.thoughtLink} onClick={() => setThinking((t) => !t)}>
+            {thinking ? copy.home.thoughtClose : copy.home.thought}
+          </button>
         </figcaption>
       </figure>
 
