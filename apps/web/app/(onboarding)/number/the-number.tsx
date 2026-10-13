@@ -1,11 +1,12 @@
 'use client';
 
-import type { CSSProperties } from 'react';
+import { useEffect, type CSSProperties } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
+import { track } from '../../../lib/track';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -13,6 +14,10 @@ const money = (n: number) => Math.round(n).toLocaleString('en-US');
 export function TheNumber() {
   const go = useGo();
   const { routed, summary, failed, retry } = useRouted();
+  useEffect(() => {
+    if (summary)
+      track('number_seen', { count: summary.count, monthly: Math.round(summary.monthlyTotal) });
+  }, [summary]);
 
   if (failed)
     return (

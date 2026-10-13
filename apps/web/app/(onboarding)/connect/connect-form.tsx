@@ -9,6 +9,7 @@ import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
 import { useProgress } from '../../../lib/progress/context';
+import { track } from '../../../lib/track';
 import type { DataSourceId } from '../../../lib/progress/types';
 
 /** Six months of demo nights. The number counts up as the bar fills. */
@@ -59,6 +60,7 @@ export function ConnectForm() {
 
   /** Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time. */
   function openStandard() {
+    if (!progress.dataSource) track('no_wearable');
     const next = { ...progress, step: 'done' as const, updatedAt: new Date().toISOString() };
     void saveNow(next)
       .catch(() => undefined)
@@ -69,6 +71,7 @@ export function ConnectForm() {
   }
 
   function startDemo() {
+    track('wearable', { source: 'demo' });
     update({ dataSource: 'demo', backfill: { nights: 0, done: false } });
     if (motionOff()) return finish(demoNights);
     setPhase('backfill');

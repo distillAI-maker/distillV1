@@ -12,6 +12,7 @@ import { useProgress } from '../../../lib/progress/context';
 import { newItemId } from '../../../lib/progress/types';
 import type { Origin, StackItem } from '../../../lib/progress/types';
 import { matchText } from '../../../lib/search/match';
+import { track } from '../../../lib/track';
 import type { IndexEntry } from '../../../lib/search/match';
 import { Typeahead } from './typeahead';
 
@@ -166,6 +167,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
       setNeedOne(true);
       return;
     }
+    track('stack_done', { count: items.length });
     go('life');
   }
 

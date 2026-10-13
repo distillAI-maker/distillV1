@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { copy } from '../../lib/copy';
 import { useProgress } from '../../lib/progress/context';
 import { resumePath } from '../../lib/steps';
+import { track } from '../../lib/track';
 import { Mark } from './mark';
 
 /**
@@ -27,6 +28,7 @@ export function Arrival() {
   }, [progress.items.length, progress.step, router]);
 
   useEffect(() => {
+    track('arrived');
     const reveal = window.setTimeout(() => setPhase(1), 1600);
     return () => window.clearTimeout(reveal);
   }, []);

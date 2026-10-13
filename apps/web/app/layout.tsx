@@ -28,9 +28,11 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Runs before paint so a saved "less motion" choice never flashes full motion.
+// Runs before paint so a saved "less motion" choice never flashes full motion. It also keeps where
+// someone first came from (?src=class on the QR code), for the launch funnel (lib/track.ts).
 const motionBoot =
-  "try{if(localStorage.getItem('distill.motion')==='reduce')document.documentElement.dataset.motion='reduce'}catch(e){}";
+  "try{if(localStorage.getItem('distill.motion')==='reduce')document.documentElement.dataset.motion='reduce'}catch(e){}" +
+  "try{var s=new URLSearchParams(location.search).get('src');if(s&&/^[A-Za-z0-9_.-]{1,40}$/.test(s)&&!localStorage.getItem('distill.source'))localStorage.setItem('distill.source',s)}catch(e){}";
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const user = await currentUser();

@@ -8,6 +8,7 @@ import { kindOf } from '../../../../../lib/ai/person';
 import { copy } from '../../../../../lib/copy';
 import { useRouted } from '../../../../../lib/data/use-routed';
 import { useProgress } from '../../../../../lib/progress/context';
+import { track } from '../../../../../lib/track';
 import { newItemId, type Progress } from '../../../../../lib/progress/types';
 import s from '../../home.module.css';
 
@@ -64,12 +65,14 @@ export function RitualView({ id }: { id: string }) {
     const text = draft.trim().slice(0, 4000);
     if (!text || !item) return;
     setDraft('');
+    track('note_written');
     void changed([...item.notes, { id: newItemId(), text, at: new Date().toISOString() }]);
   }
 
   /** "Not for me": the thought goes, and is never offered again. */
   function decline() {
     if (!item?.idea) return;
+    track('idea_declined');
     patchItem({
       idea: undefined,
       ideasDeclined: [...(item.ideasDeclined ?? []), item.idea].slice(-30),

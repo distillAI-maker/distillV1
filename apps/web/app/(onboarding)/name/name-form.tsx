@@ -7,6 +7,7 @@ import { Icon } from '../../../components/icon';
 import { Button } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { useProgress } from '../../../lib/progress/context';
+import { track } from '../../../lib/track';
 
 /** The name screen, on paper: a first name to address them by. The email waits for the invitation. */
 export function NameForm() {
@@ -18,6 +19,7 @@ export function NameForm() {
       className="stack screen-name"
       onSubmit={(e) => {
         e.preventDefault();
+        track('started');
         go('stack', { name: progress.name.trim() });
       }}
     >
