@@ -57,6 +57,17 @@ export function ConnectForm() {
     });
   }
 
+  /** Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time. */
+  function openStandard() {
+    const next = { ...progress, step: 'done' as const, updatedAt: new Date().toISOString() };
+    void saveNow(next)
+      .catch(() => undefined)
+      .finally(() => {
+        update(next);
+        router.push('/home');
+      });
+  }
+
   function startDemo() {
     update({ dataSource: 'demo', backfill: { nights: 0, done: false } });
     if (motionOff()) return finish(demoNights);
@@ -164,22 +175,7 @@ export function ConnectForm() {
         </div>
         {done ? (
           <div className="actions">
-            <Button
-              onClick={() => {
-                // Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time.
-                const next = {
-                  ...progress,
-                  step: 'done' as const,
-                  updatedAt: new Date().toISOString(),
-                };
-                void saveNow(next)
-                  .catch(() => undefined)
-                  .finally(() => {
-                    update(next);
-                    router.push('/home');
-                  });
-              }}
-            >
+            <Button onClick={openStandard}>
               {copy.connect.open}
               <Icon name="arrow" size={18} />
             </Button>
@@ -254,6 +250,12 @@ export function ConnectForm() {
           {copy.connect.unavailable}
         </p>
       ) : null}
+      {/* Most people don't own a wearable: the app works without one, and they can connect later. */}
+      <div className="actions">
+        <Button variant="link" onClick={openStandard}>
+          {copy.connect.without}
+        </Button>
+      </div>
     </section>
   );
 }

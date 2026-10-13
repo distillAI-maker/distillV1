@@ -73,6 +73,7 @@ export const copy = {
     backfillCount: (n: number) => `${n} nights so far`,
     backfillDone: 'Six months of nights, ready.',
     open: 'Open your Standard',
+    without: 'No wearable? Continue without one',
     errorStart: "We couldn't start that connection. Try again, or use demo data for now.",
     errorFile: "We couldn't read that file. Pick the export.zip the Health app made.",
   },

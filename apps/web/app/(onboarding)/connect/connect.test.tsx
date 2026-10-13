@@ -56,6 +56,25 @@ describe('Connect', () => {
     });
   });
 
+  it('lets someone without a wearable finish onboarding and open Your Standard', async () => {
+    const store = new LocalProgressStore(memory());
+    render(
+      <ProgressProvider store={store}>
+        <ConnectForm />
+      </ProgressProvider>,
+    );
+    await screen.findByRole('button', { name: /Use demo data/ });
+    await act(async () => {
+      fireEvent.click(screen.getByText('No wearable? Continue without one'));
+    });
+    expect(push).toHaveBeenCalledWith('/home');
+    await waitFor(async () => {
+      const saved = await store.load();
+      expect(saved?.step).toBe('done');
+      expect(saved?.dataSource).toBeUndefined();
+    });
+  });
+
   it('keeps live providers off until the flag is on', async () => {
     render(
       <ProgressProvider store={new LocalProgressStore(memory())}>
