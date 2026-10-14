@@ -2,1598 +2,342 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Distill: know what works and what's a waste, with proof from your own body</title>
-<script>
-/* Signup storage. Paste the two values from Supabase > Settings > API Keys:
-   the Project URL and the Publishable key (starts with sb_publishable_).
-   The publishable key is meant to be public: the database only lets it add
-   a row to the signups table, never read one. Leave both empty until the
-   Supabase project exists. */
-window.DISTILL = { supabaseUrl: "https://hzwiikkttligpmkvondy.supabase.co", supabaseKey: "sb_publishable_LnnDGCp21cdBGXzoBx-yZQ_MDoWAubE" };
-document.documentElement.className = 'js';
-</script>
-<meta name="description" content="Know which of your supplements and routines actually work. Distill runs one-habit on/off experiments on your own wearable data and gives you a real verdict in 14 days. Pay nothing unless something moves.">
-<meta name="theme-color" content="#100f0b">
-<meta property="og:title" content="Distill: know what works and what's a waste, with proof from your own body">
-<meta property="og:description" content="Know which of your supplements and routines actually work. One-habit on/off experiments on your own wearable data. Pay nothing unless something moves.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M12 1.5C14.5 9 22 14.5 22 21.5a10 10 0 0 1-20 0C2 14.5 9.5 9 12 1.5z' fill='%23B89552'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap">
-<style>
-/* tokens: the Distill identity from the Figma Make build (docs/DESIGN.md).
-   Night ground, paper text and inverse panels, one brass accent; Cormorant Garamond + Manrope; square corners. */
-:root{
-  --bg:#100f0b; --surface:#17150f; --raised:#1c1a13; --glass:rgba(245,237,215,.14); --ink:#f5edd7;
-  --accent:#b89552; --accent-light:#d6b078; --on-accent:#100f0b;
-  --muted:#a7a292; --faint:#959081; --rule:rgba(245,237,215,.14); --rule-2:rgba(245,237,215,.26); --field:rgba(245,237,215,.07);
-  --paper:#ede3cc; --paper-light:#f5edd7; --on-paper:#131009; --muted-on-paper:#67604f; --rule-on-paper:rgba(19,16,9,.14); --accent-on-paper:#7d6029;
-  --serif:"Cormorant Garamond",Georgia,serif; --sans:"Manrope","Helvetica Neue",Arial,sans-serif; --mono:var(--sans);
-  --ease-out:cubic-bezier(.22,1,.36,1); --ease-in-out:cubic-bezier(.65,0,.35,1);
-  --gutter:clamp(20px,4vw,48px); --nav-h:68px; --r-card:0; --r-ctl:0;
-  --sec:clamp(72px,9vw,128px);
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
-ul,ol{padding:0;list-style:none}
-h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.02em;text-wrap:balance}
-h1{font-size:clamp(32px,3.4vw,48px);line-height:1.08;letter-spacing:-.02em}
-h1 em{font-style:normal;color:var(--accent-light)}
-h1 .proof{display:block;margin-top:14px;font-family:var(--sans);font-size:max(15px,.38em);line-height:1.3;letter-spacing:0;font-weight:400;color:var(--accent-light)}
-h2{font-size:clamp(34px,4.2vw,58px);line-height:1}
-h3{font-size:clamp(22px,2.1vw,28px);line-height:1.2;letter-spacing:-.01em;font-weight:500}
-p{text-wrap:pretty}
-a{color:inherit}
-strong,b{font-weight:500}
-button,input,select{font:inherit;color:inherit}
-.wrap{max-width:1200px;margin-inline:auto;padding-inline:var(--gutter)}
-.label{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.muted{color:var(--muted)}
-::selection{background:rgba(184,149,82,.32)}
-:root{accent-color:var(--accent);caret-color:var(--accent)}
-.ic,.btn .arr{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.ic{width:20px;height:20px;flex:none;color:var(--accent)}
-.fud{font-size:13.5px;color:var(--muted)}
-section{padding-block:var(--sec);scroll-margin-top:var(--nav-h)}
-.sec-head{display:grid;gap:16px;margin-bottom:clamp(40px,5vw,64px);max-width:760px}
-.sec-head p{max-width:56ch;color:var(--muted);font-size:clamp(17px,1.4vw,19px)}
-.cta-row{margin-top:clamp(40px,5vw,56px);display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap}
-.band{background:var(--surface)}
-
-/* wordmark: W4 default, W1 and W8 available by class on body */
-.wordmark{text-decoration:none;color:var(--ink);white-space:nowrap}
-body.wm-w4 .wordmark{font-family:"Italiana","Bodoni Moda",Georgia,serif;font-size:21px;letter-spacing:.2em}
-body.wm-w1 .wordmark{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:20px;letter-spacing:.18em}
-body.wm-w8 .wordmark{font-family:"Tenor Sans",Arial,sans-serif;font-size:16px;letter-spacing:.4em}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 26px;border-radius:var(--r-ctl);font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.06em;text-transform:uppercase;line-height:1;text-decoration:none;border:0;cursor:pointer;white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease,box-shadow .2s ease,color .2s ease}
-.btn:active .arr{transform:translateY(2px)}
-.btn-primary{background:var(--paper-light);color:var(--on-paper)}
-.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--rule-2)}
-.btn-sm{min-height:44px;padding:0 20px;font-size:12.5px}
-.btn .arr{display:inline-block;width:16px;height:16px;color:inherit;transition:transform .2s var(--ease-out)}
-.btn.busy::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid rgba(19,16,9,.3);border-top-color:var(--on-paper);animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.btn[disabled]{opacity:.6;cursor:default}
-@media (hover:hover) and (pointer:fine){
-  .btn-primary:hover{background:var(--paper)}
-  .btn-ghost:hover{background:var(--surface);box-shadow:inset 0 0 0 1px var(--ink)}
-  .btn:hover .arr{transform:translateY(2px)}
-}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:0}
-.btn:focus-visible{border-radius:var(--r-ctl)}
-
-/* glass: the one surface treatment, used for product objects only */
-/* surface: the one panel treatment. Flat, square, hairline. */
-.glass{position:relative;border-radius:var(--r-card);background:var(--raised);border:1px solid var(--rule)}
-
-/* nav */
-.nav{position:sticky;top:0;z-index:20;background:rgba(16,15,11,.96);border-bottom:1px solid transparent;transition:border-color .2s ease}
-.nav.scrolled{border-bottom-color:var(--rule)}
-.nav .prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left center;pointer-events:none}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);gap:24px}
-.nav ul{display:flex;gap:clamp(20px,2.6vw,36px);font-size:14.5px;font-weight:400}
-.nav ul a{position:relative;text-decoration:none;color:var(--muted);padding-block:10px;transition:color .2s ease}
-.nav ul a::after{content:"";position:absolute;left:50%;bottom:1px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent);opacity:0;transform:scale(.4);transition:opacity .25s ease,transform .25s var(--ease-out)}
-.nav ul a[aria-current="true"]{color:var(--ink)}
-.nav ul a[aria-current="true"]::after{opacity:1;transform:none}
-@media (hover:hover) and (pointer:fine){ .nav ul a:hover{color:var(--ink)} }
-
-/* hero: words left, the stack being distilled right. No pinned scroll. */
-.hero{padding-block:clamp(28px,4.5vw,64px) clamp(40px,5vw,72px);background:none}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:no-preference){
-  .hero .copy > *{animation:rise .7s var(--ease-out) both}
-  .hero .copy > :nth-child(2){animation-delay:.07s}
-  .hero .copy > :nth-child(3){animation-delay:.14s}
-  .hero .distiller{animation:rise .8s var(--ease-out) .2s both}
-}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);align-items:center}
-.hero .copy{display:grid;gap:24px;justify-items:start}
-.hero .sub{color:var(--muted);max-width:54ch;font-size:clamp(16.5px,1.3vw,18.5px)}
-.hero .ctas{display:grid;gap:14px;margin-top:8px}
-.hero .ctas .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-
-.distiller{display:grid;justify-items:center}
-.tray{width:100%;padding:20px 20px 64px}
-.tray-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;min-height:28px}
-.replay{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:transparent;border:0;padding:6px 4px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s ease}
-.distiller.done .replay{opacity:1;pointer-events:auto}
-.stack{display:flex;flex-wrap:wrap;gap:6px}
-.stack li{position:relative;font-size:13px;font-weight:400;line-height:1;padding:8px 12px;border-radius:999px;background:transparent;border:1px solid var(--rule-2);color:var(--ink);white-space:nowrap;transition:opacity .5s var(--ease-out),background-color .4s ease,color .4s ease,border-color .4s ease}
-.stack li::after{content:"";position:absolute;left:10px;right:10px;top:50%;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left center;transition:transform .5s var(--ease-out)}
-.stack li.cut{opacity:.5}
-.stack li.cut::after{transform:scaleX(1)}
-.stack li.kept{background:var(--paper-light);border-color:var(--paper-light);color:var(--on-paper)}
-.neck{margin-top:-52px;position:relative;z-index:1}
-.neck canvas{display:block;width:clamp(96px,9vw,124px);height:auto}
-.readout{display:flex;gap:clamp(28px,4vw,56px);margin-top:4px}
-.stat{display:grid;justify-items:center;gap:2px}
-.stat .n{font-family:var(--serif);font-weight:400;font-size:clamp(44px,4.8vw,66px);line-height:1;letter-spacing:-.02em}
-.stat .u{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600}
-.cap2{position:relative;margin-top:14px;font-size:14px;color:var(--muted);text-align:center;min-height:1.6em;width:100%}
-.cap2 span{display:block;transition:opacity .4s ease}
-.cap2 span + span{position:absolute;inset:0;opacity:0}
-.distiller.done .cap2 span:first-child{opacity:0}
-.distiller.done .cap2 span + span{opacity:1}
-.key2{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--muted)}
-.key2 i{display:inline-block;width:18px;height:10px;border-radius:999px;margin-right:7px;vertical-align:-1px;background:var(--paper-light)}
-.key2 i.x{background:transparent;border-top:1px solid var(--ink);border-radius:0;height:0;vertical-align:4px}
-
-/* trust strip */
-.trust{border-block:1px solid var(--rule)}
-.trust ul{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:12px 40px;padding-block:22px;font-size:14px;color:var(--muted)}
-.trust li{display:flex;gap:10px;align-items:flex-start}
-.trust .ic{margin-top:1px}
-
-/* try it: the day-one router, driven by routing.json (built from the routing table) */
-.try .grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);grid-template-areas:"pick out" "tune out" "fine out";grid-template-rows:auto auto 1fr;gap:20px clamp(24px,4vw,56px);align-items:start}
-.try .pick{grid-area:pick}
-.try .tune{grid-area:tune}
-.try .fine{grid-area:fine}
-.try .result{grid-area:out}
-.try .tool{display:grid;gap:22px;padding:clamp(20px,2.4vw,28px)}
-.try .search{display:grid;gap:10px;position:relative}
-.try .q-label{font-size:17px;font-weight:400;letter-spacing:-.01em}
-.try .field{position:relative}
-.try input[type=text],.try input[type=number],.try select{width:100%;font:400 16px var(--sans);padding:15px 16px;border:1px solid var(--rule-2);border-radius:var(--r-ctl);background:var(--field);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none;transition:border-color .2s ease,box-shadow .2s ease}
-.try input:focus,.try select:focus{outline:0;border-color:var(--accent);box-shadow:none}
-.try input[type=text]{padding-right:48px}
-.try select,.audit-form select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 15px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-right:38px}
-.try input::placeholder{color:var(--muted)}
-.try .clear{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:transparent;color:var(--muted);font:300 24px/1 var(--sans);cursor:pointer;border-radius:999px}
-.try .suggest{position:absolute;left:0;right:0;top:100%;z-index:4;margin:6px 0 0;padding:6px;background:var(--raised);border:1px solid var(--rule-2);border-radius:0;max-height:320px;overflow:auto;transform-origin:top center}
-.try .suggest li{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:11px 12px;border-radius:0;cursor:pointer;font-size:15.5px;font-weight:400}
-.try .suggest li .nm{display:flex;gap:10px;align-items:center}
-.try .suggest li .ic{width:18px;height:18px}
-.try .suggest li small{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
-.try .suggest li.on{background:var(--surface)}
-@media (hover:hover) and (pointer:fine){ .try .suggest li[data-k]:hover{background:var(--surface)} }
-.try .suggest li.none{cursor:default;color:var(--muted);font-weight:350}
-.try .hint{font-size:13.5px;color:var(--muted);margin-bottom:-12px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:400 14px/1 var(--sans);min-height:38px;padding:0 14px;border-radius:999px;background:transparent;border:1px solid var(--rule-2);color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease,color .2s ease,border-color .2s ease}
-.chip:active{background:var(--surface)}
-.chip[aria-pressed="true"]{background:var(--paper-light);color:var(--on-paper);border-color:var(--paper-light)}
-@media (hover:hover) and (pointer:fine){ .chip:not([aria-pressed="true"]):hover{border-color:var(--ink)} }
-.sk{display:block;position:relative;overflow:hidden;background:rgba(245,237,215,.06);border-radius:0}
-.sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,rgba(245,237,215,0),rgba(245,237,215,.08),rgba(245,237,215,0));animation:sk 1.3s linear infinite}
-@keyframes sk{to{transform:translateX(100%)}}
-.sk-chip{display:inline-block;height:38px;border-radius:999px}
-.sk-line{height:14px}
-.sk-title{height:30px}
-.sk-pill{height:54px;border-radius:0}
-.sk-bar{height:10px;border-radius:999px}
-.sk-card{display:grid;gap:16px}
-.try .qs{display:grid;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
-.try .qs:empty{display:none}
-.try .qa{display:grid;gap:10px}
-.try .qa .q{font-size:15px;font-weight:400}
-.try .qa .num{display:flex;align-items:center;gap:10px}
-.try .qa .num input{width:132px}
-.try .qa .num span{font-size:14px;color:var(--muted)}
-.try .ctx{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.try .ctx label{display:grid;gap:8px;font-size:14px;color:var(--muted)}
-.try .fine{font-size:13px;color:var(--muted);line-height:1.5;padding-inline:4px}
-
-.result{padding:clamp(22px,2.6vw,32px);display:grid;gap:20px;align-content:start;position:sticky;top:calc(var(--nav-h) + 20px);transition:filter .2s ease,opacity .2s ease}
-.result.swap{filter:blur(2px);opacity:.7;transition:none}
-.result .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.result .dev{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
-.result h3{display:flex;gap:14px;align-items:center;font-size:clamp(24px,2.4vw,30px);font-weight:500;letter-spacing:-.01em}
-.result .cat{flex:none;width:46px;height:46px;border-radius:0;background:var(--surface);display:grid;place-items:center}
-.result .cat .ic{width:22px;height:22px}
-.result h3 small{display:block;font-family:var(--sans);font-size:14px;color:var(--muted);letter-spacing:0;margin-top:6px;font-weight:350}
-.verdict{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:0;background:var(--surface);border-left:2px solid var(--rule-2)}
-.verdict .ic{margin-top:2px}
-.verdict.v-1 .ic{color:var(--accent)}
-.verdict strong{display:block;font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.3}
-.verdict span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
-.verdict.v-1{border-left-color:var(--accent)}
-.verdict.v-1 span{color:var(--muted)}
-.result .say{font-size:17px;line-height:1.55}
-.result .figure{font-family:var(--serif);font-weight:400;font-size:clamp(38px,4vw,52px);letter-spacing:-.02em;line-height:1.05}
-.result .figure small{display:block;font-size:14px;letter-spacing:0;color:var(--muted);margin-top:6px;font-weight:350}
-.meter{display:grid;gap:10px}
-.meter .mq{font-size:14px;font-weight:400}
-.meter .track{position:relative;height:10px;border-radius:0;background:var(--surface)}
-.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:0;background:var(--accent);transition:width .5s var(--ease-out)}
-.meter .gate{position:absolute;top:-5px;bottom:-5px;width:2px;border-radius:2px;background:var(--ink)}
-.meter .scale{position:relative;display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);line-height:1.3}
-.meter .scale .g{position:absolute;left:53.3%;transform:translateX(-50%);color:var(--ink);font-weight:400;white-space:nowrap}
-.meter .mc{font-size:14px;color:var(--muted)}
-.result .note{font-size:14.5px;color:var(--muted)}
-.result .safety{font-size:14.5px;padding:12px 14px;background:var(--surface);border-radius:0}
-.result .act{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap}
-.mystack{margin-top:24px;padding:clamp(20px,2.6vw,32px);display:grid;gap:18px}
-.mystack[hidden]{display:none}
-.ms-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
-.ms-head h3{font-size:clamp(22px,2.1vw,28px);font-weight:500;letter-spacing:-.01em}
-.ms-head .tot{font-size:15px;color:var(--muted)}
-.ms-head .tot b{color:var(--ink)}
-.ms-bar{display:flex;gap:3px;height:12px}
-.ms-bar i{flex:var(--n) 1 0;min-width:10px;border-radius:0}
-.ms-bar .k1,.ms-key .k1{background:var(--accent)}
-.ms-bar .k2,.ms-key .k2{background:var(--paper-light)}
-.ms-bar .k3,.ms-key .k3{background:var(--muted)}
-.ms-bar .k0,.ms-key .k0{background:var(--faint)}
-.ms-key{display:flex;gap:6px 20px;flex-wrap:wrap;font-size:13.5px;color:var(--muted)}
-.ms-key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
-.ms-list li{display:grid;grid-template-columns:20px minmax(0,1fr) auto 76px 36px;gap:12px;align-items:center;padding-block:8px;border-top:1px solid var(--rule);font-size:15px}
-.ms-list .nm{min-height:36px;text-align:left;background:none;border:0;padding:0;cursor:pointer;font:400 15px var(--sans);color:var(--ink);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:4px}
-.ms-tag{font-size:12.5px;padding:5px 10px;border-radius:999px;background:var(--surface);white-space:nowrap}
-.ms-tag.k1{background:var(--accent);color:var(--on-accent)}
-.ms-tag.k2{background:var(--paper-light);color:var(--on-paper)}
-.ms-list .mono{font-size:13px;color:var(--muted);text-align:right}
-.ms-x{width:36px;height:36px;border:0;background:transparent;border-radius:50%;font:300 22px/1 var(--sans);color:var(--muted);cursor:pointer}
-.ms-foot{font-size:14.5px;color:var(--muted);max-width:70ch}
-.ms-foot b{color:var(--ink)}
-.more{border-block:1px solid var(--rule)}
-.more summary{padding-block:14px;font-size:15px}
-.more dl{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:10px 18px;font-size:14.5px;padding-bottom:16px}
-.more dt{color:var(--muted)}
-.more .found{font-size:14.5px;color:var(--muted);padding-bottom:18px}
-.more .found b{color:var(--ink)}
-
-/* the problem */
-.pain .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
-.pain h2{max-width:17ch}
-.pain .side{position:sticky;top:calc(var(--nav-h) + 32px)}
-.pas{display:grid;gap:14px;max-width:47ch;font-size:clamp(17px,1.35vw,18.5px);line-height:1.5}
-.pas .dear{font-style:italic;color:var(--muted)}
-.pas b{font-weight:500;letter-spacing:.02em}
-.pas .lead{margin-top:10px;font-weight:400}
-.pas .good{margin-top:16px;font-family:var(--serif);font-size:clamp(26px,2.4vw,32px);font-weight:500;letter-spacing:-.01em;line-height:1.2}
-.pas .checks{margin-block:6px}
-.pas .cta-row{margin-top:20px}
-.tally{margin-top:clamp(32px,4vw,48px);padding-top:24px;border-top:1px solid var(--ink);font-family:var(--serif);font-size:clamp(25px,2.5vw,32px);line-height:1.3;letter-spacing:-.01em;font-weight:500;color:var(--muted)}
-.tally em{font-style:normal;color:var(--ink);font-weight:400}
-.tally-cap{margin-top:10px;font-size:13.5px;color:var(--muted)}
-.checks{display:grid;gap:14px}
-.checks li{padding-left:30px;position:relative}
-.checks li::before{content:"";position:absolute;left:2px;top:.55em;width:14px;height:8px;border-left:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(-45deg);transform-origin:left bottom;translate:0 -2px}
-.pivot{max-width:900px}
-.pivot .big{font-family:var(--serif);font-size:clamp(32px,3.9vw,54px);line-height:1.05;font-weight:500;letter-spacing:-.02em;text-wrap:balance}
-.pivot .big em{font-style:normal;color:var(--accent-light)}
-.pivot .big.live .w{opacity:.2;transition:opacity .4s ease}
-.pivot .big.live .w.lit{opacity:1}
-.vps{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px);margin-top:clamp(40px,5vw,64px)}
-.vps li{display:grid;grid-template-columns:22px 1fr;gap:6px 16px;align-content:start;padding-block:24px;border-top:1px solid var(--rule-2)}
-.vps .ic{width:22px;height:22px;grid-row:1/3;margin-top:1px}
-.vps h3{font-size:clamp(21px,1.8vw,25px);font-weight:500;line-height:1.25;letter-spacing:0;max-width:34ch}
-
-/* how it works */
-.steps{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,72px) clamp(28px,5vw,72px)}
-.step{display:grid;gap:14px;align-content:start}
-.step .n{display:flex;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--ink);font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600}
-.step .n span:last-child{color:var(--muted)}
-.step .n span:first-child{display:inline-flex;align-items:center;gap:8px}
-.step .n .ic{width:16px;height:16px}
-.step h3{font-size:clamp(28px,2.8vw,36px);font-weight:500;letter-spacing:-.02em;margin-top:6px}
-.step > p{color:var(--muted);max-width:46ch}
-.step .obj{margin-top:14px}
-.step.wide{grid-column:1/-1}
-.step.wide .intro{display:grid;gap:14px}
-.step.wide .intro p{color:var(--muted);max-width:60ch}
-.how .note{font-size:14.5px;color:var(--muted)}
-
-.audit{padding:20px 22px 22px;display:grid;gap:0}
-.audit li{display:flex;justify-content:space-between;gap:12px;padding-block:12px;border-bottom:1px solid var(--rule);font-size:15px}
-.audit li .mono{color:var(--muted);font-size:13px}
-.audit li.more-row{color:var(--muted)}
-.audit .total{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding-top:16px;font-size:15px}
-.audit .total span{white-space:nowrap}
-.audit .total b{font-family:var(--serif);font-weight:400;font-size:32px;letter-spacing:-.01em}
-
-.cal{display:grid;gap:16px;max-width:440px}
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-.days i{aspect-ratio:1;border-radius:0;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-style:normal;font-variant-numeric:tabular-nums;color:var(--muted);background:var(--raised);border:1px solid var(--rule)}
-.days i.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.days i.now{outline:2px solid var(--ink);outline-offset:2px}
-.cal.live .days i{transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease}
-.cal.live .days i:not(.seen){background:transparent;border:1px dashed var(--rule-2);box-shadow:none;color:var(--muted)}
-.key{display:flex;gap:8px 22px;font-size:13px;color:var(--muted);flex-wrap:wrap}
-.key i{display:inline-block;width:10px;height:10px;border-radius:0;background:var(--field);margin-right:8px;vertical-align:-1px;border:1px solid var(--rule-2)}
-.key i.on{background:var(--accent);border-color:var(--accent)}
-.today{padding:20px 22px;display:grid;gap:12px}
-.today .line{font-size:19px;font-weight:400;letter-spacing:-.01em}
-.today .sub{font-size:13.5px;color:var(--muted)}
-.today .taps{display:flex;gap:8px}
-.today .taps button{min-height:44px;font:400 14.5px var(--sans);padding:0 18px;border-radius:0;border:1px solid var(--rule-2);background:transparent;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out),background-color .2s ease}
-.today .taps button:active{background:var(--surface)}
-.today .taps button:first-child,.today .taps button[data-tap="again"]{background:var(--paper-light);color:var(--on-paper);border-color:var(--paper-light)}
-.today .tap-hint{font-size:13px;color:var(--muted)}
-
-.step.wide h3{max-width:26ch}
-.vx{--mint:var(--accent-on-paper);--pale:var(--on-paper);margin-top:18px;border-radius:0;color:var(--pale);padding:clamp(18px,3vw,36px);display:grid;gap:clamp(20px,3vw,32px);background:var(--paper-light);color-scheme:light}
-.vx-tabs{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
-.vx-tab{position:relative;overflow:hidden;display:grid;gap:1px;text-align:left;min-height:58px;padding:9px 18px 11px;border-radius:0;border:1px solid rgba(19,16,9,.18);background:transparent;color:rgba(19,16,9,.74);cursor:pointer;font-family:var(--sans);touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .16s var(--ease-out)}
-.vx-tab:active{background:rgba(19,16,9,.06)}
-.vx-tab b{font-weight:500;font-size:15.5px}
-.vx-tab span{font-size:13px}
-.vx-tab[aria-selected="true"]{background:var(--pale);color:var(--paper-light);border-color:var(--pale)}
-.vx-tab i{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left center}
-.vx.auto .vx-tab[aria-selected="true"] i{animation:vxp 7s linear forwards}
-.vx.auto.held .vx-tab i{animation-play-state:paused}
-@keyframes vxp{to{transform:scaleX(1)}}
-.vx-tab:focus-visible,.vx-pause:focus-visible{outline-color:var(--mint)}
-.vx-pause{margin-left:auto;align-self:center;width:44px;height:44px;border-radius:50%;border:1px solid rgba(19,16,9,.18);background:transparent;color:var(--pale);cursor:pointer;display:grid;place-items:center}
-.vx-pause[hidden]{display:none}
-.vx-pause svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.vx-pause .pl{display:none;fill:currentColor;stroke:none}
-.vx-pause[aria-pressed="true"] .pa{display:none}
-.vx-pause[aria-pressed="true"] .pl{display:block}
-.vx-panel{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(24px,4vw,64px);align-items:start}
-.vx-read{display:grid;gap:14px;align-content:start}
-.vx .label{color:var(--mint)}
-.vx h4{font-size:20px;font-weight:400;letter-spacing:-.01em}
-.vx .big{font-family:var(--serif);font-weight:400;font-size:clamp(52px,5.6vw,78px);letter-spacing:-.02em;line-height:1}
-.vx .big small{font-family:var(--sans);font-size:16px;letter-spacing:0;color:rgba(19,16,9,.72);margin-left:8px}
-.vx dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
-.vx dt{color:var(--muted-on-paper)}
-.vx .note{color:rgba(19,16,9,.8);font-size:15px}
-.vx .word{font-size:22px;font-weight:400;letter-spacing:-.01em;color:var(--mint);padding-top:14px;border-top:1px solid rgba(19,16,9,.16)}
-.vx .swing::before{background:rgba(19,16,9,.22)}
-.vx .swing .band{background:rgba(125,96,41,.18);transition:left .5s var(--ease-out),width .5s var(--ease-out)}
-.vx .swing .zero{background:var(--pale)}
-.vx .swing .dot{background:var(--mint);box-shadow:0 0 0 3px var(--paper-light);transition:transform .7s var(--ease-out)}
-.vx .swing.inside .dot{background:var(--paper-light);box-shadow:inset 0 0 0 2px var(--mint)}
-.vx-chart{display:grid;gap:12px}
-.vx-chart-head{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;font-size:14.5px}
-.vx-key{display:flex;gap:4px 18px;flex-wrap:wrap;font-size:13px;color:rgba(19,16,9,.78)}
-.vx-key span{display:inline-flex;align-items:center;gap:7px}
-.vx-key i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--mint)}
-.vx-key i.off{background:transparent;box-shadow:inset 0 0 0 1.5px rgba(19,16,9,.7)}
-.vx-lines{font-size:12.5px;color:rgba(19,16,9,.64)}
-.nights{--h:190px;position:relative;display:grid;grid-template-columns:repeat(14,1fr);height:calc(var(--h) + 44px);padding-top:14px;border-bottom:1px solid rgba(19,16,9,.16)}
-.night{position:relative;cursor:default}
-.night::before{content:"";position:absolute;left:50%;top:0;bottom:22px;width:1px;background:rgba(19,16,9,.06)}
-.night b{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:400;font-variant-numeric:tabular-nums;color:rgba(19,16,9,.64)}
-.night i{position:absolute;left:50%;bottom:30px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--mint);transform:translateY(calc(var(--v) * var(--h) * -1));transition:transform .7s var(--ease-out),opacity .2s ease;transition-delay:calc(var(--n) * 22ms),0s}
-.night.off i{background:var(--paper-light);box-shadow:inset 0 0 0 1.5px rgba(19,16,9,.8)}
-.nights.hov .night:not(.hot) i{opacity:.4}
-.night.hot i{box-shadow:0 0 0 5px rgba(125,96,41,.2)}
-.night.off.hot i{box-shadow:inset 0 0 0 1.5px var(--pale),0 0 0 5px rgba(19,16,9,.1)}
-.mean{position:absolute;left:0;right:0;bottom:37px;height:0;border-top:1px solid var(--mint);transform:translateY(calc(var(--m) * var(--h) * -1));transition:transform .7s var(--ease-out);pointer-events:none}
-.mean.off{border-top:1px dashed rgba(19,16,9,.7)}
-.vx-tip{font-size:14.5px;min-height:1.6em}
-.vx-fine{font-size:12.5px;color:rgba(19,16,9,.64)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:14px}
-.card{padding:26px 26px 24px;display:grid;gap:16px;align-content:start}
-.card .top{display:flex;justify-content:space-between;align-items:center}
-.card .top .label{color:var(--muted)}
-.card .glyph{width:14px;height:19px}
-.card h4{font-weight:400;font-size:18px;letter-spacing:-.01em}
-.card .big{font-family:var(--serif);font-weight:400;font-size:clamp(44px,4.4vw,60px);letter-spacing:-.02em;line-height:1}
-.card .big small{font-size:15px;letter-spacing:0;color:var(--muted);margin-left:6px}
-.card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
-.card dt{color:var(--muted)}
-.card p{color:var(--muted);font-size:15px}
-.swing{position:relative;height:30px;container-type:inline-size}
-.swing::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--rule-2)}
-.swing .band{position:absolute;top:5px;bottom:5px;left:calc(50% - var(--band) * .5%);width:calc(var(--band) * 1%);border-radius:0;background:var(--glass)}
-.swing .zero{position:absolute;left:50%;top:1px;bottom:1px;width:1px;background:var(--ink);opacity:.4}
-.swing .dot{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--raised);transform:translateX(calc(var(--at) * .5cqw))}
-.swing.inside .dot{background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent)}
-.js .card.rv:not(.in) .swing .dot{transform:translateX(0)}
-.card.rv.in .swing .dot{transition:transform .9s var(--ease-out) .35s}
-.card .word{font-size:20px;font-weight:400;letter-spacing:-.01em;color:var(--accent);padding-top:16px;border-top:1px solid var(--rule)}
-
-/* what you end up with */
-.value .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,6vw,96px);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
-.value h2{max-width:20ch;font-size:clamp(28px,3.2vw,44px)}
-.seg{display:inline-flex;gap:4px;padding:4px;border-radius:0;background:var(--surface);justify-self:start;margin-top:6px}
-.seg button{min-height:40px;padding:0 18px;border:0;border-radius:0;background:transparent;color:var(--muted);font:400 14.5px var(--sans);cursor:pointer;touch-action:manipulation;transition:background-color .2s ease,color .2s ease,transform .16s var(--ease-out)}
-.seg button:active{background:var(--raised)}
-.seg button[aria-pressed="true"]{background:var(--paper-light);color:var(--on-paper)}
-.file .score small{font-size:inherit}
-.file.before .score small{visibility:hidden}
-.file.before .cut li span:first-child{text-decoration:none;color:var(--ink)}
-.file.before .yours li .mono{color:var(--muted);font-weight:400}
-.value .text{display:grid;gap:18px}
-.value .text p{color:var(--muted);max-width:46ch;font-size:clamp(17px,1.4vw,19px)}
-.file{display:grid;grid-template-columns:1fr 1fr;gap:28px clamp(28px,5vw,72px);padding:clamp(22px,3vw,40px)}
-.file .col{display:grid;gap:16px;align-content:start}
-.file h4{font-weight:400;font-size:16px}
-.file .score{display:flex;gap:22px;font-size:13px;color:var(--muted);flex-wrap:wrap}
-.file .score b{color:var(--ink);font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.01em;display:block}
-.file li{display:flex;justify-content:space-between;gap:12px;padding-block:11px;border-top:1px solid var(--rule);font-size:14.5px}
-.file li:last-child{border-bottom:1px solid var(--rule)}
-.file .cut li span:first-child{text-decoration:line-through;text-decoration-color:var(--faint);color:var(--muted)}
-.file li .mono{color:var(--muted);font-size:12.5px;white-space:nowrap}
-.file .yours li span:first-child{font-weight:400}
-.file .yours li .mono{color:var(--accent);font-weight:500}
-
-/* promises */
-.promises{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,6vw,96px)}
-.promise{display:grid;grid-template-columns:22px 1fr;gap:8px 16px;align-content:start;padding-block:28px;border-top:1px solid var(--rule-2)}
-.promise .ic{width:22px;height:22px;margin-top:3px;grid-row:1/3}
-.promise h3{font-size:20px}
-.promise p{color:var(--muted);font-size:16px;max-width:44ch}
-.cred{margin-top:8px;padding-top:24px;border-top:1px solid var(--rule-2);display:flex;gap:10px 36px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-
-/* offer */
-.offer h2{font-size:clamp(26px,3vw,40px);line-height:1.12}
-.tl{margin-bottom:clamp(28px,4vw,48px)}
-.tl ol{display:grid;grid-template-columns:14fr 14fr 14fr 18fr;gap:0 6px}
-.tl li{display:grid;gap:2px;align-content:start;font-size:13.5px;color:var(--muted);min-width:0}
-.tl li b{font-size:15px;color:var(--ink);font-weight:400}
-.tl .bar{position:relative;display:block;height:8px;margin-bottom:14px}
-.tl .bar::before{content:"";position:absolute;inset:0;border-radius:0;background:var(--accent);transform-origin:left center}
-.tl .end .bar::before{background:repeating-linear-gradient(90deg,var(--rule-2) 0 6px,transparent 6px 12px);border-radius:0;top:3px;bottom:3px}
-.tl .bar::after{content:"";position:absolute;right:-1px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent)}
-.tl .end .bar::after{background:var(--ink);box-shadow:none}
-.tl-cap{margin-top:16px;font-size:15px;color:var(--muted);max-width:62ch}
-.js .tl.rv:not(.in) .bar::before{transform:scaleX(0)}
-.js .tl.rv:not(.in) .bar::after{opacity:0;transform:scale(.6)}
-.tl.rv.in .bar::before{transition:transform .7s var(--ease-out);transition-delay:calc(var(--s) * 280ms + 250ms)}
-.tl.rv.in .bar::after{transition:opacity .3s ease,transform .3s var(--ease-out);transition-delay:calc(var(--s) * 280ms + 850ms)}
-.offer .box{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);padding:clamp(26px,4vw,56px)}
-.offer .price{display:grid;gap:10px;align-content:start}
-.offer .price .n{font-family:var(--serif);font-weight:400;font-size:clamp(70px,8.6vw,112px);letter-spacing:-.02em;line-height:.95}
-.offer .price .n small{font-size:18px;letter-spacing:0;color:var(--muted);font-weight:350;margin-left:6px}
-.offer .zero{font-size:19px;font-weight:400;color:var(--accent-light);letter-spacing:-.01em}
-.offer .price .row{display:grid;gap:12px;justify-items:start;margin-top:22px}
-.offer .inc{display:grid;gap:12px;font-size:16px}
-.offer .guar{margin-top:26px;padding-top:24px;border-top:1px solid var(--rule);display:grid;gap:8px}
-.offer .guar p{color:var(--muted);font-size:15px}
-.offer .cmp{margin-top:32px;display:grid;gap:10px;justify-items:center;text-align:center;font-size:14.5px;color:var(--muted)}
-.offer .cmp ul{display:flex;gap:8px 28px;flex-wrap:wrap;justify-content:center;font-family:var(--mono);font-size:12.5px}
-.offer .cmp b{color:var(--ink);font-weight:500}
-
-/* faq */
-.faq .cols{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,6vw,96px);align-items:start}
-.faq h2{position:sticky;top:calc(var(--nav-h) + 24px);max-width:14ch}
-details{border-top:1px solid var(--rule)}
-details:last-of-type{border-bottom:1px solid var(--rule)}
-.more{border-bottom:1px solid var(--rule)}
-summary{list-style:none;cursor:pointer;padding-block:22px;font-size:18px;font-weight:400;display:flex;justify-content:space-between;gap:20px;align-items:center;-webkit-tap-highlight-color:transparent}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"";flex:none;width:12px;height:12px;background:linear-gradient(var(--accent),var(--accent)) center/100% 1.5px no-repeat,linear-gradient(var(--accent),var(--accent)) center/1.5px 100% no-repeat;transition:transform .25s var(--ease-out)}
-details[open] > summary::after{transform:rotate(45deg)}
-.faq details p{color:var(--muted);padding-bottom:24px;max-width:60ch}
-@supports (interpolate-size:allow-keywords){
-  :root{interpolate-size:allow-keywords}
-  details::details-content{block-size:0;overflow:clip;opacity:0;transition:block-size .35s var(--ease-out),opacity .3s ease,content-visibility .35s allow-discrete}
-  details[open]::details-content{block-size:auto;opacity:1}
-}
-
-/* final call, on ink */
-.final{position:relative;overflow:hidden;background:var(--surface);color:var(--ink)}
-.final::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-radial-gradient(circle at 76% 56%,rgba(184,149,82,0) 0 71px,rgba(184,149,82,.12) 71px 72px);-webkit-mask-image:radial-gradient(circle at 76% 56%,#000 8%,transparent 64%);mask-image:radial-gradient(circle at 76% 56%,#000 8%,transparent 64%)}
-.final .wrap{position:relative}
-.final .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
-.final .lede{margin-top:18px;color:var(--muted);max-width:40ch;font-size:clamp(17px,1.4vw,19px)}
-.final .checks{margin-top:28px;color:var(--ink);font-size:16px}
-.final .checks li::before{border-color:var(--accent)}
-/* paper panels: the form card and the popup redefine the text tokens, like the build's inverse panels */
-.final .panel,dialog#audit .sheet{--ink:var(--on-paper);--muted:var(--muted-on-paper);--faint:var(--muted-on-paper);--rule:var(--rule-on-paper);--rule-2:rgba(19,16,9,.26);--accent:var(--accent-on-paper);--field:#fffcf3;--surface:var(--paper);color-scheme:light}
-.final .panel .btn-primary,dialog#audit .btn-primary{background:var(--on-paper);color:var(--paper-light)}
-.final .panel .btn.busy::before,dialog#audit .btn.busy::before{border-color:rgba(245,237,215,.3);border-top-color:var(--paper-light)}
-@media (hover:hover) and (pointer:fine){ .final .panel .btn-primary:hover,dialog#audit .btn-primary:hover{background:#2c281d} }
-.final .panel{background:var(--paper-light);color:var(--ink);border-radius:var(--r-card);padding:clamp(22px,3vw,36px);display:grid;gap:18px}
-.final .panel h3{font-size:26px;font-weight:500;letter-spacing:-.01em}
-.final .urgency{font-size:14.5px;color:var(--muted);padding-top:18px;border-top:1px solid var(--rule)}
-
-/* sign-up form: used in the final panel and in the popup */
-.audit-form{position:relative;display:grid;gap:14px}
-.audit-form label{display:grid;gap:8px;font-size:14.5px;font-weight:400}
-.audit-form input,.audit-form select{width:100%;font:400 16px var(--sans);padding:15px 16px;border:1px solid var(--rule-2);border-radius:var(--r-ctl);background-color:var(--field);color:var(--ink);min-width:0;appearance:none;-webkit-appearance:none;transition:border-color .2s ease,box-shadow .2s ease}
-.audit-form input:focus,.audit-form select:focus{outline:0;border-color:var(--accent);box-shadow:none}
-.audit-form input::placeholder{color:var(--muted)}
-.audit-form .btn{width:100%;margin-top:4px}
-.audit-form .err{font-size:14.5px;font-weight:400;margin:-4px 0 0;padding:10px 14px;border-radius:0;background:var(--surface)}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
-.thanks{display:none;padding:18px 20px;border-radius:0;background:var(--surface)}
-.thanks strong{display:block;font-size:19px;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
-.thanks span{color:var(--muted);font-size:15px}
-.audit-form.done{display:none}
-.audit-form.done + .thanks{display:flex;gap:14px;align-items:flex-start}
-.tick{flex:none;width:32px;height:32px;fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.tick circle{stroke-dasharray:88;stroke-dashoffset:88;animation:draw .5s var(--ease-out) .1s forwards}
-.tick path{stroke-dasharray:20;stroke-dashoffset:20;animation:draw .3s var(--ease-out) .5s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.audit-form.done ~ .fud{display:none}
-.sheet:has(.audit-form.done) .next{display:none}
-.next{display:grid;gap:10px;counter-reset:n;font-size:14.5px;color:var(--muted)}
-.next li{counter-increment:n;display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:baseline}
-.next li::before{content:counter(n);font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500}
-
-/* popup */
-dialog#audit{border:0;padding:0;background:transparent;max-width:min(92vw,500px);width:100%;margin:auto;color:var(--ink);opacity:0;transform:scale(.96);transition:opacity .25s var(--ease-out),transform .25s var(--ease-out),overlay .25s allow-discrete,display .25s allow-discrete}
-dialog#audit[open]{opacity:1;transform:none}
-@starting-style{ dialog#audit[open]{opacity:0;transform:scale(.96)} }
-dialog#audit::backdrop{background:rgba(16,15,11,0);transition:background-color .25s ease,overlay .25s allow-discrete,display .25s allow-discrete}
-dialog#audit[open]::backdrop{background:rgba(16,15,11,.72)}
-@starting-style{ dialog#audit[open]::backdrop{background:rgba(16,15,11,0)} }
-dialog#audit .sheet{position:relative;background:var(--paper-light);border-radius:var(--r-card);padding:clamp(24px,5vw,36px);display:grid;gap:18px}
-dialog#audit h3{font-size:clamp(26px,3.4vw,32px);font-weight:500;letter-spacing:-.01em;padding-right:36px}
-dialog#audit .close{position:absolute;right:10px;top:10px;width:44px;height:44px;background:transparent;border:0;font:300 26px/1 var(--sans);color:var(--muted);cursor:pointer;border-radius:999px}
-
-footer{border-top:1px solid var(--rule);padding-block:40px 56px;color:var(--muted);font-size:13.5px}
-footer .wrap{display:grid;grid-template-columns:auto 1fr;gap:20px clamp(32px,6vw,96px);align-items:start}
-footer nav{display:flex;gap:10px 24px;flex-wrap:wrap;font-size:14px}
-footer nav a{text-decoration:none;padding-block:4px}
-footer .legal{grid-column:1/-1;max-width:78ch;padding-top:20px;border-top:1px solid var(--rule)}
-@media (hover:hover) and (pointer:fine){ footer nav a:hover{color:var(--ink)} }
-
-/* reveal on scroll, once. Without JS everything is simply visible. */
-.js .rv{opacity:0;transform:translateY(12px)}
-.js .rv.in{opacity:1;transform:none;transition:opacity .6s var(--ease-out),transform .6s var(--ease-out);transition-delay:calc(var(--i,0) * 60ms)}
-
-@media (max-width:960px){
-  .try .grid{grid-template-areas:"pick" "out" "tune" "fine";grid-template-rows:auto}
-  .hero .wrap,.try .grid,.pain .cols,.pivot,.value .cols,.offer .box,.faq .cols,.final .cols{grid-template-columns:1fr}
-  h1{font-size:clamp(27px,6vw,40px)}
-  .nav ul{display:none}
-  .result,.faq h2{position:static}
-  .cards{grid-template-columns:1fr}
-  .trust ul{grid-template-columns:1fr}
-  .pain .side{position:static}
-}
-@media (max-width:720px){
-  .steps,.promises,.vps{grid-template-columns:1fr}
-  .file{grid-template-columns:1fr}
-  .try .ctx{grid-template-columns:1fr}
-  .audit .total{display:grid;gap:2px}
-  .vx-panel{grid-template-columns:1fr}
-  .vx-tabs{gap:6px}
-  .vx-tab{flex:1 1 0;min-width:0;min-height:48px;padding:8px 6px;justify-items:center;text-align:center}
-  .vx-tab b{font-size:13.5px}
-  .vx-tab span{display:none}
-  .nights{--h:150px}
-  .night i{width:12px;height:12px;margin-left:-6px}
-  .ms-list li{grid-template-columns:20px minmax(0,1fr) 36px;grid-template-areas:"ic nm x" ". tag cost";gap:2px 12px}
-  .ms-list li .ic{grid-area:ic}
-  .ms-list li .nm{grid-area:nm}
-  .ms-list li .ms-x{grid-area:x}
-  .ms-list li .ms-tag{grid-area:tag;justify-self:start}
-  .ms-list li .mono{grid-area:cost;grid-column:3;white-space:nowrap}
-  .tl li span{display:none}
-  .tl li b{font-size:13.5px}
-  .final::before{background:repeating-radial-gradient(circle at 50% 72%,rgba(184,149,82,0) 0 71px,rgba(184,149,82,.12) 71px 72px);-webkit-mask-image:radial-gradient(circle at 50% 72%,#000 8%,transparent 70%);mask-image:radial-gradient(circle at 50% 72%,#000 8%,transparent 70%)}
-  .try #try-chips .chip:nth-child(n+10){display:none}
-  .value .cols{grid-template-columns:1fr}
-  footer .wrap{grid-template-columns:1fr}
-}
-@media (max-width:420px){
-  .hero .ctas .row .btn{width:100%}
-  .stack li{font-size:12.5px;padding:7px 10px}
-  .days{gap:6px}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .js .rv,.js .rv.in{transform:none}
-  .btn:active,.chip:active{transform:none}
-  dialog#audit,dialog#audit[open]{transform:none}
-  .stack li::after,.meter .fill{transition:none}
-  .result.swap{filter:none}
-  .sk::after,.btn.busy::before{animation:none}
-  .tick circle,.tick path{animation:none;stroke-dashoffset:0}
-  .swing .dot,.tl .bar::before,.tl .bar::after,.night i,.mean{transition:none!important}
-  .vx.auto .vx-tab[aria-selected="true"] i{animation:none}
-  details::details-content{transition:none}
-}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Distill: test your health habits on your own sleep data</title>
+<meta name="description" content="Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects. Founding 100 waitlist open.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="canonical" href="https://distill-v1-tau.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Distill: is your 2pm coffee worth it?">
+<meta property="og:description" content="Distill tests what you take and do for your health on your own sleep data, one thing at a time.">
+<meta property="og:image" content="https://distill-v1-tau.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script>document.documentElement.classList.add('js');try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!/[?&]motion=off/.test(location.search)&&localStorage.getItem('distill-motion')!=='off')document.documentElement.classList.add('mo');if(localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search))document.documentElement.dataset.motion='off'}catch(e){}</script>
 </head>
-<body class="wm-w1">
+<body>
+<a class="skip" href="#join">Skip to the waitlist</a>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5EDD7"/><stop offset=".55" stop-color="#D6B078"/><stop offset="1" stop-color="#8C6A2C"/></linearGradient><g id="icons" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-<symbol id="i-watch" viewBox="0 0 24 24"><rect x="7" y="6.5" width="10" height="11" rx="3"/><path d="M9 6.5V3.5h6v3M9 17.5v3h6v-3M12 10v2.2l1.5 1"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5l7 2.5v5.5c0 4.2-2.9 7.4-7 9-4.1-1.600-7-4.8-7-9V6z"/><path d="M9 12l2.200 2.200L15.200 10"/></symbol>
-<symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.500 11.800V16c1.500 1.400 3.400 2 5.500 2s4-.6 5.500-2v-4.200M21.500 9.500V14"/></symbol>
-<symbol id="i-pill" viewBox="0 0 24 24"><g transform="rotate(-38 12 12)"><rect x="3.5" y="8.5" width="17" height="7" rx="3.500"/><path d="M12 8.5v7"/></g></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
-<symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 9h11v4.500a5.500 5.500 0 0 1-11 0z"/><path d="M16 10.500h1.300a2.400 2.400 0 0 1 0 4.800h-1.700M8 4.500V6M10.500 4v2M13 4.500V6"/></symbol>
-<symbol id="i-loop" viewBox="0 0 24 24"><path d="M4.5 12a7.500 7.500 0 0 1 12.800-5.300L19.500 9M19.500 4.500V9H15"/><path d="M19.500 12a7.500 7.500 0 0 1-12.800 5.300L4.500 15M4.500 19.500V15H9"/></symbol>
-<symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3.500v4M15 3.500v4M6.500 7.500h11v4a5.500 5.500 0 0 1-11 0zM12 17v3.500"/></symbol>
-<symbol id="i-pass" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.500"/><path d="M3 10.500h18M7 14.500h4"/></symbol>
-<symbol id="i-moon" viewBox="0 0 24 24"><path d="M19.500 14.200A8 8 0 0 1 9.800 4.500a8 8 0 1 0 9.700 9.700z"/></symbol>
-<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 4.500c.6 3.900 3.100 6.400 7.500 7.500-4.400 1.100-6.900 3.600-7.500 7.500-.6-3.900-3.100-6.400-7.500-7.500 4.400-1.100 6.900-3.600 7.500-7.500z"/></symbol>
-<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9.500 3.500h5M10.500 3.500v5.200L5.600 17.500a2 2 0 0 0 1.800 3h9.200a2 2 0 0 0 1.800-3l-4.900-8.800V3.500M8 14.500h8"/></symbol>
-<symbol id="i-checkc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M8.200 12.400l2.600 2.600 5-5.400"/></symbol>
-<symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 12s3.300-6 9-6 9 6 9 6-3.300 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.600"/><path d="M4.500 19.500l15-15"/></symbol>
-<symbol id="i-minusc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M8.500 12h7"/></symbol>
-<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5.500" y="10.500" width="13" height="9" rx="2"/><path d="M8.500 10.500V8a3.500 3.500 0 0 1 7 0v2.500"/></symbol>
-<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5.500" width="16" height="14" rx="2.500"/><path d="M4 10h16M8.500 3.500v4M15.500 3.500v4M9 14.500l2 2 4-4"/></symbol>
-<symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 19.500s-7-4.300-7-9.600A3.900 3.900 0 0 1 12 7.600a3.900 3.900 0 0 1 7 2.300c0 5.300-7 9.600-7 9.600z"/></symbol>
-<symbol id="i-toggle" viewBox="0 0 24 24"><rect x="3.500" y="8" width="17" height="8" rx="4"/><circle cx="15.500" cy="12" r="2.200"/></symbol>
-<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6.500 13.500L12 19l5.500-5.500"/></symbol>
-</g>
-<symbol id="dropglyph" viewBox="0 0 24 32"><path d="M12 1.5 C14.5 9 22 14.5 22 21.5 a10 10 0 0 1 -20 0 C2 14.5 9.5 9 12 1.5 z" fill="url(#dg)" stroke="rgba(184,149,82,.5)" stroke-width=".8"/></symbol></defs></svg>
-
-<header class="nav" id="nav">
-  <div class="wrap">
-    <a class="wordmark" href="#top" translate="no">DISTILL</a>
-    <ul>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#try">Try it</a></li>
-      <li><a href="#offer">Price</a></li>
-      <li><a href="#faq">Questions</a></li>
-    </ul>
-    <button class="btn btn-primary btn-sm" type="button" data-open>Get My Free Stack Audit</button>
-  </div>
-  <i class="prog" id="prog" aria-hidden="true"></i>
+<header class="nav" data-nav>
+  <a class="wordmark" href="#top" aria-label="Distill, back to top">Distill</a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+  <a class="btn btn--sm" href="#join">Join the waitlist</a>
 </header>
 
-<main id="top">
+<main>
 
-<section class="hero" id="hero">
-  <div class="wrap">
-    <div class="copy">
-      <h1>Get The Peace Of Mind Of Knowing <em>What Works And What's A Waste</em> In 60 Days, Backed By Real Proof From Your Own Body <span class="proof">(Pay Nothing If Nothing Moves)</span></h1>
-      <p class="sub">Tired of guessing which supplements and routines do anything? Distill is the only app that runs one-habit, on/off experiments on your own wearable data, so you get real verdicts, a shorter stack and a lower monthly bill within 60 days.</p>
-      <div class="ctas">
-        <div class="row">
-          <button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button>
-          <a class="btn btn-ghost" href="#try">Try it on one thing <svg class="arr" aria-hidden="true"><use href="#i-down"/></svg></a>
-        </div>
-        <span class="fud">Nothing to buy today. No card. Under 4 minutes.</span>
-      </div>
-    </div>
+<!-- ───────────── The story: hero and how it works, one phone ───────────── -->
+<section class="story" id="top" data-story>
+  <div class="hero">
+    <h1 class="display hero__h" data-hero-h data-intro>
+      <span class="sr">Is your greens powder, 2pm coffee or nightcap worth it?</span>
+      <span class="hl" aria-hidden="true"><span class="hl__in">Is your</span></span>
+      <span class="hl hl--rot" aria-hidden="true"><span class="hl__in rot" data-rot>
+        <span class="rot__w is-on" data-row="4">greens powder</span>
+        <span class="rot__w" data-row="9">2pm coffee</span>
+        <span class="rot__w" data-row="6">nightcap</span>
+        <span class="rot__w" data-row="7">eye cream</span>
+        <span class="rot__w" data-row="3">monthly facial</span>
+        <span class="rot__w" data-row="8">collagen</span>
+      </span></span>
+      <span class="hl" aria-hidden="true"><span class="hl__in">worth it?</span></span>
+    </h1>
+    <p class="hero__sub" data-intro>Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects.</p>
 
-    <div class="distiller" id="distiller">
-      <div class="glass tray">
-        <div class="tray-head">
-          <span class="label">One example stack</span>
-          <button class="replay" id="replay" type="button">Replay</button>
+    <form class="join" data-join="site-hero" novalidate data-intro>
+      <div class="join__step" data-step="email">
+        <label class="sr" for="hero-email">Your email</label>
+        <input id="hero-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+        <button class="btn" type="submit">Join the waitlist</button>
+      </div>
+      <div class="join__step" data-step="wear" hidden>
+        <p class="join__ask">Which do you wear?</p>
+        <div class="join__chips">
+          <button type="button" value="Oura">Oura</button>
+          <button type="button" value="Apple Watch">Apple Watch</button>
+          <button type="button" value="Garmin">Garmin</button>
+          <button type="button" value="WHOOP">WHOOP</button>
+          <button type="button" value="Other">Other</button>
         </div>
-        <ul class="stack" id="stack" aria-label="An example of 23 things one person takes and does for sleep and recovery">
-          <li data-cost="19">Ashwagandha</li><li>Magnesium glycinate</li><li data-cost="9">Mouth tape</li><li>Creatine</li><li data-cost="16">L-theanine</li><li>Training after 7pm</li><li data-cost="17">Sleep tea</li><li>Blue-light glasses</li><li>Sauna</li><li>Cold plunge</li><li>Melatonin</li><li>Zinc</li><li>Vitamin D</li><li>Omega-3</li><li>Glycine</li><li>Apigenin</li><li>Collagen</li><li>Weighted blanket</li><li>No screens after 10</li><li data-keep>Morning walk</li><li data-keep>Two-coffee ceiling</li><li>Fixed wake time</li><li>Red-light panel</li>
-        </ul>
+        <button type="button" class="link" data-skip>Skip</button>
       </div>
-      <div class="neck"><canvas id="drop" width="330" height="480" role="img" aria-label="A single drop of glass"></canvas></div>
-      <div class="readout" aria-live="off">
-        <div class="stat"><span class="n" id="h-count">23</span><span class="u">things</span></div>
-        <div class="stat"><span class="n">$<span id="h-cost">341</span></span><span class="u">a month</span></div>
-      </div>
-      <p class="cap2"><span>Everything one person takes and does for sleep and recovery.</span><span>After four 14-day tests: four dropped, $61 a month back.</span></p>
-      <div class="key2" aria-hidden="true"><span><i class="x"></i>Dropped, with proof</span><span><i></i>Kept, with proof</span></div>
-    </div>
-  </div>
-</section>
+      <p class="join__msg" role="status" aria-live="polite"></p>
+    </form>
 
-<div class="trust" aria-label="Good to know">
-  <ul class="wrap">
-    <li><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg>Works with Oura, WHOOP, Apple Watch, Garmin and anything that writes to Apple Health</li>
-    <li><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>60-day pay-nothing guarantee</li>
-    <li><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>Built by a team at UC Berkeley</li>
-  </ul>
-</div>
-
-<section class="how" id="how">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Your first real verdict in 14 days, in 3 simple steps</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="n"><span><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg>Step 1</span><span>Under 4 minutes</span></div>
-        <h3>Connect and list</h3>
-        <p>Connect your wearable and tap through what you take and do. Distill reads the history you already have and shows your stack counted and costed. That's the free audit.</p>
-        <div class="glass audit obj rv" aria-label="An example audit">
-          <ul>
-            <li><span>Magnesium glycinate, 400 mg</span><span class="mono">$22/mo</span></li>
-            <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
-            <li><span>Sleep tea, nightly</span><span class="mono">$17/mo</span></li>
-            <li><span>L-theanine, 200 mg</span><span class="mono">$16/mo</span></li>
-            <li class="more-row"><span>and 19 more</span><span class="mono"></span></li>
-          </ul>
-          <div class="total"><span>Your stack</span><span><b>23</b> things · <b>$341</b> a month</span></div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="n"><span><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Step 2</span><span>14 days</span></div>
-        <h3>One tap a day</h3>
-        <p>We pick the habit your data can show most clearly. Each morning you get one line, like "Today: skip the magnesium." Three days on, three days off. Tap to confirm. That's the whole job.</p>
-        <div class="cal obj rv" style="--i:1">
-          <div class="days" aria-label="Fourteen days, alternating three on and three off">
-            <i class="on">1</i><i class="on">2</i><i class="on">3</i><i>4</i><i class="now">5</i><i>6</i><i class="on">7</i>
-            <i class="on">8</i><i class="on">9</i><i>10</i><i>11</i><i>12</i><i class="on">13</i><i class="on">14</i>
-          </div>
-          <div class="key"><span><i class="on"></i>On: train after 7pm as usual</span><span><i></i>Off: finish training before 7pm</span></div>
-          <div class="glass today">
-            <div class="line">Today: finish training before 7pm.</div>
-            <div class="sub">Day 5 of 14 · an off day</div>
-            <div class="taps"><button type="button" data-tap="1">Did it</button><button type="button" data-tap="0">Didn't</button><button type="button" data-tap="again" hidden>Start again</button></div>
-            <p class="tap-hint">Try it. Each tap is one day.</p>
-          </div>
-        </div>
-      </div>
-      <div class="step wide" id="verdicts">
-        <div class="intro">
-          <div class="n"><span><svg class="ic" aria-hidden="true"><use href="#i-checkc"/></svg>Step 3</span><span>Day 14</span></div>
-          <h3>Get the real number and one plain word so you can trust every verdict without spin</h3>
-          <p>The number we watch and the pass line are written down before day one, and they don't move. On day 14 you see the difference, the size of your own normal swing, and one word: Kept, Dropped or Inconclusive. Pick one to see the nights behind it.</p>
-        </div>
-        <div class="vx rv" id="vx">
-          <div class="vx-tabs" role="tablist" aria-label="Three example verdicts">
-            <button class="vx-tab" role="tab" type="button" id="vx-t0" aria-selected="true" aria-controls="vx-panel"><b>Kept</b><span>Walk before 9am</span><i></i></button>
-            <button class="vx-tab" role="tab" type="button" id="vx-t1" aria-selected="false" aria-controls="vx-panel" tabindex="-1"><b>Dropped</b><span>Training after 7pm</span><i></i></button>
-            <button class="vx-tab" role="tab" type="button" id="vx-t2" aria-selected="false" aria-controls="vx-panel" tabindex="-1"><b>Inconclusive</b><span>Magnesium glycinate</span><i></i></button>
-            <button class="vx-pause" id="vx-pause" type="button" aria-label="Pause the rotation" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pa" d="M9 6.500v11M15 6.500v11"/><path class="pl" d="M9 6l9 6-9 6z"/></svg></button>
-          </div>
-          <div class="vx-panel" id="vx-panel" role="tabpanel" aria-labelledby="vx-t0">
-            <div class="vx-read">
-              <span class="label">Verdict, day 14</span>
-              <h4 id="vx-habit">Walk before 9am</h4>
-              <div class="big"><span id="vx-num">+6</span><small id="vx-unit">ms HRV</small></div>
-              <div class="swing" id="vx-swing" style="--band:40;--at:80" aria-hidden="true"><i class="band"></i><i class="zero"></i><i class="dot"></i></div>
-              <dl><dt>Measured</dt><dd id="vx-measured">Overnight HRV</dd><dt>Difference</dt><dd id="vx-diff">+6 ms</dd><dt>Your normal swing</dt><dd id="vx-noise">±3 ms</dd></dl>
-              <p class="note" id="vx-note">Twice your normal swing. This one is yours.</p>
-              <div class="word" id="vx-word">Kept</div>
-            </div>
-            <div class="vx-chart">
-              <div class="vx-chart-head"><span>The 14 nights behind it</span><span class="vx-key"><span><i></i><span id="vx-on">Walked before 9am</span></span><span><i class="off"></i><span id="vx-off">No morning walk</span></span></span></div>
-              <div class="nights" id="vx-nights" role="img" aria-label="Fourteen nights. Nights after a morning walk averaged 54 milliseconds, the others 48."></div>
-              <p class="vx-tip" id="vx-tip">Hover or tap a night to see it.</p>
-              <p class="vx-fine">The solid line is the average of the filled nights, the dashed line the average of the others. Example data, to show what a verdict rests on.</p>
-              <noscript><p class="vx-fine">Two more examples: Training after 7pm, 41 fewer minutes of sleep on late nights, Dropped. Magnesium glycinate, 0.4 minutes more deep sleep, Inconclusive.</p></noscript>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="note">The first week is baseline. We read and say nothing until we know your normal.</span></div>
-  </div>
-</section>
-
-<section class="try band" id="try">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>What would Distill do with it?</h2>
-      <p>Pick one thing you take, do or pay for. You'll see what we'd tell you on day one: worth testing on you, already settled, or something no ring or watch can see.</p>
-    </div>
-    <div class="grid">
-      <div class="glass tool pick rv" id="try-tool">
-        <div class="search">
-          <label class="q-label" for="try-q">What's one thing you take or do for your health?</label>
-          <div class="field"><input id="try-q" type="text" placeholder="Try coffee, magnesium, sauna, gym…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-controls="try-list" aria-expanded="false"><button class="clear" id="try-clear" type="button" aria-label="Clear" hidden>×</button></div>
-          <ul class="suggest" id="try-list" role="listbox" hidden></ul>
-        </div>
-        <p class="hint">Or pick a common one. No sign-up, and it takes a few seconds.</p>
-        <div class="chips" id="try-chips" aria-label="Examples"></div>
-      </div>
-      <div class="glass tool tune rv">
-        <p class="q-label">Make it about you</p>
-        <div class="qs" id="try-qs"></div>
-        <div class="ctx">
-          <label>Your wearable<select id="try-wearable"><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option></select></label>
-          <label>What you use it for<select id="try-goal"><option value="">The usual reason</option></select></label>
-        </div>
-      </div>
-      <p class="fine">How we decide: a test is only worth running if the likely change is bigger than most of your normal night-to-night swing. We've worked through 210 common supplements, habits, devices and memberships. Every line about a study is our reading of the research and is being checked before launch. Nothing here diagnoses or treats anything.</p>
-      <article class="glass result rv" id="try-out" aria-live="polite" style="--i:1">
-        <div class="top"><span class="label">What you'd read on day one</span><span class="dev">Oura</span></div>
-        <h3><span class="cat" aria-hidden="true"><svg class="ic"><use href="#i-clock"/></svg></span><span>Coffee after 2pm<small>2 to 5pm</small></span></h3>
-        <div class="verdict v-1"><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><div><strong>We'd test this on you</strong></div></div>
-        <p class="say">The single most reliable experiment we run, and the one most people are wrong about in one direction or the other. Fourteen days and you'll have your own number.</p>
-        <div class="meter"><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" style="width:66.7%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">About a full night-to-night swing. Chance of a clear answer in two weeks: fair.</p></div>
-      </article>
-    </div>
-    <div class="glass mystack" id="mystack" aria-live="polite" hidden></div>
-    <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Your whole stack, sorted like this, in under 4 minutes. Nothing to buy today.</span></div>
-  </div>
-</section>
-
-<section class="value" id="value">
-  <div class="wrap">
-    <div class="cols">
-    <h2>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h2>
-    <div class="text">
-      <p>Distill is the only wellness product whose score gets better by going down. Every verdict either keeps a habit or lets you drop it with proof. After four cycles the example stack goes from 23 things to 19, and from $341 a month to $280.</p>
-      <p>That's the permission to stop that nobody else gives you.</p>
-      <div class="seg" id="seg" role="group" aria-label="Show the example stack on day 1 or after four tests">
-        <button type="button" data-state="before" aria-pressed="false">Day 1</button>
-        <button type="button" data-state="after" aria-pressed="true">After four tests</button>
-      </div>
-    </div>
-    </div>
-    <div class="glass file rv">
-      <div class="col">
-        <h4 id="f-h">What you cut</h4>
-        <div class="score"><span><b><span class="count" data-from="23" data-to="19">23</span> things</b><small>was 23</small></span><span><b>$<span class="count" data-from="341" data-to="280">341</span> a month</b><small>was $341</small></span></div>
-        <ul class="cut">
-          <li><span>Ashwagandha, 600 mg</span><span class="mono">$19/mo</span></li>
-          <li><span>Mouth tape</span><span class="mono">$9/mo</span></li>
-          <li><span>L-theanine, 200 mg</span><span class="mono">$16/mo</span></li>
-          <li><span>Sleep tea, nightly</span><span class="mono">$17/mo</span></li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>What's yours</h4>
-        <div class="score"><span><b><span id="f-y">4</span> things</b>proven on your data</span></div>
-        <ul class="yours">
-          <li><span>Early trainer</span><span class="mono" data-after="+41 min sleep">+41 min sleep</span></li>
-          <li><span>Morning walker</span><span class="mono" data-after="+6 ms HRV">+6 ms HRV</span></li>
-          <li><span>Two-coffee ceiling</span><span class="mono" data-after="−18 min to fall asleep">−18 min to fall asleep</span></li>
-          <li><span>Alcohol costs two days</span><span class="mono" data-after="−9 ms HRV">−9 ms HRV</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pain band" id="pain">
-  <div class="wrap">
-    <div class="cols">
-      <div class="side">
-        <h2>Stuck with a supplement drawer full of guesses? It's not discipline you lack, it's proof.</h2>
-        <p class="tally">23 things. $341 a month. <em>0 answers.</em></p>
-        <p class="tally-cap">One example stack. Yours will have its own numbers.</p>
-      </div>
-      <div class="pas">
-        <p class="dear">Dear wearable owner who's tired of guessing,</p>
-        <ul class="checks">
-          <li>Do you take five different things for sleep and still can't say which one works?</li>
-          <li>Are you staring at a readiness score every morning with no idea what moved it?</li>
-          <li>Have you bought a device, a supplement or a protocol that's now sitting in a drawer?</li>
-        </ul>
-        <p>If so, you're not alone. And you're not the problem.</p>
-        <p>You're not lazy. You're not uninformed.</p>
-        <p>You've done <b>MORE</b> than almost anyone. That's the problem.</p>
-        <p>Every app, every influencer and every ad sells you addition.</p>
-        <p>Take this. Try this. Track this.</p>
-        <p><b>NOBODY'S</b> job is to tell you what to drop.</p>
-        <p>So the stack grows. Twenty things. Twenty-three. Thirty.</p>
-        <p>And the certainty never comes.</p>
-        <p class="lead">Here's what that actually costs you:</p>
-        <ul class="checks">
-          <li>Hundreds of dollars a month on habits with <b>ZERO</b> proof they work on your body</li>
-          <li>A ring or watch that adds daily worry & never adds a single decision</li>
-          <li>Advice from influencers built on <b>THEIR</b> body, not yours</li>
-          <li>A quiet suspicion that you're behind, and it's getting louder every year</li>
-        </ul>
-        <p>About 6 in 10 American adults take a supplement. The typical user spends around $50 a month.</p>
-        <p>That's $600 a year, and nobody hands you proof it works on <b>YOUR</b> body.</p>
-        <p>You have months of sleep and recovery history sitting on your phone right now.</p>
-        <p>It has <b>NEVER</b> once told you what to do.</p>
-        <p class="good">Here's the good news.</p>
-        <p>You <b>DON'T</b> need another supplement.</p>
-        <p>You <b>DON'T</b> need a dashboard, a coach or a chatbot.</p>
-        <p>You <b>DON'T</b> need to log a single meal or mood.</p>
-        <p class="lead">You need a controlled experiment, run on <b>YOUR</b> data.</p>
-        <p>Distill reads your stack against your own tracker history. It picks the one habit your data can test most clearly.</p>
-        <p>Then it tests it. Three days on, three days off, for 14 days.</p>
-        <p>One variable. One tap a day.</p>
-        <p>On day 14 you get one card. The habit, the real number and one word: Kept, Dropped or Inconclusive.</p>
-        <p class="lead">Your stack goes down. Your bill goes down. Your certainty goes up.</p>
-        <p>Three experiments in 60 days. If none of them moves your numbers, you pay <b>NOTHING</b>.</p>
-        <div class="cta-row"><button class="btn btn-primary" type="button" data-open>Get My Free Stack Audit</button><span class="fud">Nothing to buy today. No card. Under 4 minutes.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="why" id="why">
-  <div class="wrap">
-    <div class="pivot">
-      <p class="big">Everyone else in wellness sells you more. Distill is the only one built to <em>sell you less.</em></p>
-    </div>
-    <ul class="vps">
-      <li><svg class="ic" aria-hidden="true"><use href="#i-minusc"/></svg><span class="label">Subtraction first</span><h3>Watch your stack count and monthly bill shrink every cycle and finally feel free to stop</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg><span class="label">Tested on your body</span><h3>Test one habit at a time on your own body and know the answer is truly yours</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg><span class="label">Pass line locked first</span><h3>See the pass line written down before day one and trust every verdict without spin</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-eyeoff"/></svg><span class="label">Honest about limits</span><h3>Hear plainly what a ring or watch cannot measure and stop paying for false certainty</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="label">Pay-nothing guarantee</span><h3>Pay nothing for 60 days unless something measurably moves and start with zero risk</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span class="label">One tap a day</span><h3>Give it one tap a day with nothing to log and keep your mornings free</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-watch"/></svg><span class="label">History already there</span><h3>Put the months of data your wearable already holds to work and get answers sooner</h3></li>
-      <li><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><span class="label">Never a score about you</span><h3>Get verdicts about the night and the habit, never about you, and feel calm opening the app</h3></li>
+    <ul class="facts" data-intro>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v3M13 2.5v3"/></svg>14 nights a test, one tap a day</li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg>Pay nothing if no test gets a clear answer in 60 days</li>
     </ul>
   </div>
-</section>
 
-<section class="proof band" id="proof">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>Four promises we put in writing before you pay a cent</h2>
-    </div>
-    <div class="promises">
-      <article class="promise"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><h3>Pay-nothing guarantee</h3><p>If none of your first three experiments moves your numbers, you're not charged. We tell you in the app before day 60, not after.</p></article>
-      <article class="promise"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg><h3>The pass line is fixed before day one</h3><p>The number we watch and the line it has to cross are written down before the test starts, and they don't move. You see the number either way.</p></article>
-      <article class="promise"><svg class="ic" aria-hidden="true"><use href="#i-heart"/></svg><h3>Never red, never a score about you</h3><p>Every verdict describes the night and the habit, not you. Effort is named first. Thirty years of feedback research shows that scores aimed at the person make behaviour worse, not better.</p></article>
-      <article class="promise"><svg class="ic" aria-hidden="true"><use href="#i-toggle"/></svg><h3>Your call, every time</h3><p>You can veto an experiment once per cycle and switch mid-test if life gets in the way. You're never handed a rule you didn't agree to.</p></article>
-    </div>
-    <div class="cred"><span>Built by a team at UC Berkeley</span><span>Same on/off design used in single-patient clinical trials</span><span>Founding 100 spots go in order of signup</span></div>
+  <ol class="steps" id="how" aria-label="How it works">
+    <li class="step" data-to="0">
+      <span class="step__n">01</span>
+      <h2 class="step__t">List everything you do for your health.</h2>
+      <p class="step__d">Supplements, powders, skincare, memberships, the evening sauna, the 2pm coffee. Anything you pay for or make time for goes on the list, and you see what it all costs each month.</p>
+    </li>
+    <li class="step" data-to="1">
+      <span class="step__n">02</span>
+      <h2 class="step__t">Day one, the easy ones come off.</h2>
+      <p class="step__d">Some things are easy to call without a test, like a dose far below what studies used, a membership you barely touch, or two products doing the same job. Those go first. In this example that's 10 things and $767 a month. Anything from your doctor stays as it is.</p>
+    </li>
+    <li class="step" data-to="2">
+      <span class="step__n">03</span>
+      <h2 class="step__t">Test one thing for 14 nights.</h2>
+      <p class="step__d">Pick something worth testing, like coffee after 2pm. Distill tells you which nights to have it and which to skip, three on and three off. You tap once a day, and your ring or watch records how you slept.</p>
+    </li>
+    <li class="step" data-to="3">
+      <span class="step__n">04</span>
+      <h2 class="step__t">Find out if it was worth it.</h2>
+      <p class="step__d">Distill compares your nights with it against your nights without it. If the gap is bigger than your normal night-to-night swing, you get a clear keep or drop. If it isn't, Distill tells you that too, and the next test starts.</p>
+    </li>
+  </ol>
+  <div class="rail" aria-hidden="true"><i data-rail></i></div>
+  <div class="ticks" data-ticks role="group" aria-label="Steps">
+    <button type="button" aria-label="Step 1"><i><b></b></i></button>
+    <button type="button" aria-label="Step 2"><i><b></b></i></button>
+    <button type="button" aria-label="Step 3"><i><b></b></i></button>
+    <button type="button" aria-label="Step 4"><i><b></b></i></button>
   </div>
-</section>
 
-<section class="offer" id="offer">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>In 60 days we'll tell you which habits work on your body, and which to stop paying for. If nothing moves, you don't pay.</h2>
-    </div>
-    <div class="tl rv" role="img" aria-label="Three 14-day tests inside 60 days, with a verdict after each one. On day 60 you pay only if at least one verdict came back Kept or Dropped.">
-      <ol>
-        <li style="--s:0"><i class="bar"></i><b>Test 1</b><span>14 days, then a verdict</span></li>
-        <li style="--s:1"><i class="bar"></i><b>Test 2</b><span>14 days, then a verdict</span></li>
-        <li style="--s:2"><i class="bar"></i><b>Test 3</b><span>14 days, then a verdict</span></li>
-        <li class="end" style="--s:3"><i class="bar"></i><b>Day 60</b><span>The only day you can be charged</span></li>
-      </ol>
-      <p class="tl-cap">A verdict after every test. On day 60 you pay only if at least one came back Kept or Dropped. All inconclusive means no charge.</p>
-    </div>
-    <div class="glass box rv">
-      <div class="price">
-        <span class="n">$20<small>a month</small></span>
-        <span class="zero">$0 if nothing measurably moves</span>
-        <div class="row"><button class="btn btn-primary" type="button" data-open>Claim A Founding Spot</button><span class="fud">No card until your first verdict lands.</span></div>
-        <div class="guar">
-          <span class="label">Founding 100</span>
-          <p>$20 a month locked for life, guarantee included. Early members build the experiment library everyone after them benefits from. Spots go in order of signup.</p>
-        </div>
+  <div class="stage" aria-hidden="true">
+    <div class="rig" data-rig data-intro>
+    <div class="phone" data-phone>
+      <div class="phone__screen">
+        <div class="phone__bar"><span>9:41</span><i></i></div>
+
+        <!-- 1. the stack -->
+        <section class="scr" data-scr="0">
+          <p class="scr__kick">Your list</p>
+          <p class="scr__big"><span class="reel" data-reel="21" data-s-n>21</span> things</p>
+          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-s-c>$1,428</span> a month</p>
+          <ul class="rows" data-rows="stack">
+            <li><span>Equinox</span><b>$250</b></li>
+            <li><span>Restore studio</span><b>$250</b></li>
+            <li><span>Barry's</span><b>$200</b></li>
+            <li><span>Monthly facial</span><b>$150</b></li>
+            <li><span>AG1</span><b>$90</b></li>
+            <li><span>Massage credits</span><b>$90</b></li>
+            <li><span>Drinks, 3 nights a week</span><b>$80</b></li>
+            <li><span>Eye cream</span><b>$45</b></li>
+            <li><span>Collagen gummies</span><b>$40</b></li>
+            <li><span>Coffee after 2pm</span><b class="rows__free">Habit</b></li>
+          </ul>
+        </section>
+
+        <!-- 2. day one -->
+        <section class="scr" data-scr="1">
+          <p class="scr__kick">Day one</p>
+          <p class="scr__big"><span class="reel" data-reel="21" data-d-n>21</span> things</p>
+          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-d-c>$1,428</span> a month <em class="pill" data-pill>$767 back</em></p>
+          <ul class="rows rows--cut" data-rows="cut">
+            <li data-c="250"><span>Restore studio<small>1 visit in 60 days</small></span><b>$250</b></li>
+            <li data-c="200"><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
+            <li data-c="90"><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
+            <li data-c="60"><span>Vitamin C serum<small>Already oxidized</small></span><b>$60</b></li>
+            <li data-c="45"><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
+            <li data-c="40"><span>Collagen gummies<small>Trials used 10 g</small></span><b>$40</b></li>
+            <li data-c="82" data-n="4"><span>4 more<small>Dose too low, not used</small></span><b>$82</b></li>
+          </ul>
+          <ul class="rows rows--left" data-rows="left">
+            <li><span>Coffee after 2pm</span><em class="tag tag--test">Testing</em></li>
+            <li><span>Drinks, 3 nights a week</span><em class="tag tag--test">Testing</em></li>
+            <li><span>Equinox</span><em class="tag tag--keep">Keep</em></li>
+            <li><span>Retinol</span><em class="tag tag--keep">Keep</em></li>
+            <li><span>AG1</span><em class="tag">Your call</em></li>
+            <li><span>Oura ring</span><em class="tag tag--yours">Yours</em></li>
+          </ul>
+        </section>
+
+        <!-- 3. today -->
+        <section class="scr" data-scr="2">
+          <p class="scr__kick">Night 5 of 14</p>
+          <div class="today">
+            <p class="today__item">Coffee after 2pm</p>
+            <p class="today__do">Skip it today.</p>
+          </div>
+          <ol class="nights" data-nights>
+            <li data-on></li><li data-on></li><li data-on></li><li></li><li class="is-now"></li><li></li><li data-on></li>
+            <li data-on></li><li data-on></li><li></li><li></li><li></li><li data-on></li><li></li>
+          </ol>
+          <div class="nights__key"><span>Coffee</span><span>No coffee</span></div>
+          <div class="tap" data-tap><span>Done</span><svg viewBox="0 0 20 20"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg></div>
+          <div class="stats"><p><small>Last night</small>7h 41m</p><p><small>Your normal swing</small>40 min</p></div>
+          <p class="scr__note">Missed a day? It counts as unknown.</p>
+        </section>
+
+        <!-- 4. verdict -->
+        <section class="scr" data-scr="3">
+          <p class="scr__kick">Day 14</p>
+          <p class="verdict__item">Coffee after 2pm</p>
+          <p class="verdict__stamp" data-stamp>Dropped</p>
+          <div class="cmp">
+            <div class="cmp__row"><span>Without it</span><i style="--w:1"></i><b>7h 34m</b></div>
+            <div class="cmp__row cmp__row--with"><span>With it</span><i style="--w:.837"></i><b>6h 20m</b></div>
+          </div>
+          <p class="verdict__gain"><b><span data-count="74">74</span> min</b> more sleep without it</p>
+          <div class="next"><i></i><p><small>Next test, starts Monday</small>Drinks, 3 nights a week</p></div>
+          <p class="scr__note">Well past your normal swing of 40 minutes.</p>
+        </section>
       </div>
-      <div>
-        <ul class="inc checks">
-          <li>A guided experiment every two weeks, chosen from your data</li>
-          <li>One instruction a day, one tap. That's the whole obligation.</li>
-          <li>A plain-language verdict with real numbers</li>
-          <li>A running file of what works for you specifically</li>
-          <li>The list nobody else gives you: what you can stop doing</li>
-          <li>A reset protocol for the weeks life gets in the way</li>
-        </ul>
-        <div class="guar">
-          <span class="label">The guarantee, in plain words</span>
-          <p>Three experiments inside 60 days. If none of them produces a measurable change in your sleep or recovery, you don't pay. All inconclusive means no charge. The card on file is charged on day 60 only if at least one verdict came back Kept or Dropped, and we tell you in the app before that date.</p>
-        </div>
+    </div>
+    </div>
+    <p class="stage__ex">Example</p>
+  </div>
+</section>
+
+<!-- ───────────── What people pay for ───────────── -->
+<div class="band" aria-hidden="true">
+  <div class="band__track" data-band>
+    <span>Melatonin</span><span>Greens powder</span><span>Coffee after 2pm</span><span>Cold plunge</span><span>Magnesium</span><span>A drink most nights</span><span>Collagen gummies</span><span>Evening sauna</span><span>Fish oil</span><span>Ashwagandha</span><span>Late workouts</span><span>Second gym membership</span><span>Eye cream</span><span>Vitamin D</span><span>IV drips</span><span>Screens in bed</span>
+  </div>
+</div>
+
+<!-- ───────────── Try it ───────────── -->
+<section class="try" id="try" data-try>
+  <div class="try__pick">
+    <div class="try__head">
+      <h2 class="h2" data-lines>What's on your list?</h2>
+      <p class="try__sub">Tap anything you take or do. You'll see what could come off on day one and what's worth testing on you.</p>
+    </div>
+    <div class="chips" data-chips role="group" aria-label="Common items">
+      <button type="button" data-k="coffee-after-2pm">Coffee after 2pm</button>
+      <button type="button" data-k="magnesium-any-form">Magnesium</button>
+      <button type="button" data-k="melatonin">Melatonin</button>
+      <button type="button" data-k="greens-powder-ag1-etc">AG1</button>
+      <button type="button" data-k="multivitamin">Multivitamin</button>
+      <button type="button" data-k="vitamin-d3">Vitamin D</button>
+      <button type="button" data-k="zinc-daily">Zinc</button>
+      <button type="button" data-k="omega-3-fish-oil">Fish oil</button>
+      <button type="button" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
+      <button type="button" data-k="alcohol-in-the-evening">A drink most evenings</button>
+      <button type="button" data-k="training-after-7pm">Late workouts</button>
+      <button type="button" data-k="sauna-post-workout-or-evening">Sauna</button>
+      <button type="button" data-k="cold-plunge-ice-bath">Cold plunges</button>
+      <button type="button" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
+      <button type="button" data-k="iv-vitamin-drips">IV drips</button>
+      <button type="button" data-k="meditation-app-calm-headspace">Meditation app</button>
+    </div>
+  </div>
+  <div class="result" data-result>
+    <div class="result__top">
+      <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
+      <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
+    </div>
+    <div class="result__body" aria-live="polite">
+      <p class="result__empty" data-empty>Tap a few to start.</p>
+      <div class="result__out" data-out hidden>
+        <p class="result__line"><b data-cut-n>0</b> could come off on day one. <b class="gold" data-back>$0 a month back.</b></p>
+        <ul class="result__list" data-cut-list></ul>
+        <p class="result__test" data-test></p>
       </div>
     </div>
-    <div class="cmp">
-      <ul><li>Oura membership <b>$5.99/mo</b></li><li>WHOOP <b>$199 to $359/yr</b></li><li>Bevel Pro <b>$14.99/mo</b></li></ul>
-      <p>They sell you more data. Distill sits above them on purpose, because it's the only one selling an answer.</p>
-    </div>
+    <a class="btn" href="#join">Check your whole list</a>
   </div>
 </section>
 
-<section class="faq" id="faq">
-  <div class="wrap cols">
-    <h2>Questions people ask before they connect</h2>
-    <div class="qs">
-      <details><summary>What does it cost?</summary><p>The stack audit is free and there's nothing to buy. Distill itself is $20 a month, and you pay nothing unless at least one of your first three experiments measurably moves your sleep or recovery. No card until your first verdict lands.</p></details>
-      <details><summary>What do I get in the free stack audit?</summary><p>Your stack counted and costed, the habits your data is most sensitive to, and the first experiment we'd run. It takes under four minutes and there's nothing to buy.</p></details>
-      <details><summary>What does "measurable" actually mean?</summary><p>The on-days and off-days have to differ by more than your own day-to-day noise for that metric. Roughly, a difference you'd see 1 in 20 times by chance. The threshold is written down before the experiment starts and it doesn't move. We show the number either way.</p></details>
-      <details><summary>Is this a medical product?</summary><p>No. Distill works on sleep, recovery, energy and habits, using goals you set and data you own. "Your sleep improved 22 minutes on nights without the 3pm coffee" is what we say. "This will fix your insomnia" is something we never say. If your question is driven by a medical condition, talk to a clinician, not an app.</p></details>
-      <details><summary>Which wearables work?</summary><p>Anything that writes to Apple Health: Apple Watch, Oura, Garmin, Fitbit, WHOOP and most of the category. What matters is a passive data stream, not a brand. If you've got a device with months of history you've never used, that history is the whole point.</p></details>
-      <details><summary>What happens if a verdict is inconclusive?</summary><p>You see the number, the size of your normal range, and the word "inconclusive". That's a real answer: for that habit, at that dose, your body didn't show a detectable effect. It goes in your file and the next experiment begins. If all three inside 60 days come back inconclusive, you aren't charged.</p></details>
-      <details><summary>Do I have to log anything?</summary><p>One tap a day to confirm you did or didn't do the instruction. No meals, no moods, no journaling. A missed tap is recorded as unknown, never as a failure, and it just makes that day count for less.</p></details>
+<!-- ───────────── Pricing ───────────── -->
+<section class="pricing" id="pricing">
+  <div class="card3d" data-card aria-hidden="true">
+    <div class="member">
+      <span class="member__brand">Distill</span>
+      <span class="member__role">Founding member</span>
+      <span class="member__no">One of 100</span>
     </div>
+  </div>
+  <div class="pricing__copy">
+    <h2 class="h2 h2--lg"><span class="reel" data-reel="20" data-money data-price>$20</span> a month.</h2>
+    <ul class="checks">
+      <li>The Founding 100 keep that price for life.</li>
+      <li>If no test gets a clear answer in your first 60 days, you pay nothing.</li>
+      <li>Cancel anytime. It works with the ring or watch you already wear.</li>
+    </ul>
+    <a class="btn" href="#join">Join the waitlist</a>
   </div>
 </section>
 
-<section class="final" id="start">
-  <div class="wrap cols">
-    <div>
-      <h2>Get your free stack audit today and your first real verdict within 14 days</h2>
-      <ul class="checks">
-        <li>Your stack counted and costed in under 4 minutes</li>
-        <li>Your first experiment chosen from your own data</li>
-        <li>One tap a day, nothing to log</li>
-        <li>A plain verdict with the real number</li>
-        <li>Pay nothing unless something measurably moves</li>
-      </ul>
-    </div>
-    <div class="panel rv" style="--i:1">
-      <h3>Get your free stack audit</h3>
-      <form class="audit-form" id="signup" data-source="final" novalidate>
-        <label>Email<input id="email" name="email" type="email" inputmode="email" enterkeyhint="send" placeholder="you@example.com" autocomplete="email" required></label>
-        <p class="err" role="alert" hidden></p>
-        <label>Which wearable do you use?<select id="wearable" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
-        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
-      </form>
-      <div class="thanks" role="status"><svg class="tick" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><path d="M10 16.500l4.200 4.200L22.500 12"/></svg><div><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div></div>
-      <span class="fud">Nothing to buy today. No card. No spam.</span>
-      <p class="urgency">Founding 100 spots go in order of signup. $20 a month locked for life, guarantee included. When the 100 are gone, the founding rate goes with them.</p>
-    </div>
+<!-- ───────────── Questions ───────────── -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="h2" data-lines>Before you join</h2>
+  <div class="faq__list">
+    <details>
+      <summary><span>What can it test?</span></summary>
+      <p>Things that can change your sleep within a night or two: coffee and alcohol timing, late workouts, an evening sauna, melatonin, screens in bed. Things your ring can't measure, like skincare or a membership, get checked on day one for cost, use and overlap.</p>
+    </details>
+    <details>
+      <summary><span>Do I stop everything at once?</span></summary>
+      <p>No. You test one thing at a time for 14 nights. Everything else stays the same until it's that thing's turn.</p>
+    </details>
+    <details>
+      <summary><span>What if I miss a day?</span></summary>
+      <p>That night counts as unknown, not as a fail. A test can handle a few of those.</p>
+    </details>
+    <details>
+      <summary><span>Which devices work?</span></summary>
+      <p>Oura, Apple Watch through Apple Health, and Garmin. WHOOP isn't supported yet.</p>
+    </details>
+    <details>
+      <summary><span>Is this medical advice?</span></summary>
+      <p>No. Distill looks at sleep, HRV and resting heart rate. It never diagnoses or treats anything, and whatever your clinician gave you stays untouched.</p>
+    </details>
+    <details>
+      <summary><span>Who isn't it for?</span></summary>
+      <p>Anyone without a wearable, anyone training for a specific event, and anyone whose question is medical.</p>
+    </details>
   </div>
+</section>
+
+<!-- ───────────── Close ───────────── -->
+<section class="final" id="join" aria-labelledby="join-title">
+  <h2 id="join-title" class="display display--close" data-lines>Join the Founding 100.</h2>
+  <p class="final__sub">The first 100 members keep $20 a month for life.</p>
+  <form class="join join--center" data-join="site-close" novalidate>
+    <div class="join__step" data-step="email">
+      <label class="sr" for="close-email">Your email</label>
+      <input id="close-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+      <button class="btn" type="submit">Join the waitlist</button>
+    </div>
+    <div class="join__step" data-step="wear" hidden>
+      <p class="join__ask">Which do you wear?</p>
+      <div class="join__chips">
+        <button type="button" value="Oura">Oura</button>
+        <button type="button" value="Apple Watch">Apple Watch</button>
+        <button type="button" value="Garmin">Garmin</button>
+        <button type="button" value="WHOOP">WHOOP</button>
+        <button type="button" value="Other">Other</button>
+      </div>
+      <button type="button" class="link" data-skip>Skip</button>
+    </div>
+    <p class="join__msg" role="status" aria-live="polite"></p>
+  </form>
 </section>
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <a class="wordmark" href="#top" translate="no">DISTILL</a>
-    <nav aria-label="Footer"><a href="#how">How it works</a><a href="#try">Try it</a><a href="#proof">Our promises</a><a href="#offer">Price</a><a href="#faq">Questions</a></nav>
-    <p class="legal">Distill is a wellness tool for self-reported goals and self-owned data. It does not diagnose, treat or prevent any condition, and nothing here is medical advice. If a clinician prescribed or recommended something, keep taking it and talk to them before changing it. Stack figures and verdicts on this page are examples. Supplement use: CDC/NCHS Data Brief 561 (2026). Typical monthly spend: CRN/Ipsos consumer survey (2024).</p>
-  </div>
+<footer class="foot">
+  <a class="wordmark" href="#top">Distill</a>
+  <p>Wellness, not medical advice.</p>
+  <p>&copy; 2026 Distill</p>
+  <a href="mailto:disttilai@gmail.com">Contact</a>
+  <button class="link" type="button" data-motion-toggle aria-pressed="false">Motion: on</button>
 </footer>
 
-<dialog id="audit" aria-labelledby="audit-title">
-  <div class="sheet">
-    <button class="close" type="button" aria-label="Close" data-close>×</button>
-    <span class="label">Free stack audit</span>
-    <h3 id="audit-title">See what's worth keeping</h3>
-    <ol class="next">
-      <li>Leave your email. Spots go in order of signup.</li>
-      <li>We email you when your audit is ready. It takes under 4 minutes.</li>
-      <li>You see your stack counted, costed and sorted. Nothing to buy.</li>
-    </ol>
-    <form class="audit-form" id="signup-modal" data-source="popup" novalidate>
-      <label>Email<input id="email-modal" name="email" type="email" inputmode="email" enterkeyhint="send" placeholder="you@example.com" autocomplete="email" required></label>
-      <p class="err" role="alert" hidden></p>
-      <label>Which wearable do you use?<select id="wearable-modal" name="wearable"><option value="">Choose one</option><option>Oura</option><option>WHOOP</option><option>Apple Watch</option><option>Garmin</option><option>Fitbit</option><option>Other</option></select></label>
-      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="btn btn-primary" type="submit">Get My Free Stack Audit</button>
-    </form>
-    <div class="thanks" role="status"><svg class="tick" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><path d="M10 16.500l4.200 4.200L22.500 12"/></svg><div><strong>You're on the founding list.</strong><span>Spots go in order of signup. We'll email you when your audit is ready.</span></div></div>
-    <span class="fud">Nothing to buy today. No card. No spam.</span>
-  </div>
-</dialog>
+<noscript><p class="noscript">The waitlist form needs JavaScript. You can also email disttilai@gmail.com to join.</p></noscript>
 
-<script>
-(function(){
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var hasIO='IntersectionObserver' in window;
-  var finePointer=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  var nav=document.getElementById('nav'), prog=document.getElementById('prog');
-
-  /* step 2: the fortnight plays through as the calendar scrolls up the screen */
-  var cal=document.querySelector('.cal'), dayEls=cal?cal.querySelectorAll('.days i'):[], curDay=-1;
-  var tLine=cal&&cal.querySelector('.today .line'), tSub=cal&&cal.querySelector('.today .sub');
-  function setDay(d){
-    if(d===curDay) return; curDay=d;
-    Array.prototype.forEach.call(dayEls,function(el,i){ el.classList.toggle('seen', i<d); el.classList.toggle('now', i===d-1); });
-    var on=dayEls[d-1].classList.contains('on');
-    tLine.textContent=on?'Today: train after 7pm as usual.':'Today: finish training before 7pm.';
-    tSub.textContent='Day '+d+' of 14 · '+(on?'an on day':'an off day');
-  }
-  function calStep(vh){ var r=cal.getBoundingClientRect(); setDay(Math.max(1,Math.min(14,Math.ceil((vh*0.78-r.top)/(vh*0.46)*14)))); }
-  var calLive=cal&&dayEls.length===14&&!reduce, manual=false;
-  if(calLive) cal.classList.add('live');
-  if(cal&&dayEls.length===14){
-    var taps=cal.querySelector('.taps'), hint=cal.querySelector('.tap-hint');
-    var setDone=function(on){
-      Array.prototype.forEach.call(taps.children,function(b){ b.hidden=(b.dataset.tap==='again')?!on:on; });
-      if(!on) return;
-      Array.prototype.forEach.call(dayEls,function(el){ el.classList.add('seen'); el.classList.remove('now'); });
-      curDay=15; tLine.textContent='Day 14 done. Your verdict is ready.'; tSub.textContent='The card is just below.'; hint.textContent='';
-    };
-    taps.addEventListener('click',function(ev){
-      var b=ev.target.closest('button'); if(!b) return;
-      manual=true; cal.classList.add('live');
-      if(b.dataset.tap==='again'){ setDone(false); curDay=-1; setDay(1); hint.textContent='Try it. Each tap is one day.'; return; }
-      if(curDay>=14){ setDone(true); return; }
-      var d=curDay; setDay(d+1);
-      hint.textContent=(b.dataset.tap==='1'?'Day '+d+' logged.':'Day '+d+' recorded as unknown, never as a failure.')+' Tap again for the next day.';
-    });
-  }
-
-  /* the "sells you more" line: words come up to full ink as you read past them */
-  var piv=document.querySelector('.pivot .big'), words=[], lit=-1;
-  function wrapWords(node){
-    Array.prototype.slice.call(node.childNodes).forEach(function(ch){
-      if(ch.nodeType===1){ wrapWords(ch); return; }
-      if(ch.nodeType!==3) return;
-      var frag=document.createDocumentFragment();
-      ch.textContent.split(/(\s+)/).forEach(function(tok){
-        if(!tok) return;
-        if(/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
-        var w=document.createElement('span'); w.className='w'; w.textContent=tok; frag.appendChild(w); words.push(w);
-      });
-      node.replaceChild(frag,ch);
-    });
-  }
-  var pivLive=piv&&!reduce;
-  if(pivLive){ wrapWords(piv); piv.classList.add('live'); }
-  function pivStep(vh){ var r=piv.getBoundingClientRect(), p=Math.max(0,Math.min(1,(vh*0.86-r.top)/(vh*0.42))), n=Math.round(p*words.length); if(n===lit) return; lit=n; words.forEach(function(w,i){ w.classList.toggle('lit', i<n); }); }
-
-  function onScroll(){
-    var y=window.scrollY, vh=window.innerHeight, max=document.documentElement.scrollHeight-vh;
-    nav.classList.toggle('scrolled', y>8);
-    prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0).toFixed(4)+')';
-    if(calLive&&!manual) calStep(vh);
-    if(pivLive) pivStep(vh);
-  }
-  window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll); onScroll();
-
-  /* nav: mark the section you are in */
-  if(hasIO){
-    var spy={}, spyNow=null;
-    nav.querySelectorAll('ul a').forEach(function(a){ spy[a.getAttribute('href').slice(1)]=a; });
-    var sio=new IntersectionObserver(function(es){ es.forEach(function(en){
-      if(!en.isIntersecting) return;
-      var a=spy[en.target.id]||null; if(a===spyNow) return;
-      if(spyNow) spyNow.removeAttribute('aria-current'); if(a) a.setAttribute('aria-current','true'); spyNow=a;
-    }); },{rootMargin:'-45% 0px -50% 0px'});
-    document.querySelectorAll('main > section').forEach(function(sec){ sio.observe(sec); });
-  }
-
-  /* reveal on scroll, once */
-  var rv=document.querySelectorAll('.rv');
-  if(hasIO){
-    var rio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); rio.unobserve(en.target); } }); },{rootMargin:'0px 0px -80px 0px'});
-    rv.forEach(function(el){ rio.observe(el); });
-  } else { rv.forEach(function(el){ el.classList.add('in'); }); }
-
-  /* the drop: one live object. Drawn on canvas, paused while off screen. */
-  var c=document.getElementById('drop'), ctx=c.getContext('2d');
-  var W=330,H=480, dpr=Math.min(window.devicePixelRatio||1,2), dropOn=true, raf=0;
-  var bump=0, ptx=0, pty=0, px=0, py=0;
-  c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-  function dropPath(cx,cy,r,t,keep){
-    var top=cy-r*1.5+Math.sin(t*0.6)*2.5, wob=Math.sin(t*0.9)*0.025;
-    if(!keep) ctx.beginPath();
-    ctx.moveTo(cx,top);
-    ctx.bezierCurveTo(cx+r*(0.5+wob),cy-r*0.95, cx+r,cy-r*0.3, cx+r,cy);
-    ctx.arc(cx,cy,r,0,Math.PI,false);
-    ctx.bezierCurveTo(cx-r,cy-r*0.3, cx-r*(0.5-wob),cy-r*0.95, cx,top);
-    ctx.closePath();
-  }
-  function draw(now){
-    var t=reduce?0:now/1000;
-    bump*=0.93; if(bump<0.002) bump=0; px+=(ptx-px)*0.06; py+=(pty-py)*0.06;
-    var cx=W/2, r=W*0.33*(1+bump*0.045), cy=H*0.55;
-    ctx.clearRect(0,0,W,H);
-    var sx=cx+r*0.18, sy=cy+r*1.32;
-    var g=ctx.createRadialGradient(sx,sy,0,sx,sy,r*1.05);
-    g.addColorStop(0,'rgba(184,149,82,.22)'); g.addColorStop(.45,'rgba(184,149,82,.10)'); g.addColorStop(1,'rgba(184,149,82,0)');
-    ctx.save(); ctx.translate(sx,sy); ctx.scale(1,0.22); ctx.translate(-sx,-sy);
-    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(sx,sy,r*1.05,0,Math.PI*2); ctx.fill(); ctx.restore();
-    var cg=ctx.createRadialGradient(sx-r*0.1,sy-r*0.02,0,sx-r*0.1,sy-r*0.02,r*0.45);
-    cg.addColorStop(0,'rgba(245,237,215,.35)'); cg.addColorStop(1,'rgba(245,237,215,0)');
-    ctx.save(); ctx.translate(sx,sy); ctx.scale(1,0.18); ctx.translate(-sx,-sy);
-    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(sx-r*0.1,sy-r*0.02,r*0.45,0,Math.PI*2); ctx.fill(); ctx.restore();
-    dropPath(cx,cy,r,t);
-    var hx=cx-r*0.35+Math.sin(t*0.3)*r*0.04+px*r*0.16, hy=cy-r*0.6+py*r*0.1;
-    var fg=ctx.createRadialGradient(hx,hy,r*0.05,cx,cy,r*1.9);
-    fg.addColorStop(0,'#FBF4E2'); fg.addColorStop(.32,'#EAD9B0'); fg.addColorStop(.68,'#D6B078'); fg.addColorStop(1,'#A8823F');
-    ctx.fillStyle=fg; ctx.fill();
-    ctx.save(); dropPath(cx,cy,r,t); ctx.clip();
-    ctx.shadowColor='rgba(80,55,20,.45)'; ctx.shadowBlur=r*0.42; ctx.shadowOffsetX=-r*0.16; ctx.shadowOffsetY=-r*0.22;
-    ctx.beginPath(); ctx.rect(-50,-50,W+100,H+100); dropPath(cx,cy,r,t,true); ctx.fillStyle='#000'; ctx.fill('evenodd');
-    ctx.restore();
-    ctx.save(); dropPath(cx,cy,r,t); ctx.clip();
-    var rg=ctx.createLinearGradient(cx-r,cy-r*1.4,cx+r,cy+r);
-    rg.addColorStop(0,'rgba(255,255,255,.95)'); rg.addColorStop(.5,'rgba(255,255,255,.15)'); rg.addColorStop(1,'rgba(255,255,255,0)');
-    dropPath(cx,cy,r,t); ctx.lineWidth=r*0.09; ctx.strokeStyle=rg; ctx.stroke();
-    var bg=ctx.createLinearGradient(cx,cy+r*0.4,cx,cy+r);
-    bg.addColorStop(0,'rgba(255,255,255,0)'); bg.addColorStop(.7,'rgba(255,255,255,.35)'); bg.addColorStop(1,'rgba(255,255,255,.85)');
-    ctx.beginPath(); ctx.arc(cx,cy,r*0.86,0.25*Math.PI,0.78*Math.PI); ctx.lineWidth=r*0.05; ctx.strokeStyle=bg; ctx.stroke();
-    ctx.restore();
-    ctx.save(); ctx.translate(hx,hy); ctx.rotate(-0.55);
-    var sg=ctx.createRadialGradient(0,0,0,0,0,r*0.3);
-    sg.addColorStop(0,'rgba(255,255,255,1)'); sg.addColorStop(.6,'rgba(255,255,255,.7)'); sg.addColorStop(1,'rgba(255,255,255,0)');
-    ctx.scale(0.55,1); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(0,0,r*0.3,0,Math.PI*2); ctx.fill(); ctx.restore();
-    ctx.fillStyle='rgba(255,255,255,.9)'; ctx.beginPath(); ctx.arc(hx-r*0.02,hy-r*0.14,r*0.045,0,Math.PI*2); ctx.fill();
-    raf=(!reduce&&dropOn)?requestAnimationFrame(draw):0;
-  }
-  raf=requestAnimationFrame(draw);
-  if(hasIO&&!reduce){
-    new IntersectionObserver(function(es){ dropOn=es[0].isIntersecting; if(dropOn&&!raf) raf=requestAnimationFrame(draw); }).observe(c);
-  }
-  if(finePointer&&!reduce){
-    document.getElementById('hero').addEventListener('pointermove',function(ev){ var b=c.getBoundingClientRect(); ptx=Math.max(-1,Math.min(1,(ev.clientX-(b.left+b.width/2))/400)); pty=Math.max(-1,Math.min(1,(ev.clientY-(b.top+b.height/2))/400)); },{passive:true});
-  }
-
-  /* a number that eases from one value to another */
-  function tween(el,from,to,dur,fmt){
-    var id=(el._tw||0)+1; el._tw=id; fmt=fmt||Math.round;
-    if(reduce||from===to||document.hidden){ el.textContent=fmt(to); return; } /* frames don't run in a background tab */
-    var t0=null;
-    function step(now){ if(el._tw!==id) return; if(!t0) t0=now; var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=fmt(from+(to-from)*e); if(p<1) requestAnimationFrame(step); }
-    requestAnimationFrame(step);
-  }
-
-  /* hero: the example stack gets shorter. Plays once when seen; Replay runs it again. */
-  (function(){
-    var box=document.getElementById('distiller'), stack=document.getElementById('stack');
-    var countEl=document.getElementById('h-count'), costEl=document.getElementById('h-cost'), replay=document.getElementById('replay');
-    var cuts=stack.querySelectorAll('[data-cost]'), keeps=stack.querySelectorAll('[data-keep]'), timers=[];
-    function later(fn,ms){ timers.push(setTimeout(fn,ms)); }
-    var hio=null;
-    function reset(){ timers.forEach(clearTimeout); timers=[]; if(hio){ hio.disconnect(); hio=null; } countEl._tw=costEl._tw=(costEl._tw||0)+1; box.classList.remove('done'); Array.prototype.forEach.call(stack.children,function(li){ li.classList.remove('cut','kept'); }); countEl.textContent='23'; costEl.textContent='341'; }
-    function finish(){ Array.prototype.forEach.call(cuts,function(li){ li.classList.add('cut'); }); Array.prototype.forEach.call(keeps,function(li){ li.classList.add('kept'); }); countEl.textContent='19'; costEl.textContent='280'; box.classList.add('done'); }
-    function play(){
-      reset();
-      var n=23, cost=341, t=1100;
-      Array.prototype.forEach.call(cuts,function(li){
-        later(function(){ li.classList.add('cut'); bump=1; n-=1; countEl.textContent=n; var next=cost-(+li.dataset.cost); tween(costEl,cost,next,380); cost=next; }, t);
-        t+=620;
-      });
-      Array.prototype.forEach.call(keeps,function(li){ later(function(){ li.classList.add('kept'); }, t); t+=260; });
-      later(function(){ box.classList.add('done'); }, t+200);
-    }
-    if(reduce||!hasIO){ finish(); }
-    else {
-      hio=new IntersectionObserver(function(es){ if(es[0].isIntersecting) play(); },{threshold:.5});
-      hio.observe(stack);
-    }
-    replay.addEventListener('click', play);
-  })();
-
-  /* counters that tick down when they come into view */
-  var counters=document.querySelectorAll('.count');
-  if(hasIO){
-    var cio=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ cio.unobserve(en.target); if(!en.target.closest('.before')) tween(en.target,+en.target.dataset.from,+en.target.dataset.to,1400); } }); },{threshold:.6});
-    counters.forEach(function(el){ cio.observe(el); });
-  } else { counters.forEach(function(el){ el.textContent=el.dataset.to; }); }
-
-  /* step 3: three example verdicts, each with the 14 nights behind it. All example data. */
-  (function(){
-    var vx=document.getElementById('vx'); if(!vx) return;
-    var $=function(id){ return document.getElementById(id); };
-    var ON=[1,2,3,7,8,9,13,14];
-    function hm(v){ var m=Math.round(v); return Math.floor(m/60)+' h '+(m%60)+' min'; }
-    function unit(u){ return function(v){ return Math.round(v)+' '+u; }; }
-    function avg(a){ return a.reduce(function(x,y){ return x+y; },0)/a.length; }
-    var V=[
-      {habit:'Walk before 9am', word:'Kept', sign:'+', num:6, dec:0, unit:'ms HRV', measured:'Overnight HRV', diff:'+6 ms', noise:'±3 ms', note:'Twice your normal swing. This one is yours.', band:40, at:80, inside:false,
-       on:[57,52,55,51,56,58,50,53], off:[45,51,46,49,52,45], onL:'Walked before 9am', offL:'No morning walk', fmt:unit('ms'), avg:unit('ms')},
-      {habit:'Training after 7pm', word:'Dropped', sign:'−', num:41, dec:0, unit:'min sleep', measured:'Total sleep', diff:'−41 min on late nights', noise:'±22 min', note:'Larger than your normal night-to-night swing.', band:43, at:-80, inside:false,
-       on:[401,368,419,386,372,422,381,403], off:[412,461,428,452,441,416], onL:'Trained after 7pm', offL:'Finished before 7pm', fmt:hm, avg:hm},
-      {habit:'Magnesium glycinate, 400 mg', word:'Inconclusive', sign:'+', num:0.4, dec:1, unit:'min deep sleep', measured:'Deep sleep', diff:'+0.4 min', noise:'±11 min', note:'Too small to see against your own swing. Your call.', band:80, at:3, inside:true,
-       on:[58,81,66,74,90,61,72,57], off:[62,78,55,71,84,67], onL:'Took magnesium', offL:'Skipped it', fmt:unit('min'), avg:function(x){ return x.toFixed(1)+' min'; }}
-    ];
-    var tabs=vx.querySelectorAll('.vx-tab'), panel=$('vx-panel'), nights=$('vx-nights'), tip=$('vx-tip'), pause=$('vx-pause'), swing=$('vx-swing');
-    var cols=[], cur=0, TIP='Hover or tap a night to see it.';
-    function clearHot(){ nights.classList.remove('hov'); cols.forEach(function(c){ c.classList.remove('hot'); }); tip.textContent=TIP; }
-    function hot(c){ var v=V[cur]; clearHot(); nights.classList.add('hov'); c.classList.add('hot'); tip.textContent='Night '+c._d+' · '+(c._on?v.onL:v.offL)+' · '+v.fmt(c._v); }
-    for(var d=1; d<=14; d++){
-      var c=document.createElement('div'); c.className='night'+(ON.indexOf(d)<0?' off':''); c.style.setProperty('--n',d); c.innerHTML='<i></i><b>'+d+'</b>'; c._d=d; c._on=ON.indexOf(d)>=0;
-      c.addEventListener('pointerenter',function(){ hot(this); });
-      c.addEventListener('click',function(){ hot(this); });
-      nights.appendChild(c); cols.push(c);
-    }
-    nights.addEventListener('pointerleave',clearHot);
-    function line(cls){ var m=document.createElement('div'); m.className='mean'+cls; nights.appendChild(m); return m; }
-    var mOn=line(''), mOff=line(' off');
-    function show(i, animate){
-      cur=i; var v=V[i], all=v.on.concat(v.off), lo=Math.min.apply(null,all), hi=Math.max.apply(null,all), pad=(hi-lo)*0.15, oi=0, fi=0;
-      lo-=pad; hi+=pad;
-      function y(x){ return ((x-lo)/(hi-lo)).toFixed(4); }
-      cols.forEach(function(c){ c._v=c._on?v.on[oi++]:v.off[fi++]; c.style.setProperty('--v',y(c._v)); });
-      var a=avg(v.on), b=avg(v.off);
-      mOn.style.setProperty('--m',y(a)); mOff.style.setProperty('--m',y(b));
-      nights.setAttribute('aria-label','Fourteen nights. '+v.onL+': average '+v.fmt(a)+'. '+v.offL+': average '+v.fmt(b)+'.');
-      $('vx-habit').textContent=v.habit; $('vx-unit').textContent=v.unit; $('vx-measured').textContent=v.measured; $('vx-diff').textContent=v.diff; $('vx-noise').textContent=v.noise; $('vx-note').textContent=v.note; $('vx-word').textContent=v.word; $('vx-on').textContent=v.onL+', average '+v.avg(a); $('vx-off').textContent=v.offL+', average '+v.avg(b);
-      swing.style.setProperty('--band',v.band); swing.style.setProperty('--at',v.at); swing.classList.toggle('inside',v.inside);
-      var f=function(x){ return v.sign+x.toFixed(v.dec); };
-      if(animate) tween($('vx-num'),0,v.num,700,f); else $('vx-num').textContent=f(v.num);
-      Array.prototype.forEach.call(tabs,function(t,k){ t.setAttribute('aria-selected',k===i?'true':'false'); t.tabIndex=k===i?0:-1; });
-      panel.setAttribute('aria-labelledby','vx-t'+i); clearHot();
-    }
-    show(0,false);
-    /* It turns on its own while in view, until someone picks a tab. The pause button and hovering both hold it. */
-    var auto=!reduce&&hasIO&&window.matchMedia('(min-width: 721px)').matches, paused=false;
-    function stopAuto(){ auto=false; vx.classList.remove('auto','held'); pause.hidden=true; }
-    Array.prototype.forEach.call(tabs,function(t,k){
-      t.addEventListener('click',function(){ stopAuto(); show(k,true); });
-      t.addEventListener('keydown',function(ev){ if(ev.key!=='ArrowRight'&&ev.key!=='ArrowLeft') return; ev.preventDefault(); stopAuto(); var n=(k+(ev.key==='ArrowRight'?1:tabs.length-1))%tabs.length; show(n,true); tabs[n].focus(); });
-      t.addEventListener('animationend',function(ev){ if(auto&&ev.animationName==='vxp') show((cur+1)%tabs.length,true); });
-    });
-    if(auto){
-      pause.hidden=false;
-      pause.addEventListener('click',function(){ paused=!paused; pause.setAttribute('aria-pressed',paused?'true':'false'); pause.setAttribute('aria-label',paused?'Resume the rotation':'Pause the rotation'); vx.classList.toggle('held',paused); });
-      panel.addEventListener('pointerenter',function(){ if(auto) vx.classList.add('held'); });
-      panel.addEventListener('pointerleave',function(){ if(auto&&!paused) vx.classList.remove('held'); });
-      new IntersectionObserver(function(es){ if(auto) vx.classList.toggle('auto',es[0].isIntersecting); },{threshold:.35}).observe(vx);
-    }
-  })();
-
-  /* the example stack on day 1 and after four tests */
-  (function(){
-    var seg=document.getElementById('seg'), file=document.querySelector('.file'); if(!seg||!file) return;
-    var fh=document.getElementById('f-h'), fy=document.getElementById('f-y'), cnt=file.querySelectorAll('.count'), yv=file.querySelectorAll('.yours .mono');
-    seg.addEventListener('click',function(ev){
-      var b=ev.target.closest('button'); if(!b) return; var before=b.dataset.state==='before';
-      Array.prototype.forEach.call(seg.children,function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
-      file.classList.toggle('before',before); fh.textContent=before?'Four you weren\'t sure about':'What you cut'; fy.textContent=before?'0':'4';
-      Array.prototype.forEach.call(cnt,function(el){ tween(el,+el.textContent||0,+(before?el.dataset.from:el.dataset.to),600); });
-      Array.prototype.forEach.call(yv,function(el){ el.textContent=before?'not tested yet':el.dataset.after; });
-    });
-  })();
-
-  /* glass and the dark panel catch a little light under the pointer */
-  if(finePointer&&!reduce){
-    var lastG=null;
-    document.addEventListener('pointermove',function(ev){
-      var g=ev.target.closest?ev.target.closest('.glass,.vx'):null;
-      if(g!==lastG){ if(lastG){ lastG.style.removeProperty('--mx'); lastG.style.removeProperty('--my'); } lastG=g; }
-      if(g){ var b=g.getBoundingClientRect(); g.style.setProperty('--mx',(ev.clientX-b.left).toFixed(0)+'px'); g.style.setProperty('--my',(ev.clientY-b.top).toFixed(0)+'px'); }
-    },{passive:true});
-  }
-
-  /* try it: the day-one router. Data comes from routing.json, built from the routing table by scripts/build_routing.py. */
-  (function(){
-    if(!document.getElementById('try')) return;
-    var $=function(id){ return document.getElementById(id); };
-    var q=$('try-q'), list=$('try-list'), chipsEl=$('try-chips'), qsEl=$('try-qs'), out=$('try-out'), clearBtn=$('try-clear'), wearSel=$('try-wearable'), goalSel=$('try-goal');
-    var DATA=null, byKey={}, current=null, answers={}, hi=-1, lastPct=null, moreOpen=false;
-    var stack=[], msEl=$('mystack');
-    var SHORT={'1':'Worth testing','2':'Settled on day one','3':"Can't be measured",'none':'Nothing to test','P':'Left alone'};
-    function copy(o){ var c={}; Object.keys(o).forEach(function(k){ c[k]=o[k]; }); return c; }
-    function inStack(k){ for(var i=0;i<stack.length;i++){ if(stack[i].k===k) return i; } return -1; }
-    var DEVCOL={'Oura':'oura','WHOOP':'whoop','Apple Watch':'apple','Garmin':'garmin','Fitbit':'garmin'};
-    /* the plain-words headline for each tier */
-    var HEAD={'1':"We'd test this on you",'2':'No test needed','3':"A wearable can't measure this",'none':'Nothing to test here','P':'We leave this one alone'};
-    var VICON={'1':'i-flask','2':'i-checkc','3':'i-eyeoff','none':'i-minusc','P':'i-lock'};
-    var CATICON={'supplement':'i-pill','service':'i-pass','device':'i-plug','habit':'i-loop','environment':'i-moon','timing':'i-clock','food/drink':'i-cup','skincare':'i-spark'};
-    function icon(id){ return '<svg class="ic" aria-hidden="true"><use href="#'+id+'"/></svg>'; }
-    /* placeholders shown while the table is on its way: same shapes, so nothing jumps when it lands */
-    var SK_CARD='<div class="sk-card" aria-hidden="true"><span class="sk sk-line" style="width:44%"></span><span class="sk sk-title" style="width:68%"></span><span class="sk sk-pill"></span><span class="sk sk-line"></span><span class="sk sk-line"></span><span class="sk sk-line" style="width:72%"></span><span class="sk sk-bar"></span><span class="sk sk-line" style="width:58%"></span></div>';
-    var SK_CHIPS=[132,176,108,98,74,152,186,148,128].map(function(w){ return '<span class="sk sk-chip" style="width:'+w+'px"></span>'; }).join('');
-
-    function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9+ ]/g,' ').replace(/\s+/g,' ').trim(); }
-    function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
-    function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-    function cap(s){ s=String(s||''); return s.charAt(0).toUpperCase()+s.slice(1); }
-    function fracWords(e){ if(e>=1.5) return 'one and a half times your normal night-to-night swing'; if(e>=1.2) return 'more than a full night-to-night swing'; if(e>=1) return 'about a full night-to-night swing'; var w=e>=0.9?'nine-tenths':e>=0.8?'four-fifths':e>=0.7?'two-thirds':e>=0.6?'three-fifths':e>=0.5?'half':e>=0.4?'two-fifths':e>=0.3?'a third':e>=0.2?'a fifth':'a tenth'; return 'about '+w+' of your normal night-to-night swing'; }
-    function chance(e){ return e>=1.2?'good':e>=0.8?'fair':'low'; }
-    function numberKey(name){ var n=norm(String(name||'').split(';')[0]); if(!n) return null; var keys=Object.keys(DATA.numbers); for(var i=0;i<keys.length;i++){ var k=norm(keys[i]); if(n===k||n.indexOf(k)===0||k.indexOf(n)===0) return keys[i]; } return null; }
-    function deviceNote(numName, wear){ var k=numberKey(numName); if(!k) return ''; var v=String(DATA.numbers[k][DEVCOL[wear]]||'yes'); if(/^yes/.test(v)) return ''; return 'On '+wear+', '+k.charAt(0).toLowerCase()+k.slice(1)+' is '+v+', so this test is noisier there.'; }
-    function you(t){ return String(t||'').replace(/they've/g,"you've").replace(/\bthey\b/g,'you').replace(/\btheir\b/g,'your').replace(/the person/g,'you'); }
-
-    function route(it, ans, wear, goalName){
-      var cost=it.cost||0;
-      var r={kind:'3', badge:"Can't measure it", word:"Can't measure it", figure:null, text:it.day1, notes:[], safety:it.safety?[it.safety]:[], number:it.num, effect:it.effect, sub:''};
-      if(it.tier==='P'){ r.kind='P'; r.badge='Protected'; r.word='Protected'; r.figure={big:'Not rated',small:'acknowledged and left alone'}; return r; }
-      var tier2=null, none=null, effect=it.effect, number=it.num, keep=false, sub=[];
-      (it.rule||[]).forEach(function(qd){
-        var a=ans[qd.id];
-        if(qd.number){ var d=parseFloat(a); if(isNaN(d)) return; sub.push(d+' '+qd.unit);
-          var floor=qd.floor||0; if(qd.formFloors&&ans.form&&qd.formFloors[ans.form]!=null) floor=qd.formFloors[ans.form];
-          if(floor&&d<floor&&!tier2) tier2={reason:'dose too low', text:it.n+': the amount you take ('+d+' '+qd.unit+') is below what the studies used ('+qd.floorText+'). Nothing about you is the problem; the amount is. '+(cost?money(cost)+' a month back, or step up to the studied amount and we\'ll test it properly.':'Step up to the studied amount and we\'ll test it properly.')};
-          else if(qd.soft&&d<qd.soft&&qd.softText) r.notes.push(qd.softText);
-          if(qd.safetyOver&&d>qd.safetyOver&&qd.safetyText) r.safety.push(qd.safetyText);
-          return; }
-        var opt=null; (qd.options||[]).forEach(function(o){ if(o.label===a) opt=o; }); if(!opt) return;
-        sub.push(/^(yes|no|not sure)$/i.test(opt.label)?qd.q.replace(/\?$/,'').replace(/^In the app.*?: /,'')+': '+opt.label:opt.label);
-        if(opt.bad&&!tier2) tier2={reason:opt.bad, text:it.n+': this version ('+opt.label+') isn\'t absorbed well enough to do what you bought it for. Same ingredient, different version, and it becomes testable.'+(cost?' '+money(cost)+' a month back either way.':'')};
-        if(opt.tier2&&!tier2) tier2={reason:opt.tier2, text:it.n+': '+opt.detail+'. No test needed, and nothing about you is the problem. '+(cost?money(cost)+' a month back, and you can start it again the week you want it.':'Nothing to pay for, so nothing to get back.')};
-        if(opt.none&&!none) none=opt.none;
-        if(opt.effect!=null) effect=opt.effect;
-        if(opt.number) number=opt.number;
-        if(opt.note) r.notes.push(opt.note);
-        if(opt.safety) r.safety.push(opt.safety);
-        if(opt.keep) keep=true;
-      });
-      r.sub=sub.join(' · ');
-      if(it.tier==='2'){ r.kind='2'; r.badge='No test needed · '+(it.why2||'settled on day one'); r.word='No test needed'; r.figure=cost?{big:money(cost),small:'a month back on day one'}:{big:'Nothing to pay for',small:'so nothing to get back'}; return r; }
-      if(tier2){ r.kind='2'; r.badge='No test needed · '+tier2.reason; r.word='No test needed'; r.text=tier2.text; r.figure=cost?{big:money(cost),small:'a month back on day one'}:{big:'Nothing to drop',small:''}; return r; }
-      if(none){ r.kind='none'; r.badge='Not a hypothesis for you'; r.word='Nothing to test'; r.text=none; r.figure={big:'Nothing to test',small:cost?money(cost)+' a month, your call':''}; return r; }
-      var g=null; if(goalName) DATA.goals.forEach(function(x){ if(x.goal===goalName) g=x; });
-      if(g&&g.number==='(none)'){
-        var short=g.goal.split(' /')[0];
-        r.kind='3'; r.word="Can't measure it"; r.badge="Can't measure it · "+(g.rating?'daily rating instead':'no test'); r.number=null; r.figure=cost?{big:money(cost*12),small:'a year, shown plainly'}:{big:'Free',small:''};
-        if(/hormone/.test(g.goal)){ r.kind='P'; r.badge='Protected'; r.word='Protected'; r.figure={big:'Not rated',small:'a clinician\'s question'}; r.text=it.n+': for hormones the honest answer is a blood test and a clinician. We never route this one.'; }
-        else if(/weight/.test(g.goal)) r.text=it.n+": weight isn't a wearable number and isn't a two-week question. Your scale is the test."+(cost?' It costs '+money(cost*12)+' a year.':'');
-        else if(/immunity/.test(g.goal)) r.text=it.n+": immunity isn't testable on one person in any reasonable time, so we don't offer a test. What the studies found is below, with the cost, and it's your call.";
-        else if(/longevity/.test(g.goal)) r.text=it.n+": you're taking this for general health, which is a real reason and not one a wearable can check. "+(cost?money(cost*12)+' a year. ':'')+"We'll leave it in your count and out of your experiments.";
-        else { var weeks=/skin/.test(g.goal)?'eight':'four'; r.text=it.n+": we can't see "+short+" in your data, and we won't pretend to."+(cost?' It costs '+money(cost*12)+' a year.':'')+" If you want an answer, a one-tap "+short+" rating each day for "+weeks+" weeks is the honest way to get one."; }
-        return r; }
-      if(g&&g.number&&it.see!=='no') number=g.number;
-      r.number=number; r.effect=effect;
-      var et=it.etier||'', observe=/observe/.test(it.assign||'');
-      if(et.indexOf('1, queued')===0){ r.kind='1'; r.badge='Tested on you · '+(et.indexOf('special')>=0?'needs a special design':'queued for a longer test'); r.word='Tested on you'; r.figure=effect!=null?{gauge:effect}:{big:'Queued',small:'works over weeks, not nights'}; return r; }
-      if(it.see==='no'||effect==null){ r.kind='3'; r.badge=(keep||it.grade==='A')?"Can't measure it · keep":"Can't measure it"; r.word="Can't measure it"; r.figure=cost?{big:money(cost*12),small:'a year, shown plainly'}:{big:'Free',small:"and if it's yours, it's yours"}; return r; }
-      if(effect>=0.8){ r.kind='1'; r.badge='Tested on you'+(observe?' · observed, never assigned':''); r.word='Tested on you'; r.figure={gauge:effect};
-        r.text=(et==='1'&&effect===it.effect)?it.day1:'Testable. A wearable can see this the same night, and the likely change is '+fracWords(effect)+', which is big enough to show in two weeks. Three days on, three days off, one number chosen before we start. Kept, dropped or inconclusive on day 14, with the number either way.';
-        if(observe) r.notes.unshift('We never assign a night for this. We record the nights it happens and compare them with the rest.');
-        return r; }
-      r.kind='3'; r.badge="Can't measure it in two weeks · run it anyway if you like"; r.word="Can't measure it"; r.figure={gauge:effect};
-      r.text=(et==='3, effect too small'&&effect===it.effect)?it.day1:it.n+': even where it works, the likely change is '+fracWords(effect)+', so a two-week test would very likely come back inconclusive. We\'ll show you what the trials found and what it costs. If you\'d still like to run the test, you can, knowing that going in.';
-      return r;
-    }
-
-    /* The engine above is untouched. Everything below only decides how a result is worded and laid out. */
-    function render(){
-      if(!current||!DATA) return;
-      var wear=wearSel.value, r=route(current, answers, wear, goalSel.value), cost=current.cost||0, h='';
-      var gauge=r.figure&&r.figure.gauge!=null, e=gauge?r.figure.gauge:null;
-      var title=HEAD[r.kind]||HEAD['3'], reason=String(r.badge||'').split(' · ').slice(1).join(' · ');
-      if(r.kind==='3'&&gauge){ title='Too small to show up in two weeks'; reason='You can still run it if you like'; }
-      else if(r.kind==='3'&&reason==='keep'){ reason='The research is solid, so keep it'; }
-      else if(r.kind==='3'&&reason==='no test'){ reason=''; }
-      else if(r.kind==='1'&&/observed/.test(reason)){ reason='We watch the nights it happens. We never assign one.'; }
-      h+='<div class="top"><span class="label">What you\'d read on day one</span><span class="dev">'+esc(wear)+'</span></div>';
-      h+='<h3><span class="cat" aria-hidden="true">'+icon(CATICON[current.cat]||'i-loop')+'</span><span>'+esc(current.n)+(r.sub?'<small>'+esc(r.sub)+'</small>':'')+'</span></h3>';
-      h+='<div class="verdict v-'+r.kind+'">'+icon(VICON[r.kind]||'i-eyeoff')+'<div><strong>'+esc(title)+'</strong>'+(reason?'<span>'+esc(cap(reason))+'</span>':'')+'</div></div>';
-      if(!gauge&&r.figure){ var isMoney=/^\$/.test(r.figure.big); if(isMoney) h+='<div class="figure">'+esc(r.figure.big)+(r.figure.small?'<small>'+esc(r.figure.small)+'</small>':'')+'</div>'; }
-      h+='<p class="say">'+esc(r.text)+'</p>';
-      if(gauge){ var pct=Math.min(100,e/1.5*100);
-        h+='<div class="meter" role="img" aria-label="The likely change is '+esc(fracWords(e))+'. The line for a two-week test is four-fifths of a normal swing."><div class="mq">How big is the likely change?</div><div class="track"><i class="fill" data-pct="'+pct.toFixed(1)+'" style="width:'+(lastPct==null?pct:lastPct).toFixed(1)+'%"></i><i class="gate" style="left:53.3%"></i></div><div class="scale"><span>Hard to see</span><span class="g">Big enough to test</span><span>Easy to see</span></div><p class="mc">'+esc(cap(fracWords(e)))+'. Chance of a clear answer in two weeks: '+chance(e)+'.</p></div>';
-      }
-      r.notes.forEach(function(n){ h+='<p class="note">'+esc(n)+'</p>'; });
-      r.safety.forEach(function(s){ h+='<p class="safety">'+esc(s)+'</p>'; });
-      var dl=[];
-      if(r.kind==='1'||(r.kind==='3'&&r.number)){ var numTxt=(r.number&&r.number!=='None')?r.number:'nothing a wearable can see'; dl.push(["What we'd watch",numTxt]); var dn=deviceNote(r.number,wear); if(dn) dl.push(['On your device',dn]); if(r.kind==='1') dl.push(["How we'd test it",current.how||'3 days on, 3 days off, for 14 days']); if(current.hist&&!/^no\b/.test(current.hist)) dl.push(['From your history',you(current.hist)]); }
-      if(cost) dl.push(['What it costs',money(cost)+' a month · '+money(cost*12)+' a year']);
-      if(current.grade&&r.kind!=='P') dl.push(['The research','Grade '+current.grade+': '+(DATA.grades[current.grade]||'')]);
-      var found=(current.found&&r.kind!=='P')?'<p class="found"><b>What the studies found.</b> '+esc(current.found)+'</p>':'';
-      if(dl.length||found){ h+='<details class="more"'+(moreOpen?' open':'')+'><summary>The details and the research</summary>'; if(dl.length){ h+='<dl>'; dl.forEach(function(p){ h+='<dt>'+esc(p[0])+'</dt><dd>'+esc(p[1])+'</dd>'; }); h+='</dl>'; } h+=found+'</details>'; }
-      var si=inStack(current.k);
-      if(si>=0){ stack[si].ans=copy(answers); stack[si].goal=goalSel.value; }
-      h+='<div class="act"><button class="btn btn-ghost btn-sm" type="button" data-add>'+(si>=0?'Remove from my stack':'Add to my stack')+'</button><span class="fud">'+(stack.length?stack.length+' in your stack so far.':'Add a few and see what they come to.')+'</span></div>';
-      out.innerHTML=h;
-      if(stack.length) renderStack();
-      var more=out.querySelector('.more'); if(more) more.addEventListener('toggle',function(){ moreOpen=more.open; });
-      var fill=out.querySelector('.fill'); if(fill){ var to=fill.dataset.pct; lastPct=+to; requestAnimationFrame(function(){ fill.style.width=to+'%'; }); } else { lastPct=null; }
-      /* soften the swap: a brief blur that clears, so the change reads as one card updating */
-      if(!reduce){ out.classList.add('swap'); void out.offsetWidth; out.classList.remove('swap'); }
-    }
-
-    function renderQs(){
-      qsEl.innerHTML='';
-      (current.rule||[]).forEach(function(qd){
-        var wrap=document.createElement('div'); wrap.className='qa';
-        var lab=document.createElement('div'); lab.className='q'; lab.textContent=qd.q; wrap.appendChild(lab);
-        if(qd.number){
-          var row=document.createElement('div'); row.className='num';
-          var inp=document.createElement('input'); inp.type='number'; inp.inputMode='decimal'; inp.min='0'; inp.step='any'; inp.value=answers[qd.id]; inp.id='try-'+current.k+'-'+qd.id; inp.setAttribute('aria-label',qd.q);
-          inp.addEventListener('input',function(){ answers[qd.id]=inp.value; render(); });
-          var u=document.createElement('span'); u.textContent=qd.unit; row.appendChild(inp); row.appendChild(u); wrap.appendChild(row);
-        } else {
-          var opts=document.createElement('div'); opts.className='chips';
-          qd.options.forEach(function(o){ var b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=o.label; b.setAttribute('aria-pressed', answers[qd.id]===o.label?'true':'false');
-            b.addEventListener('click',function(){ answers[qd.id]=o.label; Array.prototype.forEach.call(opts.children,function(c){ c.setAttribute('aria-pressed', c===b?'true':'false'); }); render(); });
-            opts.appendChild(b); });
-          wrap.appendChild(opts);
-        }
-        qsEl.appendChild(wrap);
-      });
-    }
-
-    /* what was picked, sorted the way day one would sort it, with the running total */
-    function renderStack(){
-      if(!stack.length){ msEl.hidden=true; msEl.innerHTML=''; return; }
-      var wear=wearSel.value, tot=0, back=0, n={'1':0,'2':0,'3':0,'0':0}, rows='';
-      var names={'1':'worth testing','2':'settled on day one','3':"can't be measured",'0':'left alone or nothing to test'};
-      stack.forEach(function(st,i){
-        var it=byKey[st.k], r=route(it,st.ans,wear,st.goal), c=it.cost||0, g=(r.kind==='1'||r.kind==='2'||r.kind==='3')?r.kind:'0';
-        tot+=c; if(r.kind==='2') back+=c; n[g]++;
-        rows+='<li>'+icon(CATICON[it.cat]||'i-loop')+'<button class="nm" type="button" data-i="'+i+'">'+esc(it.n)+'</button><span class="ms-tag k'+g+'">'+SHORT[r.kind]+'</span><span class="mono">'+(c?money(c)+'/mo':'free')+'</span><button class="ms-x" type="button" data-x="'+i+'" aria-label="Remove '+esc(it.n)+'">×</button></li>';
-      });
-      var order=['1','2','3','0'].filter(function(k){ return n[k]; });
-      msEl.innerHTML='<div class="ms-head"><h3>Your stack so far</h3><span class="tot"><b>'+stack.length+'</b> '+(stack.length===1?'thing':'things')+' · <b>'+money(tot)+'</b> a month · '+money(tot*12)+' a year at typical prices</span></div>'
-        +'<div class="ms-bar" aria-hidden="true">'+order.map(function(k){ return '<i class="k'+k+'" style="--n:'+n[k]+'"></i>'; }).join('')+'</div>'
-        +'<div class="ms-key">'+order.map(function(k){ return '<span><i class="k'+k+'"></i>'+n[k]+' '+names[k]+'</span>'; }).join('')+'</div>'
-        +'<ul class="ms-list">'+rows+'</ul>'
-        +'<p class="ms-foot">'+(back?'<b>'+money(back)+' a month</b> could come back on day one, before any test. ':'')+'This is day one for what you picked, at typical prices. The free audit does it for everything you take, with your own data.</p>';
-      msEl.hidden=false;
-    }
-    function toggleStack(){ if(!current) return; var i=inStack(current.k); if(i>=0) stack.splice(i,1); else stack.push({k:current.k, ans:copy(answers), goal:goalSel.value}); renderStack(); render(); }
-    out.addEventListener('click',function(ev){ if(ev.target.closest('[data-add]')) toggleStack(); });
-    msEl.addEventListener('click',function(ev){
-      var x=ev.target.closest('[data-x]'), nm=ev.target.closest('[data-i]');
-      if(x){ stack.splice(+x.dataset.x,1); renderStack(); render(); }
-      else if(nm){ var st=stack[+nm.dataset.i]; select(st.k, st); }
-    });
-
-    function select(key, snap){ var it=byKey[key]; if(!it) return; current=it; answers={}; (it.rule||[]).forEach(function(qd){ answers[qd.id]=qd.default; }); if(snap){ Object.keys(snap.ans).forEach(function(id){ answers[id]=snap.ans[id]; }); goalSel.value=snap.goal||''; } q.value=it.n; clearBtn.hidden=false; hideList(); renderQs(); render(); Array.prototype.forEach.call(chipsEl.children,function(c){ c.setAttribute('aria-pressed', c.dataset.k===key?'true':'false'); }); }
-
-    function search(term){
-      var t=norm(term); if(!t||!DATA) return []; var best={};
-      function add(it,sc){ if(!best[it.k]||best[it.k][0]<sc) best[it.k]=[sc,it]; }
-      DATA.items.forEach(function(it){ var n=norm(it.n), k=it.k.replace(/-/g,' '); if(n===t) add(it,100); else if(n.indexOf(t)===0) add(it,90); else if(n.indexOf(t)>=0) add(it,80); else if(k.indexOf(t)>=0) add(it,70); else if(norm(it.for).indexOf(t)>=0) add(it,40); });
-      Object.keys(DATA.aliases).forEach(function(a){ var an=norm(a), it=byKey[DATA.aliases[a]]; if(!it) return; if(an===t) add(it,99); else if(an.indexOf(t)===0) add(it,85); else if(an.length>=3&&t.indexOf(an)===0) add(it,60); });
-      return Object.keys(best).map(function(k){ return best[k]; }).sort(function(a,b){ return b[0]-a[0]||a[1].n.localeCompare(b[1].n); }).slice(0,6).map(function(x){ return x[1]; });
-    }
-    function showList(items, term){
-      list.innerHTML=''; hi=-1;
-      if(!items.length){ var li=document.createElement('li'); li.className='none'; li.textContent=term.length<2?'Keep typing…':'We haven\'t worked through "'+term+'" yet. Try one of the examples below, or ask for it in the free audit.'; list.appendChild(li); }
-      items.forEach(function(it){ var li=document.createElement('li'); li.setAttribute('role','option'); li.dataset.k=it.k; li.innerHTML='<span class="nm">'+icon(CATICON[it.cat]||'i-loop')+esc(it.n)+'</span><small>'+esc(it.cat)+(it.cost?' · '+money(it.cost)+'/mo':'')+'</small>'; li.addEventListener('mousedown',function(ev){ ev.preventDefault(); select(it.k); }); list.appendChild(li); });
-      list.hidden=false; q.setAttribute('aria-expanded','true');
-    }
-    function hideList(){ list.hidden=true; q.setAttribute('aria-expanded','false'); hi=-1; }
-
-    q.addEventListener('input',function(){
-      if(!DATA){ pendingTerm=q.value.trim(); load(); list.innerHTML=pendingTerm?'<li class="none"><span class="sk sk-line" style="width:60%"></span></li><li class="none"><span class="sk sk-line" style="width:42%"></span></li>':''; list.hidden=!pendingTerm; return; }
-      var term=q.value.trim(); clearBtn.hidden=!term; if(!term){ hideList(); return; } showList(search(term), term); });
-    q.addEventListener('focus',function(){ var term=q.value.trim(); if(DATA&&term&&(!current||term!==current.n)) showList(search(term), term); else q.select(); });
-    q.addEventListener('blur',function(){ setTimeout(hideList,150); });
-    q.addEventListener('keydown',function(ev){
-      var opts=list.querySelectorAll('li[data-k]');
-      if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ ev.preventDefault(); if(list.hidden){ if(q.value.trim()) showList(search(q.value.trim()), q.value.trim()); return; } if(!opts.length) return; hi=(hi+(ev.key==='ArrowDown'?1:-1)+opts.length)%opts.length; Array.prototype.forEach.call(opts,function(o,i){ o.classList.toggle('on',i===hi); }); }
-      else if(ev.key==='Enter'){ ev.preventDefault(); if(list.hidden){ var res=search(q.value.trim()); if(res.length) select(res[0].k); } else if(opts.length) select(opts[hi>=0?hi:0].dataset.k); }
-      else if(ev.key==='Escape'){ hideList(); }
-    });
-    clearBtn.addEventListener('click',function(){ q.value=''; clearBtn.hidden=true; hideList(); q.focus(); });
-    goalSel.addEventListener('change',render);
-    /* remember the wearable so the sign-up form doesn't ask twice */
-    wearSel.addEventListener('change',function(){ render(); renderStack(); document.querySelectorAll('.audit-form select').forEach(function(s){ if(!s.value) s.value=wearSel.value; }); });
-
-    function renderChips(){ chipsEl.innerHTML=''; DATA.chips.forEach(function(k){ var it=byKey[k]; if(!it) return; var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.k=k; b.textContent=it.n.replace(/\s*\(.*\)$/,''); b.setAttribute('aria-pressed','false'); b.addEventListener('click',function(){ select(k); }); chipsEl.appendChild(b); }); }
-
-    function ready(d){
-      DATA=d; d.items.forEach(function(i){ byKey[i.k]=i; });
-      d.goals.forEach(function(g){ var o=document.createElement('option'); o.value=g.goal; o.textContent=g.goal; goalSel.appendChild(o); });
-      out.removeAttribute('aria-busy');
-      renderChips(); select(byKey['coffee-after-2pm']?'coffee-after-2pm':d.chips[0]);
-      if(pendingTerm){ q.value=pendingTerm; clearBtn.hidden=false; if(document.activeElement===q) showList(search(pendingTerm), pendingTerm); }
-    }
-    function failed(){
-      out.removeAttribute('aria-busy'); chipsEl.innerHTML='';
-      out.innerHTML='<p class="say">The list could not load. Refresh the page to try again.</p>';
-      q.placeholder='The list could not load. Refresh to try again.';
-    }
-    /* The table is about 200 KB, so it is fetched when the section is close, not on page load.
-       If the placeholders were actually seen, they stay for a moment so the card doesn't flicker. */
-    var started=false, seenAt=0, pendingTerm='';
-    function load(){
-      if(started) return; started=true;
-      fetch('routing.json').then(function(res){ if(!res.ok) throw new Error(String(res.status)); return res.json(); }).then(function(d){
-        var wait=seenAt?Math.max(0,400-(Date.now()-seenAt)):0;
-        if(wait) setTimeout(function(){ ready(d); }, wait); else ready(d);
-      }).catch(failed);
-    }
-    out.setAttribute('aria-busy','true'); out.innerHTML=SK_CARD; chipsEl.innerHTML=SK_CHIPS;
-    if(hasIO){
-      var near=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ near.disconnect(); load(); } },{rootMargin:'600px 0px'});
-      near.observe(document.getElementById('try'));
-      var seen=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ seen.disconnect(); if(!DATA) seenAt=Date.now(); } },{threshold:.15});
-      seen.observe(out);
-    } else { load(); }
-    q.addEventListener('focus', load);
-  })();
-
-  /* popup form: every call to action opens it */
-  var dlg=document.getElementById('audit');
-  document.addEventListener('click', function(ev){
-    if(!ev.target.closest || !ev.target.closest('[data-open]')) return;
-    if(dlg && typeof dlg.showModal==='function'){ dlg.showModal(); var f=dlg.querySelector('input[type=email]'); if(f) f.focus(); }
-    else { location.hash='#start'; }
-  });
-  document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', function(){ dlg.close(); }); });
-  if(dlg){ dlg.addEventListener('click', function(ev){ if(ev.target===dlg) dlg.close(); }); }
-
-  /* sign-up forms: save straight into Supabase (table: signups, insert-only) */
-  var cfg=window.DISTILL||{};
-  var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  document.querySelectorAll('.audit-form').forEach(function(form){
-    var btn=form.querySelector('button[type=submit]'), err=form.querySelector('.err');
-    function showErr(msg){ err.textContent=msg; err.hidden=false; }
-    form.addEventListener('submit', function(ev){
-      ev.preventDefault();
-      var em=form.querySelector('input[type=email]'), sel=form.querySelector('select'), hp=form.querySelector('input[name=website]');
-      var email=em.value.trim().toLowerCase();
-      err.hidden=true;
-      if(!EMAIL_RE.test(email)){ em.focus(); showErr('That email doesn\'t look right. Check it and try again.'); return; }
-      if(hp && hp.value){ form.classList.add('done'); return; }
-      if(!cfg.supabaseUrl || !cfg.supabaseKey){ showErr('Signup is not connected yet. Try again later.'); return; }
-      var label=btn.textContent; btn.disabled=true; btn.classList.add('busy'); btn.textContent='One moment';
-      var key=cfg.supabaseKey, hdr={'Content-Type':'application/json','apikey':key,'Prefer':'return=minimal'};
-      if(key.indexOf('eyJ')===0){ hdr['Authorization']='Bearer '+key; } /* legacy anon keys are JWTs and also go in Authorization; new sb_publishable_ keys must not */
-      fetch(cfg.supabaseUrl.replace(/\/+$/,'')+'/rest/v1/signups',{
-        method:'POST',
-        headers:hdr,
-        body:JSON.stringify({email:email,wearable:(sel&&sel.value)?sel.value:null,source:form.dataset.source||null,user_agent:String(navigator.userAgent||'').slice(0,400)})
-      }).then(function(r){
-        if(r.ok){ form.classList.add('done'); return; }
-        return r.json().catch(function(){ return {}; }).then(function(data){
-          if(r.status===409 || (data && data.code==='23505')){ form.classList.add('done'); return; }
-          showErr(r.status<500 ? 'We couldn\'t save that email. Check it and try again.' : 'Something went wrong on our side. Try again in a moment.');
-        });
-      }).catch(function(){ showErr('We couldn\'t reach the server. Check your connection and try again.'); })
-      .then(function(){ btn.disabled=false; btn.classList.remove('busy'); btn.textContent=label; });
-    });
-  });
-})();
-</script>
+<script src="/vendor/gsap.min.js" defer></script>
+<script src="/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/vendor/SplitText.min.js" defer></script>
+<script src="/vendor/CustomEase.min.js" defer></script>
+<script src="/vendor/lenis.min.js" defer></script>
+<script type="module" src="/assets/js/main.js"></script>
 </body>
 </html>

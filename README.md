@@ -14,10 +14,10 @@ The existing marketing site remains in `public/`. Vercel serves that folder dire
 
 ## Where things stand
 
-- **Live:** https://distill-v1-tau.vercel.app, serving version 3 of the page (October 2026).
+- **Live:** https://distill-v1-tau.vercel.app, the white, black and gold page with the phone story (October 2026).
 - **App:** https://distill-app-nu.vercel.app, the Phase 8 screens on demo data, a second Vercel project rooted at `apps/web` that also redeploys on every push to `main`.
 - **Connected:** this repo deploys to Vercel on every push to `main`, and the sign-up forms save to the Supabase `signups` table.
-- **To change the site:** edit `public/index.html`, commit, and push to `main`. Vercel publishes it in about a minute.
+- **To change the site:** edit `public/index.html` (styles in `public/assets/css/site.css`), commit, and push to `main`. Vercel publishes it in about a minute. Details in [docs/LANDING.md](docs/LANDING.md).
 
 ## Local checks
 
@@ -63,11 +63,11 @@ Opens the app at http://localhost:3000. With no Supabase keys in `apps/web/.env.
 | `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |
 | `docs/LANDING.md` | Landing page setup and editing instructions |
 | `.github/workflows/ci.yml` | PR validation |
-| `public`, `supabase`, `scripts/build_routing.py` | Existing landing page and its signup/data tooling |
+| `public`, `supabase`, `scripts/build_landing_data.py` | The landing page, its signup table and its data builder |
 
 The V3 workbook title includes a "What changed in version 4" section. We retain its supplied filename and record the mismatch instead of silently renaming it. It contains **13 sheets** (including an unlisted Glossary), **210 items**, **18 overlap groups**, **93 fact-check flags**, and **9 observe-only items**. All Summary counts validate. The brief's "19 groups" and the worked example's conflicting prose totals are recorded as open questions.
 
-The older `docs/Routing-Table.xlsx` and `public/routing.json` serve the marketing widget. New app code uses `data/Routing-Table_V3.xlsx`; the Python landing-page builder does not generate the app catalog.
+The landing page's `public/assets/data/stack.json` is built from the same `data/Routing-Table_V3.xlsx` by `scripts/build_landing_data.py`; that script does not generate the app catalog.
 
 ## Phase boundaries
 
