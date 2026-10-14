@@ -9,6 +9,7 @@ import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
 import { track } from '../../../lib/track';
+import { joinWaitlist } from '../../../lib/waitlist';
 import { requestMagicLink } from '../../sign-in/actions';
 
 const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
@@ -16,9 +17,9 @@ const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim()
 type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'failed' };
 
 /**
- * The invitation: founding membership, free while we build it, in three lines. With accounts
- * switched on, this is where the email is asked; joining sends a sign-in link that keeps what they
- * added. The next step is the wearable, or going on without one.
+ * The invitation: founding membership, free while we build it, in three lines. The email asked here
+ * always joins the Founding 100 waitlist (lib/waitlist.ts); with accounts switched on, joining also
+ * sends a sign-in link that keeps what they added. The next step is the wearable, or going on without one.
  */
 export function Invitation({ accounts = false }: { accounts?: boolean }) {
   const go = useGo();
@@ -39,13 +40,15 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
 
   async function join() {
     setProblem(null);
-    if (!accounts) {
-      track('joined', { email: false });
-      return update({ member: true });
-    }
     if (!looksLikeEmail(email)) return setProblem(copy.invitation.emailError);
     track('joined', { email: true });
     setBusy(true);
+    // On the list either way; a failed save never stops anyone joining.
+    await joinWaitlist(email);
+    if (!accounts) {
+      setBusy(false);
+      return update({ member: true });
+    }
     const next = { ...progress, member: true, updatedAt: new Date().toISOString() };
     try {
       // Saved on this device first, so the sign-in link carries it into the account.
@@ -124,18 +127,16 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
             }}
           >
             <p className="muted join-line">{copy.invitation.freeLine}</p>
-            {accounts ? (
-              <Field
-                label={copy.invitation.emailLabel}
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                placeholder={copy.invitation.emailPlaceholder}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={problem ?? undefined}
-              />
-            ) : null}
+            <Field
+              label={copy.invitation.emailLabel}
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder={copy.invitation.emailPlaceholder}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={problem ?? undefined}
+            />
             <div className="actions">
               <Button type="submit" busy={busy}>
                 {copy.invitation.begin}
