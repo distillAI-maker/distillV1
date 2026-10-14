@@ -21,5 +21,5 @@ Distill has two parts in this repo:
 ## Rules
 
 - Pushing to `main` publishes the marketing site within about a minute. Work on a branch and open a PR.
-- The Supabase publishable key in `public/index.html` is meant to be public. Never commit `.env` files or service-role keys.
-- `public/routing.json` (landing widget, built by `scripts/build_routing.py`) and `data/catalog.json` (app) are separate pipelines.
+- The Supabase publishable key in `public/assets/js/join.js` is meant to be public. Never commit `.env` files or service-role keys.
+- `public/assets/data/stack.json` (landing page, built by `scripts/build_landing_data.py`) and `data/catalog.json` (app) are separate pipelines from the same workbook.

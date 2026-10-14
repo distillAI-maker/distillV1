@@ -1,19 +1,24 @@
-# Distill
+# The landing page
 
-Landing page for Distill, the wellness app that tests your habit stack on your own wearable data and tells you what to keep and what to stop paying for.
+The marketing site lives in `public/` and is served by Vercel as-is: no framework, no build step. It is the white, black and gold page with the phone that tells the product's story as you scroll (October 2026). The version before it is kept at `docs/archive/landing-v3-glass.html`.
 
-The site is one static file. Signups go straight into a Supabase table. Hosting is Vercel's free plan, which deploys from this repo on every push. Everything here is free; only a custom domain costs money (about $10 a year), and that is optional.
+## What lives where
 
-## What's in here
-
-```
-public/index.html     the website: hand-written CSS, no framework, no build step
-public/routing.json   the routing table as data, read by the "What would Distill do with it?" widget
-scripts/build_routing.py  rebuilds routing.json from docs/Routing-Table.xlsx (python3 scripts/build_routing.py)
-supabase/schema.sql   the signups table and its security rules
-docs/                 the setup guide, copy, research, routing table, design board, domain research
-vercel.json           tells Vercel to serve the public folder as-is
-```
+| Path | What it is |
+|---|---|
+| `public/index.html` | All the page's words and structure |
+| `public/assets/css/site.css` | Every style, with the color and motion tokens at the top |
+| `public/assets/js/` | One module per moment: `story.js` (the phone and its four screens), `try.js` (what's in your list), `join.js` (the waitlist form), `reels.js` (rolling numbers), `main.js`, `util.js` |
+| `public/assets/data/stack.json` | The 210 Routing Table items the "What's in your list?" chips use. Generated, don't edit by hand |
+| `public/assets/fonts/` | Switzer, self-hosted |
+| `public/vendor/` | GSAP 3.15 (ScrollTrigger, Flip, SplitText, CustomEase) and Lenis 1.3, copied in so nothing loads from a CDN |
+| `scripts/build_landing_data.py` | Rebuilds `stack.json` from `data/Routing-Table_V3.xlsx` (the same workbook the app catalog uses) |
+| `docs/landing/BUILD-PROMPT.md` | The prompt the page was built from, with its revisions |
+| `docs/landing/PRODUCT.md`, `docs/landing/DESIGN.md` | Product facts and the design system the page follows |
+| `docs/landing/MOTION-PLAN.md` | The motion system |
+| `docs/landing/research/` | The reference teardowns the direction came from |
+| `supabase/schema.sql` | The signups table and its security rules |
+| `vercel.json` | Tells Vercel to serve the public folder as-is; the install and build commands stay empty so the app workspace never builds for this project |
 
 ## Look at it on your laptop
 
@@ -21,52 +26,27 @@ vercel.json           tells Vercel to serve the public folder as-is
 python3 -m http.server 3000 -d public
 ```
 
-Then open http://localhost:3000. The form only saves once Supabase is connected (step 2 below).
+Then open http://localhost:3000. Add `?motion=off` to see every animated state at rest.
 
-## Going live
+## Common changes
 
-The full beginner walkthrough, with every click, is `docs/Setup-Guide.html` (open it in a browser). The short version:
+- **Change copy:** edit `public/index.html`. Keep the rules in `docs/landing/PRODUCT.md` (no red, no dashes, no "should").
+- **Routing Table changed:** replace `data/Routing-Table_V3.xlsx`, run `python3 scripts/build_landing_data.py`, commit the new `stack.json`.
+- **The example list in the phone** (21 items, $1,428 a month) is written by hand in `index.html` from the workbook's Worked Example sheet.
 
-### 1. GitHub
+## The waitlist
 
-The code lives in this repository, owned by the `distillAI-maker` account. Keep the repository private (Settings > Danger Zone > Change visibility). To let this Mac push, add the personal account `ivannadil` as a collaborator (Settings > Collaborators > Add people) and accept the invitation from that account.
+Both forms (hero and the closing section) post one row to the Supabase table `signups` through Supabase's REST API, using the publishable key at the top of `public/assets/js/join.js`. The key is meant to be public: the table only allows inserts for it, and the list is only readable from the dashboard. Duplicates are treated as success, so nobody sees an error for signing up twice. The `source` column says which form it was (`site-hero` or `site-close`).
 
-### 2. Vercel (hosting, free)
+Read the list in Supabase under Table Editor, or with:
 
-1. Sign in to GitHub as `distillAI-maker`, then sign up at vercel.com with **Continue with GitHub**. Vercel only lets the repository owner import it, so the accounts must match.
-2. **Add New > Project > Import** `distillV1`. Framework preset **Other**, leave the build settings alone (`vercel.json` already points Vercel at the `public` folder). Click **Deploy**.
-3. About a minute later the site is live at `distill.vercel.app` (or a close variant). Every push to `main` redeploys it.
+```sql
+select email, wearable, source, created_at from public.signups order by created_at desc;
+```
 
-### 3. Supabase (signups, free)
+## Deploys
 
-1. Create a project at supabase.com. Save the database password somewhere safe.
-2. **SQL Editor > New query**: paste all of `supabase/schema.sql` and run it.
-3. **Settings > API Keys**: copy the **Project URL** and the **Publishable key**.
-4. Paste both into the `window.DISTILL` block at the top of `public/index.html`, commit, push. The form now saves.
-5. Test with your own email, then look at **Table Editor > signups**. That is the founding list.
+- Live: https://distill-v1-tau.vercel.app (Vercel project `distill-v1`, the company account)
+- Every push to `main` deploys in about a minute. Vercel Hobby only builds commits authored by the account owner, so this clone's git identity is `distillAI-maker`.
 
 Supabase pauses free projects after about a week with no activity, and the form fails while paused. A signup or a dashboard visit counts as activity, and a paused project restores with one click.
-
-### 4. A domain, later
-
-The `vercel.app` address is free and has no "claude" in it. A custom domain costs about $10 a year; `docs/Domain-Research.md` has the shortlist. Add it under the Vercel project's **Settings > Domains** and follow the DNS instructions it shows.
-
-## How the form works
-
-Both forms (popup and bottom of page) post one row to the `signups` table through Supabase's REST API, using the publishable key. Duplicates are treated as success, so nobody sees an error for signing up twice. A hidden field catches simple bots. Addresses are lower-cased in the database itself.
-
-## The router widget
-
-The section under the hero is the real day-one router. It reads `public/routing.json`, which is generated from the spreadsheet: every item's tier, the number a wearable would watch, the expected effect against a normal night-to-night swing, what the studies found, the safety note, and the sentence the person reads on day one. The follow-up questions (dose and form, timing, visits, last used, still paying) are encoded as data in `scripts/build_routing.py`, in the `RULES` table, because the sheet writes them as prose. When the spreadsheet changes, run the script and commit the new JSON.
-
-The order of checks matches the sheet's "Start Here" tab: Protected first, then anything settled without a test (dose, form, not being used), then the goal, then the 0.8 effect gate, then slow items to the queue.
-
-## Editing the page
-
-Everything is in `public/index.html`. The copy is documented section by section in `docs/Distill-LP-Copy-v2.md`, the design in `docs/design-directions.html`. The wordmark is switched with one class on `<body>`: `wm-w4` (Italiana, current), `wm-w1` (Cormorant caps) or `wm-w8` (Tenor Sans).
-
-## Next steps
-
-- Send a confirmation email on signup. Supabase Edge Functions plus Resend (free tier) is the usual pairing, and it also moves validation off the browser.
-- Before paid traffic: get three real reviews from free beta users and add them to the page. The plan is at the end of `docs/Distill-LP-Copy-v2.md`.
-- The wearable connection, the daily tap and the experiment engine come next. Supabase Auth and Postgres are already in place for them.
