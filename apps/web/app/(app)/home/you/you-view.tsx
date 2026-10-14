@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Skeleton } from '../../../../components/ui';
 import { copy } from '../../../../lib/copy';
 import { useProgress } from '../../../../lib/progress/context';
+import { track } from '../../../../lib/track';
 import {
   newItemId,
   pictureKindSchema,
@@ -56,6 +57,8 @@ export function YouView() {
     const text = draft.replace(/\s+/g, ' ').trim().slice(0, 200);
     if (!text) return;
     const at = new Date().toISOString();
+    // What people change in the picture is how we learn where Claude reads them wrong.
+    track('picture_changed', { action: line ? (line.by === 'distill' ? 'edit' : 'reedit') : 'add', kind });
     change((picture) =>
       line
         ? {
@@ -69,6 +72,7 @@ export function YouView() {
     close();
   }
   function remove(line: PictureLine) {
+    track('picture_changed', { action: 'delete', kind: line.kind, by: line.by });
     change((picture) => ({
       ...picture,
       lines: picture.lines.filter((l) => l.id !== line.id),

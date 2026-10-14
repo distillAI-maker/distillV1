@@ -149,6 +149,7 @@ export function SettingsView({
             {copy.settings.open}
           </ButtonLink>
         </div>
+        <p className="hint">{copy.settings.counting}</p>
         <div className="srow">
           <span>{copy.settings.deleteAll}</span>
           <Button variant="ghost" size="sm" onClick={() => setConfirm('delete')}>

@@ -8,17 +8,17 @@ import { Button, Field, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
+import { track } from '../../../lib/track';
 import { requestMagicLink } from '../../sign-in/actions';
 
-const money = (n: number) => Math.round(n).toLocaleString('en-US');
 const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 
 type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'failed' };
 
 /**
- * The invitation, as the Figma build drew it, with no price in the app: founding membership is
- * free while we build it. With accounts switched on, this is where the email is asked; joining
- * opens the private reading and sends a sign-in link that keeps it. The next step is the wearable.
+ * The invitation: founding membership, free while we build it, in three lines. With accounts
+ * switched on, this is where the email is asked; joining sends a sign-in link that keeps what they
+ * added. The next step is the wearable, or going on without one.
  */
 export function Invitation({ accounts = false }: { accounts?: boolean }) {
   const go = useGo();
@@ -39,8 +39,12 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
 
   async function join() {
     setProblem(null);
-    if (!accounts) return update({ member: true });
+    if (!accounts) {
+      track('joined', { email: false });
+      return update({ member: true });
+    }
     if (!looksLikeEmail(email)) return setProblem(copy.invitation.emailError);
+    track('joined', { email: true });
     setBusy(true);
     const next = { ...progress, member: true, updatedAt: new Date().toISOString() };
     try {
@@ -67,27 +71,6 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
         </div>
         <h1>{copy.invitation.title}</h1>
         <p className="invite-line">{copy.invitation.line}</p>
-      </section>
-
-      <section className="inverse report" aria-label={copy.invitation.reportTitle}>
-        <p className="report-title">{copy.invitation.reportTitle}</p>
-        <div className="brass-rule" aria-hidden="true" />
-        <dl className="report-grid">
-          <div>
-            <dt>{copy.invitation.essentials}</dt>
-            <dd>{summary.count}</dd>
-          </div>
-          <div>
-            <dt>{copy.invitation.monthly}</dt>
-            <dd>${money(summary.monthlyTotal)}</dd>
-          </div>
-        </dl>
-        <p className="report-quote">“{copy.invitation.quote}”</p>
-        <div className="report-manifesto">
-          {copy.invitation.manifesto.map((m) => (
-            <p key={m}>{m}</p>
-          ))}
-        </div>
       </section>
 
       <section className="inverse includes">
@@ -140,7 +123,6 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
               void join();
             }}
           >
-            <p className="join-price">{copy.invitation.free}</p>
             <p className="muted join-line">{copy.invitation.freeLine}</p>
             {accounts ? (
               <Field

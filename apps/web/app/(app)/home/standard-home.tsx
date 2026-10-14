@@ -12,6 +12,7 @@ import { groupOf } from '../../../lib/data/routed';
 import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
+import { track } from '../../../lib/track';
 import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
 
@@ -131,6 +132,8 @@ export function StandardHome() {
   const [other, setOther] = useState('');
   const todayKey = new Date().toLocaleDateString('en-CA');
   const art = artworkFor(todayKey);
+
+  useEffect(() => track('home_opened'), []);
 
   useEffect(() => {
     if (!routed || progress.daily?.date === todayKey) return;
@@ -371,9 +374,10 @@ export function StandardHome() {
                 <button
                   type="button"
                   className={s.primary}
-                  onClick={() =>
-                    update((p) => (p.daily ? { ...p, daily: { ...p.daily, done: true } } : p))
-                  }
+                  onClick={() => {
+                    track('more_done', { place: place.id, added: addedToday.length });
+                    update((p) => (p.daily ? { ...p, daily: { ...p.daily, done: true } } : p));
+                  }}
                 >
                   {copy.home.more.done}
                 </button>
@@ -465,6 +469,7 @@ export function StandardHome() {
                 disabled={!answer.trim()}
                 onClick={() => {
                   const ask = { q: daily.ref ?? '', a: answer.trim(), at: new Date().toISOString() };
+                  track('answer_given');
                   update((p) => ({
                     ...p,
                     asks: [...p.asks, ask],
