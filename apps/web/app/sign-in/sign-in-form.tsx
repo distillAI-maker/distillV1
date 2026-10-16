@@ -30,6 +30,7 @@ export function SignInForm({ expired }: { expired?: boolean }) {
             {copy.signIn.differentAddress}
           </Button>
         </div>
+        <CarryOn />
       </form>
     );
   }
@@ -53,6 +54,16 @@ export function SignInForm({ expired }: { expired?: boolean }) {
           {expired ? copy.signIn.sendNew : copy.signIn.send}
         </Button>
       </div>
+      <CarryOn />
     </form>
+  );
+}
+
+/** Signing in is optional: everything also runs on this device, and the arrival screen resumes it. */
+function CarryOn() {
+  return (
+    <p className="muted">
+      <a href="/">{copy.signIn.onThisPhone}</a>
+    </p>
   );
 }

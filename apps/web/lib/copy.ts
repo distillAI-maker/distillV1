@@ -56,6 +56,7 @@ export const copy = {
     noAccountsTitle: 'No account needed in this build.',
     noAccountsLine: 'Your progress is saved on this device.',
     beginWithout: 'Begin without an account',
+    onThisPhone: 'Carry on, on this phone',
   },
   connect: {
     title: 'Where do your nights come from?',
