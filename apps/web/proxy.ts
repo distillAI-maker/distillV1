@@ -3,11 +3,10 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { env, supabaseConfigured } from './lib/env';
 
-const publicPaths = ['/', '/sign-in', '/auth/callback'];
-
 /**
- * Refreshes the Supabase session on every request and keeps signed-out visitors on the public
- * screens. Without a configured project the app runs on this device only and nothing is gated.
+ * Refreshes the Supabase session on every request. Nothing is gated: signed out, the whole app runs
+ * on this device (lib/progress/local.ts), so the 60-second number never waits on an email. Signing
+ * in, from the invitation's link, carries that progress into an account.
  */
 export async function proxy(request: NextRequest) {
   if (!supabaseConfigured) return NextResponse.next();
@@ -22,17 +21,7 @@ export async function proxy(request: NextRequest) {
       },
     },
   });
-  const {
-    data: { user },
-  } = await client.auth.getUser();
-  const path = request.nextUrl.pathname;
-  const isPublic = publicPaths.includes(path) || path.startsWith('/api/');
-  if (!user && !isPublic) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/sign-in';
-    url.search = '';
-    return NextResponse.redirect(url);
-  }
+  await client.auth.getUser();
   return response;
 }
 
