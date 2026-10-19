@@ -3,332 +3,363 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Distill: test your health habits on your own sleep data</title>
-<meta name="description" content="Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects. Founding 100 waitlist open.">
-<meta name="theme-color" content="#ffffff">
+<title>Distill · Wellness tailored to who you are</title>
+<meta name="description" content="Distill is a wellness companion. Clear the noise, keep the rituals that are truly yours, and become more of who you are at your best. Join the Founding 100.">
+<meta name="theme-color" content="#f0ece2">
 <meta name="color-scheme" content="light">
 <link rel="canonical" href="https://distill-v1-tau.vercel.app/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Distill: is your 2pm coffee worth it?">
-<meta property="og:description" content="Distill tests what you take and do for your health on your own sleep data, one thing at a time.">
+<meta property="og:site_name" content="Distill">
+<meta property="og:title" content="Distill · Less noise. More you.">
+<meta property="og:description" content="A wellness companion built on rituals worth keeping. Join the Founding 100.">
 <meta property="og:image" content="https://distill-v1-tau.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-sans-3.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/img/hero.jpg" as="image" media="(min-width: 761px)">
+<link rel="preload" href="/assets/img/hero-sm.jpg" as="image" media="(max-width: 760px)">
 <link rel="stylesheet" href="/assets/css/site.css">
-<script>document.documentElement.classList.add('js');try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!/[?&]motion=off/.test(location.search)&&localStorage.getItem('distill-motion')!=='off')document.documentElement.classList.add('mo');if(localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search))document.documentElement.dataset.motion='off'}catch(e){}</script>
+<script>document.documentElement.classList.add('js');try{var off=localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search);if(off)document.documentElement.dataset.motion='off';else if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('mo')}catch(e){}setTimeout(function(){if(!window.distillReady)document.documentElement.classList.remove('mo')},3500)</script>
 </head>
 <body>
-<a class="skip" href="#join">Skip to the waitlist</a>
+<a class="skip" href="#join">Skip to the Founding 100</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 48 48"><path d="M24 2 28.3 18.2 43.8 11 31 24l12.8 13-15.5-7.2L24 46l-4.3-16.2L4.2 37 17 24 4.2 11l15.5 7.2L24 2Z"/><circle cx="24" cy="24" r="3.2"/></symbol>
+</svg>
 
 <header class="nav" data-nav>
-  <a class="wordmark" href="#top" aria-label="Distill, back to top">Distill</a>
+  <a class="wordmark" href="#top" aria-label="Distill, back to top"><svg class="mark"><use href="#star"/></svg><span>Distill</span></a>
   <nav class="nav__links" aria-label="Sections">
-    <a href="#how">How it works</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#idea">The idea</a>
+    <a href="#rituals">Rituals</a>
+    <a href="#try">Your list</a>
   </nav>
-  <a class="btn btn--sm" href="#join">Join the waitlist</a>
+  <a class="nav__cta" href="#join">Join the Founding 100</a>
 </header>
 
 <main>
 
-<!-- ───────────── The story: hero and how it works, one phone ───────────── -->
-<section class="story" id="top" data-story>
-  <div class="hero">
-    <h1 class="display hero__h" data-hero-h data-intro>
-      <span class="sr">Is your greens powder, 2pm coffee or nightcap worth it?</span>
-      <span class="hl" aria-hidden="true"><span class="hl__in">Is your</span></span>
-      <span class="hl hl--rot" aria-hidden="true"><span class="hl__in rot" data-rot>
-        <span class="rot__w is-on" data-row="4">greens powder</span>
-        <span class="rot__w" data-row="9">2pm coffee</span>
-        <span class="rot__w" data-row="6">nightcap</span>
-        <span class="rot__w" data-row="7">eye cream</span>
-        <span class="rot__w" data-row="3">monthly facial</span>
-        <span class="rot__w" data-row="8">collagen</span>
-      </span></span>
-      <span class="hl" aria-hidden="true"><span class="hl__in">worth it?</span></span>
-    </h1>
-    <p class="hero__sub" data-intro>Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects.</p>
+<!-- ───────────── Hero: one image, one line ───────────── -->
+<section class="hero" id="top">
+  <picture class="hero__img" data-hero-img>
+    <source media="(max-width: 760px)" srcset="/assets/img/hero-sm.jpg">
+    <img src="/assets/img/hero.jpg" alt="Steam rising from a cup beside an open book in early morning light" fetchpriority="high">
+  </picture>
+  <div class="hero__wash" aria-hidden="true"></div>
+  <div class="hero__content">
+    <p class="label label--light" data-hero-in>A wellness companion</p>
+    <h1 class="hero__title" data-hero-title><span class="ln"><span>Wellness tailored</span></span> <span class="ln"><span>to <i>who you are.</i></span></span></h1>
+    <p class="hero__sub" data-hero-in>Clear the noise. Keep a few rituals worth returning to.</p>
+    <div class="hero__ctas" data-hero-in>
+      <a class="button button--light" href="#join">Join the Founding 100 <span aria-hidden="true">→</span></a>
+      <a class="hero__link" href="#try">What's on your list?</a>
+    </div>
+  </div>
+  <div class="hero__foot" data-hero-in>
+    <span>Morning — 06:45</span>
+    <svg class="mark mark--light"><use href="#star"/></svg>
+    <span>Night — 21:40</span>
+  </div>
+</section>
 
-    <form class="join" data-join="site-hero" novalidate data-intro>
+<!-- ───────────── 01 The idea ───────────── -->
+<section class="premise" id="idea">
+  <p class="label">01 · The idea</p>
+  <div class="premise__grid">
+    <h2 class="premise__title" data-lines><i>Greatness,</i><br>by taking away.</h2>
+    <div class="premise__copy" data-rise>
+      <p>In 1501, Michelangelo took on a block of marble other sculptors had walked away from. He saw a figure inside it. His work wasn't adding anything; it was taking away everything that wasn't David.</p>
+      <p>We think a good life works the same way. So much of your day came from a feed, an ad or someone else's routine. Distill helps you clear what was never yours, and keep what makes you feel most like yourself.</p>
+    </div>
+  </div>
+  <div class="thesis" data-rise>
+    <p class="label">Before the story, the distillation</p>
+    <p class="thesis__line">Wanting to be better is good. Somewhere it tipped into more metrics, more products and more protocols, until there was no room left to just live. <i>You're not falling behind. You're carrying too much.</i></p>
+  </div>
+  <ul class="principles" data-stagger>
+    <li><span>01</span><b>Ritual over routine</b><p>Repetition with meaning, not another task.</p></li>
+    <li><span>02</span><b>Subtraction over scale</b><p>A few things, chosen well.</p></li>
+    <li><span>03</span><b>Taste over trend</b><p>Enduring forms. Human warmth.</p></li>
+    <li><span>04</span><b>Companion over coach</b><p>Beside you, never above you.</p></li>
+  </ul>
+</section>
+
+<!-- ───────────── 02 How it works ───────────── -->
+<section class="reveal" id="how">
+  <div class="reveal__statement">
+    <p class="label">02 · How it works</p>
+    <h2 class="reveal__title" data-lines>First, reveal.<br><i>Then, shape.</i></h2>
+    <p class="reveal__lede" data-rise>Distill starts where Michelangelo did. Clear the noise first, then shape what's left, one small ritual at a time, into days that feel like yours.</p>
+  </div>
+  <div class="reveal__images">
+    <figure class="reveal__image reveal__image--main"><img src="/assets/img/alive.jpg" alt="Someone mid-leap above a pool at dusk while friends look on" loading="lazy" data-drift><figcaption>01 · Reveal what's yours</figcaption></figure>
+    <figure class="reveal__image reveal__image--flower"><img src="/assets/img/flower.jpg" alt="A single orange poppy against darkness" loading="lazy" data-drift><figcaption>02 · Shape the story</figcaption></figure>
+  </div>
+  <ol class="steps" data-stagger>
+    <li><span>01</span><b>Tap everything you do.</b><p>Supplements, classes, memberships, the evening glass of wine. In about a minute you see your whole stack as one number: how many things, and what they cost you each month.</p></li>
+    <li><span>02</span><b>Let go, gently.</b><p>What came from TikTok, a friend or an ad and isn't doing anything for you goes, one small thing at a time. Anything that's yours stays yours. The money comes back.</p></li>
+    <li><span>03</span><b>Keep what's worth keeping.</b><p>With the noise gone, you build a morning and a night ritual that actually fit, and Distill keeps learning what you're like at your best.</p></li>
+  </ol>
+</section>
+
+<!-- ───────────── 03 Try it ───────────── -->
+<section class="try" id="try" data-try>
+  <div class="try__pick">
+    <p class="label">03 · Try it</p>
+    <h2 class="section-title" data-lines>What's on your list?</h2>
+    <p class="try__sub">Tap anything you take or do. You'll see your stack as one number, and what could come off today.</p>
+    <div class="chips" data-chips role="group" aria-label="Common items">
+      <button type="button" class="chip" data-k="coffee-after-2pm">Coffee after 2pm</button>
+      <button type="button" class="chip" data-k="magnesium-any-form">Magnesium</button>
+      <button type="button" class="chip" data-k="melatonin">Melatonin</button>
+      <button type="button" class="chip" data-k="greens-powder-ag1-etc">AG1</button>
+      <button type="button" class="chip" data-k="multivitamin">Multivitamin</button>
+      <button type="button" class="chip" data-k="vitamin-d3">Vitamin D</button>
+      <button type="button" class="chip" data-k="zinc-daily">Zinc</button>
+      <button type="button" class="chip" data-k="omega-3-fish-oil">Fish oil</button>
+      <button type="button" class="chip" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
+      <button type="button" class="chip" data-k="alcohol-in-the-evening">A drink most evenings</button>
+      <button type="button" class="chip" data-k="training-after-7pm">Late workouts</button>
+      <button type="button" class="chip" data-k="sauna-post-workout-or-evening">Sauna</button>
+      <button type="button" class="chip" data-k="cold-plunge-ice-bath">Cold plunges</button>
+      <button type="button" class="chip" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
+      <button type="button" class="chip" data-k="iv-vitamin-drips">IV drips</button>
+      <button type="button" class="chip" data-k="meditation-app-calm-headspace">Meditation app</button>
+    </div>
+  </div>
+  <div class="tally" data-result>
+    <div class="tally__top">
+      <p class="label">Your stack</p>
+      <svg class="mark"><use href="#star"/></svg>
+    </div>
+    <div class="tally__nums">
+      <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
+      <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
+    </div>
+    <div class="tally__body" aria-live="polite">
+      <p class="tally__empty" data-empty>Tap a few to start.</p>
+      <div data-out hidden>
+        <p class="tally__line" data-line></p>
+        <ol class="tally__list" data-cut-list></ol>
+        <p class="tally__more" data-test></p>
+      </div>
+    </div>
+    <a class="button button--dark" href="#join">See your whole list <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<!-- ───────────── Interlude: one image, one truth ───────────── -->
+<section class="interlude" aria-label="Not everything needs a score.">
+  <img src="/assets/img/swim.jpg" alt="Light falling through deep blue water, seen from below the surface" loading="lazy" data-drift>
+  <div class="interlude__top"><svg class="mark mark--light"><use href="#star"/></svg><span>Distill</span></div>
+  <p class="interlude__line" data-lines>Not everything<br>needs a score.</p>
+  <p class="interlude__foot">Distill · Rituals for real life</p>
+</section>
+
+<!-- ───────────── 04 Rituals ───────────── -->
+<section class="rituals" id="rituals">
+  <div class="intro">
+    <span class="intro__n">04</span>
+    <div>
+      <p class="label">The practice</p>
+      <h2 class="section-title" data-lines>Rituals worth keeping</h2>
+    </div>
+    <p class="intro__copy" data-rise>Not another routine to keep up with. A short morning that starts before the noise, and a night that lets the day go. You choose what's in them, and there's always tomorrow.</p>
+  </div>
+  <div class="ritual-pair" data-stagger>
+    <article class="ritual" data-ritual>
+      <div class="ritual__top"><p class="label">Morning ritual · 06:45</p><span class="ritual__sun" aria-hidden="true"></span></div>
+      <h3 class="ritual__title">Begin with yourself.</h3>
+      <ol class="ritual__list">
+        <li><button type="button" aria-pressed="false"><span>01</span><b>Water before the world</b><i aria-hidden="true"></i></button></li>
+        <li><button type="button" aria-pressed="false"><span>02</span><b>Ten minutes outside</b><i aria-hidden="true"></i></button></li>
+        <li><button type="button" aria-pressed="false"><span>03</span><b>Set one intention</b><i aria-hidden="true"></i></button></li>
+      </ol>
+      <p class="ritual__note" data-note data-done="That's your morning. See you tonight.">Your morning, distilled.</p>
+    </article>
+    <article class="ritual ritual--night" data-ritual>
+      <div class="ritual__top"><p class="label label--light">Night ritual · 21:40</p><span class="ritual__moon" aria-hidden="true"></span></div>
+      <h3 class="ritual__title">Close the day.</h3>
+      <ol class="ritual__list">
+        <li><button type="button" aria-pressed="false"><span>01</span><b>Put the room to rest</b><i aria-hidden="true"></i></button></li>
+        <li><button type="button" aria-pressed="false"><span>02</span><b>Read twelve pages</b><i aria-hidden="true"></i></button></li>
+        <li><button type="button" aria-pressed="false"><span>03</span><b>Write one honest line</b><i aria-hidden="true"></i></button></li>
+      </ol>
+      <p class="ritual__note" data-note data-done="Rest well. See you in the morning.">Nothing left to prove tonight.</p>
+    </article>
+  </div>
+  <div class="voice" data-rise>
+    <p class="label">How Distill talks</p>
+    <p class="voice__line">“Rough week? Tomorrow, just your first ten minutes. The rest can wait.”</p>
+  </div>
+</section>
+
+<!-- ───────────── 05 The companion ───────────── -->
+<section class="companion" id="app">
+  <div class="intro intro--dark">
+    <span class="intro__n">05</span>
+    <div>
+      <p class="label label--light">The companion</p>
+      <h2 class="section-title" data-lines>A room in your pocket</h2>
+    </div>
+    <p class="intro__copy" data-rise>Your Standard opens each day with a masterpiece and one gentle thing to do. Mornings begin before the noise. Nights return to quiet.</p>
+  </div>
+  <div class="phones" data-phones>
+    <figure class="phone-wrap">
+      <figcaption class="label label--light">01 · Your Standard</figcaption>
+      <div class="phone">
+        <div class="phone__status"><span>6:42</span><span aria-hidden="true">•••</span></div>
+        <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
+        <p class="phone__label" data-today>Sunday · 19 October</p>
+        <p class="phone__headline">Your<br>Standard</p>
+        <div class="painting">
+          <img src="/assets/img/venus.jpg" alt="The Birth of Venus by Sandro Botticelli" loading="lazy">
+          <div class="placard"><span>Today's work</span><b>The Birth of Venus</b><em>Sandro Botticelli, c. 1485 · Uffizi Gallery</em></div>
+        </div>
+        <div class="phone__next"><span>Up next</span><p>Morning ritual <i>3 parts · 18 min</i></p></div>
+      </div>
+    </figure>
+    <figure class="phone-wrap phone-wrap--raised">
+      <figcaption class="label label--light">02 · Morning ritual</figcaption>
+      <div class="phone">
+        <div class="phone__status"><span>6:45</span><span aria-hidden="true">•••</span></div>
+        <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
+        <p class="phone__label">Morning · 06:45</p>
+        <p class="phone__headline">Before<br>the noise.</p>
+        <div class="phone__photo" style="background-image:url(/assets/img/hero-sm.jpg)"></div>
+        <div class="phone__step"><span>01</span><p>Water before the world<i>One full glass</i></p><b aria-hidden="true">→</b></div>
+        <div class="phone__progress"><span></span></div>
+        <p class="phone__count">01 / 03</p>
+      </div>
+    </figure>
+    <figure class="phone-wrap">
+      <figcaption class="label label--light">03 · Night ritual</figcaption>
+      <div class="phone phone--night">
+        <div class="phone__status"><span>21:40</span><span aria-hidden="true">•••</span></div>
+        <div class="phone__brand"><svg class="mark mark--light"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
+        <p class="phone__label">Night · 21:40</p>
+        <p class="phone__headline">Return<br>to quiet.</p>
+        <div class="phone__photo" style="background-image:url(/assets/img/candle.jpg)"></div>
+        <div class="phone__step"><span>01</span><p>Put the room to rest<i>2 minutes</i></p><b aria-hidden="true">→</b></div>
+        <div class="phone__progress"><span></span></div>
+        <p class="phone__count">01 / 03</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ───────────── 06 The human archive ───────────── -->
+<section class="archive" id="archive">
+  <div class="intro intro--dark">
+    <span class="intro__n">06</span>
+    <div>
+      <p class="label label--light">The human archive</p>
+      <h2 class="section-title" data-lines>Instinct, practiced.</h2>
+    </div>
+    <p class="intro__copy" data-rise>Long before wellness was a category, people built private practices for becoming. Not heroes to copy, but proof: a singular life begins when you take an instinct seriously.</p>
+  </div>
+  <div class="archive__cards" data-stagger>
+    <article class="study study--image">
+      <img src="/assets/img/adam.jpg" alt="Detail of The Creation of Adam by Michelangelo, Sistine Chapel" loading="lazy">
+      <div class="study__shade" aria-hidden="true"></div>
+      <div class="study__body"><span>01 · Florence, 1501</span><h3>Michelangelo<br>saw the figure.</h3><p>Others saw an abandoned block. He trusted what was inside it enough to remove everything that wasn't David.</p></div>
+    </article>
+    <article class="study study--paper">
+      <div class="study__body"><span>02 · Florence, 1418</span><h3>Brunelleschi<br>saw the curve.</h3><p>No one knew how to roof the cathedral. He followed a geometry others couldn't see yet, inventing the tools as he built the dome.</p></div>
+      <div class="study__dome" aria-hidden="true"><i></i><i></i><i></i></div>
+    </article>
+    <article class="study study--spark">
+      <div class="study__body"><span>03 · Milan, c. 1490</span><h3>Leonardo<br>kept looking.</h3><p>Light, water, anatomy, flight. His notebooks made curiosity a daily ritual, and the world got more extraordinary because he never stopped noticing.</p></div>
+      <p class="study__script" aria-hidden="true">acqua · luce · corpo · moto</p>
+    </article>
+    <article class="study study--image">
+      <img src="/assets/img/candle.jpg" alt="A candle on a stack of books before dawn" loading="lazy">
+      <div class="study__shade" aria-hidden="true"></div>
+      <div class="study__body"><span>04 · Before dawn, c. 170</span><h3>Marcus Aurelius<br>wrote to himself.</h3><p>Not for an audience, and not for approval. He came back to the page to remember the person he meant to be, before the world made its demands.</p></div>
+    </article>
+  </div>
+  <div class="archive__close" data-rise>
+    <p class="label label--light">The pattern</p>
+    <p>A simple vision. A practice repeated. A story made one choice at a time. <i>History reminds us what a person can become.</i></p>
+  </div>
+</section>
+
+<!-- ───────────── 07 The Founding 100 ───────────── -->
+<section class="founding" id="join" aria-labelledby="join-title">
+  <div class="founding__card" data-card aria-hidden="true">
+    <div class="member">
+      <div class="member__top"><svg class="mark"><use href="#star"/></svg><span>Distill · 2026</span></div>
+      <div class="member__mid"><p class="label">Private edition</p><b>Founding Member</b><em>No. 042</em></div>
+      <p class="member__line">Keep what's yours. Clear the rest.</p>
+    </div>
+    <div class="seal"><span>By invitation</span><i></i></div>
+  </div>
+  <div class="founding__copy">
+    <p class="label">07 · The Founding 100</p>
+    <h2 id="join-title" class="founding__title" data-lines>Join the<br><i>Founding 100.</i></h2>
+    <p class="founding__sub">We're opening Distill to our first hundred members by invitation, in small waves. Founding membership is free, and your member number is yours to keep. Leave your email and we'll write when your spot opens.</p>
+    <form class="join" data-join="site-founding" novalidate>
       <div class="join__step" data-step="email">
-        <label class="sr" for="hero-email">Your email</label>
-        <input id="hero-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
-        <button class="btn" type="submit">Join the waitlist</button>
+        <label class="sr" for="join-email">Your email</label>
+        <input id="join-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+        <button class="button button--dark" type="submit">Request an invitation <span aria-hidden="true">→</span></button>
       </div>
       <div class="join__step" data-step="wear" hidden>
-        <p class="join__ask">Which do you wear?</p>
+        <p class="join__ask">One more thing. Do you wear anything to bed that tracks your sleep?</p>
         <div class="join__chips">
-          <button type="button" value="Oura">Oura</button>
-          <button type="button" value="Apple Watch">Apple Watch</button>
-          <button type="button" value="Garmin">Garmin</button>
-          <button type="button" value="WHOOP">WHOOP</button>
-          <button type="button" value="Other">Other</button>
+          <button type="button" class="chip" value="Oura">Oura</button>
+          <button type="button" class="chip" value="Apple Watch">Apple Watch</button>
+          <button type="button" class="chip" value="Garmin">Garmin</button>
+          <button type="button" class="chip" value="WHOOP">WHOOP</button>
+          <button type="button" class="chip" value="Other">Something else</button>
+          <button type="button" class="chip" value="None">Nothing yet</button>
         </div>
         <button type="button" class="link" data-skip>Skip</button>
       </div>
       <p class="join__msg" role="status" aria-live="polite"></p>
     </form>
-
-    <ul class="facts" data-intro>
-      <li><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v3M13 2.5v3"/></svg>14 nights a test, one tap a day</li>
-      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg>Pay nothing if no test gets a clear answer in 60 days</li>
-    </ul>
-  </div>
-
-  <ol class="steps" id="how" aria-label="How it works">
-    <li class="step" data-to="0">
-      <span class="step__n">01</span>
-      <h2 class="step__t">List everything you do for your health.</h2>
-      <p class="step__d">Supplements, powders, skincare, memberships, the evening sauna, the 2pm coffee. Anything you pay for or make time for goes on the list, and you see what it all costs each month.</p>
-    </li>
-    <li class="step" data-to="1">
-      <span class="step__n">02</span>
-      <h2 class="step__t">Day one, the easy ones come off.</h2>
-      <p class="step__d">Some things are easy to call without a test, like a dose far below what studies used, a membership you barely touch, or two products doing the same job. Those go first. In this example that's 10 things and $767 a month. Anything from your doctor stays as it is.</p>
-    </li>
-    <li class="step" data-to="2">
-      <span class="step__n">03</span>
-      <h2 class="step__t">Test one thing for 14 nights.</h2>
-      <p class="step__d">Pick something worth testing, like coffee after 2pm. Distill tells you which nights to have it and which to skip, three on and three off. You tap once a day, and your ring or watch records how you slept.</p>
-    </li>
-    <li class="step" data-to="3">
-      <span class="step__n">04</span>
-      <h2 class="step__t">Find out if it was worth it.</h2>
-      <p class="step__d">Distill compares your nights with it against your nights without it. If the gap is bigger than your normal night-to-night swing, you get a clear keep or drop. If it isn't, Distill tells you that too, and the next test starts.</p>
-    </li>
-  </ol>
-  <div class="rail" aria-hidden="true"><i data-rail></i></div>
-  <div class="ticks" data-ticks role="group" aria-label="Steps">
-    <button type="button" aria-label="Step 1"><i><b></b></i></button>
-    <button type="button" aria-label="Step 2"><i><b></b></i></button>
-    <button type="button" aria-label="Step 3"><i><b></b></i></button>
-    <button type="button" aria-label="Step 4"><i><b></b></i></button>
-  </div>
-
-  <div class="stage" aria-hidden="true">
-    <div class="rig" data-rig data-intro>
-    <div class="phone" data-phone>
-      <div class="phone__screen">
-        <div class="phone__bar"><span>9:41</span><i></i></div>
-
-        <!-- 1. the stack -->
-        <section class="scr" data-scr="0">
-          <p class="scr__kick">Your list</p>
-          <p class="scr__big"><span class="reel" data-reel="21" data-s-n>21</span> things</p>
-          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-s-c>$1,428</span> a month</p>
-          <ul class="rows" data-rows="stack">
-            <li><span>Equinox</span><b>$250</b></li>
-            <li><span>Restore studio</span><b>$250</b></li>
-            <li><span>Barry's</span><b>$200</b></li>
-            <li><span>Monthly facial</span><b>$150</b></li>
-            <li><span>AG1</span><b>$90</b></li>
-            <li><span>Massage credits</span><b>$90</b></li>
-            <li><span>Drinks, 3 nights a week</span><b>$80</b></li>
-            <li><span>Eye cream</span><b>$45</b></li>
-            <li><span>Collagen gummies</span><b>$40</b></li>
-            <li><span>Coffee after 2pm</span><b class="rows__free">Habit</b></li>
-          </ul>
-        </section>
-
-        <!-- 2. day one -->
-        <section class="scr" data-scr="1">
-          <p class="scr__kick">Day one</p>
-          <p class="scr__big"><span class="reel" data-reel="21" data-d-n>21</span> things</p>
-          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-d-c>$1,428</span> a month <em class="pill" data-pill>$767 back</em></p>
-          <ul class="rows rows--cut" data-rows="cut">
-            <li data-c="250"><span>Restore studio<small>1 visit in 60 days</small></span><b>$250</b></li>
-            <li data-c="200"><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
-            <li data-c="90"><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
-            <li data-c="60"><span>Vitamin C serum<small>Already oxidized</small></span><b>$60</b></li>
-            <li data-c="45"><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
-            <li data-c="40"><span>Collagen gummies<small>Trials used 10 g</small></span><b>$40</b></li>
-            <li data-c="82" data-n="4"><span>4 more<small>Dose too low, not used</small></span><b>$82</b></li>
-          </ul>
-          <ul class="rows rows--left" data-rows="left">
-            <li><span>Coffee after 2pm</span><em class="tag tag--test">Testing</em></li>
-            <li><span>Drinks, 3 nights a week</span><em class="tag tag--test">Testing</em></li>
-            <li><span>Equinox</span><em class="tag tag--keep">Keep</em></li>
-            <li><span>Retinol</span><em class="tag tag--keep">Keep</em></li>
-            <li><span>AG1</span><em class="tag">Your call</em></li>
-            <li><span>Oura ring</span><em class="tag tag--yours">Yours</em></li>
-          </ul>
-        </section>
-
-        <!-- 3. today -->
-        <section class="scr" data-scr="2">
-          <p class="scr__kick">Night 5 of 14</p>
-          <div class="today">
-            <p class="today__item">Coffee after 2pm</p>
-            <p class="today__do">Skip it today.</p>
-          </div>
-          <ol class="nights" data-nights>
-            <li data-on></li><li data-on></li><li data-on></li><li></li><li class="is-now"></li><li></li><li data-on></li>
-            <li data-on></li><li data-on></li><li></li><li></li><li></li><li data-on></li><li></li>
-          </ol>
-          <div class="nights__key"><span>Coffee</span><span>No coffee</span></div>
-          <div class="tap" data-tap><span>Done</span><svg viewBox="0 0 20 20"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg></div>
-          <div class="stats"><p><small>Last night</small>7h 41m</p><p><small>Your normal swing</small>40 min</p></div>
-          <p class="scr__note">Missed a day? It counts as unknown.</p>
-        </section>
-
-        <!-- 4. verdict -->
-        <section class="scr" data-scr="3">
-          <p class="scr__kick">Day 14</p>
-          <p class="verdict__item">Coffee after 2pm</p>
-          <p class="verdict__stamp" data-stamp>Dropped</p>
-          <div class="cmp">
-            <div class="cmp__row"><span>Without it</span><i style="--w:1"></i><b>7h 34m</b></div>
-            <div class="cmp__row cmp__row--with"><span>With it</span><i style="--w:.837"></i><b>6h 20m</b></div>
-          </div>
-          <p class="verdict__gain"><b><span data-count="74">74</span> min</b> more sleep without it</p>
-          <div class="next"><i></i><p><small>Next test, starts Monday</small>Drinks, 3 nights a week</p></div>
-          <p class="scr__note">Well past your normal swing of 40 minutes.</p>
-        </section>
-      </div>
-    </div>
-    </div>
-    <p class="stage__ex">Example</p>
   </div>
 </section>
 
-<!-- ───────────── What people pay for ───────────── -->
-<div class="band" aria-hidden="true">
-  <div class="band__track" data-band>
-    <span>Melatonin</span><span>Greens powder</span><span>Coffee after 2pm</span><span>Cold plunge</span><span>Magnesium</span><span>A drink most nights</span><span>Collagen gummies</span><span>Evening sauna</span><span>Fish oil</span><span>Ashwagandha</span><span>Late workouts</span><span>Second gym membership</span><span>Eye cream</span><span>Vitamin D</span><span>IV drips</span><span>Screens in bed</span>
-  </div>
-</div>
-
-<!-- ───────────── Try it ───────────── -->
-<section class="try" id="try" data-try>
-  <div class="try__pick">
-    <div class="try__head">
-      <h2 class="h2" data-lines>What's on your list?</h2>
-      <p class="try__sub">Tap anything you take or do. You'll see what could come off on day one and what's worth testing on you.</p>
-    </div>
-    <div class="chips" data-chips role="group" aria-label="Common items">
-      <button type="button" data-k="coffee-after-2pm">Coffee after 2pm</button>
-      <button type="button" data-k="magnesium-any-form">Magnesium</button>
-      <button type="button" data-k="melatonin">Melatonin</button>
-      <button type="button" data-k="greens-powder-ag1-etc">AG1</button>
-      <button type="button" data-k="multivitamin">Multivitamin</button>
-      <button type="button" data-k="vitamin-d3">Vitamin D</button>
-      <button type="button" data-k="zinc-daily">Zinc</button>
-      <button type="button" data-k="omega-3-fish-oil">Fish oil</button>
-      <button type="button" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
-      <button type="button" data-k="alcohol-in-the-evening">A drink most evenings</button>
-      <button type="button" data-k="training-after-7pm">Late workouts</button>
-      <button type="button" data-k="sauna-post-workout-or-evening">Sauna</button>
-      <button type="button" data-k="cold-plunge-ice-bath">Cold plunges</button>
-      <button type="button" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
-      <button type="button" data-k="iv-vitamin-drips">IV drips</button>
-      <button type="button" data-k="meditation-app-calm-headspace">Meditation app</button>
-    </div>
-  </div>
-  <div class="result" data-result>
-    <div class="result__top">
-      <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
-      <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
-    </div>
-    <div class="result__body" aria-live="polite">
-      <p class="result__empty" data-empty>Tap a few to start.</p>
-      <div class="result__out" data-out hidden>
-        <p class="result__line"><b data-cut-n>0</b> could come off on day one. <b class="gold" data-back>$0 a month back.</b></p>
-        <ul class="result__list" data-cut-list></ul>
-        <p class="result__test" data-test></p>
-      </div>
-    </div>
-    <a class="btn" href="#join">Check your whole list</a>
-  </div>
-</section>
-
-<!-- ───────────── Pricing ───────────── -->
-<section class="pricing" id="pricing">
-  <div class="card3d" data-card aria-hidden="true">
-    <div class="member">
-      <span class="member__brand">Distill</span>
-      <span class="member__role">Founding member</span>
-      <span class="member__no">One of 100</span>
-    </div>
-  </div>
-  <div class="pricing__copy">
-    <h2 class="h2 h2--lg"><span class="reel" data-reel="20" data-money data-price>$20</span> a month.</h2>
-    <ul class="checks">
-      <li>The Founding 100 keep that price for life.</li>
-      <li>If no test gets a clear answer in your first 60 days, you pay nothing.</li>
-      <li>Cancel anytime. It works with the ring or watch you already wear.</li>
-    </ul>
-    <a class="btn" href="#join">Join the waitlist</a>
-  </div>
-</section>
-
-<!-- ───────────── Questions ───────────── -->
-<section class="faq" id="faq" aria-labelledby="faq-title">
-  <h2 id="faq-title" class="h2" data-lines>Before you join</h2>
+<!-- ───────────── Before you join ───────────── -->
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="label">Before you join</h2>
   <div class="faq__list">
     <details>
-      <summary><span>What can it test?</span></summary>
-      <p>Things that can change your sleep within a night or two: coffee and alcohol timing, late workouts, an evening sauna, melatonin, screens in bed. Things your ring can't measure, like skincare or a membership, get checked on day one for cost, use and overlap.</p>
+      <summary><span>Do I need a wearable?</span></summary>
+      <p>No. Distill works without one. If you wear an Oura, an Apple Watch or a Garmin, you can connect it later and Distill will quietly notice what your best nights have in common.</p>
     </details>
     <details>
-      <summary><span>Do I stop everything at once?</span></summary>
-      <p>No. You test one thing at a time for 14 nights. Everything else stays the same until it's that thing's turn.</p>
+      <summary><span>Will it tell me to give things up?</span></summary>
+      <p>Only gently, and only when it's clear something isn't doing anything for you. Anything that's yours, like Friday dinner with your sister, stays yours. You always choose.</p>
     </details>
     <details>
-      <summary><span>What if I miss a day?</span></summary>
-      <p>That night counts as unknown, not as a fail. A test can handle a few of those.</p>
-    </details>
-    <details>
-      <summary><span>Which devices work?</span></summary>
-      <p>Oura, Apple Watch through Apple Health, and Garmin. WHOOP isn't supported yet.</p>
+      <summary><span>What does it cost?</span></summary>
+      <p>Founding membership is free while we build Distill with our first hundred members.</p>
     </details>
     <details>
       <summary><span>Is this medical advice?</span></summary>
-      <p>No. Distill looks at sleep, HRV and resting heart rate. It never diagnoses or treats anything, and whatever your clinician gave you stays untouched.</p>
-    </details>
-    <details>
-      <summary><span>Who isn't it for?</span></summary>
-      <p>Anyone without a wearable, anyone training for a specific event, and anyone whose question is medical.</p>
+      <p>No. Distill is wellness, not medicine. It never diagnoses anything, and whatever your doctor gave you stays exactly as it is.</p>
     </details>
   </div>
-</section>
-
-<!-- ───────────── Close ───────────── -->
-<section class="final" id="join" aria-labelledby="join-title">
-  <h2 id="join-title" class="display display--close" data-lines>Join the Founding 100.</h2>
-  <p class="final__sub">The first 100 members keep $20 a month for life.</p>
-  <form class="join join--center" data-join="site-close" novalidate>
-    <div class="join__step" data-step="email">
-      <label class="sr" for="close-email">Your email</label>
-      <input id="close-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
-      <button class="btn" type="submit">Join the waitlist</button>
-    </div>
-    <div class="join__step" data-step="wear" hidden>
-      <p class="join__ask">Which do you wear?</p>
-      <div class="join__chips">
-        <button type="button" value="Oura">Oura</button>
-        <button type="button" value="Apple Watch">Apple Watch</button>
-        <button type="button" value="Garmin">Garmin</button>
-        <button type="button" value="WHOOP">WHOOP</button>
-        <button type="button" value="Other">Other</button>
-      </div>
-      <button type="button" class="link" data-skip>Skip</button>
-    </div>
-    <p class="join__msg" role="status" aria-live="polite"></p>
-  </form>
 </section>
 
 </main>
 
 <footer class="foot">
-  <a class="wordmark" href="#top">Distill</a>
-  <p>Wellness, not medical advice.</p>
-  <p>&copy; 2026 Distill</p>
-  <a href="mailto:disttilai@gmail.com">Contact</a>
-  <button class="link" type="button" data-motion-toggle aria-pressed="false">Motion: on</button>
+  <a class="wordmark" href="#top" aria-label="Distill, back to top"><svg class="mark"><use href="#star"/></svg><span>Distill</span></a>
+  <p class="foot__line">Less noise.<br><i>More you.</i></p>
+  <div class="foot__row">
+    <p>Wellness, not medical advice.</p>
+    <p>Photographs from Unsplash. Paintings in the public domain.</p>
+    <a href="mailto:disttilai@gmail.com">Contact</a>
+    <button class="link" type="button" data-motion-toggle aria-pressed="false">Motion: on</button>
+    <p>&copy; 2026 Distill</p>
+  </div>
 </footer>
 
 <noscript><p class="noscript">The waitlist form needs JavaScript. You can also email disttilai@gmail.com to join.</p></noscript>
@@ -336,7 +367,6 @@
 <script src="/vendor/gsap.min.js" defer></script>
 <script src="/vendor/ScrollTrigger.min.js" defer></script>
 <script src="/vendor/SplitText.min.js" defer></script>
-<script src="/vendor/CustomEase.min.js" defer></script>
 <script src="/vendor/lenis.min.js" defer></script>
 <script type="module" src="/assets/js/main.js"></script>
 </body>

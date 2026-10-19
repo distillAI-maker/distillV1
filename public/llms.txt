@@ -1,13 +1,11 @@
 # Distill
 
-> Distill is a wellness app that finds out which of your health habits work on your body, using the data your wearable already collects, and tells you which ones you can stop doing and stop paying for.
+> Distill is a wellness companion. It helps you clear the noise (the products, protocols and habits that came from a feed, an ad or someone else's routine and aren't doing anything for you), keep the rituals that are truly yours, and become more of who you are at your best. Less noise. More you.
 
-- You list your stack: supplements with doses, devices, services, memberships, routines and timings. Distill counts and costs it.
-- On day one, each item lands in one of four places: can come off today with no test (dose below what studies used, a form the body doesn't absorb, tested and found nothing, no known way it could work, does the same job as something else, or not being used); worth testing on you; can't be measured, your call; or yours (anything from a clinician, never rated).
-- The first week, it only watches, to learn your normal.
-- It tests one habit at a time for 14 nights, 3 nights on and 3 off, with one tap a day.
-- Each test ends in a verdict in real units against your own normal night-to-night swing: kept, dropped, or inconclusive.
-- Works with Oura, Apple Watch (through Apple Health) and Garmin. WHOOP is not supported yet.
-- Wellness, not medical advice. It never diagnoses or treats anything.
-- Price: $20 a month, no lock-in. The Founding 100 keep $20 a month for life. If no test lands a verdict within 60 days of the first one, you don't pay.
-- Status: pre-launch waitlist.
+- You tap everything you do: supplements, classes, memberships, routines. Distill shows your whole stack as one number: how many things, and what they cost each month.
+- What isn't doing anything for you is let go, gently, one small thing at a time, using what the studies found. Anything that's yours stays yours, and anything from a clinician is never touched.
+- You build a short morning ritual and a night ritual that fit your life.
+- Your Standard, the home screen, opens each day with a public-domain masterpiece captioned like a museum placard, and one gentle thing to do.
+- A wearable is optional. Oura, Apple Watch (through Apple Health) and Garmin can be connected to notice what your best nights have in common.
+- Wellness, not medical advice. It never diagnoses anything.
+- Status: the Founding 100, by invitation, in small waves. Founding membership is free.
