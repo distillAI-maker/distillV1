@@ -8,16 +8,14 @@ const hasGsap = !!(window.gsap && window.ScrollTrigger);
 const motion = hasGsap && motionOK();
 
 if (hasGsap) {
-  gsap.registerPlugin(ScrollTrigger, ...[window.SplitText].filter(Boolean));
-  // one curve for the whole page: a long, soft arrival
+  gsap.registerPlugin(ScrollTrigger);
   gsap.registerEase('out', gsap.parseEase('expo.out'));
   gsap.defaults({ ease: 'out' });
 }
 if (!motion) root.classList.remove('mo');
 
-let lenis = null;
 if (motion && finePointer() && window.Lenis) {
-  lenis = new Lenis({ autoRaf: false, lerp: .1, anchors: { offset: -60 } });
+  const lenis = new Lenis({ autoRaf: false, lerp: .1, anchors: { offset: -60 } });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(t => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -33,78 +31,65 @@ if (today) {
   today.textContent = `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
 }
 
-/* ── the rituals can be kept, one tap at a time ── */
-$$('[data-ritual]').forEach(card => {
-  const steps = $$('.ritual__list button', card);
-  const note = $('[data-note]', card);
-  const rest = note.textContent;
-  steps.forEach(b => b.addEventListener('click', () => {
-    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
-    const done = steps.every(s => s.getAttribute('aria-pressed') === 'true');
-    card.classList.toggle('is-done', done);
-    note.textContent = done ? note.dataset.done : rest;
-  }));
-});
+/* ── how it works: one phone, its screen follows the step you're reading.
+   On a phone-sized screen each step gets its own copy of that screen instead. ── */
+const how = $('[data-how]');
+if (how) {
+  const steps = $$('.how__step', how);
+  const screens = $$('.scr', how);
+  const phone = $('[data-phone]', how);
+  steps.forEach((step, i) => {
+    const copy = phone.cloneNode(true);
+    copy.removeAttribute('data-phone');
+    copy.classList.add('phone--inline');
+    copy.setAttribute('aria-hidden', 'true');
+    $$('.scr', copy).forEach((s, j) => (j === i ? s.classList.add('is-on') : s.remove()));
+    step.append(copy);
+  });
+  const show = i => {
+    steps.forEach((s, j) => s.classList.toggle('is-on', j === i));
+    screens.forEach((s, j) => s.classList.toggle('is-on', j === i));
+  };
+  show(0);
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) show(steps.indexOf(e.target));
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  steps.forEach(s => io.observe(s));
+}
 
-/* ── nav: light over the hero, linen once you're reading; tucks away while you scroll down ── */
+/* ── nav: a hairline once you scroll; tucks away while you read down ── */
 const nav = $('[data-nav]');
-const hero = $('.hero');
 let lastY = scrollY;
 const onScroll = () => {
   const y = scrollY;
-  nav.classList.toggle('is-solid', y > hero.offsetHeight - 70);
-  nav.classList.toggle('is-hidden', y > lastY && y > hero.offsetHeight && !nav.contains(document.activeElement));
+  nav.classList.toggle('is-solid', y > 10);
+  nav.classList.toggle('is-hidden', y > lastY && y > 500 && !nav.contains(document.activeElement));
   lastY = y;
 };
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
 if (motion) {
-  /* hero: the image settles, the line rises, the rest follows */
-  const heroImg = $('[data-hero-img] img');
+  /* hero: the line rises, the rest follows */
   gsap.timeline({ delay: .05 })
-    .fromTo(heroImg, { scale: 1.12 }, { scale: 1, duration: 2.6 }, 0)
-    .to('.hero__title .ln > span', { y: 0, duration: 1.4, stagger: .12 }, .25)
-    .to('[data-hero-in]', { opacity: 1, duration: 1.2, stagger: .1 }, .6)
-    .from(nav, { opacity: 0, duration: 1 }, .4);
-  gsap.to(heroImg, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
-
-  /* headings rise out of their own lines, then go back to plain text so they reflow freely */
-  document.fonts.ready.then(() => {
-    if (!window.SplitText) return;
-    $$('[data-lines]').forEach(el => {
-      const split = SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'line' });
-      gsap.from(split.lines, {
-        yPercent: 110, duration: 1.4, stagger: .1, onComplete: () => split.revert(),
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-      });
-    });
-  });
+    .to('.hero__title .ln > span', { y: 0, duration: 1.4, stagger: .12 }, .1)
+    .to('[data-hero-in]', { opacity: 1, duration: 1.2, stagger: .1 }, .45)
+    .fromTo('.phone--hero', { y: 60 }, { y: 0, duration: 1.8 }, .45);
 
   const rise = (targets, trigger, vars = {}) => gsap.from(targets, {
     opacity: 0, y: 26, duration: 1.2, stagger: .08, ...vars,
     scrollTrigger: { trigger, start: 'top 86%', once: true },
   });
-  $$('[data-rise]').forEach(el => rise(el, el));
-  $$('[data-stagger]').forEach(el => rise(el.children, el, { stagger: .12 }));
-  rise('[data-chips] button', '[data-chips]', { y: 14, duration: .9, stagger: .025 });
+  rise('.try__pick > *', '.try');
   rise('.tally', '.tally', { y: 36 });
-
-  /* images drift a little slower than the page */
-  $$('[data-drift]').forEach(img => gsap.fromTo(img, { yPercent: -5 }, {
-    yPercent: 5, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
-  }));
-
-  /* the phones come up one after another */
-  gsap.from('.phone-wrap', { y: 90, opacity: 0, duration: 1.5, stagger: .14, scrollTrigger: { trigger: '[data-phones]', start: 'top 85%', once: true } });
+  rise('.founding__copy > *', '.founding');
 
   /* the founding card tips up into view, then leans toward the pointer */
   const card = $('[data-card]');
   if (card) {
     const face = $('.member', card);
-    gsap.fromTo(card, { rotationX: 28, y: 90, opacity: 0, transformPerspective: 1200, transformOrigin: '50% 100%' },
-      { rotationX: 0, y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: '.founding', start: 'top bottom', end: 'top 35%', scrub: .7 } });
-    gsap.to('.seal', { rotation: 369, duration: 40, ease: 'none', repeat: -1 });
+    gsap.from(card, { rotationX: 28, y: 80, opacity: 0, transformPerspective: 1200, transformOrigin: '50% 100%', duration: 1.6,
+      scrollTrigger: { trigger: '.founding', start: 'top 80%', once: true } });
     if (finePointer()) {
       const ry = gsap.quickTo(face, 'rotationY', { duration: .8, ease: 'power3' });
       const rx = gsap.quickTo(face, 'rotationX', { duration: .8, ease: 'power3' });

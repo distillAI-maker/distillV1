@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Distill · Wellness tailored to who you are</title>
-<meta name="description" content="Distill is a wellness companion. Clear the noise, keep the rituals that are truly yours, and become more of who you are at your best. Join the Founding 100.">
+<meta name="description" content="Tap everything you do for your health. Distill clears what isn't working and keeps what's yours. Join the Founding 100.">
 <meta name="theme-color" content="#f0ece2">
 <meta name="color-scheme" content="light">
 <link rel="canonical" href="https://distill-v1-tau.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Distill">
-<meta property="og:title" content="Distill · Less noise. More you.">
-<meta property="og:description" content="A wellness companion built on rituals worth keeping. Join the Founding 100.">
+<meta property="og:title" content="Distill · Wellness tailored to who you are">
+<meta property="og:description" content="Tap everything you do for your health. Distill clears what isn't working and keeps what's yours.">
 <meta property="og:image" content="https://distill-v1-tau.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -19,8 +19,6 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/source-sans-3.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/img/hero.jpg" as="image" media="(min-width: 761px)">
-<link rel="preload" href="/assets/img/hero-sm.jpg" as="image" media="(max-width: 760px)">
 <link rel="stylesheet" href="/assets/css/site.css">
 <script>document.documentElement.classList.add('js');try{var off=localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search);if(off)document.documentElement.dataset.motion='off';else if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('mo')}catch(e){}setTimeout(function(){if(!window.distillReady)document.documentElement.classList.remove('mo')},3500)</script>
 </head>
@@ -34,84 +32,134 @@
 <header class="nav" data-nav>
   <a class="wordmark" href="#top" aria-label="Distill, back to top"><svg class="mark"><use href="#star"/></svg><span>Distill</span></a>
   <nav class="nav__links" aria-label="Sections">
-    <a href="#idea">The idea</a>
-    <a href="#rituals">Rituals</a>
-    <a href="#try">Your list</a>
+    <a href="#how">How it works</a>
+    <a href="#try">Try it</a>
   </nav>
-  <a class="nav__cta" href="#join">Join the Founding 100</a>
+  <a class="nav__cta" href="#join">Join</a>
 </header>
 
 <main>
 
-<!-- ───────────── Hero: one image, one line ───────────── -->
+<!-- ───────────── Hero: one line, the product ───────────── -->
 <section class="hero" id="top">
-  <picture class="hero__img" data-hero-img>
-    <source media="(max-width: 760px)" srcset="/assets/img/hero-sm.jpg">
-    <img src="/assets/img/hero.jpg" alt="Steam rising from a cup beside an open book in early morning light" fetchpriority="high">
-  </picture>
-  <div class="hero__wash" aria-hidden="true"></div>
-  <div class="hero__content">
-    <p class="label label--light" data-hero-in>A wellness companion</p>
+  <div class="hero__copy">
     <h1 class="hero__title" data-hero-title><span class="ln"><span>Wellness tailored</span></span> <span class="ln"><span>to <i>who you are.</i></span></span></h1>
-    <p class="hero__sub" data-hero-in>Clear the noise. Keep a few rituals worth returning to.</p>
-    <div class="hero__ctas" data-hero-in>
-      <a class="button button--light" href="#join">Join the Founding 100 <span aria-hidden="true">→</span></a>
-      <a class="hero__link" href="#try">What's on your list?</a>
-    </div>
+    <p class="hero__sub" data-hero-in>Tap everything you do for your health. Distill clears what isn't working and keeps what's yours.</p>
+    <form class="join" data-join="site-hero" novalidate data-hero-in>
+      <div class="join__step" data-step="email">
+        <label class="sr" for="hero-email">Your email</label>
+        <input id="hero-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+        <button class="button button--dark" type="submit">Join the Founding 100 <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="join__step" data-step="wear" hidden>
+        <p class="join__ask">One more thing. Do you wear something that tracks your sleep?</p>
+        <div class="join__chips">
+          <button type="button" class="chip" value="Oura">Oura</button>
+          <button type="button" class="chip" value="Apple Watch">Apple Watch</button>
+          <button type="button" class="chip" value="Garmin">Garmin</button>
+          <button type="button" class="chip" value="WHOOP">WHOOP</button>
+          <button type="button" class="chip" value="None">Nothing yet</button>
+        </div>
+        <button type="button" class="link" data-skip>Skip</button>
+      </div>
+      <p class="join__msg" role="status" aria-live="polite"></p>
+    </form>
+    <p class="hero__note" data-hero-in>Free founding membership · By invitation</p>
   </div>
-  <div class="hero__foot" data-hero-in>
-    <span>Morning — 06:45</span>
-    <svg class="mark mark--light"><use href="#star"/></svg>
-    <span>Night — 21:40</span>
+
+  <div class="hero__art" data-hero-in>
+    <img src="/assets/img/hero.jpg" alt="" fetchpriority="high">
+    <div class="phone phone--hero" aria-label="The Distill app: Your Standard" role="img">
+      <div class="phone__status"><span>6:42</span><span aria-hidden="true">•••</span></div>
+      <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span></div>
+      <p class="phone__label" data-today>Sunday · 19 October</p>
+      <p class="phone__headline">Your<br>Standard</p>
+      <div class="painting">
+        <img src="/assets/img/venus.jpg" alt="">
+        <div class="placard"><span>Today's work</span><b>The Birth of Venus</b><em>Sandro Botticelli, c. 1485</em></div>
+      </div>
+      <div class="phone__row"><span>Up next</span><p>Morning ritual <i>18 min</i></p></div>
+    </div>
   </div>
 </section>
 
-<!-- ───────────── 01 The idea ───────────── -->
-<section class="premise" id="idea">
-  <p class="label">01 · The idea</p>
-  <div class="premise__grid">
-    <h2 class="premise__title" data-lines><i>Greatness,</i><br>by taking away.</h2>
-    <div class="premise__copy" data-rise>
-      <p>In 1501, Michelangelo took on a block of marble other sculptors had walked away from. He saw a figure inside it. His work wasn't adding anything; it was taking away everything that wasn't David.</p>
-      <p>We think a good life works the same way. So much of your day came from a feed, an ad or someone else's routine. Distill helps you clear what was never yours, and keep what makes you feel most like yourself.</p>
-    </div>
-  </div>
-  <div class="thesis" data-rise>
-    <p class="label">Before the story, the distillation</p>
-    <p class="thesis__line">Wanting to be better is good. Somewhere it tipped into more metrics, more products and more protocols, until there was no room left to just live. <i>You're not falling behind. You're carrying too much.</i></p>
-  </div>
-  <ul class="principles" data-stagger>
-    <li><span>01</span><b>Ritual over routine</b><p>Repetition with meaning, not another task.</p></li>
-    <li><span>02</span><b>Subtraction over scale</b><p>A few things, chosen well.</p></li>
-    <li><span>03</span><b>Taste over trend</b><p>Enduring forms. Human warmth.</p></li>
-    <li><span>04</span><b>Companion over coach</b><p>Beside you, never above you.</p></li>
-  </ul>
-</section>
-
-<!-- ───────────── 02 How it works ───────────── -->
-<section class="reveal" id="how">
-  <div class="reveal__statement">
-    <p class="label">02 · How it works</p>
-    <h2 class="reveal__title" data-lines>First, reveal.<br><i>Then, shape.</i></h2>
-    <p class="reveal__lede" data-rise>Distill starts where Michelangelo did. Clear the noise first, then shape what's left, one small ritual at a time, into days that feel like yours.</p>
-  </div>
-  <div class="reveal__images">
-    <figure class="reveal__image reveal__image--main"><img src="/assets/img/alive.jpg" alt="Someone mid-leap above a pool at dusk while friends look on" loading="lazy" data-drift><figcaption>01 · Reveal what's yours</figcaption></figure>
-    <figure class="reveal__image reveal__image--flower"><img src="/assets/img/flower.jpg" alt="A single orange poppy against darkness" loading="lazy" data-drift><figcaption>02 · Shape the story</figcaption></figure>
-  </div>
-  <ol class="steps" data-stagger>
-    <li><span>01</span><b>Tap everything you do.</b><p>Supplements, classes, memberships, the evening glass of wine. In about a minute you see your whole stack as one number: how many things, and what they cost you each month.</p></li>
-    <li><span>02</span><b>Let go, gently.</b><p>What came from TikTok, a friend or an ad and isn't doing anything for you goes, one small thing at a time. Anything that's yours stays yours. The money comes back.</p></li>
-    <li><span>03</span><b>Keep what's worth keeping.</b><p>With the noise gone, you build a morning and a night ritual that actually fit, and Distill keeps learning what you're like at your best.</p></li>
+<!-- ───────────── How it works: three steps, one phone ───────────── -->
+<section class="how" id="how" data-how>
+  <ol class="how__steps">
+    <li class="how__step" data-step-i="0">
+      <span class="how__n">01</span>
+      <h2>Tap everything you do.</h2>
+      <p>Supplements, classes, memberships, the 2pm coffee. You see it all as one number.</p>
+    </li>
+    <li class="how__step" data-step-i="1">
+      <span class="how__n">02</span>
+      <h2>Let go of what isn't working.</h2>
+      <p>One small thing at a time, based on what the studies found. The money comes back.</p>
+    </li>
+    <li class="how__step" data-step-i="2">
+      <span class="how__n">03</span>
+      <h2>Keep the rituals that are yours.</h2>
+      <p>A short morning and a quiet night, built around you.</p>
+    </li>
   </ol>
+
+  <div class="how__stage" aria-hidden="true">
+    <div class="phone" data-phone>
+      <div class="phone__status"><span>9:41</span><span>•••</span></div>
+      <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span></div>
+      <div class="screens">
+        <!-- 1. the list -->
+        <section class="scr is-on" data-scr="0">
+          <p class="phone__label">Your stack</p>
+          <p class="scr__big">21 things</p>
+          <p class="scr__sub">$1,428 a month</p>
+          <ul class="rows">
+            <li><span>Equinox</span><b>$250</b></li>
+            <li><span>Restore studio</span><b>$250</b></li>
+            <li><span>Barry's</span><b>$200</b></li>
+            <li><span>Monthly facial</span><b>$150</b></li>
+            <li><span>AG1</span><b>$90</b></li>
+            <li><span>Massage credits</span><b>$90</b></li>
+            <li><span>Eye cream</span><b>$45</b></li>
+            <li><span>Collagen gummies</span><b>$40</b></li>
+          </ul>
+        </section>
+        <!-- 2. let go -->
+        <section class="scr" data-scr="1">
+          <p class="phone__label">Today</p>
+          <p class="scr__big">Let go of 10</p>
+          <p class="scr__sub"><em>$767 a month back</em></p>
+          <ul class="rows rows--go">
+            <li><span>Restore studio<small>One visit in 60 days</small></span><b>$250</b></li>
+            <li><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
+            <li><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
+            <li><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
+            <li><span>Collagen gummies<small>Dose below the studies</small></span><b>$40</b></li>
+            <li><span>5 more</span><b>$142</b></li>
+          </ul>
+        </section>
+        <!-- 3. the ritual -->
+        <section class="scr" data-scr="2">
+          <p class="phone__label">Morning · 06:45</p>
+          <p class="scr__big">Before<br>the noise.</p>
+          <div class="scr__photo"></div>
+          <ul class="ritual-rows">
+            <li class="is-done"><span>01</span>Water before the world<i></i></li>
+            <li><span>02</span>Ten minutes outside<i></i></li>
+            <li><span>03</span>Set one intention<i></i></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <p class="how__ex">Example</p>
+  </div>
 </section>
 
-<!-- ───────────── 03 Try it ───────────── -->
+<!-- ───────────── Try it ───────────── -->
 <section class="try" id="try" data-try>
   <div class="try__pick">
-    <p class="label">03 · Try it</p>
-    <h2 class="section-title" data-lines>What's on your list?</h2>
-    <p class="try__sub">Tap anything you take or do. You'll see your stack as one number, and what could come off today.</p>
+    <h2 class="section-title">What's on your list?</h2>
+    <p class="try__sub">Tap anything you take or do.</p>
     <div class="chips" data-chips role="group" aria-label="Common items">
       <button type="button" class="chip" data-k="coffee-after-2pm">Coffee after 2pm</button>
       <button type="button" class="chip" data-k="magnesium-any-form">Magnesium</button>
@@ -132,10 +180,6 @@
     </div>
   </div>
   <div class="tally" data-result>
-    <div class="tally__top">
-      <p class="label">Your stack</p>
-      <svg class="mark"><use href="#star"/></svg>
-    </div>
     <div class="tally__nums">
       <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
       <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
@@ -152,170 +196,31 @@
   </div>
 </section>
 
-<!-- ───────────── Interlude: one image, one truth ───────────── -->
-<section class="interlude" aria-label="Not everything needs a score.">
-  <img src="/assets/img/swim.jpg" alt="Light falling through deep blue water, seen from below the surface" loading="lazy" data-drift>
-  <div class="interlude__top"><svg class="mark mark--light"><use href="#star"/></svg><span>Distill</span></div>
-  <p class="interlude__line" data-lines>Not everything<br>needs a score.</p>
-  <p class="interlude__foot">Distill · Rituals for real life</p>
-</section>
-
-<!-- ───────────── 04 Rituals ───────────── -->
-<section class="rituals" id="rituals">
-  <div class="intro">
-    <span class="intro__n">04</span>
-    <div>
-      <p class="label">The practice</p>
-      <h2 class="section-title" data-lines>Rituals worth keeping</h2>
-    </div>
-    <p class="intro__copy" data-rise>Not another routine to keep up with. A short morning that starts before the noise, and a night that lets the day go. You choose what's in them, and there's always tomorrow.</p>
-  </div>
-  <div class="ritual-pair" data-stagger>
-    <article class="ritual" data-ritual>
-      <div class="ritual__top"><p class="label">Morning ritual · 06:45</p><span class="ritual__sun" aria-hidden="true"></span></div>
-      <h3 class="ritual__title">Begin with yourself.</h3>
-      <ol class="ritual__list">
-        <li><button type="button" aria-pressed="false"><span>01</span><b>Water before the world</b><i aria-hidden="true"></i></button></li>
-        <li><button type="button" aria-pressed="false"><span>02</span><b>Ten minutes outside</b><i aria-hidden="true"></i></button></li>
-        <li><button type="button" aria-pressed="false"><span>03</span><b>Set one intention</b><i aria-hidden="true"></i></button></li>
-      </ol>
-      <p class="ritual__note" data-note data-done="That's your morning. See you tonight.">Your morning, distilled.</p>
-    </article>
-    <article class="ritual ritual--night" data-ritual>
-      <div class="ritual__top"><p class="label label--light">Night ritual · 21:40</p><span class="ritual__moon" aria-hidden="true"></span></div>
-      <h3 class="ritual__title">Close the day.</h3>
-      <ol class="ritual__list">
-        <li><button type="button" aria-pressed="false"><span>01</span><b>Put the room to rest</b><i aria-hidden="true"></i></button></li>
-        <li><button type="button" aria-pressed="false"><span>02</span><b>Read twelve pages</b><i aria-hidden="true"></i></button></li>
-        <li><button type="button" aria-pressed="false"><span>03</span><b>Write one honest line</b><i aria-hidden="true"></i></button></li>
-      </ol>
-      <p class="ritual__note" data-note data-done="Rest well. See you in the morning.">Nothing left to prove tonight.</p>
-    </article>
-  </div>
-  <div class="voice" data-rise>
-    <p class="label">How Distill talks</p>
-    <p class="voice__line">“Rough week? Tomorrow, just your first ten minutes. The rest can wait.”</p>
-  </div>
-</section>
-
-<!-- ───────────── 05 The companion ───────────── -->
-<section class="companion" id="app">
-  <div class="intro intro--dark">
-    <span class="intro__n">05</span>
-    <div>
-      <p class="label label--light">The companion</p>
-      <h2 class="section-title" data-lines>A room in your pocket</h2>
-    </div>
-    <p class="intro__copy" data-rise>Your Standard opens each day with a masterpiece and one gentle thing to do. Mornings begin before the noise. Nights return to quiet.</p>
-  </div>
-  <div class="phones" data-phones>
-    <figure class="phone-wrap">
-      <figcaption class="label label--light">01 · Your Standard</figcaption>
-      <div class="phone">
-        <div class="phone__status"><span>6:42</span><span aria-hidden="true">•••</span></div>
-        <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
-        <p class="phone__label" data-today>Sunday · 19 October</p>
-        <p class="phone__headline">Your<br>Standard</p>
-        <div class="painting">
-          <img src="/assets/img/venus.jpg" alt="The Birth of Venus by Sandro Botticelli" loading="lazy">
-          <div class="placard"><span>Today's work</span><b>The Birth of Venus</b><em>Sandro Botticelli, c. 1485 · Uffizi Gallery</em></div>
-        </div>
-        <div class="phone__next"><span>Up next</span><p>Morning ritual <i>3 parts · 18 min</i></p></div>
-      </div>
-    </figure>
-    <figure class="phone-wrap phone-wrap--raised">
-      <figcaption class="label label--light">02 · Morning ritual</figcaption>
-      <div class="phone">
-        <div class="phone__status"><span>6:45</span><span aria-hidden="true">•••</span></div>
-        <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
-        <p class="phone__label">Morning · 06:45</p>
-        <p class="phone__headline">Before<br>the noise.</p>
-        <div class="phone__photo" style="background-image:url(/assets/img/hero-sm.jpg)"></div>
-        <div class="phone__step"><span>01</span><p>Water before the world<i>One full glass</i></p><b aria-hidden="true">→</b></div>
-        <div class="phone__progress"><span></span></div>
-        <p class="phone__count">01 / 03</p>
-      </div>
-    </figure>
-    <figure class="phone-wrap">
-      <figcaption class="label label--light">03 · Night ritual</figcaption>
-      <div class="phone phone--night">
-        <div class="phone__status"><span>21:40</span><span aria-hidden="true">•••</span></div>
-        <div class="phone__brand"><svg class="mark mark--light"><use href="#star"/></svg><span>Distill</span><span class="phone__menu" aria-hidden="true">—</span></div>
-        <p class="phone__label">Night · 21:40</p>
-        <p class="phone__headline">Return<br>to quiet.</p>
-        <div class="phone__photo" style="background-image:url(/assets/img/candle.jpg)"></div>
-        <div class="phone__step"><span>01</span><p>Put the room to rest<i>2 minutes</i></p><b aria-hidden="true">→</b></div>
-        <div class="phone__progress"><span></span></div>
-        <p class="phone__count">01 / 03</p>
-      </div>
-    </figure>
-  </div>
-</section>
-
-<!-- ───────────── 06 The human archive ───────────── -->
-<section class="archive" id="archive">
-  <div class="intro intro--dark">
-    <span class="intro__n">06</span>
-    <div>
-      <p class="label label--light">The human archive</p>
-      <h2 class="section-title" data-lines>Instinct, practiced.</h2>
-    </div>
-    <p class="intro__copy" data-rise>Long before wellness was a category, people built private practices for becoming. Not heroes to copy, but proof: a singular life begins when you take an instinct seriously.</p>
-  </div>
-  <div class="archive__cards" data-stagger>
-    <article class="study study--image">
-      <img src="/assets/img/adam.jpg" alt="Detail of The Creation of Adam by Michelangelo, Sistine Chapel" loading="lazy">
-      <div class="study__shade" aria-hidden="true"></div>
-      <div class="study__body"><span>01 · Florence, 1501</span><h3>Michelangelo<br>saw the figure.</h3><p>Others saw an abandoned block. He trusted what was inside it enough to remove everything that wasn't David.</p></div>
-    </article>
-    <article class="study study--paper">
-      <div class="study__body"><span>02 · Florence, 1418</span><h3>Brunelleschi<br>saw the curve.</h3><p>No one knew how to roof the cathedral. He followed a geometry others couldn't see yet, inventing the tools as he built the dome.</p></div>
-      <div class="study__dome" aria-hidden="true"><i></i><i></i><i></i></div>
-    </article>
-    <article class="study study--spark">
-      <div class="study__body"><span>03 · Milan, c. 1490</span><h3>Leonardo<br>kept looking.</h3><p>Light, water, anatomy, flight. His notebooks made curiosity a daily ritual, and the world got more extraordinary because he never stopped noticing.</p></div>
-      <p class="study__script" aria-hidden="true">acqua · luce · corpo · moto</p>
-    </article>
-    <article class="study study--image">
-      <img src="/assets/img/candle.jpg" alt="A candle on a stack of books before dawn" loading="lazy">
-      <div class="study__shade" aria-hidden="true"></div>
-      <div class="study__body"><span>04 · Before dawn, c. 170</span><h3>Marcus Aurelius<br>wrote to himself.</h3><p>Not for an audience, and not for approval. He came back to the page to remember the person he meant to be, before the world made its demands.</p></div>
-    </article>
-  </div>
-  <div class="archive__close" data-rise>
-    <p class="label label--light">The pattern</p>
-    <p>A simple vision. A practice repeated. A story made one choice at a time. <i>History reminds us what a person can become.</i></p>
-  </div>
-</section>
-
-<!-- ───────────── 07 The Founding 100 ───────────── -->
+<!-- ───────────── The Founding 100 ───────────── -->
 <section class="founding" id="join" aria-labelledby="join-title">
   <div class="founding__card" data-card aria-hidden="true">
     <div class="member">
       <div class="member__top"><svg class="mark"><use href="#star"/></svg><span>Distill · 2026</span></div>
       <div class="member__mid"><p class="label">Private edition</p><b>Founding Member</b><em>No. 042</em></div>
-      <p class="member__line">Keep what's yours. Clear the rest.</p>
+      <p class="member__line">Less noise. More you.</p>
     </div>
-    <div class="seal"><span>By invitation</span><i></i></div>
   </div>
   <div class="founding__copy">
-    <p class="label">07 · The Founding 100</p>
-    <h2 id="join-title" class="founding__title" data-lines>Join the<br><i>Founding 100.</i></h2>
-    <p class="founding__sub">We're opening Distill to our first hundred members by invitation, in small waves. Founding membership is free, and your member number is yours to keep. Leave your email and we'll write when your spot opens.</p>
-    <form class="join" data-join="site-founding" novalidate>
+    <h2 id="join-title" class="founding__title">Join the<br><i>Founding 100.</i></h2>
+    <p class="founding__sub">Free, by invitation. We'll write when your spot opens.</p>
+    <form class="join" data-join="site-close" novalidate>
       <div class="join__step" data-step="email">
         <label class="sr" for="join-email">Your email</label>
         <input id="join-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
         <button class="button button--dark" type="submit">Request an invitation <span aria-hidden="true">→</span></button>
       </div>
       <div class="join__step" data-step="wear" hidden>
-        <p class="join__ask">One more thing. Do you wear anything to bed that tracks your sleep?</p>
+        <p class="join__ask">One more thing. Do you wear something that tracks your sleep?</p>
         <div class="join__chips">
           <button type="button" class="chip" value="Oura">Oura</button>
           <button type="button" class="chip" value="Apple Watch">Apple Watch</button>
           <button type="button" class="chip" value="Garmin">Garmin</button>
           <button type="button" class="chip" value="WHOOP">WHOOP</button>
-          <button type="button" class="chip" value="Other">Something else</button>
           <button type="button" class="chip" value="None">Nothing yet</button>
         </div>
         <button type="button" class="link" data-skip>Skip</button>
@@ -325,25 +230,21 @@
   </div>
 </section>
 
-<!-- ───────────── Before you join ───────────── -->
+<!-- ───────────── Questions ───────────── -->
 <section class="faq" aria-labelledby="faq-title">
   <h2 id="faq-title" class="label">Before you join</h2>
   <div class="faq__list">
     <details>
       <summary><span>Do I need a wearable?</span></summary>
-      <p>No. Distill works without one. If you wear an Oura, an Apple Watch or a Garmin, you can connect it later and Distill will quietly notice what your best nights have in common.</p>
+      <p>No. If you have an Oura, Apple Watch or Garmin, you can connect it later.</p>
     </details>
     <details>
-      <summary><span>Will it tell me to give things up?</span></summary>
-      <p>Only gently, and only when it's clear something isn't doing anything for you. Anything that's yours, like Friday dinner with your sister, stays yours. You always choose.</p>
-    </details>
-    <details>
-      <summary><span>What does it cost?</span></summary>
-      <p>Founding membership is free while we build Distill with our first hundred members.</p>
+      <summary><span>Will it make me give things up?</span></summary>
+      <p>No. It suggests, you choose. Anything that's yours stays yours.</p>
     </details>
     <details>
       <summary><span>Is this medical advice?</span></summary>
-      <p>No. Distill is wellness, not medicine. It never diagnoses anything, and whatever your doctor gave you stays exactly as it is.</p>
+      <p>No. Distill is wellness, not medicine. Anything from your doctor stays as it is.</p>
     </details>
   </div>
 </section>
@@ -352,10 +253,9 @@
 
 <footer class="foot">
   <a class="wordmark" href="#top" aria-label="Distill, back to top"><svg class="mark"><use href="#star"/></svg><span>Distill</span></a>
-  <p class="foot__line">Less noise.<br><i>More you.</i></p>
+  <p class="foot__line">Less noise. <i>More you.</i></p>
   <div class="foot__row">
     <p>Wellness, not medical advice.</p>
-    <p>Photographs from Unsplash. Paintings in the public domain.</p>
     <a href="mailto:disttilai@gmail.com">Contact</a>
     <button class="link" type="button" data-motion-toggle aria-pressed="false">Motion: on</button>
     <p>&copy; 2026 Distill</p>
@@ -366,7 +266,6 @@
 
 <script src="/vendor/gsap.min.js" defer></script>
 <script src="/vendor/ScrollTrigger.min.js" defer></script>
-<script src="/vendor/SplitText.min.js" defer></script>
 <script src="/vendor/lenis.min.js" defer></script>
 <script type="module" src="/assets/js/main.js"></script>
 </body>
