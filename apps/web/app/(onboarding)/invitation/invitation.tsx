@@ -17,7 +17,7 @@ const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim()
 type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'failed' };
 
 /**
- * The invitation: founding membership, free while we build it, in three lines. The email asked here
+ * The invitation: the brand board's Founding Member card, with their name on it, and three lines. The email asked here
  * always joins the Founding 100 waitlist (lib/waitlist.ts); with accounts switched on, joining also
  * sends a sign-in link that keeps what they added. The next step is the wearable, or going on without one.
  */
@@ -69,14 +69,25 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
   return (
     <div className="invitation">
       <section className="invite-hero">
-        <div className="orbit" aria-hidden="true">
-          <Mark />
+        <div className="member-card" aria-hidden="true">
+          <div className="member-top">
+            <Mark />
+            <span>Distill · 2026</span>
+          </div>
+          <div className="member-mid">
+            <span className="label">{copy.invitation.cardKicker}</span>
+            <b>{copy.invitation.cardTitle}</b>
+            <em>{progress.name.trim() || copy.invitation.cardNameFallback}</em>
+          </div>
+          <span className="member-line">{copy.invitation.cardLine}</span>
         </div>
-        <h1>{copy.invitation.title}</h1>
+        <h1>
+          {copy.invitation.titleStart} <i>{copy.invitation.titleEnd}</i>
+        </h1>
         <p className="invite-line">{copy.invitation.line}</p>
       </section>
 
-      <section className="inverse includes">
+      <section className="includes">
         <h2 className="h-label">{copy.invitation.includesTitle}</h2>
         <ul>
           {copy.invitation.includes.map((b) => (

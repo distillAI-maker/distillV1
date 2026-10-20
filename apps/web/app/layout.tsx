@@ -1,29 +1,32 @@
 import type { Metadata, Viewport } from 'next';
-import { Newsreader } from 'next/font/google';
+import { Newsreader, Source_Sans_3 } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
 import { currentUser } from '../lib/supabase/server';
 import './globals.css';
 
-/** Switzer, the landing page's face, from Fontshare (free licence). TODO: self-host the files. */
-/** Headings: a book serif with a quiet luxury, paired with Switzer for everything else. */
+/** The brand board's pair: Newsreader (light for display, italic accents) and Source Sans 3 for UI. */
 const display = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['300', '400', '500'],
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
 });
-const switzer = 'https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600&display=swap';
+const sans = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: { default: 'Distill', template: '%s · Distill' },
-  description:
-    'What you do for yourself, edited. Everything you take, buy and do, read against your own data.',
+  description: 'Wellness tailored to who you are. Clear the noise and live your own ritual.',
   robots: { index: false },
 };
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: '#f0ece2',
   width: 'device-width',
   initialScale: 1,
 };
@@ -39,13 +42,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html
       lang="en"
-      className={display.variable}
+      className={`${display.variable} ${sans.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href={switzer} />
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>
