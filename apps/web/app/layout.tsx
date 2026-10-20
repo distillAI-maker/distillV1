@@ -22,7 +22,7 @@ const sans = Source_Sans_3({
 
 export const metadata: Metadata = {
   title: { default: 'Distill', template: '%s · Distill' },
-  description: 'Wellness tailored to who you are. Clear the noise and live your own ritual.',
+  description: 'Wellness tailored to who you are. Clear the noise and live your own Ritual.',
   robots: { index: false },
 };
 export const viewport: Viewport = {

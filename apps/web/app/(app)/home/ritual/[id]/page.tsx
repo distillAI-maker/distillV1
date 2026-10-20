@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { RitualView } from './ritual-view';
 
-export const metadata: Metadata = { title: 'Your ritual' };
+export const metadata: Metadata = { title: 'Your stack' };
 
 export default async function RitualPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
