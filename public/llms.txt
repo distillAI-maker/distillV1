@@ -1,10 +1,10 @@
 # Distill
 
-> Distill is a wellness companion. It helps you clear the noise (the products, protocols and habits that came from a feed, an ad or someone else's routine and aren't doing anything for you), keep the rituals that are truly yours, and become more of who you are at your best. Less noise. More you.
+> Distill is a wellness companion. It helps you clear the noise (the products, protocols and habits that came from a feed, an ad or someone else's routine and aren't doing anything for you), find your Ritual (your whole personal way of living, with the noise removed), and expand your life out from there. Less noise. More you.
 
 - You tap everything you do: supplements, classes, memberships, routines. Distill shows your whole stack as one number: how many things, and what they cost each month.
 - What isn't doing anything for you is let go, gently, one small thing at a time, using what the studies found. Anything that's yours stays yours, and anything from a clinician is never touched.
-- You build a short morning ritual and a night ritual that fit your life.
+- Distill shapes your Ritual: one personal system, from your mornings and nights to your weekends, built around you and reshaped when life happens (out late on Friday? your Saturday changes).
 - Your Standard, the home screen, opens each day with a public-domain masterpiece captioned like a museum placard, and one gentle thing to do.
 - A wearable is optional. Oura, Apple Watch (through Apple Health) and Garmin can be connected to notice what your best nights have in common.
 - Wellness, not medical advice. It never diagnoses anything.

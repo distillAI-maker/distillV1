@@ -15,7 +15,7 @@ import s from '../../home.module.css';
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
 /**
- * One ritual: what it means to them (their notes, distilled), the notes themselves, and their say
+ * One thing they do (a part of their Ritual, or still being read): what it means to them (their notes, distilled), the notes themselves, and their say
  * over it. They are the co-creator: "This is mine" settles it as theirs and we stop raising it.
  */
 export function RitualView({ id }: { id: string }) {
