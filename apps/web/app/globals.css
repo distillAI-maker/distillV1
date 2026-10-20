@@ -485,12 +485,12 @@ textarea {
 .field select {
   width: 100%;
   min-width: 0;
-  font: 400 16px var(--sans);
+  font: 400 18px var(--serif);
   padding: 14px 16px;
-  min-height: 52px;
-  border: 1px solid var(--rule-2);
+  min-height: 54px;
+  border: 1px solid rgba(17, 25, 27, 0.45);
   border-radius: var(--r-ctl);
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.4);
   color: var(--ink);
   appearance: none;
   -webkit-appearance: none;
