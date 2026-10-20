@@ -1,6 +1,6 @@
-/* Waitlist in two steps: email, then one tap for the wearable (or skip).
+/* The Founding 100 in two steps: email, then one tap for the wearable (or skip).
    Posts to the Supabase `signups` table, which only allows inserts for this key. */
-import { $, $$ } from './util.js';
+import { $, $$, motionOK } from './util.js';
 
 const CFG = {
   url: 'https://hzwiikkttligpmkvondy.supabase.co',
@@ -24,11 +24,11 @@ export function initJoin() {
     form.addEventListener('submit', e => {
       e.preventDefault();
       email = input.value.trim().toLowerCase();
-      if (!EMAIL.test(email)) { say('note', 'That email looks incomplete.'); input.focus(); return; }
+      if (!EMAIL.test(email)) { say('note', 'That email looks a little short. Mind checking it?'); input.focus(); return; }
       say('', '');
       emailStep.hidden = true;
       wearStep.hidden = false;
-      if (window.gsap) gsap.fromTo(wearStep.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5, ease: 'expo.out', stagger: .06 });
+      if (motionOK()) gsap.fromTo(wearStep.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .6, ease: 'out', stagger: .06 });
       $('button', wearStep).focus({ preventScroll: true });
     });
 
@@ -46,10 +46,10 @@ export function initJoin() {
         });
         if (res.ok || res.status === 409) {
           wearStep.hidden = true;
-          say('ok', `${CHECK}<span>${res.ok ? "You're on the list. We'll email you when your spot opens." : "You're already on the list. We'll be in touch."}</span>`);
+          say('ok', `${CHECK}<span>${res.ok ? "You're in. We'll write when your spot opens." : "You're already on the list. We'll write when your spot opens."}</span>`);
         } else throw new Error(String(res.status));
       } catch {
-        say('note', 'That didn\'t go through. Try again in a moment, or email <a href="mailto:disttilai@gmail.com">disttilai@gmail.com</a>.');
+        say('note', 'That didn\'t go through. Try again in a moment, or write to <a href="mailto:disttilai@gmail.com">disttilai@gmail.com</a>.');
       } finally {
         clearTimeout(timer);
         $$('button', wearStep).forEach(b => { b.disabled = false; });
