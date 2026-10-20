@@ -1,9 +1,9 @@
-/** The eight-point mark from the Figma build. Decorative; always hidden from screen readers. */
+/** The chisel star from the brand board: eight points cut from opposing strokes. Decorative; always hidden from screen readers. */
 export function Mark({ className = 'mark' }: { className?: string }) {
   return (
-    <svg aria-hidden="true" className={className} viewBox="0 0 40 40">
-      <path d="M20 4v32M4 20h32M9 9l22 22M31 9 9 31" />
-      <circle cx="20" cy="20" r="4" />
+    <svg aria-hidden="true" className={className} viewBox="0 0 48 48">
+      <path d="M24 2 28.3 18.2 43.8 11 31 24l12.8 13-15.5-7.2L24 46l-4.3-16.2L4.2 37 17 24 4.2 11l15.5 7.2L24 2Z" />
+      <circle cx="24" cy="24" r="3.2" />
     </svg>
   );
 }

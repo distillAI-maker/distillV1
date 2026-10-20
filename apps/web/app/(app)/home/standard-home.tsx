@@ -25,6 +25,12 @@ const leadIn =
 const notPortrait = /^(?:what|but|however|the problem|the thing)\b|gets? in the way/i;
 
 /** Up to three short lines from what they wrote about their ideal day, in their own words. */
+/** "Sunday · 19 October", as on the brand board's Your Standard. */
+function todayLabel() {
+  const d = new Date();
+  return `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
+}
+
 export function portraitOf(text: string): string[] {
   return text
     .split(/(?<=[.!?])\s+|\n+/)
@@ -262,7 +268,11 @@ export function StandardHome() {
 
   return (
     <div className={s.page}>
-      {/* One masterpiece a day, captioned like a museum placard. */}
+      <p className={s.dateLabel}>{todayLabel()}</p>
+      {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
+      <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
+
+      {/* One masterpiece a day, captioned like a museum placard (brand board: Your Standard). */}
       <figure className={s.plate}>
         <span className={s.frame}>
           <img
@@ -273,12 +283,14 @@ export function StandardHome() {
           />
         </span>
         <figcaption className={s.placard}>
-          <em>{art.title}</em> {art.artist}, {art.date}. {art.museum}.
+          <span className={s.placardKicker}>{copy.home.todaysWork}</span>
+          <em>{art.title}</em>
+          <span className={s.placardMeta}>
+            {art.artist}, {art.date} · {art.museum}
+          </span>
         </figcaption>
       </figure>
 
-      {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
-      <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
       {about.length ? (
         <section aria-label={learned.length ? copy.you.link : copy.home.idealDay}>
           <p className={s.eyebrow}>{learned.length ? copy.you.link : copy.home.idealDay}</p>

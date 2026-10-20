@@ -9,9 +9,9 @@ import { track } from '../../lib/track';
 import { Mark } from './mark';
 
 /**
- * The first screen: "Distill" settles, then the sentence completes. Tap, Enter or Space moves on;
- * otherwise it moves on by itself. Someone with saved progress picks up where they left off; anyone
- * new gives their name next. The email comes at the invitation, once there is something to keep.
+ * The first screen, as the brand board's mobile landing: one cinematic image, one line, Begin.
+ * Tap, Enter or Space moves on. Someone with saved progress picks up where they left off; anyone new
+ * gives their name next. The email comes at the invitation, once there is something to keep.
  */
 export function Arrival() {
   const router = useRouter();
@@ -19,24 +19,19 @@ export function Arrival() {
   const [phase, setPhase] = useState(0);
   const left = useRef(false);
 
+  const started =
+    progress.items.length > 0 || (progress.step !== 'stack' && progress.step !== 'name');
   const next = useCallback(() => {
     if (left.current) return;
     left.current = true;
-    const started =
-      progress.items.length > 0 || (progress.step !== 'stack' && progress.step !== 'name');
     router.push(started ? resumePath(progress.step) : '/name');
-  }, [progress.items.length, progress.step, router]);
+  }, [started, progress.step, router]);
 
   useEffect(() => {
     track('arrived');
-    const reveal = window.setTimeout(() => setPhase(1), 1600);
+    const reveal = window.setTimeout(() => setPhase(1), 300);
     return () => window.clearTimeout(reveal);
   }, []);
-  useEffect(() => {
-    if (!ready) return;
-    const advance = window.setTimeout(next, 6800);
-    return () => window.clearTimeout(advance);
-  }, [ready, next]);
 
   return (
     <main
@@ -52,15 +47,29 @@ export function Arrival() {
       tabIndex={0}
       aria-label={copy.welcome.tapToBegin}
     >
-      <div className="arrival-glow" aria-hidden="true" />
-      <div className="arrival-mark" aria-hidden="true">
-        <Mark />
+      <div className="arrival-img" aria-hidden="true" />
+      <div className="arrival-top">
+        <span className="wordmark wordmark-light" translate="no">
+          <Mark />
+          <span>Distill</span>
+        </span>
       </div>
-      <h1 className="arrival-copy">
-        <span className="arrival-distill">Distill</span>
-        <span className="arrival-rest">your life.</span>
-      </h1>
-      <p className="arrival-note">{copy.welcome.line}</p>
+      <div className="arrival-body">
+        <p className="label">{copy.welcome.kicker}</p>
+        <h1 className="arrival-copy">
+          {copy.welcome.titleStart} <i>{copy.welcome.titleEnd}</i>
+        </h1>
+        <p className="arrival-line">{copy.welcome.line}</p>
+        <span className="btn btn-light btn-block arrival-begin" aria-hidden="true">
+          {ready && started ? copy.welcome.resume : copy.welcome.begin}
+          <span>→</span>
+        </span>
+      </div>
+      <div className="arrival-foot" aria-hidden="true">
+        <span>Morning — 06:45</span>
+        <Mark />
+        <span>Night — 21:40</span>
+      </div>
     </main>
   );
 }

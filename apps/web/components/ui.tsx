@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import { useId } from 'react';
 import { copy } from '../lib/copy';
+import { Mark } from './onboarding/mark';
 import { Icon } from './icon';
 
 type Variant = 'primary' | 'ghost' | 'link';
@@ -166,15 +167,21 @@ export function Skeleton({
 
 export function Wordmark({ large, href }: { large?: boolean; href?: string }) {
   const className = cls('wordmark', large && 'wordmark-lg');
+  const inner = (
+    <>
+      <Mark />
+      <span>Distill</span>
+    </>
+  );
   if (href)
     return (
       <Link href={href} className={className} translate="no" aria-label="Distill">
-        Distill
+        {inner}
       </Link>
     );
   return (
     <span className={className} translate="no" aria-label="Distill">
-      Distill
+      {inner}
     </span>
   );
 }

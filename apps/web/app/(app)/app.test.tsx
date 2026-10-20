@@ -143,7 +143,7 @@ describe('Today', () => {
         <Today loadTemplates={loadTemplates} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Nothing to tap today.' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'Nothing for today yet.' })).toBeTruthy();
   });
 });
 
