@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Distill: test your health habits on your own sleep data</title>
+<meta name="description" content="Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects. Founding 100 waitlist open.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<link rel="canonical" href="https://distill-v1-tau.vercel.app/">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Distill: is your 2pm coffee worth it?">
+<meta property="og:description" content="Distill tests what you take and do for your health on your own sleep data, one thing at a time.">
+<meta property="og:image" content="https://distill-v1-tau.vercel.app/v1/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/v1/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/v1/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/v1/assets/fonts/switzer-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/v1/assets/css/site.css">
+<script>document.documentElement.classList.add('js');try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!/[?&]motion=off/.test(location.search)&&localStorage.getItem('distill-motion')!=='off')document.documentElement.classList.add('mo');if(localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search))document.documentElement.dataset.motion='off'}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#join">Skip to the waitlist</a>
+
+<header class="nav" data-nav>
+  <a class="wordmark" href="#top" aria-label="Distill, back to top">Distill</a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+  <a class="btn btn--sm" href="#join">Join the waitlist</a>
+</header>
+
+<main>
+
+<!-- ───────────── The story: hero and how it works, one phone ───────────── -->
+<section class="story" id="top" data-story>
+  <div class="hero">
+    <h1 class="display hero__h" data-hero-h data-intro>
+      <span class="sr">Is your greens powder, 2pm coffee or nightcap worth it?</span>
+      <span class="hl" aria-hidden="true"><span class="hl__in">Is your</span></span>
+      <span class="hl hl--rot" aria-hidden="true"><span class="hl__in rot" data-rot>
+        <span class="rot__w is-on" data-row="4">greens powder</span>
+        <span class="rot__w" data-row="9">2pm coffee</span>
+        <span class="rot__w" data-row="6">nightcap</span>
+        <span class="rot__w" data-row="7">eye cream</span>
+        <span class="rot__w" data-row="3">monthly facial</span>
+        <span class="rot__w" data-row="8">collagen</span>
+      </span></span>
+      <span class="hl" aria-hidden="true"><span class="hl__in">worth it?</span></span>
+    </h1>
+    <p class="hero__sub" data-intro>Distill tests what you take and do for your health, one thing at a time, using the sleep and heart data your Oura, Apple Watch or Garmin already collects.</p>
+
+    <form class="join" data-join="site-hero" novalidate data-intro>
+      <div class="join__step" data-step="email">
+        <label class="sr" for="hero-email">Your email</label>
+        <input id="hero-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+        <button class="btn" type="submit">Join the waitlist</button>
+      </div>
+      <div class="join__step" data-step="wear" hidden>
+        <p class="join__ask">Which do you wear?</p>
+        <div class="join__chips">
+          <button type="button" value="Oura">Oura</button>
+          <button type="button" value="Apple Watch">Apple Watch</button>
+          <button type="button" value="Garmin">Garmin</button>
+          <button type="button" value="WHOOP">WHOOP</button>
+          <button type="button" value="Other">Other</button>
+        </div>
+        <button type="button" class="link" data-skip>Skip</button>
+      </div>
+      <p class="join__msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <ul class="facts" data-intro>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2.5v3M13 2.5v3"/></svg>14 nights a test, one tap a day</li>
+      <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg>Pay nothing if no test gets a clear answer in 60 days</li>
+    </ul>
+  </div>
+
+  <ol class="steps" id="how" aria-label="How it works">
+    <li class="step" data-to="0">
+      <span class="step__n">01</span>
+      <h2 class="step__t">List everything you do for your health.</h2>
+      <p class="step__d">Supplements, powders, skincare, memberships, the evening sauna, the 2pm coffee. Anything you pay for or make time for goes on the list, and you see what it all costs each month.</p>
+    </li>
+    <li class="step" data-to="1">
+      <span class="step__n">02</span>
+      <h2 class="step__t">Day one, the easy ones come off.</h2>
+      <p class="step__d">Some things are easy to call without a test, like a dose far below what studies used, a membership you barely touch, or two products doing the same job. Those go first. In this example that's 10 things and $767 a month. Anything from your doctor stays as it is.</p>
+    </li>
+    <li class="step" data-to="2">
+      <span class="step__n">03</span>
+      <h2 class="step__t">Test one thing for 14 nights.</h2>
+      <p class="step__d">Pick something worth testing, like coffee after 2pm. Distill tells you which nights to have it and which to skip, three on and three off. You tap once a day, and your ring or watch records how you slept.</p>
+    </li>
+    <li class="step" data-to="3">
+      <span class="step__n">04</span>
+      <h2 class="step__t">Find out if it was worth it.</h2>
+      <p class="step__d">Distill compares your nights with it against your nights without it. If the gap is bigger than your normal night-to-night swing, you get a clear keep or drop. If it isn't, Distill tells you that too, and the next test starts.</p>
+    </li>
+  </ol>
+  <div class="rail" aria-hidden="true"><i data-rail></i></div>
+  <div class="ticks" data-ticks role="group" aria-label="Steps">
+    <button type="button" aria-label="Step 1"><i><b></b></i></button>
+    <button type="button" aria-label="Step 2"><i><b></b></i></button>
+    <button type="button" aria-label="Step 3"><i><b></b></i></button>
+    <button type="button" aria-label="Step 4"><i><b></b></i></button>
+  </div>
+
+  <div class="stage" aria-hidden="true">
+    <div class="rig" data-rig data-intro>
+    <div class="phone" data-phone>
+      <div class="phone__screen">
+        <div class="phone__bar"><span>9:41</span><i></i></div>
+
+        <!-- 1. the stack -->
+        <section class="scr" data-scr="0">
+          <p class="scr__kick">Your list</p>
+          <p class="scr__big"><span class="reel" data-reel="21" data-s-n>21</span> things</p>
+          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-s-c>$1,428</span> a month</p>
+          <ul class="rows" data-rows="stack">
+            <li><span>Equinox</span><b>$250</b></li>
+            <li><span>Restore studio</span><b>$250</b></li>
+            <li><span>Barry's</span><b>$200</b></li>
+            <li><span>Monthly facial</span><b>$150</b></li>
+            <li><span>AG1</span><b>$90</b></li>
+            <li><span>Massage credits</span><b>$90</b></li>
+            <li><span>Drinks, 3 nights a week</span><b>$80</b></li>
+            <li><span>Eye cream</span><b>$45</b></li>
+            <li><span>Collagen gummies</span><b>$40</b></li>
+            <li><span>Coffee after 2pm</span><b class="rows__free">Habit</b></li>
+          </ul>
+        </section>
+
+        <!-- 2. day one -->
+        <section class="scr" data-scr="1">
+          <p class="scr__kick">Day one</p>
+          <p class="scr__big"><span class="reel" data-reel="21" data-d-n>21</span> things</p>
+          <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-d-c>$1,428</span> a month <em class="pill" data-pill>$767 back</em></p>
+          <ul class="rows rows--cut" data-rows="cut">
+            <li data-c="250"><span>Restore studio<small>1 visit in 60 days</small></span><b>$250</b></li>
+            <li data-c="200"><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
+            <li data-c="90"><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
+            <li data-c="60"><span>Vitamin C serum<small>Already oxidized</small></span><b>$60</b></li>
+            <li data-c="45"><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
+            <li data-c="40"><span>Collagen gummies<small>Trials used 10 g</small></span><b>$40</b></li>
+            <li data-c="82" data-n="4"><span>4 more<small>Dose too low, not used</small></span><b>$82</b></li>
+          </ul>
+          <ul class="rows rows--left" data-rows="left">
+            <li><span>Coffee after 2pm</span><em class="tag tag--test">Testing</em></li>
+            <li><span>Drinks, 3 nights a week</span><em class="tag tag--test">Testing</em></li>
+            <li><span>Equinox</span><em class="tag tag--keep">Keep</em></li>
+            <li><span>Retinol</span><em class="tag tag--keep">Keep</em></li>
+            <li><span>AG1</span><em class="tag">Your call</em></li>
+            <li><span>Oura ring</span><em class="tag tag--yours">Yours</em></li>
+          </ul>
+        </section>
+
+        <!-- 3. today -->
+        <section class="scr" data-scr="2">
+          <p class="scr__kick">Night 5 of 14</p>
+          <div class="today">
+            <p class="today__item">Coffee after 2pm</p>
+            <p class="today__do">Skip it today.</p>
+          </div>
+          <ol class="nights" data-nights>
+            <li data-on></li><li data-on></li><li data-on></li><li></li><li class="is-now"></li><li></li><li data-on></li>
+            <li data-on></li><li data-on></li><li></li><li></li><li></li><li data-on></li><li></li>
+          </ol>
+          <div class="nights__key"><span>Coffee</span><span>No coffee</span></div>
+          <div class="tap" data-tap><span>Done</span><svg viewBox="0 0 20 20"><path d="M4 10.5l3.5 3.5L16 5.5"/></svg></div>
+          <div class="stats"><p><small>Last night</small>7h 41m</p><p><small>Your normal swing</small>40 min</p></div>
+          <p class="scr__note">Missed a day? It counts as unknown.</p>
+        </section>
+
+        <!-- 4. verdict -->
+        <section class="scr" data-scr="3">
+          <p class="scr__kick">Day 14</p>
+          <p class="verdict__item">Coffee after 2pm</p>
+          <p class="verdict__stamp" data-stamp>Dropped</p>
+          <div class="cmp">
+            <div class="cmp__row"><span>Without it</span><i style="--w:1"></i><b>7h 34m</b></div>
+            <div class="cmp__row cmp__row--with"><span>With it</span><i style="--w:.837"></i><b>6h 20m</b></div>
+          </div>
+          <p class="verdict__gain"><b><span data-count="74">74</span> min</b> more sleep without it</p>
+          <div class="next"><i></i><p><small>Next test, starts Monday</small>Drinks, 3 nights a week</p></div>
+          <p class="scr__note">Well past your normal swing of 40 minutes.</p>
+        </section>
+      </div>
+    </div>
+    </div>
+    <p class="stage__ex">Example</p>
+  </div>
+</section>
+
+<!-- ───────────── What people pay for ───────────── -->
+<div class="band" aria-hidden="true">
+  <div class="band__track" data-band>
+    <span>Melatonin</span><span>Greens powder</span><span>Coffee after 2pm</span><span>Cold plunge</span><span>Magnesium</span><span>A drink most nights</span><span>Collagen gummies</span><span>Evening sauna</span><span>Fish oil</span><span>Ashwagandha</span><span>Late workouts</span><span>Second gym membership</span><span>Eye cream</span><span>Vitamin D</span><span>IV drips</span><span>Screens in bed</span>
+  </div>
+</div>
+
+<!-- ───────────── Try it ───────────── -->
+<section class="try" id="try" data-try>
+  <div class="try__pick">
+    <div class="try__head">
+      <h2 class="h2" data-lines>What's on your list?</h2>
+      <p class="try__sub">Tap anything you take or do. You'll see what could come off on day one and what's worth testing on you.</p>
+    </div>
+    <div class="chips" data-chips role="group" aria-label="Common items">
+      <button type="button" data-k="coffee-after-2pm">Coffee after 2pm</button>
+      <button type="button" data-k="magnesium-any-form">Magnesium</button>
+      <button type="button" data-k="melatonin">Melatonin</button>
+      <button type="button" data-k="greens-powder-ag1-etc">AG1</button>
+      <button type="button" data-k="multivitamin">Multivitamin</button>
+      <button type="button" data-k="vitamin-d3">Vitamin D</button>
+      <button type="button" data-k="zinc-daily">Zinc</button>
+      <button type="button" data-k="omega-3-fish-oil">Fish oil</button>
+      <button type="button" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
+      <button type="button" data-k="alcohol-in-the-evening">A drink most evenings</button>
+      <button type="button" data-k="training-after-7pm">Late workouts</button>
+      <button type="button" data-k="sauna-post-workout-or-evening">Sauna</button>
+      <button type="button" data-k="cold-plunge-ice-bath">Cold plunges</button>
+      <button type="button" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
+      <button type="button" data-k="iv-vitamin-drips">IV drips</button>
+      <button type="button" data-k="meditation-app-calm-headspace">Meditation app</button>
+    </div>
+  </div>
+  <div class="result" data-result>
+    <div class="result__top">
+      <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
+      <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
+    </div>
+    <div class="result__body" aria-live="polite">
+      <p class="result__empty" data-empty>Tap a few to start.</p>
+      <div class="result__out" data-out hidden>
+        <p class="result__line"><b data-cut-n>0</b> could come off on day one. <b class="gold" data-back>$0 a month back.</b></p>
+        <ul class="result__list" data-cut-list></ul>
+        <p class="result__test" data-test></p>
+      </div>
+    </div>
+    <a class="btn" href="#join">Check your whole list</a>
+  </div>
+</section>
+
+<!-- ───────────── Pricing ───────────── -->
+<section class="pricing" id="pricing">
+  <div class="card3d" data-card aria-hidden="true">
+    <div class="member">
+      <span class="member__brand">Distill</span>
+      <span class="member__role">Founding member</span>
+      <span class="member__no">One of 100</span>
+    </div>
+  </div>
+  <div class="pricing__copy">
+    <h2 class="h2 h2--lg"><span class="reel" data-reel="20" data-money data-price>$20</span> a month.</h2>
+    <ul class="checks">
+      <li>The Founding 100 keep that price for life.</li>
+      <li>If no test gets a clear answer in your first 60 days, you pay nothing.</li>
+      <li>Cancel anytime. It works with the ring or watch you already wear.</li>
+    </ul>
+    <a class="btn" href="#join">Join the waitlist</a>
+  </div>
+</section>
+
+<!-- ───────────── Questions ───────────── -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="h2" data-lines>Before you join</h2>
+  <div class="faq__list">
+    <details>
+      <summary><span>What can it test?</span></summary>
+      <p>Things that can change your sleep within a night or two: coffee and alcohol timing, late workouts, an evening sauna, melatonin, screens in bed. Things your ring can't measure, like skincare or a membership, get checked on day one for cost, use and overlap.</p>
+    </details>
+    <details>
+      <summary><span>Do I stop everything at once?</span></summary>
+      <p>No. You test one thing at a time for 14 nights. Everything else stays the same until it's that thing's turn.</p>
+    </details>
+    <details>
+      <summary><span>What if I miss a day?</span></summary>
+      <p>That night counts as unknown, not as a fail. A test can handle a few of those.</p>
+    </details>
+    <details>
+      <summary><span>Which devices work?</span></summary>
+      <p>Oura, Apple Watch through Apple Health, and Garmin. WHOOP isn't supported yet.</p>
+    </details>
+    <details>
+      <summary><span>Is this medical advice?</span></summary>
+      <p>No. Distill looks at sleep, HRV and resting heart rate. It never diagnoses or treats anything, and whatever your clinician gave you stays untouched.</p>
+    </details>
+    <details>
+      <summary><span>Who isn't it for?</span></summary>
+      <p>Anyone without a wearable, anyone training for a specific event, and anyone whose question is medical.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ───────────── Close ───────────── -->
+<section class="final" id="join" aria-labelledby="join-title">
+  <h2 id="join-title" class="display display--close" data-lines>Join the Founding 100.</h2>
+  <p class="final__sub">The first 100 members keep $20 a month for life.</p>
+  <form class="join join--center" data-join="site-close" novalidate>
+    <div class="join__step" data-step="email">
+      <label class="sr" for="close-email">Your email</label>
+      <input id="close-email" type="email" name="email" autocomplete="email" inputmode="email" required spellcheck="false" placeholder="Your email">
+      <button class="btn" type="submit">Join the waitlist</button>
+    </div>
+    <div class="join__step" data-step="wear" hidden>
+      <p class="join__ask">Which do you wear?</p>
+      <div class="join__chips">
+        <button type="button" value="Oura">Oura</button>
+        <button type="button" value="Apple Watch">Apple Watch</button>
+        <button type="button" value="Garmin">Garmin</button>
+        <button type="button" value="WHOOP">WHOOP</button>
+        <button type="button" value="Other">Other</button>
+      </div>
+      <button type="button" class="link" data-skip>Skip</button>
+    </div>
+    <p class="join__msg" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+</main>
+
+<footer class="foot">
+  <a class="wordmark" href="#top">Distill</a>
+  <p>Wellness, not medical advice.</p>
+  <p>&copy; 2026 Distill</p>
+  <a href="mailto:disttilai@gmail.com">Contact</a>
+  <button class="link" type="button" data-motion-toggle aria-pressed="false">Motion: on</button>
+</footer>
+
+<noscript><p class="noscript">The waitlist form needs JavaScript. You can also email disttilai@gmail.com to join.</p></noscript>
+
+<script src="/vendor/gsap.min.js" defer></script>
+<script src="/vendor/ScrollTrigger.min.js" defer></script>
+<script src="/vendor/SplitText.min.js" defer></script>
+<script src="/vendor/CustomEase.min.js" defer></script>
+<script src="/vendor/lenis.min.js" defer></script>
+<script type="module" src="/v1/assets/js/main.js"></script>
+</body>
+</html>
