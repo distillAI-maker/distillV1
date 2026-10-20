@@ -87,7 +87,7 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
         <p className="invite-line">{copy.invitation.line}</p>
       </section>
 
-      <section className="inverse includes">
+      <section className="includes">
         <h2 className="h-label">{copy.invitation.includesTitle}</h2>
         <ul>
           {copy.invitation.includes.map((b) => (

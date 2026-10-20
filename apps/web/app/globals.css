@@ -2652,37 +2652,43 @@ body[data-ground='dusk'] .foot {
   height: 28px;
   color: var(--accent);
 }
+/* what you get: no panel, the board's ritual list on the ground, aligned with the column above */
 .includes {
   display: grid;
-  gap: 20px;
-  padding: 8px var(--gutter) 36px;
+  gap: 14px;
+  padding: 8px var(--gutter) 28px;
 }
 .includes li {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
+  grid-template-columns: 22px minmax(0, 1fr);
   gap: 12px;
-  padding-block: 14px;
-  border-top: 1px solid var(--rule);
+  padding-block: 16px;
+  border-top: 1px solid var(--rule-2);
 }
 .includes li:last-child {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-2);
 }
 .includes svg {
   width: 16px;
   height: 16px;
-  margin-top: 3px;
+  margin-top: 5px;
   fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
+  stroke: var(--spark);
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 .inc-label {
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 .inc-detail {
-  font-size: 13px;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.45;
   color: var(--muted);
 }
 .join {
