@@ -75,40 +75,50 @@
   </div>
 </section>
 
-<!-- ───────────── 02 How it works: the persimmon chapter, one phone ───────────── -->
-<section class="how" id="how" data-how>
+<!-- ───────────── 02 How it works: three steps, one phone (the old story, in the new world) ───────────── -->
+<section class="how" id="how" data-story>
   <div class="how__head">
     <p class="label">02 · How it works</p>
     <h2 class="how__title" data-lines>First, reveal.<br><i>Then, shape.</i></h2>
   </div>
-  <div class="how__body">
-    <ol class="how__steps">
-      <li class="how__step">
-        <span class="how__n">01</span>
-        <h3>Tap everything you do.</h3>
-        <p>Supplements, classes, memberships, the 2pm coffee. You see it all as one number.</p>
-      </li>
-      <li class="how__step">
-        <span class="how__n">02</span>
-        <h3>Let go of what isn't working.</h3>
-        <p>One small thing at a time, based on what the studies found. The money comes back.</p>
-      </li>
-      <li class="how__step">
-        <span class="how__n">03</span>
-        <h3>Keep the rituals that are yours.</h3>
-        <p>A short morning and a quiet night, built around you.</p>
-      </li>
-    </ol>
-    <div class="how__stage" aria-hidden="true">
+
+  <ol class="steps">
+    <li class="step" data-to="0">
+      <span class="step__n">01</span>
+      <h3 class="step__t">Tap everything you do.</h3>
+      <p class="step__d">Supplements, classes, memberships, the 2pm coffee. You see it all as one number.</p>
+    </li>
+    <li class="step" data-to="1">
+      <span class="step__n">02</span>
+      <h3 class="step__t">Let go of what isn't working.</h3>
+      <p class="step__d">One small thing at a time, based on what the studies found. The money comes back.</p>
+    </li>
+    <li class="step" data-to="2">
+      <span class="step__n">03</span>
+      <h3 class="step__t">Keep the rituals that are yours.</h3>
+      <p class="step__d">A short morning and a quiet night, built around you.</p>
+    </li>
+  </ol>
+  <div class="rail" aria-hidden="true"><i data-rail></i></div>
+  <div class="ticks" data-ticks role="group" aria-label="Steps">
+    <button type="button" aria-label="Step 1"><i><b></b></i></button>
+    <button type="button" aria-label="Step 2"><i><b></b></i></button>
+    <button type="button" aria-label="Step 3"><i><b></b></i></button>
+  </div>
+
+  <div class="stage" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="rig" data-rig>
       <div class="phone" data-phone>
         <div class="phone__status"><span>9:41</span><span>•••</span></div>
         <div class="phone__brand"><svg class="mark"><use href="#star"/></svg><span>Distill</span></div>
         <div class="screens">
-          <section class="scr is-on" data-scr="0">
+          <!-- 1. the list -->
+          <section class="scr" data-scr="0">
             <p class="phone__label">Your stack</p>
-            <p class="scr__big">21 things</p>
-            <p class="scr__sub">$1,428 a month</p>
-            <ul class="rows">
+            <p class="scr__big"><span class="reel" data-reel="21" data-s-n>21</span> things</p>
+            <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-s-c>$1,428</span> a month</p>
+            <ul class="rows" data-rows="stack">
               <li><span>Equinox</span><b>$250</b></li>
               <li><span>Restore studio</span><b>$250</b></li>
               <li><span>Barry's</span><b>$200</b></li>
@@ -117,35 +127,47 @@
               <li><span>Massage credits</span><b>$90</b></li>
               <li><span>Eye cream</span><b>$45</b></li>
               <li><span>Collagen gummies</span><b>$40</b></li>
+              <li><span>Coffee after 2pm</span><b class="rows__free">Habit</b></li>
             </ul>
           </section>
+          <!-- 2. let go -->
           <section class="scr" data-scr="1">
             <p class="phone__label">Today</p>
-            <p class="scr__big">Let go of 10</p>
-            <p class="scr__sub"><em>$767 a month back</em></p>
-            <ul class="rows rows--go">
-              <li><span>Restore studio<small>One visit in 60 days</small></span><b>$250</b></li>
-              <li><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
-              <li><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
-              <li><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
-              <li><span>Collagen gummies<small>Dose below the studies</small></span><b>$40</b></li>
-              <li><span>5 more</span><b>$142</b></li>
+            <p class="scr__big"><span class="reel" data-reel="21" data-d-n>21</span> things</p>
+            <p class="scr__sub"><span class="reel" data-reel="1428" data-money data-d-c>$1,428</span> a month <em class="pill" data-pill>$767 back</em></p>
+            <ul class="rows rows--cut" data-rows="cut">
+              <li data-c="250"><span>Restore studio<small>One visit in 60 days</small></span><b>$250</b></li>
+              <li data-c="200"><span>Barry's<small>Same job as Equinox</small></span><b>$200</b></li>
+              <li data-c="90"><span>Massage credits<small>Unused since July</small></span><b>$90</b></li>
+              <li data-c="60"><span>Vitamin C serum<small>Already oxidized</small></span><b>$60</b></li>
+              <li data-c="45"><span>Eye cream<small>Same as your moisturizer</small></span><b>$45</b></li>
+              <li data-c="40"><span>Collagen gummies<small>Dose below the studies</small></span><b>$40</b></li>
+              <li data-c="82" data-n="4"><span>4 more<small>Not being used</small></span><b>$82</b></li>
+            </ul>
+            <ul class="rows rows--left" data-rows="left">
+              <li><span>Equinox</span><em class="tag tag--keep">Kept</em></li>
+              <li><span>Retinol</span><em class="tag tag--keep">Kept</em></li>
+              <li><span>Friday drinks</span><em class="tag tag--yours">Yours</em></li>
+              <li><span>AG1</span><em class="tag">Your call</em></li>
+              <li><span>Oura ring</span><em class="tag tag--yours">Yours</em></li>
             </ul>
           </section>
+          <!-- 3. the ritual -->
           <section class="scr" data-scr="2">
             <p class="phone__label">Morning · 06:45</p>
             <p class="scr__big">Before<br>the noise.</p>
-            <div class="scr__photo"></div>
-            <ul class="ritual-rows">
-              <li class="is-done"><span>01</span>Water before the world<i></i></li>
+            <div class="scr__photo" data-photo></div>
+            <ul class="ritual-rows" data-ritual-rows>
+              <li><span>01</span>Water before the world<i></i></li>
               <li><span>02</span>Ten minutes outside<i></i></li>
               <li><span>03</span>Set one intention<i></i></li>
             </ul>
+            <div class="scr__progress"><span data-progress></span></div>
           </section>
         </div>
       </div>
-      <p class="how__ex">Example</p>
     </div>
+    <p class="stage__ex">Example</p>
   </div>
 </section>
 

@@ -1,6 +1,7 @@
 import { $, $$, motionOK, finePointer } from './util.js';
 import { initTry } from './try.js';
 import { initJoin } from './join.js';
+import { initStory } from './story.js';
 
 const root = document.documentElement;
 window.distillReady = true;
@@ -23,32 +24,7 @@ if (motion && finePointer() && window.Lenis) {
 
 initJoin();
 initTry();
-
-/* ── how it works: one phone, its screen follows the step you're reading.
-   On a phone-sized screen each step gets its own copy of that screen instead. ── */
-const how = $('[data-how]');
-if (how) {
-  const steps = $$('.how__step', how);
-  const screens = $$('.scr', how);
-  const phone = $('[data-phone]', how);
-  steps.forEach((step, i) => {
-    const copy = phone.cloneNode(true);
-    copy.removeAttribute('data-phone');
-    copy.classList.add('phone--inline');
-    copy.setAttribute('aria-hidden', 'true');
-    $$('.scr', copy).forEach((s, j) => (j === i ? s.classList.add('is-on') : s.remove()));
-    step.append(copy);
-  });
-  const show = i => {
-    steps.forEach((s, j) => s.classList.toggle('is-on', j === i));
-    screens.forEach((s, j) => s.classList.toggle('is-on', j === i));
-  };
-  show(0);
-  const io = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) show(steps.indexOf(e.target));
-  }), { rootMargin: '-45% 0px -45% 0px' });
-  steps.forEach(s => io.observe(s));
-}
+initStory();
 
 /* ── the rituals can be kept, one tap at a time ── */
 $$('[data-ritual]').forEach(card => {

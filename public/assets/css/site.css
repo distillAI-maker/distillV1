@@ -109,46 +109,64 @@ button { cursor: pointer; }
 .premise__title i { color: var(--walnut); }
 .premise__copy { font: 400 21px/1.45 var(--serif); max-width: 360px; }
 
-/* ── 02 how it works: the persimmon chapter. Steps scroll, the phone stays. ── */
-.how { background: var(--spark); color: var(--ink); padding: 110px var(--gut) 40px; }
-.how__head { display: grid; grid-template-columns: 1fr 2.3fr; gap: 3vw; align-items: end; padding-bottom: 20px; }
-.how__head .label { align-self: start; }
+/* ── 02 how it works: ground, not a wall of persimmon. The phone sits on a persimmon sun (the board's
+   "ritual in progress" disc); steps scroll on the left, the rail fills, the phone tells the story. ── */
+.how { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "head head" "steps stage"; column-gap: 5vw; padding: 120px var(--gut) 0; background: var(--ground); }
+.how__head { grid-area: head; display: grid; grid-template-columns: 1fr 2.3fr; gap: 3vw; align-items: end; }
+.how__head .label { align-self: start; padding-top: 10px; }
 .how__title { font: 300 clamp(64px, 9vw, 136px)/.84 var(--serif); letter-spacing: -.06em; }
-.how__title i { color: var(--ground); }
-.how__body { display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; }
-.how__step { min-height: 76vh; display: flex; flex-direction: column; justify-content: center; max-width: 470px; padding-top: 24px; opacity: .32; transition: opacity .5s var(--ease); }
-.how__step.is-on { opacity: 1; }
-.how__n { font: 600 10px/1 var(--sans); letter-spacing: .16em; padding-bottom: 16px; border-bottom: 1px solid rgba(17, 25, 27, .45); }
-.how__step > h3 { margin: 26px 0 14px; font: 400 clamp(36px, 3.8vw, 54px)/1 var(--serif); letter-spacing: -.035em; }
-.how__step > p { font: 400 20px/1.45 var(--serif); max-width: 420px; }
-.how__stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
-.how__ex { font: 600 9px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; opacity: .7; }
+.how__title i { color: var(--spark); }
+.steps { grid-area: steps; padding: 0 0 22vh 44px; }
+.step { min-height: 82vh; display: grid; align-content: center; gap: 18px; opacity: .22; transition: opacity .6s var(--ease); }
+.step.is-on { opacity: 1; }
+.step__n { display: flex; align-items: center; gap: 14px; font: 600 11px/1 var(--sans); letter-spacing: .16em; color: var(--spark-text); }
+.step__n::after { content: ""; width: 48px; height: 1px; background: currentColor; transform: scaleX(.2); transform-origin: 0 50%; transition: transform .9s var(--ease); }
+.step.is-on .step__n::after { transform: scaleX(1); }
+.step__t { font: 400 clamp(36px, 3.8vw, 56px)/1 var(--serif); letter-spacing: -.035em; max-width: 11em; text-wrap: balance; }
+.step__t .word { display: inline-block; will-change: transform; }
+.step__d { max-width: 26em; font: 400 20px/1.45 var(--serif); color: var(--ink-2); text-wrap: pretty; }
+.rail { grid-area: steps; justify-self: start; position: relative; width: 1px; margin: 28vh 0 calc(22vh + 28vh); background: var(--rule); }
+.rail i { position: absolute; inset: 0; background: var(--spark); transform: scaleY(0); transform-origin: 50% 0; }
+.ticks { display: none; }
+.stage { grid-area: stage; align-self: start; position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; place-items: center; align-content: center; gap: 18px; }
+.sun { position: absolute; left: 50%; top: 50%; width: min(520px, 36vw); aspect-ratio: 1; border-radius: 50%; background: var(--spark); translate: -50% -52%; }
+.rig { position: relative; z-index: 1; will-change: transform; }
+.stage__ex { position: relative; z-index: 1; font: 600 9px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); }
 
 /* the phone (board 08, "A room in your pocket") */
 .phone { position: relative; width: 300px; aspect-ratio: .505; overflow: hidden; background: var(--ground); color: var(--ink); border: 7px solid #080b0c; border-radius: 40px; padding: 18px 18px 22px; box-shadow: 0 40px 80px rgba(43, 33, 28, .35); }
 .phone__status, .phone__brand { display: flex; align-items: center; justify-content: space-between; font: 600 9px/1 var(--sans); letter-spacing: .1em; }
-.phone__brand { justify-content: flex-start; gap: 10px; margin: 20px 0 30px; letter-spacing: .19em; text-transform: uppercase; }
+.phone__brand { justify-content: flex-start; gap: 10px; margin: 20px 0 26px; letter-spacing: .19em; text-transform: uppercase; }
 .phone__brand .mark { width: 17px; height: 17px; }
-.phone__label { font: 600 8px/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; }
-.screens { position: relative; height: calc(100% - 70px); }
-.scr { position: absolute; inset: 0; opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .7s var(--ease); }
-.scr.is-on { opacity: 1; transform: none; }
-.scr__big { margin-top: 12px; font: 400 38px/.95 var(--serif); letter-spacing: -.04em; }
-.scr__sub { margin-top: 8px; font: 400 17px/1.2 var(--serif); color: var(--ink-2); }
-.scr__sub em { color: var(--spark-text); }
-.rows { margin-top: 20px; }
-.rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 0; border-top: 1px solid var(--rule); font: 400 14px/1.2 var(--serif); }
+.phone__label { font: 600 8px/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); }
+.screens { position: relative; height: calc(100% - 66px); }
+.scr { position: absolute; inset: 0; display: flex; flex-direction: column; visibility: hidden; contain: layout paint; }
+.scr.is-on { visibility: visible; }
+.scr__big { margin-top: 10px; font: 400 36px/.98 var(--serif); letter-spacing: -.04em; }
+.scr__sub { margin-top: 6px; display: flex; align-items: center; gap: 8px; font: 400 16px/1.2 var(--serif); color: var(--ink-2); }
+.pill { font: normal 600 10px/1 var(--sans); padding: 4px 8px; border-radius: 99px; background: var(--spark); color: var(--ink); }
+.rows { margin-top: 16px; display: grid; }
+.rows li { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--rule); font: 400 14px/1.2 var(--serif); overflow: hidden; }
+.rows li span { min-width: 0; }
+.rows small { display: block; margin-top: 2px; font: 400 10px/1.2 var(--sans); color: var(--ink-2); }
 .rows b { font: 600 11px/1 var(--sans); }
-.rows small { display: block; margin-top: 3px; font: 400 10px/1.2 var(--sans); color: var(--ink-2); }
-.rows--go li { padding: 7px 0; }
-.rows--go b { color: var(--spark-text); }
-.scr__photo { height: 190px; margin-top: 18px; background: url(/assets/img/hero-sm.jpg) center 60% / cover; filter: saturate(.6); }
-.ritual-rows { margin-top: 14px; }
-.ritual-rows li { display: grid; grid-template-columns: 24px 1fr 14px; align-items: center; padding: 10px 0; border-top: 1px solid var(--ink); font: 400 15px/1.2 var(--serif); }
+.rows b.rows__free { font-weight: 400; color: var(--ink-2); }
+.rows--cut b { color: var(--spark-text); }
+.rows--cut li::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ink); transform: scaleX(var(--strike, 0)); transform-origin: 0 50%; }
+.rows--left { margin-top: 4px; }
+.tag { flex: none; font: normal 600 9px/1 var(--sans); letter-spacing: .04em; padding: 4px 8px; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--rule); color: var(--ink-2); }
+.tag--keep { background: var(--linen); box-shadow: none; color: var(--ink); }
+.tag--yours { background: var(--ink); box-shadow: none; color: var(--ground); }
+.scr__photo { height: 176px; margin-top: 16px; background: url(/assets/img/hero-sm.jpg) center 60% / cover; filter: saturate(.6); }
+.ritual-rows { margin-top: 12px; }
+.ritual-rows li { display: grid; grid-template-columns: 24px 1fr 15px; align-items: center; padding: 10px 0; border-top: 1px solid var(--ink); font: 400 15px/1.2 var(--serif); }
 .ritual-rows span { font: 600 8px/1 var(--sans); letter-spacing: .1em; opacity: .5; }
-.ritual-rows i { width: 13px; height: 13px; border: 1px solid currentColor; border-radius: 50%; }
+.ritual-rows i { position: relative; width: 15px; height: 15px; border: 1px solid currentColor; border-radius: 50%; transition: background-color .3s var(--ease), border-color .3s var(--ease); }
+.ritual-rows i::after { content: ""; position: absolute; left: 4px; top: 1.5px; width: 3.5px; height: 7px; border: solid var(--ink); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) scale(0); transition: transform .3s var(--ease); }
 .ritual-rows .is-done i { background: var(--spark); border-color: var(--spark); }
-.phone--inline { display: none; }
+.ritual-rows .is-done i::after { transform: rotate(45deg) scale(1); }
+.scr__progress { height: 2px; margin-top: auto; background: rgba(17, 25, 27, .15); }
+.scr__progress span { display: block; width: 0; height: 100%; background: var(--spark); }
 
 /* ── 03 try it ── */
 .try { display: grid; grid-template-columns: 1.1fr .9fr; gap: 6vw; align-items: start; padding: 130px var(--gut); background: var(--ground); }
@@ -300,14 +318,22 @@ button { cursor: pointer; }
   .nav__cta { margin-left: auto; }
   .premise { padding: 90px var(--gut) 100px; }
   .premise__grid { grid-template-columns: 1fr; gap: 30px; margin-top: 50px; }
-  .how { padding: 90px var(--gut) 60px; }
+  .how { grid-template-columns: 1fr; grid-template-areas: "head" "stage" "ticks" "steps"; padding: 90px var(--gut) 90px; }
   .how__head, .rituals__head, .archive__head { grid-template-columns: 1fr; gap: 22px; padding-bottom: 40px; }
-  .how__head { padding-bottom: 10px; }
-  .how__body { display: block; }
-  .how__stage { display: none; }
-  .how__step { min-height: 0; opacity: 1; max-width: none; padding-top: 50px; }
-  .phone--inline { display: block; width: 280px; margin: 36px auto 10px; }
-  .phone--inline .scr { position: static; opacity: 1; transform: none; }
+  .how__head { padding-bottom: 0; }
+  .stage { position: relative; height: auto; padding: 60px 0 8px; }
+  .sun { width: min(400px, 92vw); }
+  .rail { display: none; }
+  .ticks { grid-area: ticks; display: flex; gap: 6px; width: min(420px, 100%); justify-self: center; margin-top: 18px; }
+  .ticks button { flex: 1; padding: 10px 0; border: 0; background: none; }
+  .ticks i { display: block; height: 3px; border-radius: 2px; background: var(--rule); overflow: hidden; }
+  .ticks b { display: block; height: 100%; background: var(--spark); transform: scaleX(0); transform-origin: 0 50%; }
+  .steps { display: grid; width: min(520px, 100%); justify-self: center; padding: 14px 0 0; }
+  .step { grid-area: 1 / 1; min-height: 0; gap: 10px; align-content: start; text-align: center; justify-items: center; opacity: 0; visibility: hidden; translate: 0 12px; transition: opacity .3s, translate .3s, visibility 0s .3s; }
+  .step.is-on { opacity: 1; visibility: visible; translate: 0 0; transition: opacity .55s .08s, translate .7s var(--ease) .08s, visibility 0s; }
+  .step__n::after { display: none; }
+  .step__t { font-size: clamp(30px, 8vw, 42px); }
+  .step__d { font-size: 18px; }
   .try { grid-template-columns: 1fr; padding: 100px var(--gut); gap: 44px; }
   .tally { position: static; min-height: 0; }
   .rituals, .archive { padding: 90px var(--gut); }
@@ -338,8 +364,6 @@ button { cursor: pointer; }
   .premise__title { font-size: clamp(52px, 15vw, 72px); }
   .premise__copy { font-size: 19px; }
   .how__title { font-size: clamp(54px, 15.5vw, 76px); }
-  .how__step > h3 { font-size: clamp(32px, 9vw, 42px); }
-  .how__step > p { font-size: 18px; }
   .chips { gap: 8px; }
   .tally { padding: 26px 22px; }
   .interlude { height: 74vh; }
