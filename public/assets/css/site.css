@@ -54,6 +54,7 @@ button { cursor: pointer; }
 .label { font: 600 10px/1.2 var(--sans); letter-spacing: .18em; text-transform: uppercase; }
 .label--light { color: var(--ground-2); }
 .section-title { font: 300 clamp(46px, 6vw, 84px)/.95 var(--serif); letter-spacing: -.045em; }
+.section-title i { color: var(--walnut); }
 
 /* ── buttons, chips, links ── */
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 36px; border: 0; padding: 16px 20px; font: 600 10px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; text-decoration: none; transition: background-color .3s var(--ease); }
@@ -167,6 +168,26 @@ button { cursor: pointer; }
 .ritual-rows .is-done i::after { transform: rotate(45deg) scale(1); }
 .scr__progress { height: 2px; margin-top: auto; background: rgba(17, 25, 27, .15); }
 .scr__progress span { display: block; width: 0; height: 100%; background: var(--spark); }
+.chat { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.bubble { max-width: 86%; padding: 9px 12px; border-radius: 16px 16px 16px 4px; background: var(--linen); font: 400 13px/1.35 var(--serif); }
+.bubble--me { align-self: flex-end; border-radius: 16px 16px 4px 16px; background: var(--ink); color: var(--ground); }
+.typing { display: flex; gap: 4px; padding: 10px 12px; width: max-content; border-radius: 16px 16px 16px 4px; background: var(--linen); }
+.typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink-2); animation: typing 1s infinite ease-in-out; }
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes typing { 0%, 60%, 100% { transform: none; opacity: .4; } 30% { transform: translateY(-3px); opacity: 1; } }
+.reshape { margin-top: 14px; padding: 12px 12px 4px; background: #fff; box-shadow: 0 0 0 1px var(--rule); }
+.reshape__head { display: flex; align-items: center; justify-content: space-between; font: 600 8px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+.reshape__head .mark { width: 13px; height: 13px; }
+.reshape li { position: relative; height: 34px; border-top: 1px solid var(--rule); margin-top: 8px; font: 400 13px/1.2 var(--serif); }
+.reshape li:first-child { margin-top: 10px; }
+.reshape s, .reshape b { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; font-weight: 400; text-decoration: none; }
+.reshape s { right: auto; color: var(--ink-2); }
+.reshape s::after { content: ""; position: absolute; left: 0; top: 52%; height: 1px; width: 100%; background: var(--ink); transform: scaleX(var(--strike, 0)); transform-origin: 0 50%; }
+.reshape b { padding-left: 14px; opacity: 0; }
+.reshape b::before { content: ""; position: absolute; left: 0; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--spark); }
+.reshape.is-done s { opacity: 0; }
+.reshape.is-done b { opacity: 1; }
 
 /* ── 03 try it ── */
 .try { display: grid; grid-template-columns: 1.1fr .9fr; gap: 6vw; align-items: start; padding: 130px var(--gut); background: var(--ground); }

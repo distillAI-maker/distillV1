@@ -1,4 +1,4 @@
-/* The story: one phone, three screens, sitting on a persimmon sun. Each step changes what the phone
+/* The story: one phone, four screens, sitting on a persimmon sun. Each step changes what the phone
    shows; on phones and tablets it plays by itself like stories. Example data throughout.
    Ported from the earlier landing page's story so the motion carries over. */
 import { $, $$, motionOK, finePointer } from './util.js';
@@ -30,6 +30,11 @@ export function initStory() {
   const photo = $('[data-photo]', phone);
   const ritualRows = $$('[data-ritual-rows] li', phone);
   const progress = $('[data-progress]', phone);
+  const msgs = $$('[data-msg]', phone);
+  const typing = $('[data-typing]', phone);
+  const reshape = $('[data-reshape]', phone);
+  const olds = reshape ? $$('s', reshape) : [];
+  const news = reshape ? $$('b', reshape) : [];
 
   let cur = -1, tl = null;
   const listeners = [];
@@ -80,6 +85,30 @@ export function initStory() {
       });
       return t;
     },
+    () => {
+      // Friday night: one text in, a warm reply, and Saturday quietly reshapes itself
+      const t = gsap.timeline();
+      reshape.classList.remove('is-done');
+      gsap.set(msgs, { opacity: 0 });
+      gsap.set(typing, { opacity: 0, display: 'none' });
+      gsap.set(reshape, { opacity: 0, y: 16 });
+      gsap.set(olds, { '--strike': 0, opacity: 1 });
+      gsap.set(news, { opacity: 0, x: -6 });
+      t.fromTo(msgs[0], { opacity: 0, y: 12, scale: .96, transformOrigin: '100% 100%' }, { opacity: 1, y: 0, scale: 1, duration: .55, ease: 'back.out(1.6)' }, .15)
+        .set(typing, { display: 'flex' }, .9)
+        .fromTo(typing, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .35, ease: 'out' }, .9)
+        .to(typing, { opacity: 0, duration: .2 }, 2)
+        .set(typing, { display: 'none' }, 2.2)
+        .fromTo(msgs[1], { opacity: 0, y: 12, scale: .96, transformOrigin: '0% 100%' }, { opacity: 1, y: 0, scale: 1, duration: .55, ease: 'back.out(1.6)' }, 2.2)
+        .to(reshape, { opacity: 1, y: 0, duration: .7, ease: 'out' }, 3);
+      olds.forEach((o, i) => {
+        const at = 3.6 + i * .5;
+        t.to(o, { '--strike': 1, duration: .3, ease: 'power3.inOut' }, at)
+          .to(o, { opacity: 0, duration: .25 }, at + .32)
+          .to(news[i], { opacity: 1, x: 0, duration: .5, ease: 'out' }, at + .36);
+      });
+      return t;
+    },
   ];
 
   function finished() {
@@ -88,6 +117,8 @@ export function initStory() {
     cutRows.forEach(li => { li.hidden = true; });
     ritualRows.slice(0, 2).forEach(li => li.classList.add('is-done'));
     if (progress) progress.style.width = '66.8%';
+    reshape?.classList.add('is-done');
+    if (typing) typing.style.display = 'none';
   }
 
   function show(i) {
