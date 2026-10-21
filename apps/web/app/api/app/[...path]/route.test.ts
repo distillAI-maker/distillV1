@@ -39,6 +39,13 @@ describe('authenticated app boundary', () => {
     );
     expect(response.status).toBe(400);
   });
+  it('answers 503 for a signed-in person when the database address is missing (nothing can be saved)', async () => {
+    vi.stubEnv('DATABASE_URL', '');
+    getUser.mockResolvedValue({ data: { user: { id: 'alice' } }, error: null });
+    const response = await handle(new Request('https://app.example/api/app/progress', { headers: { authorization: 'Bearer t' } }));
+    expect(response.status).toBe(503);
+    expect(await response.json()).toEqual({ error: 'database_not_configured' });
+  });
   it('rejects cross-site cookie-authenticated mutations', async () => {
     getUser.mockResolvedValue({ data: { user: { id: 'alice' } }, error: null });
     const response = await handle(
