@@ -215,13 +215,13 @@ export class Engine {
     const progress = await this.deps.loadProgress(userId);
     if (!progress) throw new HttpError(409, 'no_progress');
     const through = localDate(this.now().toISOString(), validZone(timeZone) ?? DEFAULT_ZONE);
-    return { progress, nights: await this.deps.loadNights(userId, progress, through) };
+    return { progress, through, nights: await this.deps.loadNights(userId, progress, through) };
   }
 
   private async context(
     userId: string,
     timeZone: string | undefined,
-    outside: { progress: Progress; nights: readonly Night[] },
+    outside: { progress: Progress; through: string; nights: readonly Night[] },
     calls: EngineEventRow[],
     db: Tx,
   ): Promise<Ctx> {
@@ -858,6 +858,20 @@ export class Engine {
       await this.deps.store.log({ userId, kind: 'explore.added', payload: { ideaId, versionId: v.id } }, tx);
       return { state: await this.stateFrom(ctx, tx), versionId: v.id };
     });
+  }
+
+  /**
+   * Called when the app opens: the night check runs once for the newest night their wearable sent,
+   * if it is last night's. Returns null when there is nothing new to check.
+   */
+  async checkNight(userId: string, opts: { timeZone?: string } = {}): Promise<EngineResult | null> {
+    const { nights, through } = await this.outside(userId, opts.timeZone);
+    const newest = [...nights].filter((n) => typeof n.sleepMin === 'number').sort((a, b) => a.date.localeCompare(b.date)).at(-1);
+    if (!newest || newest.date > through || daysBetween(newest.date, through) > 1) return null;
+    const since = new Date(this.now().getTime() - 3 * DAY_MS).toISOString();
+    const checked = await this.deps.store.events(userId, ['night.checked'], since);
+    if (checked.some((e) => e.payload.date === newest.date)) return null;
+    return this.run(userId, { kind: 'night', date: newest.date, sleepMin: newest.sleepMin! }, opts);
   }
 
   /** What the app shows. Reading it logs today's one thing the first time each day. */

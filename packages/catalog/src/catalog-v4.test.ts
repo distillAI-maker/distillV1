@@ -82,7 +82,7 @@ describe('routing table V4', () => {
   });
   it('names the sheet, row and column of every problem', () => {
     const bad = { ...creatine, sources: '', human_question: 'You should lift, it will boost everything!' };
-    expect(() => ingestV4(workbook([bad]), 'a'.repeat(64))).toThrow(/Items row 2, column sources: tier A needs at least one source someone checked/);
+    expect(() => ingestV4(workbook([bad]), 'a'.repeat(64))).toThrow(/Items row 2, column sources: tier A needs at least one independent source someone checked/);
     try {
       ingestV4(workbook([bad]), 'a'.repeat(64));
     } catch (e) {
@@ -95,6 +95,12 @@ describe('routing table V4', () => {
   it('needs a reviewer before a row goes live, and a source someone checked for A and B', () => {
     expect(() => ingestV4(workbook([{ ...creatine, reviewed_by: '' }]), 'a'.repeat(64))).toThrow(/live row needs reviewed_by/);
     expect(() => ingestV4(workbook([creatine], [{ ...source, checked_by: '', checked_on: '' }]), 'a'.repeat(64))).toThrow(/someone checked/);
+  });
+  it('never lets brand-funded work carry a tier A or B, and lets weak-for-some rows be cleared', () => {
+    expect(() => ingestV4(workbook([creatine], [{ ...source, brand_funded: 'yes' }]), 'a'.repeat(64))).toThrow(/independent source/);
+    const forSome = { ...creatine, clear_when: 'NOT_TRAINING, BORROWED_WEAK' };
+    expect(ingestV4(workbook([forSome]), 'a'.repeat(64)).items[0]!.clearWhen).toContain('BORROWED_WEAK');
+    expect(() => ingestV4(workbook([{ ...forSome, tier_otherwise: 'B' }]), 'a'.repeat(64))).toThrow(/BORROWED_WEAK is for tiers C, D and N/);
   });
   it('only lets reviewed rows reach the engine; everything else reads as unknown evidence', () => {
     const v3 = catalogSchema.parse(data);

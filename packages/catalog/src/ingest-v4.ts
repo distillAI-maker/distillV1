@@ -60,6 +60,7 @@ export const SOURCE_HEADERS = [
   'population',
   'checked_by',
   'checked_on',
+  'brand_funded',
 ] as const;
 export const OVERLAP_HEADERS = ['group', 'members', 'rule', 'note'] as const;
 export const SAFETY_HEADERS = ['item', 'condition', 'action', 'note'] as const;
@@ -156,13 +157,14 @@ export function ingestV4(wb: XLSX.WorkBook, sourceSha256: string): CatalogV4 {
   const sources = table(wb, 'Sources', SOURCE_HEADERS).map(({ row, get }) => ({
     id: text(get('id')),
     citation: text(get('citation')),
-    year: number(get('year'), `Sources row ${row}, column year`) ?? 0,
+    year: number(get('year'), `Sources row ${row}, column year`),
     type: text(get('type')),
     doiOrUrl: text(get('doi_or_url')),
     finding: text(get('finding')),
     population: text(get('population')),
     checkedBy: text(get('checked_by')),
     checkedOn: text(get('checked_on')),
+    brandFunded: yesNo(get('brand_funded'), `Sources row ${row}, column brand_funded`),
     source: { sheet: 'Sources', row },
   }));
   const overlaps = table(wb, 'Overlaps', OVERLAP_HEADERS).map(({ row, get }) => ({

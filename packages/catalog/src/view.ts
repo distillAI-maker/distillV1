@@ -216,16 +216,11 @@ export function buildCatalogView(
     if (view) cache.set(key, view);
     return view;
   };
-  // V4's overlap sheet wins for its groups; V3 groups fill in for everything not yet rebuilt.
-  const groups: OverlapGroupView[] = [];
-  const named = new Set<string>();
-  for (const g of v4?.overlaps ?? []) {
-    groups.push({ group: g.group, members: g.members, rule: g.rule, note: g.note });
-    named.add(g.group);
-  }
-  for (const g of v3.overlapGroups)
-    if (!named.has(g.name))
-      groups.push({ group: g.name, members: g.itemKeys, rule: 'keep-one', note: g.ruleText });
+  // Once V4 exists its overlap sheet is the whole list: every V3 group was carried over with an
+  // explicit rule, and V3's prose rules ("shown, not auto-dropped") can't be read as keep-one.
+  const groups: OverlapGroupView[] = v4
+    ? v4.overlaps.map((g) => ({ group: g.group, members: g.members, rule: g.rule, note: g.note }))
+    : v3.overlapGroups.map((g) => ({ group: g.name, members: g.itemKeys, rule: 'keep-one' as const, note: g.ruleText }));
   return {
     version: v4?.sourceSha256 ?? 'v3-only',
     item,

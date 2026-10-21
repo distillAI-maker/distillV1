@@ -20,7 +20,7 @@ export const ideaSchema = z
     awe: aweSchema.optional(),
     social: z.enum(['solo', 'pair', 'group']),
     cost: z.enum(['free', 'low', 'medium', 'high']),
-    when: z.string().max(120),
+    when: z.string().max(200),
     line: z.string().min(1).max(240),
     fitsWhen: z.string().min(1).max(240),
     url: z.string().url(),

@@ -29,31 +29,33 @@ ITEM_COLUMNS = [
     "fits_instead", "awe", "wearable_sees", "overlaps", "top50", "status", "reviewed_by",
     "reviewed_on", "notes_internal",
 ]
-SOURCE_COLUMNS = ["id", "citation", "year", "type", "doi_or_url", "finding", "population", "checked_by", "checked_on"]
+SOURCE_COLUMNS = ["id", "citation", "year", "type", "doi_or_url", "finding", "population", "checked_by", "checked_on", "brand_funded"]
 OVERLAP_COLUMNS = ["group", "members", "rule", "note"]
 SAFETY_COLUMNS = ["item", "condition", "action", "note"]
 
 # One value from a list: a dropdown. Several values: a note listing what is allowed.
 SINGLE = {
     "area": ["eat", "move", "mind", "sleep", "skin"],
-    "kind": ["supplement", "food-drink", "movement", "practice", "device", "service", "environment", "timing"],
+    "kind": ["supplement", "food-drink", "movement", "practice", "device", "service", "environment", "timing", "topical"],
     "cadence": ["daily", "weekly", "monthly", "occasional"],
     "ritual_role": ["anchor", "companion", "standalone"],
     "evidence_tier": ["A", "B", "C", "D", "N"],
     "evidence_requires": ["none", "trains", "deficiency", "low_intake"],
     "tier_otherwise": ["A", "B", "C", "D", "N"],
-    "dose_unit": ["g", "mg", "mcg", "IU", "min", "sessions/week"],
+    "dose_unit": ["g", "mg", "mcg", "IU", "min", "sessions/week", "%", "steps/day"],
     "never_clear": ["yes", "no"],
     "awe": ["nature", "music", "visual", "collective", "moral", "spiritual", "life", "epiphany"],
     "wearable_sees": ["yes", "partial", "no"],
     "top50": ["yes", "no"],
     "status": ["draft", "reviewed", "live"],
-    "type": ["meta-analysis", "RCT", "position stand", "review", "cohort", "expert"],
+    "type": ["meta-analysis", "systematic review", "RCT", "cohort", "cross-sectional", "case series", "lab study",
+             "review", "position stand", "guidance", "expert"],
+    "brand_funded": ["yes", "no"],
     "rule": ["keep-one", "keep-best-evidence", "keep-most-used", "show-together"],
     "condition": [
         "any", "on-medication", "pregnant", "breastfeeding", "kidney-disease", "liver-disease",
         "heart-condition", "blood-pressure", "diabetes", "under-18", "skin-condition", "bleeding-risk",
-        "mental-health-condition",
+        "mental-health-condition", "smoker", "sleep-apnea",
     ],
     "action": ["clinician-first", "see-dermatologist", "never-suggest", "note"],
 }
@@ -135,7 +137,7 @@ README = [
     ("Tier N", "No independent studies (brand-funded only counts as none). Can be cleared when borrowed and unloved."),
     ("evidence_requires", "When the tier only holds for some people (creatine needs training), name the condition and give tier_otherwise for everyone else."),
     ("Direction", "keep_when with EVIDENCE_REGULAR means the evidence is of a benefit and protects. A clear_when of UNLOVED_HABIT means the evidence is of a cost (a nightcap, nicotine), and it protects nothing."),
-    ("Sources", "A and B rows need at least one source with checked_by and checked_on filled. Only list a source someone actually opened. Findings are paraphrased, 30 words or fewer."),
+    ("Sources", "A and B rows need at least one independent source (brand_funded no) with checked_by and checked_on filled. Only list a source someone actually opened. Findings are paraphrased, 30 words or fewer."),
     ("Words a person reads", "evidence_summary (40 words or fewer), human_question (under 12 words) and fits_instead never use the words on the Words sheet, never say they or their, and never end in an exclamation mark."),
 ]
 

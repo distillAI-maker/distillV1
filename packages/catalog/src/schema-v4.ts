@@ -17,6 +17,8 @@ export const v4KindSchema = z.enum([
   'service',
   'environment',
   'timing',
+  /** Something put on the skin: sunscreen, a retinoid, an acid, a serum. */
+  'topical',
 ]);
 export const v4MomentSchema = z.enum(['morning', 'midday', 'evening', 'night', 'weekend', 'any']);
 export const v4CadenceSchema = z.enum(['daily', 'weekly', 'monthly', 'occasional']);
@@ -43,7 +45,7 @@ export const v4WhyLovedSchema = z.enum([
 ]);
 export const v4TierSchema = z.enum(['A', 'B', 'C', 'D', 'N']);
 export const v4RequiresSchema = z.enum(['none', 'trains', 'deficiency', 'low_intake']);
-export const v4DoseUnitSchema = z.enum(['g', 'mg', 'mcg', 'IU', 'min', 'sessions/week']);
+export const v4DoseUnitSchema = z.enum(['g', 'mg', 'mcg', 'IU', 'min', 'sessions/week', '%', 'steps/day']);
 export const v4KeepCodeSchema = z.enum(['THEIRS', 'LOVED', 'EVIDENCE_REGULAR', 'TRAINS']);
 export const v4ClearCodeSchema = z.enum([
   'BORROWED_WEAK',
@@ -69,10 +71,15 @@ export const v4SeesSchema = z.enum(['yes', 'partial', 'no']);
 export const v4StatusSchema = z.enum(['draft', 'reviewed', 'live']);
 export const v4SourceTypeSchema = z.enum([
   'meta-analysis',
+  'systematic review',
   'RCT',
-  'position stand',
-  'review',
   'cohort',
+  'cross-sectional',
+  'case series',
+  'lab study',
+  'review',
+  'position stand',
+  'guidance',
   'expert',
 ]);
 export const v4OverlapRuleSchema = z.enum([
@@ -95,6 +102,8 @@ export const v4ConditionSchema = z.enum([
   'skin-condition',
   'bleeding-risk',
   'mental-health-condition',
+  'smoker',
+  'sleep-apnea',
 ]);
 export const v4SafetyActionSchema = z.enum([
   'clinician-first',
@@ -161,13 +170,16 @@ export const v4SourceSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     citation: text,
-    year: z.number().int().min(1950).max(2100),
+    /** Blank for an undated web page (agency guidance). */
+    year: z.number().int().min(1950).max(2100).nullable(),
     type: v4SourceTypeSchema,
     doiOrUrl: z.string().trim().url(),
     finding: text,
     population: z.string().trim(),
     checkedBy: z.string().trim(),
     checkedOn: z.string().trim(),
+    /** Paid for or run by the brand that sells it. Counts as no independent evidence. */
+    brandFunded: z.boolean(),
     source: location,
   })
   .strict();

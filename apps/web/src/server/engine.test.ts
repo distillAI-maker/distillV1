@@ -11,6 +11,8 @@ import { CRISIS_REPLY, REPLY_FALLBACK } from '../../lib/ai/engine/reply';
 import { emptyProgress, type Progress, type StackItem } from '../../lib/progress/types';
 import { CAPS, Engine, FIXED_LINES, matchItem, previewEngine, type EngineDeps } from './engine';
 import { EngineStore } from './engine-store';
+import { engineRoute } from './engine-routes';
+import { nightsFor } from './engine-deps';
 
 const alice = '20000000-0000-4000-8000-000000000001';
 let pg: PGlite, store: EngineStore;
@@ -347,5 +349,33 @@ describe('helpers', () => {
     expect(p.parts.length).toBeGreaterThan(0);
     expect(p.decisions.find((d) => d.stackItemId === 'ag1')!.line.length).toBeGreaterThan(0);
     expect(await store.versions(alice)).toHaveLength(before);
+  });
+});
+
+describe('the API', () => {
+  it('takes the person from the session only, and refuses anything else in a body', async () => {
+    const e = engine();
+    await expect(engineRoute(e, 'run', 'POST', { event: { kind: 'onboarding', userId: 'someone-else' } }, alice, null)).rejects.toThrow();
+    await expect(engineRoute(e, 'message', 'POST', { text: 'x'.repeat(2001) }, alice, null)).rejects.toThrow();
+    await expect(engineRoute(e, 'nope', 'POST', {}, alice, null)).rejects.toThrow(/not_found/);
+    const r = (await engineRoute(e, 'run', 'POST', { event: { kind: 'onboarding' } }, alice, 'America/New_York')) as { state: { ritual: { status: string } } };
+    expect(r.state.ritual.status).toBe('proposed');
+    expect((await store.person(alice))!.timeZone).toBe('America/New_York');
+  });
+  it('checks last night once when the app opens, and never an old night', async () => {
+    await settled();
+    const e = engine();
+    nights = Array.from({ length: 18 }, (_, i) => ({ date: `2026-10-${String(1 + i).padStart(2, '0')}`, sleepMin: 430 }));
+    expect(await e.checkNight(alice)).toBeNull(); // the newest is three nights ago
+    nights = [...nights, { date: '2026-10-21', sleepMin: 300 }];
+    expect(await e.checkNight(alice)).not.toBeNull();
+    expect(await e.checkNight(alice)).toBeNull();
+    expect(await store.events(alice, ['night.checked'], '2000-01-01T00:00:00Z')).toHaveLength(1);
+  });
+  it('reads the demo person’s nights from the synthetic generator', async () => {
+    const demo = await nightsFor(null as never, alice, { ...progress, dataSource: 'demo' }, '2026-10-21');
+    expect(demo.length).toBeGreaterThanOrEqual(28);
+    expect(demo.every((n) => n.date <= '2026-10-22')).toBe(true);
+    expect(await nightsFor(null as never, alice, progress, '2026-10-21')).toEqual([]);
   });
 });

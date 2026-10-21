@@ -56,11 +56,14 @@ export function validateV4(input: unknown): CatalogV4 {
 
   for (const i of c.items) {
     const r = i.source.row;
-    const checked = i.sources.map((id) => sourceIds.get(id)).filter((s) => s && s.checkedOn && s.checkedBy);
+    // Brand-funded work counts as no independent evidence, so it never carries a tier A or B.
+    const checked = i.sources
+      .map((id) => sourceIds.get(id))
+      .filter((s) => s && s.checkedOn && s.checkedBy && !s.brandFunded);
     for (const id of i.sources)
       if (!sourceIds.has(id)) problems.push(`${at('Items', r, 'sources')}: no source "${id}" on the Sources sheet`);
     if ((i.evidenceTier === 'A' || i.evidenceTier === 'B') && !checked.length)
-      problems.push(`${at('Items', r, 'sources')}: tier ${i.evidenceTier} needs at least one source someone checked`);
+      problems.push(`${at('Items', r, 'sources')}: tier ${i.evidenceTier} needs at least one independent source someone checked`);
     if (i.evidenceTier === 'C' && !i.sources.length)
       problems.push(`${at('Items', r, 'sources')}: tier C needs at least one source`);
     if (i.kind === 'supplement' && (i.evidenceTier === 'A' || i.evidenceTier === 'B') && (i.doseMin === null || i.doseUnit === null))
@@ -73,8 +76,10 @@ export function validateV4(input: unknown): CatalogV4 {
       problems.push(`${at('Items', r, 'keep_when')}: THEIRS and LOVED always keep`);
     if (i.neverClear && i.clearWhen.length)
       problems.push(`${at('Items', r, 'clear_when')}: never_clear is yes, so there can be no clear codes`);
-    if (i.clearWhen.includes('BORROWED_WEAK') && (i.evidenceTier === 'A' || i.evidenceTier === 'B'))
-      problems.push(`${at('Items', r, 'clear_when')}: BORROWED_WEAK is for tiers C, D and N`);
+    // A row strong only for some people (creatine for people who train) can be weak for the rest.
+    const weak = (t: string | null) => t === 'C' || t === 'D' || t === 'N';
+    if (i.clearWhen.includes('BORROWED_WEAK') && !weak(i.evidenceTier) && !weak(i.tierOtherwise))
+      problems.push(`${at('Items', r, 'clear_when')}: BORROWED_WEAK is for tiers C, D and N (here or in tier_otherwise)`);
     if (i.clearWhen.includes('OVERLAP') && !i.overlaps.length)
       problems.push(`${at('Items', r, 'overlaps')}: OVERLAP needs at least one overlap group`);
     for (const g of i.overlaps)

@@ -1,10 +1,10 @@
 import { copy } from './copy';
 import { pictureKindSchema, type Progress } from './progress/types';
 
-/** The daily identity question, shared by the home screen and the engine's pick for today. */
 /**
  * The day's question: one not asked before, about the part of "What we've learned about you" we
  * know least, so each answer fills in the picture. Once all are asked, they come round again.
+ * Shared by the home screen and the engine's pick for today.
  */
 export function pickQuestion(day: number, progress: Progress): string {
   const kinds = pictureKindSchema.options;

@@ -77,6 +77,8 @@ export const conditionSchema = z.enum([
   'skin-condition',
   'bleeding-risk',
   'mental-health-condition',
+  'smoker',
+  'sleep-apnea',
 ]);
 export type Condition = z.infer<typeof conditionSchema>;
 
