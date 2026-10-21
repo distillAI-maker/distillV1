@@ -155,13 +155,17 @@ export async function reshape(
     }
     // The reply may only name times in the new days (or their message) and days that changed.
     const times = new Set<string>();
+    const minutes = new Set<string>();
     for (const t of scope.targets) {
       const after = applyOps(t.parts, scope.kind === 'base' ? data.ops : (split(data.ops)[t.date] ?? []), {
         scope: scope.kind,
         date: t.date,
         newId: () => 'x',
       }).parts;
-      for (const p of after) if (p.when.at) times.add(p.when.at);
+      for (const p of after) {
+        if (p.when.at) times.add(p.when.at);
+        if (p.minutes) minutes.add(String(p.minutes));
+      }
     }
     problems.push(
       ...replyErrors(data.reply, {
@@ -171,7 +175,9 @@ export async function reshape(
         today: input.today,
       }),
     );
-    problems.push(...checkLine(data.reply, ctx).map((i) => `reply: ${i.code} ${i.detail}`));
+    // Times and lengths from the new days are theirs to hear; any other number is not.
+    const said = { ...ctx, allowedNumbers: [...ctx.allowedNumbers, ...[...times].flatMap(clockForms), ...minutes] };
+    problems.push(...checkLine(data.reply, said).map((i) => `reply: ${i.code} ${i.detail}`));
     if (data.ongoing !== (input.trigger.durability === 'ongoing')) problems.push('ongoing must match the change');
     return problems;
   };
@@ -197,4 +203,14 @@ export async function reshape(
     from: 'claude',
     usage: result.usage,
   };
+}
+
+/** The ways a reply may write a clock time: "09:30" as 9:30, and "13:00" as 13, 1:00 or 1. */
+export function clockForms(at: string): string[] {
+  const [h, m] = at.split(':').map(Number) as [number, number];
+  const mm = String(m).padStart(2, '0');
+  const twelve = ((h + 11) % 12) + 1;
+  const forms = new Set([at, `${h}:${mm}`, `${twelve}:${mm}`]);
+  if (m === 0) for (const x of [h, twelve]) forms.add(String(x));
+  return [...forms];
 }

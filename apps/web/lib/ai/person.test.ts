@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { pickDaily, pickQuestion } from '../../app/(app)/home/standard-home';
+import { pickDaily } from '../../app/(app)/home/standard-home';
+import { pickQuestion } from '../daily';
 import { morePlaces } from '../catalog/common';
 import { copy } from '../copy';
 import { emptyProgress, type PictureLine, type Progress } from '../progress/types';

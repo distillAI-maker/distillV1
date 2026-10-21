@@ -194,6 +194,12 @@ describe('decide: memory and order', () => {
     ]);
     expect(of(later.result, 'ag1')).toEqual(['clear:BORROWED_WEAK']);
   });
+  it('a yes is never asked again, even before the app marks the item gone', () => {
+    const answered = run(items(), () => {}, [
+      { stackItemId: 'ag1', kind: 'clear', reason: 'BORROWED_WEAK', status: 'yes', answeredAt: '2026-10-20T10:00:00Z' },
+    ]);
+    expect(of(answered.result, 'ag1')).toEqual([]);
+  });
   it('never proposes clearing a well-founded thing done regularly, unless something kept covers it', () => {
     const { result } = run(items());
     for (const d of result.decisions.filter((x) => x.kind === 'clear')) {

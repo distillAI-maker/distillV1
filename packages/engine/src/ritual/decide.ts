@@ -335,11 +335,12 @@ export function decide(input: DecideInput): DecideResult {
     .slice(0, 2);
   for (const s of anchors) if (!drafts.has(`${s.id}:curate`)) put(s, 'curate', 'ANCHOR');
 
-  // "Not now" holds for its cooldown; anything already answered isn't asked again.
+  // "Not now" holds for its cooldown; anything already answered isn't asked again (a yes to a
+  // clear stays answered while the app marks the item gone, and a yes to a dose change for good).
   const decisions = [...drafts.values()]
     .filter((d) => {
       if (!d.stackItemId) return true;
-      if (d.kind === 'keep' && answeredAlready(history, d.stackItemId, d.kind, d.reason)) return false;
+      if (answeredAlready(history, d.stackItemId, d.kind, d.reason)) return false;
       if ((d.kind === 'clear' || d.kind === 'curate') && underCooldown(history, d.stackItemId, d.kind, d.reason, today))
         return false;
       return true;
