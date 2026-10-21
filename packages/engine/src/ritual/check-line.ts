@@ -37,9 +37,12 @@ const HEALTH_WORDS =
   /\b(sleep|slept|hrv|heart rate|bpm|score|readiness|percent|%|study|studies|research|trial|swing|deep|rem|recovery|calories|kcal|mg|mcg|iu)\b/i;
 const EMOJI = /\p{Extended_Pictographic}/u;
 
-/** Every number in a text, as written: "10", "7:30", "$90", "3.5". */
+/** A number standing on its own: "10", "7:30", "$90", "3.5", never the 1 in "AG1". */
+const NUMBER = /(?<![\p{L}\d])\$?\d+(?:[.:]\d+)?(?!\p{L})/gu;
+
+/** Every number in a text, as written. */
 export function numbersIn(text: string): string[] {
-  return [...text.matchAll(/\$?\d+(?:[.:]\d+)?/g)].map((m) => m[0]);
+  return [...text.matchAll(NUMBER)].map((m) => m[0]);
 }
 
 /** Numbers the person used, so a reply may repeat them ("see you at 10", "$90 a month back"). */
@@ -94,8 +97,9 @@ export function checkLine(text: string, ctx: LineContext): LineIssue[] {
   if (RITUAL_WORD.test(line)) issues.push({ code: 'RITUAL_WORD', detail: 'Say "your Ritual" or the habit by name' });
   if (CLAIMS.test(line)) issues.push({ code: 'CLAIM', detail: (CLAIMS.exec(line) ?? [''])[0] });
   if (EMOJI.test(line)) issues.push({ code: 'EMOJI', detail: 'No emoji' });
-  const allowed = new Set(ctx.allowedNumbers);
-  for (const m of line.matchAll(/\$?\d+(?:[.:]\d+)?/g)) {
+  // Numbers in their own words, and in the names of things in their life ("SPF 30"), are theirs.
+  const allowed = new Set([...ctx.allowedNumbers, ...allowedNumbersFrom(...ctx.names)]);
+  for (const m of line.matchAll(NUMBER)) {
     const n = m[0];
     const around = line.slice(Math.max(0, m.index! - 24), m.index! + n.length + 24);
     if (HEALTH_WORDS.test(around)) issues.push({ code: 'HEALTH_NUMBER', detail: `${n} next to a health word` });
