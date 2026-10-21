@@ -13,7 +13,7 @@ const onboarded: Progress = {
   items: [{ id: 'a', itemKey: 'magnesium-any-form', monthlyCost: 12, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
 };
 function account(load: () => Promise<Progress | null>) {
-  const save = vi.fn(async () => {});
+  const save = vi.fn(async (_progress: Progress) => {});
   const store: ProgressStore = { id: 'supabase', load, save, clear: async () => {} };
   return { store, save };
 }
