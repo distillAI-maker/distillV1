@@ -1,9 +1,12 @@
 import {
+  bigint,
   boolean,
   date,
   foreignKey,
   index,
+  integer,
   jsonb,
+  numeric,
   pgTable,
   primaryKey,
   text,
@@ -157,3 +160,73 @@ export const experimentCheckIns = pgTable(
   },
   (t) => [primaryKey({ columns: [t.experimentId, t.sleepDate] })],
 );
+
+// The engine (supabase/migrations/20261021000001_engine.sql). Server-only; read and written by
+// apps/web/src/server/engine-store.ts with raw SQL. Defined here so the schema stays complete.
+export const personModels = pgTable('person_models', {
+  userId: uuid('user_id').primaryKey(),
+  version: integer('version').notNull().default(1),
+  model: jsonb('model').notNull(),
+  builtFrom: text('built_from').$type<'progress-v1' | 'engine'>().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+export const ritualVersions = pgTable(
+  'ritual_versions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').notNull(),
+    version: integer('version').notNull(),
+    parentId: uuid('parent_id'),
+    scope: text('scope').$type<'base' | 'day'>().notNull(),
+    scopeDate: date('scope_date').notNull(),
+    parts: jsonb('parts').notNull(),
+    ops: jsonb('ops').notNull(),
+    changes: jsonb('changes').notNull(),
+    trigger: text('trigger').notNull(),
+    causeEvent: bigint('cause_event', { mode: 'number' }),
+    status: text('status').$type<'proposed' | 'accepted' | 'undone' | 'superseded'>().notNull(),
+    reply: text('reply'),
+    engine: jsonb('engine').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex('ritual_versions_user_id_version_key').on(t.userId, t.version)],
+);
+export const contextMessages = pgTable('context_messages', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').notNull(),
+  role: text('role').$type<'person' | 'companion'>().notNull(),
+  text: text('text').notNull(),
+  trigger: jsonb('trigger'),
+  ritualVersionId: uuid('ritual_version_id'),
+  at: timestamp('at', { withTimezone: true }).notNull().defaultNow(),
+});
+export const decisions = pgTable('decisions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').notNull(),
+  stackItemId: text('stack_item_id'),
+  itemKey: text('item_key'),
+  kind: text('kind').notNull(),
+  reason: text('reason').notNull(),
+  line: text('line').notNull(),
+  evidenceTier: text('evidence_tier'),
+  money: numeric('money').notNull(),
+  status: text('status').notNull(),
+  engine: jsonb('engine').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  answeredAt: timestamp('answered_at', { withTimezone: true }),
+});
+export const engineEvents = pgTable('engine_events', {
+  id: bigint('id', { mode: 'number' }).primaryKey().generatedAlwaysAsIdentity(),
+  userId: uuid('user_id'),
+  device: text('device'),
+  kind: text('kind').notNull(),
+  payload: jsonb('payload').notNull(),
+  engine: jsonb('engine'),
+  model: text('model'),
+  tokensIn: integer('tokens_in'),
+  tokensOut: integer('tokens_out'),
+  cacheRead: integer('cache_read'),
+  costUsd: numeric('cost_usd'),
+  latencyMs: integer('latency_ms'),
+  at: timestamp('at', { withTimezone: true }).notNull().defaultNow(),
+});
