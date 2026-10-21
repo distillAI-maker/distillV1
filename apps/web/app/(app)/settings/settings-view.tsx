@@ -6,6 +6,8 @@ import { Dialog } from '../../../components/dialog';
 import { Button, ButtonLink } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { supabaseConfigured } from '../../../lib/env';
+import { engineApi } from '../../../lib/engine/client';
+import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
 import { deleteEverything, signOut } from './actions';
 
@@ -22,6 +24,8 @@ export function SettingsView({
 }) {
   const router = useRouter();
   const { ready, progress, update, reset } = useProgress();
+  const engine = useEngine();
+  const nights = engine.state?.person.nightsShapeMornings ?? false;
   const [confirm, setConfirm] = useState<'delete' | 'disconnect' | null>(null);
   const [gone, setGone] = useState(false);
   const [less, setLess] = useState(false);
@@ -157,6 +161,31 @@ export function SettingsView({
           </Button>
         </div>
       </section>
+
+      {engine.on && engine.state ? (
+        <section className="stack-tight" aria-labelledby="s-ritual">
+          <h2 id="s-ritual" style={{ fontSize: 22 }}>
+            {copy.days.title}
+          </h2>
+          <div className="srow">
+            <span id="s-nights">
+              {copy.settings.nightsTitle}
+              <span className="hint" style={{ display: 'block' }}>
+                {progress.dataSource ? copy.settings.nightsLine : copy.settings.nightsNeedsSource}
+              </span>
+            </span>
+            <button
+              type="button"
+              className="switch-btn"
+              role="switch"
+              aria-checked={nights}
+              aria-labelledby="s-nights"
+              disabled={engine.busy || !progress.dataSource}
+              onClick={() => void engine.act(() => engineApi.settings(!nights))}
+            />
+          </div>
+        </section>
+      ) : null}
 
       <section className="stack-tight" aria-labelledby="s-disp">
         <h2 id="s-disp" style={{ fontSize: 22 }}>

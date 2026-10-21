@@ -290,6 +290,23 @@ describe('composing by rules', () => {
     expect(byTitle['Wine Fridays']!.people).toEqual(['sam']);
     expect(validateRitual({ parts, allowed: allowed({ stackItemIds: new Set(items.map((i) => i.id)) }), perMoment: 3 })).toEqual([]);
   });
+  it('a full weekend never pushes a daily thing out of the weekdays', () => {
+    const items = [
+      stackItem('a', 'creatine-monohydrate'),
+      stackItem('b', 'sunscreen-daily-spf-30'),
+      stackItem('c', 'melatonin'),
+      stackItem('d', 'retinol-retinoid-nightly'),
+    ];
+    const progress = progressWith(items);
+    const person = personFor(progress);
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const { parts } = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true });
+    // Three fill each weekend day; the fourth still has its weekday mornings or nights.
+    expect(parts).toHaveLength(4);
+    expect(parts.filter((p) => p.when.days.length === 7)).toHaveLength(3);
+    expect(parts.find((p) => p.when.days.length < 7)!.when.days).toEqual(['mon', 'tue', 'wed', 'thu', 'fri']);
+    expect(validateRitual({ parts, allowed: allowed({ stackItemIds: new Set(items.map((i) => i.id)) }), perMoment: 3 })).toEqual([]);
+  });
   it('reads days and times from their words, and never reads "the sun" as Sunday', () => {
     expect(whenFromWords('Saturday 9am with Leah')).toEqual({ days: ['sat'], at: '09:00', slot: 'morning' });
     expect(whenFromWords('sit in the sun with coffee').days).toBeUndefined();

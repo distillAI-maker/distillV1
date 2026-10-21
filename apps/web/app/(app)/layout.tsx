@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { AppTabs } from '../../components/app-tabs';
 import { Footer, Wordmark } from '../../components/ui';
+import { EngineProvider } from '../../lib/engine/context';
 
 /** The daily screens: Your Standard (home), Today, Readings, Settings. */
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -12,7 +13,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <AppTabs variant="bar" />
         </div>
       </header>
-      <main className="main wrap">{children}</main>
+      <main className="main wrap">
+        <EngineProvider>{children}</EngineProvider>
+      </main>
       <Footer />
       <AppTabs variant="bottom" />
     </div>

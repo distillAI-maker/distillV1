@@ -23,6 +23,7 @@ import {
   scopeTrigger,
   seasonOn,
   slipTrigger,
+  sortParts,
   stamp,
   validateOps,
   valuableQuestions,
@@ -130,9 +131,14 @@ export interface EngineState {
     readonly learn?: string;
   };
   readonly thread: readonly StoredMessage[];
+  /** Where each thing on their list stands, for the app's labels. */
+  readonly items: Readonly<Record<string, ItemStanding>>;
   /** Dollars a month: back from clears they said yes to, and waiting on clears not yet answered. */
   readonly money: { readonly back: number; readonly waiting: number };
 }
+
+/** Outside the edit (a clinician's), theirs, worth keeping, proposed to let go, to adjust, or still open. */
+export type ItemStanding = 'clinician' | 'theirs' | 'keep' | 'clear' | 'adjust' | 'open';
 
 export interface EngineResult {
   readonly state: EngineState;
@@ -519,6 +525,28 @@ export class Engine {
           versionId = (await this.syncBase(ctx, decided, 'decision', tx))?.id;
           break;
         }
+        case 'question-answer':
+        case 'confirm': {
+          const id = event.stackItemId;
+          if (event.kind === 'question-answer')
+            await store.log({ userId, kind: 'question.answered', payload: { questionId: event.questionId, label: event.label, ...(event.attachment ? { attachment: event.attachment } : {}) } }, tx);
+          if (event.attachment && id) {
+            if (!ctx.progress.items.some((i) => i.id === id)) throw new HttpError(404, 'no_such_item');
+            const current = ctx.person.values[id];
+            // "Theirs" is final: a later tap never turns it back into something to decide about.
+            if (current?.attachment !== 'theirs') {
+              ctx.person = {
+                ...ctx.person,
+                version: ctx.person.version + 1,
+                values: { ...ctx.person.values, [id]: { attachment: event.attachment, reasons: current?.reasons ?? [], from: 'tap' } },
+              };
+              await store.log({ userId, kind: 'attachment.confirmed', payload: { stackItemId: id, attachment: event.attachment } }, tx);
+            }
+          }
+          const decided = await this.syncDecisions(ctx, tx);
+          versionId = (await this.syncBase(ctx, decided, 'decision', tx))?.id;
+          break;
+        }
         case 'decision-answer': {
           const answered = await store.answerDecision(userId, event.decisionId, event.answer, tx);
           if (!answered) throw new HttpError(404, 'no_open_decision');
@@ -895,7 +923,7 @@ export class Engine {
       return {
         date,
         changed: !!view.day,
-        parts: view.parts.map((p) => {
+        parts: sortParts(view.parts).map((p) => {
           const check = checks.get(`${date}:${p.id}`);
           return { ...p, moment: momentOfPart(p, date), ...(check ? { check } : {}) };
         }),
@@ -911,6 +939,23 @@ export class Engine {
     const ref = pick && 'ref' in pick ? (pick.ref as string | undefined) : undefined;
     const decision = pick && ref ? ctx.decisions.find((d) => d.id === ref) : undefined;
     const question = pick?.kind === 'question' ? this.questions(ctx).find((q) => q.id === ref) : undefined;
+    const decided = this.decideNow(ctx);
+    const items: Record<string, ItemStanding> = {};
+    for (const i of ctx.progress.items) {
+      if (i.status === 'cut') continue;
+      const open = ctx.decisions.filter((d) => d.stackItemId === i.id && d.status === 'proposed');
+      items[i.id] = decided.clinicianIds.includes(i.id)
+        ? 'clinician'
+        : decided.theirsIds.includes(i.id)
+          ? 'theirs'
+          : open.some((d) => d.kind === 'clear')
+            ? 'clear'
+            : open.some((d) => d.kind === 'curate' && (d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
+              ? 'adjust'
+              : ctx.decisions.some((d) => d.stackItemId === i.id && d.kind === 'keep')
+                ? 'keep'
+                : 'open';
+    }
     return {
       person: { name: ctx.person.name, season: seasonOn(ctx.person, ctx.today), nightsShapeMornings: ctx.person.prefs.nightsShapeMornings, wearable: ctx.person.signals.wearable },
       ritual: {
@@ -938,6 +983,7 @@ export class Engine {
         ...(pick?.kind === 'learn' && ref ? { learn: ref } : {}),
       },
       thread: await this.deps.store.messages(ctx.userId, 60, db),
+      items,
       money: {
         back: sum(ctx.decisions.filter((d) => d.kind === 'clear' && d.status === 'yes').map((d) => d.money)),
         waiting: sum(ctx.decisions.filter((d) => d.kind === 'clear' && d.status === 'proposed').map((d) => d.money)),

@@ -441,4 +441,14 @@ export type EngineEvent =
       readonly answer: 'yes' | 'not-now' | 'theirs';
     }
   | { readonly kind: 'part'; readonly partId: string; readonly date: string; readonly done: boolean }
+  /** They tapped an answer on a question card. Answers about their list are saved by the app first. */
+  | {
+      readonly kind: 'question-answer';
+      readonly questionId: string;
+      readonly label: string;
+      readonly attachment?: 'loved' | 'neutral' | 'borrowed';
+      readonly stackItemId?: string;
+    }
+  /** Their yes to a feeling Distill heard in their words ("is AG1 something you love?"). */
+  | { readonly kind: 'confirm'; readonly stackItemId: string; readonly attachment: 'loved' | 'neutral' | 'borrowed' }
   | { readonly kind: 'refresh' };

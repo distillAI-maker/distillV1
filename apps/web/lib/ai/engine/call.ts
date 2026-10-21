@@ -147,7 +147,7 @@ export async function callJson<T>(client: ClaudeClient | null, input: CallInput<
     model = raw.model ?? model;
     if (stopReason === 'refusal') return { ok: false, reason: 'refusal', usage: usageOf(attempt) };
     const text = (raw.content ?? []).flatMap((b) => (b.type === 'text' && b.text ? [b.text] : [])).join('');
-    let parsed: z.ZodSafeParseResult<T> | null = null;
+    let parsed: z.ZodSafeParseResult<T> | null;
     try {
       parsed = input.parse.safeParse(JSON.parse(text));
     } catch {

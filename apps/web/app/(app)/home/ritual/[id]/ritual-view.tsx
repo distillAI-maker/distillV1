@@ -7,6 +7,8 @@ import { relearn, rereadRitual } from '../../../../../lib/ai/companion-client';
 import { kindOf } from '../../../../../lib/ai/person';
 import { copy } from '../../../../../lib/copy';
 import { useRouted } from '../../../../../lib/data/use-routed';
+import { engineApi } from '../../../../../lib/engine/client';
+import { useEngine } from '../../../../../lib/engine/context';
 import { useProgress } from '../../../../../lib/progress/context';
 import { track } from '../../../../../lib/track';
 import { newItemId, type Progress } from '../../../../../lib/progress/types';
@@ -23,6 +25,7 @@ export function RitualView({ id }: { id: string }) {
   const { routed } = useRouted();
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
+  const engine = useEngine();
   if (!ready || !routed)
     return (
       <section className={s.page} aria-busy="true">
@@ -67,6 +70,8 @@ export function RitualView({ id }: { id: string }) {
     setDraft('');
     track('note_written');
     void changed([...item.notes, { id: newItemId(), text, at: new Date().toISOString() }]);
+    // Signed in, the engine reads it too: what it says about them, and anything it changes.
+    if (engine.on) void engine.act(() => engineApi.run({ kind: 'note', stackItemId: id, text }));
   }
 
   /** "Not for me": the thought goes, and is never offered again. */

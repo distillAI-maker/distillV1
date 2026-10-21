@@ -1,0 +1,201 @@
+/* Today, as today's Ritual: the home screen's world (home.module.css .page sets the colours) with
+   a part list in hairline rows, a three-way view switch and the change card in persimmon. */
+
+.title {
+  margin: 0 0 20px;
+  font-family: var(--serif);
+  font-size: clamp(36px, 10vw, 48px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.lede {
+  margin: 0 0 24px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.views {
+  display: flex;
+  gap: 0;
+  margin: 8px 0 24px;
+  border: 1px solid var(--rule-2);
+}
+.view {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.view + .view {
+  border-left: 1px solid var(--rule-2);
+}
+.viewOn {
+  background: var(--ink);
+  color: #f0ece2;
+}
+.view:focus-visible,
+.check:focus-visible,
+.checkOn:focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 2px;
+}
+
+.day {
+  margin-top: 28px;
+}
+.parts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+.part {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 4px 12px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.time {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ptitle {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.pmeta {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.why {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.checks {
+  grid-column: 2;
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.check,
+.checkOn {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(17, 25, 27, 0.4);
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.checkOn {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #f0ece2;
+}
+.empty {
+  margin: 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.change {
+  margin: 0 0 20px;
+  padding: 22px 24px;
+  background: var(--card);
+  border-top: 3px solid #f26342;
+}
+.change p:not([class]) {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.composer {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--panel);
+}
+.composer textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 12px;
+  border: 1px solid var(--rule-2);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+.composer .lede {
+  margin-bottom: 14px;
+}
+.reply {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.threadLink {
+  align-self: center;
+  font-size: 13px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.buttonLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.previewLink {
+  margin: 32px 0 0;
+  font-size: 14px;
+}
+.previewLink a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 380px) {
+  .part {
+    grid-template-columns: 64px 1fr;
+  }
+}

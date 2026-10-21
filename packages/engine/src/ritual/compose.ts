@@ -73,7 +73,7 @@ function placement(view: CatalogItemView | undefined): { slot: Slot; weekendOnly
   if (!view) return { slot: 'evening', weekendOnly };
   if (view.area === 'sleep') return { slot: 'night', weekendOnly };
   if (view.kind === 'supplement' || view.kind === 'food-drink') return { slot: 'morning', weekendOnly };
-  if (view.area === 'mind') return { slot: 'morning', weekendOnly };
+  if (view.area === 'mind' || view.area === 'skin') return { slot: 'morning', weekendOnly };
   return { slot: weekendOnly ? 'morning' : 'evening', weekendOnly };
 }
 
@@ -119,7 +119,10 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     const keep = keepOf.get(s.id);
     const reason = keep?.reason ?? (person.values[s.id]?.attachment === 'theirs' ? 'THEIRS' : 'NOTHING_TO_CLEAR');
     const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
-    const said = whenFromWords(words);
+    // Their words first, then the row's own name ("Reading before bed"), then where the row sits.
+    const own = whenFromWords(words);
+    const named = view ? whenFromWords(view.name) : {};
+    const said = { ...named, ...own, slot: own.slot ?? named.slot, days: own.days ?? named.days };
     const place = placement(view);
     const usage = usageOf(s, view);
     const weekly = view?.cadence === 'weekly' || (!view && !said.days);
@@ -156,15 +159,22 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
   candidates.sort((a, b) => b.rank - a.rank || a.part.id.localeCompare(b.part.id));
   const kept: RitualPart[] = [];
   const count = new Map<string, number>();
+  const keyOf = (d: Day, slot: Slot) => `${d}:${momentKey(d, slot)}`;
+  const roomIn = (k: string) => (count.get(k) ?? 0) < cap;
   for (const { part } of candidates) {
     const fixedDays = part.when.days;
-    const keys = fixedDays.length
-      ? fixedDays.map((d) => `${d}:${momentKey(d, part.when.slot)}`)
-      : [`flex:${part.when.slot}`];
-    const full = keys.some((k) => (count.get(k) ?? 0) >= cap);
-    if (full && !part.lock) continue;
-    for (const k of keys) count.set(k, (count.get(k) ?? 0) + 1);
-    kept.push(part);
+    if (!fixedDays.length) {
+      const k = `flex:${part.when.slot}`;
+      if (!roomIn(k) && !part.lock) continue;
+      count.set(k, (count.get(k) ?? 0) + 1);
+      kept.push(part);
+      continue;
+    }
+    // A full Saturday doesn't push a daily thing out of every weekday: it keeps the days with room.
+    const days = part.lock ? fixedDays : fixedDays.filter((d) => roomIn(keyOf(d, part.when.slot)));
+    if (!days.length) continue;
+    for (const d of days) count.set(keyOf(d, part.when.slot), (count.get(keyOf(d, part.when.slot)) ?? 0) + 1);
+    kept.push(days.length === fixedDays.length ? part : { ...part, when: { ...part.when, days } });
   }
   const parts = sortParts(kept).map((p, i) => ({ ...p, order: i }));
   return {

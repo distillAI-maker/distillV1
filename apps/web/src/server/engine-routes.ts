@@ -28,6 +28,18 @@ export const runEventSchema = z.discriminatedUnion('kind', [
     .object({ kind: z.literal('decision-answer'), decisionId: z.uuid(), answer: z.enum(['yes', 'not-now', 'theirs']) })
     .strict(),
   z.object({ kind: z.literal('part'), partId: text(200), date: z.iso.date(), done: z.boolean() }).strict(),
+  z
+    .object({
+      kind: z.literal('question-answer'),
+      questionId: text(200),
+      label: text(120),
+      attachment: z.enum(['loved', 'neutral', 'borrowed']).optional(),
+      stackItemId: text(120).optional(),
+    })
+    .strict(),
+  z
+    .object({ kind: z.literal('confirm'), stackItemId: text(120), attachment: z.enum(['loved', 'neutral', 'borrowed']) })
+    .strict(),
 ]);
 
 export async function engineRoute(
