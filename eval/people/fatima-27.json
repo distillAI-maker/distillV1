@@ -1,0 +1,165 @@
+{
+  "id": "fatima-27",
+  "summary": "Fatima, 27, neuroscience PhD student in Morningside Heights with qualifying exams on Dec 9: badminton with her lab is hers, an ad sold her lion's mane, and 'reading papers' in bed runs to 2am. Tests exam pressure and a stomach flu without study-plan talk.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "hard-goal",
+    "borrowed",
+    "unloved-vice",
+    "season:unwell"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T23:50:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "focus / memory",
+      "falling asleep"
+    ],
+    "name": "Fatima",
+    "lifeText": "Coffee on the fire escape, four honest hours of writing before anyone emails me, badminton with the lab on Thursdays, and a call with my sisters where we all talk at once. Asleep before 1 would be a miracle.",
+    "member": true,
+    "items": [
+      {
+        "id": "fatima-lionsmane",
+        "itemKey": "lion-s-mane",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 22,
+          "form": "powder"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "An ad told me it would help me focus. I put it in my coffee and mostly it makes my coffee taste like a forest floor.",
+            "at": "2026-10-19T23:40:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "fatima-phone",
+        "itemKey": "screens-phone-in-bed",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 6
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I 'read papers' on my phone in bed until 2. Sometimes they are papers. Mostly they are not.",
+            "at": "2026-10-19T23:44:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "fatima-badminton",
+        "itemKey": null,
+        "customName": "Thursday badminton with the lab",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Our PI plays too and is terrible and knows it. Best hour of the week.",
+            "at": "2026-10-19T23:47:00-04:00"
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "fatima-badminton"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T23:50:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T22:30:00-04:00",
+      "text": "Quals are December 9. My committee just sent the reading list. It is long."
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-24T11:00:00-04:00",
+      "q": "What does a good morning look like?",
+      "a": "Fire escape, coffee, nobody awake on the group chat yet."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T16:20:00-04:00",
+      "text": "Stomach flu. Lost two days of reading and I'm panicking a little."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "fatima-lionsmane",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-03T21:45:00-05:00",
+      "text": "Back to Thursday badminton this week. Our PI challenged me to a rematch."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "fatima-badminton"
+    ],
+    "clearAllowed": [
+      "fatima-lionsmane",
+      "fatima-phone"
+    ],
+    "clearExpected": [
+      "fatima-lionsmane"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Thursday badminton with the lab",
+      "calls with her sisters",
+      "coffee on the fire escape"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "productivity",
+      "grind",
+      "hustle",
+      "catch up",
+      "behind"
+    ],
+    "mustMention": [
+      "sisters",
+      "the lab"
+    ],
+    "notes": "Exam pressure is real, but the Ritual protects what keeps her steady (badminton with the lab, her sisters, the fire escape) instead of adding study structure. The lion's mane from an ad is the clear proposal; the phone in bed is hers to raise, and the stomach-flu days are rest, with no talk of making up lost time."
+  }
+}

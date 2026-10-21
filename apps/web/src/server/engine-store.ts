@@ -311,6 +311,16 @@ export class EngineStore {
     return found.map((r) => ({ kind: r.kind, payload: r.payload, at: iso(r.at) }));
   }
 
+  /** Claude's calls and their cost for one person since a time, for reports and the evaluation. */
+  async usage(userId: string, sinceIso: string, db: Executor = this.db) {
+    const [row] = await rows<{ n: string | number; cost: string | number | null }>(
+      db,
+      sql`select count(*) as n, sum(cost_usd) as cost from public.engine_events
+        where user_id = ${userId}::uuid and kind = 'llm.call' and at >= ${sinceIso}::timestamptz`,
+    );
+    return { calls: Number(row?.n ?? 0), costUsd: Number(row?.cost ?? 0) };
+  }
+
   /** AI calls today, for the caps: by person when signed in, by device otherwise. */
   async callsSince(who: { userId?: string; device?: string }, sinceIso: string, kind = 'llm.call', db: Executor = this.db) {
     const [row] = await rows<{ n: string | number }>(

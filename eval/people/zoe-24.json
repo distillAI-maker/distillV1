@@ -1,0 +1,234 @@
+{
+  "id": "zoe-24",
+  "summary": "Zoe, 24, Astoria: two years of painful breakouts that a TikTok routine of retinoid, acid and scrub hasn't settled; Sunday dim sum with her grandparents is hers. Tests a plain dermatologist referral with no product advice and no diagnosis.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:none",
+    "skin-derm",
+    "skin-too-much",
+    "borrowed"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T08:20:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "skin / hair",
+      "mood / anxiety"
+    ],
+    "name": "Zoe",
+    "lifeText": "i'd wake up and not check my chin in the mirror first thing lol. coffee, work at the store office, then sunday dim sum with my grandparents. i just want my skin to calm down so i can stop thinking about it",
+    "member": true,
+    "items": [
+      {
+        "id": "zoe-differin",
+        "itemKey": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+        "label": "Differin + BHA toner",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 28
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "doing differin and the salicylic toner every night like the girl on tiktok said. my chin and jaw are still breaking out, it's been almost two years of this and some of them really hurt",
+            "at": "2026-10-19T23:30:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "zoe-scrub",
+        "itemKey": "two-exfoliants-scrub-plus-acid-or-two-acids",
+        "label": "Walnut scrub + glycolic pads",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "zoe-patches",
+        "itemKey": null,
+        "customName": "Pimple patches",
+        "monthlyCost": 12,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "zoe-zinc",
+        "itemKey": "zinc-daily",
+        "monthlyCost": 8,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "for acne apparently?? saw it in a video",
+            "at": "2026-10-19T23:36:00-04:00"
+          }
+        ],
+        "position": 3
+      },
+      {
+        "id": "zoe-spearmint",
+        "itemKey": null,
+        "customName": "Spearmint tea for hormonal acne",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 18
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "zoe-sunscreen",
+        "itemKey": "sunscreen-daily-spf-30",
+        "monthlyCost": 18,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 22
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "zoe-dimsum",
+        "itemKey": null,
+        "customName": "Sunday dim sum with my grandparents",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "every sunday in flushing. grandpa orders for the whole table and nobody is allowed to argue. grandma tells me i look tired every single week lol",
+            "at": "2026-10-19T23:42:00-04:00"
+          }
+        ],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "zoe-dimsum"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Where do you feel most like yourself?",
+        "a": "at dim sum honestly. nobody there is looking at my skin, they're looking at the har gow",
+        "at": "2026-10-20T12:30:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:20:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "zoe-differin",
+      "at": "2026-10-23T22:50:00-04:00",
+      "text": "worse this week. a few on my jaw are deep and sore and they don't come to a head, they just sit there for weeks"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T19:30:00-04:00",
+      "text": "should i add benzoyl peroxide too?? or is that too much"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T12:15:00-04:00",
+      "text": "the store has a holiday launch event thursday and i kind of want to hide"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "zoe-scrub",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T13:30:00-05:00",
+      "q": "Who do you feel your best around?",
+      "a": "my grandma, even when she says i look tired. and my coworker Bea"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-03T20:00:00-05:00",
+      "text": "ok i booked a dermatologist. dec 4 was the earliest. is that dumb"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "zoe-dimsum",
+      "zoe-sunscreen"
+    ],
+    "clearAllowed": [
+      "zoe-scrub",
+      "zoe-zinc",
+      "zoe-spearmint",
+      "zoe-patches"
+    ],
+    "clearExpected": [
+      "zoe-scrub"
+    ],
+    "refer": [
+      "zoe-differin"
+    ],
+    "neverTouch": [
+      "Sunday dim sum with her grandparents"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "clear skin",
+      "flawless",
+      "just drink water",
+      "cystic",
+      "diet"
+    ],
+    "mustMention": [
+      "grandparents",
+      "Flushing"
+    ],
+    "notes": "Two years of painful breakouts that haven't settled is a dermatologist's question: the reply says so plainly and kindly, without naming a condition, promising clear skin or recommending any product, the benzoyl peroxide she asks about included. The scrub on top of the acid can go; booking the appointment is met with warmth, and Sunday dim sum stays exactly where it is."
+  }
+}

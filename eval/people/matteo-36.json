@@ -1,0 +1,247 @@
+{
+  "id": "matteo-36",
+  "summary": "Matteo, 36, Jersey City warehouse manager: a Sunday cigar on his dad's porch in Bayonne is his, creatine is well-founded but unfelt, a podcast sold him a testosterone booster. Tests his dad's hospital stay without a word about smoking.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:whoop",
+    "loved-vice",
+    "tier-a-unfelt",
+    "borrowed"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T06:50:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-18T20:40:00-04:00",
+    "goals": [
+      "testosterone / hormones",
+      "fitness"
+    ],
+    "name": "Matteo",
+    "lifeText": "Gym at 5:30 before the warehouse opens, a decent day where nothing breaks, home in time to cook. Sundays at my parents' in Bayonne, dinner then a cigar on the porch with Pop.",
+    "member": true,
+    "items": [
+      {
+        "id": "matteo-cigar",
+        "itemKey": null,
+        "customName": "Sunday cigar with Pop",
+        "monthlyCost": 30,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "After Sunday dinner on Pop's porch. One cigar each, the Giants on the radio. He doesn't say much but he saves the good ones for me.",
+            "at": "2026-10-18T21:00:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "matteo-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "friend",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "form": "monohydrate",
+          "usesLast30Days": 29,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Two years now. Can't say I feel it.",
+            "at": "2026-10-18T21:04:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "matteo-booster",
+        "itemKey": "testosterone-booster-tribulus-fenugreek-d-aa",
+        "label": "T booster",
+        "monthlyCost": 40,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 24
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Podcast guy swore by it. I'm 36 not 60 lol. Don't feel a thing.",
+            "at": "2026-10-18T21:07:00-04:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "matteo-shilajit",
+        "itemKey": "shilajit",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "matteo-preworkout",
+        "itemKey": "pre-workout",
+        "monthlyCost": 35,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "matteo-gym",
+        "itemKey": "gym-membership",
+        "label": "Crunch",
+        "monthlyCost": 30,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 20,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "matteo-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "matteo-cigar"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "Pop. My sister when she's not busting my chops. The guys at the 5:30 gym.",
+        "at": "2026-10-20T19:45:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:50:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T19:20:00-04:00",
+      "text": "Pop's in the hospital a couple days, they're watching his heart. Feels weird."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-23",
+      "sleepMin": 284
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-25T21:40:00-04:00",
+      "text": "Pop's home. Still did Sunday on the porch, he insisted. No cigar for him for now, I sat with him anyway."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "matteo-booster",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-30T06:30:00-04:00",
+      "q": "What would you miss most if your mornings got busy?",
+      "a": "The 5:30 crew. Nobody talks, everybody nods."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "matteo-shilajit",
+      "answer": "yes"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "matteo-cigar",
+      "matteo-creatine",
+      "matteo-gym",
+      "matteo-whoop"
+    ],
+    "clearAllowed": [
+      "matteo-booster",
+      "matteo-shilajit",
+      "matteo-preworkout"
+    ],
+    "clearExpected": [
+      "matteo-booster",
+      "matteo-shilajit"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday on Pop's porch",
+      "Sunday dinner in Bayonne",
+      "the 5:30 gym"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "smoking",
+      "tobacco",
+      "quit smoking",
+      "heart attack",
+      "health risk",
+      "wake-up call"
+    ],
+    "mustMention": [
+      "Pop",
+      "Bayonne"
+    ],
+    "notes": "Sunday on Pop's porch is the point, cigar or not: when his dad's heart puts the cigar on hold, the Ritual keeps the porch and the radio and says nothing about smoking, risk or timing. The podcast booster and the shilajit he feels nothing from are fair to let go; creatine stays as one of the well-founded things he does."
+  }
+}

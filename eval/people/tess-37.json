@@ -1,0 +1,307 @@
+{
+  "id": "tess-37",
+  "summary": "Tess, 37, San Francisco sales director: facials, an LED mask and a NuFace at once, plus Barry's kept for a friend who left beside the Solidcore she loves; Sunday sailing with her dad is hers. Tests which studio to let go (the catalog's 'second studio' row is the one she loves) and food-poisoning days.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:oura",
+    "skin-too-much",
+    "borrowed",
+    "season:unwell"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T06:30:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-17T20:45:00-07:00",
+    "goals": [
+      "skin / hair",
+      "fitness",
+      "mood / anxiety"
+    ],
+    "name": "Tess",
+    "lifeText": "Solidcore at 6, a big day of calls where I actually close, home by 7 to make something green. Sundays on the Bay with my dad, windburned and pretending I don't love it.",
+    "member": true,
+    "items": [
+      {
+        "id": "tess-led",
+        "itemKey": "led-face-mask",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {
+          "daysSinceLastUse": 40
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Used it every night for a month. Now it lives in a drawer next to the NuFace.",
+            "at": "2026-10-18T21:30:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "tess-nuface",
+        "itemKey": "microcurrent-device-nuface",
+        "label": "NuFace",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "tess-facial",
+        "itemKey": "facials-monthly",
+        "monthlyCost": 165,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Monthly with Inês. She's the only person who tells me to relax and I actually listen.",
+            "at": "2026-10-18T21:34:00-07:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "tess-vitc",
+        "itemKey": "vitamin-c-serum",
+        "monthlyCost": 60,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "tess-retinol",
+        "itemKey": "retinol-retinoid-nightly",
+        "monthlyCost": 40,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 22
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "tess-sunscreen",
+        "itemKey": "sunscreen-daily-spf-30",
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 30
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "tess-collagen",
+        "itemKey": "collagen-drinks-and-beauty-gummies",
+        "monthlyCost": 40,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "tess-barrys",
+        "itemKey": "boutique-class-membership-barry-s-soulcycle-f45-orangetheory",
+        "label": "Barry's",
+        "monthlyCost": 220,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 1,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Went four times a week with my work wife before she left the company. Now maybe once a month.",
+            "at": "2026-10-18T21:38:00-07:00"
+          }
+        ],
+        "position": 7
+      },
+      {
+        "id": "tess-solidcore",
+        "itemKey": "second-gym-or-studio-membership",
+        "label": "Solidcore",
+        "monthlyCost": 180,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 9
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 8
+      },
+      {
+        "id": "tess-sailing",
+        "itemKey": null,
+        "customName": "Sunday sailing with my dad",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "He's had the same little boat since I was nine. We barely talk. He hands me the jib sheet and that's love.",
+            "at": "2026-10-18T21:42:00-07:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "tess-silk",
+        "itemKey": "silk-pillowcase",
+        "monthlyCost": 3,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "tess-sailing"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "When do you feel most like yourself?",
+        "a": "On the boat with my dad when the wind picks up and neither of us is on our phone.",
+        "at": "2026-10-20T06:20:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:30:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-23T08:15:00-07:00",
+      "text": "Got food poisoning from a client dinner. Couch for two days, send help"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-24",
+      "sleepMin": 300
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "tess-led",
+      "answer": "yes"
+    },
+    {
+      "kind": "note",
+      "stackItemId": "tess-sailing",
+      "at": "2026-10-25T17:30:00-07:00",
+      "text": "Felt human enough to go out today. Dad let me take the helm the whole way back."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "tess-barrys",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-29T07:45:00-07:00",
+      "q": "What would you miss most if your mornings got busy?",
+      "a": "Solidcore at 6. It's the only hour nobody can call me."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "tess-facial",
+      "tess-sunscreen",
+      "tess-retinol",
+      "tess-sailing",
+      "tess-solidcore"
+    ],
+    "clearAllowed": [
+      "tess-led",
+      "tess-nuface",
+      "tess-vitc",
+      "tess-collagen",
+      "tess-barrys",
+      "tess-silk"
+    ],
+    "clearExpected": [
+      "tess-led",
+      "tess-barrys",
+      "tess-collagen"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday sailing with her dad",
+      "Solidcore at 6",
+      "facials with Inês"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "anti-aging",
+      "fine lines",
+      "sagging",
+      "your age"
+    ],
+    "mustMention": [
+      "Dad",
+      "Inês"
+    ],
+    "notes": "She runs a facial, an LED mask and a microcurrent device at once: the drawer-bound mask is the obvious proposal. The catalog's 'second studio' row is Solidcore, the one she uses and loves; the studio to let go of is Barry's, kept for a friend who left (she said 'not now', so it rests). Food-poisoning days are rest, and Sunday on the boat with her dad comes back untouched."
+  }
+}

@@ -333,7 +333,7 @@ export class Engine {
     });
     this.logCall(ctx, 'word-decisions', WORD_VERSION, worded.usage, { dropped: worded.dropped });
     const lines = new Map(worded.decisions.map((d) => [d.key, d.line]));
-    const all = decided.decisions.map((d) => ({ ...d, line: lines.get(d.key) ?? open.get(keyOf(d))?.line ?? fallbackLine(d) }));
+    const all = decided.decisions.map((d) => ({ ...d, line: lines.get(d.key) ?? open.get(keyOf(d))?.line ?? fallbackLine(d, this.deps.toneRules.bannedPhrases) }));
     const synced = await this.deps.store.syncDecisions(ctx.userId, all, this.stampFor(decided.decisions, WORD_VERSION), tx);
     if (synced.added.length || synced.withdrawn.length)
       await this.deps.store.log(
@@ -1047,7 +1047,10 @@ export class Engine {
  * The signed-out preview: the same rules on what they typed, nothing stored, no Claude. It shows
  * what Distill would clear, keep and shape before anyone makes an account.
  */
-export function previewEngine(progress: Progress, deps: { catalog: CatalogView; now?: Date; timeZone?: string }) {
+export function previewEngine(
+  progress: Progress,
+  deps: { catalog: CatalogView; banned?: readonly string[]; now?: Date; timeZone?: string },
+) {
   const instant = (deps.now ?? new Date()).toISOString();
   const tz = validZone(deps.timeZone) ?? DEFAULT_ZONE;
   const today = localDate(instant, tz);
@@ -1058,7 +1061,7 @@ export function previewEngine(progress: Progress, deps: { catalog: CatalogView; 
     today,
     parts: ritual.parts,
     summary: ritual.summary,
-    decisions: decided.decisions.map((d) => ({ ...d, line: fallbackLine(d) })),
+    decisions: decided.decisions.map((d) => ({ ...d, line: fallbackLine(d, deps.banned ?? []) })),
   };
 }
 

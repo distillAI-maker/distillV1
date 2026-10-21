@@ -1,6 +1,7 @@
 'use server';
 
 import { engineCatalog } from '../catalog/engine';
+import { catalog } from '../catalog/server';
 import { progressSchema } from '../progress/types';
 import { previewEngine } from '../../src/server/engine';
 
@@ -11,6 +12,7 @@ import { previewEngine } from '../../src/server/engine';
 export async function previewRitual(progress: unknown, timeZone?: string) {
   return previewEngine(progressSchema.parse(progress), {
     catalog: engineCatalog(),
+    banned: catalog.toneRules.bannedPhrases,
     ...(timeZone ? { timeZone: timeZone.slice(0, 100) } : {}),
   });
 }

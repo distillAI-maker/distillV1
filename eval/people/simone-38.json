@@ -1,0 +1,226 @@
+{
+  "id": "simone-38",
+  "summary": "Simone, 38, Seattle city planner sharing custody of two kids: a glass after bedtime has become most of a bottle she doesn't enjoy; choir and therapy are hers, sertraline is her doctor's. Tests help with the wine only once she asks, on her terms.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:oura",
+    "unloved-vice",
+    "clinician",
+    "borrowed"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T21:45:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-17T21:30:00-07:00",
+    "goals": [
+      "sleep (general)",
+      "mood / anxiety"
+    ],
+    "name": "Simone",
+    "lifeText": "On kid weeks: pancakes, school drop-off, a walk to work along the water. On the weeks they're with their dad I want evenings that feel like mine and not like waiting. Tuesday choir no matter what.",
+    "member": true,
+    "items": [
+      {
+        "id": "simone-wine",
+        "itemKey": "alcohol-in-the-evening",
+        "label": "Wine after bedtime",
+        "monthlyCost": 90,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 5
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "A glass after the kids are down turned into most of a bottle most nights. I don't even enjoy it anymore. It's just how the day gets marked as over.",
+            "at": "2026-10-19T22:10:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "simone-therapy",
+        "itemKey": "therapy-counselling",
+        "monthlyCost": 160,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Every other Thursday since the divorce. Keeping it.",
+            "at": "2026-10-19T22:14:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "simone-sertraline",
+        "itemKey": null,
+        "customName": "Sertraline",
+        "monthlyCost": 10,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "simone-gummies",
+        "itemKey": "sleep-gummies-blend",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 14
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "simone-headspace",
+        "itemKey": "meditation-app-calm-headspace",
+        "label": "Headspace",
+        "monthlyCost": 13,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 90
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "simone-choir",
+        "itemKey": null,
+        "customName": "Tuesday choir",
+        "monthlyCost": 25,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Alto section. Nobody there knows me as anyone's mom or anyone's ex. I just sing.",
+            "at": "2026-10-19T22:20:00-07:00"
+          }
+        ],
+        "position": 5
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "simone-choir"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What do you look forward to in a week?",
+        "a": "Tuesday choir. And Saturday pancakes on kid weeks, which we make badly and on purpose.",
+        "at": "2026-10-20T07:50:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T21:45:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-23T18:20:00-07:00",
+      "text": "Kids are with their dad this weekend. Those weekends are the hardest."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-25",
+      "sleepMin": 312
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T21:30:00-07:00",
+      "text": "OK. I want help with the wine thing. Not quitting forever, just not every night."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "simone-headspace",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-30T08:00:00-07:00",
+      "q": "What would make an evening feel like yours?",
+      "a": "A bath, a library book, and texting my sister about nothing."
+    },
+    {
+      "kind": "note",
+      "stackItemId": "simone-choir",
+      "at": "2026-11-03T22:15:00-08:00",
+      "text": "We started the Fauré. I teared up in rehearsal and the soprano next to me handed me a tissue without looking."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "simone-therapy",
+      "simone-sertraline",
+      "simone-choir"
+    ],
+    "clearAllowed": [
+      "simone-wine",
+      "simone-gummies",
+      "simone-headspace"
+    ],
+    "clearExpected": [
+      "simone-headspace",
+      "simone-wine"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Tuesday choir",
+      "Saturday pancakes with the kids",
+      "therapy every other Thursday"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcoholic",
+      "drinking problem",
+      "sober",
+      "addiction",
+      "quit drinking",
+      "relapse"
+    ],
+    "mustMention": [
+      "choir",
+      "sister"
+    ],
+    "notes": "Help with the wine comes only after she asks, and on her terms (not every night, never quitting forever): what takes the glass's place is her own, the bath, a library book, texting her sister, and nothing calls it a problem. Therapy and sertraline get no comment; the weekends without the kids get extra warmth, and choir is untouchable."
+  }
+}

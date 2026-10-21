@@ -12,21 +12,29 @@ export const PROMPT_VERSION = PROMPT_VERSIONS.wordDecisions;
 
 const money = (n: number) => (n > 0 ? ` and keep the $${Math.round(n)} a month` : '');
 
-/** The line when Claude is off or a line fails its checks: plain, kind, and built only from facts. */
-export function fallbackLine(d: DecisionDraft): string {
-  const name = d.name;
+/**
+ * The line when Claude is off or a line fails its checks: plain, kind, and built only from facts.
+ * A name holding a word Distill never says ("Detox tea") stays their label on the card, and the
+ * line calls it "this one".
+ */
+export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): string {
+  const unsayable = banned.some((b) => new RegExp(`(?<![\\p{L}])${b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}])`, 'iu').test(d.name));
+  const name = unsayable ? 'This one' : d.name;
+  const lower = unsayable ? 'this one' : d.name;
   const c = d.context;
   switch (`${d.kind}:${d.reason}`) {
     case 'clear:BORROWED_WEAK':
       return `${name} came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go${money(d.money)}?`;
     case 'clear:OVERLAP':
-      return `${c.keeperName ?? 'Something you keep'} already does what ${name} is for. Want to let ${name} go${money(d.money)}?`;
+      return `${c.keeperName ?? 'Something you keep'} already does what ${lower} is for. Want to let ${lower} go${money(d.money)}?`;
     case 'clear:UNUSED':
       return `${name} hasn't had much use lately. Want to let it go${money(d.money)}?`;
     case 'clear:DOSE_BELOW_MIN':
       return `${name} is below the amount that's known to do anything. Want to let it go${money(d.money)}?`;
     case 'clear:FORM_NOT_ABSORBED':
-      return `The kind of ${name} you have isn't the form that's known to work. Want to let it go${money(d.money)}?`;
+      return unsayable
+        ? `This one isn't in the form that's known to work. Want to let it go${money(d.money)}?`
+        : `The kind of ${name} you have isn't the form that's known to work. Want to let it go${money(d.money)}?`;
     case 'clear:UNLOVED_HABIT':
       return c.fitsInstead
         ? `${name} doesn't sound like it's giving you much. ${c.fitsInstead} Want to try that swap?`
@@ -50,7 +58,7 @@ export function fallbackLine(d: DecisionDraft): string {
     case 'curate:ADJUST_FORM':
       return `${name} is worth keeping, in the form that's known to work. Want to see which one?`;
     case 'refer:SEE_A_DERMATOLOGIST':
-      return `With your skin the way it is, a dermatologist is the one to ask about ${name}. Keep things simple until then.`;
+      return `With your skin the way it is, a dermatologist is the one to ask about ${lower}. Keep things simple until then.`;
     case 'refer:SEE_A_CLINICIAN':
       return `${name} is one for your clinician, and it stays between you and them.`;
     default:
@@ -78,7 +86,11 @@ export async function wordDecisions(
   },
 ): Promise<{ decisions: WordedDecision[]; usage?: CallUsage; dropped: number }> {
   const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 40 };
-  const fallback = (d: DecisionDraft): WordedDecision => ({ ...d, line: fallbackLine(d), lineFrom: 'fallback' });
+  const fallback = (d: DecisionDraft): WordedDecision => ({
+    ...d,
+    line: fallbackLine(d, input.toneRules.bannedPhrases),
+    lineFrom: 'fallback',
+  });
   if (!input.decisions.length) return { decisions: [], dropped: 0 };
   if (!client) return { decisions: input.decisions.map(fallback), dropped: 0 };
   const content = [

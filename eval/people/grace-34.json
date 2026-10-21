@@ -1,0 +1,266 @@
+{
+  "id": "grace-34",
+  "summary": "Grace, 34, Oakland, four months postpartum and typing one-handed: walks around Lake Merritt with her mom are hers, the prenatal and iron are her OB's, Instagram sold her two hair products. Tests a house full of colds and a return to work.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:oura",
+    "clinician",
+    "borrowed",
+    "season:unwell"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T05:40:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-19T04:55:00-07:00",
+    "goals": [
+      "energy",
+      "skin / hair"
+    ],
+    "name": "Grace",
+    "lifeText": "honestly just a nap. ok real answer: baby down by 7, a hot coffee i actualy finish, a walk around lake merritt with my mom and the stroller, and one hour where nobody needs anything from me",
+    "member": true,
+    "items": [
+      {
+        "id": "grace-prenatal",
+        "itemKey": null,
+        "customName": "Prenatal vitamin",
+        "monthlyCost": 20,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "my OB said keep taking it while im breastfeeding",
+            "at": "2026-10-19T04:58:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "grace-iron",
+        "itemKey": "iron",
+        "monthlyCost": 8,
+        "origin": "blood test",
+        "answers": {
+          "dose": 65,
+          "doseUnit": "mg elemental"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "ferritin was low at my 6 week appt so shes got me on this every other day",
+            "at": "2026-10-19T05:01:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "grace-collagen",
+        "itemKey": "collagen-peptides",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "an insta mom said it helps postpartum hair loss. my hair is still coming out in the shower lol",
+            "at": "2026-10-19T05:04:00-07:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "grace-hairgummies",
+        "itemKey": "hair-growth-gummies-biotin-blends",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 25
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "grace-pilates",
+        "itemKey": "class-pack-or-studio-credits",
+        "label": "Postnatal Pilates pack",
+        "monthlyCost": 120,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 0,
+          "daysSinceLastUse": 70
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "bought 10 classes when i was 7 months pregnant. used 2. they expire in december",
+            "at": "2026-10-19T05:08:00-07:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "grace-walk",
+        "itemKey": null,
+        "customName": "Lake Merritt walk with my mom",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "tuesdays and saturdays. mom pushes the stroller, i hold both coffees. best hour of my week and i dont even have to talk",
+            "at": "2026-10-19T05:12:00-07:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "grace-baby",
+        "itemKey": "kids-waking-you",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 7
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "grace-oura",
+        "itemKey": null,
+        "customName": "Oura ring",
+        "dataSource": true,
+        "monthlyCost": 6,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "grace-walk"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "my mom. and my husband when hes not also exhausted",
+        "at": "2026-10-20T13:20:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T05:40:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "night",
+      "date": "2026-10-23",
+      "sleepMin": 205
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-25T14:10:00-07:00",
+      "text": "baby has a cold from daycare and now i have it too. everyone in this house is snotty"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "grace-hairgummies",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-29T21:30:00-07:00",
+      "text": "back at work monday. kind of terrified, kind of excited to talk to adults"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "grace-pilates",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-03T06:15:00-08:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "sleep. then lake merritt with mom anyway because i'd miss it"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "grace-prenatal",
+      "grace-iron",
+      "grace-walk",
+      "grace-baby",
+      "grace-oura"
+    ],
+    "clearAllowed": [
+      "grace-collagen",
+      "grace-hairgummies",
+      "grace-pilates"
+    ],
+    "clearExpected": [
+      "grace-hairgummies",
+      "grace-collagen"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Lake Merritt walk with her mom",
+      "Tuesday and Saturday stroller walks"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "bounce back",
+      "baby weight",
+      "lose the weight",
+      "sleep when the baby sleeps",
+      "sleep training",
+      "self-care"
+    ],
+    "mustMention": [
+      "Lake Merritt",
+      "mom"
+    ],
+    "notes": "The prenatal and the iron are her OB's and her bloodwork's: one plain sentence, no opinion. The two hair products from Instagram overlap and are fair to let go, gently and one at a time; the Pilates pack got a 'not now' and should rest. While the house is sick and she goes back to work, the Ritual asks less of her, never more, and the walk with her mom stays put."
+  }
+}

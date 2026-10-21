@@ -1,0 +1,308 @@
+{
+  "id": "valeria-39",
+  "summary": "Valeria, 39, Chicago chef-owner: Sunday mezcal with her kitchen crew and café de olla at her mom's are hers; five sleep aids pile up by the bed, and inositol is her doctor's. Tests 'which should I keep?', a short night after Sunday close, and a trip to Oaxaca.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:oura",
+    "loved-vice",
+    "borrowed",
+    "clinician",
+    "season:travelling"
+  ],
+  "timeZone": "America/Chicago",
+  "now": "2026-10-21T10:00:00-05:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-18T11:30:00-05:00",
+    "goals": [
+      "falling asleep",
+      "staying asleep / waking at night",
+      "joints / pain / soreness"
+    ],
+    "name": "Valeria",
+    "lifeText": "Wake up without an alarm around 9, café de olla at my mom's on Sundays, a full service where nothing burns, then mezcal with my crew after we close. On Mondays the restaurant is dark and so am I.",
+    "member": true,
+    "items": [
+      {
+        "id": "valeria-mezcal",
+        "itemKey": null,
+        "customName": "Sunday mezcal with the crew after close",
+        "monthlyCost": 50,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "After Sunday service we pull two tables together, I pour, and nobody talks about tickets. Ten years with this crew.",
+            "at": "2026-10-19T11:00:00-05:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "valeria-inositol",
+        "itemKey": "inositol",
+        "monthlyCost": 20,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My doctor put me on it for PCOS.",
+            "at": "2026-10-19T11:04:00-05:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "valeria-cbd",
+        "itemKey": "cbd",
+        "monthlyCost": 45,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "valeria-ashwa",
+        "itemKey": "ashwagandha-ksm-66-sensoril",
+        "monthlyCost": 19,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "valeria-magnesium",
+        "itemKey": "magnesium-any-form",
+        "monthlyCost": 22,
+        "origin": "online",
+        "answers": {
+          "form": "citrate",
+          "dose": 150,
+          "doseUnit": "mg elemental"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "valeria-sleeptea",
+        "itemKey": "sleep-tea-blend-valerian-passionflower-lemon-balm",
+        "monthlyCost": 17,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "valeria-gummies",
+        "itemKey": "sleep-gummies-blend",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I take whichever one is closest to the bed. Honestly no idea which does what.",
+            "at": "2026-10-19T11:08:00-05:00"
+          }
+        ],
+        "position": 6
+      },
+      {
+        "id": "valeria-massage",
+        "itemKey": "massage-monthly",
+        "monthlyCost": 120,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Twelve hours on my feet. Mónica fixes my back once a month and I'd sell the restaurant before I give that up.",
+            "at": "2026-10-19T11:11:00-05:00"
+          }
+        ],
+        "position": 7
+      },
+      {
+        "id": "valeria-mom",
+        "itemKey": null,
+        "customName": "Sunday café de olla at my mom's",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Before service every Sunday. She makes it in the clay pot that was her mother's.",
+            "at": "2026-10-19T11:14:00-05:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "valeria-latedinner",
+        "itemKey": "late-dinner-within-2-3-h-of-bed",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 6
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 9
+      },
+      {
+        "id": "valeria-oura",
+        "itemKey": null,
+        "customName": "Oura ring",
+        "dataSource": true,
+        "monthlyCost": 6,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "valeria-mezcal",
+        "valeria-mom"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "My kitchen crew and my mom. Not at the same time, she judges their knife work.",
+        "at": "2026-10-20T10:30:00-05:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T10:00:00-05:00"
+  },
+  "events": [
+    {
+      "kind": "night",
+      "date": "2026-10-26",
+      "sleepMin": 268
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T13:00:00-05:00",
+      "text": "Which of these sleep things should I keep? I have like five."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "valeria-gummies",
+      "answer": "yes"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "valeria-sleeptea",
+      "answer": "theirs"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T22:30:00-05:00",
+      "text": "Going to Oaxaca Nov 2 to 7 to visit our mezcal producers. First trip in three years."
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T12:00:00-06:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "Sleep till my body says so, then the Maxwell Street market with my mom."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "valeria-mezcal",
+      "valeria-inositol",
+      "valeria-mom",
+      "valeria-massage",
+      "valeria-oura"
+    ],
+    "clearAllowed": [
+      "valeria-cbd",
+      "valeria-ashwa",
+      "valeria-magnesium",
+      "valeria-sleeptea",
+      "valeria-gummies"
+    ],
+    "clearExpected": [
+      "valeria-gummies",
+      "valeria-cbd"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday mezcal with the crew",
+      "Sunday café de olla at her mom's",
+      "monthly massage with Mónica"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcohol",
+      "eat earlier",
+      "PCOS"
+    ],
+    "mustMention": [
+      "mom",
+      "the crew"
+    ],
+    "notes": "Five overlapping sleep aids are the real story: she asks which to keep, and the answer simplifies gently (the gummies and the CBD first), while the tea she called hers is never raised again. Sunday mezcal with the crew and café de olla with her mom are hers and the short night after close changes neither; inositol is her doctor's, and Oaxaca is joy, not disruption."
+  }
+}

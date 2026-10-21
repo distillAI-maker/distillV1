@@ -1,0 +1,187 @@
+{
+  "id": "diego-27",
+  "summary": "Diego, 27, Mission District barista: the Wednesday league and tacos after with Los Cansados are his, cupping at 3 is his job, TikTok sold him collagen for his knees. Tests a short night after league night and a sleep question answered with one gentle idea.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:1-4",
+    "wearable:whoop",
+    "loved-vice",
+    "borrowed"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T14:30:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-19T15:10:00-07:00",
+    "goals": [
+      "falling asleep",
+      "joints / pain / soreness"
+    ],
+    "name": "Diego",
+    "lifeText": "Open the shop at 6, pull shots for regulars I know by name, cupping at 3, then the league on Wednesday nights with my boys. Sundays I cook for my abuela when she is in town.",
+    "member": true,
+    "items": [
+      {
+        "id": "diego-league",
+        "itemKey": null,
+        "customName": "Wednesday league and tacos after",
+        "monthlyCost": 60,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Our team is Los Cansados and we've won like twice. After, tacos al pastor and a couple Modelos on 24th. That's church for me.",
+            "at": "2026-10-19T15:20:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "diego-cupping",
+        "itemKey": "coffee-after-2pm",
+        "label": "afternoon cupping",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "It's literally my job. Cupping at 3 most days and I taste a lot.",
+            "at": "2026-10-19T15:24:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "diego-collagen",
+        "itemKey": "collagen-peptides",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "TikTok said for my knees. My knees are the same knees.",
+            "at": "2026-10-19T15:27:00-07:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "diego-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "diego-league"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What would you do with a free Saturday?",
+        "a": "Dolores Park with a thermos of my own coffee and whoever shows up.",
+        "at": "2026-10-20T15:00:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T14:30:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-21T23:30:00-07:00",
+      "text": "League tonight, we lost 6-1 lol. Tacos fixed it."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-22",
+      "sleepMin": 301
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-24T15:00:00-07:00",
+      "text": "My abuela lands Monday from Guadalajara, staying two weeks!! Sunday cooking is back on"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-29T22:50:00-07:00",
+      "text": "Can't fall asleep lately, lying there till 1. Any ideas?"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "diego-collagen",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T10:00:00-08:00",
+      "q": "Who do you feel your best around?",
+      "a": "My abuela, and the guys on Wednesdays. She calls them 'los muchachos' like they're twelve."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "diego-league",
+      "diego-whoop"
+    ],
+    "clearAllowed": [
+      "diego-collagen",
+      "diego-cupping"
+    ],
+    "clearExpected": [
+      "diego-collagen"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Wednesday league and tacos with Los Cansados",
+      "Sunday cooking for his abuela"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcohol",
+      "beer"
+    ],
+    "mustMention": [
+      "abuela",
+      "Los Cansados"
+    ],
+    "notes": "Wednesday league and tacos are his, and the short night after them changes nothing. When he asks why he can't fall asleep, the afternoon cupping is fair to offer as one gentle idea he can take or leave (it is his job, so a small shift, never a ban); the collagen for his knees is the clear proposal, and his abuela's visit belongs in the Ritual's Sundays."
+  }
+}

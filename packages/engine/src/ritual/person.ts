@@ -7,6 +7,7 @@ import {
   conditionSchema,
   seasonSchema,
   type Attachment,
+  type Condition,
   type PersonModel,
   type Season,
 } from './types.js';
@@ -68,6 +69,36 @@ function personFromLine(text: string): { name: string; what: string } | null {
   return null;
 }
 
+/**
+ * Conditions in their own plain words, read without a model: a skin condition, a pregnancy,
+ * breastfeeding. Conservative on purpose (present tense, never negated), and each keeps the
+ * sentence it came from. Claude's reading of their words adds the rest.
+ */
+const WORD_CONDITIONS: readonly [Condition, RegExp][] = [
+  [
+    'skin-condition',
+    /\b(acne|breaking out|break ?outs?|eczema|rosacea|psoriasis|dermatitis|cystic)\b|\bmole\b[^.!?]{0,60}\b(bigger|darker|changed|changing|growing|itch\w*|bleed\w*)\b/i,
+  ],
+  ['pregnant', /\b(i'?m|i am|we'?re|currently)\s+(\d+\s+(?:weeks?|months?)\s+)?pregnant\b/i],
+  ['breastfeeding', /\b(breast-?feeding|pumping (?:at work|milk))\b/i],
+];
+const NEGATED = /\b(no|not|never|isn'?t|aren'?t|don'?t|doesn'?t|didn'?t|used to|was|were|had|stopped)\b[^.!?]{0,25}$/i;
+
+export function conditionsFromWords(
+  texts: readonly { readonly text: string; readonly at: string }[],
+): PersonModel['constraints']['conditions'] {
+  const out: PersonModel['constraints']['conditions'] = [];
+  for (const { text, at } of texts)
+    for (const sentence of text.split(/(?<=[.!?])\s+|\n+/))
+      for (const [condition, pattern] of WORD_CONDITIONS) {
+        if (out.some((c) => c.condition === condition)) continue;
+        const m = pattern.exec(sentence);
+        if (!m || NEGATED.test(sentence.slice(0, m.index))) continue;
+        out.push({ condition, quote: sentence.trim().slice(0, 600), at });
+      }
+  return out;
+}
+
 export function personFromProgress(
   progress: ProgressLike,
   ctx: { personId: string; timeZone: string; today: string },
@@ -127,7 +158,11 @@ export function personFromProgress(
         .map((i) => i.id),
       declined: progress.items.flatMap((i) => i.ideasDeclined ?? []).slice(-100),
       removedLines: [...(progress.picture?.removed ?? [])].slice(-200),
-      conditions: [],
+      conditions: conditionsFromWords([
+        { text: progress.lifeText, at: ctx.today },
+        ...progress.items.flatMap((i) => i.notes.map((n) => ({ text: n.text, at: n.at }))),
+        ...progress.asks.map((a) => ({ text: a.a, at: a.at })),
+      ]),
     },
     prefs: { nightsShapeMornings: false },
     picture: lines.map((l) => ({ ...l })).slice(0, 40),
@@ -178,6 +213,10 @@ export function refreshFromProgress(
       clinicianItemIds: fresh.constraints.clinicianItemIds,
       declined: unique([...person.constraints.declined, ...fresh.constraints.declined]).slice(-100),
       removedLines: unique([...person.constraints.removedLines, ...fresh.constraints.removedLines]).slice(-200),
+      conditions: [
+        ...person.constraints.conditions,
+        ...fresh.constraints.conditions.filter((c) => !person.constraints.conditions.some((k) => k.condition === c.condition)),
+      ].slice(0, 20),
     },
     picture: fresh.picture,
   };

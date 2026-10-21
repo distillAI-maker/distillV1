@@ -1,0 +1,226 @@
+{
+  "id": "devon-29",
+  "summary": "Devon, 29, New York banking associate: a can of Zyn a day since his first year, wants off it but not mid-deal; Sunday soccer at Pier 40 is his. Tests a signing week, a very short night, and help only when he asks for it.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:whoop",
+    "unloved-vice",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T23:40:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-18T23:50:00-04:00",
+    "goals": [
+      "energy",
+      "sleep (general)"
+    ],
+    "name": "Devon",
+    "lifeText": "Lift at 6, in the office by 8, out at a normal hour for once, dinner with friends who aren't on a deal team. Sunday 8-a-side at Pier 40 no matter what.",
+    "member": true,
+    "items": [
+      {
+        "id": "devon-zyn",
+        "itemKey": "nicotine-pouches-vape",
+        "label": "Zyn",
+        "monthlyCost": 70,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 30
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Started my first year in banking. About a can a day now. I want off it, just not mid-deal.",
+            "at": "2026-10-19T00:20:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "devon-preworkout",
+        "itemKey": "pre-workout",
+        "monthlyCost": 35,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "devon-strength",
+        "itemKey": "strength-training",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "trains": true,
+          "usesLast30Days": 14
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "devon-equinox",
+        "itemKey": "premium-gym-membership-equinox-life-time",
+        "label": "Equinox",
+        "monthlyCost": 240,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 14,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "devon-celsius",
+        "itemKey": "energy-drinks",
+        "label": "Celsius",
+        "monthlyCost": 45,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "devon-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "devon-soccer",
+        "itemKey": null,
+        "customName": "Sunday soccer at Pier 40",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "8-a-side with guys from college. The only two hours a week my phone is in a bag.",
+            "at": "2026-10-19T00:26:00-04:00"
+          }
+        ],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "devon-soccer"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T23:40:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T01:10:00-04:00",
+      "text": "signing friday. here till 2am every night this week"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-23",
+      "sleepMin": 214
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-24T10:30:00-04:00",
+      "text": "signed. sleeping all day. still playing tomorrow"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T20:15:00-04:00",
+      "text": "ok. how do I get off the zyn"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "devon-zyn",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T18:30:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "brunch with my sister in Harlem then nothing. actual nothing."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "devon-soccer",
+      "devon-strength",
+      "devon-equinox",
+      "devon-whoop"
+    ],
+    "clearAllowed": [
+      "devon-zyn",
+      "devon-preworkout",
+      "devon-celsius"
+    ],
+    "clearExpected": [
+      "devon-zyn"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday soccer at Pier 40",
+      "lifting at 6"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "addiction",
+      "addicted",
+      "withdrawal",
+      "cold turkey",
+      "willpower"
+    ],
+    "mustMention": [
+      "Pier 40"
+    ],
+    "notes": "Nothing about the Zyn until he asks, and he times it after the signing; when he does, the plan is gentle and his, built around the mornings he already likes, with no talk of withdrawal or willpower. Signing week shrinks everything except Sunday at Pier 40, which survives even the short night."
+  }
+}

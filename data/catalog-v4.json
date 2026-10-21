@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "sourceFile": "Routing-Table_V4.xlsx",
-  "sourceSha256": "0a40c1475490d908e7d82fe7dfd3598ab5f29bb2f4e323c222acfc917c098ce5",
+  "sourceSha256": "3ab43c4f1841f27de569fb9f6fc2cb61688183d97105a3fa6160040d8a20c6b7",
   "items": [
     {
       "key": "creatine-monohydrate",
@@ -1760,7 +1760,7 @@
     {
       "key": "checking-the-sleep-score-every-morning",
       "name": "Checking the sleep score every morning",
-      "shortName": "Sleep score check",
+      "shortName": "Morning sleep check",
       "area": "sleep",
       "alsoServes": [
         "mind"

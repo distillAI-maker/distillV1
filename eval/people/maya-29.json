@@ -1,0 +1,176 @@
+{
+  "id": "maya-29",
+  "summary": "Maya, 29, San Francisco: Saturday reformer with Leah is hers and Leah is moving; AG1 is a TikTok buy kept out of guilt. Tests clearing borrowed noise while holding a friendship through a move.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:oura",
+    "borrowed"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T08:00:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-18T21:40:00-07:00",
+    "goals": [
+      "mood / anxiety",
+      "energy"
+    ],
+    "name": "Maya",
+    "lifeText": "A good day starts with a slow coffee on the balcony before anyone's up, then a reformer class with Leah. Afternoons outside if I can, and dinner with friends where nobody checks their phone.",
+    "member": true,
+    "items": [
+      {
+        "id": "maya-pilates",
+        "itemKey": "yoga-pilates-studio",
+        "label": "Club Pilates",
+        "monthlyCost": 139,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saturday 9am with Leah. We grab matcha after and talk for an hour. Honestly the best part of my week.",
+            "at": "2026-10-17T12:10:00-07:00"
+          },
+          {
+            "id": "n2",
+            "text": "Leah's moving to Oakland in the spring and I'm scared this just stops.",
+            "at": "2026-10-19T22:35:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "maya-ag1",
+        "itemKey": "greens-powder-ag1-etc",
+        "label": "AG1",
+        "monthlyCost": 79,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Started because of a TikTok. Tastes like grass. I think I keep buying it out of guilt.",
+            "at": "2026-10-18T08:20:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "maya-magnesium",
+        "itemKey": "magnesium-any-form",
+        "label": "Magnesium",
+        "monthlyCost": 18,
+        "origin": "friend",
+        "answers": {
+          "form": "glycinate"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "maya-pilates"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "Leah, and my little brother when he visits.",
+        "at": "2026-10-20T08:12:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:00:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "answer",
+      "at": "2026-10-22T08:05:00-07:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "Farmers market, then drive to Stinson and sit on the beach with a book until sunset."
+    },
+    {
+      "kind": "note",
+      "stackItemId": "maya-pilates",
+      "at": "2026-10-24T11:40:00-07:00",
+      "text": "Finally told Leah I'm scared about spring. She said she'll BART over some Saturdays and I can go to her new place on the others. Cried a little in the car after."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T19:20:00-07:00",
+      "text": "My little brother is staying with me next weekend. He wants to do the farmers market and Stinson."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-29",
+      "sleepMin": 318
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T07:45:00-07:00",
+      "text": "can I stop the AG1?"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "maya-ag1",
+      "answer": "yes"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "maya-pilates"
+    ],
+    "clearAllowed": [
+      "maya-ag1",
+      "maya-magnesium"
+    ],
+    "clearExpected": [
+      "maya-ag1"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Saturday reformer with Leah",
+      "matcha with Leah after class",
+      "slow coffee on the balcony"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "guilt",
+      "wasted",
+      "tastes like grass"
+    ],
+    "mustMention": [
+      "Leah",
+      "Stinson"
+    ],
+    "notes": "Saturday reformer and the matcha after are Leah's and Maya's; the Ritual should carry her own plan for spring (Leah comes over some Saturdays) rather than invent one. AG1 goes once she asks, said without any echo of the guilt she wrote about; the weekend with her brother is a chance to name Stinson and the market."
+  }
+}

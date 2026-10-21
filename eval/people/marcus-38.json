@@ -1,0 +1,131 @@
+{
+  "id": "marcus-38",
+  "summary": "Marcus, 38: golf every other Saturday with his dad and brother is his, and the Whoop is his data source. Tests a quarter-end crunch and a short night reshaped around golf and coffee with his kids.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:whoop",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T07:00:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-18T21:00:00-04:00",
+    "goals": [
+      "nothing specific"
+    ],
+    "name": "Marcus",
+    "lifeText": "Coffee with my kids before school, a good day of work, golf with my dad and brother on the weekend.",
+    "member": true,
+    "items": [
+      {
+        "id": "marcus-golf",
+        "itemKey": null,
+        "customName": "Golf Saturdays",
+        "monthlyCost": 120,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Tee time with my dad and brother every other Saturday. Dad's 71 and still beats us. We don't talk about much, but it's the only time all three of us are together.",
+            "at": "2026-10-18T21:20:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "marcus-whoop",
+        "itemKey": null,
+        "customName": "Whoop",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "marcus-golf"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:00:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-21T21:30:00-04:00",
+      "text": "Quarter end. Going to be slammed through the 30th, late nights most of next week."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-24",
+      "sleepMin": 301
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-25T08:00:00-04:00",
+      "q": "When did you last feel proud of yourself?",
+      "a": "My daughter read her whole book to me at breakfast. Didn't need help once."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-29T22:45:00-04:00",
+      "text": "Missed breakfast with the kids twice this week. Hate that."
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-05T19:00:00-05:00",
+      "text": "Golf Saturday this weekend. Dad says he's going easy on us. He won't."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "marcus-golf",
+      "marcus-whoop"
+    ],
+    "clearAllowed": [],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": [
+      "Golf Saturdays with his dad and brother",
+      "coffee with his kids before school"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "71",
+      "your dad's age",
+      "while you still can",
+      "getting older"
+    ],
+    "mustMention": [
+      "dad",
+      "brother",
+      "kids"
+    ],
+    "notes": "Quarter end squeezes the weekdays; the Ritual guards coffee with the kids where it can and treats the missed breakfasts without guilt. Golf with his dad and brother is untouched by the short night, nothing is said about his dad's age, and the Whoop is counted, never rated."
+  }
+}

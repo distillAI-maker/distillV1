@@ -1,0 +1,185 @@
+{
+  "id": "nora-22",
+  "summary": "Nora, 22, Greenpoint junior copywriter two months into her first job: a vape she picked up at college parties is now in her hand all day, TikTok Shop sold her sea moss, Calm is free through work; Sunday FaceTime with her best friend Jo is hers. Tests a first big pitch, a trip home, and help once she asks.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "unloved-vice",
+    "borrowed",
+    "season:travelling"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T21:30:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "energy",
+      "mood / anxiety"
+    ],
+    "name": "Nora",
+    "lifeText": "wake up and not immediately feel behind?? an iced latte, a day where my ideas make it into the deck, then sunday night facetime with jo watching our show. idk i'm 22 i'm figuring it out",
+    "member": true,
+    "items": [
+      {
+        "id": "nora-vape",
+        "itemKey": "nicotine-pouches-vape",
+        "label": "vape",
+        "monthlyCost": 40,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 30
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "started junior year at parties. now it's in my hand all day at my desk. i want to stop but every time i try i'm so cranky",
+            "at": "2026-10-19T21:40:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "nora-seamoss",
+        "itemKey": "sea-moss",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "tiktok shop. it's a gel. it's gross. something about 92 minerals",
+            "at": "2026-10-19T21:44:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "nora-calm",
+        "itemKey": "meditation-app-calm-headspace",
+        "label": "Calm (free through work)",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 5,
+          "stillPaying": false
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "nora-jo",
+        "itemKey": null,
+        "customName": "Sunday FaceTime with Jo",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "jo's been my best friend since third grade. sunday nights we watch the same show on facetime and don't talk during it. it's perfect",
+            "at": "2026-10-19T21:48:00-04:00"
+          }
+        ],
+        "position": 3
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "nora-jo"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "jo. and my dad, he sends me terrible memes at 6am",
+        "at": "2026-10-20T21:15:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T21:30:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T22:10:00-04:00",
+      "text": "first big pitch tomorrow and my manager wants me to present a slide. i'm going to throw up"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-24T11:30:00-04:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "mccarren park, a book i'm not reading for work, pizza with my roommate"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T20:00:00-04:00",
+      "text": "flying home to columbus friday for my dad's 60th, back sunday night"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "nora-seamoss",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-02T21:15:00-05:00",
+      "text": "ok i want to quit vaping. like actually. can you help"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "nora-jo",
+      "nora-calm"
+    ],
+    "clearAllowed": [
+      "nora-seamoss",
+      "nora-vape"
+    ],
+    "clearExpected": [
+      "nora-seamoss",
+      "nora-vape"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday FaceTime with Jo"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "behind",
+      "addiction",
+      "addicted",
+      "cold turkey",
+      "lungs",
+      "cranky"
+    ],
+    "mustMention": [
+      "Jo",
+      "dad"
+    ],
+    "notes": "The vape is hers to raise and she does, after a big week; the help is gentle, built around the desk hours where it lives and her Sunday with Jo, with no health warnings. The sea moss gel is the easy first thing to let go, and Calm is free through work, so there is nothing to give back. Nothing should make a twenty-two-year-old feel behind."
+  }
+}

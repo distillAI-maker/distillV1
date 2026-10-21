@@ -17,6 +17,7 @@ The existing marketing site remains in `public/`. Vercel serves that folder dire
 - **Live:** https://distill-v1-tau.vercel.app, the white, black and gold page with the phone story (October 2026).
 - **App:** https://distill-app-nu.vercel.app, the Phase 8 screens on demo data, a second Vercel project rooted at `apps/web` that also redeploys on every push to `main`.
 - **Connected:** this repo deploys to Vercel on every push to `main`, and the sign-up forms save to the Supabase `signups` table.
+- **The engine:** clears, keeps and shapes each person's Ritual (mornings, nights, weekends) and reshapes it when life changes, from Veer's build plan. Runs on rules until Claude is switched on. See [docs/ENGINE.md](docs/ENGINE.md) and [docs/ROUTING-V4.md](docs/ROUTING-V4.md).
 - **To change the site:** edit `public/index.html` (styles in `public/assets/css/site.css`), commit, and push to `main`. Vercel publishes it in about a minute. Details in [docs/LANDING.md](docs/LANDING.md).
 
 ## Local checks
@@ -32,6 +33,8 @@ pnpm sim:check
 ```
 
 `pnpm check` runs ESLint, TypeScript, Vitest, the generated-catalog freshness check, and tone checks over all 17 verdict templates. CI runs the same checks for every PR and push to `main`.
+
+The engine's own checks: `pnpm eval:gates` plays the 40 golden people through it with Claude off and fails on any broken promise; `pnpm eval:engine` writes a report to `eval/reports/` (add `--claude --judge --yes` to run it with Claude and have Opus judge it); `pnpm eval:ab` builds the blind A/B for the companion's voice.
 
 To preview the existing landing page:
 
@@ -58,6 +61,10 @@ Opens the app at http://localhost:3000. With no Supabase keys in `apps/web/.env.
 | `packages/engine` | Pure TypeScript item rules and tone checks; no runtime I/O |
 | `apps/web` | Next.js app: the Phase 8 screens plus the Phase 2 API routes under `app/api` and `src/server` |
 | `docs/ONBOARDING.md` | Phase 8 screen spec: screens, tokens, copy, data |
+| `data/Routing-Table_V4.xlsx`, `data/catalog-v4.json` | Routing table V4 (the engine's evidence) and its validated build |
+| `data/explore-bank.json` | Places and things to try, shown only once certified |
+| `eval/` | The golden set (40 people), coverage, and evaluation reports |
+| `docs/ENGINE.md` | The engine as built, its switches, and how to take it live |
 | `vendor/xlsx-0.20.3.tgz` | Official SheetJS archive, pinned locally with integrity in the lockfile |
 | `docs/CATALOG.md` | Phase 1 contracts, examples and workbook update process |
 | `docs/OPEN_QUESTIONS.md` | Source conflicts and decisions requiring the team |

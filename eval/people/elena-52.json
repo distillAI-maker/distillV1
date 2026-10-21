@@ -1,0 +1,146 @@
+{
+  "id": "elena-52",
+  "summary": "Elena, 52: the morning swim she started after her mother died is the one place she rests; Calm gets opened twice a month. Tests gentleness: nothing about death or grief from us, the swim and tea with Rosa held fast.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:none"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T09:15:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "nothing specific"
+    ],
+    "name": "Elena",
+    "lifeText": "Morning swim, tending my mother's roses, tea with my neighbour Rosa. Quiet.",
+    "member": true,
+    "items": [
+      {
+        "id": "elena-swim",
+        "itemKey": null,
+        "customName": "Morning swim at the Y",
+        "monthlyCost": 62,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 21
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Started swimming after Mom died last year. In the water I can't think about anything. It's the only time I don't cry.",
+            "at": "2026-10-18T10:40:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "elena-calm",
+        "itemKey": "meditation-app-calm-headspace",
+        "label": "Calm",
+        "monthlyCost": 15,
+        "origin": "friend",
+        "answers": {
+          "stillPaying": true,
+          "usesLast30Days": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I use it maybe twice a month.",
+            "at": "2026-10-18T10:44:00-04:00"
+          }
+        ],
+        "position": 1
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T09:15:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "answer",
+      "at": "2026-10-22T07:30:00-04:00",
+      "q": "What does a good morning look like?",
+      "a": "The pool before it gets busy. Then coffee in the garden while it's still cold."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-24T16:20:00-04:00",
+      "text": "Rosa and I pruned the roses today. Mom would have liked how they look."
+    },
+    {
+      "kind": "note",
+      "stackItemId": "elena-calm",
+      "at": "2026-10-27T21:00:00-04:00",
+      "text": "I opened it last night when I couldn't sleep. The rain one. It helped a little."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "elena-calm",
+      "answer": "not-now"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-03T10:05:00-05:00",
+      "text": "The pool is closed Thursday and Friday for repairs. I don't know what to do with myself."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "elena-swim"
+    ],
+    "clearAllowed": [
+      "elena-calm"
+    ],
+    "clearExpected": [
+      "elena-calm"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "morning swim at the Y",
+      "tea with Rosa",
+      "tending her mother's roses"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "death",
+      "died",
+      "dying",
+      "grief",
+      "grieving",
+      "loss",
+      "passed away",
+      "healing",
+      "move on",
+      "cry"
+    ],
+    "mustMention": [
+      "Rosa",
+      "roses"
+    ],
+    "notes": "She raised her mother's death once, in a note; nothing we say brings it up, though her mother's roses are hers to talk about warmly. Calm is offered once and softly; after 'not now' and her note about the rain, it stays quiet. On the two closed days something quiet (the garden, tea with Rosa) holds the morning, and the swim is back on Saturday with nothing moved into its place for good."
+  }
+}

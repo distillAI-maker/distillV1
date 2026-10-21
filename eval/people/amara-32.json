@@ -1,0 +1,242 @@
+{
+  "id": "amara-32",
+  "summary": "Amara, 32, Atlanta QA engineer racing Hyrox doubles with Tasha in December: the 5:45 F45 crew and Sunday church and brunch with her mom are hers; a cryo pack from a reel and two kinds of electrolytes crept in. Tests a race goal built from what she loves.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:whoop",
+    "hard-goal",
+    "borrowed"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T05:30:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-18T19:20:00-04:00",
+    "goals": [
+      "fitness",
+      "joints / pain / soreness"
+    ],
+    "name": "Amara",
+    "lifeText": "5:45 F45 with my people, a workday where my tests pass on the first run, a long walk on the BeltLine after. Sunday service and brunch with my mom, then nothing.",
+    "member": true,
+    "items": [
+      {
+        "id": "amara-f45",
+        "itemKey": "boutique-class-membership-barry-s-soulcycle-f45-orangetheory",
+        "label": "F45",
+        "monthlyCost": 199,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 18
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My people. The 5:45 crew has a group chat that's mostly memes and the rest is 'where were you'.",
+            "at": "2026-10-18T19:00:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "amara-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "other",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "usesLast30Days": 25,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "amara-cryo",
+        "itemKey": "cryotherapy-sessions",
+        "monthlyCost": 120,
+        "origin": "online",
+        "answers": {
+          "visitsLast30Days": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Bought a pack after an Instagram reel. Three minutes of misery and I can't say my legs feel any different after.",
+            "at": "2026-10-18T19:05:00-04:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "amara-lmnt",
+        "itemKey": "electrolytes-lmnt-etc",
+        "label": "LMNT",
+        "monthlyCost": 45,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "amara-sportsdrink",
+        "itemKey": "electrolytes-plus-sports-drink",
+        "label": "Gatorade",
+        "monthlyCost": 40,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "amara-brunch",
+        "itemKey": null,
+        "customName": "Sunday service and brunch with my mom",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Every Sunday since I moved back. Mom introduces me to the same church ladies every week like it is the first time.",
+            "at": "2026-10-18T19:09:00-04:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "amara-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "amara-f45",
+        "amara-brunch"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What are you working toward right now?",
+        "a": "Hyrox doubles with Tasha in December. I want to finish strong and not hate wall balls.",
+        "at": "2026-10-20T05:40:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T05:30:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T18:30:00-04:00",
+      "text": "Hyrox Atlanta is Dec 12, Tasha and I just registered for doubles. It's real now"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "amara-cryo",
+      "answer": "yes"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-27",
+      "sleepMin": 309
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T20:00:00-04:00",
+      "text": "Should I start doing two-a-days to get ready?"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "amara-sportsdrink",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T15:00:00-05:00",
+      "q": "Who do you feel your best around?",
+      "a": "Tasha and the 5:45 crew. And my mom, especially when she's bragging about me to the church ladies."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "amara-f45",
+      "amara-creatine",
+      "amara-brunch",
+      "amara-whoop"
+    ],
+    "clearAllowed": [
+      "amara-cryo",
+      "amara-lmnt",
+      "amara-sportsdrink"
+    ],
+    "clearExpected": [
+      "amara-cryo",
+      "amara-sportsdrink"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "5:45 F45 with her crew",
+      "Sunday service and brunch with her mom",
+      "walk on the BeltLine"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "no pain no gain",
+      "grind",
+      "beast mode",
+      "push through"
+    ],
+    "mustMention": [
+      "Tasha",
+      "mom"
+    ],
+    "notes": "The race is hers and Tasha's, and the Ritual builds toward it from the 5:45 crew she loves rather than piling on sessions; the two-a-days question gets a gentle answer, not a training plan. The cryo pack she feels nothing from and the doubled electrolytes are fair to let go, and Sunday with her mom never moves."
+  }
+}

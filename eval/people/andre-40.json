@@ -1,0 +1,183 @@
+{
+  "id": "andre-40",
+  "summary": "Andre, 40, South Philly gym teacher and coach: Eagles Sundays at his dad's with wings and a couple of beers are his, lisinopril is his doctor's, and he signs up for a ten-mile race. Tests a loved vice never tied to his blood pressure, and a stomach bug.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "loved-vice",
+    "clinician",
+    "hard-goal",
+    "season:unwell"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T06:40:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "fitness",
+      "longevity / general health"
+    ],
+    "name": "Andre",
+    "lifeText": "Walk the twins to school, teach a gym full of kids who'd rather be on their phones, practice after. Sundays at my dad's for the Eagles, wings, a couple beers, yelling at the TV together.",
+    "member": true,
+    "items": [
+      {
+        "id": "andre-eagles",
+        "itemKey": null,
+        "customName": "Eagles Sundays with my dad",
+        "monthlyCost": 40,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Every game since I was a kid. Wings from the same spot on Passyunk, a couple of beers, Dad yelling at the refs like they can hear him.",
+            "at": "2026-10-18T21:00:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "andre-lisinopril",
+        "itemKey": null,
+        "customName": "Lisinopril",
+        "monthlyCost": 4,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Blood pressure. Doc started me on it in the summer and wants me moving more.",
+            "at": "2026-10-18T21:04:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "andre-walk",
+        "itemKey": null,
+        "customName": "Walking the twins to school",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Fifteen minutes there, they argue about everything, it's the best part of my morning.",
+            "at": "2026-10-18T21:07:00-04:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "andre-glucosamine",
+        "itemKey": "glucosamine-chondroitin",
+        "monthlyCost": 25,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "andre-eagles"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:40:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T20:00:00-04:00",
+      "text": "Signed up for the Broad Street Run in May. Ten miles. My doctor's going to faint."
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-24T09:30:00-04:00",
+      "q": "Who do you feel your best around?",
+      "a": "My twins and my dad. Same energy honestly, everybody talking at once."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T07:15:00-04:00",
+      "text": "Twins had a stomach bug and now I've got it. Calling out today."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T18:30:00-04:00",
+      "text": "Feeling better. Can I still do Eagles Sunday?"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "andre-glucosamine",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-04T07:20:00-05:00",
+      "text": "Did my first run this morning before school. Two miles. Don't laugh."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "andre-eagles",
+      "andre-lisinopril",
+      "andre-walk"
+    ],
+    "clearAllowed": [
+      "andre-glucosamine"
+    ],
+    "clearExpected": [
+      "andre-glucosamine"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Eagles Sundays with his dad",
+      "walking the twins to school"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "sodium",
+      "salt",
+      "alcohol",
+      "heart health",
+      "cholesterol"
+    ],
+    "mustMention": [
+      "Dad",
+      "twins"
+    ],
+    "notes": "His doctor wants him moving and the race is his own answer; the Ritual builds it from the walk to school and short early runs, never from giving anything up. Eagles Sundays with his dad, wings and beers included, are his and are never linked to his blood pressure; lisinopril gets one plain sentence, and after the stomach bug 'can I still do Eagles Sunday?' gets an easy yes."
+  }
+}

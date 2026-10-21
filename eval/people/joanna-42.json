@@ -1,0 +1,319 @@
+{
+  "id": "joanna-42",
+  "summary": "Joanna, 42, Upper West Side litigator: IV drips, a hyperbaric ten-pack, NAD+ shots and an unused massage membership sit beside the reformer class she loves; Thursday martinis with Ben and Saturday swim lessons with her daughter are hers. Tests strep throat, then a trial.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:oura",
+    "borrowed",
+    "loved-vice",
+    "season:unwell",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T06:15:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-18T22:10:00-04:00",
+    "goals": [
+      "energy",
+      "immunity",
+      "longevity / general health"
+    ],
+    "name": "Joanna",
+    "lifeText": "Reformer at 6:30 while the instructor plays Motown, a morning in court where the judge is on my side, home in time for Maddie's bath. Thursday martinis with Ben at the place on Amsterdam. Saturday mornings at Maddie's swim lesson.",
+    "member": true,
+    "items": [
+      {
+        "id": "joanna-iv",
+        "itemKey": "iv-vitamin-drips",
+        "label": "IV drip bar",
+        "monthlyCost": 250,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "A partner at the firm swears by them before trials. I feel... hydrated? For $250.",
+            "at": "2026-10-18T22:00:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "joanna-hyperbaric",
+        "itemKey": "hyperbaric-oxygen-wellness-use",
+        "monthlyCost": 300,
+        "origin": "online",
+        "answers": {
+          "visitsLast30Days": 1,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Bought a ten-pack after an Instagram ad. Used three. It's a very expensive nap in a tube.",
+            "at": "2026-10-18T22:04:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "joanna-nad",
+        "itemKey": null,
+        "customName": "NAD+ injections",
+        "monthlyCost": 200,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "joanna-squeeze",
+        "itemKey": "massage-membership-massage-envy-squeeze",
+        "label": "Squeeze",
+        "monthlyCost": 90,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 50
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "joanna-reformer",
+        "itemKey": "yoga-pilates-studio",
+        "label": "reformer",
+        "monthlyCost": 180,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 8
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Tuesday and Thursday at 6:30, the instructor plays Motown and I'm a nicer lawyer after.",
+            "at": "2026-10-18T22:08:00-04:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "joanna-collagen",
+        "itemKey": "collagen-peptides",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "joanna-melatonin",
+        "itemKey": "melatonin",
+        "monthlyCost": 8,
+        "origin": "other",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "joanna-email",
+        "itemKey": "work-email-after-9pm",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 5
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "joanna-swim",
+        "itemKey": null,
+        "customName": "Saturday swim lesson with Maddie",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I sit on the bleachers and she looks up after every lap to check I'm watching. I always am.",
+            "at": "2026-10-18T22:12:00-04:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "joanna-martini",
+        "itemKey": null,
+        "customName": "Thursday martini with Ben",
+        "monthlyCost": 40,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Our standing date since law school. One martini each, the corner booth, no talking about work or Maddie's school.",
+            "at": "2026-10-18T22:15:00-04:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "joanna-oura",
+        "itemKey": null,
+        "customName": "Oura ring",
+        "dataSource": true,
+        "monthlyCost": 6,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "joanna-swim",
+        "joanna-martini"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What would you do with a free Saturday?",
+        "a": "Swim lesson, bagels on the bench outside, then the Natural History museum because Maddie wants to see the whale again.",
+        "at": "2026-10-19T08:30:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:15:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-23T17:40:00-04:00",
+      "text": "Strep throat. Doctor says 48 hours of antibiotics before I'm human. Maddie's thrilled I'm home."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-24",
+      "sleepMin": 288
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "joanna-hyperbaric",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T21:00:00-04:00",
+      "text": "Trial starts November 9. I'll be underwater until Thanksgiving."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "joanna-iv",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T09:45:00-05:00",
+      "q": "Who do you feel your best around?",
+      "a": "Ben and Maddie. And my reformer instructor, honestly."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "joanna-reformer",
+      "joanna-swim",
+      "joanna-martini",
+      "joanna-oura"
+    ],
+    "clearAllowed": [
+      "joanna-iv",
+      "joanna-hyperbaric",
+      "joanna-nad",
+      "joanna-squeeze",
+      "joanna-collagen",
+      "joanna-melatonin",
+      "joanna-email"
+    ],
+    "clearExpected": [
+      "joanna-hyperbaric",
+      "joanna-squeeze",
+      "joanna-nad"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Thursday martini with Ben",
+      "Saturday swim lesson with Maddie",
+      "reformer at 6:30"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "immunity",
+      "alcohol",
+      "germs"
+    ],
+    "mustMention": [
+      "Maddie",
+      "Ben"
+    ],
+    "notes": "The luxury add-ons are the story: the hyperbaric ten-pack she calls an expensive nap, the massage membership she stopped using and the NAD+ shots are the clear proposals, and the IV drips got a 'not now' before trial and should rest. Strep days and the coming trial shrink everything except Thursday martinis with Ben, Saturday swim with Maddie and the reformer she loves."
+  }
+}

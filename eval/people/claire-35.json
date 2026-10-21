@@ -1,0 +1,251 @@
+{
+  "id": "claire-35",
+  "summary": "Claire, 35, Manhattan consultant flying to Chicago every week: Friday negronis with Dee and the Sunday crossword with her dad are hers; sunscreen is well-founded but unfelt, ClassPass credits keep expiring. Tests a travel season that just got longer.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:oura",
+    "loved-vice",
+    "tier-a-unfelt",
+    "season:travelling"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T06:10:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-17T22:30:00-04:00",
+    "goals": [
+      "sleep (general)",
+      "energy"
+    ],
+    "name": "Claire",
+    "lifeText": "A slow Saturday: coffee, the Union Square market, a long walk with nowhere to be. Weeknights I'd love to sleep in my own bed more than twice. Fridays are for Dee.",
+    "member": true,
+    "items": [
+      {
+        "id": "claire-negronis",
+        "itemKey": null,
+        "customName": "Friday negronis with Dee",
+        "monthlyCost": 60,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Dee and I have done Fridays at the bar on our corner since we were 24. Two negronis, the same two stools, and she tells me when I'm being a workaholic.",
+            "at": "2026-10-18T11:00:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "claire-crossword",
+        "itemKey": null,
+        "customName": "Sunday crossword with Dad",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "FaceTime and the Sunday puzzle, him in Ohio with a pen, me with the app. He pretends not to look up answers.",
+            "at": "2026-10-18T11:05:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "claire-sunscreen",
+        "itemKey": "sunscreen-daily-spf-30",
+        "monthlyCost": 30,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 29
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Every day, rain or shine, even on planes. Couldn't tell you if it does anything.",
+            "at": "2026-10-18T11:08:00-04:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "claire-melatonin",
+        "itemKey": "melatonin",
+        "monthlyCost": 8,
+        "origin": "friend",
+        "answers": {
+          "dose": 3,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Only on travel nights. Hotel rooms make my brain loud.",
+            "at": "2026-10-18T11:10:00-04:00"
+          }
+        ],
+        "position": 3
+      },
+      {
+        "id": "claire-classpass",
+        "itemKey": "class-pack-or-studio-credits",
+        "label": "ClassPass",
+        "monthlyCost": 79,
+        "origin": "online",
+        "answers": {
+          "visitsLast30Days": 1,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Credits roll over, then expire, and I keep losing them. Too tired after flights.",
+            "at": "2026-10-18T11:13:00-04:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "claire-lmnt",
+        "itemKey": "electrolytes-lmnt-etc",
+        "label": "LMNT",
+        "monthlyCost": 45,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 8
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "claire-eyemask",
+        "itemKey": "eye-mask",
+        "monthlyCost": 2,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "claire-negronis",
+        "claire-crossword"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What would you do with a free Saturday?",
+        "a": "Union Square market, a long walk to nowhere, a nap I don't feel guilty about.",
+        "at": "2026-10-19T10:20:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:10:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-25T20:30:00-04:00",
+      "text": "In Chicago Monday to Thursday again, then home Friday for Dee."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-27",
+      "sleepMin": 276
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-29T21:15:00-04:00",
+      "text": "My project just got extended through December, so it's every week now."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "claire-classpass",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T19:05:00-04:00",
+      "text": "Made it back in time for Dee. Same stools."
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T11:00:00-05:00",
+      "q": "Who do you feel your best around?",
+      "a": "Dee. And my dad, even at 8am on a Sunday with the crossword."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "claire-negronis",
+      "claire-crossword",
+      "claire-sunscreen"
+    ],
+    "clearAllowed": [
+      "claire-classpass",
+      "claire-lmnt",
+      "claire-melatonin",
+      "claire-eyemask"
+    ],
+    "clearExpected": [
+      "claire-classpass"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Friday negronis with Dee",
+      "Sunday crossword with Dad"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "workaholic",
+      "alcohol",
+      "skip Friday"
+    ],
+    "mustMention": [
+      "Dee",
+      "Dad"
+    ],
+    "notes": "Travel now runs through December, so the Ritual should make Chicago nights simpler and protect her two fixed points, Friday with Dee and the Sunday crossword with her dad, whenever her flight lands. The ClassPass credits she keeps losing are the one proposal; sunscreen is well-founded whatever she notices."
+  }
+}

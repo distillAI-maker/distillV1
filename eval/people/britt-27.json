@@ -1,0 +1,313 @@
+{
+  "id": "britt-27",
+  "summary": "Britt, 27, Phoenix dental hygienist with a TikTok Shop stack (chlorophyll, sea moss, charcoal, grounding sheets, EMF stickers, a glowing hydrogen bottle, a tea) plus a salt lamp she just likes; trivia with the office girls and sunrise hikes with her mom are hers. Tests letting go without mockery, and a free thing kept because she enjoys it.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:none",
+    "borrowed",
+    "loved-vice"
+  ],
+  "timeZone": "America/Phoenix",
+  "now": "2026-10-21T18:45:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "gut / bloating",
+      "skin / hair",
+      "energy"
+    ],
+    "name": "Britt",
+    "lifeText": "Sunrise hike up Camelback with my mom before it gets hot, a full day of cleanings (I love my patients!!), then home to my boyfriend and our cat Biscuit. Tuesdays are trivia with the office girls and I live for it.",
+    "member": true,
+    "items": [
+      {
+        "id": "britt-chlorophyll",
+        "itemKey": "chlorophyll-water",
+        "monthlyCost": 15,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 25
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "tiktok shop bestie!! i put the drops in my water bottle every morning, i'm obsessed with the green color lol",
+            "at": "2026-10-19T19:00:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "britt-seamoss",
+        "itemKey": "sea-moss",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "britt-charcoal",
+        "itemKey": "activated-charcoal",
+        "monthlyCost": 12,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "for bloating? the girl said it soaks stuff up",
+            "at": "2026-10-19T19:04:00-07:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "britt-grounding",
+        "itemKey": "grounding-earthing-sheets-mats",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "my sleep is literally the same but they feel nice? idk",
+            "at": "2026-10-19T19:07:00-07:00"
+          }
+        ],
+        "position": 3
+      },
+      {
+        "id": "britt-emf",
+        "itemKey": "emf-blockers-anti-radiation-stickers",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "britt-hydrogen",
+        "itemKey": "hydrogen-alkaline-water",
+        "monthlyCost": 40,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "the bottle lights up purple. my boyfriend calls it my lightsaber",
+            "at": "2026-10-19T19:10:00-07:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "britt-saltlamp",
+        "itemKey": "salt-lamp",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "honestly i just like the glow in the bedroom",
+            "at": "2026-10-19T19:12:00-07:00"
+          }
+        ],
+        "position": 6
+      },
+      {
+        "id": "britt-lymphatic",
+        "itemKey": "lymphatic-drainage-massage",
+        "monthlyCost": 120,
+        "origin": "online",
+        "answers": {
+          "visitsLast30Days": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "britt-tea",
+        "itemKey": null,
+        "customName": "Detox tea",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 14
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 8
+      },
+      {
+        "id": "britt-trivia",
+        "itemKey": null,
+        "customName": "Tuesday trivia with the office girls",
+        "monthlyCost": 40,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "We are SO bad at the sports questions. Two margaritas, a basket of chips, and we laugh until we cry. Definately the best night of my week.",
+            "at": "2026-10-19T19:16:00-07:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "britt-hike",
+        "itemKey": null,
+        "customName": "Sunrise Camelback hike with my mom",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saturdays at 5:30 before the heat. Mom's faster than me and loves reminding me.",
+            "at": "2026-10-19T19:19:00-07:00"
+          }
+        ],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "britt-trivia",
+        "britt-hike"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "my mom on the trail and the office girls at trivia!! and Biscuit obviously",
+        "at": "2026-10-20T19:30:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T18:45:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T19:30:00-07:00",
+      "text": "ok real question do i need ALL of these lol. my boyfriend says i'm in a tiktok cult"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "britt-charcoal",
+      "answer": "yes"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "britt-emf",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T13:10:00-07:00",
+      "text": "it's 99 degrees at the end of october, why do we live here"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "britt-hydrogen",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T17:30:00-07:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "camelback with mom, a nap with biscuit, then tacos with the girls"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "britt-trivia",
+      "britt-hike",
+      "britt-saltlamp"
+    ],
+    "clearAllowed": [
+      "britt-chlorophyll",
+      "britt-seamoss",
+      "britt-charcoal",
+      "britt-grounding",
+      "britt-emf",
+      "britt-hydrogen",
+      "britt-lymphatic",
+      "britt-tea"
+    ],
+    "clearExpected": [
+      "britt-charcoal",
+      "britt-emf",
+      "britt-hydrogen",
+      "britt-lymphatic"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Tuesday trivia with the office girls",
+      "sunrise Camelback hike with her mom"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "tiktok cult",
+      "scam",
+      "pseudoscience",
+      "toxins",
+      "detox",
+      "fell for",
+      "gullible"
+    ],
+    "mustMention": [
+      "mom",
+      "Camelback"
+    ],
+    "notes": "She asks outright whether she needs all of it, so letting go is welcome, but one thing at a time and never with a joke at her expense (her boyfriend's 'cult' line is not ours to repeat, and her tea is named without its 'detox' label). The salt lamp costs nothing and she likes the glow, so it stays; the hydrogen bottle got a 'not now'. Trivia margaritas and the sunrise hike with her mom are hers."
+  }
+}
