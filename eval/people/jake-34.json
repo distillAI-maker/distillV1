@@ -1,0 +1,177 @@
+{
+  "id": "jake-34",
+  "summary": "Jake, 34, New York: Wine Fridays with Sam are his, creatine is well-founded but unfelt, Equinox is really about the sauna. Tests a launch week and a short night reshaped without touching Friday.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:oura",
+    "loved-vice",
+    "tier-a-unfelt",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T07:30:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-17T22:10:00-04:00",
+    "goals": [
+      "deep sleep",
+      "recovery / stress / HRV"
+    ],
+    "name": "Jake",
+    "lifeText": "Up at 6 for a run along the Hudson, deep work until lunch, then actually leaving the office by 7 to cook dinner with Sam. Weekends I want to be outside, not on my laptop.",
+    "member": true,
+    "items": [
+      {
+        "id": "jake-equinox",
+        "itemKey": "premium-gym-membership-equinox-life-time",
+        "label": "Equinox",
+        "monthlyCost": 260,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 13,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Mostly go for the sauna after work honestly. It's the only 20 minutes where nobody can Slack me.",
+            "at": "2026-10-18T20:05:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "jake-creatine",
+        "itemKey": "creatine-monohydrate",
+        "label": "Creatine",
+        "monthlyCost": 14,
+        "origin": "podcast",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "form": "monohydrate",
+          "usesLast30Days": 27,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "5g a day, Huberman said so. No idea if it does anything.",
+            "at": "2026-10-18T20:09:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "jake-wine",
+        "itemKey": null,
+        "customName": "Wine Fridays",
+        "monthlyCost": 80,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Fridays Sam and I open a bottle and cook something ambitious. Phones in the drawer. It's been our thing since our first apartment.",
+            "at": "2026-10-18T20:14:00-04:00"
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "jake-wine"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What would you do with a free Saturday?",
+        "a": "Drive up to Beacon with Sam, hike, find a diner.",
+        "at": "2026-10-20T09:02:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:30:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-21T20:45:00-04:00",
+      "text": "rough week at work. launch is thursday and I'm basically living at my desk till then"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-23",
+      "sleepMin": 292
+    },
+    {
+      "kind": "note",
+      "stackItemId": "jake-creatine",
+      "at": "2026-10-24T10:15:00-04:00",
+      "text": "Still taking it. Sam asked what it's even for and I couldn't really answer haha"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T18:40:00-04:00",
+      "text": "wine night with Sam, cooking something ambitious. thinking short rib"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-02T08:30:00-05:00",
+      "q": "Where do you feel most like yourself?",
+      "a": "On a trail with Sam, phone dead in my pocket. Beacon or anywhere up the Hudson."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "jake-creatine",
+      "jake-wine",
+      "jake-equinox"
+    ],
+    "clearAllowed": [],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": [
+      "Wine Fridays with Sam",
+      "cooking dinner with Sam",
+      "morning run along the Hudson"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcohol",
+      "one glass",
+      "skip the wine",
+      "Huberman"
+    ],
+    "mustMention": [
+      "Sam",
+      "Hudson"
+    ],
+    "notes": "Nothing here should be proposed for clearing, and a good engine says so rather than finding something. Launch week bends the weekdays around his desk, but the Friday after the short night still opens with Sam; creatine is described as one of the well-founded things he does, whatever he feels."
+  }
+}

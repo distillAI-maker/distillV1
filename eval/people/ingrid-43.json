@@ -1,0 +1,308 @@
+{
+  "id": "ingrid-43",
+  "summary": "Ingrid, 43, Minneapolis architect in perimenopause: Sunday sauna with her sisters is hers, progesterone is her doctor's, lifting and creatine are well-founded but unfelt, and a podcast added maca, black cohosh, evening primrose and colostrum. Tests herbs let go without hormone talk, and covid week.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:oura",
+    "clinician",
+    "borrowed",
+    "tier-a-unfelt",
+    "season:unwell"
+  ],
+  "timeZone": "America/Chicago",
+  "now": "2026-10-21T06:30:00-05:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-16T06:45:00-05:00",
+    "goals": [
+      "staying asleep / waking at night",
+      "mood / anxiety",
+      "testosterone / hormones"
+    ],
+    "name": "Ingrid",
+    "lifeText": "Coffee in the quiet before Freya wakes up, a day of drawing buildings, lifting twice a week because a podcast scared me about my bones. Sunday sauna with my sisters by the lake, then into the water no matter how cold.",
+    "member": true,
+    "items": [
+      {
+        "id": "ingrid-progesterone",
+        "itemKey": null,
+        "customName": "Progesterone",
+        "monthlyCost": 25,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My doctor says perimenopause and started me on this at night in September.",
+            "at": "2026-10-18T06:40:00-05:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "ingrid-strength",
+        "itemKey": "strength-training",
+        "monthlyCost": 0,
+        "origin": "podcast",
+        "answers": {
+          "trains": true,
+          "usesLast30Days": 8
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Twice a week since the bones episode. I feel exactly the same, which I'm told is the point?",
+            "at": "2026-10-18T06:43:00-05:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "ingrid-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "podcast",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "usesLast30Days": 24,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "ingrid-maca",
+        "itemKey": "maca",
+        "monthlyCost": 20,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "ingrid-cohosh",
+        "itemKey": null,
+        "customName": "Black cohosh",
+        "monthlyCost": 18,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "ingrid-primrose",
+        "itemKey": "evening-primrose-oil",
+        "monthlyCost": 12,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "ingrid-magnesium",
+        "itemKey": "magnesium-any-form",
+        "monthlyCost": 22,
+        "origin": "podcast",
+        "answers": {
+          "form": "glycinate",
+          "dose": 300,
+          "doseUnit": "mg elemental"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "ingrid-colostrum",
+        "itemKey": "colostrum",
+        "monthlyCost": 50,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 18
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "ingrid-sauna",
+        "itemKey": null,
+        "customName": "Sunday sauna with my sisters",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "The public sauna by the lake. Three sisters, too hot, then into the water screaming. It was the cabin when we were kids; now it's this.",
+            "at": "2026-10-18T06:50:00-05:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "ingrid-coolingpad",
+        "itemKey": "eight-sleep-cooling-mattress-pad",
+        "monthlyCost": 50,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 30
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Night sweats are real. This is the only purchase I'd defend in court.",
+            "at": "2026-10-18T06:53:00-05:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "ingrid-oura",
+        "itemKey": null,
+        "customName": "Oura ring",
+        "dataSource": true,
+        "monthlyCost": 6,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "ingrid-sauna"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What do you look forward to in a week?",
+        "a": "Sunday sauna with Karin and Liv. And Freya's choir concerts, even the bad ones.",
+        "at": "2026-10-20T06:35:00-05:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:30:00-05:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "ingrid-strength",
+      "at": "2026-10-23T07:00:00-05:00",
+      "text": "Deadlifted my body weight today. Still feel nothing. Slightly smug though."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T08:30:00-05:00",
+      "text": "Covid. Whole house has it. Day one."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-28",
+      "sleepMin": 296
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "ingrid-maca",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-01T17:00:00-06:00",
+      "text": "Missed sauna today for the first time in a year. Karin sent a voice memo of them screaming in the lake so I wouldn't feel left out."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "ingrid-colostrum",
+      "answer": "yes"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "ingrid-progesterone",
+      "ingrid-strength",
+      "ingrid-creatine",
+      "ingrid-sauna",
+      "ingrid-coolingpad",
+      "ingrid-oura"
+    ],
+    "clearAllowed": [
+      "ingrid-maca",
+      "ingrid-cohosh",
+      "ingrid-primrose",
+      "ingrid-magnesium",
+      "ingrid-colostrum"
+    ],
+    "clearExpected": [
+      "ingrid-maca",
+      "ingrid-colostrum",
+      "ingrid-primrose"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday sauna with Karin and Liv",
+      "coffee before Freya wakes up"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "menopause",
+      "hot flashes",
+      "anti-aging",
+      "getting older",
+      "hormone balance",
+      "bone loss"
+    ],
+    "mustMention": [
+      "Karin",
+      "Liv"
+    ],
+    "notes": "Lifting and creatine are well-founded and stay whatever she feels; the podcast herbs and the colostrum are fair to let go one at a time, never framed around her hormones, and progesterone is her doctor's. Covid week is rest; missing sauna for the first time gets warmth about her sisters' voice memo, and Sunday sauna returns when she is well."
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "id": "mei-29",
+  "summary": "Mei, 29, East Village UX writer with an eleven-product routine: two exfoliants, retinol and acid on the same nights, doubled serums and a skin app she stopped opening; Saturday sheet masks with her sister Lin are hers. Tests simplifying skincare a step at a time.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:none",
+    "skin-too-much",
+    "borrowed",
+    "tier-a-unfelt"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T22:15:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "skin / hair"
+    ],
+    "name": "Mei",
+    "lifeText": "slow morning, a matcha latte, writing button copy that makes someone's day 1% easier lol. evenings: a routine i secretly love and secretly hate. saturdays are sheet masks and k-dramas with my sister lin",
+    "member": true,
+    "items": [
+      {
+        "id": "mei-oilcleanser",
+        "itemKey": null,
+        "customName": "Oil cleanser (double cleanse)",
+        "monthlyCost": 22,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 0
+      },
+      {
+        "id": "mei-toner",
+        "itemKey": "toner-hydrating-or-balancing",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "mei-essence",
+        "itemKey": null,
+        "customName": "Snail essence",
+        "monthlyCost": 28,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "mei-serums",
+        "itemKey": "multiple-hydrating-serums-two-hyaluronic-acid-products",
+        "monthlyCost": 50,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "mei-vitc",
+        "itemKey": "vitamin-c-serum",
+        "monthlyCost": 60,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 25
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "mei-retinol",
+        "itemKey": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+        "label": "retinol + AHA nights",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 16
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "tiktok said retinol and AHA together for 'glass skin'. some nights my face tingles for like an hour",
+            "at": "2026-10-19T22:25:00-04:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "mei-exfoliants",
+        "itemKey": "two-exfoliants-scrub-plus-acid-or-two-acids",
+        "label": "BHA + rice scrub",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "mei-eyecream",
+        "itemKey": "eye-cream-when-you-already-use-a-moisturiser",
+        "monthlyCost": 45,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "mei-sunscreen",
+        "itemKey": "sunscreen-daily-spf-30",
+        "monthlyCost": 24,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 30
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "every day since i was 19. i honestly can't tell what it does but i'm scared to stop lol",
+            "at": "2026-10-19T22:30:00-04:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "mei-sheetmasks",
+        "itemKey": null,
+        "customName": "Saturday sheet masks with Lin",
+        "monthlyCost": 20,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "my sister lin comes over, we put on the silliest masks and watch two episodes. she always cries first",
+            "at": "2026-10-19T22:34:00-04:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "mei-skinapp",
+        "itemKey": "unlisted-subscription-you-re-still-paying-for",
+        "label": "skin analysis app",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 75
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "mei-sheetmasks"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Where do you feel most like yourself?",
+        "a": "on the couch with lin on saturdays, both of us looking ridiculous",
+        "at": "2026-10-20T21:40:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T22:15:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "mei-exfoliants",
+      "at": "2026-10-23T22:40:00-04:00",
+      "text": "forehead is shiny in a weird way and kind of stings when i wash. too much??"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "mei-exfoliants",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T20:10:00-04:00",
+      "text": "honestly can someone just tell me which steps to keep"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "mei-retinol",
+      "answer": "yes"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "mei-eyecream",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T13:00:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "dumplings in chinatown with lin, then masks and the new drama. same as always and i love it"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "mei-sheetmasks",
+      "mei-sunscreen"
+    ],
+    "clearAllowed": [
+      "mei-oilcleanser",
+      "mei-toner",
+      "mei-essence",
+      "mei-serums",
+      "mei-vitc",
+      "mei-retinol",
+      "mei-exfoliants",
+      "mei-eyecream",
+      "mei-skinapp"
+    ],
+    "clearExpected": [
+      "mei-exfoliants",
+      "mei-retinol",
+      "mei-serums",
+      "mei-skinapp"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Saturday sheet masks and K-dramas with Lin"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "glass skin",
+      "anti-aging",
+      "flawless",
+      "pores"
+    ],
+    "mustMention": [
+      "Lin"
+    ],
+    "notes": "The stinging forehead is the clearest sign of too much: the two exfoliants and the retinol-plus-acid nights go first, then the doubled serums and the skin app she stopped opening, one at a time. Saturday masks with Lin are about her sister, not skincare, and stay; when she asks which steps to keep, the answer keeps sunscreen (well-founded whatever she feels) and stays short."
+  }
+}

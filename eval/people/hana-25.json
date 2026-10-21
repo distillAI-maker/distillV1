@@ -1,0 +1,239 @@
+{
+  "id": "hana-25",
+  "summary": "Hana, 25, Austin content marketer: scrolls in bed until 1am and buys every sleep fix TikTok shows her, two meditation apps included; Thursday two-stepping with her roommates is hers. Tests backing her own idea and her sister's wedding weekend.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:oura",
+    "unloved-vice",
+    "borrowed",
+    "season:travelling"
+  ],
+  "timeZone": "America/Chicago",
+  "now": "2026-10-21T08:30:00-05:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-18T23:10:00-05:00",
+    "goals": [
+      "falling asleep",
+      "mood / anxiety"
+    ],
+    "name": "Hana",
+    "lifeText": "wake up without my phone being the first thing i see, iced coffee, work from the patio, then two-stepping with my roommates bri and kat on thursdays. asleep before midnight would literally change my life",
+    "member": true,
+    "items": [
+      {
+        "id": "hana-phone",
+        "itemKey": "screens-phone-in-bed",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 7
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "i scroll until like 1am every night and then hate myself in the morning. i know i know",
+            "at": "2026-10-19T23:55:00-05:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "hana-gummies",
+        "itemKey": "sleep-gummies-blend",
+        "monthlyCost": 18,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "hana-magspray",
+        "itemKey": "magnesium-spray-oil-transdermal",
+        "monthlyCost": 15,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "tiktok said spray it on your feet before bed. it itches lol",
+            "at": "2026-10-20T00:02:00-05:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "hana-glasses",
+        "itemKey": "blue-light-blocking-glasses",
+        "monthlyCost": 5,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 6
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "hana-calm",
+        "itemKey": "meditation-app-calm-headspace",
+        "label": "Calm",
+        "monthlyCost": 15,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 45
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "hana-headspace",
+        "itemKey": "second-meditation-or-sleep-app",
+        "label": "Headspace",
+        "monthlyCost": 13,
+        "origin": "friend",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 120
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "hana-dancing",
+        "itemKey": null,
+        "customName": "Thursday two-stepping with Bri and Kat",
+        "monthlyCost": 10,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "we are so bad at it and that's the point. best night of my week, no phones on the dance floor",
+            "at": "2026-10-20T00:06:00-05:00"
+          }
+        ],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "hana-dancing"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "bri and kat. and my sister, she's getting married next weekend and i'm a bridesmaid!!",
+        "at": "2026-10-20T08:15:00-05:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:30:00-05:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "hana-phone",
+      "at": "2026-10-22T08:10:00-05:00",
+      "text": "made it to 12:40 last night. progress?? lol"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "hana-headspace",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T18:00:00-05:00",
+      "text": "driving to dallas thursday for my sister's wedding, back sunday"
+    },
+    {
+      "kind": "night",
+      "date": "2026-11-01",
+      "sleepMin": 262
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-02T21:20:00-06:00",
+      "text": "what if i just charge my phone in the kitchen lol"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "hana-magspray",
+      "answer": "yes"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "hana-dancing"
+    ],
+    "clearAllowed": [
+      "hana-gummies",
+      "hana-magspray",
+      "hana-glasses",
+      "hana-calm",
+      "hana-headspace",
+      "hana-phone"
+    ],
+    "clearExpected": [
+      "hana-headspace",
+      "hana-magspray"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Thursday two-stepping with Bri and Kat",
+      "iced coffee on the patio"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "hate yourself",
+      "screen time",
+      "addicted",
+      "doomscroll",
+      "discipline"
+    ],
+    "mustMention": [
+      "Bri",
+      "Kat",
+      "sister"
+    ],
+    "notes": "The phone in bed is hers to change and she brings her own idea (charging it in the kitchen); the reply backs that idea warmly instead of adding a plan, and never echoes 'hate myself'. The second sleep app and the itchy spray are the easy proposals; the Dallas weekend is a celebration, and the short night after the wedding needs care, not comment."
+  }
+}

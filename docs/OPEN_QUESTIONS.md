@@ -130,3 +130,25 @@ The onboarding was cut down to the second Figma Make build (`distill-brand/figma
 | TEXT_CUT | Eyebrows, subheads, asides between groups, the running total, "where did this come from" on the list, "I'd rather choose them myself", the invitation's extra lines, folio and seal, and "Not yet" are gone. The item is written into each question ("Magnesium: which form?"). The medical note shows once, at the foot of the first stack screen. |
 | CONNECT_V2 | Fitbit is off the connect screen (its API shuts down 30 October); the two Apple import tiles are one; the first-reading card drops the "how many months" box and says "a first read at day 14, and a verdict by day 28". |
 | ARRIVAL_LINE | The Figma's "Not who they imagined. Who you are." fails the tone check (third person). The app uses "Not who you were told to be. Who you are." until the owner rewords it. |
+
+## Engine build (2026-10-21)
+
+The engine from Veer's build plan, built on `ritual-engine` ([ENGINE.md](ENGINE.md)). Each row is a decision taken while building, or a question the build turned up.
+
+| ID | Decision or question |
+| --- | --- |
+| ENGINE_DEVIATIONS | ENGINE.md lists 18 places the build differs from the plan (staged decide, tier U, explicit "borrowed", stored day edits, the 40-pair A/B, conditions from plain words, and more). Veer to keep or reverse each. |
+| V4_LIVE | No V4 row is live yet. Until Ishan reviews them, people get V3 rows as unknown evidence, so Distill only proposes letting go of unused things and overlaps. The golden set finds 27% of the clears it should with Claude off; most of the gap is rows V4 doesn't cover yet. |
+| TIER_D_MEANING | Research used D both for "mechanism or anecdote only" (the Read me's definition) and for "tested properly, found little". Widen D's definition, or add a tier for well-tested nulls. |
+| PHONE_IN_BED | The phone-in-bed row is graded on its benefit (D) while its clear code (UNLOVED_HABIT) reads it as a cost. One reading should win. |
+| VAPE_FOR_CIGARETTES | A vape that replaced cigarettes should never be proposed for letting go. There's no condition for it, so for now it's the row's human question ("Did it replace cigarettes, or start on its own?"). |
+| RARELY_USED | Something paid for and used now and then (a meditation app opened twice a month) is neither unused nor regular, so nothing proposes it. Add a "rarely used for what it costs" clear code? |
+| WORD_CONDITIONS | The engine reads a skin condition, a pregnancy or breastfeeding from their own words without Claude, present tense only, quoting them. It errs toward caution, and a condition read this way stays even if the note is deleted. Conditions aren't shown anywhere the person can see or remove them yet. |
+| SAFETY_WATCH | A message that may mean someone is in danger gets the fixed 988 / 911 reply and logs `safety.crisis` with `needsHuman`. Nothing alerts a person yet. Who watches, and how fast? |
+| THREAD_PRIVACY | Messages to the companion are stored so the thread can show them; the event log keeps only their length. Deleting the account deletes all of it (cascade from `auth.users`), but "Export my data" doesn't include the engine's tables yet. |
+| AB_SIZE | The blind A/B is 40 pairs and ships at 26 wins; the plan said 20 pairs at 60%, where a coin flip passes about a quarter of the time. |
+| EXPLORE_CERTIFY | `data/explore-bank.json` holds 60 checked places and ideas (SF, NYC, anywhere), all uncertified. Nothing is shown until Veer sets `certified: true` on the ones he has checked himself. Some prices are estimates and a few are seasonal; see the file's notes in the PR. |
+| GOLDEN_PEOPLE | 32 of the 40 golden people were drafted by Claude (`draftedBy: "Claude"`), for Veer to replace with people grounded in real friends. The 8 companion examples kept their exact items, so Jake has nothing to clear. |
+| SCORE_NAME | The sleep-score row's short name is "Morning sleep check", so Distill never says "score". |
+| SIGNED_OUT | Signed out, Today keeps the reading flow and links to a rules-only preview of the Ritual. Onboarding's Sorted and Ready screens still group items with the old verdict groups (`groupOf`); retiring that is onboarding work. |
+| DAY_ONE_WEEKEND | On day one each weekend day holds three parts across the whole day. A daily part past that keeps its weekdays rather than leaving the week. |

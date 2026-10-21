@@ -1,0 +1,232 @@
+{
+  "id": "ethan-24",
+  "summary": "Ethan, 24, San Francisco junior analyst who lifts: six months of creatine he can't feel, plus BCAAs and ashwagandha from the gym and the feed; Sunday dinner at his parents' in San Jose is his. Tests 'can I stop the creatine?' and a week of flu.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:whoop",
+    "tier-a-unfelt",
+    "borrowed",
+    "season:unwell"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T07:20:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-19T21:40:00-07:00",
+    "goals": [
+      "fitness",
+      "energy"
+    ],
+    "name": "Ethan",
+    "lifeText": "gym before work, actually leave the office before 7, dinner with my roommates, gaming with the boys. sundays at my parents in san jose",
+    "member": true,
+    "items": [
+      {
+        "id": "ethan-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "friend",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "form": "monohydrate",
+          "usesLast30Days": 30,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "6 months, 5g every day. ngl feel nothing. is it a scam",
+            "at": "2026-10-19T22:00:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "ethan-protein",
+        "itemKey": "protein-powder",
+        "monthlyCost": 40,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 25,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "ethan-gym",
+        "itemKey": "gym-membership",
+        "label": "24 Hour",
+        "monthlyCost": 50,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 18,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "ethan-preworkout",
+        "itemKey": "pre-workout",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 18
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "ethan-bcaa",
+        "itemKey": "bcaas",
+        "monthlyCost": 25,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "gym bro at work said bcaas between sets. tastes like blue raspberry and nothing else",
+            "at": "2026-10-19T22:04:00-07:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "ethan-ashwa",
+        "itemKey": "ashwagandha-ksm-66-sensoril",
+        "monthlyCost": 19,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 14
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "ethan-sundays",
+        "itemKey": null,
+        "customName": "Sunday dinner at my parents'",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "mom makes bún bò huế, my little sister roasts my outfit, dad falls asleep during the niners game. every sunday",
+            "at": "2026-10-19T22:08:00-07:00"
+          }
+        ],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "ethan-sundays"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:20:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T12:30:00-07:00",
+      "text": "can I stop the creatine? I don't feel anything"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "ethan-bcaa",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T09:15:00-07:00",
+      "text": "got the flu. been in bed since saturday"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-28",
+      "sleepMin": 290
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T18:00:00-07:00",
+      "text": "mom dropped off soup. feeling human again"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-02T21:00:00-08:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "sleep in, gym, then 2k with the boys till way too late lol"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "ethan-creatine",
+      "ethan-protein",
+      "ethan-gym",
+      "ethan-sundays"
+    ],
+    "clearAllowed": [
+      "ethan-preworkout",
+      "ethan-bcaa",
+      "ethan-ashwa"
+    ],
+    "clearExpected": [
+      "ethan-bcaa"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday dinner at his parents' in San Jose"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "scam",
+      "gains",
+      "push through",
+      "bro"
+    ],
+    "mustMention": [
+      "San Jose",
+      "mom"
+    ],
+    "notes": "When he asks to stop the creatine, the honest answer is that it is one of the well-founded things he does and much of what works is never felt; it stays his call, said without pressure, and it is never offered for clearing. The BCAAs are the clear proposal; flu week is rest, his mom's soup and Sunday dinner, with no talk of getting back to the gym."
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "id": "luca-26",
+  "summary": "Luca, 26, Bushwick bartender: a TikTok told him to scrub and acid-wash every day and his nose is raw; one beer after close with the crew and the 3am ride over the bridge are his. Tests skincare brought back to sense and Halloween doubles without treating his nights as a problem.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:none",
+    "skin-too-much",
+    "borrowed",
+    "loved-vice",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T15:00:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "skin / hair",
+      "sleep (general)"
+    ],
+    "name": "Luca",
+    "lifeText": "wake up at noon, espresso, ride my bike to the bar, make drinks for people on the best night of their week. after close, one beer with whoever's on, then the williamsburg bridge at 3am when the whole city is yours",
+    "member": true,
+    "items": [
+      {
+        "id": "luca-exfoliants",
+        "itemKey": "two-exfoliants-scrub-plus-acid-or-two-acids",
+        "label": "scrub + salicylic wash",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 26
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "a guy on tiktok with perfect skin said exfoliate every day. my nose is kind of raw now",
+            "at": "2026-10-19T15:30:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "luca-toner",
+        "itemKey": "toner-hydrating-or-balancing",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "luca-eyestick",
+        "itemKey": "eye-cream-when-you-already-use-a-moisturiser",
+        "label": "under-eye stick",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "luca-chlorophyll",
+        "itemKey": "chlorophyll-water",
+        "monthlyCost": 15,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "luca-shiftbeer",
+        "itemKey": null,
+        "customName": "Shift beer with the crew",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "one beer after close with whoever's on. we sit on the bar top and talk about everyone who came in. it's family",
+            "at": "2026-10-19T15:35:00-04:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "luca-bridge",
+        "itemKey": null,
+        "customName": "Biking home over the bridge",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "3am on the williamsburg bridge. no cars, the river, the city lit up. best part of my night",
+            "at": "2026-10-19T15:38:00-04:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "luca-melatonin",
+        "itemKey": "melatonin",
+        "monthlyCost": 8,
+        "origin": "friend",
+        "answers": {
+          "dose": 10,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "luca-bridge"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Who do you feel your best around?",
+        "a": "the crew. and my nonna on facetime, she thinks bartending is a phase",
+        "at": "2026-10-20T14:10:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T15:00:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "luca-exfoliants",
+      "at": "2026-10-23T16:00:00-04:00",
+      "text": "nose is peeling and red. like a little sunburn but it's october"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "luca-exfoliants",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-29T14:20:00-04:00",
+      "text": "halloween weekend, picked up doubles friday and saturday. pray for me"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "luca-chlorophyll",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-02T15:30:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "sleep, then cook my nonna's sunday gravy for the crew even though it's saturday"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-04T16:10:00-05:00",
+      "text": "nose is back to normal btw. who knew"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "luca-bridge",
+      "luca-shiftbeer"
+    ],
+    "clearAllowed": [
+      "luca-exfoliants",
+      "luca-toner",
+      "luca-eyestick",
+      "luca-chlorophyll",
+      "luca-melatonin"
+    ],
+    "clearExpected": [
+      "luca-exfoliants",
+      "luca-chlorophyll"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "shift beer with the crew",
+      "biking home over the Williamsburg Bridge"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcohol",
+      "drinking",
+      "sleep schedule"
+    ],
+    "mustMention": [
+      "the crew",
+      "nonna"
+    ],
+    "notes": "The raw nose is the sign: daily scrubbing on top of a salicylic wash is the first thing to let go, and when it settles the reply can simply be glad with him. The shift beer is how he belongs to the crew and the 3am ride over the bridge is his; the Halloween doubles reshape keeps both and never treats his night schedule as a problem."
+  }
+}

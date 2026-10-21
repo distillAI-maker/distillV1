@@ -1,0 +1,313 @@
+{
+  "id": "tomas-33",
+  "summary": "Tomás, 33, Brooklyn ER nurse running the New York marathon on Nov 1: Saturday long runs and beers with his club are his, lifting is well-founded but unfelt, race-week gear piles up. Tests race week, extra night shifts and the short night before the start.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:whoop",
+    "hard-goal",
+    "loved-vice",
+    "tier-a-unfelt",
+    "borrowed",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T07:45:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-17T09:30:00-04:00",
+    "goals": [
+      "fitness",
+      "joints / pain / soreness"
+    ],
+    "name": "Tomás",
+    "lifeText": "Off a night shift, coffee from the cart on Flatbush, an easy loop of Prospect Park while the city wakes up. Nap, then Sunday dinner at my mom's in Sunset Park. Race weeks I just want fresh legs and a quiet head.",
+    "member": true,
+    "items": [
+      {
+        "id": "tomas-runclub",
+        "itemKey": null,
+        "customName": "Saturday long run with the club",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saturday 7am from Grand Army Plaza, bagels after on Vanderbilt. Half my friends in this city came from this club.",
+            "at": "2026-10-18T10:30:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "tomas-beers",
+        "itemKey": null,
+        "customName": "Beers after the long run",
+        "monthlyCost": 40,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 1
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Two beers max at the bar on Fifth after the Saturday run. Only time I see everyone not sweaty and not in a rush lol",
+            "at": "2026-10-18T10:34:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "tomas-strength",
+        "itemKey": "strength-training",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "trains": true,
+          "usesLast30Days": 8
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Coach has me squatting and deadlifting twice a week. Honestly I feel nothing from it except sore. Doing it because she said so.",
+            "at": "2026-10-18T10:40:00-04:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "tomas-lmnt",
+        "itemKey": "electrolytes-lmnt-etc",
+        "label": "LMNT",
+        "monthlyCost": 45,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 22
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "tomas-normatec",
+        "itemKey": "compression-boots-normatec",
+        "label": "Normatec",
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 10
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "tomas-massagegun",
+        "itemKey": "massage-gun",
+        "label": "Theragun",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "tomas-tartcherry",
+        "itemKey": "tart-cherry-juice-extract",
+        "monthlyCost": 30,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 15
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "tomas-beet",
+        "itemKey": null,
+        "customName": "Beet juice shots",
+        "monthlyCost": 35,
+        "origin": "podcast",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "tomas-melatonin",
+        "itemKey": "melatonin",
+        "monthlyCost": 8,
+        "origin": "friend",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Only after nights so I can sleep through the afternoon. A coworker swore by it.",
+            "at": "2026-10-18T10:46:00-04:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "tomas-mushroom",
+        "itemKey": "mushroom-coffee",
+        "monthlyCost": 35,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "usesLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "An Instagram ad got me. Tastes like dirt. Somehow still on subscribe and save.",
+            "at": "2026-10-18T10:50:00-04:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "tomas-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "tomas-runclub"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What are you working toward right now?",
+        "a": "Finishing New York. My mom has never seen me race and she'll be at mile 20 in the Bronx.",
+        "at": "2026-10-20T08:15:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:45:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T08:10:00-04:00",
+      "text": "Picked up two extra night shifts before the race. I know, I know. We are so short staffed."
+    },
+    {
+      "kind": "note",
+      "stackItemId": "tomas-strength",
+      "at": "2026-10-24T12:30:00-04:00",
+      "text": "Coach dropped lifting to one light day for taper. Weirdly I miss it?"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T19:20:00-04:00",
+      "text": "Bib picked up!! Race is Sunday. Carb loading at my mom's Saturday night, she's making arroz con pollo"
+    },
+    {
+      "kind": "night",
+      "date": "2026-11-01",
+      "sleepMin": 268
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-01T16:40:00-05:00",
+      "text": "FINISHED. Legs destroyed. Mom cried at mile 20 and so did I lol"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-03T09:00:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "Sleep till 10, then walk the long run route with a coffee instead of running it. Bagels with the club anyway."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "tomas-runclub",
+      "tomas-beers",
+      "tomas-strength",
+      "tomas-whoop"
+    ],
+    "clearAllowed": [
+      "tomas-mushroom",
+      "tomas-tartcherry",
+      "tomas-beet",
+      "tomas-massagegun",
+      "tomas-normatec"
+    ],
+    "clearExpected": [
+      "tomas-mushroom"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Saturday long run with the club",
+      "beers with the club after the long run",
+      "Sunday dinner at his mom's"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "alcohol",
+      "personal best",
+      "finish time",
+      "dehydrat"
+    ],
+    "mustMention": [
+      "Mom",
+      "Prospect Park",
+      "the club"
+    ],
+    "notes": "Race week is no time to take anything away: nothing tied to running is proposed before Sunday, and the mushroom coffee he never wanted is the one thing worth raising. The short night before the start gets reassurance, not advice; after the finish the Ritual turns to rest, his mom and Saturday bagels with the club, and lifting is described as well-founded even though he feels nothing from it."
+  }
+}

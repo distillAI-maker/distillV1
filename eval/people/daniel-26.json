@@ -1,0 +1,156 @@
+{
+  "id": "daniel-26",
+  "summary": "Daniel, 26, Chicago: says almost nothing; pickup basketball with the same crew is clearly his though he never marked it. Tests reading a terse person without inventing feelings, and a Vegas weekend without a lecture.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:whoop",
+    "tier-a-unfelt",
+    "season:travelling"
+  ],
+  "timeZone": "America/Chicago",
+  "now": "2026-10-21T08:30:00-05:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-19T23:05:00-05:00",
+    "goals": [
+      "nothing specific"
+    ],
+    "name": "Daniel",
+    "lifeText": "idk, sleep in, gym, play basketball with the guys, cook",
+    "member": true,
+    "items": [
+      {
+        "id": "daniel-gym",
+        "itemKey": "gym-membership",
+        "label": "Planet Fitness",
+        "monthlyCost": 25,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 13,
+          "stillPaying": true,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "its fine",
+            "at": "2026-10-19T23:12:00-05:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "daniel-protein",
+        "itemKey": "protein-powder",
+        "monthlyCost": 45,
+        "origin": "friend",
+        "answers": {
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "daniel-hoops",
+        "itemKey": null,
+        "customName": "Pickup basketball",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {
+          "nightsPerWeek": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Tuesdays and Thursdays at the rec. Same crew since freshman year. Marcus talks trash the whole time lol",
+            "at": "2026-10-19T23:15:00-05:00"
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:30:00-05:00"
+  },
+  "events": [
+    {
+      "kind": "answer",
+      "at": "2026-10-22T07:50:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "sleep in. hoop. grill something"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-23T12:10:00-05:00",
+      "text": "in vegas fri-sun for my cousins bachelor party"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-25",
+      "sleepMin": 241
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T18:05:00-05:00",
+      "text": "back. tired lol. still hooping thursday"
+    },
+    {
+      "kind": "note",
+      "stackItemId": "daniel-gym",
+      "at": "2026-10-29T21:30:00-05:00",
+      "text": "going like 3x a week. its fine. mostly so im not gassed at pickup"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "daniel-hoops",
+      "daniel-gym",
+      "daniel-protein"
+    ],
+    "clearAllowed": [],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": [
+      "Tuesday and Thursday pickup at the rec",
+      "cooking"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "hangover",
+      "recovery score",
+      "strain",
+      "journal"
+    ],
+    "mustMention": [
+      "the rec",
+      "Marcus"
+    ],
+    "notes": "Short and plain is right for him: gym, Tuesday and Thursday pickup, cooking, nothing he did not say. After Vegas there is no lecture and no recovery talk, just Thursday at the rec back in place; the gym is described as well-founded, never as something to drop."
+  }
+}

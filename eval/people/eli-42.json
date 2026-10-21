@@ -1,0 +1,154 @@
+{
+  "id": "eli-42",
+  "summary": "Eli, 42, Brooklyn carpenter with three things: a morning walk with his old dog June, therapy, and a third coffee. Tests an engine that is comfortable with nothing to clear, through a demo week and a vet visit.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T05:50:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "nothing specific"
+    ],
+    "name": "Eli",
+    "lifeText": "Up early, walk June around the park, coffee, then a day building something that'll outlast me. Home, cook, read. That's plenty.",
+    "member": true,
+    "items": [
+      {
+        "id": "eli-june",
+        "itemKey": null,
+        "customName": "Morning walk with June",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Prospect Park loop at 6:15, rain or shine. She's eleven and slower now and I don't mind.",
+            "at": "2026-10-18T06:10:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "eli-therapy",
+        "itemKey": "therapy-counselling",
+        "monthlyCost": 180,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Wednesday mornings, third year. It's the reason I'm decent to people.",
+            "at": "2026-10-18T06:14:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "eli-coffee",
+        "itemKey": "second-or-third-coffee",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Third cup around 2. Shop tradition.",
+            "at": "2026-10-18T06:16:00-04:00"
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "eli-june"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T05:50:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T18:40:00-04:00",
+      "text": "Big job in Red Hook starts Monday. Demo week, ten hour days."
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-24T07:00:00-04:00",
+      "q": "What does a good morning look like?",
+      "a": "June finding a stick bigger than she is."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-28T19:30:00-04:00",
+      "text": "June had a vet visit. She's fine, just stiff. Got her a ramp for the truck."
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-02T20:10:00-05:00",
+      "text": "Guys at the shop are all doing the Turkey Trot. Might walk it with June."
+    },
+    {
+      "kind": "note",
+      "stackItemId": "eli-therapy",
+      "at": "2026-11-04T12:15:00-05:00",
+      "text": "Good session today. Talked about my brother for the first time in a while."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "eli-june",
+      "eli-therapy"
+    ],
+    "clearAllowed": [],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": [
+      "morning walk with June",
+      "Wednesday therapy"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "old age",
+      "senior dog",
+      "time left",
+      "while she can",
+      "your brother"
+    ],
+    "mustMention": [
+      "June",
+      "Prospect Park"
+    ],
+    "notes": "A small, settled life: nothing to clear and nothing to add, and the engine should be at ease saying so. Demo week can move the evening but never the walk with June; her stiffness is met with warmth about the ramp, never with talk of her age, and the therapy note is his, not something to ask about. The Turkey Trot is his idea, walked with June, not a training plan."
+  }
+}

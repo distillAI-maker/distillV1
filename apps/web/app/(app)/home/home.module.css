@@ -608,3 +608,51 @@
   font-size: 13px;
   color: var(--ink-3);
 }
+
+/* Signed in: the night card becomes today's Ritual, a few parts and the way in. */
+.soonParts {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.soonParts li {
+  padding: 8px 0;
+  border-top: 1px solid rgba(240, 236, 226, 0.18);
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #f0ece2;
+}
+.soonLink {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f0ece2;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.soonLink:focus-visible {
+  outline: 2px solid #f26342;
+  outline-offset: 3px;
+}
+
+/* Explore: what they want to try, then up to three real options. */
+.otherStack {
+  flex-direction: column;
+}
+.ideas {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ideas li {
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+}
+.ideas strong {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+}

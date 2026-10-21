@@ -1,15 +1,20 @@
-import { database } from '@distill/data';
+import { database, type Database } from '@distill/data';
 import { z } from 'zod';
 import { supabaseServer } from '../../../../lib/supabase/server';
 import { progressSchema } from '../../../../lib/progress/types';
 import { Journey } from '../../../../src/server/journey';
+import type { Engine } from '../../../../src/server/engine';
+import { createEngine } from '../../../../src/server/engine-deps';
+import { engineRoute } from '../../../../src/server/engine-routes';
 import { screenAudit } from '../../../../src/server/audit';
 import { HttpError } from '../../../../src/server/service';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
+let db: Database | undefined;
 let journey: Journey | undefined;
+let engine: Engine | undefined;
 const json = (data: unknown, status = 200) =>
   Response.json(data, {
     status,
@@ -57,8 +62,14 @@ async function handle(request: Request) {
     if (request.method !== 'GET' && !token && request.headers.get('origin') !== url.origin)
       throw new HttpError(403, 'same_origin_required');
     if (!process.env.DATABASE_URL) throw new HttpError(503, 'database_not_configured');
-    journey ??= new Journey(database(process.env.DATABASE_URL).db);
+    db ??= database(process.env.DATABASE_URL).db;
+    journey ??= new Journey(db);
     const userId = data.user.id;
+    if (path.startsWith('engine/')) {
+      engine ??= createEngine(db);
+      const input = request.method === 'GET' ? null : await body(request);
+      return json(await engineRoute(engine, path.slice('engine/'.length), request.method, input, userId, request.headers.get('x-time-zone')));
+    }
     if (path === 'progress') {
       if (request.method === 'GET') return json(await journey.load(userId));
       if (request.method === 'POST') {

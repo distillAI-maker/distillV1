@@ -12,6 +12,10 @@ import { groupOf } from '../../../lib/data/routed';
 import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
+import { allQuestions, pickQuestion } from '../../../lib/daily';
+import { engineApi, type EngineState } from '../../../lib/engine/client';
+import { useEngine } from '../../../lib/engine/context';
+import { ENGINE_CARDS, EngineToday } from './engine-today';
 import { track } from '../../../lib/track';
 import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import s from './home.module.css';
@@ -55,10 +59,22 @@ function shelfFor(
   r: RoutedItem,
   routed: NonNullable<ReturnType<typeof useRouted>['routed']>,
   progress: Progress,
+  engine?: EngineState | null,
 ): Shelf {
   const status = progress.items.find((i) => i.id === r.stackItemId)?.status ?? 'listed';
   if (status === 'cut') return 'gone';
   if (status === 'kept') return 'kept';
+  // Signed in, the engine's decisions say where each thing stands. The old verdict groups only
+  // serve the signed-out demo now.
+  const standing = engine?.items[r.stackItemId];
+  if (standing)
+    return standing === 'clinician'
+      ? 'protected'
+      : standing === 'theirs' || standing === 'keep'
+        ? 'kept'
+        : standing === 'clear'
+          ? 'go'
+          : 'call';
   const g = groupOf(r, routed, progress.dayOne);
   if (g === 'protected') return 'protected';
   if (g === 'keep') return 'kept';
@@ -66,28 +82,6 @@ function shelfFor(
   if (g === 'drop') return 'go';
   return 'call';
 }
-
-/**
- * The day's question: one not asked before, about the part of "What we've learned about you" we
- * know least, so each answer fills in the picture. Once all are asked, they come round again.
- */
-export function pickQuestion(day: number, progress: Progress): string {
-  const kinds = pictureKindSchema.options;
-  const lines = progress.picture?.lines ?? [];
-  const known = (k: string) => lines.filter((l) => l.kind === k).length;
-  const turn = (k: string) => (kinds.indexOf(k as (typeof kinds)[number]) + day) % kinds.length;
-  const asked = new Set(progress.asks.map((a) => a.q));
-  for (const kind of [...kinds].sort((a, b) => known(a) - known(b) || turn(a) - turn(b))) {
-    const next = (copy.home.questions[kind] as readonly Question[]).find((x) => !asked.has(x.q));
-    if (next) return next.q;
-  }
-  const all = allQuestions();
-  return (all[day % all.length] as Question).q;
-}
-
-type Question = { q: string; eg: string };
-const allQuestions = (): readonly Question[] =>
-  pictureKindSchema.options.flatMap((k): readonly Question[] => copy.home.questions[k]);
 
 /** The example answer shown in the box for a question. */
 function exampleFor(q: string | undefined): string {
@@ -132,8 +126,10 @@ export function pickDaily(
  * stack is, one thing for today, what we're noticing, and their rituals, each one theirs to open.
  */
 export function StandardHome() {
-  const { progress, update } = useProgress();
+  const { ready, progress, update } = useProgress();
   const { routed } = useRouted();
+  const engine = useEngine();
+  const live = engine.on ? engine.state : null;
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
   const todayKey = new Date().toLocaleDateString('en-CA');
@@ -142,13 +138,28 @@ export function StandardHome() {
   useEffect(() => track('home_opened'), []);
 
   useEffect(() => {
-    if (!routed || progress.daily?.date === todayKey) return;
+    // Signed in, the engine picks today's one thing (below); this rotation is the signed-out demo's.
+    if (!ready || engine.on || !routed || progress.daily?.date === todayKey) return;
     update((p) => {
       const next = pickDaily(todayKey, routed, p);
       const asked = next.kind === 'more' ? [...(p.moreAsked ?? []), next.ref ?? ''] : p.moreAsked;
       return { ...p, daily: next, ...(asked ? { moreAsked: asked } : {}) };
     });
-  }, [routed, progress.daily?.date, todayKey, update]);
+  }, [ready, engine.on, routed, progress.daily?.date, todayKey, update]);
+
+  // The engine's pick, when it is one of the home screen's own flows: a place to ask about, or
+  // the day's question about who they are.
+  const pickKind = live?.today.kind;
+  const pickRef = pickKind === 'more' ? live?.today.more : pickKind === 'learn' ? live?.today.learn : undefined;
+  useEffect(() => {
+    if ((pickKind !== 'more' && pickKind !== 'learn') || !pickRef) return;
+    if (progress.daily?.date === todayKey && progress.daily.kind === pickKind) return;
+    update((p) => ({
+      ...p,
+      daily: { date: todayKey, kind: pickKind, ref: pickRef, done: false },
+      ...(pickKind === 'more' ? { moreAsked: [...new Set([...(p.moreAsked ?? []), pickRef])] } : {}),
+    }));
+  }, [pickKind, pickRef, progress.daily?.date, progress.daily?.kind, todayKey, update]);
 
   // The first time home opens, we read what they have shared so far (their ideal day, any notes)
   // and start "What we've learned about you". Once only; after that, notes and answers update it.
@@ -177,7 +188,8 @@ export function StandardHome() {
   const kept = routed.items.filter((r) => statusOf(r.stackItemId) !== 'cut');
   const total = routed.items.reduce((t, r) => t + r.monthlyCost, 0);
   const back = gone.reduce((t, r) => t + r.monthlyCost, 0);
-  const shelfOf = (r: RoutedItem) => shelfFor(r, routed, progress);
+  const shelfOf = (r: RoutedItem) => shelfFor(r, routed, progress, live);
+  const engineCard = !!live && (live.today.kind === null || ENGINE_CARDS.has(live.today.kind));
   const setStatus = (id: string, status: 'cut' | 'kept' | 'listed') =>
     update((p) => ({
       ...p,
@@ -326,8 +338,8 @@ export function StandardHome() {
       </section>
 
       <section className={`${s.today} ${s.learn}`} aria-label={copy.home.todayEyebrow}>
-        <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
-        {!daily ? null : daily.kind === 'more' && place ? (
+        {engineCard && live ? <EngineToday state={live} routed={routed} /> : <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>}
+        {engineCard ? null : !daily ? null : daily.kind === 'more' && place ? (
           daily.done ? (
             <>
               <h2>
@@ -488,6 +500,8 @@ export function StandardHome() {
                     daily: p.daily ? { ...p.daily, done: true } : p.daily,
                   }));
                   setAnswer('');
+                  // Signed in, the engine learns from it too (who they are, and anything it changes).
+                  if (engine.on) void engine.act(() => engineApi.run({ kind: 'answer', q: ask.q, a: ask.a }));
                   // Show back what this answer added to the picture, once Claude has read it.
                   void relearn({ ...progress, asks: [...progress.asks, ask] }, routed, update).then(
                     (newest) => {
@@ -555,10 +569,28 @@ export function StandardHome() {
         </ul>
       </section>
 
-      <section className={s.soon} aria-label={copy.home.soonTitle}>
-        <h2>{copy.home.soonTitle}</h2>
-        <p>{copy.home.soonLine}</p>
-      </section>
+      {live && live.ritual.status !== 'none' ? (
+        <section className={s.soon} aria-label={copy.days.title}>
+          <h2>{live.ritual.status === 'proposed' ? copy.days.proposedTitle : copy.days.title}</h2>
+          {live.ritual.status === 'accepted' ? (
+            <ul className={s.soonParts}>
+              {live.ritual.today.parts.slice(0, 3).map((p) => (
+                <li key={p.id}>{p.title}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{copy.days.proposedLine}</p>
+          )}
+          <Link className={s.soonLink} href="/today">
+            {live.ritual.status === 'proposed' ? copy.days.accept : copy.days.title} →
+          </Link>
+        </section>
+      ) : (
+        <section className={s.soon} aria-label={copy.home.soonTitle}>
+          <h2>{copy.home.soonTitle}</h2>
+          <p>{copy.home.soonLine}</p>
+        </section>
+      )}
     </div>
   );
 }

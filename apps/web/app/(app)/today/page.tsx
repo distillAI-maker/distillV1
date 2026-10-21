@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Today } from './today';
+import { TodayScreen } from './today-screen';
 
 export const metadata: Metadata = { title: 'Today' };
 
 export default function TodayPage() {
-  return <Today />;
+  return <TodayScreen />;
 }

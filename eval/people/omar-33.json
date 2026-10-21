@@ -1,0 +1,312 @@
+{
+  "id": "omar-33",
+  "summary": "Omar, 33, Fremont hardware engineer three weeks into CBT-I with a coach his doctor referred him to, still running a podcast sleep stack, mouth tape, nasal strips and a morning score check; Saturday cricket is his. Tests supporting the clinician over the gadgets, and a bad night with a dose question.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:oura",
+    "clinician",
+    "borrowed"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T06:05:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-15T06:20:00-07:00",
+    "goals": [
+      "staying asleep / waking at night",
+      "sleep (general)"
+    ],
+    "name": "Omar",
+    "lifeText": "Sleep through the night, just once, without anything strapped to my face. Then chai, a day of debugging boards, and Saturday cricket with the guys.",
+    "member": true,
+    "items": [
+      {
+        "id": "omar-cbti",
+        "itemKey": "sleep-coach-cbt-i",
+        "label": "CBT-I coach",
+        "monthlyCost": 200,
+        "origin": "doctor",
+        "answers": {
+          "visitsLast30Days": 2
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My doctor referred me after a year of 4am wakeups. Week three. She says the sleep diary matters more than all my gadgets, which hurt.",
+            "at": "2026-10-18T06:15:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "omar-threonate",
+        "itemKey": "magnesium-l-threonate",
+        "monthlyCost": 40,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 28
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 1
+      },
+      {
+        "id": "omar-glycine",
+        "itemKey": "glycine",
+        "monthlyCost": 12,
+        "origin": "podcast",
+        "answers": {
+          "dose": 3,
+          "doseUnit": "g"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "omar-apigenin",
+        "itemKey": "apigenin",
+        "monthlyCost": 20,
+        "origin": "podcast",
+        "answers": {
+          "dose": 50,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "omar-mouthtape",
+        "itemKey": "mouth-tape",
+        "monthlyCost": 9,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "omar-nasalstrips",
+        "itemKey": "nasal-strips-dilator",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "omar-whitenoise",
+        "itemKey": "white-noise-sound-machine",
+        "monthlyCost": 5,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "omar-weighted",
+        "itemKey": "weighted-blanket",
+        "monthlyCost": 15,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Like it in winter. Fine.",
+            "at": "2026-10-18T06:22:00-07:00"
+          }
+        ],
+        "position": 7
+      },
+      {
+        "id": "omar-headphones",
+        "itemKey": "sleep-headphones-sleep-stories",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {
+          "daysSinceLastUse": 40
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 8
+      },
+      {
+        "id": "omar-score",
+        "itemKey": "checking-the-sleep-score-every-morning",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "If the number is bad my whole day is shot. My coach wants me to stop looking.",
+            "at": "2026-10-18T06:25:00-07:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "omar-cricket",
+        "itemKey": null,
+        "customName": "Saturday cricket with the guys",
+        "monthlyCost": 0,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Tape-ball cricket on a school field. Same eight guys since grad school, chai from a thermos at the break.",
+            "at": "2026-10-18T06:28:00-07:00"
+          }
+        ],
+        "position": 10
+      },
+      {
+        "id": "omar-oura",
+        "itemKey": null,
+        "customName": "Oura ring",
+        "dataSource": true,
+        "monthlyCost": 6,
+        "origin": "podcast",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 11
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "omar-cricket"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "When do you feel most like yourself?",
+        "a": "Batting on Saturday with the guys yelling nonsense at me from the boundary.",
+        "at": "2026-10-20T06:10:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:05:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T20:30:00-07:00",
+      "text": "My CBT-I coach wants me to hide the sleep score for two weeks. That's terrifying honestly."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "omar-score",
+      "answer": "yes"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-25",
+      "sleepMin": 274
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T07:10:00-07:00",
+      "text": "Bad night. Should I take more of the magnesium thing?"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "omar-apigenin",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T16:00:00-08:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "Cricket, then a long lunch at my aunt's, then a nap I don't track."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "omar-cbti",
+      "omar-cricket",
+      "omar-oura"
+    ],
+    "clearAllowed": [
+      "omar-threonate",
+      "omar-glycine",
+      "omar-apigenin",
+      "omar-mouthtape",
+      "omar-nasalstrips",
+      "omar-whitenoise",
+      "omar-weighted",
+      "omar-headphones",
+      "omar-score"
+    ],
+    "clearExpected": [
+      "omar-score",
+      "omar-apigenin",
+      "omar-headphones"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Saturday cricket with the guys"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "sleep score",
+      "insomnia",
+      "sleep efficiency",
+      "more magnesium"
+    ],
+    "mustMention": [
+      "cricket",
+      "the guys"
+    ],
+    "notes": "His CBT-I coach is a clinician and leads: hiding the score is a yes worth backing, and nothing adds a gadget or a dose, even when a bad night brings the magnesium question (that one goes back to his coach). The podcast stack and the unused gadgets can go a little at a time; Saturday cricket is his and the short night doesn't touch it."
+  }
+}

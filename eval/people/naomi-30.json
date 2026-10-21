@@ -1,0 +1,261 @@
+{
+  "id": "naomi-30",
+  "summary": "Naomi, 30, Boston ICU nurse: tretinoin is her dermatologist's, but a TikTok glycolic toner on the same nights, two hyaluronic serums and an eye cream piled on; breakfast with Carmen after nights is hers. Tests trimming skincare around a clinician item through a run of night shifts.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:5-9",
+    "wearable:oura",
+    "clinician",
+    "skin-too-much",
+    "tier-a-unfelt",
+    "borrowed",
+    "season:busy"
+  ],
+  "timeZone": "America/New_York",
+  "now": "2026-10-21T08:40:00-04:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "oura",
+    "connectedAt": "2026-10-18T15:20:00-04:00",
+    "goals": [
+      "sleep (general)",
+      "skin / hair"
+    ],
+    "name": "Naomi",
+    "lifeText": "After a run of nights: breakfast at the diner with Carmen, sleep till 3 behind the blackout curtains, a walk along the Charles, then a dinner I didn't have to make. On days off I want my skin and my brain to feel like mine again.",
+    "member": true,
+    "items": [
+      {
+        "id": "naomi-tret",
+        "itemKey": "retinol-retinoid-nightly",
+        "label": "tretinoin",
+        "monthlyCost": 25,
+        "origin": "doctor",
+        "answers": {
+          "usesLast30Days": 12
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My dermatologist has me on tretinoin for texture. Three nights a week, building up.",
+            "at": "2026-10-19T09:10:00-04:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "naomi-glycolic",
+        "itemKey": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+        "label": "glycolic toner",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 12
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Added this after a TikTok. Same nights as the tret. My cheeks sting when I put moisturizer on.",
+            "at": "2026-10-19T09:14:00-04:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "naomi-serums",
+        "itemKey": "multiple-hydrating-serums-two-hyaluronic-acid-products",
+        "monthlyCost": 50,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "naomi-eyecream",
+        "itemKey": "eye-cream-when-you-already-use-a-moisturiser",
+        "monthlyCost": 45,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "naomi-vitc",
+        "itemKey": "vitamin-c-serum",
+        "monthlyCost": 60,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 12
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "naomi-sunscreen",
+        "itemKey": "sunscreen-daily-spf-30",
+        "monthlyCost": 25,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 28
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Every single day, even after night shift lol. Can't see a difference.",
+            "at": "2026-10-19T09:20:00-04:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "naomi-melatonin",
+        "itemKey": "melatonin",
+        "monthlyCost": 8,
+        "origin": "other",
+        "answers": {
+          "dose": 3,
+          "doseUnit": "mg"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "naomi-carmen",
+        "itemKey": null,
+        "customName": "Breakfast with Carmen after nights",
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Diner across from the hospital, 7:30am, we split the pancakes and complain about everyone. She's the reason I've lasted four years in the unit.",
+            "at": "2026-10-19T09:25:00-04:00"
+          }
+        ],
+        "position": 7
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "naomi-carmen"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "When did you last feel proud of yourself?",
+        "a": "A family wrote a card to the unit and mentioned me by name. I kept it in my locker.",
+        "at": "2026-10-20T16:00:00-04:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:40:00-04:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T17:30:00-04:00",
+      "text": "Three nights in a row starting tonight. Pray for me lol"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-24",
+      "sleepMin": 232
+    },
+    {
+      "kind": "note",
+      "stackItemId": "naomi-glycolic",
+      "at": "2026-10-25T15:40:00-04:00",
+      "text": "Cheeks are red and flaky now. My dermatologist is going to kill me."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "naomi-glycolic",
+      "answer": "yes"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "naomi-eyecream",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T14:00:00-05:00",
+      "q": "What would you do with a free Saturday?",
+      "a": "Sleep, then the Charles with a coffee, then Carmen's for dinner because she makes the best arroz."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "naomi-tret",
+      "naomi-sunscreen",
+      "naomi-carmen"
+    ],
+    "clearAllowed": [
+      "naomi-glycolic",
+      "naomi-serums",
+      "naomi-eyecream",
+      "naomi-vitc",
+      "naomi-melatonin"
+    ],
+    "clearExpected": [
+      "naomi-glycolic",
+      "naomi-eyecream"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "breakfast with Carmen after nights",
+      "walk along the Charles"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "anti-aging",
+      "wrinkles",
+      "dark circles",
+      "stop the tretinoin",
+      "stop tretinoin"
+    ],
+    "mustMention": [
+      "Carmen",
+      "the Charles"
+    ],
+    "notes": "Tretinoin is her dermatologist's and is never questioned; the TikTok glycolic toner on the same nights is what to let go of, and the eye cream on top of her moisturizer can follow. After a run of nights the Ritual is sleep, breakfast with Carmen and the river, never a skincare to-do list, and sunscreen stays as well-founded whatever she sees."
+  }
+}

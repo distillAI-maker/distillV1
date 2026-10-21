@@ -1,0 +1,324 @@
+{
+  "id": "brandon-45",
+  "summary": "Brandon, 45, Burlingame tech VP and father of three, newly signed up for a half Ironman: coaching his daughter's U10 team and Friday pizza night are his; a TRT clinic and omega-3 are his doctors'; a recovery studio overlaps the tub he bought; Slack in bed runs to midnight. Tests board-week pressure on an unloved habit.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:whoop",
+    "hard-goal",
+    "clinician",
+    "borrowed",
+    "unloved-vice",
+    "season:busy"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T05:15:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-17T05:20:00-07:00",
+    "goals": [
+      "fitness",
+      "recovery / stress / HRV",
+      "longevity / general health"
+    ],
+    "name": "Brandon",
+    "lifeText": "A 5am swim or ride before the house wakes up, a day of decisions that actually stick, home for dinner with Kate and the kids. Saturday mornings on the sideline coaching Lily's U10 team. Friday pizza and a movie, everyone on one couch.",
+    "member": true,
+    "items": [
+      {
+        "id": "brandon-trt",
+        "itemKey": "hormone-peptide-clinic-trt-glp-1-peptides",
+        "label": "TRT clinic",
+        "monthlyCost": 250,
+        "origin": "doctor",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Under a doctor at a men's health clinic since last year. Bloodwork every quarter.",
+            "at": "2026-10-18T05:30:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "brandon-omega3",
+        "itemKey": "omega-3-fish-oil",
+        "monthlyCost": 20,
+        "origin": "doctor",
+        "answers": {
+          "dose": 2000,
+          "doseUnit": "mg EPA+DHA"
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My doctor wants it for my triglycerides.",
+            "at": "2026-10-18T05:33:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "brandon-ag1",
+        "itemKey": "greens-powder-ag1-etc",
+        "label": "AG1",
+        "monthlyCost": 79,
+        "origin": "podcast",
+        "answers": {
+          "stillPaying": true,
+          "usesLast30Days": 25
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "brandon-tongkat",
+        "itemKey": "tongkat-ali",
+        "monthlyCost": 35,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "brandon-plunge",
+        "itemKey": "cold-plunge-ice-bath-tub-owned",
+        "label": "Plunge tub",
+        "monthlyCost": 60,
+        "origin": "podcast",
+        "answers": {
+          "usesLast30Days": 6
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "brandon-recovery",
+        "itemKey": "sauna-or-cold-plunge-studio-when-you-own-one-at-home",
+        "label": "Recovery studio",
+        "monthlyCost": 150,
+        "origin": "online",
+        "answers": {
+          "visitsLast30Days": 1,
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Joined before I bought the tub. Went once last month.",
+            "at": "2026-10-18T05:37:00-07:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "brandon-slack",
+        "itemKey": "work-email-after-9pm",
+        "label": "Slack in bed",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 6
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I answer Slack in bed until midnight. Kate hates it. I hate it. I do it anyway.",
+            "at": "2026-10-18T05:40:00-07:00"
+          }
+        ],
+        "position": 6
+      },
+      {
+        "id": "brandon-tri",
+        "itemKey": "zone-2-cardio-3-h-week",
+        "label": "Tri training",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "brandon-coaching",
+        "itemKey": null,
+        "customName": "Coaching Lily's U10 soccer",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saturday mornings. Twelve nine-year-olds, orange slices, total chaos. Best two hours of my week.",
+            "at": "2026-10-18T05:44:00-07:00"
+          }
+        ],
+        "position": 8
+      },
+      {
+        "id": "brandon-pizza",
+        "itemKey": null,
+        "customName": "Friday pizza and a movie",
+        "monthlyCost": 30,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Everyone on one couch. The kids take turns picking, which means a lot of the same three movies.",
+            "at": "2026-10-18T05:47:00-07:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "brandon-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "podcast",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "brandon-coaching",
+        "brandon-pizza"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What are you working toward right now?",
+        "a": "A half Ironman next May. I've never done one and I want to see if I can.",
+        "at": "2026-10-20T05:25:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T05:15:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T21:30:00-07:00",
+      "text": "Signed up for the half Ironman. Kate thinks I'm having a midlife crisis. She's not entirely wrong."
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-24",
+      "sleepMin": 288
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "brandon-recovery",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T22:40:00-07:00",
+      "text": "Board meeting prep all week. I'll be on Slack till late no matter what."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "brandon-tongkat",
+      "answer": "not-now"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T08:00:00-08:00",
+      "q": "When did you last feel proud of yourself?",
+      "a": "Lily scored her first goal and looked over at the sideline for me before she celebrated."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "brandon-trt",
+      "brandon-omega3",
+      "brandon-coaching",
+      "brandon-pizza",
+      "brandon-whoop",
+      "brandon-tri"
+    ],
+    "clearAllowed": [
+      "brandon-ag1",
+      "brandon-tongkat",
+      "brandon-plunge",
+      "brandon-recovery",
+      "brandon-slack"
+    ],
+    "clearExpected": [
+      "brandon-recovery",
+      "brandon-ag1"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "coaching Lily's U10 team on Saturdays",
+      "Friday pizza and a movie",
+      "dinner with Kate and the kids"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "midlife crisis",
+      "testosterone",
+      "at your age",
+      "optimize"
+    ],
+    "mustMention": [
+      "Lily",
+      "Kate"
+    ],
+    "notes": "The TRT clinic and the omega-3 are his doctors' and get one plain sentence each. The recovery studio he joined before buying his own tub is the clearest proposal and AG1 the next; the tongkat got a 'not now'. Slack in bed is his to change and board week makes it worse, so the Ritual protects Friday pizza and Saturday on the sideline rather than lecturing, and builds the race from the training he already does."
+  }
+}

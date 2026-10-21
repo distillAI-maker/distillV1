@@ -1,0 +1,307 @@
+{
+  "id": "becca-30",
+  "summary": "Becca, 30, Denver vet tech training for her first powerlifting meet in January: lifting, creatine and protein are well-founded (creatine unfelt), gym-floor extras pile up, and Sunday burritos with the barbell club are hers. Tests clearing extras before a meet without weight talk.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:whoop",
+    "hard-goal",
+    "borrowed",
+    "tier-a-unfelt"
+  ],
+  "timeZone": "America/Denver",
+  "now": "2026-10-21T06:00:00-06:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-18T19:30:00-06:00",
+    "goals": [
+      "fitness",
+      "joints / pain / soreness"
+    ],
+    "name": "Becca",
+    "lifeText": "Lift at 5:30 with the barbell club, work the clinic until 4, dog park with Moose, early night. Sunday breakfast burritos with the club after our heavy day.",
+    "member": true,
+    "items": [
+      {
+        "id": "becca-strength",
+        "itemKey": "strength-training",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "trains": true,
+          "usesLast30Days": 16
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Coach Mo writes my program. Four days a week, more if she'd let me.",
+            "at": "2026-10-18T19:00:00-06:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "becca-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "other",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "form": "monohydrate",
+          "usesLast30Days": 30,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Never felt it. Take it anyway because everybody at the club does.",
+            "at": "2026-10-18T19:04:00-06:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "becca-protein",
+        "itemKey": "protein-powder",
+        "monthlyCost": 45,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 28
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "becca-betaalanine",
+        "itemKey": "beta-alanine",
+        "monthlyCost": 20,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "the tingles!! i don't know if it works, the tingles mean it's working right?",
+            "at": "2026-10-18T19:07:00-06:00"
+          }
+        ],
+        "position": 3
+      },
+      {
+        "id": "becca-preworkout",
+        "itemKey": "pre-workout",
+        "monthlyCost": 35,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 16
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 4
+      },
+      {
+        "id": "becca-bcaa",
+        "itemKey": "bcaas",
+        "monthlyCost": 25,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 5
+      },
+      {
+        "id": "becca-glutamine",
+        "itemKey": "glutamine",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 6
+      },
+      {
+        "id": "becca-zma",
+        "itemKey": "zma",
+        "monthlyCost": 20,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "A guy at the gym said for sleep and recovery. I sleep the same.",
+            "at": "2026-10-18T19:10:00-06:00"
+          }
+        ],
+        "position": 7
+      },
+      {
+        "id": "becca-massagegun",
+        "itemKey": "massage-gun",
+        "monthlyCost": 10,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 12
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 8
+      },
+      {
+        "id": "becca-burritos",
+        "itemKey": null,
+        "customName": "Sunday burritos with the barbell club",
+        "monthlyCost": 15,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "After heavy Sunday we take over the back booth at the same diner. Twelve of us, one waitress who loves us, too much green chile.",
+            "at": "2026-10-18T19:14:00-06:00"
+          }
+        ],
+        "position": 9
+      },
+      {
+        "id": "becca-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "becca-burritos"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "When did you last feel proud of yourself?",
+        "a": "Pulled a deadlift PR in front of the whole club and they screamed louder than I did.",
+        "at": "2026-10-20T18:40:00-06:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T06:00:00-06:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T19:00:00-06:00",
+      "text": "Signed up for my first meet!! January 16 in Colorado Springs. Coach Mo says I'm ready."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "becca-bcaa",
+      "answer": "yes"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-26",
+      "sleepMin": 318
+    },
+    {
+      "kind": "note",
+      "stackItemId": "becca-creatine",
+      "at": "2026-10-27T18:30:00-06:00",
+      "text": "Coach says creatine is one of the only things on my shelf that matters. Joke's on me, it's the one I never feel."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "becca-betaalanine",
+      "answer": "theirs"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-02T20:15:00-07:00",
+      "text": "Coach told me to stop worrying about supplements and eat more potatoes lol. Is she right?"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "becca-strength",
+      "becca-creatine",
+      "becca-protein",
+      "becca-burritos",
+      "becca-whoop"
+    ],
+    "clearAllowed": [
+      "becca-betaalanine",
+      "becca-preworkout",
+      "becca-bcaa",
+      "becca-glutamine",
+      "becca-zma",
+      "becca-massagegun"
+    ],
+    "clearExpected": [
+      "becca-bcaa",
+      "becca-glutamine",
+      "becca-zma"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday burritos with the barbell club",
+      "5:30 lifting with the club",
+      "dog park with Moose"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "weight class",
+      "cut weight",
+      "make weight",
+      "lean out",
+      "macros"
+    ],
+    "mustMention": [
+      "Coach Mo",
+      "Moose"
+    ],
+    "notes": "Her coach and the evidence agree: lifting, creatine and protein stay, and creatine is described as well-founded even though she never feels it. The gym-floor extras (BCAAs, glutamine, ZMA) are fair to let go one at a time before the meet, and the beta-alanine she calls hers is never raised again; Sunday burritos with the club are hers, and nothing about weight classes or cutting comes from us."
+  }
+}

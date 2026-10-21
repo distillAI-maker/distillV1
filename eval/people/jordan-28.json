@@ -1,0 +1,324 @@
+{
+  "id": "jordan-28",
+  "summary": "Jordan, 28, Los Angeles real-estate agent getting married in June: sessions with her trainer Dani and Sunday dinners at her fiancé's parents' are hers; TikTok added a fat burner, berberine and retinol-plus-acid nights. Tests a physique goal met without numbers or diet talk.",
+  "draftedBy": "Claude",
+  "covers": [
+    "stack:10+",
+    "wearable:whoop",
+    "hard-goal",
+    "borrowed",
+    "tier-a-unfelt",
+    "skin-too-much"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T07:00:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "dataSource": "whoop",
+    "connectedAt": "2026-10-17T21:45:00-07:00",
+    "goals": [
+      "fitness",
+      "weight",
+      "skin / hair"
+    ],
+    "name": "Jordan",
+    "lifeText": "An early session with Dani, a smoothie in the car between showings, close a deal, then Sunday dinner at Rafa's parents' place where his mom feeds everyone twice. I want to feel strong and like myself on the wedding day, not starving.",
+    "member": true,
+    "items": [
+      {
+        "id": "jordan-trainer",
+        "itemKey": "personal-trainer",
+        "monthlyCost": 320,
+        "origin": "friend",
+        "answers": {
+          "visitsLast30Days": 8,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Tuesdays and Fridays at 6am with Dani. She's the reason I show up.",
+            "at": "2026-10-18T21:00:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "jordan-creatine",
+        "itemKey": "creatine-monohydrate",
+        "monthlyCost": 14,
+        "origin": "friend",
+        "answers": {
+          "dose": 5,
+          "doseUnit": "g",
+          "usesLast30Days": 26,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Dani said take it. I don't feel anything, I just do it.",
+            "at": "2026-10-18T21:03:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "jordan-protein",
+        "itemKey": "protein-powder",
+        "monthlyCost": 50,
+        "origin": "friend",
+        "answers": {
+          "usesLast30Days": 28
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 2
+      },
+      {
+        "id": "jordan-gym",
+        "itemKey": "gym-membership",
+        "monthlyCost": 45,
+        "origin": "other",
+        "answers": {
+          "visitsLast30Days": 12,
+          "trains": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 3
+      },
+      {
+        "id": "jordan-fatburner",
+        "itemKey": "fat-burner-thermogenic",
+        "monthlyCost": 40,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 18
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saw it on TikTok. Makes me jittery and sweaty during showings, which is a great look.",
+            "at": "2026-10-18T21:07:00-07:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "jordan-berberine",
+        "itemKey": "berberine",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "The 'nature's Ozempic' thing. My stomach hates it.",
+            "at": "2026-10-18T21:09:00-07:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "jordan-mealprep",
+        "itemKey": "meal-delivery-or-meal-prep-service",
+        "monthlyCost": 380,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saves me on weeknights. I eat maybe half of them.",
+            "at": "2026-10-18T21:12:00-07:00"
+          }
+        ],
+        "position": 6
+      },
+      {
+        "id": "jordan-macroapp",
+        "itemKey": "nutrition-or-calorie-app-premium",
+        "label": "macro app",
+        "monthlyCost": 12,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 7
+      },
+      {
+        "id": "jordan-retinol",
+        "itemKey": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+        "label": "retinol + glycolic",
+        "monthlyCost": 30,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 20
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 8
+      },
+      {
+        "id": "jordan-whoop",
+        "itemKey": null,
+        "customName": "WHOOP",
+        "dataSource": true,
+        "monthlyCost": 30,
+        "origin": "friend",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [],
+        "position": 9
+      },
+      {
+        "id": "jordan-dinners",
+        "itemKey": null,
+        "customName": "Sunday dinner at Rafa's parents'",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "His mom feeds everyone twice and his dad makes me try whatever he's grilling. I'm part of the family now and I love it.",
+            "at": "2026-10-18T21:16:00-07:00"
+          }
+        ],
+        "position": 10
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "jordan-dinners"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "What are you working toward right now?",
+        "a": "The wedding in June. Feeling strong in the dress and calm on the day.",
+        "at": "2026-10-20T07:10:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:00:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T19:30:00-07:00",
+      "text": "Can you make me a cut plan for the wedding? Like real numbers."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "jordan-fatburner",
+      "answer": "yes"
+    },
+    {
+      "kind": "night",
+      "date": "2026-10-26",
+      "sleepMin": 296
+    },
+    {
+      "kind": "note",
+      "stackItemId": "jordan-retinol",
+      "at": "2026-10-27T22:00:00-07:00",
+      "text": "My cheeks are red and peeling around my nose. Is that the glow everyone talks about lol"
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "jordan-berberine",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-02T12:40:00-08:00",
+      "text": "First dress fitting went great actually. Rafa's mom cried."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "jordan-trainer",
+      "jordan-creatine",
+      "jordan-protein",
+      "jordan-gym",
+      "jordan-whoop",
+      "jordan-dinners"
+    ],
+    "clearAllowed": [
+      "jordan-fatburner",
+      "jordan-berberine",
+      "jordan-mealprep",
+      "jordan-macroapp",
+      "jordan-retinol"
+    ],
+    "clearExpected": [
+      "jordan-fatburner",
+      "jordan-berberine",
+      "jordan-retinol"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday dinner at Rafa's parents'",
+      "Tuesday and Friday sessions with Dani"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "calories",
+      "deficit",
+      "lose weight",
+      "skinny",
+      "shred",
+      "slim down",
+      "burn fat"
+    ],
+    "mustMention": [
+      "Rafa",
+      "Dani"
+    ],
+    "notes": "The wedding goal is real and the Ritual serves it through what already works (Dani, lifting, creatine, Sunday dinners) with no numbers, no calorie talk and no 'cut', even though she asks for one. The TikTok fat burner and the berberine that upsets her stomach are the clear proposals, and the retinol-plus-acid nights peeling her cheeks are fair to simplify."
+  }
+}

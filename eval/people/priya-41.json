@@ -1,0 +1,174 @@
+{
+  "id": "priya-41",
+  "summary": "Priya, 41, Bay Area: her bath and the Sunday call with Amma are hers; the Peloton she hasn't ridden since June still bills. Tests a new half-marathon goal built from what's hers, then a cold week.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "hard-goal",
+    "season:unwell"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T21:00:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "energy",
+      "fitness"
+    ],
+    "name": "Priya",
+    "lifeText": "Kids at school, a long walk with the dog, an hour in the garden. I want to feel strong again, not tired all the time. Evenings reading in the bath.",
+    "member": true,
+    "items": [
+      {
+        "id": "priya-peloton",
+        "itemKey": "fitness-app-subscription-peloton-app-apple-fitness-ladder",
+        "label": "Peloton",
+        "monthlyCost": 44,
+        "origin": "online",
+        "answers": {
+          "stillPaying": true,
+          "daysSinceLastUse": 125,
+          "usesLast30Days": 0
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Haven't ridden since June. Bought it during covid. I feel bad every time I walk past it.",
+            "at": "2026-10-19T21:30:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "priya-bath",
+        "itemKey": "hot-bath-shower-1-2-h-before-bed",
+        "label": "Epsom bath",
+        "monthlyCost": 10,
+        "origin": "other",
+        "answers": {
+          "nightsPerWeek": 3
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "My only 30 minutes alone. Door locked. Book and a candle.",
+            "at": "2026-10-19T21:34:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "priya-amma",
+        "itemKey": null,
+        "customName": "Sunday call with Amma",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "kept",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Sundays. Amma's in Chennai, it's her evening. She tells me the same stories every week and I love it.",
+            "at": "2026-10-19T21:38:00-07:00"
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [
+        "priya-bath",
+        "priya-amma"
+      ],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "When did you last feel proud of yourself?",
+        "a": "Finished a 10k with my sister last spring. First race ever, at 40.",
+        "at": "2026-10-20T20:30:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T21:00:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-22T21:15:00-07:00",
+      "text": "signed up for a half marathon in March with my sister. what did I do"
+    },
+    {
+      "kind": "note",
+      "stackItemId": "priya-peloton",
+      "at": "2026-10-24T13:00:00-07:00",
+      "text": "Thought about riding it for the half training. Honestly I'd rather run outside with the dog."
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-27T19:40:00-07:00",
+      "text": "Kids brought home a cold and now I have it. Feeling run down."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "priya-peloton",
+      "answer": "yes"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-11-01T09:30:00-08:00",
+      "q": "Who do you feel your best around?",
+      "a": "My sister. And Amma, even on the phone. Sundays I'm always a bit lighter after."
+    }
+  ],
+  "expect": {
+    "keep": [
+      "priya-bath",
+      "priya-amma"
+    ],
+    "clearAllowed": [
+      "priya-peloton"
+    ],
+    "clearExpected": [
+      "priya-peloton"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "Sunday call with Amma",
+      "bath with a book and a candle",
+      "long walk with the dog"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "guilt",
+      "feel bad",
+      "at 40",
+      "your age",
+      "push through"
+    ],
+    "mustMention": [
+      "Amma",
+      "sister"
+    ],
+    "notes": "The half is with her sister and should grow out of runs outside with the dog, not the bike; letting the Peloton go should read as relief, never as failure. The cold week shrinks training to rest and leaves the bath and Sunday with Amma exactly where they are."
+  }
+}

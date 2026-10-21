@@ -1,0 +1,146 @@
+{
+  "id": "sofia-23",
+  "summary": "Sofia, 23, student: the café window seat with her journal is hers; the 10-step routine came from TikTok but she likes the mask at the end. Tests trimming skincare without taking the part she loves, and a trip to her grandma's in Puebla.",
+  "draftedBy": "example",
+  "covers": [
+    "stack:1-4",
+    "wearable:none",
+    "borrowed",
+    "skin-too-much",
+    "season:travelling"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T08:45:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [
+      "nothing specific"
+    ],
+    "name": "Sofia",
+    "lifeText": "Matcha, journaling by a window, class, then a long call with my grandma.",
+    "member": true,
+    "items": [
+      {
+        "id": "sofia-matcha",
+        "itemKey": null,
+        "customName": "Café matcha",
+        "monthlyCost": 110,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 19
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "The barista knows my order. I sit by the window and journal for 20 min before class. Kind of my favourite part of the day.",
+            "at": "2026-10-19T09:30:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "sofia-skincare",
+        "itemKey": null,
+        "customName": "10-step skincare",
+        "monthlyCost": 85,
+        "origin": "online",
+        "answers": {
+          "usesLast30Days": 24
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Saw it on TikTok. Takes forever. I do like the last step where I just lie there with the mask on.",
+            "at": "2026-10-19T22:50:00-07:00"
+          }
+        ],
+        "position": 1
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Where do you feel most like yourself?",
+        "a": "Window seat at the café with my notebook. Or at my grandma's in Puebla.",
+        "at": "2026-10-20T08:40:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T08:45:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "note",
+      "stackItemId": "sofia-skincare",
+      "at": "2026-10-22T22:30:00-07:00",
+      "text": "Ran out of the essence thing and honestly didn't notice. My skin's been kind of red and tight since I added the acid toner though"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-26T17:00:00-07:00",
+      "text": "Flying to Puebla Thursday for Día de Muertos at my grandma's, back the 3rd"
+    },
+    {
+      "kind": "answer",
+      "at": "2026-10-28T08:20:00-07:00",
+      "q": "What would you miss most if your mornings got busy?",
+      "a": "The window seat. The barista starts my order when I walk in, it makes me feel like I live here."
+    },
+    {
+      "kind": "decision-answer",
+      "stackItemId": "sofia-skincare",
+      "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-11-04T09:10:00-08:00",
+      "text": "Back. My grandma made me promise to call every Sunday now"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "sofia-matcha"
+    ],
+    "clearAllowed": [
+      "sofia-skincare"
+    ],
+    "clearExpected": [
+      "sofia-skincare"
+    ],
+    "refer": [],
+    "neverTouch": [
+      "matcha and journaling at the café window",
+      "calls with her grandma"
+    ],
+    "neverSay": [
+      "HRV",
+      "a ritual",
+      "cut back",
+      "anti-aging",
+      "fell for",
+      "death"
+    ],
+    "mustMention": [
+      "grandma",
+      "Puebla"
+    ],
+    "notes": "The proposal for the ten steps keeps the mask at the end, the part she said she likes; the red, tight skin since the acid toner is a reason to simplify, not a referral. In Puebla the journal travels with her, the café returns when she does, and her grandma's new Sunday call should find a place in the Ritual."
+  }
+}
