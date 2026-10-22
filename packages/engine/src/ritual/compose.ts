@@ -67,7 +67,8 @@ const NOT_A_THING = new Set(['morning', 'mornings', 'evening', 'evenings', 'befo
 /**
  * The phrase of their ideal day that names this thing ("morning meditation"), if any. Something in
  * the day they describe as their best happens every day unless they say otherwise; without this,
- * a thing with no frequency was placed once a week.
+ * a thing with no frequency was placed once a week. More than half the name's words must be in the
+ * phrase, so one shared word ("Morning sleep check", "Sleep through the night") isn't a mention.
  */
 export function idealDayMention(idealDay: string, name: string): string | undefined {
   const stem = (w: string) => w.toLowerCase().replace(/ll/g, 'l').slice(0, 6);
@@ -76,7 +77,7 @@ export function idealDayMention(idealDay: string, name: string): string | undefi
   const phrases = idealDay.split(/[.;,!?]\s*|\s+(?:then|and then)\s+/i).map((p) => p.trim()).filter(Boolean);
   return phrases.find((p) => {
     const words = new Set((p.match(/[a-z]{5,}/gi) ?? []).map(stem));
-    return stems.some((s) => words.has(s));
+    return stems.filter((s) => words.has(s)).length * 2 > stems.length;
   });
 }
 
@@ -149,7 +150,13 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     type When = ReturnType<typeof whenFromWords>;
     const fromName: When = view ? whenFromWords(view.name) : {};
     const named: When = { ...(fromName.slot ? { slot: fromName.slot } : {}), ...(fromName.days ? { days: fromName.days } : {}) };
-    const mention = own.days ? undefined : idealDayMention(person.identity.idealDay, displayName(s, view));
+    const usage = usageOf(s, view);
+    // Their ideal day fills in how often only when nothing else says: their own count (19 times in
+    // 30 days is about 4 a week, not daily) and a weekly row's cadence come first.
+    const mention =
+      own.days || usage.perMonth !== null || view?.cadence === 'weekly'
+        ? undefined
+        : idealDayMention(person.identity.idealDay, displayName(s, view));
     const inDay: When = mention ? whenFromWords(mention) : {};
     const said = {
       ...named,
@@ -159,7 +166,6 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       days: own.days ?? (mention ? (inDay.days ?? [...DAYS]) : named.days),
     };
     const place = placement(view);
-    const usage = usageOf(s, view);
     const weekly = view?.cadence === 'weekly' || (!view && !said.days);
     const perWeek = weekly
       ? Math.max(1, Math.min(7, Math.round((usage.perMonth ?? 4) / 4.3)))
