@@ -1,0 +1,54 @@
+{
+  "id": "veer-00",
+  "summary": "Veer, founder, Bay Area: a morning person and a planner with an already clean stack (gym, run, meditation, journalling, creatine, vitamin C) and wine nights with friends that are Veer's. Tests that nothing is invented to cut and that a late Friday bends Saturday around what's Veer's.",
+  "draftedBy": "Veer",
+  "covers": ["stack:5-9", "wearable:none", "loved-vice", "tier-a-unfelt", "clean-stack"],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-21T07:30:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [],
+    "name": "Veer",
+    "lifeText": "Waking up early, phone away from bed, morning meditation, natural light, eating a light protein-filled breakfast, go to the gym, and then go home, take a shower, healthy lunch, get some deep work with coffee in. After 4:00pm I'd typically go do something fun with friends like a sport. 7pm onwards would be wine night, a fun dinner, movie night, something social. Winding down would start around 10:00pm, asleep by 10:45 or 11. Grateful for journaling.",
+    "member": true,
+    "items": [
+      { "id": "veer-gym", "itemKey": "strength-training", "label": "Gym", "monthlyCost": 0, "origin": "other", "answers": { "usesLast30Days": 16 }, "chips": {}, "unknown": [], "status": "kept", "notes": [], "position": 0 },
+      { "id": "veer-vitc", "itemKey": "vitamin-c-daily", "label": "Vitamin C tablets", "monthlyCost": 10, "origin": "other", "answers": { "usesLast30Days": 30 }, "chips": {}, "unknown": [], "status": "listed", "notes": [], "position": 1 },
+      { "id": "veer-meditation", "itemKey": null, "customName": "Morning meditation", "monthlyCost": 0, "origin": "other", "answers": {}, "chips": {}, "unknown": [], "status": "kept", "notes": [], "position": 2 },
+      { "id": "veer-water", "itemKey": null, "customName": "500 ml of water in the morning", "monthlyCost": 0, "origin": "other", "answers": {}, "chips": {}, "unknown": [], "status": "listed", "notes": [], "position": 3 },
+      { "id": "veer-run", "itemKey": "morning-workout-before-8am", "label": "Morning run", "monthlyCost": 0, "origin": "other", "answers": {}, "chips": {}, "unknown": [], "status": "listed", "notes": [], "position": 4 },
+      { "id": "veer-journal", "itemKey": "journaling-worry-list-before-bed", "label": "Journalling before bed", "monthlyCost": 0, "origin": "other", "answers": {}, "chips": {}, "unknown": [], "status": "kept", "notes": [{ "id": "n1", "text": "Grateful for journaling.", "at": "2026-10-20T22:10:00-07:00" }], "position": 5 },
+      { "id": "veer-creatine", "itemKey": "creatine-monohydrate", "label": "Creatine", "monthlyCost": 15, "origin": "other", "answers": { "dose": 5, "doseUnit": "g", "form": "monohydrate", "usesLast30Days": 30, "trains": true }, "chips": {}, "unknown": [], "status": "listed", "notes": [], "position": 6 },
+      { "id": "veer-drinks", "itemKey": "alcohol-in-the-evening", "label": "Drinks", "monthlyCost": 40, "origin": "other", "answers": { "nightsPerWeek": 3 }, "chips": {}, "unknown": [], "status": "listed", "notes": [{ "id": "n1", "text": "Wine night or a fun dinner with friends, a few nights a week. I'd always pick a fun night out over a cozy night in.", "at": "2026-10-20T22:12:00-07:00" }], "position": 7 }
+    ],
+    "seenQuestions": [],
+    "dayOne": { "overlapChoices": {}, "yours": ["veer-gym", "veer-meditation", "veer-journal"], "runAnyway": [], "keepAnyway": [], "started": false },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      { "q": "Morning person or night person?", "a": "Morning person, for sure.", "at": "2026-10-20T22:14:00-07:00" },
+      { "q": "When do you do your best work?", "a": "Afternoons, not nights.", "at": "2026-10-20T22:14:30-07:00" },
+      { "q": "Set plans or go with the flow?", "a": "Set planner.", "at": "2026-10-20T22:15:00-07:00" },
+      { "q": "Fun night out or cozy night in?", "a": "A fun night out.", "at": "2026-10-20T22:15:30-07:00" },
+      { "q": "Nature or the city?", "a": "Nature.", "at": "2026-10-20T22:16:00-07:00" }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-21T07:30:00-07:00"
+  },
+  "events": [
+    { "kind": "message", "at": "2026-10-23T18:40:00-07:00", "text": "out late with the team tonight" },
+    { "kind": "answer", "at": "2026-10-26T08:30:00-07:00", "q": "Where do you feel most like yourself?", "a": "Outside after a good morning, then with friends at night." }
+  ],
+  "expect": {
+    "keep": ["veer-gym", "veer-meditation", "veer-journal", "veer-creatine", "veer-drinks", "veer-run", "veer-water"],
+    "clearAllowed": ["veer-vitc"],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": ["Morning meditation", "Gym", "Journalling before bed"],
+    "neverSay": ["HRV", "a ritual", "cut back", "alcohol", "skip the wine", "you should"],
+    "mustMention": ["friends"],
+    "notes": "A clean stack: a good engine says so rather than finding something to cut. Vitamin C may be named as low-stakes, never pushed. The late Friday should give a slower Saturday morning that still keeps meditation and the early, outdoor feel."
+  }
+}

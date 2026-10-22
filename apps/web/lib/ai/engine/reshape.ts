@@ -16,6 +16,7 @@ import {
 } from '@distill/engine/ritual';
 import { partLine, personBlock } from './brief';
 import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { resolvePartId } from './compose';
 import { PROMPT_VERSIONS, RESHAPE_EXAMPLES, RESHAPE_JOB, voice, WHO } from './prompts';
 import { arr, bool, dropNulls, en, int, nul, obj, str } from './schema';
 
@@ -99,9 +100,18 @@ export async function reshape(
   const { scope } = input;
   const locked = new Set(scope.locked);
   const prot = new Set(scope.protected);
-  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 50 };
+  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 50, theirWords: input.allowed.words };
   const targetOf = new Map<string, string>();
   for (const t of scope.targets) for (const p of t.parts) targetOf.set(p.id, t.date);
+  const targetParts = scope.targets.flatMap((t) => t.parts);
+  // A title or a bare id where the id belongs is read as the part it names, before any check.
+  const withIds = (value: unknown): unknown => {
+    const data = dropNulls(value) as { ops?: unknown };
+    if (data && Array.isArray(data.ops))
+      for (const op of data.ops as { partId?: unknown }[])
+        if (op && typeof op.partId === 'string') op.partId = resolvePartId(op.partId, targetParts);
+    return data;
+  };
   const content = [
     personBlock(input.person, { today: input.today }),
     input.message ? `<message>${input.message.slice(0, 2000)}</message>` : `<trigger>${input.trigger.kind}</trigger>`,
@@ -188,7 +198,7 @@ export async function reshape(
     system: [WHO, voice(input.toneRules.bannedPhrases), RESHAPE_JOB, RESHAPE_EXAMPLES],
     content,
     jsonSchema: SCHEMA,
-    parse: z.preprocess(dropNulls, out) as unknown as z.ZodType<Out>,
+    parse: z.preprocess(withIds, out) as unknown as z.ZodType<Out>,
     check,
     timeoutMs: 15000,
     maxTokens: 4000,

@@ -27,6 +27,25 @@ export interface LineContext {
   readonly names: readonly string[];
   /** Word limit for this kind of line. */
   readonly maxWords?: number;
+  /** Everything they wrote. "Nobody checks their phone" quoted back is their words, not third person. */
+  readonly theirWords?: string;
+}
+
+/** Whether every they/their in the line sits inside three or more words quoted from them. */
+function thirdPersonOnlyInTheirWords(line: string, theirWords: string | undefined): boolean {
+  if (!theirWords) return false;
+  const norm = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}' ]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const words = norm(line).split(' ');
+  const source = ` ${norm(theirWords)} `;
+  const hits = words.flatMap((w, i) => (/^(they|their|theirs|them)$/.test(w) ? [i] : []));
+  if (!hits.length || /\b(the user|the person)\b/i.test(line)) return false;
+  return hits.every((i) =>
+    [0, 1, 2].some((back) => {
+      const start = i - back;
+      if (start < 0 || start + 3 > words.length) return false;
+      return source.includes(` ${words.slice(start, start + 3).join(' ')} `);
+    }),
+  );
 }
 
 /** "a ritual", "one ritual", "rituals": the Ritual is the whole system, never one habit. */
@@ -90,8 +109,10 @@ export function checkLine(text: string, ctx: LineContext): LineIssue[] {
   const line = text.trim();
   if (!line) return [{ code: 'EMPTY', detail: 'Nothing to say' }];
   const maxWords = ctx.maxWords ?? ctx.toneRules.maxWordsExclusive - 1;
+  const quoted = thirdPersonOnlyInTheirWords(line, ctx.theirWords);
   for (const issue of toneLint(line, ctx.toneRules))
-    if (issue.code !== 'WORD_LIMIT') issues.push({ code: 'TONE', detail: `${issue.code}: ${issue.detail}` });
+    if (issue.code !== 'WORD_LIMIT' && !(issue.code === 'THIRD_PERSON' && quoted))
+      issues.push({ code: 'TONE', detail: `${issue.code}: ${issue.detail}` });
   const words = line.split(/\s+/u).filter(Boolean).length;
   if (words > maxWords) issues.push({ code: 'TONE', detail: `WORD_LIMIT: ${words} words; maximum ${maxWords}` });
   if (RITUAL_WORD.test(line)) issues.push({ code: 'RITUAL_WORD', detail: 'Say "your Ritual" or the habit by name' });

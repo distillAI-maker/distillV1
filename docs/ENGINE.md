@@ -26,7 +26,7 @@ One function, `engine.run(person, event)`, takes anything that happens to a pers
 2. Haiku reads it: a one-off, lighter, tonight. If the words say someone may be in danger, a fixed, human-written reply with 988 and 911 goes back instead, and nothing else happens. A regex backs the model up, so this never depends on Claude.
 3. Opus reads what it teaches about them (people, places, feelings about their things). Code keeps only what quotes them.
 4. Code works out the dates ("tonight" after midnight is still the night under way) and the scope: a lighter night means a gentler next morning, so Saturday morning is the target. Parts that are theirs, a clinician's, or have their people in them are locked.
-5. Opus proposes a reply and edits. Code checks every edit (nothing locked moves, nothing new to buy, the day gets lighter, not fuller) and checks that the reply only describes what was done. One retry with the problems listed, then a fixed reply and no change.
+5. Opus proposes a reply and edits. Code checks every edit (nothing locked moves, nothing new to buy, the day gets lighter, not fuller) and checks that the reply only describes what was done. Sleeping in, an early night, a rest day and quiet time count as rest, and code names those parts itself, so nothing else can come in as rest. One retry with the problems listed, then a fixed reply and no change.
 6. A one-off change is saved as edits on top of the base week for that day, applied at once, with Undo. An ongoing change ("training starts Monday") becomes a proposed new week that waits for their yes.
 7. The app shows "Your Saturday, adjusted", the reply, and Undo.
 

@@ -1,5 +1,5 @@
 import { clockMinutes, dayOf, momentOf, slotOfClock, SLOT_START } from './time.js';
-import type { Moment, NewPart, Op, RitualPart, RitualVersion, Slot } from './types.js';
+import type { Area, Moment, NewPart, Op, RitualPart, RitualVersion, Slot } from './types.js';
 
 /**
  * How a Ritual is stored and rebuilt.
@@ -60,12 +60,25 @@ function renumber(parts: RitualPart[]): RitualPart[] {
   return sortParts(parts).map((p, i) => ({ ...p, order: i }));
 }
 
+/**
+ * Engine practices that are rest, not effort, and the name code gives each. Sleeping in never makes
+ * a day fuller, so code, not Claude, says what a rest part is: whatever title it was written with,
+ * a slow-start part is "Sleep in". A long run can't come in under a rest label.
+ */
+export const RESTFUL_PRACTICES: ReadonlyMap<string, { readonly title: string; readonly area: Area }> = new Map([
+  ['slow-start', { title: 'Sleep in', area: 'sleep' }],
+  ['early-night', { title: 'Early night', area: 'sleep' }],
+  ['rest-day', { title: 'Rest day', area: 'move' }],
+  ['quiet-time', { title: 'Quiet time', area: 'mind' }],
+]);
+
 export function partFromNew(
   input: NewPart,
   id: string,
   fallbackDays: readonly RitualPart['when']['days'][number][],
 ): RitualPart {
   const days = input.days ?? (input.perWeek ? [] : [...fallbackDays]);
+  const rest = input.source.kind === 'engine' ? RESTFUL_PRACTICES.get(input.source.rule) : undefined;
   return {
     id,
     when: {
@@ -75,11 +88,11 @@ export function partFromNew(
       ...(input.perWeek ? { perWeek: input.perWeek } : {}),
     },
     order: 0,
-    title: input.title,
+    title: rest?.title ?? input.title,
     ...(input.minutes ? { minutes: input.minutes } : {}),
     ...(input.place ? { place: input.place } : {}),
     ...(input.people?.length ? { people: input.people } : {}),
-    area: input.area,
+    area: rest?.area ?? input.area,
     why: input.why,
     source: input.source,
     status: 'active',
@@ -207,9 +220,17 @@ export function partsInMoment(parts: readonly RitualPart[], date: string, moment
   return parts.filter((p) => momentOfPart(p, date) === moment);
 }
 
-/** Total planned minutes, the measure of how full a day is. */
+/**
+ * Total planned minutes, the measure of how full a day is. Rest counts as nothing only when it is
+ * the rest part code named; a rest label on anything else counts its time like any other part.
+ */
 export function plannedMinutes(parts: readonly RitualPart[]): number {
-  return parts.reduce((t, p) => t + (p.status === 'removed' ? 0 : (p.minutes ?? 10)), 0);
+  return parts.reduce((t, p) => {
+    if (p.status === 'removed') return t;
+    const rest = p.source.kind === 'engine' ? RESTFUL_PRACTICES.get(p.source.rule) : undefined;
+    if (rest && p.title === rest.title) return t;
+    return t + (p.minutes ?? 10);
+  }, 0);
 }
 
 export function slotOf(part: Pick<RitualPart, 'when'>): Slot {

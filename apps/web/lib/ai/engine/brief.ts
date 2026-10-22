@@ -89,7 +89,7 @@ export function partLine(p: RitualPart, flags: { locked?: boolean; protected?: b
   ]
     .filter(Boolean)
     .join('; ');
-  return `- ${p.id} "${clean(p.title)}" (${when}${p.minutes ? `, ${p.minutes} min` : ''})${tags ? ` [${tags}]` : ''}`;
+  return `- id ${p.id}: "${clean(p.title)}" (${when}${p.minutes ? `, ${p.minutes} min` : ''})${tags ? ` [${tags}]` : ''}`;
 }
 
 export function nowBlock(instant: string, timeZone: string, today: string, minute: number): string {

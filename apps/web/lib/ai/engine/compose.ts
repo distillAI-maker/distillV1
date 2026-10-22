@@ -4,6 +4,8 @@ import {
   checkLine,
   DAY_ONE_PER_MOMENT,
   daySchema,
+  fitsCap,
+  momentCounts,
   newPartSchema,
   partFromNew,
   sortParts,
@@ -71,20 +73,49 @@ export interface ComposeResult {
   readonly problems?: readonly string[];
 }
 
-function apply(rules: readonly RitualPart[], data: Out, newId: () => string): RitualPart[] {
-  const byId = new Map(data.parts.map((p) => [p.id, p]));
-  const shaped = rules.map((p) => {
+/** Claude sometimes writes a part's title, or drops the "part:" prefix, where its id belongs. */
+export function resolvePartId(id: string, parts: readonly Pick<RitualPart, 'id' | 'title'>[]): string {
+  if (parts.some((p) => p.id === id)) return id;
+  const bare = id.replace(/^["']|["']$/g, '').trim();
+  const hit =
+    parts.find((p) => p.id === `part:${bare}` || p.id.replace(/^part:/, '') === bare) ??
+    parts.find((p) => p.title.toLowerCase() === bare.toLowerCase());
+  return hit?.id ?? id;
+}
+
+/**
+ * Claude's edits on the rules draft. With a cap (day one), a change of days or an addition that
+ * would overfill a moment is trimmed to the days with room, or left out, rather than failing the
+ * whole Ritual: the rest of Claude's work still lands.
+ */
+function apply(rules: readonly RitualPart[], data: Out, newId: () => string, cap?: number): RitualPart[] {
+  const baseline = momentCounts(rules);
+  const fits = (parts: readonly RitualPart[]) => cap === undefined || fitsCap(parts, cap, baseline);
+  const byId = new Map(data.parts.map((p) => [resolvePartId(p.id, rules), p]));
+  let current: RitualPart[] = [...rules];
+  for (const p of rules) {
     const e = byId.get(p.id);
-    if (!e || p.lock) return p;
-    return {
-      ...p,
-      ...(e.title ? { title: e.title } : {}),
-      ...(e.why ? { why: e.why } : {}),
-      when: { ...p.when, ...(e.at ? { at: e.at } : {}), ...(e.days?.length ? { days: e.days } : {}) },
-    };
-  });
-  const added = data.additions.map((a) => partFromNew(a, newId(), ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']));
-  return sortParts([...shaped, ...added]).map((p, i) => ({ ...p, order: i }));
+    if (!e || p.lock) continue;
+    const words = { ...p, ...(e.title ? { title: e.title } : {}), ...(e.why ? { why: e.why } : {}) };
+    const timed = { ...words, when: { ...p.when, ...(e.at ? { at: e.at } : {}) } };
+    // Days they named replace "a few times a week".
+    const withDays: RitualPart = e.days?.length
+      ? { ...timed, when: { slot: timed.when.slot, days: e.days, ...(timed.when.at ? { at: timed.when.at } : {}) } }
+      : timed;
+    const swap = (q: RitualPart) => current.map((x) => (x.id === p.id ? q : x));
+    current = fits(swap(withDays)) ? swap(withDays) : swap(timed);
+  }
+  for (const a of data.additions) {
+    const part = partFromNew(a, newId(), ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
+    if (fits([...current, part])) {
+      current = [...current, part];
+      continue;
+    }
+    // Keep the days that still have room; a weekday thing can wait for the weekend to clear.
+    const days = part.when.days.filter((d) => fits([...current, { ...part, when: { ...part.when, days: [d] } }]));
+    if (days.length) current = [...current, { ...part, when: { ...part.when, days } }];
+  }
+  return sortParts(current).map((p, i) => ({ ...p, order: i }));
 }
 
 export async function composeRitual(
@@ -102,7 +133,7 @@ export async function composeRitual(
 ): Promise<ComposeResult> {
   const rules = { parts: input.rules.parts, summary: input.rules.summary, from: 'rules' as const };
   if (!client) return rules;
-  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 30 };
+  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 30, theirWords: input.allowed.words };
   const locked = input.rules.parts.filter((p) => p.lock);
   const content = [
     personBlock(input.person, { today: input.today, lockedTitles: locked.map((p) => p.title) }),
@@ -110,17 +141,20 @@ export async function composeRitual(
     ...input.rules.parts.map((p) => partLine(p)),
     '</ritual>',
   ].join('\n');
+  const cap = input.firstCompose ? DAY_ONE_PER_MOMENT : undefined;
   const check = (data: Out): string[] => {
-    const parts = apply(input.rules.parts, data, input.newId);
+    const parts = apply(input.rules.parts, data, input.newId, cap);
     const problems = validateRitual({
       parts,
       allowed: input.allowed,
       mustKeep: locked,
-      perMoment: input.firstCompose ? DAY_ONE_PER_MOMENT : undefined,
+      perMoment: cap,
+      baseline: momentCounts(input.rules.parts),
     });
     for (const p of parts) if (!p.lock) for (const i of checkLine(p.why, ctx)) problems.push(`why of "${p.title}": ${i.code} ${i.detail}`);
     for (const i of checkLine(data.summary, ctx)) problems.push(`summary: ${i.code} ${i.detail}`);
-    for (const id of data.parts.map((p) => p.id)) if (!input.rules.parts.some((p) => p.id === id)) problems.push(`no part with id ${id}`);
+    for (const id of data.parts.map((p) => resolvePartId(p.id, input.rules.parts)))
+      if (!input.rules.parts.some((p) => p.id === id)) problems.push(`no part with id ${id}`);
     return problems;
   };
   const result = await callJson(client, {
@@ -132,12 +166,13 @@ export async function composeRitual(
     jsonSchema: SCHEMA,
     parse: z.preprocess(dropNulls, out) as unknown as z.ZodType<Out>,
     check,
-    timeoutMs: 30000,
-    maxTokens: 6000,
+    // The first Ritual is made once and is worth the wait; later recomposes stay quick.
+    timeoutMs: input.firstCompose ? 60000 : 30000,
+    maxTokens: 10000,
   });
   if (!result.ok) return { ...rules, ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
   return {
-    parts: apply(input.rules.parts, result.data, input.newId),
+    parts: apply(input.rules.parts, result.data, input.newId, cap),
     summary: result.data.summary,
     from: 'claude',
     usage: result.usage,

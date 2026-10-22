@@ -26,8 +26,8 @@ afterAll(async () => {
 });
 
 describe('the golden set', () => {
-  it('has 40 people with the coverage the brief asks for', () => {
-    expect(people).toHaveLength(40);
+  it('has at least 40 people with the coverage the brief asks for', () => {
+    expect(people.length).toBeGreaterThanOrEqual(40);
     const count = (tag: string) => people.filter((p) => p.covers.includes(tag)).length;
     for (const tag of ['stack:1-4', 'stack:5-9', 'stack:10+', 'wearable:none', 'wearable:oura', 'wearable:whoop']) expect(count(tag), tag).toBeGreaterThanOrEqual(10);
     expect(count('borrowed')).toBeGreaterThanOrEqual(12);
@@ -39,6 +39,19 @@ describe('the golden set', () => {
   });
   it('makes and keeps a first Ritual for everyone', () => {
     for (const t of runs) expect(t.final.ritual.status, t.person.id).toBe('accepted');
+  });
+  it('places things as often as they said, with their ideal day filling in only the gaps', () => {
+    const part = (personId: string, partId: string) => {
+      const t = runs.find((r) => r.person.id === personId)!;
+      return t.versions.find((v) => v.scope.kind === 'base')?.parts.find((p) => p.id === partId);
+    };
+    // Their own count wins over their ideal day: 19 matchas in 30 days, 9 Solidcore visits.
+    expect(part('sofia-23', 'part:sofia-matcha')?.when).toMatchObject({ days: [], perWeek: 4 });
+    expect(part('tess-37', 'part:tess-solidcore')?.when).toMatchObject({ days: [], perWeek: 2 });
+    // One shared word ("Sleep through the night") doesn't name the morning sleep check.
+    expect(part('omar-33', 'part:omar-score')?.when.slot).toBe('morning');
+    // No count at all, and their ideal day names it: daily.
+    expect(part('veer-00', 'part:veer-meditation')?.when.days).toHaveLength(7);
   });
   it('reports how much of what a careful friend would clear it found', () => {
     const s = runs.map((t) => ({ id: t.person.id, ...scores(t) }));
