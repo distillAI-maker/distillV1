@@ -23,6 +23,7 @@
     "eval:gates": "vitest run apps/web/src/eval",
     "eval:engine": "tsx apps/web/scripts/eval-engine.ts",
     "eval:ab": "tsx apps/web/scripts/eval-ab.ts",
+    "ritual:show": "tsx apps/web/scripts/show-ritual.ts",
     "engine:backfill": "tsx apps/web/scripts/backfill-person.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
     "test": "vitest run",

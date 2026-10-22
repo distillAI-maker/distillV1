@@ -175,12 +175,34 @@ function sampleDate(day: (typeof DAYS)[number]): string {
   return new Date(+new Date(`${base}T00:00:00Z`) + offset * 86400000).toISOString().slice(0, 10);
 }
 
+/** Active fixed-day parts in each weekday moment ("mon:morning", "sat:saturday"), as the caps count them. */
+export function momentCounts(parts: readonly RitualPart[]): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const day of DAYS) {
+    const onDay = parts.filter((p) => p.status === 'active' && p.when.days.includes(day));
+    const moments: Moment[] = isWeekend(day) ? [day === 'sat' ? 'saturday' : 'sunday'] : ['morning', 'night'];
+    for (const m of moments) out.set(`${day}:${m}`, partsInMoment(onDay, sampleDate(day), m).length);
+  }
+  return out;
+}
+
+/**
+ * Whether parts fit a per-moment cap. A moment the rules already filled past the cap (locked
+ * parts are never dropped) may stay that full, but nothing may make it fuller.
+ */
+export function fitsCap(parts: readonly RitualPart[], cap: number, baseline: ReadonlyMap<string, number> = new Map()): boolean {
+  for (const [k, n] of momentCounts(parts)) if (n > Math.max(cap, baseline.get(k) ?? 0)) return false;
+  return true;
+}
+
 export interface RitualCheck {
   readonly parts: readonly RitualPart[];
   readonly allowed: Allowed;
   /** Parts from the previous base that must come through unchanged (theirs, clinician). */
   readonly mustKeep?: readonly RitualPart[];
   readonly perMoment?: number;
+  /** Counts from the rules version: moments it filled past perMoment may stay that full. */
+  readonly baseline?: ReadonlyMap<string, number>;
 }
 
 /** A composed Ritual: sources real, nothing to buy, times sane, moments not overfull. */
@@ -206,8 +228,10 @@ export function validateRitual(check: RitualCheck): string[] {
     const date = sampleDate(day);
     const onDay = check.parts.filter((p) => p.status === 'active' && p.when.days.includes(day));
     const moments: Moment[] = isWeekend(day) ? [day === 'sat' ? 'saturday' : 'sunday'] : ['morning', 'night'];
-    for (const m of moments)
-      if (partsInMoment(onDay, date, m).length > cap) errors.push(`more than ${cap} parts on ${day} ${m}`);
+    for (const m of moments) {
+      const limit = Math.max(cap, check.baseline?.get(`${day}:${m}`) ?? 0);
+      if (partsInMoment(onDay, date, m).length > limit) errors.push(`more than ${limit} parts on ${day} ${m}`);
+    }
   }
   for (const keep of check.mustKeep ?? []) {
     const same = check.parts.find((p) => p.id === keep.id);

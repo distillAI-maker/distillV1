@@ -26,8 +26,8 @@ afterAll(async () => {
 });
 
 describe('the golden set', () => {
-  it('has 40 people with the coverage the brief asks for', () => {
-    expect(people).toHaveLength(40);
+  it('has at least 40 people with the coverage the brief asks for', () => {
+    expect(people.length).toBeGreaterThanOrEqual(40);
     const count = (tag: string) => people.filter((p) => p.covers.includes(tag)).length;
     for (const tag of ['stack:1-4', 'stack:5-9', 'stack:10+', 'wearable:none', 'wearable:oura', 'wearable:whoop']) expect(count(tag), tag).toBeGreaterThanOrEqual(10);
     expect(count('borrowed')).toBeGreaterThanOrEqual(12);

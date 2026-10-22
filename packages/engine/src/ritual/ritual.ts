@@ -207,9 +207,16 @@ export function partsInMoment(parts: readonly RitualPart[], date: string, moment
   return parts.filter((p) => momentOfPart(p, date) === moment);
 }
 
+/** Engine practices that are rest, not effort: sleeping in never makes a day fuller. */
+export const RESTFUL_RULES = new Set(['slow-start', 'rest-day', 'early-night', 'quiet-time']);
+
 /** Total planned minutes, the measure of how full a day is. */
 export function plannedMinutes(parts: readonly RitualPart[]): number {
-  return parts.reduce((t, p) => t + (p.status === 'removed' ? 0 : (p.minutes ?? 10)), 0);
+  return parts.reduce((t, p) => {
+    if (p.status === 'removed') return t;
+    if (p.source.kind === 'engine' && RESTFUL_RULES.has(p.source.rule)) return t;
+    return t + (p.minutes ?? 10);
+  }, 0);
 }
 
 export function slotOf(part: Pick<RitualPart, 'when'>): Slot {

@@ -49,11 +49,35 @@ export function whenFromWords(text: string): { days?: Day[]; slot?: Slot; at?: s
       out.slot = slotOfClock(out.at);
     }
   }
-  if (!out.slot) for (const [pattern, slot] of SLOT_WORDS) if (pattern.test(text)) {
+  // "Wine night" and "movie night" name an evening out, and "a few nights a week" is how often, not when.
+  const plain = text
+    .replace(/\b(wine|movie|date|game|girls'?|guys'?|quiz|pizza|taco|family|poker|trivia|karaoke) nights?\b/gi, ' ')
+    .replace(/\b(a few|a couple of|some|most|two|three|four|five|\d) nights?( a week)?\b/gi, ' ')
+    .replace(/\bnights? (out|in|off)\b/gi, ' ');
+  if (!out.slot) for (const [pattern, slot] of SLOT_WORDS) if (pattern.test(plain)) {
     out.slot = slot;
     break;
   }
   return out;
+}
+
+/** Time words say when, not what: "Morning run" is matched on nothing, "Morning meditation" on "meditation". */
+const NOT_A_THING = new Set(['morning', 'mornings', 'evening', 'evenings', 'before', 'after', 'daily', 'every', 'night', 'nights', 'tablets', 'minutes']);
+
+/**
+ * The phrase of their ideal day that names this thing ("morning meditation"), if any. Something in
+ * the day they describe as their best happens every day unless they say otherwise; without this,
+ * a thing with no frequency was placed once a week.
+ */
+export function idealDayMention(idealDay: string, name: string): string | undefined {
+  const stem = (w: string) => w.toLowerCase().replace(/ll/g, 'l').slice(0, 6);
+  const stems = (name.match(/[a-z]{5,}/gi) ?? []).filter((w) => !NOT_A_THING.has(w.toLowerCase())).map(stem);
+  if (!stems.length || !idealDay.trim()) return undefined;
+  const phrases = idealDay.split(/[.;,!?]\s*|\s+(?:then|and then)\s+/i).map((p) => p.trim()).filter(Boolean);
+  return phrases.find((p) => {
+    const words = new Set((p.match(/[a-z]{5,}/gi) ?? []).map(stem));
+    return stems.some((s) => words.has(s));
+  });
 }
 
 const WHY: Record<string, string> = {
@@ -121,8 +145,19 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
     // Their words first, then the row's own name ("Reading before bed"), then where the row sits.
     const own = whenFromWords(words);
-    const named = view ? whenFromWords(view.name) : {};
-    const said = { ...named, ...own, slot: own.slot ?? named.slot, days: own.days ?? named.days };
+    // A row's name gives a time of day ("Morning workout"), never a clock time ("before 8am" isn't when they run).
+    type When = ReturnType<typeof whenFromWords>;
+    const fromName: When = view ? whenFromWords(view.name) : {};
+    const named: When = { ...(fromName.slot ? { slot: fromName.slot } : {}), ...(fromName.days ? { days: fromName.days } : {}) };
+    const mention = own.days ? undefined : idealDayMention(person.identity.idealDay, displayName(s, view));
+    const inDay: When = mention ? whenFromWords(mention) : {};
+    const said = {
+      ...named,
+      ...inDay,
+      ...own,
+      slot: own.slot ?? inDay.slot ?? named.slot,
+      days: own.days ?? (mention ? (inDay.days ?? [...DAYS]) : named.days),
+    };
     const place = placement(view);
     const usage = usageOf(s, view);
     const weekly = view?.cadence === 'weekly' || (!view && !said.days);
