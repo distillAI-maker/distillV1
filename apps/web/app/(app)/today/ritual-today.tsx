@@ -61,15 +61,27 @@ function groupsOf(parts: readonly RitualPart[]): Record<View, RitualPart[]> {
   };
 }
 
+/**
+ * The time in this browser, once it has mounted. The server renders in UTC, so anything said from
+ * the clock (the date, the greeting, which view opens) waits for the browser to avoid a mismatch.
+ */
+function useNow(): Date | null {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
+  return now;
+}
+
 function TodayHeader({ name }: { name: string }) {
-  const d = new Date();
-  const h = d.getHours();
-  const date = `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
+  const d = useNow();
+  const h = d?.getHours() ?? 0;
+  const date = d
+    ? `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`
+    : '\u00a0';
   return (
     <header className="d-today-header">
       <p className="d-today-date">{date}</p>
       <h1 className="d-today-greeting">
-        {copy.app.greeting(h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening', firstName(name))}
+        {d ? copy.app.greeting(h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening', firstName(name)) : '\u00a0'}
       </h1>
     </header>
   );
@@ -381,7 +393,9 @@ export function RitualToday() {
 export function RitualPreview() {
   const { ready, progress } = useProgress();
   const [parts, setParts] = useState<readonly RitualPart[] | null>(null);
-  const [view, setView] = useState<View>(() => defaultView(new Date().toLocaleDateString('en-CA')));
+  const now = useNow();
+  const [picked, setView] = useState<View | null>(null);
+  const view: View = picked ?? (now ? defaultView(now.toLocaleDateString('en-CA'), now.getHours()) : 'morning');
   useEffect(() => {
     if (!ready) return;
     let alive = true;
