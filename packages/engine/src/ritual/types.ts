@@ -370,6 +370,8 @@ export const reasonCodeSchema = z.enum([
   'PAIR',
   'ADJUST_DOSE',
   'ADJUST_FORM',
+  /** Little or no evidence, and we don't yet know why they have it: one curious question, never a verdict. */
+  'WORTH_A_LOOK',
   // explore
   'ROOM_MADE',
   // refer

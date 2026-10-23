@@ -85,7 +85,7 @@ describe('their own words quoted back', () => {
 
 describe('rest is lighter', () => {
   it('does not count sleeping in as a fuller day', () => {
-    const sleepIn = { ...part('s', ['sat']), source: { kind: 'engine' as const, rule: 'slow-start' }, minutes: 60 };
+    const sleepIn = { ...part('s', ['sat']), title: 'Sleep in', source: { kind: 'engine' as const, rule: 'slow-start' }, minutes: 60 };
     expect(plannedMinutes([part('a', ['sat']), sleepIn])).toBe(plannedMinutes([part('a', ['sat'])]));
   });
 });

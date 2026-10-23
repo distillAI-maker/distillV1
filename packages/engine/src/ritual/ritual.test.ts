@@ -3,7 +3,7 @@ import { composeByRules, whenFromWords } from './compose.js';
 import { decide } from './decide.js';
 import { resolveWhen } from './dates.js';
 import { applyPersonOps, seasonOn } from './person.js';
-import { applyOps, baseOn, ritualOn } from './ritual.js';
+import { applyOps, baseOn, plannedMinutes, ritualOn } from './ritual.js';
 import { scopeTrigger } from './scope.js';
 import { catalogView, personFor, progressWith, stackItem } from './test-support.js';
 import { nightTrigger, slipTrigger } from './triggers.js';
@@ -141,6 +141,24 @@ describe('Example A: out late with the team tonight', () => {
         },
       ]).join(),
     ).toMatch(/to buy/);
+  });
+  it('never lets effort in under a rest label', () => {
+    // Claude writes a long run and calls it quiet time: what lands is the quiet time code names.
+    const ops = [
+      {
+        op: 'add' as const,
+        part: { title: 'Long run', slot: 'morning' as const, at: '09:00', minutes: 90, area: 'move' as const, why: 'x', source: { kind: 'engine' as const, rule: 'quiet-time' } },
+      },
+    ];
+    const day: RitualVersion = { ...base([], 2), id: 'd2', scope: { kind: 'day', date: '2026-10-24' }, ops };
+    const view = ritualOn([base(saturday), day], '2026-10-24');
+    expect(view.parts.find((p) => p.title === 'Long run')).toBeUndefined();
+    expect(view.parts.filter((p) => p.source.kind === 'engine' && p.source.rule === 'quiet-time').map((p) => [p.title, p.area])).toEqual([['Quiet time', 'mind']]);
+    // A rest label on anything code didn't name counts its time, so the lighter-day check sees it.
+    const sleepIn = part({ id: 'r1', title: 'Sleep in', minutes: 90, source: { kind: 'engine', rule: 'slow-start' } });
+    const labelled = part({ id: 'r2', title: 'Long run', minutes: 90, source: { kind: 'engine', rule: 'quiet-time' } });
+    expect(plannedMinutes([...saturday, sleepIn])).toBe(plannedMinutes(saturday));
+    expect(plannedMinutes([...saturday, labelled])).toBe(plannedMinutes(saturday) + 90);
   });
   it('the reply may only describe what was done', () => {
     const ctx = { times: ['09:15', '09:25', '10:00'], dates: ['2026-10-24'], message: 'out late with the team tonight', today: '2026-10-23' };

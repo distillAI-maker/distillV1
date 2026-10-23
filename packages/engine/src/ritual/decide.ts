@@ -245,7 +245,9 @@ export function decide(input: DecideInput): DecideResult {
     const tier = tierFor(v, s, stack);
     const usage = usageOf(s, v);
     const evidenceKeeps = !!v && (v.keepWhen.includes('EVIDENCE_REGULAR') || v.keepWhen.includes('TRAINS'));
-    if (v && evidenceKeeps && (tier === 'A' || tier === 'B') && usage.regular !== false && usage.unused !== true) {
+    // A membership is only praised as real work once we know they use it; unknown use is a question.
+    const useKnown = v?.kind !== 'service' || usage.regular === true;
+    if (v && evidenceKeeps && (tier === 'A' || tier === 'B') && useKnown && usage.regular !== false && usage.unused !== true) {
       const trains = v.evidenceRequires === 'trains' && trainsOf(s, stack) === true;
       protectedIds.add(s.id);
       put(s, 'keep', trains ? 'TRAINS' : 'EVIDENCE_REGULAR');
@@ -313,11 +315,14 @@ export function decide(input: DecideInput): DecideResult {
       reason = 'FORM_NOT_ABSORBED';
     else if (can('NOT_TRAINING') && trainsOf(s, stack) === false) reason = 'NOT_TRAINING';
     else if (can('TOO_MANY_STEPS')) reason = 'TOO_MANY_STEPS';
-    else if (can('BORROWED_WEAK') && borrowedWeak(tier, attachment, s)) reason = 'BORROWED_WEAK';
+    else if (can('BORROWED_WEAK') && borrowedWeak(tier, attachment, s, v)) reason = 'BORROWED_WEAK';
     else if (can('UNLOVED_HABIT') && unlovedHabit(attachment, v)) reason = 'UNLOVED_HABIT';
     if (reason) {
       put(s, 'clear', reason);
       settle(s, `clear:${reason}`);
+    } else if (worthALook(tier, attachment, s, v)) {
+      // Kept for now (pass 4); a yes marks it borrowed, and the clear follows with the money.
+      put(s, 'curate', 'WORTH_A_LOOK');
     }
   }
 
@@ -356,13 +361,27 @@ export function decide(input: DecideInput): DecideResult {
 }
 
 /** Feed-bought, weakly supported, and nothing in their words says they love it. */
-function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike): boolean {
+/** Something already bought that costs nothing to keep (a lamp, a mat): letting it go frees nothing. */
+function freeToKeep(s: StackItemLike, v: CatalogItemView): boolean {
+  return s.monthlyCost === 0 && (v.kind === 'device' || v.kind === 'environment');
+}
+
+function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike, v: CatalogItemView): boolean {
   if (attachment === 'theirs' || attachment === 'loved') return false;
+  if (freeToKeep(s, v)) return false;
   // Unknown evidence never clears; mixed evidence only when they said it's borrowed.
   const weak = tier === 'D' || tier === 'N' || (tier === 'C' && attachment === 'borrowed');
   if (!weak) return false;
   // Their own origin, never the population's: someone else's AG1 came from a feed, theirs might not.
   return attachment === 'borrowed' || (!!s.origin && BORROWED_ORIGINS.has(s.origin));
+}
+
+/** No real evidence, and nothing yet says whether it came from a feed or is loved: ask, gently. */
+function worthALook(tier: KnownTier, attachment: Attachment, s: StackItemLike, v: CatalogItemView): boolean {
+  if (attachment !== 'unknown' && attachment !== 'neutral') return false;
+  if (s.origin && BORROWED_ORIGINS.has(s.origin)) return false;
+  if (freeToKeep(s, v)) return false;
+  return (tier === 'N' || tier === 'D') && v.clearWhen.includes('BORROWED_WEAK');
 }
 
 /** A habit on autopilot. Things often loved for the company are asked about first. */

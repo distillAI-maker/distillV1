@@ -123,7 +123,8 @@ describe('decide: the clearing rules', () => {
   });
   it('never calls this person a feed buyer because other people are', () => {
     const { result } = run([stackItem('ag1', 'greens-powder-ag1-etc')]);
-    expect(of(result, 'ag1')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    // Never a clear on other people's habits: at most a curious question.
+    expect(of(result, 'ag1')).toEqual(['curate:WORTH_A_LOOK', 'keep:NOTHING_TO_CLEAR']);
   });
   it('unused comes first', () => {
     const { result } = run([
@@ -228,5 +229,37 @@ describe('questions worth asking', () => {
     expect(ids.some((id) => id.startsWith('q:sun:'))).toBe(false);
     // The $99 question comes before the $14 one.
     expect(ids.indexOf('q:ag1:origin')).toBeLessThan(ids.indexOf('q:cr:trains'));
+  });
+});
+
+describe('decide: worth a look, and memberships we know nothing about', () => {
+  it('asks, gently, about something with no evidence when we do not know where it came from', () => {
+    const { result } = run([stackItem('ag1', 'greens-powder-ag1-etc')]);
+    expect(of(result, 'ag1')).toEqual(['curate:WORTH_A_LOOK', 'keep:NOTHING_TO_CLEAR']);
+  });
+  it('offers the clear once they say it came from online, or a yes marked it borrowed', () => {
+    expect(of(run([stackItem('ag1', 'greens-powder-ag1-etc', { origin: 'online' })]).result, 'ag1')).toEqual(['clear:BORROWED_WEAK']);
+    const borrowed = run([stackItem('ag1', 'greens-powder-ag1-etc')], (p) => {
+      p.values.ag1 = { attachment: 'borrowed', reasons: [], from: 'tap' };
+    });
+    expect(of(borrowed.result, 'ag1')).toEqual(['clear:BORROWED_WEAK']);
+  });
+  it('never asks about something well-founded or theirs', () => {
+    expect(of(run([stackItem('cr', 'creatine-monohydrate')]).result, 'cr')).not.toContain('curate:WORTH_A_LOOK');
+    expect(of(run([stackItem('ag1', 'greens-powder-ag1-etc', { status: 'kept' })]).result, 'ag1')).toEqual(['keep:THEIRS']);
+  });
+  it('does not praise a membership as real work until we know they use it', () => {
+    const unknown = of(run([stackItem('eq', 'premium-gym-membership-equinox-life-time')]).result, 'eq');
+    expect(unknown).not.toContain('keep:TRAINS');
+    expect(unknown).not.toContain('keep:EVIDENCE_REGULAR');
+    const used = of(run([stackItem('eq', 'premium-gym-membership-equinox-life-time', { answers: { visitsLast30Days: 12 } })]).result, 'eq');
+    expect(used.some((x) => x === 'keep:TRAINS' || x === 'keep:EVIDENCE_REGULAR')).toBe(true);
+  });
+});
+
+describe('decide: nothing to free', () => {
+  it('never offers to clear, or asks about, a free thing already bought', () => {
+    const lamp = of(run([stackItem('lamp', 'salt-lamp', { origin: 'friend', monthlyCost: 0 })]).result, 'lamp');
+    expect(lamp).toEqual(['keep:NOTHING_TO_CLEAR']);
   });
 });

@@ -551,6 +551,16 @@ export class Engine {
           const answered = await store.answerDecision(userId, event.decisionId, event.answer, tx);
           if (!answered) throw new HttpError(404, 'no_open_decision');
           await store.log({ userId, kind: 'decision.answered', payload: { decisionId: answered.id, kind: answered.kind, reason: answered.reason, answer: event.answer } }, tx);
+          // A yes to "worth a look?" says it came from the noise: decide then offers the clear.
+          if (event.answer === 'yes' && answered.reason === 'WORTH_A_LOOK' && answered.stackItemId) {
+            const current = ctx.person.values[answered.stackItemId];
+            if (current?.attachment !== 'theirs' && current?.attachment !== 'loved')
+              ctx.person = {
+                ...ctx.person,
+                version: ctx.person.version + 1,
+                values: { ...ctx.person.values, [answered.stackItemId]: { attachment: 'borrowed', reasons: current?.reasons ?? [], from: 'tap' } },
+              };
+          }
           if (event.answer === 'theirs' && answered.stackItemId) {
             const current = ctx.person.values[answered.stackItemId];
             ctx.person = {
