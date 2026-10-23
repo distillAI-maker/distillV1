@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-/** The ideal-day box became "You, at your best" (step 4). Old links and saves land there. */
+/** The ideal-day box became the private study (step 4). Old links and saves land there. */
 export default function LifePage() {
-  redirect('/best');
+  redirect('/study');
 }

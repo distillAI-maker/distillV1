@@ -22,8 +22,8 @@ export const dataSourceIdSchema = z.enum([
 export type DataSourceId = z.infer<typeof dataSourceIdSchema>;
 
 /**
- * Onboarding steps (lib/steps.ts has the order). 'life', 'questions', 'heard', 'sorted', 'ready',
- * 'goals' and 'day-one' are older saves, kept so they still load and resume.
+ * Onboarding steps (lib/steps.ts has the order). 'life', 'questions', 'best', 'yours', 'heard',
+ * 'sorted', 'ready', 'goals' and 'day-one' are older saves, kept so they still load and resume.
  */
 export const stepSchema = z.enum([
   'name',
@@ -31,6 +31,7 @@ export const stepSchema = z.enum([
   'life',
   'questions',
   'number',
+  'study',
   'best',
   'yours',
   'reveal',

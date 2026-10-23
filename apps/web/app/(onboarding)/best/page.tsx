@@ -1,8 +1,6 @@
-import type { Metadata } from 'next';
-import { BestForm } from './best-form';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = { title: 'You, at your best' };
-
-export default function BestPage() {
-  return <BestForm />;
+/** Folded into the private study (step 4). Old links and saves land there. */
+export default function Moved() {
+  redirect('/study');
 }

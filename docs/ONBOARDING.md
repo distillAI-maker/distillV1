@@ -4,18 +4,19 @@
 
 The first two minutes: "this gets me, and here is my Ritual". Everything after this section is the 2 October draft, kept for history.
 
+It opens on the problem (Veer, 22 Oct): the arrival (`/`) piles up the feed's words on ink (AG1, cold plunge, "Day 1 of 75"…), they blur away, the quiet image comes up, and the line lands: *There's so much noise. Doing everything wears you down.* A first tap skips to the line; returning people and anyone with less motion land on it directly.
+
 | Step | Route | Screen | Where the answers go |
 | --- | --- | --- | --- |
 | (unnumbered) | `/name` | First, what do we call you? | `name` |
 | 1 | `/stack` | Tap everything you do | `items` |
 | 2 | `/stack` (list) | Your current stack: anything we missed, prices prefilled | `items` |
 | 3 | `/number` | "12 things. $438 a month." Let's find what's really yours. | |
-| 4 | `/best` | You, at your best: four this-or-that taps, "Who are you becoming?" (up to three), one optional line | `asks` (q/a per pair); picture lines `toward`; a short ideal day in `lifeText` |
-| 5 | `/yours` | What makes you, you: their own items, life chips, add your own | items → `dayOne.yours` (theirs, locked); life things → picture lines `theirs` and `lifeText` |
-| 6 | `/reveal` | Your Ritual, first draft: at your best, morning / day / evening, always yours, clean already or what can go, worth a look, "It moves with your life" | nothing stored; rules version at once, Claude's when `ENGINE_CLAUDE=on` |
-| 7 | `/invitation`, `/connect` | Join the Founding 100, then connect | as before |
+| 4 | `/study` | The private study (Figma Make, 23 Oct), one question a screen, its own header: 01 which came from a feed · 02 which would you never give up · 03 what a normal day looks like (wake time, what most days are) · 04 when it's a lot, what you reach for · 05 when a week gets busy, what goes first · 06 who you want more time with · 07 the read, on the night palette. Each answer gets one reflection line; single-choice screens move on by themselves. | 01 → item `origin: online` (the engine can let a borrowed, weak thing go); 02 → `dayOne.yours` and picture lines `theirs`; 03 to 06 → `asks`; 05 also a `theirs` line (protected); a paragraph in their voice in `lifeText`, starting "My days: " |
+| 5 | `/reveal` | Your Ritual, first draft: the morning and evening cards, always yours, clean already or what can go (money a year), worth a look | nothing stored; rules version at once, Claude's when `ENGINE_CLAUDE=on` |
+| 6 | `/invitation`, `/connect` | Join the Founding 100, then connect | as before |
 
-Code: `apps/web/lib/steps.ts` (order, numbering, `resumePath` for older saves: `life` and `goals` resume at `/best`), `apps/web/lib/onboarding/you.ts` (steps 4 and 5), `apps/web/lib/onboarding/reveal.ts` (step 6's lines), `apps/web/lib/engine/preview.ts` (`revealRitual`, `shapeRitual`). The ideal day these steps write starts at "At my best: "; anything typed before it in the older flow is kept.
+Code: `apps/web/lib/steps.ts` (order, numbering, `resumePath` for older saves: `life`, `goals`, `best` and `yours` resume at `/study`), `apps/web/lib/onboarding/you.ts` (the study), `apps/web/app/(study)/study/study.tsx` (its screens), `apps/web/lib/onboarding/reveal.ts` (the reveal's lines), `apps/web/lib/engine/preview.ts` (`revealRitual`, `shapeRitual`). The paragraph the study writes starts at "My days: " (it also replaces the older "At my best: "); anything typed before it is kept.
 
 Draft for the one checkpoint, 2 October 2026. This is the spec the `apps/web` build follows. It turns the Figma Make prototype (https://oval-dill-03025795.figma.site, nine screens, captured in [prototype-2026-10-02.jpg](prototype-2026-10-02.jpg)) into the screens SPEC section 11 asks for, on the landing page's design system.
 
