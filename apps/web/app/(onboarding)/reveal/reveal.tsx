@@ -8,7 +8,7 @@ import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
 import { alwaysYours, momentCards, type CardRow, type RevealNotes } from '../../../lib/onboarding/reveal';
-import { asSaid, atBestLine, lifePicks, listOf } from '../../../lib/onboarding/you';
+import { asSaid, atBestLine, lifePicks, listOf, protectedThing } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -72,7 +72,7 @@ export function Reveal() {
         <Cabinet
           parts={draft.parts}
           notes={draft.notes}
-          picks={lifePicks(progress)}
+          picks={[...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x)}
           shaping={shaping}
           shaped={shaped}
         />

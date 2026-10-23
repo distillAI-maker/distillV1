@@ -4,13 +4,15 @@
 
 The first two minutes: "this gets me, and here is my Ritual". Everything after this section is the 2 October draft, kept for history.
 
+It opens on the problem (Veer, 22 Oct): the arrival (`/`) piles up the feed's words on ink (AG1, cold plunge, "Day 1 of 75"…), they blur away, the quiet image comes up, and the line lands: *There's so much noise. Doing everything wears you down.* A first tap skips to the line; returning people and anyone with less motion land on it directly.
+
 | Step | Route | Screen | Where the answers go |
 | --- | --- | --- | --- |
 | (unnumbered) | `/name` | First, what do we call you? | `name` |
 | 1 | `/stack` | Tap everything you do | `items` |
 | 2 | `/stack` (list) | Your current stack: anything we missed, prices prefilled | `items` |
 | 3 | `/number` | "12 things. $438 a month." Let's find what's really yours. | |
-| 4 | `/best` | You, at your best: four this-or-that taps, "Who are you becoming?" (up to three), one optional line | `asks` (q/a per pair); picture lines `toward`; a short ideal day in `lifeText` |
+| 4 | `/best` | You, at your best: a recent day that felt like you (who, where, doing what) and what a busy week takes first, one tap each. Their day is read back as they tap ("Outside, with friends, moving." / "You come alive around people, in motion." / Protected: time alone). Then "Who are you becoming?" (up to three) and one optional line | `asks` (q/a each); what a busy week takes → picture line `theirs` (protected); becoming → `toward`; a short ideal day in their voice in `lifeText` |
 | 5 | `/yours` | What makes you, you: their own items, life chips, add your own | items → `dayOne.yours` (theirs, locked); life things → picture lines `theirs` and `lifeText` |
 | 6 | `/reveal` | Your Ritual, first draft: at your best, morning / day / evening, always yours, clean already or what can go, worth a look, "It moves with your life" | nothing stored; rules version at once, Claude's when `ENGINE_CLAUDE=on` |
 | 7 | `/invitation`, `/connect` | Join the Founding 100, then connect | as before |

@@ -4,14 +4,16 @@ import type { PictureLine, Progress } from '../progress/types';
 /**
  * Steps 4 and 5 of onboarding, as data: who they are at their best and what makes them them, all
  * from taps. Where each answer lives, so the engine reads it (packages/engine/src/ritual/person.ts):
- *   - this-or-that picks: `asks`, one q/a pair each;
+ *   - a recent day that felt like them (who, where, doing what) and what a busy week takes first:
+ *     `asks`, one q/a pair each; what a busy week takes is also kept as theirs, so it's protected;
  *   - who they're becoming (and their own line): picture lines of kind "toward", in their words;
  *   - the life things they'd never give up: picture lines of kind "theirs", in their words;
  *   - the stack items they'd never give up: `dayOne.yours`, which makes them theirs and locked;
  *   - and a short ideal-day sentence built from all of it, in `lifeText`, so compose has words.
  */
 
-export const pairs = copy.best.pairs;
+export const dayQuestions = copy.best.day;
+export const busyQuestion = copy.best.busy;
 export const becomingOptions = copy.best.becoming;
 export const lifeChips = copy.makesYou.lifeChips;
 export const MAX_BECOMING = 3;
@@ -19,6 +21,8 @@ export const MAX_BECOMING = 3;
 const TOWARD = 'toward:';
 const OWN_TOWARD = 'toward:own';
 const THEIRS = 'theirs:';
+/** What a busy week takes first: theirs, kept apart from the life things picked on step 5. */
+const BUSY = 'theirs:busy';
 /** Starts the part of lifeText these steps write; anything before it they typed themselves. */
 export const IDEAL_DAY_MARK = 'At my best: ';
 
@@ -35,9 +39,10 @@ export function midSentence(s: string): string {
   return /^[A-Z][a-z]/.test(s) ? `${s.charAt(0).toLowerCase()}${s.slice(1)}` : s;
 }
 
-/** A life chip reads lower case mid-sentence ("music"); what they typed stays as they typed it. */
+/** Our own chips read lower case mid-sentence ("music", "time alone"); what they typed stays as typed. */
 export function asSaid(text: string): string {
-  return lifeChips.some((c) => c === text) ? midSentence(text) : text;
+  const ours = [...lifeChips, ...copy.best.busy.options] as readonly string[];
+  return ours.includes(text) ? midSentence(text) : text;
 }
 
 /** "a, b and c". */
@@ -61,19 +66,45 @@ function withLines(p: Progress, next: PictureLine[], now: string): Progress {
 
 // --- step 4: you, at your best ----------------------------------------------------------------
 
-/** Their pick for a this-or-that pair, if any. */
-export function pairAnswer(p: Progress, index: number): string | undefined {
-  const pair = pairs[index];
-  return pair ? p.asks.find((a) => a.q === pair.q)?.a : undefined;
+type DayId = (typeof dayQuestions)[number]['id'];
+
+const question = (id: DayId) => dayQuestions.find((d) => d.id === id)!;
+
+/** Their answer about the day, if any. */
+export function dayAnswer(p: Progress, id: DayId): string | undefined {
+  return p.asks.find((a) => a.q === question(id).q)?.a;
 }
 
 /** One tap: picks an option, or clears it when it was already picked. */
-export function setPair(p: Progress, index: number, label: string, now: string): Progress {
-  const pair = pairs[index];
-  if (!pair || !pair.options.some((o) => o.label === label)) return p;
-  const same = pairAnswer(p, index) === label;
-  const asks = p.asks.filter((a) => a.q !== pair.q);
-  return withIdealDay({ ...p, asks: same ? asks : [...asks, { q: pair.q, a: label, at: now }] });
+export function setDay(p: Progress, id: DayId, label: string, now: string): Progress {
+  const q = question(id);
+  if (!q.options.some((o) => o.label === label)) return p;
+  const same = dayAnswer(p, id) === label;
+  const asks = p.asks.filter((a) => a.q !== q.q);
+  return withIdealDay({ ...p, asks: same ? asks : [...asks, { q: q.q, a: label, at: now }] });
+}
+
+/** What a busy week takes first, if they said. */
+export function busyAnswer(p: Progress): string | undefined {
+  return p.asks.find((a) => a.q === busyQuestion.q)?.a;
+}
+
+/** One tap: the answer, and the same thing kept as theirs so a busy week never takes it. */
+export function setBusy(p: Progress, label: string, now: string): Progress {
+  if (!(busyQuestion.options as readonly string[]).includes(label)) return p;
+  const same = busyAnswer(p) === label;
+  const asks = p.asks.filter((a) => a.q !== busyQuestion.q);
+  const rest = lines(p).filter((l) => l.id !== BUSY);
+  const next = same
+    ? { ...p, asks }
+    : { ...p, asks: [...asks, { q: busyQuestion.q, a: label, at: now }] };
+  const kept = same ? rest : [...rest, { id: BUSY, kind: 'theirs' as const, text: label, by: 'you' as const, at: now }];
+  return withIdealDay(withLines(next, kept, now));
+}
+
+/** What they protect: what a busy week takes first. */
+export function protectedThing(p: Progress): string | null {
+  return lines(p).find((l) => l.id === BUSY)?.text ?? null;
 }
 
 export function becoming(p: Progress): string[] {
@@ -110,7 +141,7 @@ export function setOwnWords(p: Progress, text: string, now: string): Progress {
 /** What they'd never give up from their life (not their list), in the order they picked them. */
 export function lifePicks(p: Progress): string[] {
   return lines(p)
-    .filter((l) => l.kind === 'theirs' && l.id.startsWith(THEIRS))
+    .filter((l) => l.kind === 'theirs' && l.id.startsWith(THEIRS) && l.id !== BUSY)
     .map((l) => l.text);
 }
 
@@ -145,15 +176,33 @@ export function toggleYours(p: Progress, itemId: string): Progress {
 
 // --- what the engine and the reveal read ------------------------------------------------------
 
-/** "Up early, outdoors, with a plan and a slow night in." or null when they skipped every pair. */
+const phrase = (p: Progress, id: DayId, form: 'you' | 'me') =>
+  question(id).options.find((o) => o.label === dayAnswer(p, id))?.[form];
+
+const sentence = (bits: readonly (string | undefined)[]) => {
+  const s = bits.filter((b): b is string => !!b).join(', ');
+  return s ? `${s.charAt(0).toUpperCase()}${s.slice(1)}.` : null;
+};
+
+/** Their day, read back to them: "Outside, with friends, moving." Null until they tap. */
 export function atBestLine(p: Progress): string | null {
-  // Rhythm, then place, then plans, then nights: the order reads most naturally.
-  const bits = [0, 3, 1, 2]
-    .map((i): string | undefined => pairs[i]!.options.find((o) => o.label === pairAnswer(p, i))?.best)
-    .filter((b): b is string => !!b);
-  if (!bits.length) return null;
-  const s = listOf(bits);
-  return `${s.charAt(0).toUpperCase()}${s.slice(1)}.`;
+  return sentence([phrase(p, 'where', 'you'), phrase(p, 'who', 'you'), phrase(p, 'doing', 'you')]);
+}
+
+const DOING: Record<string, keyof typeof copy.best.read> = {
+  Moving: 'moving',
+  'Making something': 'making',
+  'A long meal': 'meal',
+  'Nothing at all': 'nothing',
+};
+const TOGETHER = new Set(['My partner', 'Friends', 'Family']);
+
+/** What their day says about them, once they've said who and what. */
+export function dayRead(p: Progress): string | null {
+  const who = dayAnswer(p, 'who');
+  const doing = dayAnswer(p, 'doing');
+  if (!who || !doing || !DOING[doing]) return null;
+  return copy.best.read[DOING[doing]][TOGETHER.has(who) ? 'together' : 'alone'];
 }
 
 /** "Becoming stronger and calmer." or null. */
@@ -164,9 +213,11 @@ export function becomingLine(p: Progress): string | null {
 
 /** The ideal-day sentence the engine reads, built only from what they tapped and wrote here. */
 export function idealDayFrom(p: Progress): string {
-  const best = atBestLine(p);
+  const day = sentence([phrase(p, 'where', 'me'), phrase(p, 'who', 'me'), phrase(p, 'doing', 'me')]);
   const out: string[] = [];
-  if (best) out.push(`${IDEAL_DAY_MARK}${midSentence(best)}`);
+  if (day) out.push(`${IDEAL_DAY_MARK}${midSentence(day)}`);
+  const busy = busyAnswer(p);
+  if (busy) out.push(`When a week gets busy, ${busy.toLowerCase()} goes first.`);
   const b = becomingLine(p);
   if (b) out.push(b);
   const own = ownWords(p).trim();

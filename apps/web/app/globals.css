@@ -1650,7 +1650,8 @@ body[data-ground='dusk'] .foot {
   justify-self: center;
 }
 
-/* arrival: the brand board's mobile landing. One cinematic image, one line, Begin. */
+/* arrival: the problem first. The feed's words pile up on ink, blur away, the quiet image comes up
+   and the line lands. Phases: idle, noise, clear, settled (components/onboarding/arrival.tsx). */
 .arrival {
   position: relative;
   min-height: 100dvh;
@@ -1668,8 +1669,11 @@ body[data-ground='dusk'] .foot {
   inset: 0;
   background: url(/brand/arrival.jpg) 50% 62% / cover no-repeat;
   filter: saturate(0.55) contrast(1.05);
+  opacity: 0;
   transform: scale(calc(1 + 0.1 * var(--motion)));
-  transition: transform calc(2.6s * var(--motion)) var(--ease-out);
+  transition:
+    opacity calc(1.6s * var(--motion)) var(--ease-out),
+    transform calc(2.6s * var(--motion)) var(--ease-out);
 }
 @media (min-width: 760px) {
   .arrival-img {
@@ -1728,23 +1732,106 @@ body[data-ground='dusk'] .foot {
   margin-top: 10px;
   justify-content: space-between;
 }
+.arrival-top,
 .arrival-body,
 .arrival-foot {
   opacity: 0;
-  transform: translateY(calc(18px * var(--motion)));
   transition:
-    opacity calc(1.2s * var(--motion)) var(--ease-out) 0.25s,
-    transform calc(1.4s * var(--motion)) var(--ease-out) 0.25s;
+    opacity calc(1.2s * var(--motion)) var(--ease-out),
+    transform calc(1.4s * var(--motion)) var(--ease-out);
 }
-.phase-1 .arrival-img {
+.arrival-body,
+.arrival-foot {
+  transform: translateY(calc(18px * var(--motion)));
+}
+.arrival.is-clear .arrival-img,
+.arrival.is-settled .arrival-img,
+:root[data-motion='reduce'] .arrival-img {
+  opacity: 1;
   transform: none;
 }
-.phase-1 .arrival-body,
-.phase-1 .arrival-foot,
+.arrival.is-clear .arrival-top,
+.arrival.is-settled .arrival-top,
+.arrival.is-settled .arrival-body,
+.arrival.is-settled .arrival-foot,
+:root[data-motion='reduce'] .arrival-top,
 :root[data-motion='reduce'] .arrival-body,
 :root[data-motion='reduce'] .arrival-foot {
   opacity: 1;
   transform: none;
+}
+.arrival.is-settled .arrival-foot {
+  transition-delay: calc(0.3s * var(--motion));
+}
+
+/* The noise: the feed's words, faint, piling up until it's too much. */
+.arrival-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity calc(0.9s * var(--motion)) var(--ease-in-out),
+    filter calc(0.9s * var(--motion)) var(--ease-in-out),
+    transform calc(0.9s * var(--motion)) var(--ease-in-out);
+}
+.arrival-noise .noise-lg,
+.arrival-noise .noise-md,
+.arrival-noise .noise-sm,
+.arrival-noise .noise-tag {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  color: #f0ece2;
+  opacity: 0;
+}
+.arrival-noise .noise-lg {
+  font: 300 32px/1 var(--serif);
+  letter-spacing: -0.035em;
+}
+.arrival-noise .noise-md {
+  font: 300 21px/1 var(--serif);
+  letter-spacing: -0.02em;
+}
+.arrival-noise .noise-sm {
+  font: 400 14px/1 var(--sans);
+}
+.arrival-noise .noise-tag {
+  font: 600 9px/1 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.arrival.is-noise .arrival-noise {
+  opacity: 1;
+}
+.arrival-noise > span {
+  animation: noiseIn calc(0.6s * var(--motion) + 0.001s) var(--d) var(--ease-out) both;
+}
+.arrival.is-idle .arrival-noise > span {
+  animation: none;
+}
+.arrival.is-clear .arrival-noise,
+.arrival.is-settled .arrival-noise {
+  opacity: 0;
+  filter: blur(12px);
+  transform: scale(0.97);
+}
+:root[data-motion='reduce'] .arrival-noise {
+  display: none;
+}
+@keyframes noiseIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: var(--o);
+    filter: blur(0);
+  }
 }
 .arrival-foot {
   bottom: calc(22px + env(safe-area-inset-bottom, 0px));
@@ -2960,41 +3047,40 @@ body[data-ground='paper'] .obar {
   letter-spacing: 0.16em;
 }
 
-/* Step 4: you at your best. Each this-or-that is a numbered row; the pick is underlined in persimmon. */
-.screen-best .tot-list {
-  margin: 8px 0 0;
+/* Step 4: you at your best. A real day, a numbered row a question; the pick is underlined in
+   persimmon and the rest fall back. Their day is read back underneath as they tap. */
+.screen-best .day-list {
+  margin: 4px 0 0;
   padding: 0;
   list-style: none;
   border-bottom: 1px solid var(--rule-2);
 }
-.screen-best .tot {
+.screen-best .day-q {
   display: grid;
   grid-template-columns: 26px 1fr;
-  align-items: center;
+  padding: 16px 0 8px;
   border-top: 1px solid var(--rule-2);
 }
-.screen-best .tot-n {
-  font: 500 10px var(--sans);
+.screen-best .day-n {
+  padding-top: 1px;
+  font: 500 10px/1.4 var(--sans);
   letter-spacing: 0.08em;
   color: var(--faint);
 }
-.screen-best .tot-pair {
+.screen-best .day-body {
   display: grid;
-  grid-template-columns: 1fr 24px 1fr;
-  align-items: center;
+  gap: 2px;
 }
-.screen-best .tot-or {
-  text-align: center;
-  font: italic 300 15px/1 var(--serif);
-  color: var(--faint);
+.screen-best .day-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
 }
-.screen-best .tot-opt {
-  min-height: 62px;
+.screen-best .day-opt {
+  min-height: 42px;
   padding: 0;
   border: 0;
   background: transparent;
-  text-align: left;
-  white-space: nowrap;
   font: 300 19px/1.15 var(--serif);
   letter-spacing: -0.015em;
   color: var(--ink);
@@ -3007,16 +3093,48 @@ body[data-ground='paper'] .obar {
     color calc(0.25s * var(--motion)) ease,
     text-decoration-color calc(0.25s * var(--motion)) ease;
 }
-.screen-best .tot-opt:last-child {
-  text-align: right;
-}
-.screen-best .tot-picked .tot-opt {
+.screen-best .day-picked .day-opt {
   color: var(--faint);
 }
-.screen-best .tot-opt[aria-checked='true'] {
+.screen-best .day-opt[aria-checked='true'] {
   color: var(--ink);
   font-weight: 400;
   text-decoration-color: var(--spark);
+}
+
+/* Their day, read back: the day itself, what it says about them, and what's protected. */
+.screen-best .mirror {
+  display: grid;
+  gap: 8px;
+  padding: 6px 0 4px;
+}
+.screen-best .mirror-line {
+  font: 300 clamp(26px, 7.4vw, 30px) / 1.12 var(--serif);
+  letter-spacing: -0.03em;
+  animation: rise calc(0.7s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.screen-best .mirror-read {
+  font: italic 300 20px/1.3 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--ochre);
+  animation: rise calc(0.8s * var(--motion) + 0.001s) calc(0.15s * var(--motion)) var(--ease-out) both;
+}
+.screen-best .mirror-kept {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 6px;
+  animation: rise calc(0.7s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.screen-best .mirror-dot {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--spark);
+}
+.screen-best .mirror-thing {
+  font: 400 18px/1.2 var(--serif);
 }
 .screen-best .becoming {
   margin-top: 20px;

@@ -1,24 +1,34 @@
 'use client';
 
-import { Fragment, useId } from 'react';
+import { useId } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import {
+  atBestLine,
   becoming,
   becomingOptions,
+  busyAnswer,
+  busyQuestion,
+  dayAnswer,
+  dayQuestions,
+  dayRead,
   MAX_BECOMING,
   ownWords,
-  pairAnswer,
-  pairs,
+  protectedThing,
+  setBusy,
+  setDay,
   setOwnWords,
-  setPair,
   toggleBecoming,
 } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
-/** Step 4: who you are at your best. Four this-or-that taps, up to three "becoming", one optional line. */
+/**
+ * Step 4: you, at your best. A recent day that felt like you (who, where, doing what) and what a
+ * busy week takes first, one tap each. Their day is read back to them as they tap, with what it
+ * says about them and what Distill will protect. Then who they're becoming, and one optional line.
+ */
 export function BestForm() {
   const go = useGo();
   const { ready, progress, update } = useProgress();
@@ -37,44 +47,80 @@ export function BestForm() {
   const now = () => new Date().toISOString();
   const chosen = becoming(progress);
   const full = chosen.length >= MAX_BECOMING;
+  const mirror = atBestLine(progress);
+  const read = dayRead(progress);
+  const kept = protectedThing(progress);
+
+  const rows = [
+    ...dayQuestions.map((d) => ({
+      key: d.id,
+      q: d.q,
+      options: d.options.map((o) => o.label),
+      picked: dayAnswer(progress, d.id),
+      pick: (label: string) => update((p) => setDay(p, d.id, label, now())),
+    })),
+    {
+      key: 'busy',
+      q: busyQuestion.q,
+      options: [...busyQuestion.options],
+      picked: busyAnswer(progress),
+      pick: (label: string) => update((p) => setBusy(p, label, now())),
+    },
+  ];
 
   return (
     <section className="stack screen-best">
       <h1>{title}</h1>
       <p className="lede">{copy.best.line}</p>
 
-      <ol className="tot-list">
-        {pairs.map((pair, i) => {
-          const picked = pairAnswer(progress, i);
-          return (
-            <li key={pair.q} className={`tot${picked ? ' tot-picked' : ''}`}>
-              <span className="tot-n" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span className="tot-pair" role="radiogroup" aria-label={pair.q}>
-                {pair.options.map((o, k) => (
-                  <Fragment key={o.label}>
-                    {k === 1 ? (
-                      <span className="tot-or" aria-hidden="true">
-                        {copy.best.or}
-                      </span>
-                    ) : null}
-                    <button
-                      type="button"
-                      role="radio"
-                      aria-checked={picked === o.label}
-                      className="tot-opt"
-                      onClick={() => update((p) => setPair(p, i, o.label, now()))}
-                    >
-                      {o.label}
-                    </button>
-                  </Fragment>
+      <ol className="day-list">
+        {rows.map((r, i) => (
+          <li key={r.key} className={`day-q${r.picked ? ' day-picked' : ''}`}>
+            <span className="day-n" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span className="day-body">
+              <span className="eyebrow-ink day-title">{r.q}</span>
+              <span className="day-opts" role="radiogroup" aria-label={r.q}>
+                {r.options.map((o) => (
+                  <button
+                    key={o}
+                    type="button"
+                    role="radio"
+                    aria-checked={r.picked === o}
+                    className="day-opt"
+                    onClick={() => r.pick(o)}
+                  >
+                    {o}
+                  </button>
                 ))}
               </span>
-            </li>
-          );
-        })}
+            </span>
+          </li>
+        ))}
       </ol>
+
+      {mirror || kept ? (
+        <div className="mirror" aria-live="polite">
+          {mirror ? (
+            <p key={mirror} className="mirror-line">
+              {mirror}
+            </p>
+          ) : null}
+          {read ? (
+            <p key={read} className="mirror-read">
+              {read}
+            </p>
+          ) : null}
+          {kept ? (
+            <p key={kept} className="mirror-kept">
+              <span className="mirror-dot" aria-hidden="true" />
+              <span className="eyebrow-ink">{copy.best.protected}</span>
+              <span className="mirror-thing">{kept}</span>
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="stack-tight becoming">
         <div className="becoming-head">

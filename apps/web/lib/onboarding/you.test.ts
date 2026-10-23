@@ -6,11 +6,15 @@ import {
   atBestLine,
   becoming,
   becomingLine,
+  busyAnswer,
+  dayAnswer,
+  dayRead,
   lifePicks,
   ownWords,
-  pairAnswer,
+  protectedThing,
+  setBusy,
+  setDay,
   setOwnWords,
-  setPair,
   toggleBecoming,
   toggleLife,
   toggleYours,
@@ -24,15 +28,42 @@ function item(id: string, itemKey: string): StackItem {
 const start = (): Progress => ({ ...emptyProgress(), items: [item('gym', 'gym-membership'), item('ag1', 'greens-powder-ag1-etc')] });
 
 describe('you, at your best', () => {
-  it('saves each this-or-that as a question and answer, one tap each, and a second tap clears it', () => {
-    let p = setPair(start(), 0, 'Early mornings', now);
-    expect(p.asks).toEqual([{ q: 'Early mornings or late nights?', a: 'Early mornings', at: now }]);
-    p = setPair(p, 0, 'Late nights', now);
+  it('saves each answer about their day as a question and answer, one tap each, and a second tap clears it', () => {
+    let p = setDay(start(), 'who', 'Friends', now);
+    expect(p.asks).toEqual([{ q: 'Who was there?', a: 'Friends', at: now }]);
+    p = setDay(p, 'who', 'Family', now);
     expect(p.asks).toHaveLength(1);
-    expect(pairAnswer(p, 0)).toBe('Late nights');
-    p = setPair(p, 0, 'Late nights', now);
+    expect(dayAnswer(p, 'who')).toBe('Family');
+    p = setDay(p, 'who', 'Family', now);
     expect(p.asks).toEqual([]);
-    expect(setPair(p, 0, 'Something else', now)).toBe(p);
+    expect(setDay(p, 'who', 'Someone else', now)).toBe(p);
+  });
+
+  it('reads their day back as they tap, and what it says about them once they say who and what', () => {
+    let p = setDay(start(), 'where', 'Outside', now);
+    expect(atBestLine(p)).toBe('Outside.');
+    expect(dayRead(p)).toBeNull();
+    p = setDay(p, 'who', 'Friends', now);
+    p = setDay(p, 'doing', 'Moving', now);
+    expect(atBestLine(p)).toBe('Outside, with friends, moving.');
+    expect(dayRead(p)).toBe('You come alive around people, in motion.');
+    p = setDay(setDay(p, 'who', 'Just me', now), 'doing', 'Nothing at all', now);
+    expect(atBestLine(p)).toBe('Outside, on your own, doing nothing at all.');
+    expect(dayRead(p)).toBe('Quiet is where you come back to yourself.');
+    expect(dayRead(setDay(p, 'who', 'My dog', now))).toBe('Quiet is where you come back to yourself.');
+  });
+
+  it('keeps what a busy week takes first as theirs, so it is protected, and swaps it cleanly', () => {
+    let p = setBusy(start(), 'Time alone', now);
+    expect(busyAnswer(p)).toBe('Time alone');
+    expect(protectedThing(p)).toBe('Time alone');
+    expect(lifePicks(p)).toEqual([]);
+    p = setBusy(p, 'Sleep', now);
+    expect(protectedThing(p)).toBe('Sleep');
+    expect(p.picture!.lines.filter((l) => l.kind === 'theirs')).toHaveLength(1);
+    p = setBusy(p, 'Sleep', now);
+    expect(protectedThing(p)).toBeNull();
+    expect(busyAnswer(p)).toBeUndefined();
   });
 
   it('keeps who they are becoming as their own toward lines, three at most', () => {
@@ -48,36 +79,36 @@ describe('you, at your best', () => {
     expect(ownWords(setOwnWords(p, '  ', now))).toBe('');
   });
 
-  it('writes a short ideal day from the taps, so compose has words to read', () => {
+  it('writes a short ideal day in their own voice, so compose has words to read', () => {
     let p = start();
-    p = setPair(p, 0, 'Early mornings', now);
-    p = setPair(p, 1, 'Go with the flow', now);
-    p = setPair(p, 2, 'A slow night in', now);
-    p = setPair(p, 3, 'Outdoors', now);
+    p = setDay(p, 'where', 'In the city', now);
+    p = setDay(p, 'who', 'My partner', now);
+    p = setDay(p, 'doing', 'A long meal', now);
+    p = setBusy(p, 'Seeing people', now);
     p = toggleBecoming(p, 'Stronger', now);
     p = toggleLife(p, 'Music', now);
     p = addOwnThing(p, 'Sunday football', now);
-    expect(atBestLine(p)).toBe('Up early, outdoors, going with the flow and a slow night in.');
-    expect(becomingLine(p)).toBe('Becoming stronger.');
     expect(p.lifeText).toBe(
-      "At my best: up early, outdoors, going with the flow and a slow night in. Becoming stronger. I'd never give up music and Sunday football.",
+      "At my best: in the city, with my partner, over a long meal. When a week gets busy, seeing people goes first. Becoming stronger. I'd never give up music and Sunday football.",
     );
     const person = personFromProgress(progressSchema.parse(p), { personId: 'x', timeZone: 'UTC', today: '2026-10-22' });
     expect(person.identity.idealDay).toBe(p.lifeText);
+    expect(person.picture.filter((l) => l.kind === 'theirs').map((l) => l.text)).toEqual(['Seeing people', 'Music', 'Sunday football']);
   });
 
   it('keeps an ideal day someone typed in the older flow, and rewrites only its own part', () => {
     let p: Progress = { ...start(), lifeText: 'Coffee on the balcony, then a long walk.' };
-    p = setPair(p, 3, 'The city', now);
-    expect(p.lifeText).toBe('Coffee on the balcony, then a long walk.\n\nAt my best: in the city.');
-    p = setPair(p, 3, 'The city', now);
+    p = setDay(p, 'where', 'At home', now);
+    expect(p.lifeText).toBe('Coffee on the balcony, then a long walk.\n\nAt my best: at home.');
+    p = setDay(p, 'where', 'At home', now);
     expect(p.lifeText).toBe('Coffee on the balcony, then a long walk.');
   });
 
   it('says nothing at all when they skip every tap', () => {
     expect(atBestLine(start())).toBeNull();
+    expect(dayRead(start())).toBeNull();
     expect(becomingLine(start())).toBeNull();
-    expect(setPair(setPair(start(), 1, 'Set plans', now), 1, 'Set plans', now).lifeText).toBe('');
+    expect(setDay(setDay(start(), 'doing', 'Moving', now), 'doing', 'Moving', now).lifeText).toBe('');
   });
 });
 
