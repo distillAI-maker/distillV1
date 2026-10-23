@@ -13,6 +13,11 @@ describe('reading their ideal day', () => {
     expect(idealDayMention(veer, 'Morning meditation')).toBe('morning meditation');
     expect(idealDayMention(veer, 'Journalling before bed')).toBe('Grateful for journaling');
   });
+  it('needs more than half the name, not one shared word', () => {
+    const omar = 'Sleep through the night, just once, without anything strapped to my face. Then chai, a day of debugging boards, and Saturday cricket with the guys.';
+    expect(idealDayMention(omar, 'Morning sleep check')).toBeUndefined();
+    expect(idealDayMention(omar, 'Saturday cricket with the guys')).toBe('and Saturday cricket with the guys');
+  });
   it('finds nothing for a name made only of time words or short words', () => {
     expect(idealDayMention(veer, 'Morning run')).toBeUndefined();
     expect(idealDayMention(veer, 'Gym')).toBeUndefined();
@@ -80,7 +85,7 @@ describe('their own words quoted back', () => {
 
 describe('rest is lighter', () => {
   it('does not count sleeping in as a fuller day', () => {
-    const sleepIn = { ...part('s', ['sat']), source: { kind: 'engine' as const, rule: 'slow-start' }, minutes: 60 };
+    const sleepIn = { ...part('s', ['sat']), title: 'Sleep in', source: { kind: 'engine' as const, rule: 'slow-start' }, minutes: 60 };
     expect(plannedMinutes([part('a', ['sat']), sleepIn])).toBe(plannedMinutes([part('a', ['sat'])]));
   });
 });
