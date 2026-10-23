@@ -9,7 +9,7 @@ import { catalogView, v3 } from '../../../../packages/engine/src/ritual/test-sup
 import type { ClaudeClient } from '../../lib/ai/engine/call';
 import { CRISIS_REPLY, REPLY_FALLBACK } from '../../lib/ai/engine/reply';
 import { emptyProgress, type Progress, type StackItem } from '../../lib/progress/types';
-import { CAPS, Engine, FIXED_LINES, matchItem, previewEngine, type EngineDeps } from './engine';
+import { CAPS, Engine, FIXED_LINES, matchItem, previewCompose, previewEngine, type EngineDeps } from './engine';
 import { EngineStore } from './engine-store';
 import { engineRoute } from './engine-routes';
 import { nightsFor } from './engine-deps';
@@ -348,6 +348,24 @@ describe('helpers', () => {
     const p = previewEngine(progress, { catalog: catalogView, now: clock });
     expect(p.parts.length).toBeGreaterThan(0);
     expect(p.decisions.find((d) => d.stackItemId === 'ag1')!.line.length).toBeGreaterThan(0);
+    expect(await store.versions(alice)).toHaveLength(before);
+  });
+  it('the signed-out reveal takes Claude’s shaping with a client, stores nothing, and is null without one', async () => {
+    const deps = { catalog: catalogView, toneRules: v3.toneRules, now: clock };
+    expect(await previewCompose(progress, { ...deps, client: null })).toBeNull();
+    const rules = previewEngine(progress, { catalog: catalogView, now: clock });
+    const creatine = rules.parts.find((p) => p.source.kind === 'stack' && p.source.stackItemId === 'cr')!;
+    expect(creatine).toBeDefined();
+    const { client, answers } = fakeClient();
+    answers.push({
+      parts: [{ id: creatine.id, title: 'Creatine with breakfast', why: null, at: null, days: null }],
+      additions: [],
+      summary: 'Your mornings and nights, built around what you keep.',
+    });
+    const before = (await store.versions(alice)).length;
+    const shaped = await previewCompose(progress, { ...deps, client });
+    expect(shaped!.from).toBe('claude');
+    expect(shaped!.parts.find((p) => p.id === creatine.id)!.title).toBe('Creatine with breakfast');
     expect(await store.versions(alice)).toHaveLength(before);
   });
 });

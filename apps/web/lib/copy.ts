@@ -166,13 +166,101 @@ export const copy = {
     line: 'Pick as many as fit. "Nothing specific" is a real answer.',
     continue: 'Continue',
   },
-  life: {
-    title: 'Tell us about your ideal day',
-    label: 'Tell us about your ideal day',
-    placeholder: 'I start my day with morning meditation and sunlight',
-    chars: (n: number) => (n === 1 ? '1 character' : `${n} characters`),
-    goalsTitle: 'What would you most like to change?',
-    done: 'All done',
+  /** Step 4: who they are at their best, all taps. lib/onboarding/you.ts saves the answers. */
+  best: {
+    title: 'You, at your best.',
+    titleNamed: (name: string) => `${name}, at your best.`,
+    line: "One tap each. Skip any that don't fit.",
+    or: 'or',
+    pairs: [
+      {
+        q: 'Early mornings or late nights?',
+        options: [
+          { label: 'Early mornings', best: 'up early' },
+          { label: 'Late nights', best: 'up late' },
+        ],
+      },
+      {
+        q: 'Set plans or go with the flow?',
+        options: [
+          { label: 'Set plans', best: 'with a plan' },
+          { label: 'Go with the flow', best: 'going with the flow' },
+        ],
+      },
+      {
+        q: 'A big night out or a slow night in?',
+        options: [
+          { label: 'A big night out', best: 'a big night out' },
+          { label: 'A slow night in', best: 'a slow night in' },
+        ],
+      },
+      {
+        q: 'Outdoors or the city?',
+        options: [
+          { label: 'Outdoors', best: 'outdoors' },
+          { label: 'The city', best: 'in the city' },
+        ],
+      },
+    ],
+    becomingTitle: 'Who are you becoming?',
+    becomingHint: 'Pick up to three.',
+    becoming: [
+      'Stronger',
+      'Calmer',
+      'More present',
+      'More social',
+      'More creative',
+      'Sharper at work',
+      'Outside more',
+      'Healthy for the long run',
+    ],
+    ownLabel: 'In your own words',
+    ownPlaceholder: 'Optional, one line',
+    next: 'Continue',
+  },
+  /** Step 5: what they'd never give up. */
+  makesYou: {
+    title: 'What makes you, you.',
+    line: "The things you'd never give up, even the ones that aren't ‘optimal’.",
+    fromList: 'From your list',
+    fromLife: 'From your life',
+    lifeChips: [
+      'Time with friends',
+      'Music',
+      'Gigs',
+      'My dog',
+      'Cooking',
+      'Sport',
+      'Nature',
+      'Family',
+      'Travel',
+      'A drink with friends',
+    ],
+    addLabel: 'Add your own',
+    addPlaceholder: 'Add your own',
+    add: 'Add',
+    next: 'Continue',
+  },
+  /** Step 6: their first Ritual. One short line each. */
+  reveal: {
+    title: 'Your Ritual, first draft.',
+    atBest: 'You, at your best',
+    becoming: (list: string) => `Becoming ${list}.`,
+    moments: { morning: 'Morning', day: 'Day', evening: 'Evening', weekend: 'Weekend' },
+    perWeek: (n: number) => (n === 1 ? 'once a week' : `${n} times a week`),
+    always: 'Always yours',
+    shaping: 'Shaping it around you',
+    clean: 'Clean already.',
+    wellFounded: (names: string, n: number) =>
+      n === 1 ? `${names} is well-founded.` : `${names} are well-founded.`,
+    letGoTitle: 'Ready to let go',
+    letGo: (name: string, yearly: string) => `${name} can go: $${yearly} a year back.`,
+    letGoFree: (name: string) => `${name} can go.`,
+    worthALook: (name: string) => `${name}: no independent evidence. Worth a look?`,
+    moves: 'It moves with your life: text ‘out late tonight’.',
+    empty: 'Your Ritual starts with what you love. Add something you do, and it fills in.',
+    accept: 'This is my Ritual',
+    error: "We couldn't draw your Ritual just now. Everything is saved.",
   },
   person: {
     doctorQ: 'Did a doctor put you on any of these?',
@@ -182,8 +270,8 @@ export const copy = {
   number: {
     things: (n: number) => (n === 1 ? '1 thing.' : `${n} things.`),
     aMonth: (dollars: string) => `$${dollars} a month.`,
-    line: 'What actually works for you?',
-    showMe: 'Show me',
+    line: "Let's find what's really yours.",
+    next: 'Continue',
   },
   sorted: {
     title: 'Your real stack.',

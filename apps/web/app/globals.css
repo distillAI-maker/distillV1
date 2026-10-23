@@ -2944,3 +2944,220 @@ body[data-ground='paper'] .obar {
 .glass {
   border-radius: var(--r-card);
 }
+
+/* Step 4, you at your best: this-or-that rows, one tap each. Square tiles, persimmon when chosen. */
+.screen-best .tot-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+.screen-best .tot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.screen-best .tot-cell {
+  position: relative;
+  display: grid;
+}
+.screen-best .tot-or {
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  padding: 2px 4px;
+  background: var(--bg);
+  font: italic 300 14px/1 var(--serif);
+  color: var(--faint);
+  pointer-events: none;
+}
+.screen-best .tot-opt {
+  min-height: 58px;
+  padding: 10px 14px;
+  border: 1px solid var(--rule-2);
+  border-radius: var(--r-ctl);
+  background: transparent;
+  color: var(--ink);
+  font: 300 19px/1.15 var(--serif);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color calc(0.2s * var(--motion)) ease,
+    border-color calc(0.2s * var(--motion)) ease;
+}
+.screen-best .tot-opt:active {
+  background: var(--surface);
+}
+.screen-best .tot-opt[aria-checked='true'] {
+  background: var(--spark);
+  border-color: var(--spark);
+  color: #11191b;
+  font-weight: 400;
+}
+.screen-best .becoming {
+  margin-top: 12px;
+  gap: 12px;
+}
+.screen-best .becoming-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.screen-best .becoming-head h2 {
+  font-size: clamp(26px, 7vw, 32px);
+}
+.screen-best .becoming-hint {
+  font-size: 14px;
+  color: var(--faint);
+}
+.screen-best .chip,
+.screen-yours .chip {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.chip.chip-full {
+  opacity: 0.4;
+}
+.own-line,
+.add-own {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+}
+.own-line input,
+.add-own input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule-2);
+  border-radius: 0;
+  background: transparent;
+  font: 300 19px var(--serif);
+  color: var(--ink);
+}
+.own-line input:focus,
+.add-own input:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+.own-line input::placeholder,
+.add-own input::placeholder {
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* Step 5, what makes you, you. */
+.screen-yours .yours-group {
+  margin-top: 8px;
+  gap: 10px;
+}
+.add-own {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 12px;
+}
+.add-own-btn {
+  min-height: 40px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  font: 600 11px var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+}
+.add-own-btn:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+
+/* Step 6, the reveal: who you are at your best, then the Ritual on parchment, a line a moment. */
+.screen-reveal .reveal-best {
+  display: grid;
+  gap: 6px;
+}
+.screen-reveal .reveal-best-line {
+  font: 300 22px/1.3 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--walnut);
+}
+.screen-reveal .reveal-card {
+  display: grid;
+  background: var(--paper);
+  padding: 4px 20px;
+  animation: rise calc(0.8s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.screen-reveal .reveal-row {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+}
+.screen-reveal .reveal-row:first-child {
+  border-top: 0;
+}
+.screen-reveal .reveal-shaped .reveal-row {
+  animation: rise calc(0.6s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.screen-reveal .reveal-label {
+  font: 600 10px/1.6 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-on-paper);
+}
+.screen-reveal .reveal-row p {
+  font: 300 19px/1.35 var(--serif);
+  color: var(--on-paper);
+}
+.screen-reveal .reveal-always p {
+  font-style: italic;
+}
+.screen-reveal .reveal-empty,
+.screen-reveal .reveal-shaping {
+  padding: 16px 0;
+  font: italic 300 16px var(--serif);
+  color: var(--muted-on-paper);
+}
+.screen-reveal .reveal-shaping {
+  border-top: 1px solid var(--rule);
+  animation: breathe calc(1.6s * var(--motion) + 0.001s) ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.screen-reveal .reveal-notes {
+  display: grid;
+  gap: 6px;
+}
+.screen-reveal .reveal-notes p:not(.goals-label),
+.screen-reveal .reveal-clean,
+.screen-reveal .reveal-look {
+  font: 300 18px/1.4 var(--serif);
+}
+.screen-reveal .reveal-clean strong {
+  font-weight: 400;
+  color: var(--ochre);
+}
+.screen-reveal .reveal-look {
+  color: var(--muted);
+}
+.screen-reveal .reveal-moves {
+  font: italic 300 17px/1.4 var(--serif);
+  color: var(--accent);
+}

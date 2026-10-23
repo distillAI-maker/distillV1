@@ -1,8 +1,6 @@
-import type { Metadata } from 'next';
-import { LifeForm } from './life-form';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = { title: 'Your life' };
-
+/** The ideal-day box became "You, at your best" (step 4). Old links and saves land there. */
 export default function LifePage() {
-  return <LifeForm />;
+  redirect('/best');
 }
