@@ -22,7 +22,7 @@ The build reads columns by header, so reorder them freely; never rename one.
 
 Every row is `draft`, `reviewed` or `live`. Only `live` rows reach people (Vercel's `ENGINE_CATALOG_STATUSES`, default `live`).
 
-**156 rows are `reviewed`** (22 October): the first 50 from 20 October, plus 106 added so every onboarding chip (100 of 100) and the common feed products people type in have a row, each drafted by Claude agents from sources they opened. Veer signs rows off (22 October decision): `python3 scripts/v4/set_live.py --by Veer --all [--except key,key]`, then `pnpm catalog:build` and `pnpm eval:gates`. To check a row by hand, the reviewer:
+**All 156 rows are `live`** (23 October, signed by Veer). They were `reviewed` first (22 October): the first 50 from 20 October, plus 106 added so every onboarding chip (100 of 100) and the common feed products people type in have a row, each drafted by Claude agents from sources they opened. Veer signs rows off (22 October decision): `python3 scripts/v4/set_live.py --by Veer --all [--except key,key]`, then `pnpm catalog:build` and `pnpm eval:gates`. To check a row by hand, the reviewer:
 
 1. Reads `evidence_for` and `evidence_summary`: is the claim the one the sources make, for people like ours?
 2. Checks the tier against the anchors on the Read me sheet. A and B protect something done regularly; C, D and N don't. A and B need at least one independent source (`brand_funded` no).
