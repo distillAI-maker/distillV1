@@ -181,6 +181,11 @@ export function wakeLabel(p: Progress): string {
   return `${Number(h)}:${m}`;
 }
 
+/** Their wake-up time as they told us ("6:30"), or nothing if they never said. */
+export function wakeSaid(p: Progress): string | null {
+  return answer(p, 'wake') ? wakeLabel(p) : null;
+}
+
 /** Fifteen minutes earlier or later, between 5:00 and 9:30. */
 export function nudgeWake(p: Progress, by: -15 | 15, now: string): Progress {
   const next = Math.min(WAKE_MAX, Math.max(WAKE_MIN, toMinutes(wake(p)) + by));

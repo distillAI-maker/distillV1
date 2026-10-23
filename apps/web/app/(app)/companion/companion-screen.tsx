@@ -1,17 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { Skeleton } from '../../../components/ui';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { DStar } from '../../../components/d-star';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { engineApi } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
 import { newItemId, type Progress } from '../../../lib/progress/types';
-import home from '../home/home.module.css';
-import t from '../today/today.module.css';
-import s from './companion.module.css';
+import { Arrow } from '../today/ritual-today';
 
 /**
  * The companion thread: tell Distill what's coming up, and your days shape around it. A reply can
@@ -30,26 +28,39 @@ export function CompanionScreen() {
     end.current?.scrollIntoView?.({ block: 'end' });
   }, [count]);
 
-  if (!ready) return <Skeleton kind="title" count={2} />;
-  if (!on)
+  if (!ready || !on)
     return (
-      <div className={home.page}>
-        <h1 className={t.title}>{copy.companion.title}</h1>
-        <p className={t.lede}>{copy.days.signedOut}</p>
-        <Link className={`${home.primary} ${t.buttonLink}`} href="/sign-in">
-          {copy.days.signIn}
-        </Link>
+      <div className="d-tab-content d-distill-tab">
+        <div className="d-chat-area">
+          <div className="d-chat-thread">
+            <Bubble from="distill" text={copy.companion.line} />
+            {ready ? (
+              <div className="d-prompt-card">
+                <p className="d-prompt-card__body">{copy.app.companionSignIn}</p>
+                <div className="d-prompt-card__actions">
+                  <Link className="d-prompt-btn d-prompt-btn--confirm" href="/sign-in">
+                    {copy.days.signIn}
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
     );
   if (!state)
     return (
-      <section className={home.page} aria-busy={!error}>
+      <section className="d-tab-content d-distill-tab" aria-busy={!error}>
+        <h1 className="d-sr">{copy.companion.title}</h1>
         {error ? (
-          <p className="notice" role="alert">
+          <p className="d-notice" role="alert">
             {copy.days.error}
           </p>
         ) : (
-          <Skeleton kind="title" count={2} />
+          <div className="d-wait">
+            <span className="d-wait__line" />
+            <span className="d-wait__line" />
+          </div>
         )}
       </section>
     );
@@ -106,102 +117,111 @@ export function CompanionScreen() {
   const asks = last?.ask ?? [];
 
   return (
-    <div className={home.page}>
-      <p className={home.dateLabel}>{copy.days.title}</p>
-      <h1 className={t.title}>{copy.companion.title}</h1>
-      <p className={t.lede}>{copy.companion.line}</p>
+    <div className="d-tab-content d-distill-tab">
+      <h1 className="d-sr">{copy.companion.title}</h1>
+      <div className="d-chat-area">
+        <ol className="d-chat-thread" aria-label={copy.companion.title}>
+          {state.thread.length ? (
+            state.thread.map((m) => (
+              <Bubble
+                key={m.id}
+                from={m.role === 'person' ? 'me' : 'distill'}
+                text={m.text}
+                link={m.ritualVersionId ? <Link className="d-bubble-link" href="/today">{copy.companion.seeChange} →</Link> : null}
+              />
+            ))
+          ) : (
+            <Bubble from="distill" text={copy.companion.line} />
+          )}
 
-      {state.thread.length ? (
-        <ol className={s.thread} aria-label={copy.companion.title}>
-          {state.thread.map((m) => (
-            <li key={m.id} className={m.role === 'person' ? s.person : s.companion}>
-              <span className={home.eyebrow}>{m.role === 'person' ? copy.companion.you : copy.companion.distill}</span>
-              <p>{m.text}</p>
-              {m.ritualVersionId ? (
-                <Link className={s.seeChange} href="/today">
-                  {copy.companion.seeChange} →
-                </Link>
-              ) : null}
+          {change ? (
+            <li className="d-prompt-card" aria-live="polite">
+              <p className="d-prompt-card__q">
+                {change.action === 'stopped' ? copy.companion.stopped(change.name) : copy.companion.started(change.name)}
+              </p>
+              <div className="d-prompt-card__actions">
+                {change.action === 'stopped' && change.stackItemId ? (
+                  <button type="button" className="d-prompt-btn d-prompt-btn--confirm" disabled={busy} onClick={() => takeOff(change.stackItemId!)}>
+                    {copy.companion.takeOff}
+                  </button>
+                ) : change.action === 'started' ? (
+                  <button type="button" className="d-prompt-btn d-prompt-btn--confirm" disabled={busy} onClick={() => addIt(change.name)}>
+                    {copy.companion.addIt}
+                  </button>
+                ) : null}
+                <button type="button" className="d-prompt-btn" onClick={clearLast}>
+                  {copy.companion.leave}
+                </button>
+              </div>
+            </li>
+          ) : null}
+
+          {asks.map((a) => (
+            <li key={a.stackItemId} className="d-prompt-card d-prompt-card--question" aria-live="polite">
+              <p className="d-prompt-card__q">{copy.companion.askLoved(nameOf(a.stackItemId) || a.quote)}</p>
+              <div className="d-prompt-card__actions d-prompt-card__actions--three">
+                {(['loved', 'neutral', 'borrowed'] as const).map((attachment) => (
+                  <button
+                    key={attachment}
+                    type="button"
+                    className={`d-prompt-btn${attachment === 'loved' ? ' d-prompt-btn--confirm' : attachment === 'borrowed' ? ' d-prompt-btn--ghost' : ''}`}
+                    disabled={busy}
+                    onClick={() => {
+                      clearLast();
+                      void act(() => engineApi.run({ kind: 'confirm', stackItemId: a.stackItemId, attachment }));
+                    }}
+                  >
+                    {copy.companion[attachment]}
+                  </button>
+                ))}
+              </div>
             </li>
           ))}
-          <li ref={end} aria-hidden="true" className={s.end} />
+          <li ref={end} aria-hidden="true" className="d-chat-end" />
         </ol>
-      ) : (
-        <p className={t.empty}>{copy.companion.empty}</p>
-      )}
-
-      {change ? (
-        <section className={t.change} aria-live="polite">
-          <p>{change.action === 'stopped' ? copy.companion.stopped(change.name) : copy.companion.started(change.name)}</p>
-          <div className={home.actions}>
-            {change.action === 'stopped' && change.stackItemId ? (
-              <button type="button" className={home.primary} disabled={busy} onClick={() => takeOff(change.stackItemId!)}>
-                {copy.companion.takeOff}
-              </button>
-            ) : change.action === 'started' ? (
-              <button type="button" className={home.primary} disabled={busy} onClick={() => addIt(change.name)}>
-                {copy.companion.addIt}
-              </button>
-            ) : null}
-            <button type="button" className={home.secondary} onClick={clearLast}>
-              {copy.companion.leave}
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {asks.map((a) => (
-        <section key={a.stackItemId} className={t.change} aria-live="polite">
-          <p>{copy.companion.askLoved(nameOf(a.stackItemId) || a.quote)}</p>
-          <div className={home.actions}>
-            {(['loved', 'neutral', 'borrowed'] as const).map((attachment) => (
-              <button
-                key={attachment}
-                type="button"
-                className={attachment === 'loved' ? home.primary : home.secondary}
-                disabled={busy}
-                onClick={() => {
-                  clearLast();
-                  void act(() => engineApi.run({ kind: 'confirm', stackItemId: a.stackItemId, attachment }));
-                }}
-              >
-                {copy.companion[attachment]}
-              </button>
-            ))}
-          </div>
-        </section>
-      ))}
+      </div>
 
       {error ? (
-        <p className="notice" role="alert">
+        <p className="d-notice" role="alert">
           {copy.days.error}
         </p>
       ) : null}
 
       <form
-        className={t.composer}
+        className="d-compose-bar d-compose-bar--distill"
         onSubmit={(e) => {
           e.preventDefault();
           void send();
         }}
       >
-        <textarea
+        <input
+          className="d-compose-input"
           aria-label={copy.companion.label}
-          rows={3}
           maxLength={2000}
           value={text}
-          placeholder={copy.companion.placeholder}
+          placeholder={busy ? copy.companion.sending : copy.app.message}
           onChange={(e) => setText(e.target.value)}
         />
-        <div className={home.actions}>
-          <button type="submit" className={home.primary} disabled={busy || !text.trim()}>
-            {busy ? copy.companion.sending : copy.companion.send}
+        {text.trim() ? (
+          <button type="submit" className="d-compose-send" aria-label={copy.app.send} disabled={busy}>
+            <Arrow />
           </button>
-          <Link className={t.threadLink} href="/today">
-            {copy.companion.back} →
-          </Link>
-        </div>
+        ) : null}
       </form>
     </div>
+  );
+}
+
+/** One message: theirs in ink on the right, Distill's on paper on the left, with the star. */
+function Bubble({ from, text, link }: { from: 'me' | 'distill'; text: string; link?: ReactNode }) {
+  return (
+    <li className={`d-bubble-wrap d-bubble-wrap--${from}`}>
+      {from === 'distill' ? <DStar size="tiny" /> : null}
+      <div className={`d-bubble d-bubble--${from}`}>
+        <span className="d-sr">{from === 'me' ? copy.companion.you : copy.companion.distill}: </span>
+        <p>{text}</p>
+        {link}
+      </div>
+    </li>
   );
 }

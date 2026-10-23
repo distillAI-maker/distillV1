@@ -950,22 +950,12 @@ export class Engine {
     const decision = pick && ref ? ctx.decisions.find((d) => d.id === ref) : undefined;
     const question = pick?.kind === 'question' ? this.questions(ctx).find((q) => q.id === ref) : undefined;
     const decided = this.decideNow(ctx);
-    const items: Record<string, ItemStanding> = {};
-    for (const i of ctx.progress.items) {
-      if (i.status === 'cut') continue;
-      const open = ctx.decisions.filter((d) => d.stackItemId === i.id && d.status === 'proposed');
-      items[i.id] = decided.clinicianIds.includes(i.id)
-        ? 'clinician'
-        : decided.theirsIds.includes(i.id)
-          ? 'theirs'
-          : open.some((d) => d.kind === 'clear')
-            ? 'clear'
-            : open.some((d) => d.kind === 'curate' && (d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
-              ? 'adjust'
-              : ctx.decisions.some((d) => d.stackItemId === i.id && d.kind === 'keep')
-                ? 'keep'
-                : 'open';
-    }
+    const items = standingsOf(
+      ctx.progress.items,
+      decided,
+      ctx.decisions.filter((d) => d.status === 'proposed'),
+      ctx.decisions,
+    );
     return {
       person: { name: ctx.person.name, season: seasonOn(ctx.person, ctx.today), nightsShapeMornings: ctx.person.prefs.nightsShapeMornings, wearable: ctx.person.signals.wearable },
       ritual: {
@@ -1057,6 +1047,35 @@ export class Engine {
  * The signed-out preview: the same rules on what they typed, nothing stored, no Claude. It shows
  * what Distill would clear, keep and shape before anyone makes an account.
  */
+/**
+ * Where each thing on their list stands, for the screens: a clinician's, theirs, ready to clear, a
+ * dose or form to adjust, kept, or still open. `open` is the decisions still waiting on them.
+ */
+function standingsOf(
+  items: Progress['items'],
+  decided: { clinicianIds: readonly string[]; theirsIds: readonly string[] },
+  open: readonly { stackItemId: string | null; kind: string; reason: string }[],
+  all: readonly { stackItemId: string | null; kind: string }[],
+): Record<string, ItemStanding> {
+  const out: Record<string, ItemStanding> = {};
+  for (const i of items) {
+    if (i.status === 'cut') continue;
+    const mine = open.filter((d) => d.stackItemId === i.id);
+    out[i.id] = decided.clinicianIds.includes(i.id)
+      ? 'clinician'
+      : decided.theirsIds.includes(i.id)
+        ? 'theirs'
+        : mine.some((d) => d.kind === 'clear')
+          ? 'clear'
+          : mine.some((d) => d.kind === 'curate' && (d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
+            ? 'adjust'
+            : all.some((d) => d.stackItemId === i.id && d.kind === 'keep')
+              ? 'keep'
+              : 'open';
+  }
+  return out;
+}
+
 export function previewEngine(
   progress: Progress,
   deps: { catalog: CatalogView; banned?: readonly string[]; now?: Date; timeZone?: string },
@@ -1072,6 +1091,8 @@ export function previewEngine(
     parts: ritual.parts,
     summary: ritual.summary,
     decisions: decided.decisions.map((d) => ({ ...d, line: fallbackLine(d, deps.banned ?? []) })),
+    /** Where each thing stands, as the signed-in state's `items` says it. */
+    standings: standingsOf(progress.items, decided, decided.decisions, decided.decisions),
   };
 }
 

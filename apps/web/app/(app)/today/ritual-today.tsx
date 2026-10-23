@@ -1,16 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { RitualPart } from '@distill/engine/ritual';
-import { Skeleton } from '../../../components/ui';
+import { DStar } from '../../../components/d-star';
+import { RitualSheet } from '../../../components/ritual-sheet';
 import { copy } from '../../../lib/copy';
 import { engineApi, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { previewRitual } from '../../../lib/engine/preview';
+import { alwaysYours } from '../../../lib/onboarding/reveal';
+import { lifePicks, protectedThing, wakeSaid } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
-import home from '../home/home.module.css';
-import s from './today.module.css';
+import type { Progress } from '../../../lib/progress/types';
+import { timeColumn, whyLine } from '../../../lib/ritual-lines';
 
 type DayOut = EngineState['ritual']['today'];
 type Part = DayOut['parts'][number];
@@ -20,18 +23,7 @@ const weekday = (date: string) => new Date(`${date}T12:00:00Z`).getUTCDay();
 const isWeekend = (date: string) => weekday(date) === 0 || weekday(date) === 6;
 const dayName = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' });
-
-function clock(at: string) {
-  const [h = 0, m = 0] = at.split(':').map(Number);
-  return new Date(2000, 0, 1, h, m).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-}
-
-/** When a part happens, for the time column; a time of day the heading already says is left out. */
-export function whenOf(p: Pick<RitualPart, 'when'>, implied: readonly RitualPart['when']['slot'][] = []) {
-  if (p.when.at) return clock(p.when.at);
-  if (p.when.perWeek && !p.when.days.length) return copy.days.perWeek(p.when.perWeek);
-  return implied.includes(p.when.slot) ? '' : copy.days.slots[p.when.slot];
-}
+const firstName = (name: string) => name.trim().split(/\s+/)[0] ?? '';
 
 /** Morning until early afternoon, then night; the weekend view on Saturday and Sunday. */
 export function defaultView(date: string, hour = new Date().getHours()): View {
@@ -57,68 +49,84 @@ export function daysFor(view: View, state: EngineState) {
   return [{ date: day.date, label: label(day.date), parts: day.parts.filter((p) => p.moment === view) }];
 }
 
-/** A base week's parts as the person reads a draft: mornings, nights, and what is weekend-only. */
-function groupsOf(parts: readonly RitualPart[]) {
+/** A base week's parts by view, for the signed-out preview: mornings, nights, and what is weekend-only. */
+function groupsOf(parts: readonly RitualPart[]): Record<View, RitualPart[]> {
   const active = parts.filter((p) => p.status === 'active');
   const weekendOnly = (p: RitualPart) => p.when.days.length > 0 && p.when.days.every((d) => d === 'sat' || d === 'sun');
   const morning = (p: RitualPart) => p.when.slot === 'morning' || p.when.slot === 'midday';
-  return [
-    { key: 'morning', label: copy.days.views.morning, implied: ['morning'] as const, parts: active.filter((p) => !weekendOnly(p) && morning(p)) },
-    { key: 'night', label: copy.days.views.night, implied: ['night'] as const, parts: active.filter((p) => !weekendOnly(p) && !morning(p)) },
-    { key: 'weekend', label: copy.days.views.weekend, implied: [] as const, parts: active.filter(weekendOnly) },
-  ].filter((g) => g.parts.length);
+  return {
+    morning: active.filter((p) => !weekendOnly(p) && morning(p)),
+    night: active.filter((p) => !weekendOnly(p) && !morning(p)),
+    weekend: active.filter(weekendOnly),
+  };
 }
 
-function todayLabel() {
+function TodayHeader({ name }: { name: string }) {
   const d = new Date();
-  return `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
+  const h = d.getHours();
+  const date = `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
+  return (
+    <header className="d-today-header">
+      <p className="d-today-date">{date}</p>
+      <h1 className="d-today-greeting">
+        {copy.app.greeting(h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening', firstName(name))}
+      </h1>
+    </header>
+  );
 }
 
-function PartLine({
-  part,
-  actions,
-  implied,
-}: {
-  part: RitualPart;
-  actions?: React.ReactNode;
-  implied?: readonly RitualPart['when']['slot'][];
-}) {
-  const when = whenOf(part, implied);
-  const meta = [
-    part.minutes ? copy.days.minutes(part.minutes) : null,
-    part.lock === 'theirs' ? copy.days.yours : part.lock === 'clinician' ? copy.days.clinician : null,
-  ].filter(Boolean);
+function Views({ view, onPick }: { view: View; onPick: (v: View) => void }) {
   return (
-    <li className={s.part}>
-      <span className={s.time}>{when}</span>
-      <span className={s.body}>
-        <span className={s.ptitle}>{part.title}</span>
-        {meta.length ? <span className={s.pmeta}>{meta.join(' · ')}</span> : null}
-        {part.why ? <span className={s.why}>{part.why}</span> : null}
-      </span>
-      {actions}
+    <div className="d-session-toggle" role="tablist" aria-label={copy.days.viewsLabel}>
+      {(['morning', 'night', 'weekend'] as const).map((k) => (
+        <button
+          key={k}
+          type="button"
+          role="tab"
+          aria-selected={view === k}
+          className={`d-session-btn${view === k ? ' d-session-btn--active' : ''}`}
+          onClick={() => onPick(k)}
+        >
+          {copy.days.views[k]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** One part of the day: when, what, a few words on why, and Done or Skip while it's today. */
+function Row({ part, actions }: { part: RitualPart & { check?: Part['check'] }; actions?: ReactNode }) {
+  const time = timeColumn(part.when, '');
+  // No "Well-founded" here: a part's evidence tier says how much is known, not which way it points.
+  const why = whyLine(part);
+  const yours = part.lock === 'theirs';
+  return (
+    <li
+      className={`d-ritual-row${yours ? ' d-ritual-row--yours' : ''}${part.check === 'done' ? ' d-ritual-row--done' : ''}${part.check === 'skipped' ? ' d-ritual-row--skipped' : ''}`}
+    >
+      <div className={`d-ritual-row__time${time.days ? ' d-ritual-row__time--days' : ''}`}>
+        {time.lines.map((l, i) => (
+          <span key={i}>{l}</span>
+        ))}
+      </div>
+      <div className="d-ritual-row__body">
+        <p className="d-ritual-row__name">
+          {part.title}
+          {yours ? (
+            <>
+              <DStar size="tiny" />
+              <span className="d-sr">{copy.days.yours}</span>
+            </>
+          ) : null}
+        </p>
+        {why ? <p className="d-ritual-row__why">{why}</p> : null}
+      </div>
+      <div className="d-ritual-row__actions">{actions}</div>
     </li>
   );
 }
 
-function Draft({ parts }: { parts: readonly RitualPart[] }) {
-  return (
-    <>
-      {groupsOf(parts).map((g) => (
-        <section key={g.key} className={s.day} aria-label={g.label}>
-          <p className={home.eyebrow}>{g.label}</p>
-          <ul className={s.parts}>
-            {g.parts.map((p) => (
-              <PartLine key={p.id} part={p} implied={g.implied} />
-            ))}
-          </ul>
-        </section>
-      ))}
-    </>
-  );
-}
-
-/** Tell Distill what's coming up. The reply shows here; the whole thread lives at /companion. */
+/** Tell Distill what's coming up. The reply shows above the bar; the whole thread lives at /companion. */
 function Composer() {
   const { act, busy } = useEngine();
   const [text, setText] = useState('');
@@ -133,57 +141,83 @@ function Composer() {
     }
   }
   return (
-    <section className={s.composer} aria-label={copy.days.tell}>
-      <p className={home.eyebrow}>{copy.days.tell}</p>
-      <p className={s.lede}>{copy.days.tellLine}</p>
+    <>
+      {reply ? (
+        <div className="d-today-reply" aria-live="polite">
+          <div className="d-bubble-wrap d-bubble-wrap--distill">
+            <DStar size="tiny" />
+            <div className="d-bubble d-bubble--distill">
+              <p>{reply}</p>
+              <Link className="d-bubble-link" href="/companion">
+                {copy.app.thread} →
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <form
+        className="d-compose-bar"
+        aria-label={copy.days.tell}
         onSubmit={(e) => {
           e.preventDefault();
           void send();
         }}
       >
-        <textarea
+        <input
+          className="d-compose-input"
           aria-label={copy.companion.label}
-          rows={2}
           maxLength={2000}
           value={text}
-          placeholder={copy.companion.placeholder}
+          placeholder={copy.app.compose}
           onChange={(e) => setText(e.target.value)}
         />
-        <div className={home.actions}>
-          <button type="submit" className={home.primary} disabled={busy || !text.trim()}>
-            {busy ? copy.companion.sending : copy.companion.send}
+        {text.trim() ? (
+          <button type="submit" className="d-compose-send" aria-label={copy.app.send} disabled={busy}>
+            <Arrow />
           </button>
-          <Link className={s.threadLink} href="/companion">
-            {copy.companion.title} →
-          </Link>
-        </div>
+        ) : null}
       </form>
-      {reply ? (
-        <p className={s.reply} aria-live="polite">
-          {reply}
-        </p>
-      ) : null}
-    </section>
+    </>
   );
 }
+
+export function Arrow() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+function Notice({ show }: { show: boolean }) {
+  return show ? (
+    <p className="d-notice" role="alert">
+      {copy.days.error}
+    </p>
+  ) : null;
+}
+
+/** What's always theirs, for a draft's sheet: the things they'd never give up that aren't parts yet. */
+const alwaysOf = (parts: readonly RitualPart[], progress: Progress) =>
+  alwaysYours(parts, [...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x));
 
 /** Today: today's Ritual, a change to undo or keep, and a place to say what's coming up. */
 export function RitualToday() {
   const { state, error, busy, act } = useEngine();
   const { progress } = useProgress();
   const [view, setView] = useState<View | null>(null);
+  const name = state?.person.name || progress.name;
 
   if (!state)
     return (
-      <section className={home.page} aria-busy={!error}>
-        <h1 className="sr-only">{copy.days.title}</h1>
-        {error ? (
-          <p className="notice" role="alert">
-            {copy.days.error}
-          </p>
-        ) : (
-          <Skeleton kind="title" count={2} />
+      <section className="d-tab-content d-today-tab" aria-busy={!error}>
+        <h1 className="d-sr">{copy.days.title}</h1>
+        <Notice show={!!error} />
+        {error ? null : (
+          <div className="d-wait">
+            <span className="d-wait__line" />
+            <span className="d-wait__line" />
+          </div>
         )}
       </section>
     );
@@ -191,37 +225,38 @@ export function RitualToday() {
   const r = state.ritual;
   if (r.status === 'none')
     return (
-      <section className={home.page} aria-busy="true">
-        <p className={home.eyebrow}>{copy.days.shaping}</p>
-        <Skeleton kind="title" count={2} />
+      <section className="d-tab-content d-today-tab" aria-busy="true">
+        <div className="d-wait">
+          {copy.days.shaping}
+          <span className="d-wait__line" />
+          <span className="d-wait__line" />
+        </div>
       </section>
     );
 
   if (r.status === 'proposed' && r.proposed)
     return (
-      <div className={home.page}>
-        <p className={home.dateLabel}>{copy.days.title}</p>
-        <h1 className={s.title}>{copy.days.proposedTitle}</h1>
-        <p className={s.lede}>{r.summary || copy.days.proposedLine}</p>
-        <Draft parts={r.proposed.parts} />
-        {error ? (
-          <p className="notice" role="alert">
-            {copy.days.error}
-          </p>
-        ) : null}
-        <div className={home.actions}>
+      <div className="d-tab-content d-ritual-scroll">
+        <RitualSheet
+          name={firstName(name)}
+          wake={wakeSaid(progress)}
+          parts={r.proposed.parts}
+          always={alwaysOf(r.proposed.parts, progress)}
+        >
+          <Notice show={!!error} />
           <button
             type="button"
-            className={home.primary}
+            className="d-primary"
             disabled={busy}
             onClick={() => void act(() => engineApi.accept(r.proposed!.id))}
           >
             {copy.days.accept}
+            <span aria-hidden="true">→</span>
           </button>
-          <Link className={`${home.secondary} ${s.buttonLink}`} href="/companion">
-            {copy.days.change}
+          <Link className="d-ritual-change" href="/companion">
+            {copy.app.ritual.change}
           </Link>
-        </div>
+        </RitualSheet>
       </div>
     );
 
@@ -234,25 +269,22 @@ export function RitualToday() {
     void act(() => engineApi.run({ kind: 'part', partId: part.id, date, done }));
 
   return (
-    <div className={home.page}>
-      <p className={home.dateLabel}>{todayLabel()}</p>
-      <h1 className={s.title}>{copy.days.title}</h1>
-
-      {error ? (
-        <p className="notice" role="alert">
-          {copy.days.error}
-        </p>
-      ) : null}
+    <div className="d-tab-content d-today-tab">
+      <TodayHeader name={name} />
+      <Views view={v} onPick={setView} />
+      <Notice show={!!error} />
 
       {change ? (
-        <section className={s.change} aria-live="polite">
-          <p className={home.eyebrow}>
-            {change.scope === 'day' ? copy.days.adjusted(dayName(change.date)) : copy.days.weekAdjusted}
-          </p>
-          <p>{change.reply}</p>
+        <section className="d-adjustment-banner" aria-live="polite">
+          <div className="d-adjustment-banner__text">
+            <p className="d-adjustment-banner__title">
+              {change.scope === 'day' ? copy.days.adjusted(dayName(change.date)) : copy.days.weekAdjusted}
+            </p>
+            <p className="d-adjustment-banner__body">{change.reply}</p>
+          </div>
           <button
             type="button"
-            className={home.link}
+            className="d-adjustment-banner__undo"
             disabled={busy}
             onClick={() => void act(() => engineApi.undo(change.versionId))}
           >
@@ -262,13 +294,15 @@ export function RitualToday() {
       ) : null}
 
       {ongoing ? (
-        <section className={s.change}>
-          <p className={home.eyebrow}>{copy.days.proposalTitle}</p>
-          {ongoing.reply ? <p>{ongoing.reply}</p> : null}
-          <div className={home.actions}>
+        <section className="d-adjustment-banner d-adjustment-banner--ask">
+          <div className="d-adjustment-banner__text">
+            <p className="d-adjustment-banner__title">{copy.days.proposalTitle}</p>
+            {ongoing.reply ? <p className="d-adjustment-banner__body">{ongoing.reply}</p> : null}
+          </div>
+          <div className="d-adjustment-banner__actions">
             <button
               type="button"
-              className={home.primary}
+              className="d-ritual-row__done"
               disabled={busy}
               onClick={() => void act(() => engineApi.accept(ongoing.id))}
             >
@@ -276,7 +310,7 @@ export function RitualToday() {
             </button>
             <button
               type="button"
-              className={home.secondary}
+              className="d-ritual-row__skip"
               disabled={busy}
               onClick={() => void act(() => engineApi.undo(ongoing.id))}
             >
@@ -286,71 +320,59 @@ export function RitualToday() {
         </section>
       ) : null}
 
-      <div className={s.views} role="tablist" aria-label={copy.days.viewsLabel}>
-        {(['morning', 'night', 'weekend'] as const).map((k) => (
-          <button
-            key={k}
-            type="button"
-            role="tab"
-            aria-selected={v === k}
-            className={v === k ? `${s.view} ${s.viewOn}` : s.view}
-            onClick={() => setView(k)}
-          >
-            {copy.days.views[k]}
-          </button>
-        ))}
-      </div>
-
       {days.map((d) => (
-        <section key={d.date} className={s.day} aria-label={d.label}>
-          <p className={home.eyebrow}>{d.label}</p>
+        <section key={d.date} className="d-today-day" aria-label={d.label}>
+          {v === 'weekend' || d.date !== today ? <h2 className="d-day-label">{d.label}</h2> : null}
           {d.parts.length ? (
-            <ul className={s.parts}>
+            <ul className="d-ritual-rows">
               {d.parts.map((p) => (
-                <PartLine
+                <Row
                   key={p.id}
                   part={p}
-                  implied={v === 'weekend' ? [] : [v]}
                   actions={
-                    d.date === today ? (
-                      <span className={s.checks} role="group" aria-label={p.title}>
+                    d.date !== today ? null : p.check === 'done' ? (
+                      <span className="d-ritual-row__check">{copy.days.didIt}</span>
+                    ) : p.check === 'skipped' ? (
+                      <span className="d-ritual-row__skip-label">{copy.days.skipped}</span>
+                    ) : (
+                      <>
                         <button
                           type="button"
-                          aria-pressed={p.check === 'done'}
-                          className={p.check === 'done' ? s.checkOn : s.check}
+                          className="d-ritual-row__done"
                           disabled={busy}
+                          aria-label={copy.days.done}
                           onClick={() => check(p, d.date, true)}
                         >
                           {copy.days.done}
                         </button>
                         <button
                           type="button"
-                          aria-pressed={p.check === 'skipped'}
-                          className={p.check === 'skipped' ? s.checkOn : s.check}
+                          className="d-ritual-row__skip"
                           disabled={busy}
+                          aria-label={copy.days.skip}
                           onClick={() => check(p, d.date, false)}
                         >
                           {copy.days.skip}
                         </button>
-                      </span>
-                    ) : undefined
+                      </>
+                    )
                   }
                 />
               ))}
             </ul>
           ) : (
-            <p className={s.empty}>{copy.days.empty}</p>
+            <p className="d-today-empty">{copy.days.empty}</p>
           )}
         </section>
       ))}
 
-      <Composer />
-
       {progress.dayOne.started ? (
-        <Link className={home.link} href="/today/reading">
+        <Link className="d-today-link" href="/today/reading">
           {copy.days.readings} →
         </Link>
       ) : null}
+
+      <Composer />
     </div>
   );
 }
@@ -359,6 +381,7 @@ export function RitualToday() {
 export function RitualPreview() {
   const { ready, progress } = useProgress();
   const [parts, setParts] = useState<readonly RitualPart[] | null>(null);
+  const [view, setView] = useState<View>(() => defaultView(new Date().toLocaleDateString('en-CA')));
   useEffect(() => {
     if (!ready) return;
     let alive = true;
@@ -370,17 +393,40 @@ export function RitualPreview() {
       alive = false;
     };
   }, [ready, progress]);
+  const shown = parts ? groupsOf(parts)[view] : [];
   return (
-    <div className={home.page}>
-      <p className={home.dateLabel}>{copy.days.title}</p>
-      <h1 className={s.title}>{copy.days.proposedTitle}</h1>
-      <p className={s.lede}>{copy.days.signedOut}</p>
-      {parts ? <Draft parts={parts} /> : <Skeleton kind="option" count={3} />}
-      <div className={home.actions}>
-        <Link className={`${home.primary} ${s.buttonLink}`} href="/sign-in">
-          {copy.days.signIn}
-        </Link>
+    <div className="d-tab-content d-today-tab">
+      <TodayHeader name={progress.name} />
+      <Views view={view} onPick={setView} />
+      {!parts ? (
+        <div className="d-wait">
+          <span className="d-wait__line" />
+          <span className="d-wait__line" />
+        </div>
+      ) : shown.length ? (
+        <ul className="d-ritual-rows">
+          {shown.map((p) => (
+            <Row key={p.id} part={p} />
+          ))}
+        </ul>
+      ) : (
+        <p className="d-today-empty">{copy.days.empty}</p>
+      )}
+      <div className="d-today-keep">
+        <div className="d-prompt-card">
+          <p className="d-prompt-card__body">{copy.days.signedOut}</p>
+          <div className="d-prompt-card__actions">
+            <Link className="d-prompt-btn d-prompt-btn--confirm" href="/sign-in">
+              {copy.days.signIn}
+            </Link>
+          </div>
+        </div>
       </div>
+      {progress.dayOne.started ? (
+        <Link className="d-today-link" href="/today/reading">
+          {copy.days.readings} →
+        </Link>
+      ) : null}
     </div>
   );
 }

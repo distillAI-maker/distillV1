@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import '../../app-screens.css';
 import { Reveal } from './reveal';
 
-export const metadata: Metadata = { title: 'Your Ritual, first draft' };
+export const metadata: Metadata = { title: 'Your Ritual' };
 
 // Claude's version of the first Ritual can take up to a minute when it's on.
 export const maxDuration = 90;

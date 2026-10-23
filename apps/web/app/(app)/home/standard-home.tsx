@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Chip, Skeleton } from '../../../components/ui';
+import { Chip } from '../../../components/ui';
 import { relearn } from '../../../lib/ai/companion-client';
-import { kindOf } from '../../../lib/ai/person';
 import { artworkFor } from '../../../lib/art';
 import { commonRow, morePlaces, type CommonItem } from '../../../lib/catalog/common';
 import { copy } from '../../../lib/copy';
@@ -13,12 +12,13 @@ import type { RoutedItem } from '../../../lib/data/types';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
 import { allQuestions, pickQuestion } from '../../../lib/daily';
-import { engineApi, type EngineState } from '../../../lib/engine/client';
+import { engineApi } from '../../../lib/engine/client';
+import { previewRitual } from '../../../lib/engine/preview';
 import { useEngine } from '../../../lib/engine/context';
 import { ENGINE_CARDS, EngineToday } from './engine-today';
 import { track } from '../../../lib/track';
 import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
-import s from './home.module.css';
+import { DStar } from '../../../components/d-star';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -29,12 +29,6 @@ const leadIn =
 const notPortrait = /^(?:what|but|however|the problem|the thing)\b|gets? in the way/i;
 
 /** Up to three short lines from what they wrote about their ideal day, in their own words. */
-/** "Sunday · 19 October", as on the brand board's Your Standard. */
-function todayLabel() {
-  const d = new Date();
-  return `${d.toLocaleDateString('en-GB', { weekday: 'long' })} · ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
-}
-
 export function portraitOf(text: string): string[] {
   return text
     .split(/(?<=[.!?])\s+|\n+/)
@@ -59,14 +53,14 @@ function shelfFor(
   r: RoutedItem,
   routed: NonNullable<ReturnType<typeof useRouted>['routed']>,
   progress: Progress,
-  engine?: EngineState | null,
+  standings?: Readonly<Record<string, string>> | null,
 ): Shelf {
   const status = progress.items.find((i) => i.id === r.stackItemId)?.status ?? 'listed';
   if (status === 'cut') return 'gone';
   if (status === 'kept') return 'kept';
-  // Signed in, the engine's decisions say where each thing stands. The old verdict groups only
-  // serve the signed-out demo now.
-  const standing = engine?.items[r.stackItemId];
+  // The engine's decisions say where each thing stands: signed in from their state, signed out
+  // from the same rules run on what the browser holds. The old verdict groups are the fallback.
+  const standing = standings?.[r.stackItemId];
   if (standing)
     return standing === 'clinician'
       ? 'protected'
@@ -132,10 +126,27 @@ export function StandardHome() {
   const live = engine.on ? engine.state : null;
   const [answer, setAnswer] = useState('');
   const [other, setOther] = useState('');
+  const [seeAll, setSeeAll] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const todayKey = new Date().toLocaleDateString('en-CA');
   const art = artworkFor(todayKey);
 
   useEffect(() => track('home_opened'), []);
+
+  // Signed out, the same rules the first Ritual used say where each thing stands.
+  const [local, setLocal] = useState<Readonly<Record<string, string>> | null>(null);
+  const listKey = ready && !engine.on ? JSON.stringify([progress.items, progress.dayOne.yours]) : '';
+  useEffect(() => {
+    if (!listKey) return;
+    let alive = true;
+    previewRitual(progress, Intl.DateTimeFormat().resolvedOptions().timeZone)
+      .then((p) => alive && setLocal(p.standings))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+    // Runs again only when their list changes.
+  }, [listKey]);
 
   useEffect(() => {
     // Signed in, the engine picks today's one thing (below); this rotation is the signed-out demo's.
@@ -177,8 +188,12 @@ export function StandardHome() {
 
   if (!routed)
     return (
-      <section className={s.page} aria-busy="true">
-        <Skeleton kind="title" count={2} />
+      <section className="d-tab-content d-standard-tab" aria-busy="true">
+        <div className="d-painting-block" />
+        <div className="d-wait">
+          <span className="d-wait__line" />
+          <span className="d-wait__line" />
+        </div>
       </section>
     );
 
@@ -188,7 +203,8 @@ export function StandardHome() {
   const kept = routed.items.filter((r) => statusOf(r.stackItemId) !== 'cut');
   const total = routed.items.reduce((t, r) => t + r.monthlyCost, 0);
   const back = gone.reduce((t, r) => t + r.monthlyCost, 0);
-  const shelfOf = (r: RoutedItem) => shelfFor(r, routed, progress, live);
+  const standings = live?.items ?? local;
+  const shelfOf = (r: RoutedItem) => shelfFor(r, routed, progress, standings);
   const engineCard = !!live && (live.today.kind === null || ENGINE_CARDS.has(live.today.kind));
   const setStatus = (id: string, status: 'cut' | 'kept' | 'listed') =>
     update((p) => ({
@@ -197,6 +213,7 @@ export function StandardHome() {
       daily: p.daily ? { ...p.daily, done: status !== 'listed' } : p.daily,
     }));
   const portrait = portraitOf(progress.lifeText);
+  const first = progress.name.trim().split(/\s+/)[0] ?? '';
   // Under their name: what we've learned about them, one line from each part. Until Claude has
   // read them (or if it is off), their ideal day in their own words.
   const pictureLines = progress.picture?.lines ?? [];
@@ -206,7 +223,6 @@ export function StandardHome() {
   const learned = [...firsts, ...pictureLines.filter((l) => !firsts.includes(l))]
     .slice(0, 3)
     .map((l) => l.text);
-  const about = learned.length ? learned : portrait;
   const reasonOf = (r: RoutedItem) =>
     r.landing.reason ? copy.dayOne.reasons[r.landing.reason] : null;
   const daily = progress.daily?.date === todayKey ? progress.daily : undefined;
@@ -278,319 +294,325 @@ export function StandardHome() {
     );
   }
 
-  return (
-    <div className={s.page}>
-      <p className={s.dateLabel}>{todayLabel()}</p>
-      {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
-      <h1 className={s.title}>{copy.home.title(progress.name.trim().split(/\s+/)[0] ?? '')}</h1>
+  const lines = learned.length ? (seeAll ? pictureLines.map((l) => l.text) : learned) : portrait;
+  const listed = showAll ? routed.items : routed.items.slice(0, 8);
+  const badgeOf = (r: RoutedItem): { label: string; tone: string } => {
+    const shelf = shelfOf(r);
+    if (shelf !== 'gone' && (standings?.[r.stackItemId] === 'theirs' || progress.dayOne.yours.includes(r.stackItemId)))
+      return { label: copy.app.standard.yours, tone: 'yours' };
+    const tone = shelf === 'kept' ? 'keep' : shelf === 'protected' ? 'yours' : shelf === 'go' || shelf === 'gone' ? 'letgo' : 'call';
+    return { label: copy.home.status[shelf], tone };
+  };
 
-      {/* One masterpiece a day, captioned like a museum placard (brand board: Your Standard). */}
-      <figure className={s.plate}>
-        <span className={s.frame}>
-          <img
-            className={s.painting}
-            src={art.src}
-            alt={`${art.title}, ${art.artist}`}
-            style={art.position ? { objectPosition: art.position } : undefined}
-          />
-        </span>
-        <figcaption className={s.placard}>
-          <span className={s.placardKicker}>{copy.home.todaysWork}</span>
-          <em>{art.title}</em>
-          <span className={s.placardMeta}>
-            {art.artist}, {art.date} · {art.museum}
-          </span>
+  return (
+    <div className="d-tab-content d-standard-tab">
+      {/* One masterpiece a day, captioned like a museum placard. */}
+      <figure className="d-painting-block">
+        <img
+          className="d-painting-img"
+          src={art.src}
+          alt={`${art.title}, ${art.artist}`}
+          style={art.position ? { objectPosition: art.position } : undefined}
+        />
+        <div className="d-painting-overlay" />
+        <figcaption className="d-placard">
+          <div className="d-placard__left">
+            <p className="d-placard__title">{art.title}</p>
+            <p className="d-placard__artist">{art.artist}</p>
+            <p className="d-placard__museum">{art.museum}</p>
+          </div>
+          <div className="d-placard__right">
+            <p className="d-placard__year">{art.date}</p>
+            <p className="d-placard__medium">{copy.home.todaysWork}</p>
+          </div>
         </figcaption>
       </figure>
 
-      {about.length ? (
-        <section aria-label={learned.length ? copy.you.link : copy.home.idealDay}>
-          <p className={s.eyebrow}>{learned.length ? copy.you.link : copy.home.idealDay}</p>
-          <ul className={s.portrait}>
-            {about.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          {learned.length ? (
-            <Link className={s.link} href="/home/you">
-              {copy.home.seeAll} →
-            </Link>
-          ) : null}
-        </section>
-      ) : null}
+      <div className="d-standard-body">
+        {/* First name only: "Jake Goldsmith" is greeted as Jake. */}
+        <h1 className="d-standard-hero">
+          {first ? `${first},` : copy.app.standard.you}
+          <br />
+          <em>{copy.app.standard.atBest}</em>
+        </h1>
 
-      <section className={s.standard} aria-label={copy.home.stack}>
-        <p className={s.eyebrow}>{copy.home.stack}</p>
-        <div className={s.figures}>
-          <div>
-            <strong>{kept.length}</strong>
-            <span>
-              {copy.home.things(kept.length)}
-              {gone.length ? `, ${copy.home.from(routed.items.length)}` : ''}
-            </span>
-          </div>
-          <div>
-            <strong>${money(total - back)}</strong>
-            <span>{gone.length ? copy.home.aMonthFrom(money(total)) : copy.home.aMonth}</span>
-          </div>
-        </div>
-        {back > 0 ? <p className={s.back}>{copy.home.back(money(back))}</p> : null}
-      </section>
-
-      <section className={`${s.today} ${s.learn}`} aria-label={copy.home.todayEyebrow}>
-        {engineCard && live ? <EngineToday state={live} routed={routed} /> : <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>}
-        {engineCard ? null : !daily ? null : daily.kind === 'more' && place ? (
-          daily.done ? (
-            <>
-              <h2>
-                {addedToday.length
-                  ? copy.home.more.added(
-                      addedToday.length,
-                      items.filter((i) => i.status !== 'cut').length,
-                    )
-                  : copy.home.more.none}
-              </h2>
-              <p className={s.done}>{copy.home.doneToday}</p>
-            </>
-          ) : (
-            <>
-              <h2>{copy.home.more.ask[place.id]}</h2>
-              <p>{copy.home.more.line}</p>
-              <div
-                className={`chips ${s.moreChips}`}
-                role="group"
-                aria-label={copy.home.more.ask[place.id]}
-              >
-                {placeChips.map((item) => (
-                  <Chip
-                    key={item.key}
-                    selected={addedToday.includes(item.key)}
-                    onClick={() => toggleMore(item)}
+        <section className="d-standard-section" aria-label={copy.home.todayEyebrow}>
+          <h2 className="d-standard-section__label">{copy.app.standard.oneThing}</h2>
+          <div className="d-one-thing-card">
+            {engineCard && live ? <EngineToday state={live} routed={routed} /> : null}
+        {engineCard ? null : !daily ? (
+              <h2>{copy.home.nothingTitle}</h2>
+            ) : daily.kind === 'more' && place ? (
+              daily.done ? (
+                <>
+                  <h2>
+                    {addedToday.length
+                      ? copy.home.more.added(
+                          addedToday.length,
+                          items.filter((i) => i.status !== 'cut').length,
+                        )
+                      : copy.home.more.none}
+                  </h2>
+                  <p className="d-one-thing-done">{copy.home.doneToday}</p>
+                </>
+              ) : (
+                <>
+                  <h2>{copy.home.more.ask[place.id]}</h2>
+                  <p>{copy.home.more.line}</p>
+                  <div
+                    className="chips d-one-chips"
+                    role="group"
+                    aria-label={copy.home.more.ask[place.id]}
                   >
-                    {item.text}
-                  </Chip>
-                ))}
-                {ownToday.map((i) => (
-                  <Chip key={i.id} selected onClick={() => removeOwn(i.id)}>
-                    {i.customName}
-                  </Chip>
-                ))}
-              </div>
-              <form
-                className={s.other}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  addOther();
-                }}
-              >
-                <input
-                  aria-label={copy.home.more.otherLabel}
-                  placeholder={copy.home.more.other}
-                  maxLength={120}
-                  value={other}
-                  onChange={(e) => setOther(e.target.value)}
-                />
-                <button type="submit" className={s.secondary} disabled={!other.trim()}>
-                  {copy.home.more.add}
-                </button>
-              </form>
-              <div className={s.actions}>
-                <button
-                  type="button"
-                  className={s.primary}
-                  onClick={() => {
-                    track('more_done', { place: place.id, added: addedToday.length });
-                    update((p) => (p.daily ? { ...p, daily: { ...p.daily, done: true } } : p));
-                  }}
-                >
-                  {copy.home.more.done}
-                </button>
-              </div>
-            </>
-          )
-        ) : daily.kind === 'letgo' && dailyItem && dailyStack ? (
-          dailyStack.status === 'listed' ? (
-            <>
-              <h2>{dailyItem.name}</h2>
-              <p>
-                {[reasonOf(dailyItem), copy.dayOne.perMonth(money(dailyItem.monthlyCost))]
-                  .filter(Boolean)
-                  .join(' · ')}
-              </p>
-              <div className={s.actions}>
-                <button
-                  type="button"
-                  className={s.primary}
-                  onClick={() => setStatus(dailyItem.stackItemId, 'cut')}
-                >
-                  {copy.home.letGo}
-                </button>
-                <button
-                  type="button"
-                  className={s.secondary}
-                  onClick={() => setStatus(dailyItem.stackItemId, 'kept')}
-                >
-                  {copy.home.keep}
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h2>{dailyStack.status === 'cut' ? copy.home.letGoneTitle : copy.home.keptTitle}</h2>
-              <p>
-                {dailyStack.status === 'cut'
-                  ? copy.home.letGoneLine(money(dailyStack.monthlyCost))
-                  : copy.home.keptLine}
-              </p>
-              <button
-                type="button"
-                className={s.link}
-                onClick={() => setStatus(dailyStack.id, 'listed')}
-              >
-                {copy.home.undo}
-              </button>
-              <p className={s.done}>{copy.home.doneToday}</p>
-            </>
-          )
-        ) : daily.kind === 'celebrate' && dailyItem ? (
-          <>
-            <h2>{copy.home.celebrateTitle(dailyItem.name)}</h2>
-            <p>{dailyStack?.essence ?? copy.home.celebrateLine}</p>
-            <Link className={s.link} href={`/home/ritual/${dailyItem.stackItemId}`}>
-              {copy.home.celebrateNote}
-            </Link>
-          </>
-        ) : daily.done ? (
-          daily.learned?.length ? (
-            <>
-              <h2>{daily.learned[0]}</h2>
-              <Link className={s.link} href="/home/you">
-                {copy.home.learnedLink}
-              </Link>
-              <p className={s.done}>{copy.home.doneToday}</p>
-            </>
-          ) : (
-            <>
-              <h2>{copy.home.learnThanks}</h2>
-              <p className={s.done}>{copy.home.doneToday}</p>
-            </>
-          )
-        ) : (
-          <>
-            <h2>{daily.ref}</h2>
-            <textarea
-              aria-label={daily.ref}
-              rows={3}
-              maxLength={2000}
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              placeholder={exampleFor(daily.ref)}
-            />
-            <div className={s.actions}>
-              <button
-                type="button"
-                className={s.primary}
-                disabled={!answer.trim()}
-                onClick={() => {
-                  const ask = { q: daily.ref ?? '', a: answer.trim(), at: new Date().toISOString() };
-                  track('answer_given');
-                  update((p) => ({
-                    ...p,
-                    asks: [...p.asks, ask],
-                    daily: p.daily ? { ...p.daily, done: true } : p.daily,
-                  }));
-                  setAnswer('');
-                  // Signed in, the engine learns from it too (who they are, and anything it changes).
-                  if (engine.on) void engine.act(() => engineApi.run({ kind: 'answer', q: ask.q, a: ask.a }));
-                  // Show back what this answer added to the picture, once Claude has read it.
-                  void relearn({ ...progress, asks: [...progress.asks, ask] }, routed, update).then(
-                    (newest) => {
-                      if (!newest) return;
-                      update((p) =>
-                        p.daily?.date === daily.date
-                          ? { ...p, daily: { ...p.daily, learned: [newest] } }
-                          : p,
-                      );
-                    },
-                  );
-                }}
-              >
-                {copy.home.learnSave}
-              </button>
-            </div>
-          </>
-        )}
-      </section>
-
-      <section className={s.noticing} aria-label={copy.home.noticingEyebrow}>
-        <p className={s.eyebrow}>{copy.home.noticingEyebrow}</p>
-        <article>
-          <p>{progress.dataSource ? copy.home.noticingEmpty : copy.home.noticingConnect}</p>
-          {progress.dataSource ? null : (
-            <Link className={s.link} href="/connect">
-              {copy.home.connect}
-            </Link>
-          )}
-        </article>
-      </section>
-
-      <section aria-label={copy.home.ritualsEyebrow}>
-        <div className={s.sectionHead}>
-          <p className={s.eyebrow}>{copy.home.ritualsEyebrow}</p>
-          {routed.items.length > 6 ? (
-            <Link className={s.all} href="/file">
-              {copy.home.all(routed.items.length)}
-            </Link>
-          ) : null}
-        </div>
-        <ul className={s.placards}>
-          {routed.items.slice(0, 6).map((r) => {
-            const shelf = shelfOf(r);
-            const origin = r.origin ? copy.home.origins[r.origin] : undefined;
-            return (
-              <li key={r.stackItemId} className={shelf === 'gone' ? s.gone : undefined}>
-                <Link className={s.placardLink} href={`/home/ritual/${r.stackItemId}`}>
-                  <span className={s.status}>{copy.home.status[shelf]}</span>
-                  <span className={s.pname}>{r.name}</span>
-                  <span className={s.pmeta}>
-                    {[kindOf(r, progress), origin ? copy.home.fromOrigin(origin) : null]
+                    {placeChips.map((item) => (
+                      <Chip
+                        key={item.key}
+                        selected={addedToday.includes(item.key)}
+                        onClick={() => toggleMore(item)}
+                      >
+                        {item.text}
+                      </Chip>
+                    ))}
+                    {ownToday.map((i) => (
+                      <Chip key={i.id} selected onClick={() => removeOwn(i.id)}>
+                        {i.customName}
+                      </Chip>
+                    ))}
+                  </div>
+                  <form
+                    className="d-one-other"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      addOther();
+                    }}
+                  >
+                    <input
+                      aria-label={copy.home.more.otherLabel}
+                      placeholder={copy.home.more.other}
+                      maxLength={120}
+                      value={other}
+                      onChange={(e) => setOther(e.target.value)}
+                    />
+                    <button type="submit" className="d-one-thing-btn" disabled={!other.trim()}>
+                      {copy.home.more.add}
+                    </button>
+                  </form>
+                  <div className="d-one-thing-actions">
+                    <button
+                      type="button"
+                      className="d-one-thing-btn d-one-thing-btn--go"
+                      onClick={() => {
+                        track('more_done', { place: place.id, added: addedToday.length });
+                        update((p) => (p.daily ? { ...p, daily: { ...p.daily, done: true } } : p));
+                      }}
+                    >
+                      {copy.home.more.done}
+                    </button>
+                  </div>
+                </>
+              )
+            ) : daily.kind === 'letgo' && dailyItem && dailyStack ? (
+              dailyStack.status === 'listed' ? (
+                <>
+                  <h2>{dailyItem.name}</h2>
+                  <p>
+                    {[reasonOf(dailyItem), copy.dayOne.perMonth(money(dailyItem.monthlyCost))]
                       .filter(Boolean)
                       .join(' · ')}
-                  </span>
-                  <span className={s.pcost}>
-                    {shelf === 'gone'
-                      ? copy.home.costBack(money(r.monthlyCost))
-                      : copy.dayOne.perMonth(money(r.monthlyCost))}
-                  </span>
+                  </p>
+                  <div className="d-one-thing-actions">
+                    <button
+                      type="button"
+                      className="d-one-thing-btn d-one-thing-btn--go"
+                      onClick={() => setStatus(dailyItem.stackItemId, 'cut')}
+                    >
+                      {copy.home.letGo}
+                    </button>
+                    <button
+                      type="button"
+                      className="d-one-thing-btn"
+                      onClick={() => setStatus(dailyItem.stackItemId, 'kept')}
+                    >
+                      {copy.home.keep}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2>{dailyStack.status === 'cut' ? copy.home.letGoneTitle : copy.home.keptTitle}</h2>
+                  <p>
+                    {dailyStack.status === 'cut'
+                      ? copy.home.letGoneLine(money(dailyStack.monthlyCost))
+                      : copy.home.keptLine}
+                  </p>
+                  <button
+                    type="button"
+                    className="d-see-all"
+                    onClick={() => setStatus(dailyStack.id, 'listed')}
+                  >
+                    {copy.home.undo}
+                  </button>
+                  <p className="d-one-thing-done">{copy.home.doneToday}</p>
+                </>
+              )
+            ) : daily.kind === 'celebrate' && dailyItem ? (
+              <>
+                <h2>{copy.home.celebrateTitle(dailyItem.name)}</h2>
+                <p>{dailyStack?.essence ?? copy.home.celebrateLine}</p>
+                <Link className="d-see-all" href={`/home/ritual/${dailyItem.stackItemId}`}>
+                  {copy.home.celebrateNote}
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+              </>
+            ) : daily.done ? (
+              daily.learned?.length ? (
+                <>
+                  <h2>{daily.learned[0]}</h2>
+                  <Link className="d-see-all" href="/home/you">
+                    {copy.home.learnedLink}
+                  </Link>
+                  <p className="d-one-thing-done">{copy.home.doneToday}</p>
+                </>
+              ) : (
+                <>
+                  <h2>{copy.home.learnThanks}</h2>
+                  <p className="d-one-thing-done">{copy.home.doneToday}</p>
+                </>
+              )
+            ) : (
+              <>
+                <h2>{daily.ref}</h2>
+                <textarea
+                  aria-label={daily.ref}
+                  rows={3}
+                  maxLength={2000}
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  placeholder={exampleFor(daily.ref)}
+                />
+                <div className="d-one-thing-actions">
+                  <button
+                    type="button"
+                    className="d-one-thing-btn d-one-thing-btn--go"
+                    disabled={!answer.trim()}
+                    onClick={() => {
+                      const ask = { q: daily.ref ?? '', a: answer.trim(), at: new Date().toISOString() };
+                      track('answer_given');
+                      update((p) => ({
+                        ...p,
+                        asks: [...p.asks, ask],
+                        daily: p.daily ? { ...p.daily, done: true } : p.daily,
+                      }));
+                      setAnswer('');
+                      // Signed in, the engine learns from it too (who they are, and anything it changes).
+                      if (engine.on) void engine.act(() => engineApi.run({ kind: 'answer', q: ask.q, a: ask.a }));
+                      // Show back what this answer added to the picture, once Claude has read it.
+                      void relearn({ ...progress, asks: [...progress.asks, ask] }, routed, update).then(
+                        (newest) => {
+                          if (!newest) return;
+                          update((p) =>
+                            p.daily?.date === daily.date
+                              ? { ...p, daily: { ...p.daily, learned: [newest] } }
+                              : p,
+                          );
+                        },
+                      );
+                    }}
+                  >
+                    {copy.home.learnSave}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </section>
 
-      {live && live.ritual.status !== 'none' ? (
-        <section className={s.soon} aria-label={copy.days.title}>
-          <h2>{live.ritual.status === 'proposed' ? copy.days.proposedTitle : copy.days.title}</h2>
-          {live.ritual.status === 'accepted' ? (
-            <ul className={s.soonParts}>
-              {live.ritual.today.parts.slice(0, 3).map((p) => (
-                <li key={p.id}>{p.title}</li>
+        {lines.length ? (
+          <section className="d-standard-section" aria-label={learned.length ? copy.you.link : copy.home.idealDay}>
+            <h2 className="d-standard-section__label">{learned.length ? copy.app.standard.learned : copy.home.idealDay}</h2>
+            <ul className="d-learned-lines">
+              {lines.map((line) => (
+                <li key={line} className="d-learned-line">
+                  <DStar size="tiny" />
+                  <p>“{line.replace(/[.]$/, '')}.”</p>
+                </li>
               ))}
             </ul>
-          ) : (
-            <p>{copy.days.proposedLine}</p>
-          )}
-          <Link className={s.soonLink} href="/today">
-            {live.ritual.status === 'proposed' ? copy.days.accept : copy.days.title} →
-          </Link>
+            {learned.length ? (
+              <div className="d-standard-links">
+                {pictureLines.length > learned.length ? (
+                  <button type="button" className="d-see-all" aria-expanded={seeAll} onClick={() => setSeeAll((v) => !v)}>
+                    {seeAll ? copy.app.standard.showLess : copy.app.standard.seeAll} →
+                  </button>
+                ) : null}
+                {seeAll || pictureLines.length <= learned.length ? (
+                  <Link className="d-see-all d-see-all--quiet" href="/home/you">
+                    {copy.app.standard.change} →
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
+          </section>
+        ) : null}
+
+        <section className="d-standard-section" aria-label={copy.home.ritualsEyebrow}>
+          <div className="d-everything-header">
+            <h2 className="d-standard-section__label">{copy.app.standard.everything}</h2>
+            <span className="d-everything-meta">{copy.app.standard.meta(kept.length, money(total - back))}</span>
+          </div>
+          <ul className="d-everything-list">
+            {listed.map((r) => {
+              const badge = badgeOf(r);
+              const gone = shelfOf(r) === 'gone';
+              return (
+                <li key={r.stackItemId}>
+                  <Link className={`d-e-item${gone ? ' d-e-item--letgo' : ''}`} href={`/home/ritual/${r.stackItemId}`}>
+                    <span className="d-e-item__name">{r.name}</span>
+                    <span className="d-e-item__right">
+                      {r.monthlyCost > 0 ? <span className="d-e-item__cost">${money(r.monthlyCost)}</span> : null}
+                      <span className={`d-e-badge d-e-badge--${badge.tone}`}>{badge.label}</span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          {routed.items.length > 8 ? (
+            <button type="button" className="d-see-all" aria-expanded={showAll} onClick={() => setShowAll((v) => !v)}>
+              {showAll ? copy.app.standard.showLess : copy.app.standard.more(routed.items.length - 8)} →
+            </button>
+          ) : null}
+          {back > 0 ? <p className="d-money-back">{copy.app.standard.moneyBack(money(back))}</p> : null}
         </section>
-      ) : (
-        <section className={s.soon} aria-label={copy.home.soonTitle}>
-          <h2>{copy.home.soonTitle}</h2>
-          <p>{copy.home.soonLine}</p>
+
+        <section className="d-standard-section" aria-label={copy.home.noticingEyebrow}>
+          <h2 className="d-standard-section__label">{copy.home.noticingEyebrow}</h2>
+          <div className="d-next-card">
+            <p className="d-next-card__intro d-noticing">
+              {progress.dataSource ? copy.home.noticingEmpty : copy.home.noticingConnect}
+            </p>
+            {progress.dataSource ? null : (
+              <Link className="d-see-all" href="/connect">
+                {copy.home.connect} →
+              </Link>
+            )}
+          </div>
         </section>
-      )}
+
+        <section className="d-standard-section d-standard-section--next" aria-label={copy.app.standard.next}>
+          <h2 className="d-standard-section__label">{copy.app.standard.next}</h2>
+          <div className="d-next-card">
+            <p className="d-next-card__intro">{copy.app.standard.nextIntro}</p>
+            <div className="d-next-card__teaser">
+              <DStar size="small" />
+              <p>
+                {copy.app.standard.nextTeaser}
+                <br />
+                <em>{copy.app.standard.soon}</em>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
