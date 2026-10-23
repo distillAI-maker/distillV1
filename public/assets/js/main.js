@@ -52,14 +52,73 @@ const onScroll = () => {
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
+/* The feed's noise, once a visit: what people are sold piles up on ink until it's too much, then
+   blurs away and the hero settles. Any tap, key or scroll skips it. Never with motion off. */
+const NOISE = [
+  'AG1', 'Cold plunge', 'Mouth tape', '10,000 steps', 'Day 1 of 75', 'Red light', '5am club',
+  'Magnesium glycinate', 'Zone 2', 'Sea moss', 'Link in bio', 'Sleep tracking', "Lion's mane",
+  'Glucose spikes', 'Non-negotiable', 'Grounding mat', 'Creatine', 'What I eat in a day', 'Ice bath',
+  'Seed oils', 'My morning routine', 'Peptides', 'Game changer', 'Ashwagandha', 'Stop doing this',
+  'HRV', 'Collagen', 'Morning sunlight', 'Cortisol', 'Gut health', 'Fasted cardio', 'Nasal strips',
+  'Sleep stack', 'Blue light glasses', 'Protein goals', 'Cold showers', 'Breathwork', 'Walking pad',
+  'Biomarkers', 'Sauna',
+];
+
+function playNoise(then) {
+  const layer = $('[data-noise]');
+  let seen = false;
+  try { seen = sessionStorage.getItem('distill-noise') === '1'; } catch {}
+  if (!layer || (seen && !/[?&]noise=1/.test(location.search))) return then();
+  try { sessionStorage.setItem('distill-noise', '1'); } catch {}
+  const frac = n => n - Math.floor(n);
+  const cols = innerWidth > 760 ? 5 : 3;
+  const rows = Math.ceil(NOISE.length / cols);
+  const words = NOISE.map((text, i) => {
+    const cell = (i * 13) % (rows * cols);
+    const row = Math.floor(cell / cols);
+    const col = cell % cols;
+    const el = document.createElement('span');
+    el.textContent = text;
+    el.className = i % 7 === 0 ? 'n-lg' : i % 3 === 0 ? 'n-tag' : i % 2 === 0 ? 'n-md' : 'n-sm';
+    const w = 100 / cols;
+    el.style.setProperty('--x', `${w * (col + .5) + (frac(i * .754) - .5) * w}%`);
+    el.style.setProperty('--y', `${5 + (row + .5) * (88 / rows) + (frac(i * .618) - .5) * 4}%`);
+    el.dataset.o = String(.2 + frac(i * .7548) * .45);
+    layer.append(el);
+    return el;
+  });
+  layer.classList.add('is-on');
+  gsap.set(nav, { opacity: 0 });
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    removeEventListener('wheel', skip);
+    removeEventListener('keydown', skip);
+    removeEventListener('touchmove', skip);
+    layer.remove();
+    then();
+  };
+  const tl = gsap.timeline({ onComplete: finish })
+    .to(words, { opacity: i => words[i].dataset.o, filter: 'blur(0px)', duration: .6, stagger: .055, startAt: { filter: 'blur(6px)' } })
+    .to({}, { duration: .5 })
+    .to(words, { filter: 'blur(12px)', opacity: 0, duration: .9, ease: 'power2.in' })
+    .to(layer, { opacity: 0, duration: .9, ease: 'power2.out' }, '<.25');
+  const skip = () => tl.timeScale(6);
+  layer.addEventListener('click', skip);
+  addEventListener('wheel', skip, { passive: true });
+  addEventListener('keydown', skip);
+  addEventListener('touchmove', skip, { passive: true });
+}
+
 if (motion) {
-  /* hero: the image settles, the line rises, the rest follows */
+  /* hero: the noise first (once a visit), then the image settles, the line rises, the rest follows */
   const heroImg = $('.hero__img img');
-  gsap.timeline({ delay: .05 })
+  playNoise(() => gsap.timeline({ delay: .05 })
     .fromTo(heroImg, { scale: 1.12 }, { scale: 1, duration: 2.6 }, 0)
     .to('.hero__title .ln > span', { y: 0, duration: 1.4, stagger: .12 }, .25)
     .to('[data-hero-in]', { opacity: 1, duration: 1.2, stagger: .1 }, .6)
-    .from(nav, { opacity: 0, duration: 1 }, .4);
+    .fromTo(nav, { opacity: 0 }, { opacity: 1, duration: 1 }, .4));
   gsap.to(heroImg, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
 
   /* headings rise out of their own lines, then go back to plain text so they reflow freely */
