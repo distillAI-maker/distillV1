@@ -8,7 +8,6 @@ import { engineApi, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
 import type { Progress } from '../../../lib/progress/types';
-import s from './home.module.css';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -41,7 +40,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     if (d.status !== 'proposed')
       return (
         <>
-          <p className={s.eyebrow}>{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
+          <p className="d-sr">{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
           <h2>
             {d.status === 'yes' && d.kind === 'clear'
               ? copy.decide.letGone(money(d.money))
@@ -51,7 +50,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
                   ? copy.decide.later
                   : copy.decide.thanks}
           </h2>
-          <p className={s.done}>{copy.home.doneToday}</p>
+          <p className="d-one-thing-done">{copy.home.doneToday}</p>
         </>
       );
     const answer = (choice: 'yes' | 'not-now' | 'theirs') => {
@@ -71,20 +70,20 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     };
     return (
       <>
-        <p className={s.eyebrow}>{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
+        <p className="d-sr">{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
         <h2>{nameOf(d.stackItemId) || copy.home.todayEyebrow}</h2>
         <p>{d.line}</p>
-        <div className={s.actions}>
-          <button type="button" className={s.primary} disabled={busy} onClick={() => answer('yes')}>
+        <div className="d-one-thing-actions">
+          <button type="button" className="d-one-thing-btn d-one-thing-btn--go" disabled={busy} onClick={() => answer('yes')}>
             {copy.decide.yes[kind] ?? copy.decide.yes.keep}
           </button>
           {kind === 'clear' || kind === 'adjust' || kind === 'curate' ? (
-            <button type="button" className={s.secondary} disabled={busy} onClick={() => answer('not-now')}>
+            <button type="button" className="d-one-thing-btn" disabled={busy} onClick={() => answer('not-now')}>
               {copy.decide.notNow}
             </button>
           ) : null}
           {kind === 'clear' ? (
-            <button type="button" className={s.secondary} disabled={busy} onClick={() => answer('theirs')}>
+            <button type="button" className="d-one-thing-btn d-one-thing-btn--mine" disabled={busy} onClick={() => answer('theirs')}>
               {copy.decide.mine}
             </button>
           ) : null}
@@ -98,9 +97,9 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     if (!q)
       return (
         <>
-          <p className={s.eyebrow}>{copy.decide.eyebrow.question}</p>
+          <p className="d-sr">{copy.decide.eyebrow.question}</p>
           <h2>{copy.decide.thanks}</h2>
-          <p className={s.done}>{copy.home.doneToday}</p>
+          <p className="d-one-thing-done">{copy.home.doneToday}</p>
         </>
       );
     const pick = (option: QuestionOption) => {
@@ -121,14 +120,14 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     };
     return (
       <>
-        <p className={s.eyebrow}>{copy.decide.eyebrow.question}</p>
+        <p className="d-sr">{copy.decide.eyebrow.question}</p>
         <h2>{q.text}</h2>
-        <div className={s.actions}>
+        <div className="d-one-thing-actions">
           {q.options.map((o, i) => (
             <button
               key={o.label}
               type="button"
-              className={i === 0 ? s.primary : s.secondary}
+              className={`d-one-thing-btn${i === 0 ? ' d-one-thing-btn--go' : ''}`}
               disabled={busy}
               onClick={() => pick(o)}
             >
@@ -145,20 +144,20 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     if (options)
       return (
         <>
-          <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
+          <p className="d-sr">{copy.home.todayEyebrow}</p>
           {last?.reply ? <h2>{last.reply}</h2> : null}
-          <ul className={s.ideas}>
+          <ul className="d-one-ideas">
             {options.map((o) => (
               <li key={o.ideaId}>
                 <strong>{o.title}</strong>
                 <p>{o.why}</p>
                 {answered[o.ideaId] ? (
-                  <p className={s.done}>{answered[o.ideaId] === 'add' ? copy.explore.added : copy.explore.declined}</p>
+                  <p className="d-one-thing-done">{answered[o.ideaId] === 'add' ? copy.explore.added : copy.explore.declined}</p>
                 ) : (
-                  <div className={s.actions}>
+                  <div className="d-one-thing-actions">
                     <button
                       type="button"
-                      className={s.primary}
+                      className="d-one-thing-btn d-one-thing-btn--go"
                       disabled={busy}
                       onClick={async () => {
                         const r = await act(() => engineApi.exploreAnswer(o.ideaId, 'add'));
@@ -169,7 +168,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
                     </button>
                     <button
                       type="button"
-                      className={s.secondary}
+                      className="d-one-thing-btn"
                       disabled={busy}
                       onClick={async () => {
                         const r = await act(() => engineApi.exploreAnswer(o.ideaId, 'decline'));
@@ -178,7 +177,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
                     >
                       {copy.explore.no}
                     </button>
-                    <a className={s.link} href={o.url} target="_blank" rel="noopener noreferrer">
+                    <a className="d-see-all" href={o.url} target="_blank" rel="noopener noreferrer">
                       {copy.explore.open}
                     </a>
                   </div>
@@ -190,11 +189,11 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
       );
     return (
       <>
-        <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
+        <p className="d-sr">{copy.home.todayEyebrow}</p>
         <h2>{copy.explore.ask}</h2>
         <p>{copy.explore.line}</p>
         <form
-          className={`${s.other} ${s.otherStack}`}
+          className="d-one-other d-one-other--stack"
           onSubmit={(e) => {
             e.preventDefault();
             if (want.trim()) void act(() => engineApi.explore(want.trim(), region.trim() || undefined));
@@ -214,7 +213,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
             value={region}
             onChange={(e) => setRegion(e.target.value)}
           />
-          <button type="submit" className={s.secondary} disabled={busy || !want.trim()}>
+          <button type="submit" className="d-one-thing-btn" disabled={busy || !want.trim()}>
             {copy.explore.go}
           </button>
         </form>
@@ -224,7 +223,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
 
   return (
     <>
-      <p className={s.eyebrow}>{copy.home.todayEyebrow}</p>
+      <p className="d-sr">{copy.home.todayEyebrow}</p>
       <h2>{copy.home.nothingTitle}</h2>
       <p>{copy.home.nothingLine}</p>
     </>

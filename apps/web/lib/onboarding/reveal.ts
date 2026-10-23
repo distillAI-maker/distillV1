@@ -1,5 +1,6 @@
 import type { RitualPart } from '@distill/engine/ritual';
 import { copy } from '../copy';
+import { timeColumn, whyLine, type TimeColumn } from '../ritual-lines';
 
 /**
  * The reveal (step 6), as data: their first Ritual as a card a moment, and what the engine's
@@ -74,45 +75,26 @@ export function revealNotes(
   };
 }
 
-export interface CardRow {
+export interface SheetRow {
   readonly id: string;
   readonly title: string;
-  /** "Yours · Well-founded", or empty. */
-  readonly meta: string;
+  readonly time: TimeColumn;
+  /** "Yours. Well-founded.", Claude's reason, or empty. */
+  readonly why: string;
+  readonly yours: boolean;
 }
 
-export interface MomentCard {
+export interface SheetSection {
   readonly key: 'morning' | 'day' | 'night';
   readonly label: string;
-  readonly title: string;
-  readonly rows: readonly CardRow[];
+  readonly rows: readonly SheetRow[];
 }
 
-const weekendOnly = (p: RitualPart) => p.when.days.length > 0 && p.when.days.every((d) => d === 'sat' || d === 'sun');
-
-function clock(at: string): string {
-  const [h = 0, m = 0] = at.split(':').map(Number);
-  const hour = h % 12 || 12;
-  return `${hour}${m ? `:${String(m).padStart(2, '0')}` : ''}${h < 12 ? 'am' : 'pm'}`;
-}
-
-function metaOf(p: RitualPart, wellFounded: ReadonlySet<string>): string {
-  const item = p.source.kind === 'stack' ? p.source.stackItemId : null;
-  const bits = [
-    p.lock === 'theirs' ? copy.reveal.yours : null,
-    item && wellFounded.has(item) ? copy.reveal.wellFounded : null,
-    p.when.at ? clock(p.when.at) : null,
-    p.when.perWeek && !p.when.days.length ? copy.reveal.perWeek(p.when.perWeek) : null,
-    weekendOnly(p) ? copy.reveal.weekends : null,
-  ];
-  return bits.filter(Boolean).join(' · ');
-}
-
-/** Their morning, day and evening as the brand board's cabinet cards: a numbered row a part. */
-export function momentCards(parts: readonly RitualPart[], wellFounded: readonly string[] = []): MomentCard[] {
+/** Their first Ritual as the Figma sheet draws it: morning, day and evening, a row a part. */
+export function ritualSections(parts: readonly RitualPart[], wellFounded: readonly string[] = []): SheetSection[] {
   const founded = new Set(wellFounded);
   const active = [...parts].filter((p) => p.status === 'active').sort((a, b) => a.order - b.order);
-  const groups: [MomentCard['key'], RitualPart[]][] = [
+  const groups: [SheetSection['key'], RitualPart[]][] = [
     ['morning', active.filter((p) => p.when.slot === 'morning')],
     ['day', active.filter((p) => p.when.slot === 'midday')],
     ['night', active.filter((p) => p.when.slot === 'evening' || p.when.slot === 'night')],
@@ -121,8 +103,17 @@ export function momentCards(parts: readonly RitualPart[], wellFounded: readonly 
     .filter(([, ps]) => ps.length)
     .map(([key, ps]) => ({
       key,
-      ...copy.reveal.cards[key],
-      rows: ps.map((p) => ({ id: p.id, title: p.title, meta: metaOf(p, founded) })),
+      label: copy.app.ritual.sections[key],
+      rows: ps.map((p) => {
+        const item = p.source.kind === 'stack' ? p.source.stackItemId : null;
+        return {
+          id: p.id,
+          title: p.title,
+          time: timeColumn(p.when),
+          why: whyLine(p, { yours: true, founded: !!item && founded.has(item) }),
+          yours: p.lock === 'theirs',
+        };
+      }),
     }));
 }
 

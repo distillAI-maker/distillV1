@@ -1,6 +1,6 @@
 import type { RitualPart } from '@distill/engine/ritual';
 import { describe, expect, it } from 'vitest';
-import { alwaysYours, momentCards, revealNotes, type RevealDecision } from './reveal';
+import { alwaysYours, revealNotes, ritualSections, type RevealDecision } from './reveal';
 
 const keep = (id: string, name: string, reason: string, tier?: string): RevealDecision => ({
   stackItemId: id,
@@ -67,21 +67,39 @@ const part = (id: string, title: string, slot: RitualPart['when']['slot'], over:
   }) as RitualPart;
 
 describe('the reveal lines', () => {
-  it('draws a card a moment, a row a part, with whose, how well-founded and when in a short line', () => {
-    const cards = momentCards([
-      part('a', 'Creatine', 'morning', {}, 0),
-      { ...part('c', 'Gym', 'morning', { days: [], perWeek: 3 }, 1), lock: 'theirs' } as RitualPart,
-      part('f', 'Long run', 'morning', { days: ['sat'], at: '07:30' }, 2),
-      part('d', 'Walk at lunch', 'midday', {}, 3),
-      part('e', 'Journaling', 'night', {}, 4),
+  it('draws a section a moment, a row a part, with a time column and a short line on whose and how well-founded', () => {
+    const sections = ritualSections([
+      part('a', 'Creatine', 'morning', { at: '07:00' }, 0),
+      { ...part('c', 'Gym', 'morning', { days: [], perWeek: 3 }, 1), lock: 'theirs', minutes: 45 } as RitualPart,
+      part('f', 'Long run', 'morning', { days: ['sat', 'sun'] }, 2),
+      part('d', 'Walk at lunch', 'midday', { days: ['mon', 'tue', 'wed', 'thu', 'fri'] }, 3),
+      { ...part('e', 'Magnesium', 'night', { at: '21:00' }, 4), why: 'Part of your days as they are.' } as RitualPart,
+      { ...part('h', 'Reading', 'night', {}, 5), why: 'Twenty pages, phone in the other room.' } as RitualPart,
       { ...part('g', 'Gone', 'evening'), status: 'removed' } as RitualPart,
     ], ['a']);
-    expect(cards.map((c) => [c.key, c.title, c.rows.map((r) => [r.title, r.meta])])).toEqual([
-      ['morning', 'Begin with yourself.', [['Creatine', 'Well-founded'], ['Gym', 'Yours · 3 times a week'], ['Long run', '7:30am · Weekends']]],
-      ['day', 'Through the day.', [['Walk at lunch', '']]],
-      ['night', 'Close the day.', [['Journaling', '']]],
+    expect(
+      sections.map((c) => [c.key, c.label, c.rows.map((r) => [r.title, r.time.lines.join(' '), r.why, r.yours])]),
+    ).toEqual([
+      [
+        'morning',
+        'Morning',
+        [
+          ['Creatine', '7:00', 'Well-founded.', false],
+          ['Gym', '3× a week', 'Yours.', true],
+          ['Long run', 'Sat Sun', '', false],
+        ],
+      ],
+      ['day', 'Day', [['Walk at lunch', 'Mon–Fri', '', false]]],
+      [
+        'night',
+        'Evening',
+        [
+          ['Magnesium', '9:00 pm', '', false],
+          ['Reading', 'Daily', 'Twenty pages, phone in the other room.', false],
+        ],
+      ],
     ]);
-    expect(momentCards([])).toEqual([]);
+    expect(ritualSections([])).toEqual([]);
   });
 
   it('keeps what they would never give up, unless Claude already made it part of their Ritual', () => {
