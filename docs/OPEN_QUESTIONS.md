@@ -138,7 +138,7 @@ The engine from Veer's build plan, built on `ritual-engine` ([ENGINE.md](ENGINE.
 | ID | Decision or question |
 | --- | --- |
 | ENGINE_DEVIATIONS | ENGINE.md lists 18 places the build differs from the plan (staged decide, tier U, explicit "borrowed", stored day edits, the 40-pair A/B, conditions from plain words, and more). Veer to keep or reverse each. |
-| V4_LIVE | No V4 row is live yet. Until Ishan reviews them, people get V3 rows as unknown evidence, so Distill only proposes letting go of unused things and overlaps. The golden set finds 27% of the clears it should with Claude off; most of the gap is rows V4 doesn't cover yet. |
+| V4_LIVE | Decided by Veer, 23 October: all 156 reviewed V4 rows are live, signed by Veer (`set_live.py --by Veer --all`); Ishan's sign-off is not required. Before this, no V4 row was live, so the live app read V3 rows as unknown evidence and proposed letting go of almost nothing. |
 | TIER_D_MEANING | Research used D both for "mechanism or anecdote only" (the Read me's definition) and for "tested properly, found little". Widen D's definition, or add a tier for well-tested nulls. |
 | PHONE_IN_BED | The phone-in-bed row is graded on its benefit (D) while its clear code (UNLOVED_HABIT) reads it as a cost. One reading should win. |
 | VAPE_FOR_CIGARETTES | A vape that replaced cigarettes should never be proposed for letting go. There's no condition for it, so for now it's the row's human question ("Did it replace cigarettes, or start on its own?"). |

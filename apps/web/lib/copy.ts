@@ -963,6 +963,23 @@ export const copy = {
     added: 'Added to your week.',
     declined: "Noted. We won't show it again.",
   },
+  /** "What's on your list?" on the landing page, answered by the app's engine (src/server/try.ts). */
+  landingTry: {
+    why: {
+      BORROWED_WEAK: 'From a feed, and the evidence is thin',
+      overlap: (keeper: string) => `Your ${keeper.replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase())} already does this`,
+      UNUSED: 'Not being used',
+      DOSE_BELOW_MIN: 'The dose is below what studies used',
+      FORM_NOT_ABSORBED: 'This form barely absorbs',
+      UNLOVED_HABIT: "A habit you don't enjoy",
+      NOT_TRAINING: 'Not doing real work for your training',
+      TOO_MANY_STEPS: 'More steps than it needs',
+      fallback: 'Not doing much for you',
+      look: 'No independent evidence',
+      dose: 'Worth keeping, at a different dose',
+      form: 'Worth keeping, in a different form',
+    },
+  },
   /** The app's frame and the Ritual sheet, from Veer's Figma Make design. */
   app: {
     tabs: { today: 'Today', companion: 'Distill', home: 'Standard', settings: 'Settings' },
