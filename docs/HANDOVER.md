@@ -67,15 +67,15 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 
 ## 6. What is built (22 October)
 
-- **Landing page** in the new brand system, centred on the personal Ritual, with the "What's on your list?" try-it and the Founding 100 form (#16).
-- **App** in the brand system (#17): onboarding (name → tap everything you do → their ideal day → the number: count and monthly cost → invitation with email → connect a wearable or skip), **Your Standard** home with the daily painting, **Today** (today's Ritual), the **companion thread** (text in, reshape out), Settings. Signed-out people can use it all on the phone; sign-in carries their progress into an account (#15, #20).
+- **Landing page** in the new brand system (#16, #26, #30), opening on the noise ("There's so much noise."). Its "What's on your list?" runs on the app's engine through `POST /api/try` (#31), so it always agrees with the app; the Founding 100 form takes an email and says "You're in".
+- **App** in the brand system (#17), restyled from Veer's Figma Make design on 23 October (#25, #27, #28): onboarding (the noise opener → name → tap everything you do → the number: count and monthly cost → the private study, seven quick questions → their first Ritual, "Your Ritual." → invitation with email → connect a wearable or skip), four tabs (Today, Distill, Standard, Settings), **Your Standard** home with the daily painting, **Today** (today's Ritual), the **companion thread** (text in, reshape out), Settings. Signed-out people can use it all on the phone; sign-in carries their progress into an account (#15, #20).
 - **The engine** (#19), built from the build plan. One function, `engine.run(person, event)`, for every event (onboarding, stack change, note, answer, message, night, check-off, edit, decision answer). Rules decide what is cleared, kept and placed; Claude words things and proposes edits; code checks every edit; everything is logged for later ML. Full map in `docs/ENGINE.md`.
-- **Routing table V4** (`data/Routing-Table_V4.xlsx` → `data/catalog-v4.json`): 50 rows with sources, evidence tiers A to N with a direction (alcohol's A is evidence of a cost), dose rules, overlaps, safety, and Eat / Move / Mind / Sleep / Skin. **All 50 are `reviewed` (drafted by Claude from opened sources); none is `live` yet.** Rows outside the 50 fall back to V3 as unknown evidence (they never protect or clear).
+- **Routing table V4** (`data/Routing-Table_V4.xlsx` → `data/catalog-v4.json`): 50 rows with sources, evidence tiers A to N with a direction (alcohol's A is evidence of a cost), dose rules, overlaps, safety, and Eat / Move / Mind / Sleep / Skin. Now 156 rows. **All 156 are `live`, signed off by Veer on 23 October** (his decision: Ishan's sign-off isn't required). Rows outside V4 fall back to V3 as unknown evidence (they never protect or clear).
 - **Explore bank** (`data/explore-bank.json`): 60 ideas; **none certified yet**. Only certified ideas are ever shown.
 - **Evaluation:** 41 golden people (`eval/people/`: 8 companion examples, 32 drafted by Claude, Veer as `veer-00`), hard gates in `pnpm check`, Claude runs and an Opus judge with planted bad outputs (`pnpm eval:engine`), blind A/B (`pnpm eval:ab`). Rules-only today: all pass every gate; the engine finds 27% of the clears a careful friend would propose (most misses are rows outside the 50).
 - **Open PR #21** (Claude's first Ritual and reshapes now land instead of falling back to rules lines): https://github.com/distillAI-maker/distillV1/pull/21. Ishan to review. It adds `pnpm ritual:show <ids> [--claude]`, which prints a person's first Ritual, what Distill proposed, every reply and why any Claude step fell back. Veer's own result with Claude on: creatine with breakfast, meditation daily, sport with friends at 4, wine nights with friends at 7, wind-down at 10; "out late with the team tonight" → "Saturday starts slow: sleep in, then your morning meditation, creatine and vitamin C whenever you're up."
 
-**Not live yet in production:** the engine's tables (migration not applied), four server settings on Vercel, Claude (`ENGINE_CLAUDE` off), any V4 row, any explore idea. Until the settings exist, signed-in screens that call `/api/app/*` answer 503. See priority 1.
+**Not live yet in production:** the engine's tables (migration not applied), four server settings on Vercel, Claude (`ENGINE_CLAUDE` off), any explore idea. Until the settings exist, signed-in screens that call `/api/app/*` answer 503. See priority 1.
 
 ## 7. Decisions already made (do not re-open without Veer)
 
@@ -110,7 +110,7 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 
 **2. Make the engine's judgement trustworthy. Owner: Ishan. Next two weeks.**
 - Review and merge #21.
-- Set the 50 V4 rows `live` with the checklist in `docs/ROUTING-V4.md`.
+- ~~Set the V4 rows `live`~~: done 23 October, all 156, signed by Veer.
 - Fix the follow-ups in #21: supplements should ride along with breakfast instead of taking one of the three day-one morning places; ask how often (a question card) instead of guessing "once a week".
 - When the credit allows, run `pnpm eval:engine --claude --judge --yes` (about $15) and fix what it finds; then the next V4 batch from the report's "Missed clears".
 - **Done when:** all golden people pass every gate with Claude on and the judge averages 4 or more of 5.
@@ -147,7 +147,7 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 ## 10. Known issues and open items
 
 - Production settings and migration (priority 1).
-- V4: 0 of 50 live; 160 rows still on V3; 93 V3 rows were never fact-checked.
+- V4: all 156 rows live (23 October); the rest of the catalog is still on V3, and 93 V3 rows were never fact-checked.
 - Day-one Rituals cap each moment at three parts; supplements compete for those places (in #21's follow-ups).
 - Unknown frequencies are guessed as "once a week" when their ideal day doesn't mention the thing.
 - The old landing-page test copy is gone; `docs/DIRECTION.md`'s "Look" section (gallery white, gold, Switzer) is superseded by the brand board.
