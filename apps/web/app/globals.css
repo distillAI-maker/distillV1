@@ -2945,61 +2945,82 @@ body[data-ground='paper'] .obar {
   border-radius: var(--r-card);
 }
 
-/* Step 4, you at your best: this-or-that rows, one tap each. Square tiles, persimmon when chosen. */
+/* Steps 4 to 6, on the brand board's objects: tiny spaced-caps eyebrows, numbered hairline rows,
+   serif words, italic closing lines. Persimmon only marks what they chose. */
+.eyebrow-ink,
+.eyebrow-faint {
+  margin: 0;
+  font: 600 10px/1.4 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.eyebrow-faint {
+  color: var(--faint);
+  letter-spacing: 0.16em;
+}
+
+/* Step 4: you at your best. Each this-or-that is a numbered row; the pick is underlined in persimmon. */
 .screen-best .tot-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--rule-2);
 }
 .screen-best .tot {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  border-top: 1px solid var(--rule-2);
 }
-.screen-best .tot-cell {
-  position: relative;
+.screen-best .tot-n {
+  font: 500 10px var(--sans);
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+.screen-best .tot-pair {
   display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  align-items: center;
 }
 .screen-best .tot-or {
-  position: absolute;
-  left: -4px;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  padding: 2px 4px;
-  background: var(--bg);
-  font: italic 300 14px/1 var(--serif);
+  text-align: center;
+  font: italic 300 15px/1 var(--serif);
   color: var(--faint);
-  pointer-events: none;
 }
 .screen-best .tot-opt {
-  min-height: 58px;
-  padding: 10px 14px;
-  border: 1px solid var(--rule-2);
-  border-radius: var(--r-ctl);
+  min-height: 62px;
+  padding: 0;
+  border: 0;
   background: transparent;
-  color: var(--ink);
+  text-align: left;
+  white-space: nowrap;
   font: 300 19px/1.15 var(--serif);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  color: var(--ink);
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  text-decoration: underline 1.5px transparent;
+  text-underline-offset: 7px;
   transition:
-    background-color calc(0.2s * var(--motion)) ease,
-    border-color calc(0.2s * var(--motion)) ease;
+    color calc(0.25s * var(--motion)) ease,
+    text-decoration-color calc(0.25s * var(--motion)) ease;
 }
-.screen-best .tot-opt:active {
-  background: var(--surface);
+.screen-best .tot-opt:last-child {
+  text-align: right;
+}
+.screen-best .tot-picked .tot-opt {
+  color: var(--faint);
 }
 .screen-best .tot-opt[aria-checked='true'] {
-  background: var(--spark);
-  border-color: var(--spark);
-  color: #11191b;
+  color: var(--ink);
   font-weight: 400;
+  text-decoration-color: var(--spark);
 }
 .screen-best .becoming {
-  margin-top: 12px;
-  gap: 12px;
+  margin-top: 20px;
+  gap: 14px;
 }
 .screen-best .becoming-head {
   display: flex;
@@ -3009,38 +3030,35 @@ body[data-ground='paper'] .obar {
   flex-wrap: wrap;
 }
 .screen-best .becoming-head h2 {
-  font-size: clamp(26px, 7vw, 32px);
+  font-size: clamp(26px, 7vw, 30px);
 }
-.screen-best .becoming-hint {
-  font-size: 14px;
-  color: var(--faint);
-}
+/* Chips at the board's size. */
 .screen-best .chip,
 .screen-yours .chip {
-  min-height: 40px;
+  min-height: 38px;
   padding: 0 14px;
-  font-size: 14px;
+  font-size: 13px;
 }
 .chip.chip-full {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 .own-line,
 .add-own {
   display: grid;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 4px;
+  margin-top: 10px;
 }
 .own-line input,
 .add-own input {
   width: 100%;
   min-width: 0;
   min-height: 48px;
-  padding: 10px 0;
+  padding: 8px 0;
   border: 0;
   border-bottom: 1px solid var(--rule-2);
   border-radius: 0;
   background: transparent;
-  font: 300 19px var(--serif);
+  font: 300 20px var(--serif);
   color: var(--ink);
 }
 .own-line input:focus,
@@ -3054,10 +3072,10 @@ body[data-ground='paper'] .obar {
   font-style: italic;
 }
 
-/* Step 5, what makes you, you. */
+/* Step 5: what makes you, you. */
 .screen-yours .yours-group {
-  margin-top: 8px;
-  gap: 10px;
+  margin-top: 10px;
+  gap: 12px;
 }
 .add-own {
   grid-template-columns: 1fr auto;
@@ -3065,14 +3083,14 @@ body[data-ground='paper'] .obar {
   gap: 12px;
 }
 .add-own-btn {
-  min-height: 40px;
-  padding: 0 4px;
+  min-height: 44px;
+  padding: 0 2px;
   border: 0;
   background: transparent;
-  font: 600 11px var(--sans);
+  font: 600 10px var(--sans);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--ink);
   cursor: pointer;
 }
 .add-own-btn:disabled {
@@ -3080,57 +3098,145 @@ body[data-ground='paper'] .obar {
   cursor: default;
 }
 
-/* Step 6, the reveal: who you are at your best, then the Ritual on parchment, a line a moment. */
-.screen-reveal .reveal-best {
+/* Step 6: the reveal, as the board's cabinet. A linen morning card, an ink evening card. */
+.screen-reveal {
   display: grid;
-  gap: 6px;
+  gap: 28px;
 }
-.screen-reveal .reveal-best-line {
-  font: 300 22px/1.3 var(--serif);
+.reveal-head {
+  display: grid;
+  gap: 22px;
+}
+.reveal-best {
+  display: grid;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-2);
+}
+.reveal-best-line {
+  font: 300 23px/1.25 var(--serif);
+  letter-spacing: -0.015em;
+}
+.reveal-toward {
+  font: italic 300 23px/1.25 var(--serif);
+  letter-spacing: -0.015em;
+  color: var(--ochre);
+}
+.cabinet {
+  display: grid;
+  gap: 14px;
+}
+.cab-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px 22px 20px;
+  background: var(--surface);
+  color: var(--ink);
+  animation: rise calc(0.8s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.cab-card + .cab-card {
+  animation-delay: calc(0.18s * var(--motion));
+}
+.cab-card.night {
+  background: var(--bg);
+}
+.cab-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cab-mark {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--ochre);
+  border-radius: 50%;
+}
+.cab-mark-day {
+  background: radial-gradient(circle, var(--ochre) 0 3px, transparent 3.5px);
+}
+.cab-mark-night {
+  background: linear-gradient(90deg, transparent 50%, var(--ochre) 50%);
+}
+.cab-head {
+  margin: 10px 0 6px;
+  font: 400 clamp(32px, 9vw, 38px) / 1 var(--serif);
+  letter-spacing: -0.035em;
+}
+.cab-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cab-row {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 0 10px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-top: 1px solid var(--rule-2);
+}
+.cab-n {
+  font: 500 9px var(--sans);
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+.cab-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.cab-title {
+  font: 400 18px/1.25 var(--serif);
+  letter-spacing: -0.01em;
+}
+.cab-meta {
+  font: 400 12px/1.35 var(--sans);
+  color: var(--muted);
+}
+.cab-ring {
+  align-self: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.cab-close {
+  margin-top: 2px;
+  font: italic 300 16px/1.3 var(--serif);
+  color: var(--muted);
+}
+.reveal-block {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  animation: rise calc(0.8s * var(--motion) + 0.001s) calc(0.4s * var(--motion)) var(--ease-out) both;
+}
+.reveal-always {
+  font: italic 300 22px/1.3 var(--serif);
   letter-spacing: -0.01em;
   color: var(--walnut);
 }
-.screen-reveal .reveal-card {
-  display: grid;
-  background: var(--paper);
-  padding: 4px 20px;
-  animation: rise calc(0.8s * var(--motion) + 0.001s) var(--ease-out) both;
+.reveal-clean {
+  gap: 6px;
+  padding: 18px 0;
+  border-block: 1px solid var(--rule-2);
 }
-.screen-reveal .reveal-row {
-  display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: 12px;
-  align-items: baseline;
-  padding: 16px 0;
-  border-top: 1px solid var(--rule);
+.reveal-verdict {
+  font: italic 300 34px/1 var(--serif);
+  letter-spacing: -0.035em;
+  color: var(--ochre);
 }
-.screen-reveal .reveal-row:first-child {
-  border-top: 0;
+.reveal-small {
+  font: 400 14px/1.5 var(--sans);
+  color: var(--muted);
 }
-.screen-reveal .reveal-shaped .reveal-row {
-  animation: rise calc(0.6s * var(--motion) + 0.001s) var(--ease-out) both;
-}
-.screen-reveal .reveal-label {
-  font: 600 10px/1.6 var(--sans);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted-on-paper);
-}
-.screen-reveal .reveal-row p {
-  font: 300 19px/1.35 var(--serif);
-  color: var(--on-paper);
-}
-.screen-reveal .reveal-always p {
-  font-style: italic;
-}
-.screen-reveal .reveal-empty,
-.screen-reveal .reveal-shaping {
-  padding: 16px 0;
+.reveal-empty,
+.reveal-shaping {
   font: italic 300 16px var(--serif);
-  color: var(--muted-on-paper);
+  color: var(--muted);
 }
-.screen-reveal .reveal-shaping {
-  border-top: 1px solid var(--rule);
+.reveal-shaping {
   animation: breathe calc(1.6s * var(--motion) + 0.001s) ease-in-out infinite alternate;
 }
 @keyframes breathe {
@@ -3141,29 +3247,9 @@ body[data-ground='paper'] .obar {
     opacity: 1;
   }
 }
-.screen-reveal .reveal-notes {
-  display: grid;
-  gap: 6px;
-}
-.screen-reveal .reveal-notes p:not(.goals-label),
-.screen-reveal .reveal-clean,
-.screen-reveal .reveal-look {
-  font: 300 18px/1.4 var(--serif);
-}
-.screen-reveal .reveal-clean strong {
-  font-weight: 400;
-  color: var(--ochre);
-}
-.screen-reveal .reveal-look {
-  color: var(--muted);
-}
-.screen-reveal .reveal-moves {
-  font: italic 300 17px/1.4 var(--serif);
-  color: var(--accent);
-}
-/* What the decisions say arrives just after the Ritual itself. */
-.screen-reveal .reveal-notes,
-.screen-reveal .reveal-clean,
-.screen-reveal .reveal-look {
-  animation: rise calc(0.8s * var(--motion) + 0.001s) calc(0.5s * var(--motion)) var(--ease-out) both;
+.reveal-moves {
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-2);
+  font: italic 300 19px/1.4 var(--serif);
+  color: var(--ink);
 }

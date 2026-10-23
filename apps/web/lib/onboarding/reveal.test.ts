@@ -1,6 +1,6 @@
 import type { RitualPart } from '@distill/engine/ritual';
 import { describe, expect, it } from 'vitest';
-import { alwaysYours, momentLines, revealNotes, type RevealDecision } from './reveal';
+import { alwaysYours, momentCards, revealNotes, type RevealDecision } from './reveal';
 
 const keep = (id: string, name: string, reason: string, tier?: string): RevealDecision => ({
   stackItemId: id,
@@ -67,23 +67,21 @@ const part = (id: string, title: string, slot: RitualPart['when']['slot'], over:
   }) as RitualPart;
 
 describe('the reveal lines', () => {
-  it('gives a line a moment: morning, day, evening, and the weekend when something is weekend-only', () => {
-    const lines = momentLines([
+  it('draws a card a moment, a row a part, with when and whose in a short line', () => {
+    const cards = momentCards([
       part('a', 'Creatine', 'morning', {}, 0),
-      part('b', 'Vitamin D', 'morning', {}, 1),
-      part('c', 'Gym', 'morning', { days: [], perWeek: 3 }, 2),
+      { ...part('c', 'Gym', 'morning', { days: [], perWeek: 3 }, 1), lock: 'theirs' } as RitualPart,
+      part('f', 'Long run', 'morning', { days: ['sat'], at: '07:30' }, 2),
       part('d', 'Walk at lunch', 'midday', {}, 3),
       part('e', 'Journaling', 'night', {}, 4),
-      part('f', 'Long run', 'morning', { days: ['sat'] }, 5),
       { ...part('g', 'Gone', 'evening'), status: 'removed' } as RitualPart,
     ]);
-    expect(lines).toEqual([
-      { key: 'morning', label: 'Morning', text: 'Creatine, vitamin D and gym 3 times a week.' },
-      { key: 'day', label: 'Day', text: 'Walk at lunch.' },
-      { key: 'evening', label: 'Evening', text: 'Journaling.' },
-      { key: 'weekend', label: 'Weekend', text: 'Long run.' },
+    expect(cards.map((c) => [c.key, c.title, c.rows.map((r) => [r.title, r.meta])])).toEqual([
+      ['morning', 'Begin with yourself.', [['Creatine', ''], ['Gym', 'Yours · 3 times a week'], ['Long run', '7:30am · Weekends']]],
+      ['day', 'Through the day.', [['Walk at lunch', '']]],
+      ['night', 'Close the day.', [['Journaling', '']]],
     ]);
-    expect(momentLines([])).toEqual([]);
+    expect(momentCards([])).toEqual([]);
   });
 
   it('keeps what they would never give up, unless Claude already made it part of their Ritual', () => {

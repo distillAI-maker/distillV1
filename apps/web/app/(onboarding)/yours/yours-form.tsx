@@ -49,7 +49,7 @@ export function YoursForm({ names }: { names: Record<string, string> }) {
 
       {items.length ? (
         <div className="stack-tight yours-group">
-          <h2 className="goals-label">{copy.makesYou.fromList}</h2>
+          <h2 className="eyebrow-ink">{copy.makesYou.fromList}</h2>
           <div className="chips" role="group" aria-label={copy.makesYou.fromList}>
             {items.map((i) => (
               <Chip
@@ -65,7 +65,7 @@ export function YoursForm({ names }: { names: Record<string, string> }) {
       ) : null}
 
       <div className="stack-tight yours-group">
-        <h2 className="goals-label">{copy.makesYou.fromLife}</h2>
+        <h2 className="eyebrow-ink">{copy.makesYou.fromLife}</h2>
         <div className="chips" role="group" aria-label={copy.makesYou.fromLife}>
           {[...lifeChips, ...own].map((c) => (
             <Chip

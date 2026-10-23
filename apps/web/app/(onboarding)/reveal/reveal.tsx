@@ -7,16 +7,18 @@ import { Icon } from '../../../components/icon';
 import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
-import { alwaysYours, momentLines, type RevealNotes } from '../../../lib/onboarding/reveal';
+import { alwaysYours, momentCards, type CardRow, type RevealNotes } from '../../../lib/onboarding/reveal';
 import { asSaid, atBestLine, becomingLine, lifePicks, listOf, midSentence } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 const names = (xs: readonly string[]) => listOf(xs.map((x, i) => (i ? midSentence(x) : x)));
+const n2 = (i: number) => String(i + 1).padStart(2, '0');
 
 /**
- * Step 6: their first Ritual. The rules version shows at once; when Claude is on, its version
- * (named and paired in their words) replaces it when ready. One short line each.
+ * Step 6: their first Ritual, drawn as the brand board's cabinet: a linen morning card and an ink
+ * evening card with a numbered hairline row a part. The rules version shows at once; when Claude
+ * is on, its version (named and paired in their words) replaces it when ready.
  */
 export function Reveal() {
   const go = useGo();
@@ -51,15 +53,17 @@ export function Reveal() {
   const toward = ready ? becomingLine(progress) : null;
 
   return (
-    <section className="stack screen-reveal" aria-busy={!draft && !failed}>
-      <h1>{copy.reveal.title}</h1>
-
-      {best || toward ? (
-        <div className="reveal-best">
-          <p className="goals-label">{copy.reveal.atBest}</p>
-          <p className="reveal-best-line">{[best, toward].filter(Boolean).join(' ')}</p>
-        </div>
-      ) : null}
+    <section className="screen-reveal" aria-busy={!draft && !failed}>
+      <header className="reveal-head">
+        <h1>{copy.reveal.title}</h1>
+        {best || toward ? (
+          <div className="reveal-best">
+            <p className="eyebrow-ink">{copy.reveal.atBest}</p>
+            {best ? <p className="reveal-best-line">{best}</p> : null}
+            {toward ? <p className="reveal-toward">{toward}</p> : null}
+          </div>
+        ) : null}
+      </header>
 
       {failed ? (
         <p className="notice" role="alert">
@@ -68,7 +72,7 @@ export function Reveal() {
       ) : !draft ? (
         <Skeleton kind="option" count={3} />
       ) : (
-        <Draft
+        <Cabinet
           parts={draft.parts}
           notes={draft.notes}
           picks={lifePicks(progress)}
@@ -89,7 +93,26 @@ export function Reveal() {
   );
 }
 
-function Draft({
+function Rows({ rows, label, ring = true }: { rows: readonly CardRow[]; label: string; ring?: boolean }) {
+  return (
+    <ol className="cab-rows" aria-label={label}>
+      {rows.map((r, i) => (
+        <li key={r.id} className="cab-row">
+          <span className="cab-n" aria-hidden="true">
+            {n2(i)}
+          </span>
+          <span className="cab-body">
+            <span className="cab-title">{r.title}</span>
+            {r.meta ? <span className="cab-meta">{r.meta}</span> : null}
+          </span>
+          {ring ? <span className="cab-ring" aria-hidden="true" /> : null}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function Cabinet({
   parts,
   notes,
   picks,
@@ -102,48 +125,65 @@ function Draft({
   shaping: boolean;
   shaped: boolean;
 }) {
-  const moments = momentLines(parts);
+  const cards = momentCards(parts);
   const always = alwaysYours(parts, picks);
   return (
-    <>
-      <div className={`reveal-card${shaped ? ' reveal-shaped' : ''}`} aria-live="polite">
-        {moments.map((m) => (
-          <div key={`${m.key}-${shaped}`} className={`reveal-row reveal-${m.key}`}>
-            <span className="reveal-label">{m.label}</span>
-            <p>{m.text}</p>
+    <div className="cabinet" aria-live="polite">
+      {cards.map((c) => (
+        <article
+          key={`${c.key}-${shaped}`}
+          className={`cab-card cab-${c.key}${c.key === 'night' ? ' night' : ''}`}
+          aria-label={c.label}
+        >
+          <div className="cab-top">
+            <span className="eyebrow-ink">{c.label}</span>
+            <span className={`cab-mark cab-mark-${c.key}`} aria-hidden="true" />
           </div>
-        ))}
-        {always.length ? (
-          <div className="reveal-row reveal-always">
-            <span className="reveal-label">{copy.reveal.always}</span>
-            <p>{listOf(always.map((x, i) => (i ? asSaid(x) : x)))}.</p>
-          </div>
-        ) : null}
-        {!moments.length && !always.length ? <p className="reveal-empty">{copy.reveal.empty}</p> : null}
-        {shaping ? <p className="reveal-shaping">{copy.reveal.shaping}</p> : null}
-      </div>
+          <h2 className="cab-head">{c.title}</h2>
+          <Rows rows={c.rows} label={c.label} />
+          {c.close ? <p className="cab-close">{c.close}</p> : null}
+        </article>
+      ))}
+      {!cards.length && !always.length ? <p className="reveal-empty">{copy.reveal.empty}</p> : null}
+      {shaping ? <p className="reveal-shaping">{copy.reveal.shaping}</p> : null}
 
-      {notes.letGo.length ? (
-        <div className="reveal-notes">
-          <p className="goals-label">{copy.reveal.letGoTitle}</p>
-          {notes.letGo.map((l) => (
-            <p key={l.name}>
-              {l.yearly > 0 ? copy.reveal.letGo(l.name, money(l.yearly)) : copy.reveal.letGoFree(l.name)}
-            </p>
-          ))}
-        </div>
-      ) : notes.wellFounded.length ? (
-        <p className="reveal-clean">
-          <strong>{copy.reveal.clean}</strong>{' '}
-          {copy.reveal.wellFounded(names(notes.wellFounded), notes.wellFounded.length)}
-        </p>
+      {always.length ? (
+        <section className="reveal-block" aria-label={copy.reveal.always}>
+          <p className="eyebrow-ink">{copy.reveal.always}</p>
+          <p className="reveal-always">{listOf(always.map((x, i) => (i ? asSaid(x) : x)))}.</p>
+        </section>
       ) : null}
 
-      {notes.worthALook.map((n) => (
-        <p key={n} className="reveal-look">
-          {copy.reveal.worthALook(n)}
-        </p>
-      ))}
-    </>
+      {notes.letGo.length ? (
+        <section className="reveal-block" aria-label={copy.reveal.letGoTitle}>
+          <p className="eyebrow-ink">{copy.reveal.letGoTitle}</p>
+          <Rows
+            label={copy.reveal.letGoTitle}
+            ring={false}
+            rows={notes.letGo.map((l) => ({
+              id: l.name,
+              title: l.name,
+              meta: l.yearly > 0 ? `${copy.reveal.canGo} · ${copy.reveal.yearBack(money(l.yearly))}` : copy.reveal.canGo,
+            }))}
+          />
+        </section>
+      ) : notes.wellFounded.length ? (
+        <section className="reveal-block reveal-clean">
+          <p className="reveal-verdict">{copy.reveal.clean}</p>
+          <p className="reveal-small">{copy.reveal.wellFounded(names(notes.wellFounded), notes.wellFounded.length)}</p>
+        </section>
+      ) : null}
+
+      {notes.worthALook.length ? (
+        <section className="reveal-block" aria-label={copy.reveal.worthALookTitle}>
+          <p className="eyebrow-ink">{copy.reveal.worthALookTitle}</p>
+          <Rows
+            label={copy.reveal.worthALookTitle}
+            ring={false}
+            rows={notes.worthALook.map((n) => ({ id: n, title: n, meta: copy.reveal.noEvidence }))}
+          />
+        </section>
+      ) : null}
+    </div>
   );
 }

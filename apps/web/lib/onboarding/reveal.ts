@@ -1,9 +1,8 @@
 import type { RitualPart } from '@distill/engine/ritual';
 import { copy } from '../copy';
-import { listOf, midSentence } from './you';
 
 /**
- * The reveal (step 6), as data: their first Ritual in a line a moment, and what the engine's
+ * The reveal (step 6), as data: their first Ritual as a card a moment, and what the engine's
  * decisions say in one short line each. Decisions are read as they come: a WORTH_A_LOOK decision
  * (routing table V4, branch routing-table-v4-full) is shown as "worth a look"; until the engine
  * makes those, a kept thing with no evidence that came from nowhere they told us is shown the same way.
@@ -73,36 +72,54 @@ export function revealNotes(
   };
 }
 
-export interface MomentLine {
-  readonly key: 'morning' | 'day' | 'evening' | 'weekend';
+export interface CardRow {
+  readonly id: string;
+  readonly title: string;
+  /** "Yours · 3 times a week", or empty. */
+  readonly meta: string;
+}
+
+export interface MomentCard {
+  readonly key: 'morning' | 'day' | 'night';
   readonly label: string;
-  readonly text: string;
+  readonly title: string;
+  readonly close: string;
+  readonly rows: readonly CardRow[];
 }
 
 const weekendOnly = (p: RitualPart) => p.when.days.length > 0 && p.when.days.every((d) => d === 'sat' || d === 'sun');
 
-function sentence(parts: readonly RitualPart[]): string {
-  const bits = parts.map((p, i) => {
-    const title = i === 0 ? p.title : midSentence(p.title);
-    return p.when.perWeek && !p.when.days.length ? `${title} ${copy.reveal.perWeek(p.when.perWeek)}` : title;
-  });
-  const s = listOf(bits);
-  return /[.!?]$/.test(s) ? s : `${s}.`;
+function clock(at: string): string {
+  const [h = 0, m = 0] = at.split(':').map(Number);
+  const hour = h % 12 || 12;
+  return `${hour}${m ? `:${String(m).padStart(2, '0')}` : ''}${h < 12 ? 'am' : 'pm'}`;
 }
 
-/** Their morning, day and evening (and a weekend-only line when there is one), a line each. */
-export function momentLines(parts: readonly RitualPart[]): MomentLine[] {
+function metaOf(p: RitualPart): string {
+  const bits = [
+    p.lock === 'theirs' ? copy.reveal.yours : null,
+    p.when.at ? clock(p.when.at) : null,
+    p.when.perWeek && !p.when.days.length ? copy.reveal.perWeek(p.when.perWeek) : null,
+    weekendOnly(p) ? copy.reveal.weekends : null,
+  ];
+  return bits.filter(Boolean).join(' · ');
+}
+
+/** Their morning, day and evening as the brand board's cabinet cards: a numbered row a part. */
+export function momentCards(parts: readonly RitualPart[]): MomentCard[] {
   const active = [...parts].filter((p) => p.status === 'active').sort((a, b) => a.order - b.order);
-  const weekday = active.filter((p) => !weekendOnly(p));
-  const groups: [MomentLine['key'], RitualPart[]][] = [
-    ['morning', weekday.filter((p) => p.when.slot === 'morning')],
-    ['day', weekday.filter((p) => p.when.slot === 'midday')],
-    ['evening', weekday.filter((p) => p.when.slot === 'evening' || p.when.slot === 'night')],
-    ['weekend', active.filter(weekendOnly)],
+  const groups: [MomentCard['key'], RitualPart[]][] = [
+    ['morning', active.filter((p) => p.when.slot === 'morning')],
+    ['day', active.filter((p) => p.when.slot === 'midday')],
+    ['night', active.filter((p) => p.when.slot === 'evening' || p.when.slot === 'night')],
   ];
   return groups
     .filter(([, ps]) => ps.length)
-    .map(([key, ps]) => ({ key, label: copy.reveal.moments[key], text: sentence(ps) }));
+    .map(([key, ps]) => ({
+      key,
+      ...copy.reveal.cards[key],
+      rows: ps.map((p) => ({ id: p.id, title: p.title, meta: metaOf(p) })),
+    }));
 }
 
 /** What they'd never give up from their life that isn't already a part of their Ritual. */

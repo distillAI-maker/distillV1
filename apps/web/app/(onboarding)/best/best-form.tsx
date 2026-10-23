@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { Fragment, useId } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Skeleton } from '../../../components/ui';
@@ -43,38 +43,43 @@ export function BestForm() {
       <h1>{title}</h1>
       <p className="lede">{copy.best.line}</p>
 
-      <div className="tot-list">
+      <ol className="tot-list">
         {pairs.map((pair, i) => {
           const picked = pairAnswer(progress, i);
           return (
-            <div key={pair.q} className="tot" role="radiogroup" aria-label={pair.q}>
-              {pair.options.map((o, k) => (
-                <span key={o.label} className="tot-cell">
-                  {k === 1 ? (
-                    <span className="tot-or" aria-hidden="true">
-                      {copy.best.or}
-                    </span>
-                  ) : null}
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={picked === o.label}
-                    className="tot-opt"
-                    onClick={() => update((p) => setPair(p, i, o.label, now()))}
-                  >
-                    {o.label}
-                  </button>
-                </span>
-              ))}
-            </div>
+            <li key={pair.q} className={`tot${picked ? ' tot-picked' : ''}`}>
+              <span className="tot-n" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="tot-pair" role="radiogroup" aria-label={pair.q}>
+                {pair.options.map((o, k) => (
+                  <Fragment key={o.label}>
+                    {k === 1 ? (
+                      <span className="tot-or" aria-hidden="true">
+                        {copy.best.or}
+                      </span>
+                    ) : null}
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={picked === o.label}
+                      className="tot-opt"
+                      onClick={() => update((p) => setPair(p, i, o.label, now()))}
+                    >
+                      {o.label}
+                    </button>
+                  </Fragment>
+                ))}
+              </span>
+            </li>
           );
         })}
-      </div>
+      </ol>
 
       <div className="stack-tight becoming">
         <div className="becoming-head">
           <h2>{copy.best.becomingTitle}</h2>
-          <span className="becoming-hint">{copy.best.becomingHint}</span>
+          <span className="eyebrow-faint">{copy.best.becomingHint}</span>
         </div>
         <div className="chips" role="group" aria-label={copy.best.becomingTitle}>
           {becomingOptions.map((b) => {
@@ -93,7 +98,7 @@ export function BestForm() {
           })}
         </div>
         <label className="own-line" htmlFor={ownId}>
-          <span className="goals-label">{copy.best.ownLabel}</span>
+          <span className="eyebrow-ink">{copy.best.ownLabel}</span>
           <input
             id={ownId}
             value={ownWords(progress)}
