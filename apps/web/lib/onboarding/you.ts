@@ -2,29 +2,40 @@ import { copy } from '../copy';
 import type { PictureLine, Progress } from '../progress/types';
 
 /**
- * Steps 4 and 5 of onboarding, as data: who they are at their best and what makes them them, all
- * from taps. Where each answer lives, so the engine reads it (packages/engine/src/ritual/person.ts):
- *   - a recent day that felt like them (who, where, doing what) and what a busy week takes first:
- *     `asks`, one q/a pair each; what a busy week takes is also kept as theirs, so it's protected;
- *   - who they're becoming (and their own line): picture lines of kind "toward", in their words;
- *   - the life things they'd never give up: picture lines of kind "theirs", in their words;
- *   - the stack items they'd never give up: `dayOne.yours`, which makes them theirs and locked;
- *   - and a short ideal-day sentence built from all of it, in `lifeText`, so compose has words.
+ * The private study (onboarding step 4), as data. Six taps sort their stack into noise and theirs
+ * and learn their week; each answer lands where the engine reads it
+ * (packages/engine/src/ritual/person.ts and decide.ts):
+ *   - which came from a feed: the item's `origin` is "online", so a weak, borrowed thing can be let go;
+ *   - what they'd never give up: their items go in `dayOne.yours` (theirs, locked); life things and
+ *     their own additions are picture lines of kind "theirs", in their words;
+ *   - wake time, what most days are, what they reach for, who they want more time with: `asks`;
+ *   - what a busy week takes first: `asks`, and kept as theirs so a reshape never takes it;
+ *   - and a short paragraph in their own voice, in `lifeText`, so compose has words to read.
  */
 
-export const dayQuestions = copy.best.day;
-export const busyQuestion = copy.best.busy;
-export const becomingOptions = copy.best.becoming;
-export const lifeChips = copy.makesYou.lifeChips;
-export const MAX_BECOMING = 3;
+export const study = copy.study;
+export const lifeChips = study.yours.lifeChips;
 
-const TOWARD = 'toward:';
-const OWN_TOWARD = 'toward:own';
 const THEIRS = 'theirs:';
-/** What a busy week takes first: theirs, kept apart from the life things picked on step 5. */
+/** What a busy week takes first: theirs, kept apart from the life things they picked. */
 const BUSY = 'theirs:busy';
-/** Starts the part of lifeText these steps write; anything before it they typed themselves. */
-export const IDEAL_DAY_MARK = 'At my best: ';
+/** Starts the part of lifeText the study writes. Anything before it they typed themselves. */
+export const ABOUT_MARK = 'My days: ';
+/** What the earlier onboarding wrote there; read so it's replaced, never doubled. */
+const OLD_MARKS = ['At my best: '];
+
+const Q = {
+  wake: 'What time are you usually up?',
+  work: 'What are most days?',
+  valve: "When it's a lot, what do you reach for?",
+  busy: 'When a week gets busy, what goes first?',
+  people: 'Who do you want more time with?',
+} as const;
+type AskKey = keyof typeof Q;
+
+export const DEFAULT_WAKE = '07:00';
+const WAKE_MIN = 5 * 60;
+const WAKE_MAX = 9 * 60 + 30;
 
 const slug = (s: string) =>
   s
@@ -41,7 +52,7 @@ export function midSentence(s: string): string {
 
 /** Our own chips read lower case mid-sentence ("music", "time alone"); what they typed stays as typed. */
 export function asSaid(text: string): string {
-  const ours = [...lifeChips, ...copy.best.busy.options] as readonly string[];
+  const ours = [...lifeChips, ...study.busy.options] as readonly string[];
   return ours.includes(text) ? midSentence(text) : text;
 }
 
@@ -51,115 +62,68 @@ export function listOf(xs: readonly string[]): string {
   return `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
 }
 
+/** "a, b, and c": the read's promise is three separate things. */
+function listOfThree(xs: readonly string[]): string {
+  if (xs.length <= 2) return xs.join(' and ');
+  return `${xs.slice(0, -1).join(', ')}, and ${xs[xs.length - 1]}`;
+}
+
 const lines = (p: Progress) => p.picture?.lines ?? [];
 
 function withLines(p: Progress, next: PictureLine[], now: string): Progress {
   return {
     ...p,
-    picture: {
-      lines: next.slice(0, 40),
-      removed: p.picture?.removed ?? [],
-      updatedAt: now,
-    },
+    picture: { lines: next.slice(0, 40), removed: p.picture?.removed ?? [], updatedAt: now },
   };
 }
 
-// --- step 4: you, at your best ----------------------------------------------------------------
-
-type DayId = (typeof dayQuestions)[number]['id'];
-
-const question = (id: DayId) => dayQuestions.find((d) => d.id === id)!;
-
-/** Their answer about the day, if any. */
-export function dayAnswer(p: Progress, id: DayId): string | undefined {
-  return p.asks.find((a) => a.q === question(id).q)?.a;
+function answer(p: Progress, key: AskKey): string | undefined {
+  return p.asks.find((a) => a.q === Q[key])?.a;
 }
 
-/** One tap: picks an option, or clears it when it was already picked. */
-export function setDay(p: Progress, id: DayId, label: string, now: string): Progress {
-  const q = question(id);
-  if (!q.options.some((o) => o.label === label)) return p;
-  const same = dayAnswer(p, id) === label;
-  const asks = p.asks.filter((a) => a.q !== q.q);
-  return withIdealDay({ ...p, asks: same ? asks : [...asks, { q: q.q, a: label, at: now }] });
+function setAnswer(p: Progress, key: AskKey, value: string | null, now: string): Progress {
+  const asks = p.asks.filter((a) => a.q !== Q[key]);
+  return { ...p, asks: value ? [...asks, { q: Q[key], a: value, at: now }] : asks };
 }
 
-/** What a busy week takes first, if they said. */
-export function busyAnswer(p: Progress): string | undefined {
-  return p.asks.find((a) => a.q === busyQuestion.q)?.a;
+/** The things on their list the study asks about: what they kept, not the wearable's subscription. */
+export function studyItems(p: Progress) {
+  return p.items.filter((i) => i.status !== 'cut' && !i.dataSource);
 }
 
-/** One tap: the answer, and the same thing kept as theirs so a busy week never takes it. */
-export function setBusy(p: Progress, label: string, now: string): Progress {
-  if (!(busyQuestion.options as readonly string[]).includes(label)) return p;
-  const same = busyAnswer(p) === label;
-  const asks = p.asks.filter((a) => a.q !== busyQuestion.q);
-  const rest = lines(p).filter((l) => l.id !== BUSY);
-  const next = same
-    ? { ...p, asks }
-    : { ...p, asks: [...asks, { q: busyQuestion.q, a: label, at: now }] };
-  const kept = same ? rest : [...rest, { id: BUSY, kind: 'theirs' as const, text: label, by: 'you' as const, at: now }];
-  return withIdealDay(withLines(next, kept, now));
+// --- 01: which came from a feed ---------------------------------------------------------------
+
+export function fromFeed(p: Progress): string[] {
+  return studyItems(p)
+    .filter((i) => i.origin === 'online')
+    .map((i) => i.id);
 }
 
-/** What they protect: what a busy week takes first. */
-export function protectedThing(p: Progress): string | null {
-  return lines(p).find((l) => l.id === BUSY)?.text ?? null;
+/** A feed is where it came from. Never for something a clinician gave them. */
+export function toggleFeed(p: Progress, itemId: string): Progress {
+  const item = p.items.find((i) => i.id === itemId);
+  if (!item || item.origin === 'doctor' || item.origin === 'blood test') return p;
+  const on = item.origin === 'online';
+  return {
+    ...p,
+    items: p.items.map((i) => {
+      if (i.id !== itemId) return i;
+      if (!on) return { ...i, origin: 'online' as const };
+      const rest = { ...i };
+      delete rest.origin;
+      return rest;
+    }),
+    // Something from a feed isn't also something they'd never give up.
+    dayOne: on ? p.dayOne : { ...p.dayOne, yours: p.dayOne.yours.filter((y) => y !== itemId) },
+  };
 }
 
-export function becoming(p: Progress): string[] {
-  const chosen = new Set(lines(p).filter((l) => l.kind === 'toward').map((l) => l.id));
-  return becomingOptions.filter((b) => chosen.has(`${TOWARD}${slug(b)}`));
+export function feedLine(p: Progress): string {
+  const n = fromFeed(p).length;
+  return n ? study.feed.some(n) : study.feed.none;
 }
 
-/** Up to three; a fourth tap does nothing until one comes off. */
-export function toggleBecoming(p: Progress, label: string, now: string): Progress {
-  if (!(becomingOptions as readonly string[]).includes(label)) return p;
-  const id = `${TOWARD}${slug(label)}`;
-  const current = lines(p);
-  if (current.some((l) => l.id === id)) return withIdealDay(withLines(p, current.filter((l) => l.id !== id), now));
-  if (becoming(p).length >= MAX_BECOMING) return p;
-  return withIdealDay(withLines(p, [...current, { id, kind: 'toward', text: label, by: 'you', at: now }], now));
-}
-
-export function ownWords(p: Progress): string {
-  return lines(p).find((l) => l.id === OWN_TOWARD)?.text ?? '';
-}
-
-/** Their one line, optional. Kept word for word. */
-export function setOwnWords(p: Progress, text: string, now: string): Progress {
-  const clean = text.replace(/\s+/g, ' ').slice(0, 200);
-  const rest = lines(p).filter((l) => l.id !== OWN_TOWARD);
-  const next = clean.trim()
-    ? [...rest, { id: OWN_TOWARD, kind: 'toward' as const, text: clean, by: 'you' as const, at: now }]
-    : rest;
-  return withIdealDay(withLines(p, next, now));
-}
-
-// --- step 5: what makes you, you --------------------------------------------------------------
-
-/** What they'd never give up from their life (not their list), in the order they picked them. */
-export function lifePicks(p: Progress): string[] {
-  return lines(p)
-    .filter((l) => l.kind === 'theirs' && l.id.startsWith(THEIRS) && l.id !== BUSY)
-    .map((l) => l.text);
-}
-
-export function toggleLife(p: Progress, text: string, now: string): Progress {
-  const clean = text.replace(/\s+/g, ' ').trim().slice(0, 80);
-  if (!clean) return p;
-  const id = `${THEIRS}${slug(clean)}`;
-  const current = lines(p);
-  if (current.some((l) => l.id === id)) return withIdealDay(withLines(p, current.filter((l) => l.id !== id), now));
-  return withIdealDay(withLines(p, [...current, { id, kind: 'theirs', text: clean, by: 'you', at: now }], now));
-}
-
-/** Their own addition: picked as it's added; adding the same thing twice changes nothing. */
-export function addOwnThing(p: Progress, text: string, now: string): Progress {
-  const clean = text.replace(/\s+/g, ' ').trim().slice(0, 80);
-  if (!clean || lines(p).some((l) => l.id === `${THEIRS}${slug(clean)}`)) return p;
-  return toggleLife(p, clean, now);
-}
+// --- 02: what they'd never give up ------------------------------------------------------------
 
 /** A thing from their list they'd never give up: theirs, and locked in their Ritual. */
 export function toggleYours(p: Progress, itemId: string): Progress {
@@ -174,65 +138,180 @@ export function toggleYours(p: Progress, itemId: string): Progress {
   };
 }
 
-// --- what the engine and the reveal read ------------------------------------------------------
+/** What they'd never give up from their life (not their list), in the order they picked them. */
+export function lifePicks(p: Progress): string[] {
+  return lines(p)
+    .filter((l) => l.kind === 'theirs' && l.id.startsWith(THEIRS) && l.id !== BUSY)
+    .map((l) => l.text);
+}
 
-const phrase = (p: Progress, id: DayId, form: 'you' | 'me') =>
-  question(id).options.find((o) => o.label === dayAnswer(p, id))?.[form];
+export function toggleLife(p: Progress, text: string, now: string): Progress {
+  const clean = text.replace(/\s+/g, ' ').trim().slice(0, 80);
+  if (!clean) return p;
+  const id = `${THEIRS}${slug(clean)}`;
+  const current = lines(p);
+  if (current.some((l) => l.id === id)) return withAbout(withLines(p, current.filter((l) => l.id !== id), now));
+  return withAbout(withLines(p, [...current, { id, kind: 'theirs', text: clean, by: 'you', at: now }], now));
+}
 
-const sentence = (bits: readonly (string | undefined)[]) => {
-  const s = bits.filter((b): b is string => !!b).join(', ');
-  return s ? `${s.charAt(0).toUpperCase()}${s.slice(1)}.` : null;
+/** Their own addition: picked as it's added; adding the same thing twice changes nothing. */
+export function addOwnThing(p: Progress, text: string, now: string): Progress {
+  const clean = text.replace(/\s+/g, ' ').trim().slice(0, 80);
+  if (!clean || lines(p).some((l) => l.id === `${THEIRS}${slug(clean)}`)) return p;
+  return toggleLife(p, clean, now);
+}
+
+// --- 03: their rhythm -------------------------------------------------------------------------
+
+const toMinutes = (t: string) => {
+  const [h = 0, m = 0] = t.split(':').map(Number);
+  return h * 60 + m;
 };
+const toClock = (min: number) =>
+  `${String(Math.floor(min / 60)).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}`;
 
-/** Their day, read back to them: "Outside, with friends, moving." Null until they tap. */
-export function atBestLine(p: Progress): string | null {
-  return sentence([phrase(p, 'where', 'you'), phrase(p, 'who', 'you'), phrase(p, 'doing', 'you')]);
+/** When they're usually up, as "HH:MM". */
+export function wake(p: Progress): string {
+  return answer(p, 'wake') ?? DEFAULT_WAKE;
 }
 
-const DOING: Record<string, keyof typeof copy.best.read> = {
-  Moving: 'moving',
-  'Making something': 'making',
-  'A long meal': 'meal',
-  'Nothing at all': 'nothing',
-};
-const TOGETHER = new Set(['My partner', 'Friends', 'Family']);
-
-/** What their day says about them, once they've said who and what. */
-export function dayRead(p: Progress): string | null {
-  const who = dayAnswer(p, 'who');
-  const doing = dayAnswer(p, 'doing');
-  if (!who || !doing || !DOING[doing]) return null;
-  return copy.best.read[DOING[doing]][TOGETHER.has(who) ? 'together' : 'alone'];
+/** "6:30" for "06:30". */
+export function wakeLabel(p: Progress): string {
+  const [h = '0', m = '00'] = wake(p).split(':');
+  return `${Number(h)}:${m}`;
 }
 
-/** "Becoming stronger and calmer." or null. */
-export function becomingLine(p: Progress): string | null {
-  const b = becoming(p).map((x) => x.toLowerCase());
-  return b.length ? copy.reveal.becoming(listOf(b)) : null;
+/** Fifteen minutes earlier or later, between 5:00 and 9:30. */
+export function nudgeWake(p: Progress, by: -15 | 15, now: string): Progress {
+  const next = Math.min(WAKE_MAX, Math.max(WAKE_MIN, toMinutes(wake(p)) + by));
+  return withAbout(setAnswer(p, 'wake', toClock(next), now));
 }
 
-/** The ideal-day sentence the engine reads, built only from what they tapped and wrote here. */
-export function idealDayFrom(p: Progress): string {
-  const day = sentence([phrase(p, 'where', 'me'), phrase(p, 'who', 'me'), phrase(p, 'doing', 'me')]);
+/** Saving the time they see, even if they never touched it. */
+export function confirmWake(p: Progress, now: string): Progress {
+  return answer(p, 'wake') ? p : withAbout(setAnswer(p, 'wake', DEFAULT_WAKE, now));
+}
+
+export function work(p: Progress): string | undefined {
+  return answer(p, 'work');
+}
+
+export function setWork(p: Progress, label: string, now: string): Progress {
+  if (!(study.rhythm.work as readonly string[]).includes(label)) return p;
+  return withAbout(setAnswer(p, 'work', work(p) === label ? null : label, now));
+}
+
+// --- 04: the pressure valve -------------------------------------------------------------------
+
+export function valve(p: Progress): string | undefined {
+  return answer(p, 'valve');
+}
+
+export function setValve(p: Progress, label: string, now: string): Progress {
+  if (!(study.valve.options as readonly string[]).includes(label)) return p;
+  return withAbout(setAnswer(p, 'valve', label, now));
+}
+
+// --- 05: what a busy week takes first ---------------------------------------------------------
+
+export function busyAnswer(p: Progress): string | undefined {
+  return answer(p, 'busy');
+}
+
+/** The answer, and the same thing kept as theirs so a busy week never takes it. */
+export function setBusy(p: Progress, label: string, now: string): Progress {
+  if (!(study.busy.options as readonly string[]).includes(label)) return p;
+  const next = setAnswer(p, 'busy', label, now);
+  const kept = [
+    ...lines(next).filter((l) => l.id !== BUSY),
+    { id: BUSY, kind: 'theirs' as const, text: label, by: 'you' as const, at: now },
+  ];
+  return withAbout(withLines(next, kept, now));
+}
+
+/** What they protect: what a busy week takes first. */
+export function protectedThing(p: Progress): string | null {
+  return lines(p).find((l) => l.id === BUSY)?.text ?? null;
+}
+
+// --- 06: who they want more time with ---------------------------------------------------------
+
+export function people(p: Progress): string | undefined {
+  return answer(p, 'people');
+}
+
+export function setPeople(p: Progress, label: string, now: string): Progress {
+  if (!(study.people.options as readonly string[]).includes(label)) return p;
+  return withAbout(setAnswer(p, 'people', label, now));
+}
+
+// --- the read ---------------------------------------------------------------------------------
+
+type Keyed<T> = Partial<Record<string, T>>;
+const pick = <T,>(map: Keyed<T>, key: string | undefined) => (key ? map[key] : undefined);
+
+/**
+ * What we heard, read back: the headline (with its italic part), the context under it, and the
+ * promise. Each clause comes from one answer; a skipped question just leaves its clause out.
+ */
+export function readOf(p: Progress): { title: readonly [string, string]; context: string | null; promise: string | null } {
+  const r = study.read;
+  const title = (pick(r.valve as Keyed<readonly [string, string]>, valve(p)) ?? r.fallback) as readonly [string, string];
+  const busy = busyAnswer(p);
+  const day = [
+    answer(p, 'wake') ? r.up(wakeLabel(p)) : null,
+    pick(r.work as Keyed<string>, work(p)) ?? null,
+  ].filter((x): x is string => !!x);
+  const sentences = [
+    day.length ? `${day.join(', ').replace(/^./, (c) => c.toUpperCase())}.` : null,
+    busy ? `${r.goesFirst(busy.toLowerCase()).replace(/^./, (c) => c.toUpperCase())}.` : null,
+  ].filter((x): x is string => !!x);
+  const context = sentences.length ? sentences.join(' ') : null;
+  const promise = [
+    pick(r.mornings as Keyed<string>, work(p)),
+    pick(r.protect as Keyed<string>, busy),
+    pick(r.room as Keyed<string>, people(p)),
+  ].filter((x): x is string => !!x);
+  return { title, context, promise: promise.length ? r.so(listOfThree(promise)) : null };
+}
+
+// --- what the engine reads --------------------------------------------------------------------
+
+/** A short paragraph in their own voice, built only from what they tapped. */
+export function aboutFrom(p: Progress): string {
   const out: string[] = [];
-  if (day) out.push(`${IDEAL_DAY_MARK}${midSentence(day)}`);
+  const mine = study.mine;
+  const day = [answer(p, 'wake') ? `up at ${wakeLabel(p)}` : null, pick(mine.work as Keyed<string>, work(p))].filter(Boolean);
+  if (day.length) out.push(`${ABOUT_MARK}${day.join(', ')}.`);
+  const v = pick(mine.valve as Keyed<string>, valve(p));
+  if (v) out.push(v);
   const busy = busyAnswer(p);
   if (busy) out.push(`When a week gets busy, ${busy.toLowerCase()} goes first.`);
-  const b = becomingLine(p);
-  if (b) out.push(b);
-  const own = ownWords(p).trim();
-  if (own) out.push(/[.!?]$/.test(own) ? own : `${own}.`);
+  const who = pick(mine.people as Keyed<string>, people(p));
+  if (who) out.push(`I want more time with ${who}.`);
   const life = lifePicks(p).map(asSaid);
   if (life.length) out.push(`I'd never give up ${listOf(life)}.`);
   if (!out.length) return '';
-  // Without the mark, the first sentence still opens the part these steps write.
-  return out[0]!.startsWith(IDEAL_DAY_MARK) ? out.join(' ') : `${IDEAL_DAY_MARK}${midSentence(out.join(' '))}`;
+  return out[0]!.startsWith(ABOUT_MARK) ? out.join(' ') : `${ABOUT_MARK}${out.join(' ')}`;
 }
 
-/** Rewrites the part of lifeText these steps own; anything they typed before (older saves) stays. */
-export function withIdealDay(p: Progress): Progress {
-  const at = p.lifeText.indexOf(IDEAL_DAY_MARK);
-  const typed = (at >= 0 ? p.lifeText.slice(0, at) : p.lifeText).trim();
-  const lifeText = [typed, idealDayFrom(p)].filter(Boolean).join('\n\n').slice(0, 4000);
+/** Rewrites the part of lifeText the study owns; anything they typed before (older saves) stays. */
+export function withAbout(p: Progress): Progress {
+  const marks = [ABOUT_MARK, ...OLD_MARKS];
+  const at = Math.min(...marks.map((m) => p.lifeText.indexOf(m)).filter((i) => i >= 0), p.lifeText.length);
+  const typed = p.lifeText.slice(0, at).trim();
+  const lifeText = [typed, aboutFrom(p)].filter(Boolean).join('\n\n').slice(0, 4000);
   return lifeText === p.lifeText ? p : { ...p, lifeText };
+}
+
+/** Where the study opens: the first question not yet answered, or the read when all are. */
+export function firstOpen(p: Progress): number {
+  if (!p.asks.some((a) => a.q === Q.wake)) {
+    // 01 and 02 have no single answer to check; someone new starts at the top.
+    return 0;
+  }
+  if (!valve(p)) return 3;
+  if (!busyAnswer(p)) return 4;
+  if (!people(p)) return 5;
+  return 6;
 }

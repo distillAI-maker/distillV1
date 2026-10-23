@@ -69,11 +69,11 @@ describe('Arrival', () => {
   });
 
   it('lands someone coming back straight on the line, and picks up where they left off', async () => {
-    const el = await arrive({ ...emptyProgress(), step: 'best', updatedAt: new Date().toISOString() });
+    const el = await arrive({ ...emptyProgress(), step: 'study', updatedAt: new Date().toISOString() });
     expect(el.className).toContain('is-settled');
     expect(el.textContent).toContain('Pick up where you left off');
     fireEvent.click(el);
-    expect(push).toHaveBeenCalledWith('/best');
+    expect(push).toHaveBeenCalledWith('/study');
   });
 
   it('skips the noise for anyone who asked for less motion', async () => {

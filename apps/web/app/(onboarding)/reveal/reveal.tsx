@@ -8,7 +8,7 @@ import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
 import { alwaysYours, momentCards, type CardRow, type RevealNotes } from '../../../lib/onboarding/reveal';
-import { asSaid, atBestLine, lifePicks, listOf, protectedThing } from '../../../lib/onboarding/you';
+import { asSaid, lifePicks, listOf, protectedThing } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -48,18 +48,10 @@ export function Reveal() {
       .finally(() => setShaping(false));
   }, [ready, progress]);
 
-  const best = ready ? atBestLine(progress) : null;
-
   return (
     <section className="screen-reveal" aria-busy={!draft && !failed}>
       <header className="reveal-head">
         <h1>{copy.reveal.title}</h1>
-        {best ? (
-          <div className="reveal-best">
-            <p className="eyebrow-ink">{copy.reveal.atBest}</p>
-            <p className="reveal-best-line">{best}</p>
-          </div>
-        ) : null}
       </header>
 
       {failed ? (

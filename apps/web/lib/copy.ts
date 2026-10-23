@@ -207,113 +207,168 @@ export const copy = {
     line: 'Pick as many as fit. "Nothing specific" is a real answer.',
     continue: 'Continue',
   },
-  /** Step 4: who they are at their best, all taps. lib/onboarding/you.ts saves the answers. */
-  best: {
-    title: 'You, at your best.',
-    titleNamed: (name: string) => `${name}, at your best.`,
-    line: 'Think of a recent day that felt like you.',
-    /** A real day, one tap each. `you` reads back to them; `me` goes into their own ideal day. */
-    day: [
-      {
-        id: 'who',
-        q: 'Who was there?',
-        options: [
-          { label: 'Just me', you: 'on your own', me: 'on my own' },
-          { label: 'My partner', you: 'with your partner', me: 'with my partner' },
-          { label: 'Friends', you: 'with friends', me: 'with friends' },
-          { label: 'Family', you: 'with family', me: 'with family' },
-          { label: 'My dog', you: 'with your dog', me: 'with my dog' },
-        ],
+  /**
+   * Step 4, the private study: six taps that sort their stack into noise and theirs and learn their
+   * week, each answered with one line, then the read. lib/onboarding/you.ts saves the answers.
+   */
+  study: {
+    folio: 'Private study',
+    count: (k: number, n: number) => `0${k} / 0${n}`,
+    back: 'Back',
+    feed: {
+      q: ['Be honest. Which of these came from a ', 'feed?'],
+      sub: "No judgement. It's how we clear the noise.",
+      next: "That's the list",
+      none: 'None from a feed. That makes you rare.',
+      some: (n: number) =>
+        n === 1
+          ? "One came from a feed. We'll look at it together."
+          : `${n} came from a feed. We'll look at those together.`,
+    },
+    yours: {
+      q: ['Which would you ', 'never', ' give up?'],
+      sub: 'Even the ones that aren’t ‘optimal’.',
+      lifeChips: [
+        'Time with friends',
+        'Music',
+        'My dog',
+        'Cooking',
+        'Nature',
+        'Sport',
+        'Family',
+        'Travel',
+        'A drink with friends',
+      ],
+      add: 'Add your own',
+      addLabel: 'Something else you would never give up',
+      addPlaceholder: 'Something of yours',
+      reflection: 'Those stay yours, untouched.',
+      next: 'These are mine',
+    },
+    rhythm: {
+      q: ['What does a ', 'normal', ' day look like?'],
+      upAt: "I'm usually up at",
+      earlier: 'Up 15 minutes earlier',
+      later: 'Up 15 minutes later',
+      daysAre: 'Most days are',
+      work: ['Desk 9–6', 'Shifts', 'My own hours', 'Studying', 'Kids'],
+      reflections: {
+        'Desk 9–6': 'Workday mornings stay short.',
+        Shifts: 'Your Ritual moves with your shifts.',
+        'My own hours': 'Your mornings run on your own clock.',
+        Studying: 'Mornings stay short on study days.',
+        Kids: 'Built around the kids, not on top of them.',
       },
-      {
-        id: 'where',
-        q: 'Where were you?',
-        options: [
-          { label: 'Outside', you: 'outside', me: 'outside' },
-          { label: 'At home', you: 'at home', me: 'at home' },
-          { label: 'In the city', you: 'in the city', me: 'in the city' },
-          { label: 'Somewhere new', you: 'somewhere new', me: 'somewhere new' },
-        ],
+      next: 'This feels right',
+    },
+    valve: {
+      q: ["When it’s a lot, what do you ", 'reach for?'],
+      sub: 'The instinctive answer, not the ideal one.',
+      options: ['Scrolling', 'A drink', 'Takeaway', 'Pushing harder', 'Sleeping in', 'Calling someone'],
+      reflections: {
+        Scrolling: 'Then hard evenings get somewhere better to land.',
+        'A drink': 'No lectures. Just a softer landing on hard days.',
+        Takeaway: 'Then hard days get an easy dinner, not a plan.',
+        'Pushing harder': 'Then busy weeks get lighter, not fuller.',
+        'Sleeping in': 'Then mornings bend when you need them to.',
+        'Calling someone': 'Then your people stay part of the plan.',
       },
-      {
-        id: 'doing',
-        q: 'Doing what?',
-        options: [
-          { label: 'Moving', you: 'moving', me: 'moving' },
-          { label: 'Making something', you: 'making something', me: 'making something' },
-          { label: 'A long meal', you: 'over a long meal', me: 'over a long meal' },
-          { label: 'Nothing at all', you: 'doing nothing at all', me: 'doing nothing at all' },
-        ],
-      },
-    ],
+    },
     busy: {
-      q: 'When a week gets busy, what goes first?',
+      q: ['When a week gets busy, what goes ', 'first?'],
       options: ['Sleep', 'Training', 'Seeing people', 'Time alone'],
+      reflections: {
+        Sleep: 'Then your sleep is the one thing we protect.',
+        Training: 'Then your training is the one thing we protect.',
+        'Seeing people': 'Then your people are the one thing we protect.',
+        'Time alone': 'Then your time alone is the one thing we protect.',
+      },
     },
-    /** What the day says about them: by what they were doing, alone or with people. */
+    people: {
+      q: ['Who do you want ', 'more time', ' with?'],
+      options: ['Partner', 'Friends', 'Family', 'Myself', 'New people'],
+      reflections: {
+        Partner: 'Your Ritual will make room for them.',
+        Friends: 'Your Ritual will make room for them.',
+        Family: 'Your Ritual will make room for them.',
+        Myself: 'Your Ritual will make room for you.',
+        'New people': 'Your Ritual will make room to meet them.',
+      },
+    },
+    /** The read: built only from their answers, each clause from one tap. */
     read: {
-      moving: {
-        alone: 'You clear your head by moving.',
-        together: 'You come alive around people, in motion.',
+      eyebrow: "Here's what we heard",
+      fallback: ["Here's ", 'what we heard.'],
+      valve: {
+        Scrolling: ["When it’s a lot, you ", 'reach for your phone.'],
+        'A drink': ["When it’s a lot, you ", 'reach for a drink.'],
+        Takeaway: ["When it’s a lot, you ", 'order in.'],
+        'Pushing harder': ["When it’s a lot, you ", 'push harder.'],
+        'Sleeping in': ["When it’s a lot, you ", 'sleep in.'],
+        'Calling someone': ["When it’s a lot, you ", 'call someone.'],
       },
-      making: {
-        alone: "You're most yourself when you're making something.",
-        together: 'You come alive building something with others.',
+      up: (time: string) => `Up at ${time}`,
+      work: {
+        'Desk 9–6': 'at a desk till 6',
+        Shifts: 'working shifts',
+        'My own hours': 'on your own hours',
+        Studying: 'studying',
+        Kids: 'with the kids',
       },
-      meal: {
-        alone: 'You know how to slow down and savour it.',
-        together: 'Your best days are slow, and shared.',
+      goesFirst: (thing: string) => `when it’s busy, ${thing} goes first`,
+      mornings: {
+        'Desk 9–6': 'short weekday mornings',
+        Shifts: 'mornings that move with your shifts',
+        'My own hours': 'mornings on your own clock',
+        Studying: 'short mornings on study days',
+        Kids: 'mornings that fit around the kids',
       },
-      nothing: {
-        alone: 'Quiet is where you come back to yourself.',
-        together: "You don't need a plan, just your people.",
+      protect: {
+        Sleep: 'nothing touches your sleep',
+        Training: 'your training stays put',
+        'Seeing people': 'your people stay in the plan',
+        'Time alone': 'your time alone stays yours',
+      },
+      room: {
+        Partner: 'room for your partner',
+        Friends: 'room for your friends',
+        Family: 'room for your family',
+        Myself: 'room for you',
+        'New people': 'room to meet new people',
+      },
+      so: (list: string) => `So: ${list}.`,
+      signoff: 'Less noise. More you.',
+      next: 'Show me my Ritual',
+    },
+    /** Their answers in their own voice, for the paragraph the engine reads (lifeText). */
+    mine: {
+      work: {
+        'Desk 9–6': 'at a desk 9 to 6',
+        Shifts: 'working shifts',
+        'My own hours': 'on my own hours',
+        Studying: 'studying',
+        Kids: 'with the kids',
+      },
+      valve: {
+        Scrolling: "When it's a lot, I scroll.",
+        'A drink': "When it's a lot, I reach for a drink.",
+        Takeaway: "When it's a lot, I order in.",
+        'Pushing harder': "When it's a lot, I push harder.",
+        'Sleeping in': "When it's a lot, I sleep in.",
+        'Calling someone': "When it's a lot, I call someone.",
+      },
+      people: {
+        Partner: 'my partner',
+        Friends: 'friends',
+        Family: 'family',
+        Myself: 'myself',
+        'New people': 'new people',
       },
     },
-    protected: 'Protected',
-    becomingTitle: 'Who are you becoming?',
-    becomingHint: 'Up to three',
-    becoming: [
-      'Stronger',
-      'Calmer',
-      'More present',
-      'More social',
-      'More creative',
-      'Sharper at work',
-      'Outside more',
-      'Healthy for the long run',
-    ],
-    ownLabel: 'In your own words',
-    ownPlaceholder: 'Optional',
-    next: 'Continue',
-  },
-  /** Step 5: what they'd never give up. */
-  makesYou: {
-    title: 'What makes you, you.',
-    line: "The things you'd never give up, even the ones that aren't ‘optimal’.",
-    fromList: 'From your list',
-    fromLife: 'From your life',
-    lifeChips: [
-      'Time with friends',
-      'Music',
-      'Gigs',
-      'My dog',
-      'Cooking',
-      'Sport',
-      'Nature',
-      'Family',
-      'Travel',
-      'A drink with friends',
-    ],
-    addLabel: 'Add your own',
-    addPlaceholder: 'Add your own',
-    add: 'Add',
-    next: 'Continue',
   },
   /** Step 6: their first Ritual, as the brand board's cabinet cards. One short line each. */
   reveal: {
     title: 'Your Ritual, first draft.',
-    atBest: 'You, at your best',
-    becoming: (list: string) => `Becoming ${list}.`,
     cards: {
       morning: { label: 'Morning', title: 'Begin with yourself.' },
       day: { label: 'Day', title: 'Through the day.' },
