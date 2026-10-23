@@ -53,6 +53,8 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
       return `${name} is doing real work for your training, even when you can't feel it. Keep it.`;
     case 'curate:ANCHOR':
       return `${name} could be the anchor of your week. Want to build the rest around it?`;
+    case 'curate:WORTH_A_LOOK':
+      return `${name}: ${d.evidenceTier === 'N' ? 'no independent evidence' : 'little real evidence'}. Worth a look?`;
     case 'curate:ADJUST_DOSE':
       return `${name} is worth keeping, at the amount that's known to work. Want to see what that looks like?`;
     case 'curate:ADJUST_FORM':
