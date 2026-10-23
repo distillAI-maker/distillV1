@@ -3117,11 +3117,6 @@ body[data-ground='paper'] .obar {
   font: 300 23px/1.25 var(--serif);
   letter-spacing: -0.015em;
 }
-.reveal-toward {
-  font: italic 300 23px/1.25 var(--serif);
-  letter-spacing: -0.015em;
-  color: var(--ochre);
-}
 .cabinet {
   display: grid;
   gap: 14px;
@@ -3238,10 +3233,4 @@ body[data-ground='paper'] .obar {
   to {
     opacity: 1;
   }
-}
-.reveal-moves {
-  padding-top: 18px;
-  border-top: 1px solid var(--rule-2);
-  font: italic 300 19px/1.4 var(--serif);
-  color: var(--ink);
 }

@@ -8,7 +8,7 @@ import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
 import { alwaysYours, momentCards, type CardRow, type RevealNotes } from '../../../lib/onboarding/reveal';
-import { asSaid, atBestLine, becomingLine, lifePicks, listOf } from '../../../lib/onboarding/you';
+import { asSaid, atBestLine, lifePicks, listOf } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -49,17 +49,15 @@ export function Reveal() {
   }, [ready, progress]);
 
   const best = ready ? atBestLine(progress) : null;
-  const toward = ready ? becomingLine(progress) : null;
 
   return (
     <section className="screen-reveal" aria-busy={!draft && !failed}>
       <header className="reveal-head">
         <h1>{copy.reveal.title}</h1>
-        {best || toward ? (
+        {best ? (
           <div className="reveal-best">
             <p className="eyebrow-ink">{copy.reveal.atBest}</p>
-            {best ? <p className="reveal-best-line">{best}</p> : null}
-            {toward ? <p className="reveal-toward">{toward}</p> : null}
+            <p className="reveal-best-line">{best}</p>
           </div>
         ) : null}
       </header>
@@ -79,8 +77,6 @@ export function Reveal() {
           shaped={shaped}
         />
       )}
-
-      <p className="reveal-moves">{copy.reveal.moves}</p>
 
       <div className="actions">
         <Button onClick={() => go('invitation')}>

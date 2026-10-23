@@ -263,7 +263,6 @@ export const copy = {
     canGo: 'Can go',
     worthALookTitle: 'Worth a look',
     noEvidence: 'No independent evidence',
-    moves: 'It moves with your life: text ‘out late tonight’.',
     empty: 'Your Ritual starts with what you love. Add something you do, and it fills in.',
     accept: 'This is my Ritual',
     error: "We couldn't draw your Ritual just now. Everything is saved.",
