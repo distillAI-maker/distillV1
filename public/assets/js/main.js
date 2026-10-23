@@ -99,11 +99,18 @@ function playNoise(then) {
     layer.remove();
     then();
   };
+  // Thrown at the screen: each word starts two to three times its size and slams into place. The
+  // gaps shrink as it goes, so it starts sparse and ends in a rush; one small jolt, then it all
+  // rushes past and clears.
+  gsap.set(words, { xPercent: -50, yPercent: -50 });
   const tl = gsap.timeline({ onComplete: finish })
-    .to(words, { opacity: i => words[i].dataset.o, filter: 'blur(0px)', duration: .6, stagger: .055, startAt: { filter: 'blur(6px)' } })
-    .to({}, { duration: .5 })
-    .to(words, { filter: 'blur(12px)', opacity: 0, duration: .9, ease: 'power2.in' })
-    .to(layer, { opacity: 0, duration: .9, ease: 'power2.out' }, '<.25');
+    .fromTo(words,
+      { opacity: 0, scale: i => 2.2 + frac(i * .381) * 1.2, filter: 'blur(8px)' },
+      { opacity: i => words[i].dataset.o, scale: 1, filter: 'blur(0px)', duration: .38, ease: 'expo.out',
+        stagger: { amount: 1.3, ease: 'power1.out' } })
+    .to(layer, { keyframes: [{ x: -4, y: 2 }, { x: 3, y: -2 }, { x: -2, y: 1 }, { x: 0, y: 0 }], duration: .32, ease: 'none' }, '-=.2')
+    .to({}, { duration: .2 })
+    .to(layer, { scale: 1.12, filter: 'blur(14px)', opacity: 0, duration: .55, ease: 'power2.in' });
   const skip = () => tl.timeScale(6);
   layer.addEventListener('click', skip);
   addEventListener('wheel', skip, { passive: true });
