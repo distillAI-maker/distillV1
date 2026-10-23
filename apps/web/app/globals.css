@@ -3161,3 +3161,9 @@ body[data-ground='paper'] .obar {
   font: italic 300 17px/1.4 var(--serif);
   color: var(--accent);
 }
+/* What the decisions say arrives just after the Ritual itself. */
+.screen-reveal .reveal-notes,
+.screen-reveal .reveal-clean,
+.screen-reveal .reveal-look {
+  animation: rise calc(0.8s * var(--motion) + 0.001s) calc(0.5s * var(--motion)) var(--ease-out) both;
+}
