@@ -5,8 +5,9 @@ Distill builds each person's unique personal Ritual: the whole system of their m
 ## Read first
 
 1. **`docs/HANDOVER.md`**: what Distill is, the voice, the brand, who owns what, what is built, the decisions already made, and the five priorities. It wins over every older doc.
-2. **`docs/ENGINE.md`**: the Ritual engine as built (rules, Claude's steps, storage, switches, evaluation, going live).
-3. `docs/ROUTING-V4.md` for the routing table; `eval/coverage.md` for the golden set.
+2. **`docs/AI-BACKEND.md`**: where the AI backend stands, the path to Claude shaping real Rituals, and the quality loop.
+3. **`docs/ENGINE.md`**: the Ritual engine as built (rules, Claude's steps, storage, switches, evaluation, going live).
+4. `docs/ROUTING-V4.md` for the routing table; `eval/coverage.md` for the golden set.
 
 Older docs (`SPEC.md`, `docs/DIRECTION.md`, `docs/Product-Context.md`, the phase docs) are history: their test-first framing, verdicts and gallery-white look are superseded. Raise a mismatch rather than following them.
 
