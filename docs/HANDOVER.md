@@ -73,7 +73,7 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 - **Routing table V4** (`data/Routing-Table_V4.xlsx` → `data/catalog-v4.json`): 50 rows with sources, evidence tiers A to N with a direction (alcohol's A is evidence of a cost), dose rules, overlaps, safety, and Eat / Move / Mind / Sleep / Skin. Now 156 rows. **All 156 are `live`, signed off by Veer on 23 October** (his decision: Ishan's sign-off isn't required). Rows outside V4 fall back to V3 as unknown evidence (they never protect or clear).
 - **Explore bank** (`data/explore-bank.json`): 60 ideas; **none certified yet**. Only certified ideas are ever shown.
 - **Evaluation:** 41 golden people (`eval/people/`: 8 companion examples, 32 drafted by Claude, Veer as `veer-00`), hard gates in `pnpm check`, Claude runs and an Opus judge with planted bad outputs (`pnpm eval:engine`), blind A/B (`pnpm eval:ab`). Rules-only today: all pass every gate; the engine finds 27% of the clears a careful friend would propose (most misses are rows outside the 50).
-- **Open PR #21** (Claude's first Ritual and reshapes now land instead of falling back to rules lines): https://github.com/distillAI-maker/distillV1/pull/21. Ishan to review. It adds `pnpm ritual:show <ids> [--claude]`, which prints a person's first Ritual, what Distill proposed, every reply and why any Claude step fell back. Veer's own result with Claude on: creatine with breakfast, meditation daily, sport with friends at 4, wine nights with friends at 7, wind-down at 10; "out late with the team tonight" → "Saturday starts slow: sleep in, then your morning meditation, creatine and vitamin C whenever you're up."
+- **PR #21, merged 22 October** (Claude's first Ritual and reshapes now land instead of falling back to rules lines): https://github.com/distillAI-maker/distillV1/pull/21. It adds `pnpm ritual:show <ids> [--claude]`, which prints a person's first Ritual, what Distill proposed, every reply and why any Claude step fell back. Veer's own result with Claude on: creatine with breakfast, meditation daily, sport with friends at 4, wine nights with friends at 7, wind-down at 10; "out late with the team tonight" → "Saturday starts slow: sleep in, then your morning meditation, creatine and vitamin C whenever you're up."
 
 **Not live yet in production:** the engine's tables (migration not applied), four server settings on Vercel, Claude (`ENGINE_CLAUDE` off), any explore idea. Until the settings exist, signed-in screens that call `/api/app/*` answer 503. See priority 1.
 
@@ -109,7 +109,7 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 - **Done when:** a fresh signed-in account on the live app gets a first Ritual and a reply in the companion thread (Claude off is fine).
 
 **2. Make the engine's judgement trustworthy. Owner: Ishan. Next two weeks.**
-- Review and merge #21.
+- ~~Review and merge #21~~: merged 22 October.
 - ~~Set the V4 rows `live`~~: done 23 October, all 156, signed by Veer.
 - Fix the follow-ups in #21: supplements should ride along with breakfast instead of taking one of the three day-one morning places; ask how often (a question card) instead of guessing "once a week".
 - When the credit allows, run `pnpm eval:engine --claude --judge --yes` (about $15) and fix what it finds; then the next V4 batch from the report's "Missed clears".
@@ -139,7 +139,7 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 - **Branches and PRs only.** Never push to `main` (it deploys). Claude sessions push branches and open PRs without asking; request Ishan as reviewer; Veer merges.
 - **Before saying what the code does,** run `git fetch` and look at `origin/main`. Things move fast; an old checkout has misled a session before.
 - **Checks:** `npx -y pnpm@10.34.6 check` (lint, types, about 1,600 tests, catalog, tone) and `build:web` before every PR. The dev server rewrites `apps/web/next-env.d.ts`; never commit it.
-- **Useful commands:** `pnpm catalog:build` (V3 and V4), `pnpm eval:gates` (three seconds, free), `pnpm eval:engine` (rules only, free; add `--claude --judge --yes` to spend), `pnpm ritual:show veer-00 --claude` (after #21), `pnpm engine:backfill`.
+- **Useful commands:** `pnpm catalog:build` (V3 and V4), `pnpm eval:gates` (three seconds, free), `pnpm eval:engine` (rules only, free; add `--claude --judge --yes` to spend), `pnpm ritual:show veer-00 --claude`, `pnpm engine:backfill`.
 - **Claude off by default.** Nothing spends without a deliberate flag or setting; the engine works fully on rules and fixed lines.
 - **When something breaks mid-task,** fix it properly on the branch or ask one clear question; don't stop at a report.
 - **Veer's style:** recommendation first, concise, show don't describe, art-directed visuals over option tables. Phone-size checks for anything people see.
