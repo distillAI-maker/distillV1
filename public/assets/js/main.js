@@ -66,6 +66,8 @@ const NOISE = [
 
 function playNoise(then) {
   const layer = $('[data-noise]');
+  // The head script painted the layer black before anything else showed; from here JS runs it.
+  root.classList.remove('noise-first');
   let seen = false;
   try { seen = sessionStorage.getItem('distill-noise') === '1'; } catch {}
   if (!layer || (seen && !/[?&]noise=1/.test(location.search))) return then();
@@ -79,15 +81,25 @@ function playNoise(then) {
     const col = cell % cols;
     const el = document.createElement('span');
     el.textContent = text;
-    el.className = i % 7 === 0 ? 'n-lg' : i % 3 === 0 ? 'n-tag' : i % 2 === 0 ? 'n-md' : 'n-sm';
+    // The first few are read one at a time, so they're big enough to read; then the usual mix.
+    el.className = i < 7 ? (i % 2 ? 'n-md' : 'n-lg') : i % 7 === 0 ? 'n-lg' : i % 3 === 0 ? 'n-tag' : i % 2 === 0 ? 'n-md' : 'n-sm';
     const w = 100 / cols;
-    el.style.setProperty('--x', `${w * (col + .5) + (frac(i * .754) - .5) * w}%`);
+    // Kept clear of the edges, so no word is cut off.
+    el.style.setProperty('--x', `${Math.min(84, Math.max(16, w * (col + .5) + (frac(i * .754) - .5) * w))}%`);
     el.style.setProperty('--y', `${5 + (row + .5) * (88 / rows) + (frac(i * .618) - .5) * 4}%`);
-    el.dataset.o = String(.2 + frac(i * .7548) * .45);
+    // The first few are bright enough to read; the pile after them sits fainter behind.
+    el.dataset.o = String(i < 7 ? .9 : .25 + frac(i * .7548) * .45);
     layer.append(el);
     return el;
   });
   layer.classList.add('is-on');
+  // Measured once they're laid out: pull any word that would overhang an edge back inside.
+  const width = layer.clientWidth;
+  words.forEach(el => {
+    const half = el.offsetWidth / 2 + 14;
+    const x = (parseFloat(el.style.getPropertyValue('--x')) / 100) * width;
+    el.style.left = `${Math.min(width - half, Math.max(half, x))}px`;
+  });
   gsap.set(nav, { opacity: 0 });
   let done = false;
   const finish = () => {
@@ -99,18 +111,23 @@ function playNoise(then) {
     layer.remove();
     then();
   };
-  // Thrown at the screen: each word starts two to three times its size and slams into place. The
-  // gaps shrink as it goes, so it starts sparse and ends in a rush; one small jolt, then it all
-  // rushes past and clears.
-  gsap.set(words, { xPercent: -50, yPercent: -50 });
-  const tl = gsap.timeline({ onComplete: finish })
-    .fromTo(words,
-      { opacity: 0, scale: i => 2.2 + frac(i * .381) * 1.2, filter: 'blur(8px)' },
-      { opacity: i => words[i].dataset.o, scale: 1, filter: 'blur(0px)', duration: .38, ease: 'expo.out',
-        stagger: { amount: 1.3, ease: 'power1.out' } })
-    .to(layer, { keyframes: [{ x: -4, y: 2 }, { x: 3, y: -2 }, { x: -2, y: 1 }, { x: 0, y: 0 }], duration: .32, ease: 'none' }, '-=.2')
-    .to({}, { duration: .2 })
-    .to(layer, { scale: 1.12, filter: 'blur(14px)', opacity: 0, duration: .55, ease: 'power2.in' });
+  // A beat of black, then the words are thrown at the screen one at a time, slow enough to read the
+  // first few, each gap a little shorter than the last until it's a rush (gaps from 0.65s down to
+  // 0.03s, about 4s in all). One small jolt when it's full, a breath, then it all rushes past.
+  // GSAP owns the centring (the stylesheet's translate is replaced, not added to).
+  gsap.set(words, { x: 0, y: 0, xPercent: -50, yPercent: -50, opacity: 0 });
+  const tl = gsap.timeline({ onComplete: finish });
+  let at = .8;
+  words.forEach((w, i) => {
+    tl.fromTo(w,
+      { opacity: 0, scale: 1.7 + frac(i * .381) * .8, filter: 'blur(6px)' },
+      { opacity: +w.dataset.o, scale: 1, filter: 'blur(0px)', duration: i < 7 ? .7 : .45, ease: 'expo.out' },
+      at);
+    at += Math.max(.03, .65 * .83 ** i);
+  });
+  tl.to(layer, { keyframes: [{ x: -4, y: 2 }, { x: 3, y: -2 }, { x: -2, y: 1 }, { x: 0, y: 0 }], duration: .32, ease: 'none' }, at + .15)
+    .to({}, { duration: .6 })
+    .to(layer, { scale: 1.12, filter: 'blur(14px)', opacity: 0, duration: .7, ease: 'power2.in' });
   const skip = () => tl.timeScale(6);
   layer.addEventListener('click', skip);
   addEventListener('wheel', skip, { passive: true });

@@ -22,7 +22,7 @@
 <link rel="preload" href="/assets/img/hero.jpg" as="image" media="(min-width: 761px)">
 <link rel="preload" href="/assets/img/hero-sm.jpg" as="image" media="(max-width: 760px)">
 <link rel="stylesheet" href="/assets/css/site.css">
-<script>document.documentElement.classList.add('js');try{var off=localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search);if(off)document.documentElement.dataset.motion='off';else if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('mo')}catch(e){}setTimeout(function(){if(!window.distillReady)document.documentElement.classList.remove('mo')},3500)</script>
+<script>document.documentElement.classList.add('js');try{var off=localStorage.getItem('distill-motion')==='off'||/[?&]motion=off/.test(location.search);if(off)document.documentElement.dataset.motion='off';else if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('mo');if(sessionStorage.getItem('distill-noise')!=='1'||/[?&]noise=1/.test(location.search))document.documentElement.classList.add('noise-first')}}catch(e){}setTimeout(function(){if(!window.distillReady)document.documentElement.classList.remove('mo','noise-first')},3500)</script>
 </head>
 <body>
 <a class="skip" href="#join">Skip to the Founding 100</a>

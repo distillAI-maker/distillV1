@@ -338,6 +338,9 @@ i, em, cite { font-style: normal; }
 /* ── the noise: the feed's words pile up on ink, blur away, and the hero settles (main.js) ── */
 .noise { position: absolute; inset: 0; z-index: 4; display: none; overflow: hidden; background: var(--ink); color: var(--ground); pointer-events: none; }
 .noise.is-on { display: block; pointer-events: auto; cursor: pointer; }
+/* Black from the first paint on a first visit, so nothing shows before the noise begins. */
+.mo.noise-first .noise { display: block; }
+.mo.noise-first .nav { opacity: 0; }
 .noise span { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); white-space: nowrap; opacity: 0; }
 .noise .n-lg { font: 300 clamp(30px, 3.8vw, 62px)/1 var(--serif); letter-spacing: -.035em; }
 .noise .n-md { font: 300 clamp(20px, 2.3vw, 36px)/1 var(--serif); letter-spacing: -.02em; }
