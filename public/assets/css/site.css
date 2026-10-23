@@ -92,7 +92,8 @@ i, em, cite { font-style: normal; }
 .hero__img img { object-fit: cover; object-position: 50% 62%; filter: saturate(.55) contrast(1.05); }
 .hero__wash { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(17, 25, 27, .82) 0%, rgba(17, 25, 27, .45) 45%, rgba(17, 25, 27, .12) 100%), linear-gradient(180deg, rgba(17, 25, 27, .35), transparent 25%); }
 .hero__content { position: absolute; left: 9vw; top: 50%; transform: translateY(-46%); max-width: 720px; }
-.hero__title { margin: 22px 0 24px; font: 300 clamp(56px, 7.4vw, 116px)/.94 var(--serif); letter-spacing: -.05em; }
+/* Flex, so each line's negative margin (room for the rise mask) adds up instead of collapsing into a gap. */
+.hero__title { display: flex; flex-direction: column; margin: 22px 0 24px; font: 300 clamp(56px, 7.4vw, 116px)/.94 var(--serif); letter-spacing: -.045em; }
 .hero__title .ln { display: block; overflow: hidden; padding: .16em .12em .1em; margin: -.16em -.12em -.1em; }
 .hero__title .ln > span { display: block; }
 .hero__sub { max-width: 560px; font: 400 21px/1.35 var(--serif); }
@@ -301,9 +302,6 @@ i, em, cite { font-style: normal; }
 .join input::placeholder { color: rgba(17, 25, 27, .45); }
 .join__step[data-step="email"]:focus-within { box-shadow: 0 0 0 1.5px var(--spark); }
 .join .button { flex: none; padding: 19px 20px; gap: 28px; }
-.join__ask { font: 400 19px/1.35 var(--serif); }
-.join__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 14px; }
-.join__step[data-step="wear"] .link { font-size: 13px; color: var(--ink-2); }
 .join__msg { margin-top: 12px; font: 400 17px/1.4 var(--serif); }
 .join__msg:empty { display: none; }
 .join[data-state="ok"] .join__msg { display: flex; align-items: center; gap: 12px; font-size: 21px; font-style: normal; }

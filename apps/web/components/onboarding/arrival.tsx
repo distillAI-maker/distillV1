@@ -9,8 +9,8 @@ import { track } from '../../lib/track';
 import { Mark } from './mark';
 
 /**
- * The first screen opens on the problem. The feed's words pile up on ink until it's too much, then
- * they blur away, the quiet image comes up, and the line lands: "There's so much noise. Doing
+ * The first screen opens on the problem. The feed's words are thrown at the screen, faster and
+ * faster, until it's too much; a small jolt, then they rush past and blur away, the quiet image comes up, and the line lands: "There's so much noise. Doing
  * everything wears you down." A tap during the noise skips to the line; a tap on the line begins.
  * People with saved progress, and anyone who asked for less motion, land on the line directly.
  */
@@ -18,8 +18,10 @@ import { Mark } from './mark';
 type Phase = 'idle' | 'noise' | 'clear' | 'settled';
 
 /** When the noise clears and when the line lands, in ms. */
-const CLEAR_AT = 2900;
-const SETTLE_AT = 3600;
+const CLEAR_AT = 2000;
+const SETTLE_AT = 2600;
+/** The noise piles up over this long: a few words, then a rush. */
+const PILE_MS = 1300;
 
 /**
  * Where each word of the noise sits: three loose columns down the whole screen, each word pushed
@@ -41,8 +43,11 @@ const words = copy.welcome.noise.map((text, i) => {
     style: {
       '--x': `${20 + col * 30 + (frac(i * 0.754) - 0.5) * 30}%`,
       '--y': `${5 + (row + 0.5) * (88 / ROWS) + (frac(i * 0.618) - 0.5) * 4}%`,
-      '--d': `${i * 60}ms`,
+      // Gaps shrink as it goes ((i/n)^0.6), so it starts sparse and ends in a rush.
+      '--d': `${Math.round(PILE_MS * (i / copy.welcome.noise.length) ** 0.6)}ms`,
       '--o': `${0.2 + frac(i * 0.7548) * 0.45}`,
+      // How far off the screen each word is thrown from: 2.2 to 3.4 times its size.
+      '--s': `${(2.2 + frac(i * 0.381) * 1.2).toFixed(2)}`,
     } as CSSProperties,
   };
 });

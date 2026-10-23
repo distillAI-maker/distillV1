@@ -48,11 +48,11 @@ describe('Arrival', () => {
     expect(el.className).toContain('is-noise');
     expect(el.textContent).toContain('Day 1 of 75');
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(3000);
+      await vi.advanceTimersByTimeAsync(2100);
     });
     expect(el.className).toContain('is-clear');
     await act(async () => {
-      await vi.advanceTimersByTimeAsync(800);
+      await vi.advanceTimersByTimeAsync(700);
     });
     expect(el.className).toContain('is-settled');
     fireEvent.click(el);
