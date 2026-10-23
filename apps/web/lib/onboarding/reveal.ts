@@ -27,7 +27,7 @@ export interface RevealItem {
 export interface RevealNotes {
   /** Things the engine would clear, with the money a year. */
   readonly letGo: readonly { name: string; yearly: number }[];
-  /** Well-founded things they keep. */
+  /** Well-founded things they keep, by stack item id. */
   readonly wellFounded: readonly string[];
   /** No independent evidence, and we don't know yet why they have it. */
   readonly worthALook: readonly string[];
@@ -67,7 +67,9 @@ export function revealNotes(
   });
   return {
     letGo: letGo.slice(0, 4),
-    wellFounded: unique(decisions.filter((d) => d.kind === 'keep' && WELL_FOUNDED.has(d.reason) && ok(d)).map((d) => d.name)).slice(0, 4),
+    wellFounded: unique(
+      decisions.filter((d) => d.kind === 'keep' && WELL_FOUNDED.has(d.reason) && d.stackItemId).map((d) => d.stackItemId!),
+    ),
     worthALook: unique([...flagged, ...derived].map((d) => d.name)).slice(0, 2),
   };
 }
@@ -75,7 +77,7 @@ export function revealNotes(
 export interface CardRow {
   readonly id: string;
   readonly title: string;
-  /** "Yours · 3 times a week", or empty. */
+  /** "Yours · Well-founded", or empty. */
   readonly meta: string;
 }
 
@@ -83,7 +85,6 @@ export interface MomentCard {
   readonly key: 'morning' | 'day' | 'night';
   readonly label: string;
   readonly title: string;
-  readonly close: string;
   readonly rows: readonly CardRow[];
 }
 
@@ -95,9 +96,11 @@ function clock(at: string): string {
   return `${hour}${m ? `:${String(m).padStart(2, '0')}` : ''}${h < 12 ? 'am' : 'pm'}`;
 }
 
-function metaOf(p: RitualPart): string {
+function metaOf(p: RitualPart, wellFounded: ReadonlySet<string>): string {
+  const item = p.source.kind === 'stack' ? p.source.stackItemId : null;
   const bits = [
     p.lock === 'theirs' ? copy.reveal.yours : null,
+    item && wellFounded.has(item) ? copy.reveal.wellFounded : null,
     p.when.at ? clock(p.when.at) : null,
     p.when.perWeek && !p.when.days.length ? copy.reveal.perWeek(p.when.perWeek) : null,
     weekendOnly(p) ? copy.reveal.weekends : null,
@@ -106,7 +109,8 @@ function metaOf(p: RitualPart): string {
 }
 
 /** Their morning, day and evening as the brand board's cabinet cards: a numbered row a part. */
-export function momentCards(parts: readonly RitualPart[]): MomentCard[] {
+export function momentCards(parts: readonly RitualPart[], wellFounded: readonly string[] = []): MomentCard[] {
+  const founded = new Set(wellFounded);
   const active = [...parts].filter((p) => p.status === 'active').sort((a, b) => a.order - b.order);
   const groups: [MomentCard['key'], RitualPart[]][] = [
     ['morning', active.filter((p) => p.when.slot === 'morning')],
@@ -118,7 +122,7 @@ export function momentCards(parts: readonly RitualPart[]): MomentCard[] {
     .map(([key, ps]) => ({
       key,
       ...copy.reveal.cards[key],
-      rows: ps.map((p) => ({ id: p.id, title: p.title, meta: metaOf(p) })),
+      rows: ps.map((p) => ({ id: p.id, title: p.title, meta: metaOf(p, founded) })),
     }));
 }
 

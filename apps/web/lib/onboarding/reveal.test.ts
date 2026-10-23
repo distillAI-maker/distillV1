@@ -25,7 +25,7 @@ describe('the reveal notes', () => {
       items,
       [],
     );
-    expect(notes).toEqual({ letGo: [], wellFounded: ['Creatine'], worthALook: ['AG1'] });
+    expect(notes).toEqual({ letGo: [], wellFounded: ['cr'], worthALook: ['AG1'] });
   });
 
   it('never asks about something that is theirs, or that they told us the origin of', () => {
@@ -67,7 +67,7 @@ const part = (id: string, title: string, slot: RitualPart['when']['slot'], over:
   }) as RitualPart;
 
 describe('the reveal lines', () => {
-  it('draws a card a moment, a row a part, with when and whose in a short line', () => {
+  it('draws a card a moment, a row a part, with whose, how well-founded and when in a short line', () => {
     const cards = momentCards([
       part('a', 'Creatine', 'morning', {}, 0),
       { ...part('c', 'Gym', 'morning', { days: [], perWeek: 3 }, 1), lock: 'theirs' } as RitualPart,
@@ -75,9 +75,9 @@ describe('the reveal lines', () => {
       part('d', 'Walk at lunch', 'midday', {}, 3),
       part('e', 'Journaling', 'night', {}, 4),
       { ...part('g', 'Gone', 'evening'), status: 'removed' } as RitualPart,
-    ]);
+    ], ['a']);
     expect(cards.map((c) => [c.key, c.title, c.rows.map((r) => [r.title, r.meta])])).toEqual([
-      ['morning', 'Begin with yourself.', [['Creatine', ''], ['Gym', 'Yours · 3 times a week'], ['Long run', '7:30am · Weekends']]],
+      ['morning', 'Begin with yourself.', [['Creatine', 'Well-founded'], ['Gym', 'Yours · 3 times a week'], ['Long run', '7:30am · Weekends']]],
       ['day', 'Through the day.', [['Walk at lunch', '']]],
       ['night', 'Close the day.', [['Journaling', '']]],
     ]);

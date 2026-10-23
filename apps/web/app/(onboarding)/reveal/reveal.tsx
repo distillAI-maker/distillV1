@@ -8,11 +8,10 @@ import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
 import { alwaysYours, momentCards, type CardRow, type RevealNotes } from '../../../lib/onboarding/reveal';
-import { asSaid, atBestLine, becomingLine, lifePicks, listOf, midSentence } from '../../../lib/onboarding/you';
+import { asSaid, atBestLine, becomingLine, lifePicks, listOf } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
-const names = (xs: readonly string[]) => listOf(xs.map((x, i) => (i ? midSentence(x) : x)));
 const n2 = (i: number) => String(i + 1).padStart(2, '0');
 
 /**
@@ -125,7 +124,7 @@ function Cabinet({
   shaping: boolean;
   shaped: boolean;
 }) {
-  const cards = momentCards(parts);
+  const cards = momentCards(parts, notes.wellFounded);
   const always = alwaysYours(parts, picks);
   return (
     <div className="cabinet" aria-live="polite">
@@ -141,7 +140,6 @@ function Cabinet({
           </div>
           <h2 className="cab-head">{c.title}</h2>
           <Rows rows={c.rows} label={c.label} />
-          {c.close ? <p className="cab-close">{c.close}</p> : null}
         </article>
       ))}
       {!cards.length && !always.length ? <p className="reveal-empty">{copy.reveal.empty}</p> : null}
@@ -168,19 +166,19 @@ function Cabinet({
           />
         </section>
       ) : notes.wellFounded.length ? (
-        <section className="reveal-block reveal-clean">
-          <p className="reveal-verdict">{copy.reveal.clean}</p>
-          <p className="reveal-small">{copy.reveal.wellFounded(names(notes.wellFounded), notes.wellFounded.length)}</p>
-        </section>
+        <p className="reveal-block reveal-verdict">{copy.reveal.clean}</p>
       ) : null}
 
       {notes.worthALook.length ? (
         <section className="reveal-block" aria-label={copy.reveal.worthALookTitle}>
-          <p className="eyebrow-ink">{copy.reveal.worthALookTitle}</p>
+          <p className="reveal-eyebrows">
+            <span className="eyebrow-ink">{copy.reveal.worthALookTitle}</span>
+            <span className="eyebrow-faint">{copy.reveal.noEvidence}</span>
+          </p>
           <Rows
             label={copy.reveal.worthALookTitle}
             ring={false}
-            rows={notes.worthALook.map((n) => ({ id: n, title: n, meta: copy.reveal.noEvidence }))}
+            rows={notes.worthALook.map((n) => ({ id: n, title: n, meta: '' }))}
           />
         </section>
       ) : null}

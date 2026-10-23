@@ -170,7 +170,7 @@ export const copy = {
   best: {
     title: 'You, at your best.',
     titleNamed: (name: string) => `${name}, at your best.`,
-    line: "One tap each. Skip any that don't fit.",
+    line: 'One tap each.',
     or: 'or',
     pairs: [
       {
@@ -203,7 +203,7 @@ export const copy = {
       },
     ],
     becomingTitle: 'Who are you becoming?',
-    becomingHint: 'Pick up to three.',
+    becomingHint: 'Up to three',
     becoming: [
       'Stronger',
       'Calmer',
@@ -215,7 +215,7 @@ export const copy = {
       'Healthy for the long run',
     ],
     ownLabel: 'In your own words',
-    ownPlaceholder: 'Optional, one line',
+    ownPlaceholder: 'Optional',
     next: 'Continue',
   },
   /** Step 5: what they'd never give up. */
@@ -247,9 +247,9 @@ export const copy = {
     atBest: 'You, at your best',
     becoming: (list: string) => `Becoming ${list}.`,
     cards: {
-      morning: { label: 'Morning', title: 'Begin with yourself.', close: 'Your morning, distilled.' },
-      day: { label: 'Day', title: 'Through the day.', close: '' },
-      night: { label: 'Evening', title: 'Close the day.', close: 'Nothing left to prove tonight.' },
+      morning: { label: 'Morning', title: 'Begin with yourself.' },
+      day: { label: 'Day', title: 'Through the day.' },
+      night: { label: 'Evening', title: 'Close the day.' },
     },
     perWeek: (n: number) => (n === 1 ? 'Once a week' : `${n} times a week`),
     weekends: 'Weekends',
@@ -257,13 +257,12 @@ export const copy = {
     always: 'Always yours',
     shaping: 'Shaping it around you',
     clean: 'Clean already.',
-    wellFounded: (names: string, n: number) =>
-      n === 1 ? `${names} is well-founded.` : `${names} are well-founded.`,
+    wellFounded: 'Well-founded',
     letGoTitle: 'Ready to let go',
     yearBack: (yearly: string) => `$${yearly} a year back`,
     canGo: 'Can go',
     worthALookTitle: 'Worth a look',
-    noEvidence: 'No independent evidence.',
+    noEvidence: 'No independent evidence',
     moves: 'It moves with your life: text ‘out late tonight’.',
     empty: 'Your Ritual starts with what you love. Add something you do, and it fills in.',
     accept: 'This is my Ritual',
