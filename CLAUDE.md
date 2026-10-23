@@ -1,25 +1,30 @@
 # Distill
 
-Distill has two parts in this repo:
-
-- **The marketing site** in `public/` (one static `index.html`, no build step). Vercel serves it on every push to `main`: https://distill-v1-tau.vercel.app.
-- **The app,** being built in eight phases, one PR each, from `SPEC.md`. It's a pnpm workspace: `packages/catalog` builds `data/catalog.json` from `data/Routing-Table_V3.xlsx`, and `packages/engine` holds the item rules and `toneLint`. Phase 2 (`origin/phase-2/data-sources`) is in progress; don't edit its packages from another branch.
+Distill builds each person's unique personal Ritual: the whole system of their mornings, nights and weekends, so they are free to live the rest of their life on their own terms. Less noise. More you.
 
 ## Read first
 
-- `SPEC.md`: the app brief and its non-negotiables (not a medical product; Protected items untouched; observe-only items; locked pre-registration; Tone Guide is law).
-- `README.md` and `docs/CATALOG.md`: current phase and contracts.
-- `docs/OPEN_QUESTIONS.md`: team decisions. Log conflicts there; don't decide them silently.
-- `docs/Product-Context.md`: Veer's product, brand and strategy context (luxury and identity direction, ICP, onboarding vision). It is newer than parts of `SPEC.md` and disagrees with it in places (paywall, look, test-first vs history-first). Raise mismatches rather than picking a side.
-- `docs/Emotional-Positioning-Research.md`: tone rules for any user-facing copy.
+1. **`docs/HANDOVER.md`**: what Distill is, the voice, the brand, who owns what, what is built, the decisions already made, and the five priorities. It wins over every older doc.
+2. **`docs/ENGINE.md`**: the Ritual engine as built (rules, Claude's steps, storage, switches, evaluation, going live).
+3. `docs/ROUTING-V4.md` for the routing table; `eval/coverage.md` for the golden set.
+
+Older docs (`SPEC.md`, `docs/DIRECTION.md`, `docs/Product-Context.md`, the phase docs) are history: their test-first framing, verdicts and gallery-white look are superseded. Raise a mismatch rather than following them.
+
+## Repo
+
+- **Landing page** in `public/` (static, no build step): https://distill-v1-tau.vercel.app.
+- **App** in `apps/web` (Next.js): https://distill-app-nu.vercel.app. pnpm workspace: `packages/engine` (the Ritual engine's rules, `toneLint`), `packages/catalog` (V3 and V4 routing tables), `packages/data`, `packages/providers` (wearables).
 
 ## Commands
 
-- App checks (Node 24, pnpm 10.34.6): `pnpm install --frozen-lockfile`, `pnpm catalog:build`, `pnpm check`
-- Landing page preview: `python3 -m http.server 3000 -d public`
+- Node 24, pnpm 10.34.6 (`npx -y pnpm@10.34.6 …`): `install --frozen-lockfile`, `catalog:build`, `check` (lint, types, tests, catalog, tone), `build:web`.
+- Engine: `eval:gates` (free, seconds), `eval:engine` (rules only; `--claude --judge --yes` spends about $15), `eval:ab`, `engine:backfill`.
+- Landing page preview: `python3 -m http.server 3000 -d public`.
 
 ## Rules
 
-- Pushing to `main` publishes the marketing site within about a minute. Work on a branch and open a PR.
-- The Supabase publishable key in `public/assets/js/join.js` is meant to be public. Never commit `.env` files or service-role keys.
-- `public/assets/data/stack.json` (landing page, built by `scripts/build_landing_data.py`) and `data/catalog.json` (app) are separate pipelines from the same workbook.
+- Never push to `main`: it deploys the site and the app. Work on a branch, open a PR, request Ishan as reviewer; Veer merges.
+- `git fetch` and check `origin/main` before saying what the code does.
+- Never commit `.env` files, keys or `apps/web/next-env.d.ts`. The Supabase publishable key in `public/assets/js/join.js` and `apps/web/lib/waitlist.ts` is meant to be public.
+- Claude stays off unless a flag or setting turns it on; nothing spends by accident.
+- Flag changes in a teammate's area (Ishan: engine and V4; Rohan: Supabase, API, deploy settings) in the PR instead of deciding for them.
