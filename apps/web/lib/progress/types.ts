@@ -21,13 +21,19 @@ export const dataSourceIdSchema = z.enum([
 ]);
 export type DataSourceId = z.infer<typeof dataSourceIdSchema>;
 
-/** Onboarding steps, in the order the Figma flow runs them. 'heard', 'goals' and 'day-one' are older saves. */
+/**
+ * Onboarding steps (lib/steps.ts has the order). 'life', 'questions', 'heard', 'sorted', 'ready',
+ * 'goals' and 'day-one' are older saves, kept so they still load and resume.
+ */
 export const stepSchema = z.enum([
   'name',
   'stack',
   'life',
   'questions',
   'number',
+  'best',
+  'yours',
+  'reveal',
   'heard',
   'sorted',
   'ready',

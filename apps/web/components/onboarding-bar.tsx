@@ -4,26 +4,28 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import type { CSSProperties } from 'react';
 import { copy } from '../lib/copy';
-import { onboardingSteps, stepForPath } from '../lib/steps';
+import { NUMBERED_STEPS, onboardingSteps, stepForPath, stepNumber } from '../lib/steps';
 import { useBack } from './back-handler';
+import { useStepOverride } from './onboarding/step-number';
 import { BackButton, Wordmark } from './ui';
 
-/** The bar above every onboarding screen: back, wordmark, the step as "02", and the progress line. The name screen shows only back and the wordmark. */
+/** The bar above every onboarding screen: back, wordmark, the step as "02" of seven, and the progress line. The name screen shows only back and the wordmark. */
 export function OnboardingBar() {
   const pathname = usePathname();
   const router = useRouter();
   const takeover = useBack();
+  const override = useStepOverride();
   // Each step starts at the top, under the bar, whatever the last screen's scroll position was.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [pathname]);
   const step = stepForPath(pathname);
   const index = step ? onboardingSteps.indexOf(step) : -1;
-  const total = onboardingSteps.length;
-  const current = index + 1;
+  const total = NUMBERED_STEPS;
+  const current = override ?? (step ? stepNumber(step) : null);
   const previous = index > 0 ? onboardingSteps[index - 1] : undefined;
   const backHref = previous ? `/${previous}` : '/';
-  const bare = step === 'name';
+  const bare = current === null;
   return (
     <header className="obar">
       <div className="wrap">

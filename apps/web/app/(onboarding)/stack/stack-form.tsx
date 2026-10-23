@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useId, useMemo, useState } from 'react';
+import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
+import { useStepNumber } from '../../../components/onboarding/step-number';
 import { Icon } from '../../../components/icon';
 import { Button, Chip, Field, Skeleton } from '../../../components/ui';
 import { commonGroups, commonRow, type CommonItem } from '../../../lib/catalog/common';
@@ -82,6 +84,17 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   useEffect(() => {
     if (ready && stage === null) setStage(progress.items.length ? 'edit' : 'tap');
   }, [ready, stage, progress.items.length]);
+
+  // Tapping is step 1; the list ("anything we missed") is step 2, and Back from it returns to the taps.
+  useStepNumber(stage === 'edit' ? 2 : 1);
+  useBackHandler(
+    stage === 'edit' || stage === 'listen'
+      ? () => {
+          setStage('tap');
+          return true;
+        }
+      : null,
+  );
 
   // Each stage starts at its title.
   useEffect(() => {
@@ -168,7 +181,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
       return;
     }
     track('stack_done', { count: items.length });
-    go('life');
+    go('number');
   }
 
   if (!ready || stage === null) {

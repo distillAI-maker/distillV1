@@ -2944,3 +2944,293 @@ body[data-ground='paper'] .obar {
 .glass {
   border-radius: var(--r-card);
 }
+
+/* Steps 4 to 6, on the brand board's objects: tiny spaced-caps eyebrows, numbered hairline rows,
+   serif words, italic closing lines. Persimmon only marks what they chose. */
+.eyebrow-ink,
+.eyebrow-faint {
+  margin: 0;
+  font: 600 10px/1.4 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.eyebrow-faint {
+  color: var(--faint);
+  letter-spacing: 0.16em;
+}
+
+/* Step 4: you at your best. Each this-or-that is a numbered row; the pick is underlined in persimmon. */
+.screen-best .tot-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--rule-2);
+}
+.screen-best .tot {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  align-items: center;
+  border-top: 1px solid var(--rule-2);
+}
+.screen-best .tot-n {
+  font: 500 10px var(--sans);
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+.screen-best .tot-pair {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  align-items: center;
+}
+.screen-best .tot-or {
+  text-align: center;
+  font: italic 300 15px/1 var(--serif);
+  color: var(--faint);
+}
+.screen-best .tot-opt {
+  min-height: 62px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  white-space: nowrap;
+  font: 300 19px/1.15 var(--serif);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: underline 1.5px transparent;
+  text-underline-offset: 7px;
+  transition:
+    color calc(0.25s * var(--motion)) ease,
+    text-decoration-color calc(0.25s * var(--motion)) ease;
+}
+.screen-best .tot-opt:last-child {
+  text-align: right;
+}
+.screen-best .tot-picked .tot-opt {
+  color: var(--faint);
+}
+.screen-best .tot-opt[aria-checked='true'] {
+  color: var(--ink);
+  font-weight: 400;
+  text-decoration-color: var(--spark);
+}
+.screen-best .becoming {
+  margin-top: 20px;
+  gap: 14px;
+}
+.screen-best .becoming-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.screen-best .becoming-head h2 {
+  font-size: clamp(26px, 7vw, 30px);
+}
+/* Chips at the board's size. */
+.screen-best .chip,
+.screen-yours .chip {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+.chip.chip-full {
+  opacity: 0.5;
+}
+.own-line,
+.add-own {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+}
+.own-line input,
+.add-own input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--rule-2);
+  border-radius: 0;
+  background: transparent;
+  font: 300 20px var(--serif);
+  color: var(--ink);
+}
+.own-line input:focus,
+.add-own input:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+.own-line input::placeholder,
+.add-own input::placeholder {
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* Step 5: what makes you, you. */
+.screen-yours .yours-group {
+  margin-top: 10px;
+  gap: 12px;
+}
+.add-own {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 12px;
+}
+.add-own-btn {
+  min-height: 44px;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  font: 600 10px var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+}
+.add-own-btn:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+
+/* Step 6: the reveal, as the board's cabinet. A linen morning card, an ink evening card. */
+.screen-reveal {
+  display: grid;
+  gap: 28px;
+}
+.reveal-head {
+  display: grid;
+  gap: 22px;
+}
+.reveal-best {
+  display: grid;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-2);
+}
+.reveal-best-line {
+  font: 300 23px/1.25 var(--serif);
+  letter-spacing: -0.015em;
+}
+.cabinet {
+  display: grid;
+  gap: 14px;
+}
+.cab-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px 22px 20px;
+  background: var(--surface);
+  color: var(--ink);
+  animation: rise calc(0.8s * var(--motion) + 0.001s) var(--ease-out) both;
+}
+.cab-card + .cab-card {
+  animation-delay: calc(0.18s * var(--motion));
+}
+.cab-card.night {
+  background: var(--bg);
+}
+.cab-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cab-mark {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--ochre);
+  border-radius: 50%;
+}
+.cab-mark-day {
+  background: radial-gradient(circle, var(--ochre) 0 3px, transparent 3.5px);
+}
+.cab-mark-night {
+  background: linear-gradient(90deg, transparent 50%, var(--ochre) 50%);
+}
+.cab-head {
+  margin: 10px 0 6px;
+  font: 400 clamp(32px, 9vw, 38px) / 1 var(--serif);
+  letter-spacing: -0.035em;
+}
+.cab-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cab-row {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 0 10px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-top: 1px solid var(--rule-2);
+}
+.cab-n {
+  font: 500 9px var(--sans);
+  letter-spacing: 0.08em;
+  color: var(--faint);
+}
+.cab-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.cab-title {
+  font: 400 18px/1.25 var(--serif);
+  letter-spacing: -0.01em;
+}
+.cab-meta {
+  font: 400 12px/1.35 var(--sans);
+  color: var(--muted);
+}
+.cab-ring {
+  align-self: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.reveal-block {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  animation: rise calc(0.8s * var(--motion) + 0.001s) calc(0.4s * var(--motion)) var(--ease-out) both;
+}
+.reveal-always {
+  font: italic 300 22px/1.3 var(--serif);
+  letter-spacing: -0.01em;
+  color: var(--walnut);
+}
+.reveal-eyebrows {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.reveal-verdict {
+  font: italic 300 34px/1 var(--serif);
+  letter-spacing: -0.035em;
+  color: var(--ochre);
+}
+.reveal-empty,
+.reveal-shaping {
+  font: italic 300 16px var(--serif);
+  color: var(--muted);
+}
+.reveal-shaping {
+  animation: breathe calc(1.6s * var(--motion) + 0.001s) ease-in-out infinite alternate;
+}
+@keyframes breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}

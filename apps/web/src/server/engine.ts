@@ -1075,6 +1075,54 @@ export function previewEngine(
   };
 }
 
+/**
+ * The signed-out first Ritual with Claude's shaping on top of the rules draft, for the onboarding
+ * reveal. Same checks and fallback as the signed-in compose; nothing is stored. Null without a client.
+ */
+export async function previewCompose(
+  progress: Progress,
+  deps: {
+    catalog: CatalogView;
+    toneRules: Pick<ToneRules, 'bannedPhrases' | 'maxWordsExclusive' | 'gatedMaxWords'>;
+    client: ClaudeClient | null;
+    now?: Date;
+    timeZone?: string;
+  },
+) {
+  if (!deps.client) return null;
+  const instant = (deps.now ?? new Date()).toISOString();
+  const tz = validZone(deps.timeZone) ?? DEFAULT_ZONE;
+  const today = localDate(instant, tz);
+  const person = personFromProgress(progress, { personId: 'preview', timeZone: tz, today });
+  const decided = decide({ person, stack: progress.items, catalog: deps.catalog, history: [], today });
+  const rules = composeByRules({ person, stack: progress.items, decided, catalog: deps.catalog, firstCompose: true });
+  const words = theirWords(person, progress.items, progress.asks.map((a) => a.a));
+  const shaped = await composeRitual(deps.client, {
+    person,
+    rules,
+    allowed: {
+      words,
+      stackItemIds: new Set(progress.items.filter((i) => i.status !== 'cut').map((i) => i.id)),
+      ideaIds: new Set(),
+      peopleIds: new Set(person.people.map((p) => p.id)),
+      productNames: productNames(deps.catalog, progress),
+    },
+    toneRules: deps.toneRules,
+    lineContext: {
+      allowedNumbers: allowedNumbersFrom(words, ...progress.items.map((i) => String(Math.round(i.monthlyCost)))),
+      names: [
+        person.name,
+        ...person.people.map((p) => p.name),
+        ...progress.items.flatMap((i) => [i.label ?? '', i.customName ?? '', deps.catalog.item(i.itemKey)?.shortName ?? '']),
+      ].filter(Boolean),
+    },
+    firstCompose: true,
+    today,
+    newId: () => `part:${randomUUID()}`,
+  });
+  return { parts: shaped.parts, summary: shaped.summary, from: shaped.from };
+}
+
 /** Fixed lines the engine says itself; each passes the same checks as Claude's. */
 export const FIXED_LINES = {
   noRitualYet: 'Got it. Once you say yes to your Ritual, I can shape your days around things like this.',

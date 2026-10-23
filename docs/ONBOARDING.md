@@ -1,5 +1,22 @@
 # Onboarding and app screens (Phase 8)
 
+## Current flow (Veer, 22 October 2026)
+
+The first two minutes: "this gets me, and here is my Ritual". Everything after this section is the 2 October draft, kept for history.
+
+| Step | Route | Screen | Where the answers go |
+| --- | --- | --- | --- |
+| (unnumbered) | `/name` | First, what do we call you? | `name` |
+| 1 | `/stack` | Tap everything you do | `items` |
+| 2 | `/stack` (list) | Your current stack: anything we missed, prices prefilled | `items` |
+| 3 | `/number` | "12 things. $438 a month." Let's find what's really yours. | |
+| 4 | `/best` | You, at your best: four this-or-that taps, "Who are you becoming?" (up to three), one optional line | `asks` (q/a per pair); picture lines `toward`; a short ideal day in `lifeText` |
+| 5 | `/yours` | What makes you, you: their own items, life chips, add your own | items → `dayOne.yours` (theirs, locked); life things → picture lines `theirs` and `lifeText` |
+| 6 | `/reveal` | Your Ritual, first draft: at your best, morning / day / evening, always yours, clean already or what can go, worth a look, "It moves with your life" | nothing stored; rules version at once, Claude's when `ENGINE_CLAUDE=on` |
+| 7 | `/invitation`, `/connect` | Join the Founding 100, then connect | as before |
+
+Code: `apps/web/lib/steps.ts` (order, numbering, `resumePath` for older saves: `life` and `goals` resume at `/best`), `apps/web/lib/onboarding/you.ts` (steps 4 and 5), `apps/web/lib/onboarding/reveal.ts` (step 6's lines), `apps/web/lib/engine/preview.ts` (`revealRitual`, `shapeRitual`). The ideal day these steps write starts at "At my best: "; anything typed before it in the older flow is kept.
+
 Draft for the one checkpoint, 2 October 2026. This is the spec the `apps/web` build follows. It turns the Figma Make prototype (https://oval-dill-03025795.figma.site, nine screens, captured in [prototype-2026-10-02.jpg](prototype-2026-10-02.jpg)) into the screens SPEC section 11 asks for, on the landing page's design system.
 
 Nothing here changes `packages/catalog`, `packages/engine`, or the Phase 2 branch. Routing, scheduling, statistics and verdict text are not merged, so the screens read from typed fixtures shaped like SPEC's `RoutedStack`, `DayOneSummary` and verdict output. When `routeStack` lands, the fixtures are replaced and the screens stay.

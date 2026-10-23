@@ -74,10 +74,10 @@ describe('Your stack', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /That's everything/ }));
     });
-    expect(push).toHaveBeenCalledWith('/life');
+    expect(push).toHaveBeenCalledWith('/number');
     await waitFor(async () => {
       const saved = await store.load();
-      expect(saved?.step).toBe('life');
+      expect(saved?.step).toBe('number');
       expect(saved?.items.map((i) => i.itemKey)).toEqual([
         'premium-gym-membership-equinox-life-time',
       ]);
