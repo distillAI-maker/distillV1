@@ -1,6 +1,6 @@
 # Distill: team handover
 
-22 October 2026. For Veer, Ishan and Rohan, and for each of our Claude sessions. If you are a Claude session: read this whole file first, then `docs/ENGINE.md`. Where this file and an older doc disagree, this file wins.
+22 October 2026, updated 23 October. For Veer, Ishan and Rohan, and for each of our Claude sessions. If you are a Claude session: read this whole file first, then `docs/ENGINE.md`. Where this file and an older doc disagree, this file wins.
 
 ---
 
@@ -18,11 +18,34 @@
 4. **Reshape it with life.** A property of the engine, not a feature: they text "out late with the team tonight" and get a warm reply and a slower Saturday.
 5. **Explore outward.** Once it feels like theirs, Distill **asks** what they want to try (a region, a skill, a scene, new people) and offers a few real options. It never tells them what to do.
 
-**Positioning (Veer, 22 Oct):** lead with the noise, and with your unique identity and Ritual as the answer. Not a loneliness or mental-health product. Connection comes as a result (people count; explore pushes into real life), so it solves loneliness without being about it. It starts with internal work, then outward.
+**Positioning (Veer, 23 Oct; replaces 22 Oct):**
+
+- **The bigger problem we solve is mental health.** The noise (feeds, influencers, endless optimising and buying) leaves people overwhelmed, anxious and never feeling like enough. That is the wider issue under everything we build, and a huge market. Distill is not a session you open when it gets bad (Calm, Headspace); it is the system underneath your days, so there is less of it to begin with.
+- **We lead with the noise.** It is the pain someone recognises in a second ("There's so much noise"), it comes with a dollar amount, and it is what the first 60 seconds solve. Clarity, calm and feeling like enough are what people find as they go deeper, and what we talk about once they're in.
+- **How we stand in mental health:** a wellness companion, not therapy or care. Never claim to treat, cure or diagnose anxiety, depression or anything else, and never speak to anyone as a patient. Someone who is struggling or in crisis is pointed to a professional or a crisis line; the companion already does this (crisis words get the 988 line and a flag for a human, even with Claude off: `apps/web/lib/ai/engine/reply.ts`, `classify.ts`). Not a medical product.
+- **Loneliness:** connection comes as a result (people count; explore pushes into real life), so it helps without being the pitch. It starts with internal work, then outward.
 
 **The autonomy pillar (Veer, 21 Oct):** like a great phone, people use Distill their own way; never a route they are pushed down. It should feel freeing: finally thinking from your own head instead of influencer noise. Everything is a proposal; "this is mine" is final; no streaks, scores, targets or guilt.
 
 **What it is not:** a lab, a coach with targets, a feed, biomarker personalisation, or medical advice. Anything from a clinician is never touched. No tests or verdicts on screen (the old 28-day test engine stays in the code, switched off).
+
+**The beliefs underneath (Veer, 23 Oct).** Where the great philosophies agree, and what Distill is built on:
+
+1. **A good life comes from taking away, not adding** (Epicurus, the Stoics, Buddhism; Michelangelo finding the statue in the stone) → **clear the noise.**
+2. **Live by your own judgement, not the crowd's** (the Stoics, the existentialists, Emerson) → **what's yours.**
+3. **Character is what you do every day** (Aristotle) → **your Ritual.**
+
+Psychology says the same: people do well when they have autonomy, competence and relatedness (self-determination theory, Deci and Ryan). For us: autonomy is "it's yours"; competence is a Ritual you can actually live, never scores or "better than yesterday"; relatedness is the people in your Ritual and exploring outward. The philosophy is Distill's soul (the brand, content, the landing page's "The greats didn't follow a feed"), not the pitch. People buy relief from a pain they feel this week.
+
+**The wedge, our first market (Veer, 23 Oct).**
+
+- **Who:** 22 to 35, in US cities, spending $100 or more a month on supplements, protocols and wellness apps they picked up from feeds and podcasts.
+- **Their pain, in their words:** "I'm doing, and paying for, too much, and I don't know what's actually worth it."
+- **First value, live now:** tap what you take and do, see what can go and the money back (the landing page's "What's on your list?" and the app's onboarding, both on the engine).
+- **Why them first:** they feel the overwhelm and the cost; the engine is strongest exactly there (the 156 V4 rows are mostly that stack); they're easy to find and they talk to each other ("what I stopped taking"); the class and the Founding 100 are the first slice.
+- **Then outward:** clear the noise → their Ritual → reshape it with life → explore; then anyone the noise is wearing down.
+- **Not the wedge:** career change, productivity tools, loneliness communities.
+- **To test, not assume:** that the US is more over-optimised than places like Sydney because of how much life runs through feeds. Ask in the ten conversations (priority 4).
 
 ## 2. Voice and words
 
@@ -98,6 +121,10 @@ Secrets live in Vercel and in each person's `apps/web/.env.local`; never paste o
 | 21 Oct | The autonomy pillar and the mission above go into every prompt (`apps/web/lib/ai/engine/prompts.ts`, `WHO`) |
 | 21 Oct | Every AI output passes code checks and a judge before anyone sees it; a bad response falls back to the rules version, never reaches a person |
 | 22 Oct | Lead with the noise and unique identity, not loneliness |
+| 23 Oct | Mental health is the bigger problem we solve; we lead with the noise; a wellness companion, never therapy, never a claim to treat |
+| 23 Oct | The wedge: people 22 to 35 in US cities spending on wellness from feeds; first value is what can go and the money back |
+| 23 Oct | All 156 V4 rows are live, signed by Veer; Ishan's sign-off isn't required |
+| 23 Oct | The landing page's "What's on your list?" runs on the app's engine, so the two always agree |
 
 ## 8. The five priorities
 
