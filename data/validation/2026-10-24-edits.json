@@ -1,0 +1,175 @@
+{
+  "why": "Catalog validation, 24 October 2026. Step 1 confirmed all 463 sources exist and none is retracted; step 2, an independent Claude re-check against the sources' published summaries, flagged these rows. Veer's decisions: (1) protect the activity, never push a cheaper version of something premium; services get no 'instead' line, swaps describe what they keep, never the price; (2) evidence that only holds for a group is C (their call) for everyone, since the engine can't yet tell who's in the group. Other tier moves follow the re-check's reading of our own tier definitions and go to the expert spot-check.",
+  "edits": {
+    "melatonin": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "Pooled trials, mostly in people with sleep problems, show falling asleep about 7 minutes sooner, and it eases jet lag well. For good sleepers the gain is unclear, and sleep doctors don't back it for ongoing insomnia."
+    },
+    "light-therapy-box-10-000-lux": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "In people diagnosed with seasonal depression, a 2020 review of 19 trials found bright light eased winter low mood more than dim light. For ordinary winter blues it is untested.",
+      "fits_instead": "A morning walk outside brings bright light too, though it hasn't been tested the same way."
+    },
+    "nutritionist-dietitian": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "In primary-care patients, one-to-one dietitian visits improved diet quality and, for people with diabetes, blood sugar. Extra weight loss was modest, about 1 kg."
+    },
+    "acupuncture": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "In people with chronic pain, 39 trials found acupuncture eased pain more than sham needling or none, mostly lasting a year. The gain over sham is small, and other uses are untested."
+    },
+    "nutrition-or-calorie-app-premium": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "Across 41 studies, app programs that pair logging with coaching brought small gains in eating habits and weight. Logging alone showed no diet change in one trial, and premium tiers are untested.",
+      "fits_instead": ""
+    },
+    "premium-gym-membership-equinox-life-time": {
+      "evidence_summary": "Training works wherever it happens. The club earns its place through the visits and the parts that get used: the classes, the calm, the spa.",
+      "fits_instead": ""
+    },
+    "personal-trainer": {
+      "evidence_tier": "B",
+      "fits_instead": ""
+    },
+    "second-gym-or-studio-membership": {
+      "evidence_summary": "Training builds strength and fitness wherever it happens. A second membership adds something only when both get used."
+    },
+    "gym-membership": {
+      "evidence_summary": "Regular training builds strength and fitness, and a gym is one way to do it. The benefit lives in the visits: in one large study, monthly members paid more per visit than a pass would have cost.",
+      "fits_instead": ""
+    },
+    "class-pack-or-studio-credits": {
+      "evidence_summary": "Regular classes build fitness like any training. The benefit lives in the classes taken.",
+      "fits_instead": ""
+    },
+    "boutique-class-membership-barry-s-soulcycle-f45-orangetheory": {
+      "evidence_summary": "Interval training raises fitness at least as well as steady cardio in trials. A class format alone gives a small, uncertain edge over training solo; groups that feel like a team do better.",
+      "fits_instead": ""
+    },
+    "meditation-app-calm-headspace": { "fits_instead": "" },
+    "yoga-pilates-studio": { "fits_instead": "" },
+    "fitness-app-subscription-peloton-app-apple-fitness-ladder": { "fits_instead": "" },
+    "creatine-monohydrate": {
+      "evidence_summary": "One of the best-studied supplements. For people who lift, it adds to strength gains over weeks of training, shown mostly in men; without training, gains are small. Monohydrate at 3 to 5 g a day is the studied form.",
+      "fits_instead": "Plain unflavored monohydrate, the form the trials used."
+    },
+    "vitamin-d3": { "fits_instead": "A plain tablet near 600 IU, the usual daily amount advised for adults." },
+    "multivitamin": { "fits_instead": "A basic multivitamin covers the same ground." },
+    "greens-powder-ag1-etc": { "fits_instead": "A smoothie with frozen spinach and berries keeps the morning glass." },
+    "pre-workout": { "fits_instead": "A large coffee about an hour before training covers the caffeine part." },
+    "retinol-retinoid-nightly": {
+      "evidence_tier": "B",
+      "evidence_summary": "Retinoids are the best-studied ingredients for fine lines. Tretinoin smooths them over months, and a milder strength works as well with less irritation; over-the-counter retinol has thinner but similar evidence.",
+      "fits_instead": "Two or three retinoid nights a week, building up as the skin adjusts."
+    },
+    "vitamin-c-serum": { "fits_instead": "A serum with 10 to 20% L-ascorbic acid, the best-studied form." },
+    "sleep-gummies-blend": {
+      "evidence_summary": "Melatonin is the ingredient with trial support: a few minutes sooner to sleep, in people with sleep problems. Lab tests of 25 gummy brands found 22 mislabeled and one without melatonin.",
+      "fits_instead": "Plain melatonin on travel nights, where it helps most."
+    },
+    "white-noise-sound-machine": { "fits_instead": "A sound app or a fan gives the same steady sound." },
+    "silk-pillowcase": { "fits_instead": "A satin pillowcase gives the same smooth feel." },
+    "grounding-earthing-sheets-mats": { "fits_instead": "Barefoot time on grass or sand keeps the outdoor part." },
+    "probiotic-generic-daily": { "fits_instead": "Yogurt or kefir with breakfast keeps the habit." },
+    "vitamin-c-daily": { "fits_instead": "An orange or kiwi keeps the morning habit, though at less than the 200 mg studied." },
+    "fat-burner-thermogenic": { "fits_instead": "A morning coffee gives the same caffeine lift." },
+    "apigenin": { "fits_instead": "Chamomile tea is the everyday source of apigenin." },
+    "gaba-oral": { "fits_instead": "Chamomile tea keeps the bedtime ritual." },
+    "magnesium-l-threonate": { "fits_instead": "If magnesium is the goal, plain glycinate at bedtime, though its sleep evidence is thin too." },
+    "kombucha-probiotic-drinks": { "fits_instead": "Sparkling water with a splash of juice keeps the fizz." },
+    "bone-broth": { "fits_instead": "A mug of miso or homemade stock keeps the warmth." },
+    "red-light-therapy-panel": { "fits_instead": "" },
+    "cryotherapy-sessions": { "fits_instead": "A cold-water plunge, which has more evidence behind it." },
+    "cold-plunge-ice-bath": { "fits_instead": "A 30 to 90 second cold finish to a shower, though it was tested for sick days, not soreness." },
+    "compression-boots-normatec": {
+      "evidence_summary": "A 2024 review of 17 small studies found a small to moderate drop in felt soreness. Effects on strength and damage markers were inconsistent.",
+      "fits_instead": ""
+    },
+    "cold-shower-morning": {
+      "evidence_summary": "One large Dutch trial found 29% fewer self-reported sick days, though people got ill just as often. Energy wasn't measured."
+    },
+    "consistent-wake-time-30-min": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "Large observational studies link steady sleep times to better health. One small student trial found regular times lifted daytime alertness. When weekday sleep runs short, some weekend catch-up can help."
+    },
+    "consumer-dna-wellness-test": {
+      "evidence_summary": "One large trial found gene-matched diet advice did no better than advice based on current eating. Another, in overweight adults, found gene type didn't predict weight loss."
+    },
+    "earplugs": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "In a lab night of loud recorded hospital noise, earplugs with a mask gave more dream sleep and fewer brief wakings. Most other studies are in hospital patients."
+    },
+    "gratitude-practice": {
+      "evidence_summary": "Studies from 28 countries, nearly 25,000 people, find a small average rise in well-being, clearest for positive mood. Other active exercises do about as well.",
+      "fits_instead": "Once a week instead of nightly, if nightly feels like a chore."
+    },
+    "hyperbaric-oxygen-wellness-use": {
+      "evidence_summary": "Hyperbaric oxygen is real medicine for diving injuries, carbon monoxide and some wounds. The wellness studies, in adults over 64, came from a clinic chain that sells it."
+    },
+    "kava": {
+      "evidence_summary": "Early trials in anxious patients found short-term relief, but a 16-week trial of 171 adults with diagnosed anxiety found no benefit over placebo. Rare liver injury is reported."
+    },
+    "l-theanine": {
+      "evidence_summary": "A 2025 review of 19 trials found small gains in self-rated sleep and next-day feel. Few tested L-theanine alone."
+    },
+    "lymphatic-drainage-massage": {
+      "evidence_summary": "The medical version is for lymphedema, and even there it adds only a little to compression. There's no good evidence it de-puffs people without swelling."
+    },
+    "massage-monthly": {
+      "evidence_summary": "Trials pooled in a 2004 review show one massage eases anxiety, heart rate and blood pressure, and a 2018 review ranked massage top for soreness after exercise."
+    },
+    "morning-sunlight-10-min-outdoors": {
+      "evidence_summary": "Bright morning light nudges the body clock earlier; a week of natural light with no evening electric light moved it about two hours. Everyday studies are mixed, and ten minutes hasn't been tested directly."
+    },
+    "nasal-strips-dilator": {
+      "evidence_summary": "Strips and dilators open the nose a little. A 2016 review of people with sleep apnea found no measurable drop in snoring or apnea."
+    },
+    "nicotine-pouches-vape": {
+      "evidence_summary": "Nicotine near bedtime makes sleep lighter and more broken, in overnight patch trials and in people tracked at home. Vapes and pouches nudge heart rate up."
+    },
+    "reading-paper-before-bed": {
+      "evidence_tier": "C",
+      "keep_when": "THEIRS, LOVED",
+      "evidence_summary": "In an online trial of nearly 1,000 adults, a week of reading in bed left 42% reporting better sleep, versus 28% without; sleep was self-rated. A bright tablet disturbed sleep more than paper."
+    },
+    "sea-moss": {
+      "evidence_summary": "No human trials of sea moss itself. Seaweed products' iodine swings widely, and lab tests found arsenic, mercury and bacteria in some sea moss."
+    },
+    "second-or-third-coffee": {
+      "evidence_summary": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls up to 400 mg a day generally fine for healthy adults."
+    },
+    "sleep-coach-cbt-i": {
+      "evidence_summary": "CBT-I is the first-choice approach for chronic insomnia. In 20 trials of people with insomnia, sleep came about 19 minutes sooner with 26 fewer minutes awake, and the gains seemed to last."
+    },
+    "sunscreen-daily-spf-30": {
+      "evidence_tier": "B",
+      "evidence_summary": "In a 4.5-year Australian trial of 903 adults, daily sunscreen users showed no detectable rise in skin aging, and about a quarter less than occasional users."
+    },
+    "therapy-counselling": {
+      "evidence_summary": "Hundreds of trials find talk therapy eases depression and anxiety, with CBT the most studied; for depression, gains held 6 to 12 months later. It's clinician-led care, so Distill never suggests letting it go."
+    },
+    "unlisted-subscription-you-re-still-paying-for": {
+      "evidence_summary": "A subscription only helps when it gets used. A large gym study found members often paid for far more than got used."
+    },
+    "water-filter": { "fits_instead": "Testing your own tap first, since lead often comes from home pipes." },
+    "cbd": {
+      "evidence_summary": "Sleep trials used high doses, far above most gummies, and still mostly matched placebo. In one test of online products, only 31% matched the label."
+    },
+    "hormone-peptide-clinic-trt-glp-1-peptides": {
+      "evidence_summary": "For adults with obesity, prescribed GLP-1 drugs lower weight well; testosterone helps men with confirmed low levels. Injectable wellness peptides and compounded copies have little safety data."
+    },
+    "green-tea-extract-egcg": {
+      "evidence_summary": "Outside Japan, trials found almost no weight change. Extracts have been linked to liver injury, and fasting raises how much gets absorbed."
+    },
+    "testosterone-booster-tribulus-fenugreek-d-aa": {
+      "evidence_summary": "Tribulus and D-aspartic acid didn't raise testosterone in trials. Four fenugreek trials, pooled, showed a rise. Most blends hold untested ingredients, some above safe vitamin and mineral limits."
+    }
+  }
+}
