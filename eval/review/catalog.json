@@ -1,0 +1,1516 @@
+{
+  "sha": "80bead0",
+  "made": "2026-10-24T23:39:28.113Z",
+  "rows": [
+    {
+      "key": "5-htp",
+      "name": "5-HTP",
+      "shortName": "5-HTP",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 15,
+      "evidenceFor": "falling or staying asleep in adults",
+      "sources": 3,
+      "lines": {
+        "ask": "5-HTP: little real evidence. Worth a look?",
+        "letGo": "5-HTP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
+        "swap": null,
+        "why": "There are no good trials of 5-HTP for adult sleep. Evidence for mood rests on a few small, weak trials. It can clash with antidepressants.",
+        "question": "Is it for sleep, or for mood?",
+        "instead": "A short worry list before bed keeps the wind-down, no capsule."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "on-medication",
+          "action": "never-suggest",
+          "note": "With SSRIs, MAOIs, tricyclics or linezolid, 5-HTP can push serotonin too high. A prescriber is the right person to ask."
+        },
+        {
+          "condition": "mental-health-condition",
+          "action": "clinician-first",
+          "note": "5-HTP acts on serotonin, and mania has been reported. With bipolar disorder or ongoing mood care, start with a clinician."
+        }
+      ]
+    },
+    {
+      "key": "apigenin",
+      "name": "Apigenin",
+      "shortName": "Apigenin",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 20,
+      "evidenceFor": "falling or staying asleep in adults",
+      "sources": 3,
+      "lines": {
+        "ask": "Apigenin: little real evidence. Worth a look?",
+        "letGo": "Apigenin came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
+        "swap": null,
+        "why": "No human trial has tested apigenin alone for sleep. In mice it acts on calming brain receptors. Chamomile, its main food source, has small trials of its own.",
+        "question": "Did this come from a podcast sleep stack?",
+        "instead": "Chamomile tea is the everyday source of apigenin."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "bone-broth",
+      "name": "Bone broth",
+      "shortName": "Bone broth",
+      "group": "weak",
+      "tier": "D",
+      "kind": "food-drink",
+      "monthly": 50,
+      "evidenceFor": "skin, joint or gut health in healthy adults",
+      "sources": 3,
+      "lines": {
+        "ask": "Bone broth: little real evidence. Worth a look?",
+        "letGo": "Bone broth came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $50 a month?",
+        "swap": null,
+        "why": "No trials yet test bone broth for skin, joints or gut. Lab tests found fewer collagen building blocks than supplement doses in research. Independent collagen trials showed no skin benefit.",
+        "question": "Is it the warm mug you'd miss?",
+        "instead": "A mug of miso or homemade stock keeps the warmth."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "chlorophyll-water",
+      "name": "Chlorophyll water (liquid chlorophyll drops)",
+      "shortName": "Chlorophyll water",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 15,
+      "evidenceFor": "clearer skin, energy or less bloating in healthy adults",
+      "sources": 1,
+      "lines": {
+        "ask": "Chlorophyll water: little real evidence. Worth a look?",
+        "letGo": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
+        "swap": null,
+        "why": "Skin evidence is two ten-person studies of gels, not drinks. No trials yet test chlorophyll water for energy or bloating. Most drops are chlorophyllin, a copper-based form.",
+        "question": "Is it the green morning glass you'd miss?",
+        "instead": "A glass of water with a handful of spinach in a smoothie."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "pregnant",
+          "action": "note",
+          "note": "Chlorophyll supplements have not been tested in pregnancy."
+        },
+        {
+          "condition": "breastfeeding",
+          "action": "note",
+          "note": "Chlorophyll supplements have not been tested while breastfeeding."
+        }
+      ]
+    },
+    {
+      "key": "colonic-detox-cleanse",
+      "name": "Colonic or colon cleanse",
+      "shortName": "Colon cleanse",
+      "group": "weak",
+      "tier": "N",
+      "kind": "service",
+      "monthly": 100,
+      "evidenceFor": "general health, energy or weight",
+      "sources": 2,
+      "lines": {
+        "ask": "Colon cleanse: no independent evidence. Worth a look?",
+        "letGo": "Colon cleanse came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $100 a month?",
+        "swap": null,
+        "why": "No well-run trials support colon cleansing for general health. Case reports describe harms, and early weight loss from cleanses tends to come back. Your liver and kidneys already clear waste.",
+        "question": "What feeling are you hoping for after?",
+        "instead": "A week of more fibre, water and walks."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "kidney-disease",
+          "action": "clinician-first",
+          "note": "Colon cleansing is more likely to cause harm with kidney disease. Talk with your kidney doctor before any cleanse."
+        },
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "Colon cleansing is more likely to cause harm with heart disease, partly through shifts in fluid and salts. Ask your doctor first."
+        },
+        {
+          "condition": "diabetes",
+          "action": "clinician-first",
+          "note": "Fasting and juice cleanses can swing blood sugar. Check with your diabetes care team before starting one."
+        },
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "Colonics and laxative cleanses can cause dehydration and salt imbalance, and case reports describe bowel injury."
+        }
+      ]
+    },
+    {
+      "key": "consumer-dna-wellness-test",
+      "name": "Consumer DNA wellness test",
+      "shortName": "DNA test",
+      "group": "weak",
+      "tier": "D",
+      "kind": "service",
+      "monthly": 5,
+      "evidenceFor": "better diet or weight loss from gene-based advice",
+      "sources": 2,
+      "lines": {
+        "ask": "DNA test: little real evidence. Worth a look?",
+        "letGo": "DNA test came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $5 a month?",
+        "swap": null,
+        "why": "One large trial found gene-matched diet advice did no better than advice based on current eating. Another, in overweight adults, found gene type didn't predict weight loss.",
+        "question": "Did the report change a single meal?",
+        "instead": "Keep the ancestry part; skip the paid add-on reports."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "emf-blockers-anti-radiation-stickers",
+      "name": "EMF blockers and anti-radiation phone stickers",
+      "shortName": "EMF stickers",
+      "group": "weak",
+      "tier": "N",
+      "kind": "device",
+      "monthly": 2,
+      "evidenceFor": "lower exposure or better health",
+      "sources": 2,
+      "lines": {
+        "ask": "EMF stickers: no independent evidence. Worth a look?",
+        "letGo": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $2 a month?",
+        "swap": null,
+        "why": "No evidence these reduce exposure. The FTC charged sellers over false claims, and lab tests found no drop. The FDA links no health problem to phone signals.",
+        "question": "What made the phone start to feel worrying?",
+        "instead": "Phone across the room at night keeps the calm."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "evening-primrose-oil",
+      "name": "Evening primrose oil",
+      "shortName": "Primrose oil",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 12,
+      "evidenceFor": "calmer eczema or easier PMS",
+      "sources": 3,
+      "lines": {
+        "ask": "Primrose oil: little real evidence. Worth a look?",
+        "letGo": "Primrose oil came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?",
+        "swap": null,
+        "why": "Careful reviews found evening primrose oil works no better than a placebo for eczema. For PMS, the few trials are small, and the best-run ones found no benefit.",
+        "question": "What did you start it for?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "on-medication",
+          "action": "clinician-first",
+          "note": "Evening primrose oil may raise bleeding with warfarin. Check with a prescriber first."
+        }
+      ]
+    },
+    {
+      "key": "eye-cream-when-you-already-use-a-moisturiser",
+      "name": "Eye cream (alongside a face moisturizer)",
+      "shortName": "Eye cream",
+      "group": "weak",
+      "tier": "D",
+      "kind": "topical",
+      "monthly": 45,
+      "evidenceFor": "more benefit around the eyes than the face moisturizer already gives",
+      "sources": 4,
+      "lines": {
+        "ask": "Eye cream: little real evidence. Worth a look?",
+        "letGo": "Eye cream came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $45 a month?",
+        "swap": null,
+        "why": "A 2024 review found few trials of eye creams themselves. Ingredients like retinoids and caffeine have small studies around the eyes, so the ingredient matters more than the jar.",
+        "question": "Does it hold anything your moisturizer lacks?",
+        "instead": "Your moisturizer, patted gently around the eyes with the ring finger."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "facial-plus-at-home-led-plus-microcurrent-all-three",
+      "name": "Facial plus at-home LED plus microcurrent (all three)",
+      "shortName": "Facial, LED, microcurrent",
+      "group": "weak",
+      "tier": "D",
+      "kind": "device",
+      "monthly": 140,
+      "evidenceFor": "more visible change from all three than from one alone",
+      "sources": 6,
+      "lines": {
+        "ask": "Facial, LED, microcurrent: little real evidence. Worth a look?",
+        "letGo": "Facial, LED, microcurrent came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $140 a month?",
+        "swap": null,
+        "why": "No study tests stacking all three. Home LED has small trials for fine lines, monthly facials are untested, and microcurrent devices have almost no independent research.",
+        "question": "Which of the three would you keep first?",
+        "instead": "The one you would keep, plus daily sunscreen."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "glutamine",
+      "name": "Glutamine (L-glutamine powder)",
+      "shortName": "Glutamine",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 20,
+      "evidenceFor": "faster recovery, more muscle or fewer colds in healthy adults who train",
+      "sources": 3,
+      "lines": {
+        "ask": "Glutamine: little real evidence. Worth a look?",
+        "letGo": "Glutamine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
+        "swap": null,
+        "why": "In trials of healthy people who train, glutamine changed neither strength, muscle, body fat nor immune markers. Protein-rich food already supplies plenty of it.",
+        "question": "What made you start taking it?",
+        "instead": "A protein-rich meal after training already brings glutamine along."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "glycine",
+      "name": "Glycine",
+      "shortName": "Glycine",
+      "group": "weak",
+      "tier": "N",
+      "kind": "supplement",
+      "monthly": 10,
+      "evidenceFor": "falling asleep sooner and next-day alertness",
+      "sources": 2,
+      "lines": {
+        "ask": "Glycine: no independent evidence. Worth a look?",
+        "letGo": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $10 a month?",
+        "swap": null,
+        "why": "Small Japanese trials found 3 g at bedtime helped people fall asleep sooner and feel less tired. Each involved researchers from a glycine maker; no independent trial yet.",
+        "question": "Do you fall asleep sooner on glycine nights?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "greens-powder-ag1-etc",
+      "name": "Greens powder (AG1 and similar)",
+      "shortName": "Greens powder",
+      "group": "weak",
+      "tier": "N",
+      "kind": "supplement",
+      "monthly": 79,
+      "evidenceFor": "general health, energy and digestion",
+      "sources": 5,
+      "lines": {
+        "ask": "Greens powder: no independent evidence. Worth a look?",
+        "letGo": "Greens powder came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?",
+        "swap": null,
+        "why": "No independent trials yet. Every study so far was run or paid for by a greens brand, showing small shifts in gut bacteria and blood nutrient levels. Products like AG1 hold a multivitamin-level mix plus plant extracts.",
+        "question": "Is the morning glass the part you would miss?",
+        "instead": "A smoothie with frozen spinach and berries keeps the morning glass."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "breastfeeding",
+          "action": "clinician-first",
+          "note": "Greens powder makers advise a doctor check while breastfeeding."
+        },
+        {
+          "condition": "on-medication",
+          "action": "clinician-first",
+          "note": "Greens powder makers advise a doctor check when taking medication, given the herbal extracts."
+        },
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Greens powder makers advise a doctor check in pregnancy, as many blends include herbal extracts."
+        },
+        {
+          "condition": "under-18",
+          "action": "clinician-first",
+          "note": "The AG1 maker advises a doctor check for anyone under 18."
+        }
+      ]
+    },
+    {
+      "key": "grounding-earthing-sheets-mats",
+      "name": "Grounding or earthing (sheets, mats)",
+      "shortName": "Grounding mat",
+      "group": "weak",
+      "tier": "D",
+      "kind": "device",
+      "monthly": 4,
+      "evidenceFor": "better sleep",
+      "sources": 2,
+      "lines": {
+        "ask": "Grounding mat: little real evidence. Worth a look?",
+        "letGo": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $4 a month?",
+        "swap": null,
+        "why": "Most studies are tiny and run by people tied to grounding companies. One small independent trial, in older adults with Alzheimer's, found better sleep scores.",
+        "question": "Do you sleep differently with it or without?",
+        "instead": "Barefoot time on grass or sand keeps the outdoor part."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "hair-growth-gummies-biotin-blends",
+      "name": "Hair growth gummies (biotin blends, such as SugarBearHair)",
+      "shortName": "Hair gummies",
+      "group": "weak",
+      "tier": "N",
+      "kind": "supplement",
+      "monthly": 30,
+      "evidenceFor": "fuller, faster-growing hair without a deficiency",
+      "sources": 5,
+      "lines": {
+        "ask": "Hair gummies: no independent evidence. Worth a look?",
+        "letGo": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?",
+        "swap": null,
+        "why": "No study we found tests these gummies. A review found biotin helped hair only when an underlying cause like deficiency was present, and deficiency is uncommon.",
+        "question": "Have you noticed any change in your hair?",
+        "instead": "A dermatologist visit, if hair shedding is the real worry."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "These gummies hold biotin, which can skew some blood tests, including a heart test. Mention them before any blood draw."
+        },
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "Sudden, patchy or heavy hair shedding is worth a dermatologist visit, since it often has a cause worth finding."
+        }
+      ]
+    },
+    {
+      "key": "hyperbaric-oxygen-wellness-use",
+      "name": "Hyperbaric oxygen (wellness use)",
+      "shortName": "Hyperbaric oxygen",
+      "group": "weak",
+      "tier": "N",
+      "kind": "service",
+      "monthly": 300,
+      "evidenceFor": "recovery, focus or slower ageing in healthy adults",
+      "sources": 3,
+      "lines": {
+        "ask": "Hyperbaric oxygen: no independent evidence. Worth a look?",
+        "letGo": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?",
+        "swap": null,
+        "why": "Hyperbaric oxygen is real medicine for diving injuries, carbon monoxide and some wounds. The wellness studies, in adults over 64, came from a clinic chain that sells it.",
+        "question": "Is it the hour of quiet you'd miss?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "Ear and sinus pressure are common, and pure oxygen is a fire risk. FDA advises an accredited facility for any session."
+        }
+      ]
+    },
+    {
+      "key": "iv-vitamin-drips",
+      "name": "IV vitamin drips",
+      "shortName": "IV drip",
+      "group": "weak",
+      "tier": "N",
+      "kind": "service",
+      "monthly": 215,
+      "evidenceFor": "energy, immunity and recovery in people without a deficiency",
+      "sources": 4,
+      "lines": {
+        "ask": "IV drip: no independent evidence. Worth a look?",
+        "letGo": "IV drip came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $215 a month?",
+        "swap": null,
+        "why": "No good trials in healthy people. A small placebo-controlled trial in fibromyalgia found no difference from a plain fluid drip. IV vitamins are standard care for real deficiencies.",
+        "question": "Is it for hangovers, or a general lift?",
+        "instead": "Water, rest and a decent breakfast cover most of it."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "Infections, some serious, have followed drips mixed in unclean conditions. A licensed clinic with a clinician on site lowers the risk."
+        },
+        {
+          "condition": "kidney-disease",
+          "action": "clinician-first",
+          "note": "Extra fluid and minerals can strain the kidneys, so a clinician check comes first."
+        },
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "Fluid overload and shifts in magnesium or potassium can upset heart rhythm, so a clinician check comes first."
+        },
+        {
+          "condition": "blood-pressure",
+          "action": "clinician-first",
+          "note": "Drips can swing blood pressure, and fast infusions can cause fainting, so a clinician check comes first."
+        },
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "IV vitamin drips haven't been studied in pregnancy, so a clinician check comes first."
+        },
+        {
+          "condition": "breastfeeding",
+          "action": "clinician-first",
+          "note": "IV vitamin drips haven't been studied during breastfeeding, so a clinician check comes first."
+        }
+      ]
+    },
+    {
+      "key": "jaw-exerciser",
+      "name": "Jaw exerciser (jawline trainer)",
+      "shortName": "Jaw exerciser",
+      "group": "weak",
+      "tier": "N",
+      "kind": "device",
+      "monthly": 3,
+      "evidenceFor": "a more defined jawline",
+      "sources": 2,
+      "lines": {
+        "ask": "Jaw exerciser: no independent evidence. Worth a look?",
+        "letGo": "Jaw exerciser came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $3 a month?",
+        "swap": null,
+        "why": "No trials. In a 2024 two-person report, three months of use changed nothing visible. Chewing muscles don't shape the fat or skin under the chin.",
+        "question": "Has your jaw felt sore since starting?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "If your jaw clicks, locks or aches, a dentist is the one to ask before any jaw training."
+        }
+      ]
+    },
+    {
+      "key": "lymphatic-drainage-massage",
+      "name": "Lymphatic drainage massage",
+      "shortName": "Lymphatic massage",
+      "group": "weak",
+      "tier": "D",
+      "kind": "service",
+      "monthly": 120,
+      "evidenceFor": "less puffiness or better wellbeing in healthy adults",
+      "sources": 1,
+      "lines": {
+        "ask": "Lymphatic massage: little real evidence. Worth a look?",
+        "letGo": "Lymphatic massage came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $120 a month?",
+        "swap": null,
+        "why": "The medical version is for lymphedema, and even there it adds only a little to compression. There's no good evidence it de-puffs people without swelling.",
+        "question": "Is it the de-puffing or the quiet hour?",
+        "instead": "A monthly massage you love keeps the quiet hour."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "magnesium-l-threonate",
+      "name": "Magnesium L-threonate (Magtein)",
+      "shortName": "Mag threonate",
+      "group": "weak",
+      "tier": "N",
+      "kind": "supplement",
+      "monthly": 40,
+      "evidenceFor": "better sleep from the threonate form specifically",
+      "sources": 2,
+      "lines": {
+        "ask": "Mag threonate: no independent evidence. Worth a look?",
+        "letGo": "Mag threonate came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $40 a month?",
+        "swap": null,
+        "why": "Two trials, both paid for by makers of the Magtein form, found modest gains in self-rated sleep. Ring-tracked sleep improved in one and not the other.",
+        "question": "Did you pick this form for sleep or memory?",
+        "instead": "If magnesium is the goal, plain glycinate at bedtime, though its sleep evidence is thin too."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "kidney-disease",
+          "action": "clinician-first",
+          "note": "With reduced kidney function, magnesium can build up in the blood. A clinician can say what amount is safe."
+        }
+      ]
+    },
+    {
+      "key": "magnesium-spray-oil-transdermal",
+      "name": "Magnesium spray or oil (on the skin)",
+      "shortName": "Magnesium spray",
+      "group": "weak",
+      "tier": "N",
+      "kind": "topical",
+      "monthly": 12,
+      "evidenceFor": "raising magnesium or better sleep through the skin",
+      "sources": 1,
+      "lines": {
+        "ask": "Magnesium spray: no independent evidence. Worth a look?",
+        "letGo": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?",
+        "swap": null,
+        "why": "No controlled study shows magnesium crosses skin in meaningful amounts, and none has tested sleep. A 2017 review found the claims unsupported.",
+        "question": "Is it the evening rub you'd miss?",
+        "instead": "A warm bath, or a magnesium glycinate capsule if the magnesium matters."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "microcurrent-device-nuface",
+      "name": "Microcurrent device (NuFACE and similar)",
+      "shortName": "Microcurrent",
+      "group": "weak",
+      "tier": "D",
+      "kind": "device",
+      "monthly": 20,
+      "evidenceFor": "a lifted, firmer-looking face",
+      "sources": 4,
+      "lines": {
+        "ask": "Microcurrent: little real evidence. Worth a look?",
+        "letGo": "Microcurrent came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
+        "swap": null,
+        "why": "We found no independent trial of a NuFACE-style microcurrent device. A 2024 review called the research scarce, and the one trial it cited tested a different electrical device.",
+        "question": "Do you still use it most mornings?",
+        "instead": "A two-minute face massage with moisturizer keeps the hands-on ritual."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "The maker says not to use it with a pacemaker or other implanted device. A clinician can advise."
+        },
+        {
+          "condition": "pregnant",
+          "action": "never-suggest",
+          "note": "The maker advises against use in pregnancy, since electrical stimulation has not been shown safe then."
+        },
+        {
+          "condition": "under-18",
+          "action": "never-suggest",
+          "note": "The maker says it is not for anyone under 18."
+        },
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "The maker says to avoid inflamed or broken-out skin. Acne or rosacea that will not settle is worth a dermatologist visit."
+        }
+      ]
+    },
+    {
+      "key": "mouth-tape",
+      "name": "Mouth tape",
+      "shortName": "Mouth tape",
+      "group": "weak",
+      "tier": "D",
+      "kind": "device",
+      "monthly": 15,
+      "evidenceFor": "better sleep in people without sleep apnea",
+      "sources": 2,
+      "lines": {
+        "ask": "Mouth tape: little real evidence. Worth a look?",
+        "letGo": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
+        "swap": null,
+        "why": "A 2025 review found ten small, low-quality studies, mostly in people with sleep apnea or mouth breathing; a few saw less snoring. None tested people who sleep normally, and taping is risky with a blocked nose.",
+        "question": "Do you snore, or is it more about dry mouth?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "under-18",
+          "action": "never-suggest",
+          "note": "No studies include children, and taping carries breathing risks."
+        }
+      ]
+    },
+    {
+      "key": "multiple-hydrating-serums-two-hyaluronic-acid-products",
+      "name": "Multiple hydrating serums (two hyaluronic acid products)",
+      "shortName": "Two HA serums",
+      "group": "weak",
+      "tier": "N",
+      "kind": "topical",
+      "monthly": 20,
+      "evidenceFor": "more hydration from a second hyaluronic acid serum",
+      "sources": 2,
+      "lines": {
+        "ask": "Two HA serums: no independent evidence. Worth a look?",
+        "letGo": "Two HA serums came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
+        "swap": null,
+        "why": "In a small trial, one hyaluronic acid cream raised skin hydration more than a plain cream. No study we found tests a second hyaluronic serum on top, and the second bottle is the same ingredient again.",
+        "question": "Do the two serums feel different, or about the same?",
+        "instead": "One hydrating serum, or a moisturizer that already has hyaluronic acid or glycerin."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "Skin that stays dry, itchy or cracked despite moisturizer is worth a dermatologist visit, since conditions like eczema can look this way."
+        }
+      ]
+    },
+    {
+      "key": "mushroom-coffee",
+      "name": "Mushroom coffee (Ryze, Four Sigmatic and similar)",
+      "shortName": "Mushroom coffee",
+      "group": "weak",
+      "tier": "D",
+      "kind": "food-drink",
+      "monthly": 45,
+      "evidenceFor": "sharper focus or calmer energy from the mushrooms at the amounts in a cup",
+      "sources": 4,
+      "lines": {
+        "ask": "Mushroom coffee: little real evidence. Worth a look?",
+        "letGo": "Mushroom coffee came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $45 a month?",
+        "swap": null,
+        "why": "One small trial found 1.8 g of lion's mane sped one attention task. A popular blend splits about 2 g across six mushrooms, with about half a coffee's caffeine.",
+        "question": "Is it the mushrooms, or the gentler cup?",
+        "instead": "Half-caf coffee keeps the gentler morning cup."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "retinol-or-retinoid-plus-exfoliating-acid-on-the-same-nights",
+      "name": "Retinol or retinoid plus an exfoliating acid on the same nights",
+      "shortName": "Retinoid plus acid",
+      "group": "weak",
+      "tier": "D",
+      "kind": "topical",
+      "monthly": 15,
+      "evidenceFor": "better results from using both on the same nights than on separate nights",
+      "sources": 6,
+      "lines": {
+        "ask": "Retinoid plus acid: little real evidence. Worth a look?",
+        "letGo": "Retinoid plus acid came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
+        "swap": null,
+        "why": "No trial we found shows that a retinoid plus an exfoliating acid on the same night beats spacing the two out. Each can dry and irritate skin, and dermatologists note exfoliating alongside a retinoid can worsen dryness.",
+        "question": "Does your skin sting or peel on nights you use both?",
+        "instead": "The retinoid and the acid on separate nights, or the retinoid alone."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Retinoids are usually paused in pregnancy, and an obstetrician or dermatologist can say which acid, if any, fits."
+        },
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "With rosacea, the AAD advises skipping glycolic and lactic acids, so a dermatologist is the better guide for this pairing."
+        }
+      ]
+    },
+    {
+      "key": "salt-lamp",
+      "name": "Salt lamp",
+      "shortName": "Salt lamp",
+      "group": "weak",
+      "tier": "N",
+      "kind": "environment",
+      "monthly": 1,
+      "evidenceFor": "cleaner air, better mood or sleep",
+      "sources": 1,
+      "lines": {
+        "ask": "Salt lamp: no independent evidence. Worth a look?",
+        "letGo": "Salt lamp came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $1 a month?",
+        "swap": null,
+        "why": "No studies. Clinicians note the lamps give off too few ions to change the air, mood or sleep. The warm glow is the real part.",
+        "question": "Is it the warm glow you like?",
+        "instead": "Any warm, dim lamp gives the same evening glow."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "screens-phone-in-bed",
+      "name": "Screens / phone in bed",
+      "shortName": "Phone in bed",
+      "group": "weak",
+      "tier": "D",
+      "kind": "practice",
+      "monthly": 0,
+      "evidenceFor": "winding down and falling asleep",
+      "sources": 3,
+      "lines": {
+        "ask": "Phone in bed: little real evidence. Worth a look?",
+        "letGo": "Phone in bed came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go?",
+        "swap": null,
+        "why": "The research finds no sleep benefit from a phone in bed. In 42 studies of young adults, heavier phone use, especially at night, went with later, shorter, worse sleep. A small trial found a phone-free half hour sped up sleep.",
+        "question": "What do you usually do on the phone in bed?",
+        "instead": "Charging the phone outside the bedroom, with a book by the bed."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "sea-moss",
+      "name": "Sea moss (gel or capsules)",
+      "shortName": "Sea moss",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 30,
+      "evidenceFor": "general health, skin and mineral intake",
+      "sources": 3,
+      "lines": {
+        "ask": "Sea moss: little real evidence. Worth a look?",
+        "letGo": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?",
+        "swap": null,
+        "why": "No human trials of sea moss itself. Seaweed products' iodine swings widely, and lab tests found arsenic, mercury and bacteria in some sea moss.",
+        "question": "Is it the minerals you want, or the morning routine?",
+        "instead": "Iodised salt and a varied diet cover iodine more steadily."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "on-medication",
+          "action": "clinician-first",
+          "note": "Sea moss iodine varies widely and can upset thyroid levels. Check first if you take thyroid medicine."
+        },
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Iodine matters in pregnancy, but sea moss amounts are unpredictable and can run far above the safe upper limit. Ask first."
+        },
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "Lab tests found arsenic, mercury and bacteria in some store-bought sea moss. Quality varies a lot between brands."
+        }
+      ]
+    },
+    {
+      "key": "second-meditation-or-sleep-app",
+      "name": "Second meditation or sleep app",
+      "shortName": "Second calm app",
+      "group": "weak",
+      "tier": "N",
+      "kind": "service",
+      "monthly": 13,
+      "evidenceFor": "added benefit from a second app on top of the first",
+      "sources": 2,
+      "lines": {
+        "ask": "Second calm app: no independent evidence. Worth a look?",
+        "letGo": "Second calm app came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $13 a month?",
+        "swap": null,
+        "why": "One mindfulness app gives small lifts in mood and calm in trials. No study has tested whether a second app adds anything.",
+        "question": "Which of the two do you actually open?",
+        "instead": "Keep the one you open most."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "second-wearable-oura-plus-whoop",
+      "name": "Second wearable (Oura plus WHOOP)",
+      "shortName": "Second wearable",
+      "group": "weak",
+      "tier": "N",
+      "kind": "device",
+      "monthly": 20,
+      "evidenceFor": "learning more about sleep and recovery than one device shows",
+      "sources": 3,
+      "lines": {
+        "ask": "Second wearable: no independent evidence. Worth a look?",
+        "letGo": "Second wearable came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
+        "swap": null,
+        "why": "We found no study testing whether a second tracker adds insight. Worn together in a sleep lab, Oura, WHOOP and Apple Watch each tracked total sleep well and stages only roughly, so two mostly repeat each other.",
+        "question": "Which one do you actually like wearing?",
+        "instead": "One device, whichever is more comfortable to wear day and night."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "If a clinician asked for a device to watch heart rhythm, keep that one and check before changing anything."
+        }
+      ]
+    },
+    {
+      "key": "shilajit",
+      "name": "Shilajit (resin or capsules)",
+      "shortName": "Shilajit",
+      "group": "weak",
+      "tier": "N",
+      "kind": "supplement",
+      "monthly": 35,
+      "evidenceFor": "testosterone and energy in healthy men",
+      "sources": 4,
+      "lines": {
+        "ask": "Shilajit: no independent evidence. Worth a look?",
+        "letGo": "Shilajit came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $35 a month?",
+        "swap": null,
+        "why": "Every human trial found was run or paid for by a shilajit brand. Lab tests have found thallium, a toxic metal, in raw resin and capsules.",
+        "question": "Has your jar been tested for heavy metals?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "Choose a product tested for heavy metals. Lab tests have found thallium in raw shilajit and in supplements."
+        }
+      ]
+    },
+    {
+      "key": "silk-pillowcase",
+      "name": "Silk pillowcase",
+      "shortName": "Silk pillowcase",
+      "group": "weak",
+      "tier": "D",
+      "kind": "device",
+      "monthly": 3,
+      "evidenceFor": "smoother hair and fewer breakouts",
+      "sources": 1,
+      "lines": {
+        "ask": "Silk pillowcase: little real evidence. Worth a look?",
+        "letGo": "Silk pillowcase came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $3 a month?",
+        "swap": null,
+        "why": "No trials of real silk on hair or skin. One small trial of a silk-like pillowcase found no fewer breakouts than cotton. Less friction on hair is plausible but untested.",
+        "question": "Is it for your hair, your skin, or the feel?",
+        "instead": "A satin pillowcase gives the same smooth feel."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "toner-hydrating-or-balancing",
+      "name": "Toner (hydrating or balancing)",
+      "shortName": "Toner",
+      "group": "weak",
+      "tier": "D",
+      "kind": "topical",
+      "monthly": 25,
+      "evidenceFor": "more hydration when a moisturizer is already used",
+      "sources": 6,
+      "lines": {
+        "ask": "Toner: little real evidence. Worth a look?",
+        "letGo": "Toner came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $25 a month?",
+        "swap": null,
+        "why": "In a small study, toner then cream hydrated skin about as well as cream alone. The AAD advises skipping toners with rosacea.",
+        "question": "Does skin feel different on days you skip it?",
+        "instead": "Moisturizer straight after cleansing, while skin is still a little damp."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "With rosacea, the AAD advises skipping toners and astringents. A dermatologist can suggest a gentler routine."
+        }
+      ]
+    },
+    {
+      "key": "two-exfoliants-scrub-plus-acid-or-two-acids",
+      "name": "Two exfoliants (a scrub plus an acid, or two acids)",
+      "shortName": "Two exfoliants",
+      "group": "weak",
+      "tier": "D",
+      "kind": "topical",
+      "monthly": 15,
+      "evidenceFor": "smoother skin from a second exfoliant on top of the first",
+      "sources": 6,
+      "lines": {
+        "ask": "Two exfoliants: little real evidence. Worth a look?",
+        "letGo": "Two exfoliants came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
+        "swap": null,
+        "why": "One exfoliant can smooth rough skin, and no study we found shows a second adds more. Over-exfoliating can leave skin red and irritated, glycolic and lactic acids raise sun sensitivity, and strong exfoliation can darken spots on darker skin.",
+        "question": "Which one leaves your skin feeling best the next day?",
+        "instead": "One exfoliant that suits the skin, used less often the stronger it is."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Salicylic acid is generally considered fine for a limited time in pregnancy, and the AAD suggests checking with an obstetrician or dermatologist first."
+        },
+        {
+          "condition": "skin-condition",
+          "action": "see-dermatologist",
+          "note": "With rosacea, dermatologists advise stopping exfoliation altogether, and acne that keeps flaring is worth a dermatologist visit."
+        }
+      ]
+    },
+    {
+      "key": "unlisted-subscription-you-re-still-paying-for",
+      "name": "Unlisted subscription you're still paying for",
+      "shortName": "Forgotten subscription",
+      "group": "weak",
+      "tier": "N",
+      "kind": "service",
+      "monthly": 0,
+      "evidenceFor": "any wellness benefit while it sits unused",
+      "sources": 1,
+      "lines": {
+        "ask": "Forgotten subscription: no independent evidence. Worth a look?",
+        "letGo": "Forgotten subscription came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go?",
+        "swap": null,
+        "why": "A subscription only helps when it gets used. A large gym study found members often paid for far more than got used.",
+        "question": "Do you remember signing up for this?",
+        "instead": ""
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "zma",
+      "name": "ZMA (zinc, magnesium and vitamin B6)",
+      "shortName": "ZMA",
+      "group": "weak",
+      "tier": "D",
+      "kind": "supplement",
+      "monthly": 18,
+      "evidenceFor": "higher testosterone, strength or better sleep in people already getting enough zinc and magnesium",
+      "sources": 4,
+      "lines": {
+        "ask": "ZMA: little real evidence. Worth a look?",
+        "letGo": "ZMA came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $18 a month?",
+        "swap": null,
+        "why": "Trials in men eating enough zinc found no rise in testosterone or strength, and two nights of ZMA left sleep unchanged. The magnesium inside is the part with sleep research.",
+        "question": "Do you take it for sleep or training?",
+        "instead": "Plain magnesium at bedtime keeps the ritual with fewer ingredients."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "any",
+          "action": "note",
+          "note": "ZMA holds about 30 mg of zinc. Years of high zinc can lower copper, and a multivitamin adds more zinc on top."
+        }
+      ]
+    },
+    {
+      "key": "alcohol-in-the-evening",
+      "name": "Alcohol in the evening",
+      "shortName": "Evening drinks",
+      "group": "habit",
+      "tier": "A",
+      "kind": "food-drink",
+      "monthly": 80,
+      "evidenceFor": "less REM sleep after evening drinks, already at two or fewer and growing with each one",
+      "sources": 10,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Evening drinks doesn't sound like it's giving you much. Same plans, with the last drink a little earlier or the second one alcohol-free. Want to try that swap?",
+        "why": "Across 27 studies, up to about two drinks already trimmed REM sleep, and more drinks trimmed more. Overnight heart rate also climbs with each drink. Falling asleep faster showed up only around five drinks.",
+        "question": "Mostly with friends, or more of a solo wind-down?",
+        "instead": "Same plans, with the last drink a little earlier or the second one alcohol-free."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "breastfeeding",
+          "action": "note",
+          "note": "CDC calls not drinking the safest choice while breastfeeding, with at least two hours per drink before nursing."
+        },
+        {
+          "condition": "diabetes",
+          "action": "clinician-first",
+          "note": "With insulin or similar medicines, alcohol can bring on low blood sugar hours later, so glucose checks after drinking matter."
+        },
+        {
+          "condition": "liver-disease",
+          "action": "clinician-first",
+          "note": "Heavy drinking strains the liver, so any liver condition makes alcohol a question for a clinician first."
+        },
+        {
+          "condition": "mental-health-condition",
+          "action": "clinician-first",
+          "note": "Alcohol can deepen low mood, anxiety and sleep trouble, and interacts with some psychiatric medicines. If cutting back feels hard, that's a conversation for a clinician."
+        },
+        {
+          "condition": "on-medication",
+          "action": "clinician-first",
+          "note": "Alcohol interacts with many common medicines, from sleep aids to pain relievers, so a pharmacist check comes first."
+        },
+        {
+          "condition": "pregnant",
+          "action": "note",
+          "note": "US labels carry the Surgeon General's advice against alcohol in pregnancy because of the risk of birth defects."
+        },
+        {
+          "condition": "under-18",
+          "action": "never-suggest",
+          "note": "Distill leaves alcohol out entirely below the legal drinking age, which is 21 in the US."
+        }
+      ]
+    },
+    {
+      "key": "checking-the-sleep-score-every-morning",
+      "name": "Checking the sleep score every morning",
+      "shortName": "Morning sleep check",
+      "group": "habit",
+      "tier": "C",
+      "kind": "practice",
+      "monthly": 0,
+      "evidenceFor": "how the morning number shapes mood, energy and sleep worry",
+      "sources": 6,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Morning sleep check doesn't sound like it's giving you much. A weekly look at trends, with the daily score hidden. Want to try that swap?",
+        "why": "Trackers mostly feel good to use. In small experiments, a fake low score left people with insomnia feeling less alert that day; in healthy sleepers, one low score didn't change sleep. Score worry tends to cluster with insomnia.",
+        "question": "Does the score change how the day feels?",
+        "instead": "A weekly look at trends, with the daily score hidden."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "mental-health-condition",
+          "action": "note",
+          "note": "With insomnia or anxiety, a daily score can add worry; hiding it for a while is worth raising with a clinician."
+        }
+      ]
+    },
+    {
+      "key": "coffee-after-2pm",
+      "name": "Coffee after 2pm",
+      "shortName": "Afternoon coffee",
+      "group": "habit",
+      "tier": "A",
+      "kind": "timing",
+      "monthly": 40,
+      "evidenceFor": "shorter, lighter sleep when caffeine is taken within about nine hours of bed",
+      "sources": 4,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Afternoon coffee doesn't sound like it's giving you much. A decaf, half-caf or black tea keeps the afternoon break with far less caffeine. Want to try that swap?",
+        "why": "Across 24 studies, caffeine cost about 45 minutes of sleep and some deep sleep, more when taken later or in bigger doses. A regular cup's cut-off sits around nine hours before bed, and the loss is easy to miss.",
+        "question": "Is the afternoon cup about the caffeine or the break?",
+        "instead": "A decaf, half-caf or black tea keeps the afternoon break with far less caffeine."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "breastfeeding",
+          "action": "note",
+          "note": "FDA suggests talking with a provider about caffeine limits while breastfeeding."
+        },
+        {
+          "condition": "on-medication",
+          "action": "note",
+          "note": "Some medicines, including certain antidepressants and birth control pills, slow caffeine clearance, so an afternoon cup can linger longer."
+        },
+        {
+          "condition": "pregnant",
+          "action": "note",
+          "note": "Pregnancy guidance keeps caffeine to about 200 mg a day in total, which one large coffee can reach."
+        }
+      ]
+    },
+    {
+      "key": "dessert-sugar-before-bed",
+      "name": "Dessert or sweets right before bed",
+      "shortName": "Late dessert",
+      "group": "habit",
+      "tier": "C",
+      "kind": "timing",
+      "monthly": 0,
+      "evidenceFor": "lighter, more broken sleep when sweets come within an hour of bed",
+      "sources": 3,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Late dessert doesn't sound like it's giving you much. Dessert right after dinner keeps the sweet, with more time before bed. Want to try that swap?",
+        "why": "Eating within an hour of bed was linked to more night waking. A small study tied more daily sugar to more night arousals. Most of this is observed, not tested.",
+        "question": "Is the late dessert a want, or a habit?",
+        "instead": "Dessert right after dinner keeps the sweet, with more time before bed."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "energy-drinks",
+      "name": "Energy drinks (Red Bull, Monster, Celsius and similar)",
+      "shortName": "Energy drinks",
+      "group": "habit",
+      "tier": "A",
+      "kind": "food-drink",
+      "monthly": 60,
+      "evidenceFor": "shorter, lighter sleep from the caffeine, growing the later in the day a can is drunk",
+      "sources": 8,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Energy drinks doesn't sound like it's giving you much. A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. Want to try that swap?",
+        "why": "The caffeine trims sleep just as coffee's does, and some cans hold three cups' worth. Students who drank energy drinks more often slept less and woke more. Blood pressure also rises for a few hours after a can.",
+        "question": "Roughly what time is the last can of the day?",
+        "instead": "A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "blood-pressure",
+          "action": "clinician-first",
+          "note": "A single energy drink raised blood pressure by a few points for hours, so with high blood pressure a check comes first."
+        },
+        {
+          "condition": "breastfeeding",
+          "action": "note",
+          "note": "FDA suggests talking with a provider about caffeine limits while breastfeeding."
+        },
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "Large servings lengthened a heart rhythm measure (QTc) even in healthy young adults, so a heart condition means a clinician check first."
+        },
+        {
+          "condition": "on-medication",
+          "action": "note",
+          "note": "Some medicines make caffeine stronger or slower to clear, so a pharmacist can say whether a can fits."
+        },
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Some cans hold over 300 mg of caffeine, past the 200 mg a day judged safe in pregnancy."
+        },
+        {
+          "condition": "under-18",
+          "action": "never-suggest",
+          "note": "Pediatric guidance says stimulant energy drinks do not belong in children's or teens' diets."
+        }
+      ]
+    },
+    {
+      "key": "late-dinner-within-2-3-h-of-bed",
+      "name": "Late dinner (within 2 to 3 hours of bed)",
+      "shortName": "Late dinner",
+      "group": "habit",
+      "tier": "C",
+      "kind": "timing",
+      "monthly": 0,
+      "evidenceFor": "more night waking when the main meal lands within about three hours of bed",
+      "sources": 8,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Late dinner doesn't sound like it's giving you much. On late nights, a lighter dinner, with more of the day's food at lunch. Want to try that swap?",
+        "why": "Findings are mixed. Surveys tie eating within three hours of bed to more night waking and reflux, yet a 10pm-dinner lab trial found unchanged sleep stages. One small trial saw lower nighttime heart rate with earlier meals.",
+        "question": "Late by choice, or is that when work ends?",
+        "instead": "On late nights, a lighter dinner, with more of the day's food at lunch."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "diabetes",
+          "action": "clinician-first",
+          "note": "With set insulin doses, meal timing is part of the plan, so moving dinner is worth planning with the care team."
+        }
+      ]
+    },
+    {
+      "key": "matcha-green-tea-in-the-afternoon",
+      "name": "Matcha or green tea in the afternoon",
+      "shortName": "Afternoon matcha",
+      "group": "habit",
+      "tier": "B",
+      "kind": "timing",
+      "monthly": 30,
+      "evidenceFor": "shorter sleep when afternoon caffeine lands within about nine hours of bed",
+      "sources": 3,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Afternoon matcha doesn't sound like it's giving you much. Move it earlier, or pour a caffeine-free tea for the afternoon pause. Want to try that swap?",
+        "why": "A 2 g matcha serving holds roughly 60 to 80 mg of caffeine. Across 24 studies, caffeine shortened sleep; a 107 mg coffee needed about nine hours before bed.",
+        "question": "What time does the afternoon matcha usually happen?",
+        "instead": "Move it earlier, or pour a caffeine-free tea for the afternoon pause."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "pregnant",
+          "action": "note",
+          "note": "In pregnancy or while breastfeeding, a caffeine limit is worth checking with your clinician."
+        }
+      ]
+    },
+    {
+      "key": "nicotine-pouches-vape",
+      "name": "Nicotine pouches or vape",
+      "shortName": "Nicotine",
+      "group": "habit",
+      "tier": "B",
+      "kind": "food-drink",
+      "monthly": 80,
+      "evidenceFor": "a faster heart rate after use, and lighter, more broken sleep when used near bedtime",
+      "sources": 7,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Nicotine doesn't sound like it's giving you much. Daytime only, with the last one a few hours before bed. Want to try that swap?",
+        "why": "Nicotine near bedtime makes sleep lighter and more broken, in overnight patch trials and in people tracked at home. Vapes and pouches nudge heart rate up.",
+        "question": "Did it replace cigarettes, or start on its own?",
+        "instead": "Daytime only, with the last one a few hours before bed."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "blood-pressure",
+          "action": "clinician-first",
+          "note": "Nicotine nudges blood pressure up after each use; a clinician can help weigh what fits."
+        },
+        {
+          "condition": "breastfeeding",
+          "action": "clinician-first",
+          "note": "Nicotine passes into breast milk, so any plan for it is best made with a clinician."
+        },
+        {
+          "condition": "heart-condition",
+          "action": "clinician-first",
+          "note": "Nicotine raises heart rate and blood pressure after each use, so changes are best planned with a clinician."
+        },
+        {
+          "condition": "pregnant",
+          "action": "clinician-first",
+          "note": "Nicotine reaches the baby during pregnancy, so any plan for it is best made with a clinician."
+        },
+        {
+          "condition": "under-18",
+          "action": "never-suggest",
+          "note": "US law sets 21 as the minimum age for nicotine products, so Distill offers no timing or strength tips here."
+        }
+      ]
+    },
+    {
+      "key": "second-or-third-coffee",
+      "name": "Second (or third) coffee",
+      "shortName": "Extra coffee",
+      "group": "habit",
+      "tier": "A",
+      "kind": "timing",
+      "monthly": 40,
+      "evidenceFor": "shorter, lighter sleep when the extra cup lands within about nine hours of bed",
+      "sources": 3,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Extra coffee doesn't sound like it's giving you much. Half-caf or decaf for the later cup keeps the ritual. Want to try that swap?",
+        "why": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls up to 400 mg a day generally fine for healthy adults.",
+        "question": "When does the last cup usually happen?",
+        "instead": "Half-caf or decaf for the later cup keeps the ritual."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": [
+        {
+          "condition": "pregnant",
+          "action": "note",
+          "note": "In pregnancy or while breastfeeding, a caffeine limit is worth checking with your clinician."
+        }
+      ]
+    },
+    {
+      "key": "weekend-sleep-in-over-1-h",
+      "name": "Weekend sleep-in (over 1 h)",
+      "shortName": "Weekend lie-in",
+      "group": "habit",
+      "tier": "C",
+      "kind": "timing",
+      "monthly": 0,
+      "evidenceFor": "making up for short sleep during the week",
+      "sources": 5,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Weekend lie-in doesn't sound like it's giving you much. A lie-in kept under an hour, with an earlier night on Friday. Want to try that swap?",
+        "why": "Studies disagree. In a Swedish cohort, short weekday sleepers who slept longer on weekends lived as long as steady sleepers, yet a larger device-based study found no benefit. A lab trial found catch-up shifted the body clock later.",
+        "question": "Is the lie-in for pleasure, or catching up on short nights?",
+        "instead": "A lie-in kept under an hour, with an earlier night on Friday."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    },
+    {
+      "key": "work-email-after-9pm",
+      "name": "Work email after 9pm",
+      "shortName": "Late work email",
+      "group": "habit",
+      "tier": "C",
+      "kind": "timing",
+      "monthly": 0,
+      "evidenceFor": "what late work email does to switching off and sleep quality",
+      "sources": 3,
+      "lines": {
+        "ask": null,
+        "letGo": null,
+        "swap": "Late work email doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?",
+        "why": "Studies following workers link more after-hours email with switching off less and lower measured sleep quality, not shorter sleep. These track patterns, not cause; in a small trial, a phone-free half hour before bed meant falling asleep sooner.",
+        "question": "Is it expected at work, or more of a habit?",
+        "instead": "One set check in the evening, then notifications off until morning."
+      },
+      "neverWhen": [
+        "THEIRS",
+        "LOVED"
+      ],
+      "safety": []
+    }
+  ]
+}

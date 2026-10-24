@@ -24,6 +24,7 @@
     "eval:engine": "tsx apps/web/scripts/eval-engine.ts",
     "eval:ab": "tsx apps/web/scripts/eval-ab.ts",
     "golden:review": "tsx apps/web/scripts/golden-review.ts",
+    "catalog:review": "tsx apps/web/scripts/catalog-review.ts",
     "ritual:show": "tsx apps/web/scripts/show-ritual.ts",
     "engine:backfill": "tsx apps/web/scripts/backfill-person.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
