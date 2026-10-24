@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "sourceFile": "Routing-Table_V4.xlsx",
-  "sourceSha256": "50a8396dbcb6fe3a2390e7bbdb620a955d232268ad399751953ac22af6150528",
+  "sourceSha256": "d7ac5fb15bb80c6b340c2902500ad712ea4057ef9c44b4a3bbfdabd4c3167a75",
   "items": [
     {
       "key": "creatine-monohydrate",
@@ -34,7 +34,7 @@
       "evidenceFor": "strength and muscle gains in people who lift or train",
       "evidenceRequires": "trains",
       "tierOtherwise": "C",
-      "evidenceSummary": "One of the best-studied supplements. For people who lift, it adds several kilos to strength gains over weeks of training; without training, gains are small. Monohydrate at 3 to 5 g a day is the studied form.",
+      "evidenceSummary": "One of the best-studied supplements. For people who lift, it adds to strength gains over weeks of training, shown mostly in men; without training, gains are small. Monohydrate at 3 to 5 g a day is the studied form.",
       "sources": [
         "kreider-2017-issn-creatine",
         "wang-2024-creatine-strength",
@@ -60,7 +60,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Do you lift or train hard most weeks?",
-      "fitsInstead": "Plain unflavored monohydrate powder, often around $10 a month.",
+      "fitsInstead": "Plain unflavored monohydrate, the form the trials used.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -70,7 +70,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Dose floor settled at 3 g/day. The ISSN 2017 position stand gives 3 g/day for 28 days as the low-dose route and says smaller amounts (e.g. 3-5 g/day) saturate muscle over 3-4 weeks; it never gives a 2 g human dose (it notes a normal diet already supplies 1-2 g/day). V3's ruleText cut-off of 2 g was wrong; the factCheck 3 g was right. Loading (~0.3 g/kg/day for 5-7 days, then 3-5 g/day) is optional; ISSN notes larger athletes may take 5-10 g/day. Female evidence is thin (Wang 2024: only 2 female-only trials, gains not significant). Wang co-author Candow advises creatine makers and most ISSN/Antonio authors disclose industry ties; Wang itself had no external funding and the strength effect is consistent (I2 = 0%), so A stands. FORM_NOT_ABSORBED: ISSN and Antonio find no form better than monohydrate and ISSN does not mention HCl, so for HCl or buffered the verdict should say monohydrate is the studied form, not that the other form fails; ethyl ester has the weakest case. tier_otherwise C: without training, gains are small and inconsistent (Antonio 2021, mostly older-adult data). V3's claim about thinking during sleep loss was not checked and is left out of person-facing text. Effect on sleep or HRV is not visible to wearables.",
+      "notesInternal": "Dose floor settled at 3 g/day. The ISSN 2017 position stand gives 3 g/day for 28 days as the low-dose route and says smaller amounts (e.g. 3-5 g/day) saturate muscle over 3-4 weeks; it never gives a 2 g human dose (it notes a normal diet already supplies 1-2 g/day). V3's ruleText cut-off of 2 g was wrong; the factCheck 3 g was right. Loading (~0.3 g/kg/day for 5-7 days, then 3-5 g/day) is optional; ISSN notes larger athletes may take 5-10 g/day. Female evidence is thin (Wang 2024: only 2 female-only trials, gains not significant). Wang co-author Candow advises creatine makers and most ISSN/Antonio authors disclose industry ties; Wang itself had no external funding and the strength effect is consistent (I2 = 0%), so A stands. FORM_NOT_ABSORBED: ISSN and Antonio find no form better than monohydrate and ISSN does not mention HCl, so for HCl or buffered the verdict should say monohydrate is the studied form, not that the other form fails; ethyl ester has the weakest case. tier_otherwise C: without training, gains are small and inconsistent (Antonio 2021, mostly older-adult data). V3's claim about thinking during sleep loss was not checked and is left out of person-facing text. Effect on sleep or HRV is not visible to wearables. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "breastfeeding",
@@ -329,7 +329,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Has a clinician or blood test ever said you run low?",
-      "fitsInstead": "A plain tablet near 600 IU, often a couple of dollars a month.",
+      "fitsInstead": "A plain tablet near 600 IU, the usual daily amount advised for adults.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -339,7 +339,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Outcome chosen: bone density and levels when low, the one area where benefit clearly depends on baseline (Macdonald 2018: bone density rose only when starting 25(OH)D was at or below 30 nmol/L; the IOM found evidence for bone health only). Most 22-35 buyers want immunity, mood or energy, and those grade lower: colds C at best (Martineau 2017 showed a strong effect below 25 nmol/L, but Jolliffe 2021 and 2025 found no modification by baseline status and the 2025 overall effect is no longer significant); mood null (VITAL-DEP). tier_otherwise D means trials in people with normal levels found no bone, fracture or mood benefit (VITAL); the scale has no 'tested and found little' grade. B rather than A because the deficiency evidence comes from subgroup analyses of a few trials plus the IOM consensus. V3 nudged a ~$30 blood test: the Endocrine Society 2024 guideline suggests against routine 25(OH)D testing in healthy adults and against doses above the DRI for ages 19-74, and the IOM notes many labs use cut-offs that overstate deficiency (20 ng/mL, 50 nmol/L, is adequate for nearly everyone). Drop the testing nudge; ask whether a clinician already said it runs low. V3 put harm above 10,000 IU: the upper limit is 4,000 IU/day; above 10,000 IU/day is where kidney and tissue damage is documented. If clinician-prescribed (e.g. weekly high-dose), treat as clinician-led and protect. dose_min 600 IU is the RDA; DOSE_BELOW_MIN left out because correcting a deficiency is a clinician call. AG1 Next Gen reportedly has no vitamin D, so D plus AG1 is not an overlap (see overlap proposals).",
+      "notesInternal": "Outcome chosen: bone density and levels when low, the one area where benefit clearly depends on baseline (Macdonald 2018: bone density rose only when starting 25(OH)D was at or below 30 nmol/L; the IOM found evidence for bone health only). Most 22-35 buyers want immunity, mood or energy, and those grade lower: colds C at best (Martineau 2017 showed a strong effect below 25 nmol/L, but Jolliffe 2021 and 2025 found no modification by baseline status and the 2025 overall effect is no longer significant); mood null (VITAL-DEP). tier_otherwise D means trials in people with normal levels found no bone, fracture or mood benefit (VITAL); the scale has no 'tested and found little' grade. B rather than A because the deficiency evidence comes from subgroup analyses of a few trials plus the IOM consensus. V3 nudged a ~$30 blood test: the Endocrine Society 2024 guideline suggests against routine 25(OH)D testing in healthy adults and against doses above the DRI for ages 19-74, and the IOM notes many labs use cut-offs that overstate deficiency (20 ng/mL, 50 nmol/L, is adequate for nearly everyone). Drop the testing nudge; ask whether a clinician already said it runs low. V3 put harm above 10,000 IU: the upper limit is 4,000 IU/day; above 10,000 IU/day is where kidney and tissue damage is documented. If clinician-prescribed (e.g. weekly high-dose), treat as clinician-led and protect. dose_min 600 IU is the RDA; DOSE_BELOW_MIN left out because correcting a deficiency is a clinician call. AG1 Next Gen reportedly has no vitamin D, so D plus AG1 is not an overlap (see overlap proposals). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "kidney-disease",
@@ -413,7 +413,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is this covering a known gap, or more like insurance?",
-      "fitsInstead": "A basic store-brand multivitamin, often a few dollars a month.",
+      "fitsInstead": "A basic multivitamin covers the same ground.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -424,7 +424,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "C because the trials disagree slightly: the USPSTF evidence review pooled a small drop in cancer incidence (OR 0.93, 4 RCTs, limitations noted) while COSMOS found no effect on cancer, CV events or mortality; USPSTF grade is I (insufficient). V3 said there was no effect on cancer, which is not quite right. The cognitive benefit is confirmed only in adults 60+ (COSMOS, about 2 years of cognitive aging slowed). No trials in 22-35-year-olds. V3 also said it does no harm: USPSTF recommends against beta-carotene, which raises lung cancer risk in people at high risk (e.g. smokers), and some multis contain it. The safety list has no smoking condition, so this needs a reviewer decision. Targeted needs (B12 for vegans, iron, folate before pregnancy) are separate items and often clinician-led. COSMOS funders include Pfizer per the record; whether pills were donated was not confirmed.",
+      "notesInternal": "C because the trials disagree slightly: the USPSTF evidence review pooled a small drop in cancer incidence (OR 0.93, 4 RCTs, limitations noted) while COSMOS found no effect on cancer, CV events or mortality; USPSTF grade is I (insufficient). V3 said there was no effect on cancer, which is not quite right. The cognitive benefit is confirmed only in adults 60+ (COSMOS, about 2 years of cognitive aging slowed). No trials in 22-35-year-olds. V3 also said it does no harm: USPSTF recommends against beta-carotene, which raises lung cancer risk in people at high risk (e.g. smokers), and some multis contain it. The safety list has no smoking condition, so this needs a reviewer decision. Targeted needs (B12 for vegans, iron, folate before pregnancy) are separate items and often clinician-led. COSMOS funders include Pfizer per the record; whether pills were donated was not confirmed. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "on-medication",
@@ -495,7 +495,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is the morning glass the part you would miss?",
-      "fitsInstead": "A smoothie with frozen spinach and berries keeps the morning glass for less.",
+      "fitsInstead": "A smoothie with frozen spinach and berries keeps the morning glass.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -506,7 +506,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier N per the brief's rule (brand-funded only counts as none). V3 said D. Every human study found was funded by the brand and/or written by its employees: AG1 (La Monica 2024: funded in part by AG1, two AG1 employees; Gonzalez 2026: AG1-funded, AG1 employees; Sapp 2026: five AG1-affiliated authors, no funding statement in the record) and Field of Greens (Robinson 2026: BrickHouse Nutrition paid for the trial and supplied the product). Kirby 2024 is a lab gut-simulator study by AG1 employees. Outcomes were surrogates (bacterial taxa, intake on paper, blood levels after one dose); none showed changes in health, energy or digestion, and microbiome diversity did not change. AG1 conference abstracts in JISSN 2025 supplements are also AG1-authored and were not opened. Price: AG1 is $79/month on subscription or $99 one-time per a Fortune review (Jan 2026, updated Jul 2026, affiliate-linked; https://www.fortune.com/article/ag1-review), so V3's $90 is updated to 79. The same review says AG1 Next Gen has no vitamin D or K (sold separately); the label could not be checked (drinkag1.com rate-limited). ritual_role is anchor because the morning glass often carries the habit, so fits_instead keeps the glass.",
+      "notesInternal": "Tier N per the brief's rule (brand-funded only counts as none). V3 said D. Every human study found was funded by the brand and/or written by its employees: AG1 (La Monica 2024: funded in part by AG1, two AG1 employees; Gonzalez 2026: AG1-funded, AG1 employees; Sapp 2026: five AG1-affiliated authors, no funding statement in the record) and Field of Greens (Robinson 2026: BrickHouse Nutrition paid for the trial and supplied the product). Kirby 2024 is a lab gut-simulator study by AG1 employees. Outcomes were surrogates (bacterial taxa, intake on paper, blood levels after one dose); none showed changes in health, energy or digestion, and microbiome diversity did not change. AG1 conference abstracts in JISSN 2025 supplements are also AG1-authored and were not opened. Price: AG1 is $79/month on subscription or $99 one-time per a Fortune review (Jan 2026, updated Jul 2026, affiliate-linked; https://www.fortune.com/article/ag1-review), so V3's $90 is updated to 79. The same review says AG1 Next Gen has no vitamin D or K (sold separately); the label could not be checked (drinkag1.com rate-limited). ritual_role is anchor because the morning glass often carries the habit, so fits_instead keeps the glass. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "breastfeeding",
@@ -763,7 +763,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "What time of day do you usually train?",
-      "fitsInstead": "A large coffee about an hour before training covers the caffeine part for less.",
+      "fitsInstead": "A large coffee about an hour before training covers the caffeine part.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -774,7 +774,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier A rests on the caffeine (ISSN 2021 stand; Grgic 2020 umbrella review of 21 meta-analyses, moderate-quality evidence, mostly young men), not on the blend: I found no meta-analysis of multi-ingredient pre-workouts, product trials are small and often brand-linked, and 44% of listed ingredients sit in proprietary blends with beta-alanine below its effective dose (Jagim 2019). 89% of regular users take it for energy and focus (Jagim 2019 survey), which is why evidence_for names energy as well as performance. V3 graded B and said the sleep cost starts 'after 2pm'; Gardiner 2023 modelled a standard 217.5 mg pre-workout needing about 13.2 h before bed to avoid lost sleep (before 8:50am for a 10pm bedtime), so afternoon and evening scoops cost more than V3 implied. dose_min 140 mg = 2 mg/kg at 70 kg, the ISSN 'may be as low as' figure; 3 to 6 mg/kg (about 200 to 400 mg) is the consistently effective range, so a stim-free tub fails DOSE_BELOW_MIN. tier_otherwise N: no studies of pre-workouts outside training; for alertness alone, coffee carries the same caffeine. Coffee as a substitute is my inference from caffeine being the shared active ingredient, not a head-to-head trial. Safety rows: pregnancy and breastfeeding from EFSA and FDA plus Jagim 2019's 254 mg average serving; heart from Bella 2025, Jagim 2019 (self-reported heart abnormalities) and the energy-drink ECG trials; under-18 extends AAP 2011's energy-drink guidance to stimulant pre-workouts; medicines from FDA and Gardiner 2023 (antidepressants and oral contraceptives change caffeine half-life).",
+      "notesInternal": "Tier A rests on the caffeine (ISSN 2021 stand; Grgic 2020 umbrella review of 21 meta-analyses, moderate-quality evidence, mostly young men), not on the blend: I found no meta-analysis of multi-ingredient pre-workouts, product trials are small and often brand-linked, and 44% of listed ingredients sit in proprietary blends with beta-alanine below its effective dose (Jagim 2019). 89% of regular users take it for energy and focus (Jagim 2019 survey), which is why evidence_for names energy as well as performance. V3 graded B and said the sleep cost starts 'after 2pm'; Gardiner 2023 modelled a standard 217.5 mg pre-workout needing about 13.2 h before bed to avoid lost sleep (before 8:50am for a 10pm bedtime), so afternoon and evening scoops cost more than V3 implied. dose_min 140 mg = 2 mg/kg at 70 kg, the ISSN 'may be as low as' figure; 3 to 6 mg/kg (about 200 to 400 mg) is the consistently effective range, so a stim-free tub fails DOSE_BELOW_MIN. tier_otherwise N: no studies of pre-workouts outside training; for alertness alone, coffee carries the same caffeine. Coffee as a substitute is my inference from caffeine being the shared active ingredient, not a head-to-head trial. Safety rows: pregnancy and breastfeeding from EFSA and FDA plus Jagim 2019's 254 mg average serving; heart from Bella 2025, Jagim 2019 (self-reported heart abnormalities) and the energy-drink ECG trials; under-18 extends AAP 2011's energy-drink guidance to stimulant pre-workouts; medicines from FDA and Gardiner 2023 (antidepressants and oral contraceptives change caffeine half-life). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "breastfeeding",
@@ -1288,7 +1288,7 @@
       "evidenceFor": "a body clock that runs earlier, so sleepiness comes earlier at night",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Bright morning light nudges the body clock earlier; in one camping study, a week of natural light moved it about two hours. A review links brighter mornings with earlier, better-rated sleep. Ten minutes hasn't been tested directly.",
+      "evidenceSummary": "Bright morning light nudges the body clock earlier; a week of natural light with no evening electric light moved it about two hours. Everyday studies are mixed, and ten minutes hasn't been tested directly.",
       "sources": [
         "dautovich-2019-light-sleep",
         "wright-2013-natural-light-clock",
@@ -1320,7 +1320,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 fact-check target confirmed: Wright 2013 (8 campers; clock about 2 h earlier after a week of natural light only; read in full text). Tier B is for clock timing only: lab bright-light experiments in healthy adults agree (Dautovich 2019 review, 32 experimental + 13 observational studies, no meta-analysis), but no trial tested 10 minutes outdoors, and everyday wrist-measured light shows weak or conflicting links (Bohmer 2021). Mood or energy claims would be tier C. V3 dayOne line ('about half of one night's normal swing') had no source and is dropped. clear_when empty: free, B tier, and the wake-up light rule keeps the free option. Area set to sleep (V3 batch was mind); reviewer may move it back. Never tell anyone to look at the sun.",
+      "notesInternal": "V3 fact-check target confirmed: Wright 2013 (8 campers; clock about 2 h earlier after a week of natural light only; read in full text). Tier B is for clock timing only: lab bright-light experiments in healthy adults agree (Dautovich 2019 review, 32 experimental + 13 observational studies, no meta-analysis), but no trial tested 10 minutes outdoors, and everyday wrist-measured light shows weak or conflicting links (Bohmer 2021). Mood or energy claims would be tier C. V3 dayOne line ('about half of one night's normal swing') had no source and is dropped. clear_when empty: free, B tier, and the wake-up light rule keeps the free option. Area set to sleep (V3 batch was mind); reviewer may move it back. Never tell anyone to look at the sun. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "on-medication",
@@ -1394,7 +1394,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "When did you last open it?",
-      "fitsInstead": "A free guided meditation app, for the same kind of practice without the subscription.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -1405,7 +1405,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 tier B kept. A is arguable (Linardon 2024: 45 RCTs, effects held in lower-bias trials), but effects are small (g 0.24 to 0.28), measured only at post-test (10 days to 8 weeks), not better than active therapies, and the authors flag possible conflicts of interest in Headspace trials (k = 15; Calm k = 5). Gal 2021 stress effect (g 0.46) was heterogeneous (I2 68%). V3 line about sleep ('people say they sleep better; measured change smaller') was not checked here and is removed. Baumel 2019 backs the UNUSED path (median 30-day retention about 3%, meditation apps about 5%). V3 cost 15 reflects monthly billing; annual plans run about $70 a year, so 7 is a blended estimate (prices from third-party pages, not sourced). Safety note from Farias 2020.",
+      "notesInternal": "V3 tier B kept. A is arguable (Linardon 2024: 45 RCTs, effects held in lower-bias trials), but effects are small (g 0.24 to 0.28), measured only at post-test (10 days to 8 weeks), not better than active therapies, and the authors flag possible conflicts of interest in Headspace trials (k = 15; Calm k = 5). Gal 2021 stress effect (g 0.46) was heterogeneous (I2 68%). V3 line about sleep ('people say they sleep better; measured change smaller') was not checked here and is removed. Baumel 2019 backs the UNUSED path (median 30-day retention about 3%, meditation apps about 5%). V3 cost 15 reflects monthly billing; annual plans run about $70 a year, so 7 is a blended estimate (prices from third-party pages, not sourced). Safety note from Farias 2020. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "mental-health-condition",
@@ -1516,7 +1516,7 @@
       "evidenceFor": "a small lift in everyday mood and life satisfaction",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Studies from 28 countries, nearly 25,000 people, find a small average rise in well-being, clearest for positive mood. Other pleasant exercises do about as well, and how often it's done mattered little.",
+      "evidenceSummary": "Studies from 28 countries, nearly 25,000 people, find a small average rise in well-being, clearest for positive mood. Other active exercises do about as well.",
       "sources": [
         "choi-2025-gratitude-meta",
         "davis-2016-gratitude-meta"
@@ -1536,7 +1536,7 @@
       "clearWhen": [],
       "neverClear": false,
       "humanQuestion": "Does it still feel good, or more like homework lately?",
-      "fitsInstead": "Once a week instead of nightly; in studies, how often mattered little.",
+      "fitsInstead": "Once a week instead of nightly, if nightly feels like a chore.",
       "awe": "moral",
       "wearableSees": "no",
       "overlaps": [
@@ -1546,7 +1546,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 tier B raised to A: Choi 2025 (PNAS, preregistered, 145 papers, 24,804 people, g = 0.19, robust to publication bias). The effect is small and not specific to gratitude: Davis 2016 and Choi 2025 both find it matches other positive activities, and Davis found no effect on anxiety. Number of sessions did not moderate the effect (Choi), which supports the weekly fits_instead. Awe 'moral' is a judgment call: it fits when the practice dwells on other people's kindness (Keltner's moral beauty), much less for lists of pleasant things; blank it if the reviewer prefers. clear_when empty: free and A tier.",
+      "notesInternal": "V3 tier B raised to A: Choi 2025 (PNAS, preregistered, 145 papers, 24,804 people, g = 0.19, robust to publication bias). The effect is small and not specific to gratitude: Davis 2016 and Choi 2025 both find it matches other positive activities, and Davis found no effect on anxiety. Number of sessions did not moderate the effect (Choi), which supports the weekly fits_instead. Awe 'moral' is a judgment call: it fits when the practice dwells on other people's kindness (Keltner's moral beauty), much less for lists of pleasant things; blank it if the reviewer prefers. clear_when empty: free and A tier. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -1649,7 +1649,7 @@
       "evidenceFor": "easing depression and anxiety for people who seek help",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Hundreds of trials find talk therapy, especially CBT, eases depression and anxiety symptoms, with gains still present 6 to 12 months later. It's clinician-led care, so Distill never suggests letting it go; changes belong with the therapist.",
+      "evidenceSummary": "Hundreds of trials find talk therapy eases depression and anxiety, with CBT the most studied; for depression, gains held 6 to 12 months later. It's clinician-led care, so Distill never suggests letting it go.",
       "sources": [
         "cuijpers-2023-cbt-depression",
         "carpenter-2018-cbt-anxiety"
@@ -1678,7 +1678,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Protected: never_clear yes and clear_when empty by design; no fits_instead offered for clinician-led care. Evidence population is people with depression or anxiety disorders, not healthy adults; no evidence_requires code fits, so it is set to none and the population sits in evidence_for. Keep the V3 behaviour of letting the person hide it from the cost total (hence the human_question). Cost: about $143 to $174 a session self-pay versus about $23 in-network copay (third-party 2026 figures, not sourced); 300 a month is a blended estimate for weekly sessions (V3 said 400). The safety row is a protection rule rather than a sourced interaction.",
+      "notesInternal": "Protected: never_clear yes and clear_when empty by design; no fits_instead offered for clinician-led care. Evidence population is people with depression or anxiety disorders, not healthy adults; no evidence_requires code fits, so it is set to none and the population sits in evidence_for. Keep the V3 behaviour of letting the person hide it from the cost total (hence the human_question). Cost: about $143 to $174 a session self-pay versus about $23 in-network copay (third-party 2026 figures, not sourced); 300 a month is a blended estimate for weekly sessions (V3 said 400). The safety row is a protection rule rather than a sourced interaction. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "mental-health-condition",
@@ -1936,7 +1936,7 @@
       "evidenceFor": "a faster heart rate after use, and lighter, more broken sleep when used near bedtime",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Nicotine near bedtime makes sleep lighter and more broken, in lab trials and in people tracked at home. Vapes nudge heart rate up a little; strong pouches raise it sharply, a 6 mg pouch only slightly.",
+      "evidenceSummary": "Nicotine near bedtime makes sleep lighter and more broken, in overnight patch trials and in people tracked at home. Vapes and pouches nudge heart rate up.",
       "sources": [
         "jaehne-2014-nicotine-patch-sleep",
         "choi-2017-nicotine-patch-sleep",
@@ -1973,7 +1973,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 tier A lowered to B. Sleep: small placebo-controlled patch trials in healthy non-smokers agree (Jaehne 2014, n = 66; Choi 2017, n = 16; also opened Gillin 1994 and Davila 1994, not cited), backed by actigraphy cohort data (Spadola 2019: nicotine within 4 h of bed, lower efficiency, about 6 more minutes awake) and a cross-sectional meta-analysis of vape-only users (Gulati 2026, OR 1.38). No sleep trial used pouches or vapes directly. Heart rate: dose-dependent; the pouch study (n = 15 smokers) found 20 to 30 mg pouches raise it 12 to 25 bpm but 6 mg only slightly; vaping about +2 bpm in a meta-analysis of mostly non-randomized studies. V3's 'lowers HRV' is not confirmed (Choi 2017: no overnight HRV difference). Withdrawal can upset sleep for a while (Jaehne 2009), so an evening-off test may look worse at first. If the pouch or vape replaced cigarettes, Distill should not propose letting it go; no safety condition code fits this, so it is flagged here and asked in human_question. The engine still needs V3's timing question (daytime only, some after 6pm, mostly evening). EVIDENCE_REGULAR left out of keep_when because the tier grades harm, not benefit. kind 'food-drink' is the nearest allowed value (no substance kind). Keep V3's stance: test evening timing, never a quit programme. Cost: ZYN about $5.50 to $6.25 a can retail, several pouches a day, about $80 a month (third-party pricing, not sourced; V3 said 60).",
+      "notesInternal": "V3 tier A lowered to B. Sleep: small placebo-controlled patch trials in healthy non-smokers agree (Jaehne 2014, n = 66; Choi 2017, n = 16; also opened Gillin 1994 and Davila 1994, not cited), backed by actigraphy cohort data (Spadola 2019: nicotine within 4 h of bed, lower efficiency, about 6 more minutes awake) and a cross-sectional meta-analysis of vape-only users (Gulati 2026, OR 1.38). No sleep trial used pouches or vapes directly. Heart rate: dose-dependent; the pouch study (n = 15 smokers) found 20 to 30 mg pouches raise it 12 to 25 bpm but 6 mg only slightly; vaping about +2 bpm in a meta-analysis of mostly non-randomized studies. V3's 'lowers HRV' is not confirmed (Choi 2017: no overnight HRV difference). Withdrawal can upset sleep for a while (Jaehne 2009), so an evening-off test may look worse at first. If the pouch or vape replaced cigarettes, Distill should not propose letting it go; no safety condition code fits this, so it is flagged here and asked in human_question. The engine still needs V3's timing question (daytime only, some after 6pm, mostly evening). EVIDENCE_REGULAR left out of keep_when because the tier grades harm, not benefit. kind 'food-drink' is the nearest allowed value (no substance kind). Keep V3's stance: test evening timing, never a quit programme. Cost: ZYN about $5.50 to $6.25 a can retail, several pouches a day, about $80 a month (third-party pricing, not sourced; V3 said 60). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "blood-pressure",
@@ -2261,7 +2261,7 @@
       "evidenceFor": "strength and fitness, from the visits that happen",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
-      "evidenceSummary": "Regular training builds strength and fitness, and a gym makes that easier. The benefit lives in the visits: in one large study, monthly members averaged about four visits a month, paying more per visit than a pass.",
+      "evidenceSummary": "Regular training builds strength and fitness, and a gym is one way to do it. The benefit lives in the visits: in one large study, monthly members paid more per visit than a pass would have cost.",
       "sources": [
         "currier-2023-resistance-training",
         "bull-2020-who-physical-activity",
@@ -2286,7 +2286,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "How many times did you go in the last month?",
-      "fitsInstead": "A pay-per-visit pass, which often costs less when visits are few.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2297,7 +2297,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded the membership itself A. Now the A belongs to the training it makes possible and holds only for people who use it (evidence_requires 'trains', tier_otherwise N). The main clear codes are UNUSED and OVERLAP. Usage evidence: DellaVigna and Malmendier 2006 (7,752 members of three US clubs; monthly members averaged about 4.3 visits, over $17 a visit, when a 10-visit pass cost $10 a visit). V3's visit thresholds (8+ a month keep; under 4 for two months running) are unsourced but line up with WHO's 2+ strength days a week, roughly 8 visits a month. cost_month_usd 50 is my estimate (budget gyms roughly $10 to $25, mid-tier $40 to $70), not sourced. wearable 'partial': workouts show up, the membership does not. Proposed 'gym floor access' group for two gyms doing the same job.",
+      "notesInternal": "V3 graded the membership itself A. Now the A belongs to the training it makes possible and holds only for people who use it (evidence_requires 'trains', tier_otherwise N). The main clear codes are UNUSED and OVERLAP. Usage evidence: DellaVigna and Malmendier 2006 (7,752 members of three US clubs; monthly members averaged about 4.3 visits, over $17 a visit, when a 10-visit pass cost $10 a visit). V3's visit thresholds (8+ a month keep; under 4 for two months running) are unsourced but line up with WHO's 2+ strength days a week, roughly 8 visits a month. cost_month_usd 50 is my estimate (budget gyms roughly $10 to $25, mid-tier $40 to $70), not sourced. wearable 'partial': workouts show up, the membership does not. Proposed 'gym floor access' group for two gyms doing the same job. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -2334,7 +2334,7 @@
       "evidenceFor": "strength and fitness, from the visits that happen",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
-      "evidenceSummary": "Training works the same in any gym, and no study we found shows pricier clubs bring better results. The extra money buys comfort, classes and spa rooms, which pay off only when used.",
+      "evidenceSummary": "Training works wherever it happens. The club earns its place through the visits and the parts that get used: the classes, the calm, the spa.",
       "sources": [
         "currier-2023-resistance-training",
         "bull-2020-who-physical-activity",
@@ -2359,7 +2359,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Which parts of the club do you actually use?",
-      "fitsInstead": "A standard gym with the same racks and machines, often for a fraction of the price.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2371,7 +2371,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "No study found that compares outcomes by gym price, so the tier is the training's, applied only when the club gets used (otherwise N). Main clear codes: UNUSED and OVERLAP. V3's 'twice a week or more is worth almost any price' is opinion and is removed; V3's '$83 a visit' day-one copy is fine as arithmetic but not evidence. Premium clubs usually include a sauna or steam room, so proposed 'spa amenities' (with bathhouse or recovery-studio memberships) and 'gym floor access' (with a standard gym) groups. cost_month_usd 250 is my estimate (Equinox roughly $200 to $300+, Life Time roughly $100 to $250+), not sourced.",
+      "notesInternal": "No study found that compares outcomes by gym price, so the tier is the training's, applied only when the club gets used (otherwise N). Main clear codes: UNUSED and OVERLAP. V3's 'twice a week or more is worth almost any price' is opinion and is removed; V3's '$83 a visit' day-one copy is fine as arithmetic but not evidence. Premium clubs usually include a sauna or steam room, so proposed 'spa amenities' (with bathhouse or recovery-studio memberships) and 'gym floor access' (with a standard gym) groups. cost_month_usd 250 is my estimate (Equinox roughly $200 to $300+, Life Time roughly $100 to $250+), not sourced. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -2407,7 +2407,7 @@
       "evidenceFor": "aerobic fitness from regular interval-style classes",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
-      "evidenceSummary": "Interval-style classes raise fitness at least as well as steady cardio in trials. A class format alone gives only a small edge over training solo; groups that feel like a team do better.",
+      "evidenceSummary": "Interval training raises fitness at least as well as steady cardio in trials. A class format alone gives a small, uncertain edge over training solo; groups that feel like a team do better.",
       "sources": [
         "milanovic-2015-hiit-vo2max",
         "kritz-2026-group-vs-individual",
@@ -2434,7 +2434,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "How many classes did you make it to last month?",
-      "fitsInstead": "A smaller class pack for the one or two classes booked most.",
+      "fitsInstead": "",
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -2444,7 +2444,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 said 'class formats have better attendance than open gyms, which is the honest case for paying more'. Not supported by what I opened: Burke 2006 found standard exercise classes did no better than home programs with some contact, while cohesion-building 'true groups' did best; Kritz 2026 (71 studies) found small, non-significant group edges for activity and health, and a significant edge for physical function only after removing outliers. Tier A is for the interval training itself (Milanovic 2015, healthy adults 18 to 45); no independent studies of the branded formats were looked for or found. Main clear codes: UNUSED and OVERLAP. Unflagged safety signal: spinning-induced rhabdomyolysis in healthy first-timers (Kim 2015, 11 cases); no schema condition fits, so suggest an item-level note such as 'ease into a first spin class'. awe 'collective' is for synchronized group classes; the row itself is a service. dose_typical 2 to 3 follows WHO-style weekly training, not a figure from the opened abstracts. cost_month_usd 200 is my estimate, not sourced.",
+      "notesInternal": "V3 said 'class formats have better attendance than open gyms, which is the honest case for paying more'. Not supported by what I opened: Burke 2006 found standard exercise classes did no better than home programs with some contact, while cohesion-building 'true groups' did best; Kritz 2026 (71 studies) found small, non-significant group edges for activity and health, and a significant edge for physical function only after removing outliers. Tier A is for the interval training itself (Milanovic 2015, healthy adults 18 to 45); no independent studies of the branded formats were looked for or found. Main clear codes: UNUSED and OVERLAP. Unflagged safety signal: spinning-induced rhabdomyolysis in healthy first-timers (Kim 2015, 11 cases); no schema condition fits, so suggest an item-level note such as 'ease into a first spin class'. awe 'collective' is for synchronized group classes; the row itself is a service. dose_typical 2 to 3 follows WHO-style weekly training, not a figure from the opened abstracts. cost_month_usd 200 is my estimate, not sourced. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "heart-condition",
@@ -2523,7 +2523,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is the studio more about the workout or the calm?",
-      "fitsInstead": "A smaller class pack plus free follow-along sessions at home.",
+      "fitsInstead": "",
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -2533,7 +2533,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 tier B kept, outcome narrowed to stress and mood. V3 also claimed sleep benefits; not checked, so dropped. Support: Pascoe 2017 (42 RCTs against active controls, physiological stress markers, mixed populations), Pascoe and Bauer 2015 (25 RCTs, authors call it preliminary), Fleming and Herring 2018 (8 small pilates trials, inactive controls). Noetel 2024 ranks yoga among the stronger exercise types for clinical depression (very low certainty), internal only. Main clear codes: UNUSED and OVERLAP. The hot-yoga caution in pregnancy is in ACOG 804's full text, which I could not open (paywalled); the safety note rests on the NHS page (keep cool, stop if too hot, avoid lying flat on the back later). dose_typical 1 to 3 is common trial practice, not pulled from an opened abstract. awe 'collective' is for synchronized group practice; the row itself is a service. cost_month_usd 180 is my estimate (reformer pilates usually costs more), not sourced.",
+      "notesInternal": "V3 tier B kept, outcome narrowed to stress and mood. V3 also claimed sleep benefits; not checked, so dropped. Support: Pascoe 2017 (42 RCTs against active controls, physiological stress markers, mixed populations), Pascoe and Bauer 2015 (25 RCTs, authors call it preliminary), Fleming and Herring 2018 (8 small pilates trials, inactive controls). Noetel 2024 ranks yoga among the stronger exercise types for clinical depression (very low certainty), internal only. Main clear codes: UNUSED and OVERLAP. The hot-yoga caution in pregnancy is in ACOG 804's full text, which I could not open (paywalled); the safety note rests on the NHS page (keep cool, stop if too hot, avoid lying flat on the back later). dose_typical 1 to 3 is common trial practice, not pulled from an opened abstract. awe 'collective' is for synchronized group practice; the row itself is a service. cost_month_usd 180 is my estimate (reformer pilates usually costs more), not sourced. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "pregnant",
@@ -2570,7 +2570,7 @@
         "connection",
         "ritual"
       ],
-      "evidenceTier": "A",
+      "evidenceTier": "B",
       "evidenceFor": "strength from regular coached sessions",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
@@ -2598,7 +2598,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Would the workouts still happen without the trainer?",
-      "fitsInstead": "A few sessions to learn a plan, then monthly check-ins.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2608,7 +2608,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded A with 'strong evidence that this works, if you'd otherwise skip'. The supervision-specific evidence is small: Fisher 2022 (exploratory, 12 studies; strength SMD 0.40 with a wide CI; trivial body-composition effect) and Mazzetti 2000 (about 20 trained men, 12 weeks). Tier A is the training's; the coach adds a modest, uncertain extra. Nothing I opened shows that a trainer improves attendance; that V3 premise is untested here. V3 had no overlap group and treated low use as cost-per-session only; now UNUSED (unused or expiring session packs) is the main clear code, plus a proposed 'coaching' overlap with paid coaching apps. never_clear 'no': a trainer is not clinician-led care (a physical therapist would be a different row). cost_month_usd 400 assumes roughly $60 to $100 a session, 1 to 2 a week; not sourced.",
+      "notesInternal": "V3 graded A with 'strong evidence that this works, if you'd otherwise skip'. The supervision-specific evidence is small: Fisher 2022 (exploratory, 12 studies; strength SMD 0.40 with a wide CI; trivial body-composition effect) and Mazzetti 2000 (about 20 trained men, 12 weeks). Tier A is the training's; the coach adds a modest, uncertain extra. Nothing I opened shows that a trainer improves attendance; that V3 premise is untested here. V3 had no overlap group and treated low use as cost-per-session only; now UNUSED (unused or expiring session packs) is the main clear code, plus a proposed 'coaching' overlap with paid coaching apps. never_clear 'no': a trainer is not clinician-led care (a physical therapist would be a different row). cost_month_usd 400 assumes roughly $60 to $100 a session, 1 to 2 a week; not sourced. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -2678,7 +2678,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is the plunge for sore muscles or for the mood?",
-      "fitsInstead": "A 30 to 90 second cold finish to a shower, free and tested in a large trial.",
+      "fitsInstead": "A 30 to 90 second cold finish to a shower, though it was tested for sick days, not soreness.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2688,7 +2688,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 tier C changed: B for soreness in people who train (Machado 2016: small edge over passive rest, best near 10 to 15 C for 10 to 15 min; Moore 2022: soreness, perceived recovery and power better at 24 h after high-intensity work), C for everyone else (Cain 2025: 11 RCTs in healthy adults; stress lower only at 12 h; no mood change in the one mood study; sleep and quality of life each rest on a single study; inflammation up right after). Well supported: a small soreness benefit. Popular but thin: mood, dopamine, immunity, resilience. The dopamine figure that circulates traces to Sramek 2000, a one-hour head-out immersion at 14 C, not a 3-minute plunge. Buijze 2016: cold showers cut sick-leave days but not illness days. V3's 'an evening plunge can make it harder to fall asleep' is NOT supported: Robey 2013 and Chauvineau 2021 (small, trained men, lab sleep tests) found no change in sleep onset, and Chauvineau found fewer night arousals. V3's blunted-growth point is confirmed (Roberts 2015; Pinero 2024 applies to cold water within about 15 min after lifting). Popular 2 to 5 minute plunges are shorter than the 10 to 15 minutes best studied for soreness. Key mismatch: the overlap file lists 'cold-plunge-ice-bath-tub-owned', but the V3 row key is 'cold-plunge-ice-bath' and had no overlap group; see overlap_proposals. Safety: Shattock and Tipton 2012 for heart rhythm; the pregnancy, diabetes, blood pressure and medication rows rest on standard tub label warnings (read in a combined hot and cold tub manual, CSC Chill1000), which also flag alcohol and drowning risk. The schema has no alcohol or plunging-alone condition, so suggest an item-level caution: ease in, never alone, never after drinking. kind 'device' assumes an owned tub; a DIY ice bath would be 'practice'. cost_month_usd 100 is my estimate (tub amortized over a few years plus power), not sourced.",
+      "notesInternal": "V3 tier C changed: B for soreness in people who train (Machado 2016: small edge over passive rest, best near 10 to 15 C for 10 to 15 min; Moore 2022: soreness, perceived recovery and power better at 24 h after high-intensity work), C for everyone else (Cain 2025: 11 RCTs in healthy adults; stress lower only at 12 h; no mood change in the one mood study; sleep and quality of life each rest on a single study; inflammation up right after). Well supported: a small soreness benefit. Popular but thin: mood, dopamine, immunity, resilience. The dopamine figure that circulates traces to Sramek 2000, a one-hour head-out immersion at 14 C, not a 3-minute plunge. Buijze 2016: cold showers cut sick-leave days but not illness days. V3's 'an evening plunge can make it harder to fall asleep' is NOT supported: Robey 2013 and Chauvineau 2021 (small, trained men, lab sleep tests) found no change in sleep onset, and Chauvineau found fewer night arousals. V3's blunted-growth point is confirmed (Roberts 2015; Pinero 2024 applies to cold water within about 15 min after lifting). Popular 2 to 5 minute plunges are shorter than the 10 to 15 minutes best studied for soreness. Key mismatch: the overlap file lists 'cold-plunge-ice-bath-tub-owned', but the V3 row key is 'cold-plunge-ice-bath' and had no overlap group; see overlap_proposals. Safety: Shattock and Tipton 2012 for heart rhythm; the pregnancy, diabetes, blood pressure and medication rows rest on standard tub label warnings (read in a combined hot and cold tub manual, CSC Chill1000), which also flag alcohol and drowning risk. The schema has no alcohol or plunging-alone condition, so suggest an item-level caution: ease in, never alone, never after drinking. kind 'device' assumes an owned tub; a DIY ice bath would be 'practice'. cost_month_usd 100 is my estimate (tub amortized over a few years plus power), not sourced. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "blood-pressure",
@@ -2841,11 +2841,11 @@
         "confidence",
         "ritual"
       ],
-      "evidenceTier": "A",
+      "evidenceTier": "B",
       "evidenceFor": "slower visible skin aging with daily use",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Daily sunscreen is one of the best-studied habits in skin care. In a 4.5-year trial of 903 adults, daily users showed no detectable rise in skin aging, and about a quarter less aging than occasional users.",
+      "evidenceSummary": "In a 4.5-year Australian trial of 903 adults, daily sunscreen users showed no detectable rise in skin aging, and about a quarter less than occasional users.",
       "sources": [
         "hughes-2013-sunscreen-skin-aging",
         "ronsch-2021-sun-protection",
@@ -2879,7 +2879,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier A rests on one large independent RCT (Hughes 2013: n=903, 4.5 years, government-funded) plus a systematic review (Ronsch & Bauer 2021) in which both photoaging trials favored sunscreen. That review calls the overall evidence base limited and notes guidelines put shade and clothing first, so a strict reading of 'several RCTs' could argue B. Both A and B keep it via EVIDENCE_REGULAR. The trial abstract gives no SPF; SPF 30+ and 1 teaspoon for the face are AAD advice. Skin-cancer outcomes are left out of person-facing text because they would be a medical claim. V3 overstated two things: 'nothing else on the shelf comes close' (retinoids have more photoaging RCTs) and 'the evidence is as strong as evidence gets'. kind=practice because the kind list has no topical-product option; propose adding one. UNUSED is included per its definition (a bottle can sit unused); drop it if sunscreen should never be proposed for letting go. No overlap group: if the table has an SPF moisturizer, SPF makeup or oral sun pills, propose a 'sun protection' group with keep-best-evidence. dose_unit is blank because the unit list has no % or teaspoon. how_common and cost are estimates.",
+      "notesInternal": "Tier A rests on one large independent RCT (Hughes 2013: n=903, 4.5 years, government-funded) plus a systematic review (Ronsch & Bauer 2021) in which both photoaging trials favored sunscreen. That review calls the overall evidence base limited and notes guidelines put shade and clothing first, so a strict reading of 'several RCTs' could argue B. Both A and B keep it via EVIDENCE_REGULAR. The trial abstract gives no SPF; SPF 30+ and 1 teaspoon for the face are AAD advice. Skin-cancer outcomes are left out of person-facing text because they would be a medical claim. V3 overstated two things: 'nothing else on the shelf comes close' (retinoids have more photoaging RCTs) and 'the evidence is as strong as evidence gets'. kind=practice because the kind list has no topical-product option; propose adding one. UNUSED is included per its definition (a bottle can sit unused); drop it if sunscreen should never be proposed for letting go. No overlap group: if the table has an SPF moisturizer, SPF makeup or oral sun pills, propose a 'sun protection' group with keep-best-evidence. dose_unit is blank because the unit list has no % or teaspoon. how_common and cost are estimates. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "skin-condition",
@@ -2921,11 +2921,11 @@
         "confidence",
         "ritual"
       ],
-      "evidenceTier": "A",
+      "evidenceTier": "B",
       "evidenceFor": "fewer fine lines and smoother skin after months of use",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Retinoids are the best-studied ingredients for fine lines. Trial reviews show tretinoin and over-the-counter retinol both smooth fine lines over months, and in a 48-week trial a milder tretinoin worked as well with less irritation.",
+      "evidenceSummary": "Retinoids are the best-studied ingredients for fine lines. Tretinoin smooths them over months, and a milder strength works as well with less irritation; over-the-counter retinol has thinner but similar evidence.",
       "sources": [
         "lin-2025-photoaging-network-meta-analysis",
         "sitohang-2022-tretinoin-photoaging",
@@ -2953,7 +2953,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it prescribed, or one you picked up yourself?",
-      "fitsInstead": "A drugstore retinol on two or three nights a week, at a fraction of a premium serum's price.",
+      "fitsInstead": "Two or three retinoid nights a week, building up as the skin adjusts.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -2963,7 +2963,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier A is for the class. Tretinoin has two systematic reviews (Sitohang 2022: 7 RCTs; Siddiqui 2024: 25 comparison studies), and both tretinoin and retinol were significant for fine wrinkles in a 23-RCT network meta-analysis (Lin 2025, which has internal inconsistencies and one co-author company affiliation). Over-the-counter retinol alone is closer to B (Kafi 2007: n=36, mean age 87, up to 3 times a week). The 2005 Cochrane photodamage review was withdrawn in 2015 over a sponsorship conflict, so it is not cited. Adapalene was not significant for fine wrinkles in Lin 2025 (very wide CI), so fits_instead points to drugstore retinol, not adapalene. never_clear=no because the row mixes OTC and prescription products; prescribed use is caught by the on-medication safety row, but splitting it into 'OTC retinol' and 'prescription retinoid' (never_clear yes) would be cleaner. V3 contradicted itself: goalNotes named overlap 'exfoliants' but overlapGroups was empty. A retinoid is not an exfoliant and should never be the step dropped, hence the proposed 'retinoid nights' group (keep-best-evidence). Pregnancy: the data show no clear harm but are underpowered (Kaplan 2015). The AAD says stop tazarotene, and most experts stop tretinoin and adapalene; the AAD does not address retinol, which is treated the same way as a precaution. The breastfeeding row rests on e-lactancia (APILAM, updated 2023-02-09, opened this session); LactMed was blocked by a captcha, so it is not cited. Concentrations need a % unit, which the list lacks. Lowest studied doses that worked: tretinoin 0.025% (Griffiths 1995), retinol 0.4% (Kafi 2007). Cost $25 (V3 had $40) is an estimate: drugstore retinol is about $10 a month, telehealth tretinoin $20 to 40, premium serums $30 to 45.",
+      "notesInternal": "Tier A is for the class. Tretinoin has two systematic reviews (Sitohang 2022: 7 RCTs; Siddiqui 2024: 25 comparison studies), and both tretinoin and retinol were significant for fine wrinkles in a 23-RCT network meta-analysis (Lin 2025, which has internal inconsistencies and one co-author company affiliation). Over-the-counter retinol alone is closer to B (Kafi 2007: n=36, mean age 87, up to 3 times a week). The 2005 Cochrane photodamage review was withdrawn in 2015 over a sponsorship conflict, so it is not cited. Adapalene was not significant for fine wrinkles in Lin 2025 (very wide CI), so fits_instead points to drugstore retinol, not adapalene. never_clear=no because the row mixes OTC and prescription products; prescribed use is caught by the on-medication safety row, but splitting it into 'OTC retinol' and 'prescription retinoid' (never_clear yes) would be cleaner. V3 contradicted itself: goalNotes named overlap 'exfoliants' but overlapGroups was empty. A retinoid is not an exfoliant and should never be the step dropped, hence the proposed 'retinoid nights' group (keep-best-evidence). Pregnancy: the data show no clear harm but are underpowered (Kaplan 2015). The AAD says stop tazarotene, and most experts stop tretinoin and adapalene; the AAD does not address retinol, which is treated the same way as a precaution. The breastfeeding row rests on e-lactancia (APILAM, updated 2023-02-09, opened this session); LactMed was blocked by a captcha, so it is not cited. Concentrations need a % unit, which the list lacks. Lowest studied doses that worked: tretinoin 0.025% (Griffiths 1995), retinol 0.4% (Kafi 2007). Cost $25 (V3 had $40) is an estimate: drugstore retinol is about $10 a month, telehealth tretinoin $20 to 40, premium serums $30 to 45. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "breastfeeding",
@@ -3052,7 +3052,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it more for dark spots, or the morning ritual?",
-      "fitsInstead": "A budget serum with 10 to 20% L-ascorbic acid, the best-studied form.",
+      "fitsInstead": "A serum with 10 to 20% L-ascorbic acid, the best-studied form.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -3060,7 +3060,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C (V3 had B). The only RCT-only review found 7 trials with 139 people in total (Correia 2023). A 2026 review of 44 studies says many were small, short, open-label or industry-sponsored. Reported effects: objective lightening and smoother skin; hydration was no better than placebo. V3 had stability backwards: L-ascorbic acid is the unstable form, while derivatives are stable but less studied, and in pig skin magnesium ascorbyl phosphate, ascorbyl palmitate and dehydroascorbic acid did not raise skin vitamin C (Pinnell 2001). FORM_NOT_ABSORBED therefore fits derivative-only or oxidized products. Derivatives do have small newer trials (Boghosian 2026), so present that code gently. V3's 'turned orange' check and 'opaque, airtight packaging' are common advice, but I found no independent source this session, so both stay out of person-facing text. Concentration needs a % unit: if one is added, set dose_min 10 (studied L-ascorbic acid serums ran 10 to 15%; Al-Niaimi 2017 says above 8% is needed and above 20% adds nothing) and add DOSE_BELOW_MIN. kind=practice because there is no topical-product kind; if the engine only applies FORM_NOT_ABSORBED to kind=supplement, this row needs an exception. Cost $30 (V3 had $60) is an estimate: budget serums are about $15 a month, premium ones $60 to 90.",
+      "notesInternal": "Tier C (V3 had B). The only RCT-only review found 7 trials with 139 people in total (Correia 2023). A 2026 review of 44 studies says many were small, short, open-label or industry-sponsored. Reported effects: objective lightening and smoother skin; hydration was no better than placebo. V3 had stability backwards: L-ascorbic acid is the unstable form, while derivatives are stable but less studied, and in pig skin magnesium ascorbyl phosphate, ascorbyl palmitate and dehydroascorbic acid did not raise skin vitamin C (Pinnell 2001). FORM_NOT_ABSORBED therefore fits derivative-only or oxidized products. Derivatives do have small newer trials (Boghosian 2026), so present that code gently. V3's 'turned orange' check and 'opaque, airtight packaging' are common advice, but I found no independent source this session, so both stay out of person-facing text. Concentration needs a % unit: if one is added, set dose_min 10 (studied L-ascorbic acid serums ran 10 to 15%; Al-Niaimi 2017 says above 8% is needed and above 20% adds nothing) and add DOSE_BELOW_MIN. kind=practice because there is no topical-product kind; if the engine only applies FORM_NOT_ABSORBED to kind=supplement, this row needs an exception. Cost $30 (V3 had $60) is an estimate: budget serums are about $15 a month, premium ones $60 to 90. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "skin-condition",
@@ -3416,11 +3416,11 @@
         "calm",
         "confidence"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "falling asleep a few minutes sooner",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Pooled trials show it helps people fall asleep about 7 minutes sooner, and it eases jet lag well. Sleep doctors don't back it for ongoing insomnia, and more than 5 mg adds nothing measurable.",
+      "evidenceSummary": "Pooled trials, mostly in people with sleep problems, show falling asleep about 7 minutes sooner, and it eases jet lag well. For good sleepers the gain is unclear, and sleep doctors don't back it for ongoing insomnia.",
       "sources": [
         "ferracioli-oda-2013-melatonin",
         "cruz-sanabria-2024-melatonin-dose",
@@ -3438,8 +3438,7 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "OVERLAP"
@@ -3457,7 +3456,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3's 7 and 8 minute figures confirmed (Ferracioli-Oda 2013: 19 RCTs, 1,683 people). V3's line 'more than 1 mg adds grogginess, not effect' is not supported: pooled effects rise with dose up to about 4 mg (Cruz-Sanabria 2024) and higher doses gave larger total-sleep gains (Ferracioli-Oda). The defensible 'less is more' line is that over 5 mg adds nothing measurable (Cochrane jet lag review; Cruz-Sanabria). AASM 2017 suggests clinicians not use melatonin for chronic insomnia (weak, very low quality, based on 2 mg prolonged-release in over-55s); the summary reflects this. Tier B because the effect is consistent but small and mostly measured in people with sleep disorders; the jet lag evidence in healthy travellers is stronger. dose_min 0.1 mg = lowest dose that improved sleep (Zhdanova 2001, insomniacs over 50; 0.3 mg restored normal night levels; normal sleepers unaffected); 0.5 mg works for jet lag. UNUSED left off because occasional travel use is a normal pattern. Cadence set to daily, though many people use it only some nights. Erland 2017 (supplement content survey) not opened; NCCIH page summarizes it. Cost is an estimate.",
+      "notesInternal": "V3's 7 and 8 minute figures confirmed (Ferracioli-Oda 2013: 19 RCTs, 1,683 people). V3's line 'more than 1 mg adds grogginess, not effect' is not supported: pooled effects rise with dose up to about 4 mg (Cruz-Sanabria 2024) and higher doses gave larger total-sleep gains (Ferracioli-Oda). The defensible 'less is more' line is that over 5 mg adds nothing measurable (Cochrane jet lag review; Cruz-Sanabria). AASM 2017 suggests clinicians not use melatonin for chronic insomnia (weak, very low quality, based on 2 mg prolonged-release in over-55s); the summary reflects this. Tier B because the effect is consistent but small and mostly measured in people with sleep disorders; the jet lag evidence in healthy travellers is stronger. dose_min 0.1 mg = lowest dose that improved sleep (Zhdanova 2001, insomniacs over 50; 0.3 mg restored normal night levels; normal sleepers unaffected); 0.5 mg works for jet lag. UNUSED left off because occasional travel use is a normal pattern. Cadence set to daily, though many people use it only some nights. Erland 2017 (supplement content survey) not opened; NCCIH page summarizes it. Cost is an estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "bleeding-risk",
@@ -3518,7 +3517,7 @@
       "evidenceFor": "falling asleep a few minutes sooner",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "The melatonin inside is the only ingredient with consistent trial support, and it buys a few minutes. When 25 gummy brands were lab-tested, 22 were mislabeled, one had no melatonin, and one held about 3.5 times the label.",
+      "evidenceSummary": "Melatonin is the ingredient with trial support: a few minutes sooner to sleep, in people with sleep problems. Lab tests of 25 gummy brands found 22 mislabeled and one without melatonin.",
       "sources": [
         "cohen-2023-melatonin-gummies",
         "ferracioli-oda-2013-melatonin",
@@ -3541,7 +3540,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "How much melatonin does the label list per gummy?",
-      "fitsInstead": "A low dose of plain melatonin, 0.5 to 3 mg, for about a third of the price.",
+      "fitsInstead": "Plain melatonin on travel nights, where it helps most.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -3552,7 +3551,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded B; regraded C, which reflects indirect evidence. No independent trials of blended sleep gummies were found. The working ingredient is melatonin (tier B on its own), but gummy doses are unreliable (Cohen 2023: 22 of 25 mislabeled, 74% to 347% of label, one product with no melatonin but 31 mg CBD). Valerian, common in blends, got a weak recommendation against for insomnia from AASM 2017; the other herbs were not graded here. The router could lift this to melatonin's tier only when a melatonin dose is confirmed; a melatonin-free gummy should route with herb blends (C or D). The 'third of the price' line rests on my cost estimates (about 18 vs 5 USD a month), not a source.",
+      "notesInternal": "V3 graded B; regraded C, which reflects indirect evidence. No independent trials of blended sleep gummies were found. The working ingredient is melatonin (tier B on its own), but gummy doses are unreliable (Cohen 2023: 22 of 25 mislabeled, 74% to 347% of label, one product with no melatonin but 31 mg CBD). Valerian, common in blends, got a weak recommendation against for insomnia from AASM 2017; the other herbs were not graded here. The router could lift this to melatonin's tier only when a melatonin dose is confirmed; a melatonin-free gummy should route with herb blends (C or D). The 'third of the price' line rests on my cost estimates (about 18 vs 5 USD a month), not a source. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "breastfeeding",
@@ -3838,11 +3837,11 @@
         "energy",
         "ritual"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "feeling more alert in the day",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Large studies link steady sleep and wake times, weekends included, to better health and longer life. A small trial in students found keeping regular times lifted daytime alertness, and sleep experts agree regularity matters.",
+      "evidenceSummary": "Large observational studies link steady sleep times to better health. One small student trial found regular times lifted daytime alertness. When weekday sleep runs short, some weekend catch-up can help.",
       "sources": [
         "windred-2024-sleep-regularity",
         "chaput-2020-sleep-timing-review",
@@ -3856,8 +3855,7 @@
       "studiedForms": [],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [],
       "neverClear": false,
@@ -3872,7 +3870,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded A from one cohort; regraded B, since the brief's A needs meta-analyses or several RCTs in healthy adults. Evidence: large observational cohorts (Windred 2024: 60,977 people, mean age 63, so not the 22 to 35 group; it measured overall sleep regularity, not wake time alone), a systematic review of mostly observational studies (Chaput 2020, very low to moderate certainty), an expert consensus (Sletten 2023, National Sleep Foundation), one small controlled trial in students (Manber 1996; the abstract does not say whether groups were randomized), and stimulus control, which includes waking at the same time daily, for chronic insomnia (Edinger 2021, conditional, low-quality evidence). No trial isolates wake time alone in healthy adults. V3's '60,000 people' figure is confirmed (60,977). V3's 'single strongest sleep habit we know of' is not something these sources establish.",
+      "notesInternal": "V3 graded A from one cohort; regraded B, since the brief's A needs meta-analyses or several RCTs in healthy adults. Evidence: large observational cohorts (Windred 2024: 60,977 people, mean age 63, so not the 22 to 35 group; it measured overall sleep regularity, not wake time alone), a systematic review of mostly observational studies (Chaput 2020, very low to moderate certainty), an expert consensus (Sletten 2023, National Sleep Foundation), one small controlled trial in students (Manber 1996; the abstract does not say whether groups were randomized), and stimulus control, which includes waking at the same time daily, for chronic insomnia (Edinger 2021, conditional, low-quality evidence). No trial isolates wake time alone in healthy adults. V3's '60,000 people' figure is confirmed (60,977). V3's 'single strongest sleep habit we know of' is not something these sources establish. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -3967,11 +3965,11 @@
         "ritual",
         "treat"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "sleep that feels a little better",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "In an online trial of nearly 1,000 adults, a week of reading in bed left 42% reporting better sleep, versus 28% without. A small lab study found paper books, unlike a bright tablet, left melatonin untouched.",
+      "evidenceSummary": "In an online trial of nearly 1,000 adults, a week of reading in bed left 42% reporting better sleep, versus 28% without; sleep was self-rated. A bright tablet disturbed sleep more than paper.",
       "sources": [
         "finucane-2021-reading-in-bed",
         "chang-2015-ereader-sleep"
@@ -3984,8 +3982,7 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [],
       "neverClear": false,
@@ -4000,7 +3997,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded C ('small trials versus screens favour paper'); regraded B because two randomized studies agree, though both are short. Finucane 2021 is large (991 randomized) but one week long, unblinded, with a single-item self-reported outcome and more dropouts among readers; e-readers were not excluded and paper was not required. Its secondary sleep-disturbance gain was small. Chang 2015 (12 people, inpatient) compared a printed book with a tablet at full brightness for 4 hours, not with no reading. So the support is for reading in general and for print over bright screens; paper versus e-ink has not been tested. Cost set to 0 because the habit is free; books are optional.",
+      "notesInternal": "V3 graded C ('small trials versus screens favour paper'); regraded B because two randomized studies agree, though both are short. Finucane 2021 is large (991 randomized) but one week long, unblinded, with a single-item self-reported outcome and more dropouts among readers; e-readers were not excluded and paper was not required. Its secondary sleep-disturbance gain was small. Chang 2015 (12 people, inpatient) compared a printed book with a tablet at full brightness for 4 hours, not with no reading. So the support is for reading in general and for print over bright screens; paper versus e-ink has not been tested. Cost set to 0 because the habit is free; books are optional. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -4162,7 +4159,7 @@
       "evidenceFor": "fewer sick days in healthy working adults",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "One large Dutch trial found 29% fewer sick days, though people got ill just as often. Many reported more energy, but it wasn't measured.",
+      "evidenceSummary": "One large Dutch trial found 29% fewer self-reported sick days, though people got ill just as often. Energy wasn't measured.",
       "sources": [
         "buijze-2016-cold-shower",
         "cain-2025-cwi-wellbeing"
@@ -4190,7 +4187,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C: a single pragmatic RCT (Buijze 2016, PLoS One, n=3018 Dutch workers, opened full text): sickness absence IRR 0.71 at 90 days, illness days unchanged, no difference between 30, 60 and 90 s. Unblinded, all self-report, 20% attrition. Energy was not measured formally; authors only report it as the most common perceived benefit. Cain 2025 meta-analysis (11 studies, mostly baths, only 1 shower) found stress lower at 12 h and an acute inflammation spike, and cites the Buijze sick-day result narratively. Safety row: Buijze excluded people with serious cardiac comorbidity; cold shock is better described for immersion (Shattock 2012) than for showers, so I set clinician-first rather than never-suggest. Free, so no UNUSED.",
+      "notesInternal": "Tier C: a single pragmatic RCT (Buijze 2016, PLoS One, n=3018 Dutch workers, opened full text): sickness absence IRR 0.71 at 90 days, illness days unchanged, no difference between 30, 60 and 90 s. Unblinded, all self-report, 20% attrition. Energy was not measured formally; authors only report it as the most common perceived benefit. Cain 2025 meta-analysis (11 studies, mostly baths, only 1 shower) found stress lower at 12 h and an acute inflammation spike, and cites the Buijze sick-day result narratively. Safety row: Buijze excluded people with serious cardiac comorbidity; cold shock is better described for immersion (Shattock 2012) than for showers, so I set clinician-first rather than never-suggest. Free, so no UNUSED. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "heart-condition",
@@ -4257,7 +4254,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "When did you last press play on a workout?",
-      "fitsInstead": "Free workout videos or a saved routine keep the same sessions.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -4268,7 +4265,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Structured like a training row: A for the exercise when it happens (WHO 2020 guidelines, Bull et al., opened abstract: 150-300 min/week moderate plus muscle strengthening), requires trains. tier_otherwise C from Romeo 2019 JMIR (9 RCTs, 1740 adults, objective activity): apps produced a nonsignificant +477 steps/day (P=.19); short programmes under 3 months did better. dose_min 150 min is per week (WHO), not per day; the unit list has no min/week. Price: Apple Fitness+ $9.99/month or $79.99/year (apple.com, opened). Peloton's pricing page rendered $0 (display error), and Ladder wasn't opened, so 15 is an estimate across the three. V3 said B; the 'outlive the habit' line isn't tested for fitness apps specifically (DellaVigna 2006 is gyms).",
+      "notesInternal": "Structured like a training row: A for the exercise when it happens (WHO 2020 guidelines, Bull et al., opened abstract: 150-300 min/week moderate plus muscle strengthening), requires trains. tier_otherwise C from Romeo 2019 JMIR (9 RCTs, 1740 adults, objective activity): apps produced a nonsignificant +477 steps/day (P=.19); short programmes under 3 months did better. dose_min 150 min is per week (WHO), not per day; the unit list has no min/week. Price: Apple Fitness+ $9.99/month or $79.99/year (apple.com, opened). Peloton's pricing page rendered $0 (display error), and Ladder wasn't opened, so 15 is an estimate across the three. V3 said B; the 'outlive the habit' line isn't tested for fitness apps specifically (DellaVigna 2006 is gyms). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -4300,11 +4297,11 @@
         "confidence",
         "looks"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "small gains in eating habits and weight while logging",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Across 41 studies, food-logging apps brought small gains in eating habits and weight. The gains come from logging, which the free tier also allows.",
+      "evidenceSummary": "Across 41 studies, app programs that pair logging with coaching brought small gains in eating habits and weight. Logging alone showed no diet change in one trial, and premium tiers are untested.",
       "sources": [
         "villinger-2019-nutrition-apps",
         "hahn-2021-myfitnesspal-rct",
@@ -4318,15 +4315,14 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "UNUSED"
       ],
       "neverClear": false,
       "humanQuestion": "Do you still log, or just pay?",
-      "fitsInstead": "The free version still does the logging.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4334,7 +4330,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier B: Villinger 2019 Obes Rev meta-analysis (41 studies, 27 RCTs, 6348 people): g=0.19 for nutrition behaviours, g=0.30 for obesity indices; commercial vs research app made no difference. Effects are small and the premium tier specifically isn't tested; I wrote the free-tier line from my own knowledge that MyFitnessPal's free tier logs food (not from an opened source) so Veer may want to check. Kept clear_when to UNUSED only so a used app is protected. Safety: Simpson & Mazzeo 2017 (n=493 students, cross-sectional) linked calorie trackers with more eating concern and restraint; Hahn 2021 RCT (200 low-risk undergraduate women, 1 month MyFitnessPal) found no change in eating disorder risk. So the risk sits with people with an eating disorder history; clinician-first. Price: MyFitnessPal Premium $19.99/month or $79.99/year (myfitnesspal.com/premium, opened); annual works out near $7/month.",
+      "notesInternal": "Tier B: Villinger 2019 Obes Rev meta-analysis (41 studies, 27 RCTs, 6348 people): g=0.19 for nutrition behaviours, g=0.30 for obesity indices; commercial vs research app made no difference. Effects are small and the premium tier specifically isn't tested; I wrote the free-tier line from my own knowledge that MyFitnessPal's free tier logs food (not from an opened source) so Veer may want to check. Kept clear_when to UNUSED only so a used app is protected. Safety: Simpson & Mazzeo 2017 (n=493 students, cross-sectional) linked calorie trackers with more eating concern and restraint; Hahn 2021 RCT (200 low-risk undergraduate women, 1 month MyFitnessPal) found no change in eating disorder risk. So the risk sits with people with an eating disorder history; clinician-first. Price: MyFitnessPal Premium $19.99/month or $79.99/year (myfitnesspal.com/premium, opened); annual works out near $7/month. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "mental-health-condition",
@@ -4515,7 +4511,7 @@
       "evidenceFor": "less soreness after hard exercise",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "A 2024 review of 17 small studies found a small drop in soreness. Muscle strength and damage markers barely changed.",
+      "evidenceSummary": "A 2024 review of 17 small studies found a small to moderate drop in felt soreness. Effects on strength and damage markers were inconsistent.",
       "sources": [
         "maia-2024-pneumatic-compression"
       ],
@@ -4536,7 +4532,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it the soreness, or the half hour lying still?",
-      "fitsInstead": "Legs up the wall for ten minutes after a hard day.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -4546,7 +4542,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C: Maia 2024 Biol Sport meta-analysis (opened full text, public grant funding, no COI): 17 studies, 319 athletes and healthy adults. Soreness g=0.49 at 0-2 h and 0.37 at 96 h, nonsignificant at 24-72 h; muscle function trivial and nonsignificant; creatine kinase unclear; lactate and heart rate unaffected. Authors call the evidence preliminary. No safety row added: pneumatic compression is usually avoided with a suspected clot, but neither the review nor the Hyperice page I opened says so, so I left it out; worth Veer adding with a source. Price: Normatec 3 Legs $899 (hyperice.com, opened), /24 = about $37; Normatec Go $379, Elite Legs $1,099. Legs-up swap is my suggestion, untested.",
+      "notesInternal": "Tier C: Maia 2024 Biol Sport meta-analysis (opened full text, public grant funding, no COI): 17 studies, 319 athletes and healthy adults. Soreness g=0.49 at 0-2 h and 0.37 at 96 h, nonsignificant at 24-72 h; muscle function trivial and nonsignificant; creatine kinase unclear; lactate and heart rate unaffected. Authors call the evidence preliminary. No safety row added: pneumatic compression is usually avoided with a suspected clot, but neither the review nor the Hyperice page I opened says so, so I left it out; worth Veer adding with a source. Price: Normatec 3 Legs $899 (hyperice.com, opened), /24 = about $37; Normatec Go $379, Elite Legs $1,099. Legs-up swap is my suggestion, untested. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -4777,7 +4773,7 @@
       "evidenceFor": "any wellness benefit while it sits unused",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "A subscription only helps when it gets used. Research on gym members shows people often keep paying long after the visits stop.",
+      "evidenceSummary": "A subscription only helps when it gets used. A large gym study found members often paid for far more than got used.",
       "sources": [
         "dellavigna-2006-gym-attendance"
       ],
@@ -4802,7 +4798,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Catch-all row for any subscription a person forgot about; kept general as asked: tier N, clear_when UNUSED only (no BORROWED_WEAK, since the engine shouldn't judge an unknown product's evidence). Area 'mind' is a placeholder; the schema needs one, and Veer may want a neutral option. Cost 0 because the real amount comes from the person's own statement. DellaVigna 2006 AER (opened abstract): monthly gym members paid over $70 for 4.3 visits a month, over $17 a visit vs $10 on a pass, overestimated future attendance and delayed cancelling. It's gyms only, so I used it for the general pattern, not a tier. V3's '30 days unused' threshold has no source I found; it's a product rule.",
+      "notesInternal": "Catch-all row for any subscription a person forgot about; kept general as asked: tier N, clear_when UNUSED only (no BORROWED_WEAK, since the engine shouldn't judge an unknown product's evidence). Area 'mind' is a placeholder; the schema needs one, and Veer may want a neutral option. Cost 0 because the real amount comes from the person's own statement. DellaVigna 2006 AER (opened abstract): monthly gym members paid over $70 for 4.3 visits a month, over $17 a visit vs $10 on a pass, overestimated future attendance and delayed cancelling. It's gyms only, so I used it for the general pattern, not a tier. V3's '30 days unused' threshold has no source I found; it's a product rule. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -4895,11 +4891,11 @@
       "whyLoved": [
         "calm"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "sleep in a noisy room",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "In loud recorded hospital noise, earplugs with a mask gave more dream sleep and fewer brief wakings. Hospital studies of earplugs alone are mixed but mostly favourable.",
+      "evidenceSummary": "In a lab night of loud recorded hospital noise, earplugs with a mask gave more dream sleep and fewer brief wakings. Most other studies are in hospital patients.",
       "sources": [
         "hu-2010-earplugs-masks-simulated-icu",
         "karimi-2021-masks-earplugs-icu"
@@ -4913,8 +4909,7 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "UNUSED"
@@ -4931,7 +4926,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier B kept from V3 but scoped to noisy rooms. Hu 2010 (Crit Care, n=14 healthy volunteers, randomised night order, about 66 dB(A) playback): plugs plus mask raised REM 9.3% to 12.9%, cut arousal index 15.1 to 12.2, better perceived sleep; total sleep time and sleep latency not significant; plugs and mask combined. Karimi 2021 meta: earplug-only ICU studies mixed (Litton 2017, Baghaie Lakeh 2018 null). No good trial in quiet bedrooms or of healthy people at home, so evidence_for is limited to noise. I did not find a review of earplugs in healthy adults at home. Price: estimate, foam plugs about $0.10-0.20 a pair, reusable silicone/Loop-style a one-off $25-35. In noise-masking group with white noise (show-together, not redundancy, so no OVERLAP clear code here).",
+      "notesInternal": "Tier B kept from V3 but scoped to noisy rooms. Hu 2010 (Crit Care, n=14 healthy volunteers, randomised night order, about 66 dB(A) playback): plugs plus mask raised REM 9.3% to 12.9%, cut arousal index 15.1 to 12.2, better perceived sleep; total sleep time and sleep latency not significant; plugs and mask combined. Karimi 2021 meta: earplug-only ICU studies mixed (Litton 2017, Baghaie Lakeh 2018 null). No good trial in quiet bedrooms or of healthy people at home, so evidence_for is limited to noise. I did not find a review of earplugs in healthy adults at home. Price: estimate, foam plugs about $0.10-0.20 a pair, reusable silicone/Loop-style a one-off $25-35. In noise-masking group with white noise (show-together, not redundancy, so no OVERLAP clear code here). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -4985,7 +4980,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is there noise to cover, or is it the sound?",
-      "fitsInstead": "A free sound app or a fan gives the same steady sound.",
+      "fitsInstead": "A sound app or a fan gives the same steady sound.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -4995,7 +4990,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Riedy 2021 (Sleep Med Rev 55:101385, PROSPERO-registered, 38 studies): GRADE very low for continuous noise improving sleep; findings ranged from improved to disrupted; authors warn about possible harm to sleep and hearing and call for objective measures. Read abstract via Europe PMC only (PubMed blocked). C not D because there are many human studies, just inconsistent. The V3 line about masking real noise is plausible but I did not find a trial isolating it. Price: estimate, $30-60 machine over 24 months, apps often free. OVERLAP code is there for people who use both earplugs and a machine; Veer may prefer to drop it.",
+      "notesInternal": "Riedy 2021 (Sleep Med Rev 55:101385, PROSPERO-registered, 38 studies): GRADE very low for continuous noise improving sleep; findings ranged from improved to disrupted; authors warn about possible harm to sleep and hearing and call for objective measures. Read abstract via Europe PMC only (PubMed blocked). C not D because there are many human studies, just inconsistent. The V3 line about masking real noise is plausible but I did not find a trial isolating it. Price: estimate, $30-60 machine over 24 months, apps often free. OVERLAP code is there for people who use both earplugs and a machine; Veer may prefer to drop it. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "any",
@@ -5166,7 +5161,7 @@
       "evidenceFor": "less snoring and easier nose breathing at night",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Strips and dilators open the nose a little. A 2016 review found no measurable drop in snoring or sleep apnea, though some bed partners heard less snoring.",
+      "evidenceSummary": "Strips and dilators open the nose a little. A 2016 review of people with sleep apnea found no measurable drop in snoring or apnea.",
       "sources": [
         "camacho-2016-nasal-dilators"
       ],
@@ -5194,7 +5189,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Camacho 2016 (Pulm Med, 14 studies, 294 patients, mostly small non-randomised, people with snoring/OSA): snore index change not significant (-2.5/hr overall; strips -3.1/hr), AHI unchanged, lowest O2 sat +1% (abstract and results disagree on significance). One included study found bed partners reported mildly less snoring. Improved nasal airflow is accepted. A consumer site claimed two GSK-sponsored RCTs found no sleep-quality benefit vs placebo strips; I could not verify, not used. C rather than D because human trials exist with mixed subjective vs objective results. Price: estimate, about $0.40-0.50 per strip nightly. Safety row added for sleep apnea.",
+      "notesInternal": "Camacho 2016 (Pulm Med, 14 studies, 294 patients, mostly small non-randomised, people with snoring/OSA): snore index change not significant (-2.5/hr overall; strips -3.1/hr), AHI unchanged, lowest O2 sat +1% (abstract and results disagree on significance). One included study found bed partners reported mildly less snoring. Improved nasal airflow is accepted. A consumer site claimed two GSK-sponsored RCTs found no sleep-quality benefit vs placebo strips; I could not verify, not used. C rather than D because human trials exist with mixed subjective vs objective results. Price: estimate, about $0.40-0.50 per strip nightly. Safety row added for sleep apnea. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "sleep-apnea",
@@ -5257,7 +5252,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it for your hair, your skin, or the feel?",
-      "fitsInstead": "A satin pillowcase gives the same smooth feel for less.",
+      "fitsInstead": "A satin pillowcase gives the same smooth feel.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5265,7 +5260,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "D: for hair the only support is friction reasoning and a seller's own lab test (Mulberry Park Silks, not opened, brand). The one registered trial (NCT00767104, Wake Forest, collaborator Precision Fabrics Group, n=40, 12 weeks, results posted 2017) used a silk-like synthetic, not silk, and found 13% vs 22% lesion reduction for silk-like vs cotton with overlapping CIs - no benefit. Healthline's claim that this trial showed fewer pimples contradicts the posted results. Marked brand_funded yes because a fabric maker collaborated (funding split not stated). Price: estimate, $25-90 pillowcase over 24 months.",
+      "notesInternal": "D: for hair the only support is friction reasoning and a seller's own lab test (Mulberry Park Silks, not opened, brand). The one registered trial (NCT00767104, Wake Forest, collaborator Precision Fabrics Group, n=40, 12 weeks, results posted 2017) used a silk-like synthetic, not silk, and found 13% vs 22% lesion reduction for silk-like vs cotton with overlapping CIs - no benefit. Healthline's claim that this trial showed fewer pimples contradicts the posted results. Marked brand_funded yes because a fabric maker collaborated (funding split not stated). Price: estimate, $25-90 pillowcase over 24 months. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -5368,11 +5363,11 @@
         "energy",
         "calm"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "easing low mood in winter (seasonal depression)",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "A 2020 review of 19 trials found bright light eased winter low mood more than dim light. The trials were small to medium and varied in quality.",
+      "evidenceSummary": "In people diagnosed with seasonal depression, a 2020 review of 19 trials found bright light eased winter low mood more than dim light. For ordinary winter blues it is untested.",
       "sources": [
         "pjrek-2020-light-therapy-sad",
         "golden-2005-light-therapy-meta"
@@ -5389,15 +5384,14 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "UNUSED"
       ],
       "neverClear": false,
       "humanQuestion": "Are winter mornings the hard part?",
-      "fitsInstead": "A morning walk outside brings bright light for free.",
+      "fitsInstead": "A morning walk outside brings bright light too, though it hasn't been tested the same way.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -5407,7 +5401,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "B: Pjrek 2020 (Psychother Psychosom, 19 RCTs vs dim light or sham ion generators): depression SMD -0.37, response RR 1.42, no publication bias, but moderate heterogeneity and moderate-high risk of bias (abstract). Golden 2005 meta: bright light ES 0.84 for seasonal depression, 0.53 non-seasonal (abstract). Not A: population is people with SAD, not healthy adults; evidence_requires has no 'seasonal low mood' option, so it is in evidence_for. For people without winter low mood the benefit is unproven; the engine may want a seasonal flag. Dose: 20-30 min at 10,000 lux each morning is the standard clinical protocol, but I did not open a dosing source, so dose_min is blank. Safety: Takeshima 2020 meta (6 RCTs, bipolar depression) found switch rate 4.7%, similar to control, mostly with mood stabilisers; authors suspect higher risk without one - kept clinician-first for bipolar. Price: estimate, $40-100 box over 24 months.",
+      "notesInternal": "B: Pjrek 2020 (Psychother Psychosom, 19 RCTs vs dim light or sham ion generators): depression SMD -0.37, response RR 1.42, no publication bias, but moderate heterogeneity and moderate-high risk of bias (abstract). Golden 2005 meta: bright light ES 0.84 for seasonal depression, 0.53 non-seasonal (abstract). Not A: population is people with SAD, not healthy adults; evidence_requires has no 'seasonal low mood' option, so it is in evidence_for. For people without winter low mood the benefit is unproven; the engine may want a seasonal flag. Dose: 20-30 min at 10,000 lux each morning is the standard clinical protocol, but I did not open a dosing source, so dose_min is blank. Safety: Takeshima 2020 meta (6 RCTs, bipolar depression) found switch rate 4.7%, similar to control, mostly with mood stabilisers; authors suspect higher risk without one - kept clinician-first for bipolar. Price: estimate, $40-100 box over 24 months. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "mental-health-condition",
@@ -5468,7 +5462,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Do you sleep differently with it or without?",
-      "fitsInstead": "Barefoot time on grass or sand keeps the outdoor part for free.",
+      "fitsInstead": "Barefoot time on grass or sand keeps the outdoor part.",
       "awe": "nature",
       "wearableSees": "no",
       "overlaps": [],
@@ -5476,7 +5470,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Chevalier 2012 review: three of five authors are contractors for and shareholders in the earthing company; the sleep study (Ghaly and Teplitz 2004, n=12) had no control group. That evidence counts as brand. Lin 2022 (Healthcare, n=22 randomised, 15 completed, mild Alzheimer's, age about 78, no funding, no COI declared, used an Earthing-brand mat): PSQI better vs sham at week 12 (p=0.006) but GEE model p=0.053; later corrected. A Korean pilot (n=60) surfaced in search but I did not open it. Grade D not N because one independent pilot exists, but it is tiny and in a very different population; no plausible mechanism shown. Price: estimate, $50-150 over 24 months; V3 had 30, which looks high.",
+      "notesInternal": "Chevalier 2012 review: three of five authors are contractors for and shareholders in the earthing company; the sleep study (Ghaly and Teplitz 2004, n=12) had no control group. That evidence counts as brand. Lin 2022 (Healthcare, n=22 randomised, 15 completed, mild Alzheimer's, age about 78, no funding, no COI declared, used an Earthing-brand mat): PSQI better vs sham at week 12 (p=0.006) but GEE model p=0.053; later corrected. A Korean pilot (n=60) surfaced in search but I did not open it. Grade D not N because one independent pilot exists, but it is tiny and in a very different population; no plausible mechanism shown. Price: estimate, $50-150 over 24 months; V3 had 30, which looks high. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -5597,7 +5591,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Did a clinician suggest a strain for something specific?",
-      "fitsInstead": "Yogurt or kefir with breakfast keeps the habit for less.",
+      "fitsInstead": "Yogurt or kefir with breakfast keeps the habit.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5605,7 +5599,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C, kept from V3. Khalesi 2019 (45 trials, healthy adults) found transient colonisation and some support for stool consistency, bowel movements and immune markers; no persistent microbiome change. Rauch 2022 found no improvement in gut symptoms or permeability in healthy or active adults. Strain-specific evidence (e.g. antibiotic-associated diarrhoea) does not transfer to a generic daily capsule; I could not open the AGA 2020 guideline full text (403), so it is not cited. If someone was prescribed a strain for a diagnosed condition, that falls outside this row. Price: $30/month is the V3 estimate, not checked against a pricing page.",
+      "notesInternal": "Tier C, kept from V3. Khalesi 2019 (45 trials, healthy adults) found transient colonisation and some support for stool consistency, bowel movements and immune markers; no persistent microbiome change. Rauch 2022 found no improvement in gut symptoms or permeability in healthy or active adults. Strain-specific evidence (e.g. antibiotic-associated diarrhoea) does not transfer to a generic daily capsule; I could not open the AGA 2020 guideline full text (403), so it is not cited. If someone was prescribed a strain for a diagnosed condition, that falls outside this row. Price: $30/month is the V3 estimate, not checked against a pricing page. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "any",
@@ -5743,7 +5737,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is this mostly for cold season?",
-      "fitsInstead": "An orange or kiwi each morning keeps the ritual for less.",
+      "fitsInstead": "An orange or kiwi keeps the morning habit, though at less than the 200 mg studied.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -5753,7 +5747,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier A for the narrow claim only: Cochrane 2013, 31 comparisons, 9,745 episodes; duration down 8% (3 to 12%) in adults, 14% in children. Incidence RR 0.97 in the general community; RR 0.48 in marathon runners, skiers and soldiers under heavy physical stress (could justify a stronger keep for heavy endurance trainers). Starting vitamin C once a cold begins showed no consistent effect, so the benefit needs regular daily use. dose_min 200 mg is the review's inclusion floor. LPI: full absorption up to 200 mg per dose, plasma plateaus at 200 to 400 mg/day, so 1,000 mg adds little. The effect is small; the A is about how solid the evidence is, not its size. Price is the V3 estimate.",
+      "notesInternal": "Tier A for the narrow claim only: Cochrane 2013, 31 comparisons, 9,745 episodes; duration down 8% (3 to 12%) in adults, 14% in children. Incidence RR 0.97 in the general community; RR 0.48 in marathon runners, skiers and soldiers under heavy physical stress (could justify a stronger keep for heavy endurance trainers). Starting vitamin C once a cold begins showed no consistent effect, so the benefit needs regular daily use. dose_min 200 mg is the review's inclusion floor. LPI: full absorption up to 200 mg per dose, plasma plateaus at 200 to 400 mg/day, so 1,000 mg adds little. The effect is small; the A is about how solid the evidence is, not its size. Price is the V3 estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "kidney-disease",
@@ -6313,11 +6307,11 @@
         "ritual",
         "treat"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "relief from chronic pain (back, neck, knee arthritis, headache)",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Across 39 trials and 20,000 people, acupuncture eased chronic pain more than sham needling or none, and the effect mostly lasted a year. The gain over sham is small.",
+      "evidenceSummary": "In people with chronic pain, 39 trials found acupuncture eased pain more than sham needling or none, mostly lasting a year. The gain over sham is small, and other uses are untested.",
       "sources": [
         "vickers-2018-acupuncture-chronic-pain",
         "nccih-2022-acupuncture"
@@ -6331,8 +6325,7 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "UNUSED"
@@ -6347,7 +6340,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier B for chronic pain only: Vickers 2018 IPD meta-analysis (39 high-quality trials, 20,827 patients) beat sham (~0.2 SD) and no acupuncture (~0.5 SD); NCCIH 2022 agrees, cites ACP 2017 and ACR 2019 guidelines. Effect over sham is small, so B not A. Area set to mind because most 22-35 users go for stress/calm; for stress, sleep or general wellness without pain I did not open trials and V3 called sleep trials weak, so treat non-pain use as C/D in conversation (human_question separates the two). B keep applies on paper to everyone; if the engine can key on purpose, only protect for pain. Safety: NCCIH says serious harms are rare and tied to non-sterile needles or untrained practitioners; no specific condition row sourced (bleeding-risk caution is common practice but I did not open a source, so no row). Cost: estimate, about $100-130 a session, roughly one a week or less; no pricing page opened.",
+      "notesInternal": "Tier B for chronic pain only: Vickers 2018 IPD meta-analysis (39 high-quality trials, 20,827 patients) beat sham (~0.2 SD) and no acupuncture (~0.5 SD); NCCIH 2022 agrees, cites ACP 2017 and ACR 2019 guidelines. Effect over sham is small, so B not A. Area set to mind because most 22-35 users go for stress/calm; for stress, sleep or general wellness without pain I did not open trials and V3 called sleep trials weak, so treat non-pain use as C/D in conversation (human_question separates the two). B keep applies on paper to everyone; if the engine can key on purpose, only protect for pain. Safety: NCCIH says serious harms are rare and tied to non-sterile needles or untrained practitioners; no specific condition row sourced (bleeding-risk caution is common practice but I did not open a source, so no row). Cost: estimate, about $100-130 a session, roughly one a week or less; no pricing page opened. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -6450,7 +6443,7 @@
       "evidenceFor": "weight loss with prescribed GLP-1 drugs in adults with obesity",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "GLP-1 drugs lower weight well in adults with obesity, semaglutide most. Testosterone helps men with confirmed low levels. Injectable wellness peptides have little human safety data.",
+      "evidenceSummary": "For adults with obesity, prescribed GLP-1 drugs lower weight well; testosterone helps men with confirmed low levels. Injectable wellness peptides and compounded copies have little safety data.",
       "sources": [
         "shi-2024-obesity-drugs-nma",
         "wilding-2021-step1-semaglutide",
@@ -6481,7 +6474,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "never_clear yes per brief: prescribing care is the clinician's call, Distill only adds safety framing. Tier A applies to the GLP-1 part: Shi 2024 Lancet NMA (republished after 2022 retraction; 132 RCTs, 48,209 adults; independent funding) GLP-1 RAs ~5.8% extra weight loss, semaglutide ~11.4%; STEP 1 (Novo-funded) -14.9% vs -2.4%. TRT: Endocrine Society 2018 says diagnose only with symptoms plus repeatedly low morning T, and lists contraindications (planning fertility, prostate/breast cancer, high hematocrit, untreated severe OSA, uncontrolled heart failure, recent MI/stroke). Peptides (BPC-157, TB-500, CJC-1295, ipamorelin etc.): FDA compounding page (current 2026-04-22) lists them as withdrawn nominations or Category 2 with little or no human safety data: effectively tier N/D. FDA GLP-1 page (current 2026-10-01): compounded semaglutide/tirzepatide not FDA-reviewed, dosing-error hospitalisations, salt forms unlawful, counterfeit risk, 990+ and 730+ adverse event reports. Cadence weekly = typical weekly injection; moments any. Cost $300 is V3 estimate (telehealth GLP-1 programmes and TRT clinics vary roughly $150-1,300); no pricing page opened. area eat chosen since GLP-1 weight programmes dominate in this age group; TRT is move/energy. wearable_sees partial: resting HR and weight trends only.",
+      "notesInternal": "never_clear yes per brief: prescribing care is the clinician's call, Distill only adds safety framing. Tier A applies to the GLP-1 part: Shi 2024 Lancet NMA (republished after 2022 retraction; 132 RCTs, 48,209 adults; independent funding) GLP-1 RAs ~5.8% extra weight loss, semaglutide ~11.4%; STEP 1 (Novo-funded) -14.9% vs -2.4%. TRT: Endocrine Society 2018 says diagnose only with symptoms plus repeatedly low morning T, and lists contraindications (planning fertility, prostate/breast cancer, high hematocrit, untreated severe OSA, uncontrolled heart failure, recent MI/stroke). Peptides (BPC-157, TB-500, CJC-1295, ipamorelin etc.): FDA compounding page (current 2026-04-22) lists them as withdrawn nominations or Category 2 with little or no human safety data: effectively tier N/D. FDA GLP-1 page (current 2026-10-01): compounded semaglutide/tirzepatide not FDA-reviewed, dosing-error hospitalisations, salt forms unlawful, counterfeit risk, 990+ and 730+ adverse event reports. Cadence weekly = typical weekly injection; moments any. Cost $300 is V3 estimate (telehealth GLP-1 programmes and TRT clinics vary roughly $150-1,300); no pricing page opened. area eat chosen since GLP-1 weight programmes dominate in this age group; TRT is move/energy. wearable_sees partial: resting HR and weight trends only. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "any",
@@ -6534,7 +6527,7 @@
       "evidenceFor": "falling asleep faster and waking less in adults with chronic insomnia",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "CBT-I is the first-choice approach for chronic insomnia. In 20 trials, people fell asleep about 19 minutes sooner and lay awake 26 fewer minutes at night, and it lasted.",
+      "evidenceSummary": "CBT-I is the first-choice approach for chronic insomnia. In 20 trials of people with insomnia, sleep came about 19 minutes sooner with 26 fewer minutes awake, and the gains seemed to last.",
       "sources": [
         "edinger-2021-aasm-behavioral-insomnia",
         "trauer-2015-cbt-insomnia"
@@ -6562,7 +6555,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier A: Trauer 2015 Ann Intern Med meta-analysis (20 RCTs, 1,162 adults with chronic insomnia, no funding): SOL -19 min, WASO -26 min, SE +9.9%, sustained; TST only +7.6 min (CI crosses 0). AASM 2021 guideline: STRONG recommendation for multicomponent CBT-I. Population is people with chronic insomnia, not all healthy adults, but evidence_for names that group. never_clear yes because a trained CBT-I clinician is sleep care; caution: 'sleep coach' is unregulated and many coaches do not deliver CBT-I (stimulus control plus sleep restriction plus cognitive work). Name says 'trained coach' to signal that; if Veer wants untrained sleep coaching as a separate row it should be C/N and clearable. I left fits_instead empty to avoid steering people away from clinician care; a possible line is the free VA 'CBT-i Coach' app, but I did not open a source for it. dose_typical from common practice (Trauer required >=3 components but I did not read session counts in the abstract), so dose_min left blank. Cost $200/month is V3 estimate; no pricing page opened. wearable_sees partial: bed and wake times are visible.",
+      "notesInternal": "Tier A: Trauer 2015 Ann Intern Med meta-analysis (20 RCTs, 1,162 adults with chronic insomnia, no funding): SOL -19 min, WASO -26 min, SE +9.9%, sustained; TST only +7.6 min (CI crosses 0). AASM 2021 guideline: STRONG recommendation for multicomponent CBT-I. Population is people with chronic insomnia, not all healthy adults, but evidence_for names that group. never_clear yes because a trained CBT-I clinician is sleep care; caution: 'sleep coach' is unregulated and many coaches do not deliver CBT-I (stimulus control plus sleep restriction plus cognitive work). Name says 'trained coach' to signal that; if Veer wants untrained sleep coaching as a separate row it should be C/N and clearable. I left fits_instead empty to avoid steering people away from clinician care; a possible line is the free VA 'CBT-i Coach' app, but I did not open a source for it. dose_typical from common practice (Trauer required >=3 components but I did not read session counts in the abstract), so dose_min left blank. Cost $200/month is V3 estimate; no pricing page opened. wearable_sees partial: bed and wake times are visible. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -6593,11 +6586,11 @@
         "connection",
         "energy"
       ],
-      "evidenceTier": "B",
+      "evidenceTier": "C",
       "evidenceFor": "better diet quality, weight and blood sugar",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "In 26 trials, one-to-one dietitian visits improved diet quality, blood sugar and weight more than usual care. Weight changes were modest, about 1 kg extra.",
+      "evidenceSummary": "In primary-care patients, one-to-one dietitian visits improved diet quality and, for people with diabetes, blood sugar. Extra weight loss was modest, about 1 kg.",
       "sources": [
         "mitchell-2017-dietetic-consultations",
         "williams-2019-dietitians-weight"
@@ -6610,8 +6603,7 @@
       ],
       "keepWhen": [
         "THEIRS",
-        "LOVED",
-        "EVIDENCE_REGULAR"
+        "LOVED"
       ],
       "clearWhen": [
         "UNUSED"
@@ -6626,7 +6618,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier B: Mitchell 2017 J Acad Nutr Diet systematic review (26 RCTs, 5,500 adults) favoured dietitian consults for glycaemic control (4/4), dietary change (4/4) and anthropometry; not lipids or BP. Williams 2019 meta-analysis (5 RCTs, n=1,598): -1.03 kg extra weight, risk of bias unclear to high, so B not A. Evidence is for registered dietitians; 'nutritionist' is not a protected title in most US states, so a non-credentialed nutritionist or health coach is closer to C/N. Not never_clear (not prescribing care) but if it is for diabetes, kidney disease or an eating disorder it is part of medical care: the engine should not suggest letting go then (no safety row because I did not open a source specific to that). Cost: estimate ~$150 for a monthly follow-up visit (V3 had 200); no pricing page opened.",
+      "notesInternal": "Tier B: Mitchell 2017 J Acad Nutr Diet systematic review (26 RCTs, 5,500 adults) favoured dietitian consults for glycaemic control (4/4), dietary change (4/4) and anthropometry; not lipids or BP. Williams 2019 meta-analysis (5 RCTs, n=1,598): -1.03 kg extra weight, risk of bias unclear to high, so B not A. Evidence is for registered dietitians; 'nutritionist' is not a protected title in most US states, so a non-credentialed nutritionist or health coach is closer to C/N. Not never_clear (not prescribing care) but if it is for diabetes, kidney disease or an eating disorder it is part of medical care: the engine should not suggest letting go then (no safety row because I did not open a source specific to that). Cost: estimate ~$150 for a monthly follow-up visit (V3 had 200); no pricing page opened. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -6801,7 +6793,7 @@
       "evidenceFor": "better diet or weight loss from gene-based advice",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Two large trials tested diet advice matched to genes. It did no better than advice based on what people already ate, and gene type did not predict weight loss.",
+      "evidenceSummary": "One large trial found gene-matched diet advice did no better than advice based on current eating. Another, in overweight adults, found gene type didn't predict weight loss.",
       "sources": [
         "celis-morales-2017-food4me",
         "gardner-2018-dietfits"
@@ -6832,7 +6824,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier D chosen because the benefit claim rests on mechanism only, while well-run independent RCTs tested it and found no added benefit: Food4Me 2017 (n=1,269 completers, 7 countries) personalised advice beat generic advice, but adding genotype (5 variants) did not improve it further; DIETFITS 2018 JAMA (n=609) no diet x genotype interaction for 12-month weight loss. The tier scale has no 'tested and null' grade; flag for Veer whether this should read N or D. One-off purchase so UNUSED left out. Cost: estimate, ~$100-200 one-off spread over 24 months (V3 typical) ≈ $5; no pricing page opened. Ancestry and raw data are a fair reason to keep; the question focuses on the wellness reports.",
+      "notesInternal": "Tier D chosen because the benefit claim rests on mechanism only, while well-run independent RCTs tested it and found no added benefit: Food4Me 2017 (n=1,269 completers, 7 countries) personalised advice beat generic advice, but adding genotype (5 variants) did not improve it further; DIETFITS 2018 JAMA (n=609) no diet x genotype interaction for 12-month weight loss. The tier scale has no 'tested and null' grade; flag for Veer whether this should read N or D. One-off purchase so UNUSED left out. Cost: estimate, ~$100-200 one-off spread over 24 months (V3 typical) ≈ $5; no pricing page opened. Ancestry and raw data are a fair reason to keep; the question focuses on the wellness reports. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -6868,7 +6860,7 @@
       "evidenceFor": "recovery, focus or slower ageing in healthy adults",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Hyperbaric oxygen is real medicine for diving injuries, carbon monoxide and some wounds. The wellness studies in healthy adults came from a clinic chain that sells it.",
+      "evidenceSummary": "Hyperbaric oxygen is real medicine for diving injuries, carbon monoxide and some wounds. The wellness studies, in adults over 64, came from a clinic chain that sells it.",
       "sources": [
         "catanese-2024-harvard-hbot",
         "hadanny-2020-hbot-cognition",
@@ -6898,7 +6890,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier N: the only healthy-adult studies I found (Hadanny 2020 RCT n=63 cognition; Hachmo 2020 single-arm n=35 telomeres) are by Efrati's group, authors employed by or shareholders in Aviv Scientific, which sells HBOT longevity programmes, so brand-funded counts as none. Both in adults over 64, not 22-35. Harvard Health 2024 (Catanese, reviewed by Shmerling) lists FDA-cleared uses (decompression sickness, CO poisoning, gas embolism, hard-to-heal wounds, burns, sudden hearing loss etc.), says claims for Alzheimer's, autism, cancer, Lyme are not FDA-approved; risks ear/sinus pain, eardrum rupture, vision change, rarely lung collapse, fire risk; FDA advises accredited facility. FDA's own consumer page returned 404 (moved), so I cite Harvard's summary. Wellness 'mild' soft chambers (~1.3 ATA) were not studied in anything I opened. Cost: estimate, sessions ~$100-250, a few a month; no pricing page opened.",
+      "notesInternal": "Tier N: the only healthy-adult studies I found (Hadanny 2020 RCT n=63 cognition; Hachmo 2020 single-arm n=35 telomeres) are by Efrati's group, authors employed by or shareholders in Aviv Scientific, which sells HBOT longevity programmes, so brand-funded counts as none. Both in adults over 64, not 22-35. Harvard Health 2024 (Catanese, reviewed by Shmerling) lists FDA-cleared uses (decompression sickness, CO poisoning, gas embolism, hard-to-heal wounds, burns, sudden hearing loss etc.), says claims for Alzheimer's, autism, cancer, Lyme are not FDA-approved; risks ear/sinus pain, eardrum rupture, vision change, rarely lung collapse, fire risk; FDA advises accredited facility. FDA's own consumer page returned 404 (moved), so I cite Harvard's summary. Wellness 'mild' soft chambers (~1.3 ATA) were not studied in anything I opened. Cost: estimate, sessions ~$100-250, a few a month; no pricing page opened. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "any",
@@ -6941,7 +6933,7 @@
       "evidenceFor": "less puffiness or better wellbeing in healthy adults",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "The medical version is for lymphedema, and even there it adds only a little to compression. For people without swelling, studies are tiny and measure the nervous system, not looks.",
+      "evidenceSummary": "The medical version is for lymphedema, and even there it adds only a little to compression. There's no good evidence it de-puffs people without swelling.",
       "sources": [
         "ezzo-2015-cochrane-mld"
       ],
@@ -6972,7 +6964,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier D: Ezzo 2015 Cochrane (6 RCTs, breast-cancer lymphedema) MLD added ~7% volume reduction to compression bandaging in 2 small trials; other comparisons not significant or too varied. PubMed search for healthy-subject trials found only small physiology studies (e.g. autonomic/H-reflex changes in J Bodyw Mov Ther 2021, neck MLD in students J Clin Med 2020) with no outcome on puffiness, skin or wellbeing; I read titles/results snippets only, not cited. 'Draining toxins' framing has no support. Area skin because the TikTok draw is de-puffing/face; also mind for the calm. Put in existing massage group (show-together) via overlaps; the group's member list in existing-overlaps.json does not yet include this key, so Veer/Ishan add it there. No safety row: heart failure and active clot are standard contraindications in MLD practice but I did not open a source. Cost: estimate ~$120 a session, about monthly (V3); no pricing page opened.",
+      "notesInternal": "Tier D: Ezzo 2015 Cochrane (6 RCTs, breast-cancer lymphedema) MLD added ~7% volume reduction to compression bandaging in 2 small trials; other comparisons not significant or too varied. PubMed search for healthy-subject trials found only small physiology studies (e.g. autonomic/H-reflex changes in J Bodyw Mov Ther 2021, neck MLD in students J Clin Med 2020) with no outcome on puffiness, skin or wellbeing; I read titles/results snippets only, not cited. 'Draining toxins' framing has no support. Area skin because the TikTok draw is de-puffing/face; also mind for the calm. Put in existing massage group (show-together) via overlaps; the group's member list in existing-overlaps.json does not yet include this key, so Veer/Ishan add it there. No safety row: heart failure and active clot are standard contraindications in MLD practice but I did not open a source. Cost: estimate ~$120 a session, about monthly (V3); no pricing page opened. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -7313,7 +7305,7 @@
       "evidenceFor": "higher testosterone or bigger training gains in healthy men",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Tribulus and D-aspartic acid didn't raise testosterone in trials. Four small fenugreek trials, pooled, showed a rise. Most blends hold untested ingredients, some above safe vitamin limits.",
+      "evidenceSummary": "Tribulus and D-aspartic acid didn't raise testosterone in trials. Four fenugreek trials, pooled, showed a rise. Most blends hold untested ingredients, some above safe vitamin and mineral limits.",
       "sources": [
         "qureshi-2014-tribulus-review",
         "willoughby-2013-d-aspartic-acid",
@@ -7348,7 +7340,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded N and said fenugreek has 'none on testosterone'; that part is contradicted: Mansoori 2020 (Phytother Res meta-analysis, 4 RCTs) found a significant rise in total testosterone. I only read the abstract, which gives no effect size or funding; fenugreek trials are commonly run with branded extracts, so check before upgrading. Tribulus: Qureshi 2014 systematic review (11 studies) found it ineffective in humans except within combined supplements. D-AA: Willoughby & Leutholtz 2013 (3 g, 28 days, trained men) and Melville 2017 (6 g, 12 weeks, 22 trained men aged 18 to 36) both found no change in testosterone or training outcomes. Clemesha 2020 (50 products): 61.5% of 109 components had no testosterone data, 10.1% had data showing a decrease, and 13 products exceeded the UL for zinc, B3 or magnesium. Tier C because the ingredients disagree (fenugreek positive, tribulus and D-AA null) and no blend has been tested. No dose fields: blends vary too much. fits_instead left empty: I found no source for a lifestyle swap that raises testosterone in healthy young men. Price: V3's $40, my estimate; no pricing page opened. Area move because the purchase is about training and physique. Name and short_name avoid 'booster' because 'boost' is on the banned word list.",
+      "notesInternal": "V3 graded N and said fenugreek has 'none on testosterone'; that part is contradicted: Mansoori 2020 (Phytother Res meta-analysis, 4 RCTs) found a significant rise in total testosterone. I only read the abstract, which gives no effect size or funding; fenugreek trials are commonly run with branded extracts, so check before upgrading. Tribulus: Qureshi 2014 systematic review (11 studies) found it ineffective in humans except within combined supplements. D-AA: Willoughby & Leutholtz 2013 (3 g, 28 days, trained men) and Melville 2017 (6 g, 12 weeks, 22 trained men aged 18 to 36) both found no change in testosterone or training outcomes. Clemesha 2020 (50 products): 61.5% of 109 components had no testosterone data, 10.1% had data showing a decrease, and 13 products exceeded the UL for zinc, B3 or magnesium. Tier C because the ingredients disagree (fenugreek positive, tribulus and D-AA null) and no blend has been tested. No dose fields: blends vary too much. fits_instead left empty: I found no source for a lifestyle swap that raises testosterone in healthy young men. Price: V3's $40, my estimate; no pricing page opened. Area move because the purchase is about training and physique. Name and short_name avoid 'booster' because 'boost' is on the banned word list. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "pregnant",
@@ -7431,7 +7423,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Do you feel it more in energy or appetite?",
-      "fitsInstead": "A morning coffee gives the same caffeine lift for less.",
+      "fitsInstead": "A morning coffee gives the same caffeine lift.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -7441,7 +7433,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded N; I graded C because caffeine and green tea do have trial data, just small effects. Jeukendrup & Randell 2011 (Obes Rev review): only caffeine and green tea have data backing fat-metabolism effects; evidence lacking for carnitine, CLA, forskolin, chromium and others. Tabrizi 2019 (13 RCTs, 606 people, I2 above 90%): caffeine might promote weight, BMI and fat reduction; very heterogeneous. Jurgens 2012 Cochrane: green tea outside Japan, -0.04 kg over 12 weeks, not meaningful. Batsis 2021 (Obesity, 315 RCTs of supplements and alternative therapies): only 52 low-risk and sufficient, of which 16 showed weight differences of 0.3 to 4.93 kg. Geller 2015 (NEJM, ED surveillance 2004 to 2013, HHS-funded): weight-loss or energy products caused 71.8% of supplement adverse events with palpitations, chest pain or tachycardia, 58% in people aged 20 to 34. V3 said they 'disturb your sleep': true by way of caffeine, but I did not open a fat-burner sleep study, so the summary leaves it out; added to the evening-stimulants overlap group instead. Coffee swap is my inference from shared caffeine. Under-18 safety row not added because I did not open a pediatric source this round (AAP 2011 exists in the table for energy drinks; Ishan may want it extended). Price: V3's $40, my estimate.",
+      "notesInternal": "V3 graded N; I graded C because caffeine and green tea do have trial data, just small effects. Jeukendrup & Randell 2011 (Obes Rev review): only caffeine and green tea have data backing fat-metabolism effects; evidence lacking for carnitine, CLA, forskolin, chromium and others. Tabrizi 2019 (13 RCTs, 606 people, I2 above 90%): caffeine might promote weight, BMI and fat reduction; very heterogeneous. Jurgens 2012 Cochrane: green tea outside Japan, -0.04 kg over 12 weeks, not meaningful. Batsis 2021 (Obesity, 315 RCTs of supplements and alternative therapies): only 52 low-risk and sufficient, of which 16 showed weight differences of 0.3 to 4.93 kg. Geller 2015 (NEJM, ED surveillance 2004 to 2013, HHS-funded): weight-loss or energy products caused 71.8% of supplement adverse events with palpitations, chest pain or tachycardia, 58% in people aged 20 to 34. V3 said they 'disturb your sleep': true by way of caffeine, but I did not open a fat-burner sleep study, so the summary leaves it out; added to the evening-stimulants overlap group instead. Coffee swap is my inference from shared caffeine. Under-18 safety row not added because I did not open a pediatric source this round (AAP 2011 exists in the table for energy drinks; Ishan may want it extended). Price: V3's $40, my estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "heart-condition",
@@ -7732,7 +7724,7 @@
       "evidenceFor": "general health, skin and mineral intake",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "No human trials of sea moss itself. Its iodine swings widely between products, and lab tests found arsenic, mercury and bacteria in some.",
+      "evidenceSummary": "No human trials of sea moss itself. Seaweed products' iodine swings widely, and lab tests found arsenic, mercury and bacteria in some sea moss.",
       "sources": [
         "aakre-2021-seaweed-iodine",
         "rejuso-2026-sea-moss-contaminants",
@@ -7762,7 +7754,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier D: searched Europe PMC for human trials of Chondrus crispus / sea moss / Irish moss and found none (only cow and hen feeding studies). Claims rest on mineral content, i.e. mechanism and anecdote. Safety evidence is real: Aakre 2021 (Norwegian market, not sea moss specifically, mostly kelps) shows seaweed iodine per serving often exceeds the UL; Rejuso 2026 is the first US sea moss product survey (66 products) with arsenic/cobalt/mercury in dried product and Salmonella/Cronobacter isolates. I could NOT open the NIH ODS iodine fact sheet (Cloudflare 403), so the adult UL (1,100 mcg) is not cited here; worth adding nih-ods iodine if another agent has it. Did not find a sea moss-specific iodine assay paper. Could arguably join daily-multivitamin overlap ('92 minerals' marketing) but I left overlaps empty since that group's members list doesn't include it. Price is an estimate (gels often $25 to $40 a jar), no pricing page opened. Rewrote fits_instead to avoid a claim I can't source about health benefit.",
+      "notesInternal": "Tier D: searched Europe PMC for human trials of Chondrus crispus / sea moss / Irish moss and found none (only cow and hen feeding studies). Claims rest on mineral content, i.e. mechanism and anecdote. Safety evidence is real: Aakre 2021 (Norwegian market, not sea moss specifically, mostly kelps) shows seaweed iodine per serving often exceeds the UL; Rejuso 2026 is the first US sea moss product survey (66 products) with arsenic/cobalt/mercury in dried product and Salmonella/Cronobacter isolates. I could NOT open the NIH ODS iodine fact sheet (Cloudflare 403), so the adult UL (1,100 mcg) is not cited here; worth adding nih-ods iodine if another agent has it. Did not find a sea moss-specific iodine assay paper. Could arguably join daily-multivitamin overlap ('92 minerals' marketing) but I left overlaps empty since that group's members list doesn't include it. Price is an estimate (gels often $25 to $40 a jar), no pricing page opened. Rewrote fits_instead to avoid a claim I can't source about health benefit. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "on-medication",
@@ -8497,7 +8489,7 @@
       "evidenceFor": "weight loss in adults with overweight",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Outside Japan, trials found almost no weight change. High-dose extracts have raised liver enzymes, more so when taken on an empty stomach.",
+      "evidenceSummary": "Outside Japan, trials found almost no weight change. Extracts have been linked to liver injury, and fasting raises how much gets absorbed.",
       "sources": [
         "jurgens-2012-cochrane-green-tea-weight",
         "efsa-2018-green-tea-catechins",
@@ -8530,7 +8522,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C on weight: Cochrane 2012 (Jurgens) found -0.04 kg outside Japan (6 RCTs, n=532), Japanese trials -0.2 to -3.5 kg but unpoolable; authors judge it not clinically important. Could be argued D-for-effect but trials exist and disagree by region, so C. Liver: EFSA 2018 says >=800 mg EGCG/day as supplement raised transaminases in trials; USP 2020 review: liver injury case reports at 140 to ~1,000 mg EGCG/day, fasting bolus dosing raises EGCG bioavailability; USP label requires 'take with food, do not use with liver problems'. Brewed tea is generally safe per EFSA (rare idiosyncratic cases). V3 referenced Hu 2018 hepatotoxicity review; I used the USP 2020 review (Oketch-Rabah) instead, which I opened. Price estimate.",
+      "notesInternal": "Tier C on weight: Cochrane 2012 (Jurgens) found -0.04 kg outside Japan (6 RCTs, n=532), Japanese trials -0.2 to -3.5 kg but unpoolable; authors judge it not clinically important. Could be argued D-for-effect but trials exist and disagree by region, so C. Liver: EFSA 2018 says >=800 mg EGCG/day as supplement raised transaminases in trials; USP 2020 review: liver injury case reports at 140 to ~1,000 mg EGCG/day, fasting bolus dosing raises EGCG bioavailability; USP label requires 'take with food, do not use with liver problems'. Brewed tea is generally safe per EFSA (rare idiosyncratic cases). V3 referenced Hu 2018 hepatotoxicity review; I used the USP 2020 review (Oketch-Rabah) instead, which I opened. Price estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "liver-disease",
@@ -8578,7 +8570,7 @@
       "evidenceFor": "self-rated sleep quality in adults",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "A 2025 review of 19 trials found small gains in self-rated sleep and next-day feel. Few tested L-theanine alone, and measured sleep was rarely checked.",
+      "evidenceSummary": "A 2025 review of 19 trials found small gains in self-rated sleep and next-day feel. Few tested L-theanine alone.",
       "sources": [
         "bulman-2025-theanine-sleep-meta"
       ],
@@ -8610,7 +8602,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C. Bulman/D'Cunha 2025 Sleep Med Rev meta-analysis (abstract via Bond portal): 19 RCTs, n=897, 18 pooled. Significant but small subjective effects: sleep onset latency SMD 0.15 (CI 0.01-0.29), daytime dysfunction 0.33, overall sleep quality 0.43 (CI 0.04-0.83). Authors flag few pure L-theanine studies and unsettled dose. No objective outcomes in abstract. Borderline B for self-rated sleep; kept C because effects are small, subjective, and confounded by blends. Dose 200-400 mg from V3 and Cotter 2025 review (search snippet only, not opened). Moment 'morning' added because many take it with coffee; caffeine-pairing evidence not reviewed here. Price is an estimate (~$12-18/month for 200 mg daily at mainstream brands); no pricing page opened. No safety row: nothing serious found in opened sources.",
+      "notesInternal": "Tier C. Bulman/D'Cunha 2025 Sleep Med Rev meta-analysis (abstract via Bond portal): 19 RCTs, n=897, 18 pooled. Significant but small subjective effects: sleep onset latency SMD 0.15 (CI 0.01-0.29), daytime dysfunction 0.33, overall sleep quality 0.43 (CI 0.04-0.83). Authors flag few pure L-theanine studies and unsettled dose. No objective outcomes in abstract. Borderline B for self-rated sleep; kept C because effects are small, subjective, and confounded by blends. Dose 200-400 mg from V3 and Cotter 2025 review (search snippet only, not opened). Moment 'morning' added because many take it with coffee; caffeine-pairing evidence not reviewed here. Price is an estimate (~$12-18/month for 200 mg daily at mainstream brands); no pricing page opened. No safety row: nothing serious found in opened sources. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -8791,7 +8783,7 @@
       "evidenceFor": "better sleep in adults with insomnia",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Sleep trials used 150 to 300 mg, far above most gummies, and still mostly matched placebo. In one test of online products, only 31% matched the label.",
+      "evidenceSummary": "Sleep trials used high doses, far above most gummies, and still mostly matched placebo. In one test of online products, only 31% matched the label.",
       "sources": [
         "suraev-2020-cannabinoids-sleep-review",
         "narayan-2024-cbd-insomnia",
@@ -8829,7 +8821,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C. Suraev 2020 Sleep Med Rev systematic review: insufficient evidence for any sleep disorder, moderate-high risk of bias. Narayan 2024 JCSM RCT (n=30 insomnia, 150 mg nightly x2 weeks): no difference on ISI, self-reported SOL, SE, WASO; objective SE higher at 2 weeks; well-being higher. Wang 2025 JCSM (n=125, 300 mg CBD+terpenes, crossover) found a small rise in % deep+REM on a wrist tracker, no change in total sleep; funding not visible in the record, so not cited. Suraev CANSLEEP (200 mg CBD + 10 mg THC) cut total sleep and REM (conference abstract, not cited). dose_min 150 = lowest pure-CBD dose in an opened sleep RCT, used so DOSE_BELOW_MIN can flag 10-25 mg gummies; it is not a recommendation to take more. Bonn-Miller 2017 JAMA: 84 online products, 31% accurate within 10%, 43% under-labelled, 26% over-labelled, 21% had THC. Safety from NCCIH (interactions, liver injury) and FDA 2019 (avoid in pregnancy/breastfeeding). Price estimate (~$40-60/month for a 25 mg daily gummy).",
+      "notesInternal": "Tier C. Suraev 2020 Sleep Med Rev systematic review: insufficient evidence for any sleep disorder, moderate-high risk of bias. Narayan 2024 JCSM RCT (n=30 insomnia, 150 mg nightly x2 weeks): no difference on ISI, self-reported SOL, SE, WASO; objective SE higher at 2 weeks; well-being higher. Wang 2025 JCSM (n=125, 300 mg CBD+terpenes, crossover) found a small rise in % deep+REM on a wrist tracker, no change in total sleep; funding not visible in the record, so not cited. Suraev CANSLEEP (200 mg CBD + 10 mg THC) cut total sleep and REM (conference abstract, not cited). dose_min 150 = lowest pure-CBD dose in an opened sleep RCT, used so DOSE_BELOW_MIN can flag 10-25 mg gummies; it is not a recommendation to take more. Bonn-Miller 2017 JAMA: 84 online products, 31% accurate within 10%, 43% under-labelled, 26% over-labelled, 21% had THC. Safety from NCCIH (interactions, liver injury) and FDA 2019 (avoid in pregnancy/breastfeeding). Price estimate (~$40-60/month for a 25 mg daily gummy). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "on-medication",
@@ -8892,7 +8884,7 @@
       "evidenceFor": "short-term relief of anxiety",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Early trials found kava eased anxiety short term, but a 16-week trial of 171 adults found no benefit over placebo. Sleep was rarely studied. Rare liver injury is reported.",
+      "evidenceSummary": "Early trials in anxious patients found short-term relief, but a 16-week trial of 171 adults with diagnosed anxiety found no benefit over placebo. Rare liver injury is reported.",
       "sources": [
         "pittler-2003-kava-cochrane",
         "sarris-2020-kava-gad",
@@ -8926,7 +8918,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 had B; downgraded to C because studies now disagree. Pittler & Ernst 2003 Cochrane (Europe PMC record; Cochrane site returned 403): 11 RCTs, n=645, HAM-A WMD 5.0 (CI 1.1-8.8) for kava, short-term use relatively safe; the review is old and Cochrane marks its CAM summaries outdated. Sarris 2013 (n=58 analysed, 120-240 mg, d=0.62) was positive, but the larger phase III Sarris 2020 (n=171 GAD, 240 mg/day, 16 weeks) found no benefit (placebo slightly better), with more liver-test abnormalities on kava. NCCIH 2025: may help anxiety, not GAD; rare serious liver injury; avoid with alcohol or sedatives; pregnancy/breastfeeding risks. Teschke 2008: of 26 suspected liver cases, 8 possible/probable, mostly with overdose, long use or co-medication. Sleep: found no solid kava sleep trials. Area set to mind (anxiety is the evidence outcome), also_serves sleep. Cadence 'occasional' and why_loved 'connection' reflect kava-bar culture; capsule users may be daily. Price estimate (~$25-35/month capsules; kava bar shells cost more).",
+      "notesInternal": "V3 had B; downgraded to C because studies now disagree. Pittler & Ernst 2003 Cochrane (Europe PMC record; Cochrane site returned 403): 11 RCTs, n=645, HAM-A WMD 5.0 (CI 1.1-8.8) for kava, short-term use relatively safe; the review is old and Cochrane marks its CAM summaries outdated. Sarris 2013 (n=58 analysed, 120-240 mg, d=0.62) was positive, but the larger phase III Sarris 2020 (n=171 GAD, 240 mg/day, 16 weeks) found no benefit (placebo slightly better), with more liver-test abnormalities on kava. NCCIH 2025: may help anxiety, not GAD; rare serious liver injury; avoid with alcohol or sedatives; pregnancy/breastfeeding risks. Teschke 2008: of 26 suspected liver cases, 8 possible/probable, mostly with overdose, long use or co-medication. Sleep: found no solid kava sleep trials. Area set to mind (anxiety is the evidence outcome), also_serves sleep. Cadence 'occasional' and why_loved 'connection' reflect kava-bar culture; capsule users may be daily. Price estimate (~$25-35/month capsules; kava bar shells cost more). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "liver-disease",
@@ -9009,7 +9001,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Did this come from a podcast sleep stack?",
-      "fitsInstead": "Chamomile tea is the food source of apigenin, for a few dollars.",
+      "fitsInstead": "Chamomile tea is the everyday source of apigenin.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9019,7 +9011,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier D. Europe PMC search (apigenin + sleep + human) found no RCT of apigenin alone. Viola 1995: apigenin isolated from chamomile binds the benzodiazepine receptor, anxiolytic in mice, sedative only at 10x dose. Mastrofini 2026 JISSN RCT (n=103 active adults): evening blend had 50 mg apigenin plus magnesium L-threonate and L-theanine, so apigenin's own effect can't be separated; funding not visible in the record. Wong 2026 mouse study: apigenin + magnesium synergy (animal). Popularity traces to a podcast sleep protocol (not sourced, from V3). Price estimate (~$15-25/month for 50 mg). No safety row: no specific harm found in opened sources.",
+      "notesInternal": "Tier D. Europe PMC search (apigenin + sleep + human) found no RCT of apigenin alone. Viola 1995: apigenin isolated from chamomile binds the benzodiazepine receptor, anxiolytic in mice, sedative only at 10x dose. Mastrofini 2026 JISSN RCT (n=103 active adults): evening blend had 50 mg apigenin plus magnesium L-threonate and L-theanine, so apigenin's own effect can't be separated; funding not visible in the record. Wong 2026 mouse study: apigenin + magnesium synergy (animal). Popularity traces to a podcast sleep protocol (not sourced, from V3). Price estimate (~$15-25/month for 50 mg). No safety row: no specific harm found in opened sources. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -9076,7 +9068,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Do you feel a difference on nights without it?",
-      "fitsInstead": "Chamomile tea keeps the bedtime ritual for less.",
+      "fitsInstead": "Chamomile tea keeps the bedtime ritual.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9086,7 +9078,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C (V3 had D): human placebo-controlled trials exist but are small and disagree. Hepsomali 2020 Front Neurosci systematic review: 14 placebo-controlled trials, 'limited' evidence for stress and 'very limited' for sleep (first author's affiliation Unilever, not a GABA seller). Boonstra 2015 Front Psychol: blood-brain barrier crossing long assumed impossible, studies contradictory; much calming evidence from researchers with potential conflicts. FORM_NOT_ABSORBED not used because the barrier question is unresolved, not disproven. Could be argued N if every sleep trial is seller-funded; I did not verify funding trial by trial. Dose range from V3 plus common product labels (not opened). Overlap: gaba-oral is NOT yet in sleep-aids in existing-overlaps.json; needs adding or drop OVERLAP. Price estimate.",
+      "notesInternal": "Tier C (V3 had D): human placebo-controlled trials exist but are small and disagree. Hepsomali 2020 Front Neurosci systematic review: 14 placebo-controlled trials, 'limited' evidence for stress and 'very limited' for sleep (first author's affiliation Unilever, not a GABA seller). Boonstra 2015 Front Psychol: blood-brain barrier crossing long assumed impossible, studies contradictory; much calming evidence from researchers with potential conflicts. FORM_NOT_ABSORBED not used because the barrier question is unresolved, not disproven. Could be argued N if every sleep trial is seller-funded; I did not verify funding trial by trial. Dose range from V3 plus common product labels (not opened). Overlap: gaba-oral is NOT yet in sleep-aids in existing-overlaps.json; needs adding or drop OVERLAP. Price estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -9223,7 +9215,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Did you pick this form for sleep or memory?",
-      "fitsInstead": "Magnesium glycinate at bedtime, for a fraction of the price.",
+      "fitsInstead": "If magnesium is the goal, plain glycinate at bedtime, though its sleep evidence is thin too.",
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9233,7 +9225,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier N by the brand-funding rule. Hausenblas 2024 Sleep Med X (full text): n=80, 1 g/day Magtein x21 days; funded by AIDP Inc. (3 authors are AIDP; product from Threotech); ISI interaction not significant (p=0.39); Oura deep/REM scores and some self-reports better. Europe PMC lists the grant as 'CNY Arts' - conflicts with the paper's own funding line; the paper says AIDP. There is a 2025 erratum. Lopresti 2025 Front Nutr (full text): n=100, 2 g/day (145 mg elemental) x6 weeks, funded by Threotech, which also co-designed the study; only PROMIS sleep-related impairment improved (p=0.043), Oura sleep unchanged; cognition composite improved. V3's 'Neurocentria' funding claim was not confirmed: funders are AIDP and Threotech. Plain magnesium has its own C-level sleep evidence (existing sources arab-2023, mah-2021, schuster-2025 - not re-opened here). Kidney safety row added from general magnesium knowledge plus MedlinePlus magnesium oxide precaution; NIH ODS page returned 403, so no fact-sheet citation. Price estimate (~$30-45/month for 2 g/day); vendor pages returned 403.",
+      "notesInternal": "Tier N by the brand-funding rule. Hausenblas 2024 Sleep Med X (full text): n=80, 1 g/day Magtein x21 days; funded by AIDP Inc. (3 authors are AIDP; product from Threotech); ISI interaction not significant (p=0.39); Oura deep/REM scores and some self-reports better. Europe PMC lists the grant as 'CNY Arts' - conflicts with the paper's own funding line; the paper says AIDP. There is a 2025 erratum. Lopresti 2025 Front Nutr (full text): n=100, 2 g/day (145 mg elemental) x6 weeks, funded by Threotech, which also co-designed the study; only PROMIS sleep-related impairment improved (p=0.043), Oura sleep unchanged; cognition composite improved. V3's 'Neurocentria' funding claim was not confirmed: funders are AIDP and Threotech. Plain magnesium has its own C-level sleep evidence (existing sources arab-2023, mah-2021, schuster-2025 - not re-opened here). Kidney safety row added from general magnesium knowledge plus MedlinePlus magnesium oxide precaution; NIH ODS page returned 403, so no fact-sheet citation. Price estimate (~$30-45/month for 2 g/day); vendor pages returned 403. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "kidney-disease",
@@ -9446,7 +9438,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it the fizzy afternoon drink you'd miss?",
-      "fitsInstead": "Sparkling water with a splash of juice keeps the fizz for less.",
+      "fitsInstead": "Sparkling water with a splash of juice keeps the fizz.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -9454,7 +9446,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C, up from V3's D: Kapp & Sumner 2019 systematic review (Ann Epidemiol) found only one human study as of 2018, but small RCTs have appeared since: Arce-Lopez 2025 (n=58 healthy, 6 wk, fiber-enriched kombucha; triglycerides and Bifidobacterium shifted vs unfermented tea), Bonifacio 2026 (n=90 healthy beginner runners, 12 wk; primary outcome FRAP unchanged, other changes exploratory after FDR), Bonifacio 2026 second trial (n=59 overweight on calorie restriction; no between-group differences overall). Small, short, mixed = C. No kombucha-company funding disclosed in these records (public Brazilian/Spanish funders). 'Probiotic drinks' with named strains (e.g. Yakult-type for antibiotic diarrhoea) were not assessed here; if Veer wants them separate, they need their own row. Price: estimate. Search-result listings (ShopRite) showed GT's Synergy 16 oz at $3.99 to $4.49 regular; about 3 bottles a week is roughly $50/month. Safety row from TTB page: kombucha can ferment in the bottle to 0.5% ABV or more.",
+      "notesInternal": "Tier C, up from V3's D: Kapp & Sumner 2019 systematic review (Ann Epidemiol) found only one human study as of 2018, but small RCTs have appeared since: Arce-Lopez 2025 (n=58 healthy, 6 wk, fiber-enriched kombucha; triglycerides and Bifidobacterium shifted vs unfermented tea), Bonifacio 2026 (n=90 healthy beginner runners, 12 wk; primary outcome FRAP unchanged, other changes exploratory after FDR), Bonifacio 2026 second trial (n=59 overweight on calorie restriction; no between-group differences overall). Small, short, mixed = C. No kombucha-company funding disclosed in these records (public Brazilian/Spanish funders). 'Probiotic drinks' with named strains (e.g. Yakult-type for antibiotic diarrhoea) were not assessed here; if Veer wants them separate, they need their own row. Price: estimate. Search-result listings (ShopRite) showed GT's Synergy 16 oz at $3.99 to $4.49 regular; about 3 bottles a week is roughly $50/month. Safety row from TTB page: kombucha can ferment in the bottle to 0.5% ABV or more. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "pregnant",
@@ -9599,7 +9591,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it the warm mug you'd miss?",
-      "fitsInstead": "A mug of miso or homemade stock keeps the warmth for less.",
+      "fitsInstead": "A mug of miso or homemade stock keeps the warmth.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -9609,7 +9601,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier D: no human trials of bone broth for skin, joints or gut turned up in Europe PMC searches (bone broth + randomized/clinical trial/crossover). Alcock 2019 (IJSNEM, lab analysis): standardized-recipe broths had significantly lower glycine, proline, hydroxyproline etc. than a 20 g collagen supplement dose, with large variation across recipes; cafe broths highest. Alcock 2019 Front Nutr (300 mL broth in a plasma amino acid study) exists but I did not open it fully. Matar 2025 (Dig Dis Sci) is a narrative review arguing gut-barrier benefits from broth's components (glutamine, glycine), i.e. mechanism, not broth trials. Myung 2025 (existing source): collagen effects on skin vanish in non-industry-funded and high-quality RCTs, which undercuts the collagen rationale. It is a real food with some protein, so it is not harmful; D is about the borrowed claims. Price: estimate from search-result listings (Walmart $6.58, Thrive $7.99 for a 16.9 oz carton, about 2 mugs); a few mugs a week is about $50/month.",
+      "notesInternal": "Tier D: no human trials of bone broth for skin, joints or gut turned up in Europe PMC searches (bone broth + randomized/clinical trial/crossover). Alcock 2019 (IJSNEM, lab analysis): standardized-recipe broths had significantly lower glycine, proline, hydroxyproline etc. than a 20 g collagen supplement dose, with large variation across recipes; cafe broths highest. Alcock 2019 Front Nutr (300 mL broth in a plasma amino acid study) exists but I did not open it fully. Matar 2025 (Dig Dis Sci) is a narrative review arguing gut-barrier benefits from broth's components (glutamine, glycine), i.e. mechanism, not broth trials. Myung 2025 (existing source): collagen effects on skin vanish in non-industry-funded and high-quality RCTs, which undercuts the collagen rationale. It is a real food with some protein, so it is not harmful; D is about the borrowed claims. Price: estimate from search-result listings (Walmart $6.58, Thrive $7.99 for a 16.9 oz carton, about 2 mugs); a few mugs a week is about $50/month. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -9800,7 +9792,7 @@
       "evidenceFor": "shorter, lighter sleep when the extra cup lands within about nine hours of bed",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls 400 mg a day generally fine.",
+      "evidenceSummary": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls up to 400 mg a day generally fine for healthy adults.",
       "sources": [
         "gardiner-2023-caffeine-sleep",
         "drake-2013-caffeine-timing",
@@ -9833,7 +9825,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Cost habit, so UNLOVED_HABIT and no EVIDENCE_REGULAR. Tier A describes the cost of late caffeine: Gardiner 2023 meta-analysis (24 studies): TST -45 min, sleep efficiency -7%, SOL +9 min, WASO +12 min, less deep sleep; coffee (107 mg/250 mL) >=8.8 h before bed to avoid TST loss. Drake 2013 RCT: 400 mg at 0, 3 or 6 h before bed all disrupted sleep. FDA consumer page: 400 mg/day (about two to three 12 oz cups) generally not linked to negative effects in most adults; 12 oz brewed coffee is 113 to 247 mg. So a second cup at 10am is usually fine; the cost is timing or a total well past 400 mg. V3's HRV claim was not checked here and is left out. Cost $40 is an estimate (mix of home brew and some cafe cups); timing rows otherwise have no product cost.",
+      "notesInternal": "Cost habit, so UNLOVED_HABIT and no EVIDENCE_REGULAR. Tier A describes the cost of late caffeine: Gardiner 2023 meta-analysis (24 studies): TST -45 min, sleep efficiency -7%, SOL +9 min, WASO +12 min, less deep sleep; coffee (107 mg/250 mL) >=8.8 h before bed to avoid TST loss. Drake 2013 RCT: 400 mg at 0, 3 or 6 h before bed all disrupted sleep. FDA consumer page: 400 mg/day (about two to three 12 oz cups) generally not linked to negative effects in most adults; 12 oz brewed coffee is 113 to 247 mg. So a second cup at 10am is usually fine; the cost is timing or a total well past 400 mg. V3's HRV claim was not checked here and is left out. Cost $40 is an estimate (mix of home brew and some cafe cups); timing rows otherwise have no product cost. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "pregnant",
@@ -9973,7 +9965,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it the taste, or something in your water?",
-      "fitsInstead": "Your utility's yearly water report shows whether a filter earns its place.",
+      "fitsInstead": "Testing your own tap first, since lead often comes from home pipes.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -9981,7 +9973,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C, and deliberately no BORROWED_WEAK even though C allows it: whether a filter matters depends on the home's water (lead service lines, old buildings, private wells, PFAS), which Distill can't see, so a 'let it go' could be wrong in exactly the homes where it matters. Only UNUSED (a filter that isn't changed or used). Evidence: CDC 2024 page: test first; if water has no harmful germs/chemicals a filter may not be needed; pitcher filters are mainly for taste and smell, may remove lead; check NSF standard on label. Purchase 2025 field test: lead-certified faucet filters brought occupied-home lead below 1 ug/L; a disturbed lead line overwhelmed them; iron clogged them. Hazzazi 2025: nine popular pitchers varied widely in mineral changes; none fully removed fluoride despite three makers' claims. No health-outcome trials of filtering already-compliant water exist that I found. Price: brita.com lists Elite replacement $19.99 and Original 1-pack $7.99; filter life not shown on the page I opened, so $5/month is an estimate.",
+      "notesInternal": "Tier C, and deliberately no BORROWED_WEAK even though C allows it: whether a filter matters depends on the home's water (lead service lines, old buildings, private wells, PFAS), which Distill can't see, so a 'let it go' could be wrong in exactly the homes where it matters. Only UNUSED (a filter that isn't changed or used). Evidence: CDC 2024 page: test first; if water has no harmful germs/chemicals a filter may not be needed; pitcher filters are mainly for taste and smell, may remove lead; check NSF standard on label. Purchase 2025 field test: lead-certified faucet filters brought occupied-home lead below 1 ug/L; a disturbed lead line overwhelmed them; iron clogged them. Hazzazi 2025: nine popular pitchers varied widely in mineral changes; none fully removed fluoride despite three makers' claims. No health-outcome trials of filtering already-compliant water exist that I found. Price: brita.com lists Elite replacement $19.99 and Original 1-pack $7.99; filter life not shown on the page I opened, so $5/month is an estimate. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "any",
@@ -10818,7 +10810,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Is it mostly for skin, or for recovery?",
-      "fitsInstead": "Ten minutes of morning daylight outdoors keeps a light ritual for free.",
+      "fitsInstead": "",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -10829,7 +10821,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "Tier C for skin (V3 C). Wunsch 2014 (full text) is the closest match to a panel (full-body units) and found gains vs untreated controls, but was fully sponsor-funded with non-randomized, sponsor-employee controls and no sham. AAD 2024 (full text) supports subtle-to-noticeable results for aging skin but says home devices are hard to judge. Recovery: Dutra 2022 meta-analysis (abstract) found small gains in single-joint endurance and cycling time to exhaustion, none in strength or running; trials used lasers/LED clusters on muscles pre-exercise, not panels, so the move claim is C at best. Sleep: Zhao 2012 (abstract) is 20 athletes, not blinded; D for sleep. V3 testosterone claim rests on rat data; not searched further and left out. Price: Mito panels $249 to $749 for most home sizes (brand page, opened), over 24 months about $10 to $31; used $20. fits_instead points to morning-sunlight-10-min-outdoors (a different benefit, circadian, not skin); Veer may prefer \"\".",
+      "notesInternal": "Tier C for skin (V3 C). Wunsch 2014 (full text) is the closest match to a panel (full-body units) and found gains vs untreated controls, but was fully sponsor-funded with non-randomized, sponsor-employee controls and no sham. AAD 2024 (full text) supports subtle-to-noticeable results for aging skin but says home devices are hard to judge. Recovery: Dutra 2022 meta-analysis (abstract) found small gains in single-joint endurance and cycling time to exhaustion, none in strength or running; trials used lasers/LED clusters on muscles pre-exercise, not panels, so the move claim is C at best. Sleep: Zhao 2012 (abstract) is 20 athletes, not blinded; D for sleep. V3 testosterone claim rests on rat data; not searched further and left out. Price: Mito panels $249 to $749 for most home sizes (brand page, opened), over 24 months about $10 to $31; used $20. fits_instead points to morning-sunlight-10-min-outdoors (a different benefit, circadian, not skin); Veer may prefer \"\". Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "on-medication",
@@ -11111,7 +11103,7 @@
       "evidenceFor": "aerobic fitness and strength, from the classes taken",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
-      "evidenceSummary": "Regular classes build fitness like any training. The benefit lives in the classes taken: in one large gym study, members paid more per visit than a pass.",
+      "evidenceSummary": "Regular classes build fitness like any training. The benefit lives in the classes taken.",
       "sources": [
         "milanovic-2015-hiit-vo2max",
         "bull-2020-who-physical-activity",
@@ -11135,7 +11127,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "How many credits are left before the pack expires?",
-      "fitsInstead": "A smaller pack sized to the classes you actually book.",
+      "fitsInstead": "",
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -11145,7 +11137,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded A off an unsourced claim that unused credits are the most common wellness purchase that does nothing; I found no study of class-pack or ClassPass breakage, so that claim is dropped. The A now belongs to the training (HIIT trials, WHO activity guidance), held only for people who use it (trains, otherwise N), matching gym-membership and boutique rows. Usage evidence is DellaVigna and Malmendier 2006 (gym memberships, not packs). Expiry matters: SoulCycle's opened series page (San Francisco) lists 5 classes $185 (45-day expiry), 10 for $365 (3 months), 20 for $710 (9 months). cost_month_usd 120 = a 10-pack spread over its 3-month expiry. ClassPass official pricing page returned 403; third-party summaries show $19 for 8 credits up to about $139 to $159, with rollover capped, so not used for the price. Clear codes follow the gym rows (UNUSED, OVERLAP), not BORROWED_WEAK.",
+      "notesInternal": "V3 graded A off an unsourced claim that unused credits are the most common wellness purchase that does nothing; I found no study of class-pack or ClassPass breakage, so that claim is dropped. The A now belongs to the training (HIIT trials, WHO activity guidance), held only for people who use it (trains, otherwise N), matching gym-membership and boutique rows. Usage evidence is DellaVigna and Malmendier 2006 (gym memberships, not packs). Expiry matters: SoulCycle's opened series page (San Francisco) lists 5 classes $185 (45-day expiry), 10 for $365 (3 months), 20 for $710 (9 months). cost_month_usd 120 = a 10-pack spread over its 3-month expiry. ClassPass official pricing page returned 403; third-party summaries show $19 for 8 credits up to about $139 to $159, with rollover capped, so not used for the price. Clear codes follow the gym rows (UNUSED, OVERLAP), not BORROWED_WEAK. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -11446,7 +11438,7 @@
       "evidenceFor": "strength and fitness, from the visits that happen",
       "evidenceRequires": "trains",
       "tierOtherwise": "N",
-      "evidenceSummary": "Training builds strength and fitness wherever it happens. Two memberships help only if both get used: in one large gym study, members paid more per visit than a pass.",
+      "evidenceSummary": "Training builds strength and fitness wherever it happens. A second membership adds something only when both get used.",
       "sources": [
         "currier-2023-resistance-training",
         "bull-2020-who-physical-activity",
@@ -11482,7 +11474,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 graded A off 'nobody needs two', which is not a research finding. As with gym-membership, the A belongs to the training and holds only with use (trains, otherwise N); OVERLAP via gym-floor-access (keep-most-used) is the real lever. DellaVigna and Malmendier 2006 is the usage evidence. Price is an estimate: a second membership is often a studio or climbing gym. Opened data points: Time Out (2025) VITAL Climbing Harlem $155 a month; SoulCycle 10-pack $365 over 3 months (about $120 a month). Budget gyms run far less (Planet Fitness page returned 403, not used). cost 120 sits between.",
+      "notesInternal": "V3 graded A off 'nobody needs two', which is not a research finding. As with gym-membership, the A belongs to the training and holds only with use (trains, otherwise N); OVERLAP via gym-floor-access (keep-most-used) is the real lever. DellaVigna and Malmendier 2006 is the usage evidence. Price is an estimate: a second membership is often a studio or climbing gym. Opened data points: Time Out (2025) VITAL Climbing Harlem $155 a month; SoulCycle 10-pack $365 over 3 months (about $120 a month). Budget gyms run far less (Planet Fitness page returned 403, not used). cost 120 sits between. Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [],
       "source": {
         "sheet": "Items",
@@ -11519,7 +11511,7 @@
       "evidenceFor": "lower anxiety and less muscle soreness after sessions",
       "evidenceRequires": "none",
       "tierOtherwise": null,
-      "evidenceSummary": "Trials pooled in a 2004 review show one massage eases anxiety, heart rate and blood pressure, and a course eases lasting anxiety. A 2018 review ranked massage top for soreness.",
+      "evidenceSummary": "Trials pooled in a 2004 review show one massage eases anxiety, heart rate and blood pressure, and a 2018 review ranked massage top for soreness after exercise.",
       "sources": [
         "moyer-2004-massage-meta",
         "dupuy-2018-recovery-meta",
@@ -11552,7 +11544,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 B kept; same evidence as the massage membership row (Moyer 2004, Dupuy 2018). V3's 'HRV goes up for a while' and 'no lasting physical effect' not verified; Moyer found course effects on trait anxiety and depression, so 'no lasting effect' was dropped. NCCIH (2019) notes rare serious harms (blood clot, nerve injury, fracture), mostly with vigorous deep tissue work. Price opened: ThePricer (Aug 2026) non-member 60-min Massage Envy prices $125 (Mount Dora), $145 (Freehold), $155 (Concord), $160 (Gramercy NYC); Squeeze $129 for 50 min. cost 130 excludes tip. UNUSED included per the rule for paid items (a prepaid package or gift card).",
+      "notesInternal": "V3 B kept; same evidence as the massage membership row (Moyer 2004, Dupuy 2018). V3's 'HRV goes up for a while' and 'no lasting physical effect' not verified; Moyer found course effects on trait anxiety and depression, so 'no lasting effect' was dropped. NCCIH (2019) notes rare serious harms (blood clot, nerve injury, fracture), mostly with vigorous deep tissue work. Price opened: ThePricer (Aug 2026) non-member 60-min Massage Envy prices $125 (Mount Dora), $145 (Freehold), $155 (Concord), $160 (Gramercy NYC); Squeeze $129 for 50 min. cost 130 excludes tip. UNUSED included per the rule for paid items (a prepaid package or gift card). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "bleeding-risk",
@@ -11754,7 +11746,7 @@
       ],
       "neverClear": false,
       "humanQuestion": "Do you go for sore legs or the buzz?",
-      "fitsInstead": "A cold plunge or cold shower, cheaper and better studied.",
+      "fitsInstead": "A cold-water plunge, which has more evidence behind it.",
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11764,7 +11756,7 @@
       "status": "live",
       "reviewedBy": "Veer",
       "reviewedOn": "2026-10-23",
-      "notesInternal": "V3 C kept. Costello 2015 Cochrane (CD010789): 4 lab RCTs, 64 active, mostly young men; very low-quality evidence, insufficient to say whether WBC reduces soreness or improves recovery vs rest; no adverse events reported. Dupuy 2018 pooled 'cryotherapy' broadly (not WBC alone) and found smaller DOMS drops than massage. Legrand 2023 consortium scoping review: 16 adverse events in 7 reports (4 serious: amnesia, brain bleed, moyamoya, aortic dissection); hypertension is an absolute contraindication in the Bad Voslau consensus. An FDA MAUDE report I opened states FDA has not cleared or approved any WBC device and describes a worker found dead in a chamber; the 2016 FDA consumer update URL now 404s, so not cited. Could argue D; kept C because RCTs exist, just tiny. Price opened: Cryo Lab (El Dorado Hills, CA) $45 a session, 2 to 3.5 minutes. cost 180 = 4 sessions a month; unlimited plans run about $59 to $249 elsewhere (search snippets, not opened).",
+      "notesInternal": "V3 C kept. Costello 2015 Cochrane (CD010789): 4 lab RCTs, 64 active, mostly young men; very low-quality evidence, insufficient to say whether WBC reduces soreness or improves recovery vs rest; no adverse events reported. Dupuy 2018 pooled 'cryotherapy' broadly (not WBC alone) and found smaller DOMS drops than massage. Legrand 2023 consortium scoping review: 16 adverse events in 7 reports (4 serious: amnesia, brain bleed, moyamoya, aortic dissection); hypertension is an absolute contraindication in the Bad Voslau consensus. An FDA MAUDE report I opened states FDA has not cleared or approved any WBC device and describes a worker found dead in a chamber; the 2016 FDA consumer update URL now 404s, so not cited. Could argue D; kept C because RCTs exist, just tiny. Price opened: Cryo Lab (El Dorado Hills, CA) $45 a session, 2 to 3.5 minutes. cost 180 = 4 sessions a month; unlimited plans run about $59 to $249 elsewhere (search snippets, not opened). Validation 24 Oct: edited per the independent re-check (data/validation).",
       "safety": [
         {
           "condition": "blood-pressure",

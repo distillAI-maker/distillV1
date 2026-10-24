@@ -21,14 +21,14 @@ describe("the landing page's list, on the app's engine", () => {
   });
 
   it('marks what is well-founded, and never lets something well-founded go for coming from a feed', () => {
-    const r = run([{ key: 'vitamin-d3', feed: true }, { key: 'melatonin', feed: true }]);
+    const r = run([{ key: 'vitamin-d3', feed: true }, { key: 'cold-plunge-ice-bath', feed: true }]);
     expect(r.items.map((i) => i.status)).toEqual(['founded', 'founded']);
     expect(r.back).toBe(0);
   });
 
   it('ignores keys it does not know and repeats, and stores nothing', () => {
-    const r = run([{ key: 'not-a-thing' }, { key: 'melatonin' }, { key: 'melatonin' }]);
-    expect(r.items.map((i) => i.key)).toEqual(['melatonin']);
+    const r = run([{ key: 'not-a-thing' }, { key: 'vitamin-d3' }, { key: 'vitamin-d3' }]);
+    expect(r.items.map((i) => i.key)).toEqual(['vitamin-d3']);
     expect(run([])).toEqual({ items: [], back: 0 });
   });
 });

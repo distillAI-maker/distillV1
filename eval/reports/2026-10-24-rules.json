@@ -1,0 +1,178 @@
+{
+  "sha": "c102985",
+  "statuses": "live",
+  "mode": "rules",
+  "fails": [
+    {
+      "id": "aaron-39",
+      "fails": []
+    },
+    {
+      "id": "amara-32",
+      "fails": []
+    },
+    {
+      "id": "andre-40",
+      "fails": []
+    },
+    {
+      "id": "becca-30",
+      "fails": []
+    },
+    {
+      "id": "brandon-45",
+      "fails": []
+    },
+    {
+      "id": "britt-27",
+      "fails": []
+    },
+    {
+      "id": "chris-31",
+      "fails": []
+    },
+    {
+      "id": "claire-35",
+      "fails": []
+    },
+    {
+      "id": "daniel-26",
+      "fails": []
+    },
+    {
+      "id": "devon-29",
+      "fails": []
+    },
+    {
+      "id": "diego-27",
+      "fails": []
+    },
+    {
+      "id": "elena-52",
+      "fails": []
+    },
+    {
+      "id": "eli-42",
+      "fails": []
+    },
+    {
+      "id": "ethan-24",
+      "fails": []
+    },
+    {
+      "id": "fatima-27",
+      "fails": []
+    },
+    {
+      "id": "grace-34",
+      "fails": []
+    },
+    {
+      "id": "hana-25",
+      "fails": []
+    },
+    {
+      "id": "ingrid-43",
+      "fails": []
+    },
+    {
+      "id": "jake-34",
+      "fails": []
+    },
+    {
+      "id": "joanna-42",
+      "fails": []
+    },
+    {
+      "id": "jordan-28",
+      "fails": []
+    },
+    {
+      "id": "kenji-26",
+      "fails": []
+    },
+    {
+      "id": "linda-44",
+      "fails": []
+    },
+    {
+      "id": "luca-26",
+      "fails": []
+    },
+    {
+      "id": "marcus-38",
+      "fails": []
+    },
+    {
+      "id": "matteo-36",
+      "fails": []
+    },
+    {
+      "id": "maya-29",
+      "fails": []
+    },
+    {
+      "id": "mei-29",
+      "fails": []
+    },
+    {
+      "id": "naomi-30",
+      "fails": []
+    },
+    {
+      "id": "nora-22",
+      "fails": []
+    },
+    {
+      "id": "omar-33",
+      "fails": []
+    },
+    {
+      "id": "owen-41",
+      "fails": []
+    },
+    {
+      "id": "priya-41",
+      "fails": []
+    },
+    {
+      "id": "ravi-31",
+      "fails": []
+    },
+    {
+      "id": "simone-38",
+      "fails": []
+    },
+    {
+      "id": "sofia-23",
+      "fails": []
+    },
+    {
+      "id": "tess-37",
+      "fails": []
+    },
+    {
+      "id": "tomas-33",
+      "fails": []
+    },
+    {
+      "id": "valeria-39",
+      "fails": []
+    },
+    {
+      "id": "veer-00",
+      "fails": []
+    },
+    {
+      "id": "zoe-24",
+      "fails": []
+    }
+  ],
+  "clearRecall": 0.42857142857142855,
+  "referRecall": 1,
+  "mentions": 0.5,
+  "cost": 0,
+  "p95": null,
+  "verdict": null,
+  "judged": []
+}
