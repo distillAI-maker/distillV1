@@ -75,6 +75,8 @@ export function tryList(input: TryInput, view: CatalogView, banned: readonly str
     const clear = mine.find((d) => d.kind === 'clear');
     const context = (clear ?? mine[0])?.context as { keeperName?: string; fitsInstead?: string } | undefined;
     const base = { key: s.itemKey!, name, monthly: s.monthlyCost, ...(context?.fitsInstead ? { instead: context.fitsInstead } : {}) };
+    // A habit that costs them gets a swap, not a let-go: it stays, done a little differently.
+    if (clear?.reason === 'UNLOVED_HABIT') return { ...base, status: 'adjust', why: t.why.UNLOVED_HABIT };
     if (clear) {
       const why = clear.reason === 'OVERLAP' && context?.keeperName ? t.why.overlap(context.keeperName) : t.why[clear.reason as keyof typeof t.why];
       return { ...base, status: 'go', why: typeof why === 'string' ? why : t.why.fallback };

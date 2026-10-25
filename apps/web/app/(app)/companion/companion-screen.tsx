@@ -49,7 +49,7 @@ export function CompanionScreen() {
     if (!item) return;
     const name = routed?.items.find((r) => r.stackItemId === about)?.name || item.label || item.customName || '';
     const why = params.get('why');
-    const ask = copy.companion.why[why === 'clear' || why === 'keep' || why === 'question' ? why : 'other'];
+    const ask = copy.companion.why[why === 'clear' || why === 'swap' || why === 'keep' || why === 'question' ? why : 'other'];
     clearLast();
     setOffer(undefined);
     void act(() => engineApi.message(name ? ask(name) : copy.decide.why, about));

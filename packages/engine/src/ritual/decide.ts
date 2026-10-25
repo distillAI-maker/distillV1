@@ -95,6 +95,8 @@ const ATTACH_RANK: Record<Attachment, number> = {
 };
 /** Things people often love for the company or the moment, so we ask before naming them. */
 const SOCIAL_LOVE = new Set(['connection', 'belonging', 'treat', 'ritual']);
+/** Loved for the people: a habit with a cost is asked about first, since shared means theirs. */
+const SHARED = new Set(['connection', 'belonging']);
 /** Skin rows whose actives need a dermatologist's say once a skin condition is in the picture. */
 const SKIN_ACTIVE_KINDS = new Set(['supplement', 'practice', 'device', 'service']);
 
@@ -112,9 +114,30 @@ export function tierFor(
   return view.tier;
 }
 
-function attachmentOf(person: PersonModel, item: StackItemLike): Attachment {
-  if (person.values[item.id]?.attachment) return person.values[item.id]!.attachment;
-  return item.status === 'kept' ? 'theirs' : 'unknown';
+function attachmentOf(person: PersonModel, item: StackItemLike, v?: CatalogItemView): Attachment {
+  const said = person.values[item.id]?.attachment ?? (item.status === 'kept' ? 'theirs' : 'unknown');
+  // A habit that costs them, which their own words tie to people, a tradition or their job (wine
+  // nights with friends, the shop's 2pm coffee, cupping for work): theirs, and left alone (Veer, 25 Oct).
+  if (said !== 'theirs' && v?.evidenceDirection === 'cost' && tiedToTheirLife(person, item)) return 'theirs';
+  return said;
+}
+
+const TIED_WORDS =
+  /\b(friends?|family|crew|team ?mates?|colleagues|co-?workers|partner|wife|husband|girlfriend|boyfriend|mates|my (dad|mom|mum|brother|sister|son|daughter)|tradition|traditions|my job|part of (my|the) job|for my job)\b/i;
+
+/** "Sam and I", "with Maya": someone they named, even before we know who they are. */
+const NAMED_SOMEONE = /\b[A-Z][a-z]+ and I\b|\bwith [A-Z][a-z]+\b/;
+
+/** Their own words (notes, its name, what they told us) tie it to people, a tradition or their job. */
+export function tiedToTheirLife(person: PersonModel, item: StackItemLike): boolean {
+  const words = [item.customName ?? '', item.label ?? '', ...item.notes.map((n) => n.text), ...(person.values[item.id]?.reasons ?? [])].join(' . ');
+  if (TIED_WORDS.test(words) || NAMED_SOMEONE.test(words)) return true;
+  return person.people.some((p) => p.name.length > 1 && new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(words));
+}
+
+/** How they feel about it, read through the catalog row (see attachmentOf). */
+export function attachmentFor(person: PersonModel, item: StackItemLike, v: CatalogItemView | undefined): Attachment {
+  return attachmentOf(person, item, v);
 }
 
 function underCooldown(
@@ -178,7 +201,8 @@ export function decide(input: DecideInput): DecideResult {
       itemKey: s.itemKey,
       kind,
       reason,
-      money: kind === 'clear' ? Math.max(0, s.monthlyCost) : 0,
+      // A swap keeps the habit, so it frees no money.
+      money: kind === 'clear' && reason !== 'UNLOVED_HABIT' ? Math.max(0, s.monthlyCost) : 0,
       name: displayName(s, v),
       evidenceTier: extra.evidenceTier ?? tierFor(v, s, stack),
       context: {
@@ -230,14 +254,16 @@ export function decide(input: DecideInput): DecideResult {
   for (const s of live) {
     if (decided.has(s.id)) continue;
     const v = view(s);
-    const attachment = attachmentOf(person, s);
+    const attachment = attachmentOf(person, s, view(s));
     if (attachment === 'theirs') {
       theirs.add(s.id);
       put(s, 'keep', 'THEIRS');
       settle(s, 'protect:theirs');
       continue;
     }
-    if (attachment === 'loved') {
+    // A habit with strong evidence of a cost is offered a swap even when loved (pass 3): the swap
+    // keeps the part they love. Only theirs holds it back.
+    if (attachment === 'loved' && !strongCost(v, tierFor(v, s, stack))) {
       put(s, 'keep', 'LOVED');
       settle(s, 'protect:loved');
       continue;
@@ -278,7 +304,7 @@ export function decide(input: DecideInput): DecideResult {
     const keeperTier = tierFor(view(keeper), keeper, stack);
     for (const s of candidates) {
       if (s.id === keeper.id) continue;
-      const attachment = attachmentOf(person, s);
+      const attachment = attachmentOf(person, s, view(s));
       if (attachment === 'theirs' || attachment === 'loved') continue;
       // A well-founded thing is only cleared when the keeper covers it at least as well.
       if (protectedIds.has(s.id) && TIER_RANK[keeperTier] < TIER_RANK[tierFor(view(s), s, stack)])
@@ -303,7 +329,7 @@ export function decide(input: DecideInput): DecideResult {
     if (decided.has(s.id)) continue;
     const v = view(s);
     if (!v) continue;
-    const attachment = attachmentOf(person, s);
+    const attachment = attachmentOf(person, s, view(s));
     const tier = tierFor(v, s, stack);
     const usage = usageOf(s, v);
     const can = (code: CatalogItemView['clearWhen'][number]) => v.clearWhen.includes(code);
@@ -316,7 +342,7 @@ export function decide(input: DecideInput): DecideResult {
     else if (can('NOT_TRAINING') && trainsOf(s, stack) === false) reason = 'NOT_TRAINING';
     else if (can('TOO_MANY_STEPS')) reason = 'TOO_MANY_STEPS';
     else if (can('BORROWED_WEAK') && borrowedWeak(tier, attachment, s, v)) reason = 'BORROWED_WEAK';
-    else if (can('UNLOVED_HABIT') && unlovedHabit(attachment, v)) reason = 'UNLOVED_HABIT';
+    else if (can('UNLOVED_HABIT') && unlovedHabit(attachment, v, tier, s)) reason = 'UNLOVED_HABIT';
     if (reason) {
       put(s, 'clear', reason);
       settle(s, `clear:${reason}`);
@@ -326,16 +352,22 @@ export function decide(input: DecideInput): DecideResult {
     }
   }
 
-  // Pass 4: everything left is kept; kept anchors are offered as the centre of a moment.
+  // Pass 4: everything left is kept; kept anchors are offered as the centre of a moment. A habit
+  // that costs them is never told it "stays": it rests, with no card, until its swap comes round.
   for (const s of live) {
     if (decided.has(s.id)) continue;
+    if (strongCost(view(s), tierFor(view(s), s, stack))) {
+      settle(s, 'rest:cost');
+      continue;
+    }
     put(s, 'keep', 'NOTHING_TO_CLEAR');
     settle(s, 'keep:default');
   }
   const anchors = live
     .filter((s) => {
       const d = drafts.get(`${s.id}:keep`);
-      return d && (d.reason === 'THEIRS' || d.reason === 'LOVED') && view(s)?.ritualRole === 'anchor';
+      // Never a habit that costs them: theirs to keep, never the centre of their week.
+      return d && (d.reason === 'THEIRS' || d.reason === 'LOVED') && view(s)?.ritualRole === 'anchor' && view(s)?.evidenceDirection !== 'cost';
     })
     .slice(0, 2);
   for (const s of anchors) if (!drafts.has(`${s.id}:curate`)) put(s, 'curate', 'ANCHOR');
@@ -384,9 +416,27 @@ function worthALook(tier: KnownTier, attachment: Attachment, s: StackItemLike, v
   return (tier === 'N' || tier === 'D') && v.clearWhen.includes('BORROWED_WEAK');
 }
 
-/** A habit on autopilot. Things often loved for the company are asked about first. */
-function unlovedHabit(attachment: Attachment, v: CatalogItemView): boolean {
-  if (attachment === 'theirs' || attachment === 'loved') return false;
+/**
+ * Strong or good evidence that it costs them (late caffeine, evening drinks, nicotine). Enjoying it
+ * doesn't change the advice; only "this is mine" does (Veer, 25 Oct 2026). The swap is offered once
+ * for their usual week, kindly, keeping the part they like; a night that already happened is never
+ * corrected, only adapted to.
+ */
+export function strongCost(v: CatalogItemView | undefined, tier: KnownTier): boolean {
+  return !!v && v.evidenceDirection === 'cost' && (tier === 'A' || tier === 'B');
+}
+
+/**
+ * A habit that costs them. Strong evidence: offered whatever they feel about it, unless it's theirs.
+ * Mixed evidence (a late dinner, the morning sleep score): their values decide, so it's offered only
+ * when it isn't loved, and things often loved for the company are asked about first.
+ */
+function unlovedHabit(attachment: Attachment, v: CatalogItemView, tier: KnownTier, s: StackItemLike): boolean {
+  if (attachment === 'theirs') return false;
+  // Strong evidence: offered whether or not they enjoy it. When we know nothing and it's often
+  // shared (drinks, the afternoon coffee), the company question comes first: shared means theirs.
+  if (strongCost(v, tier)) return !(attachment === 'unknown' && !s.notes.length && v.whyLoved.some((w) => SHARED.has(w)));
+  if (attachment === 'loved') return false;
   if (attachment === 'unknown' && v.whyLoved.some((w) => SOCIAL_LOVE.has(w))) return false;
   return true;
 }
@@ -404,7 +454,7 @@ function keeperOf(
     const usage = usageOf(s, v);
     const uses = usage.perMonth ?? (usage.unused === true ? 0 : 4);
     return {
-      attach: ATTACH_RANK[attachmentOf(person, s)],
+      attach: ATTACH_RANK[attachmentOf(person, s, v)],
       tier: TIER_RANK[tierFor(v, s, stack)],
       uses,
       value: -(Math.max(0, s.monthlyCost) / Math.max(1, uses)),

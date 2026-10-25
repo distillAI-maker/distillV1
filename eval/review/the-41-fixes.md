@@ -14,7 +14,14 @@ Every fix below is checked against this. If one makes Distill feel like it's pol
 ### Habits that cost them (late caffeine, energy drinks, nightcaps, nicotine)
 *Veer, 25 Oct.* Enjoying it doesn't change the advice. Only "it's non-negotiable" (theirs) changes the wording, and even then, when it's clearly harmful (a Monster at 6pm), Distill still gently asks them to reconsider or offers an alternative. Never shaming, never "stop".
 
-What this changes in code:
+**Done, 25 Oct (branch `cost-habits`):** applies to habits with strong or good evidence of a cost (late coffee, extra coffees, afternoon matcha, energy drinks, evening drinks, nicotine). Mixed-evidence ones (late dinner, dessert, late work email, the sleep score, weekend lie-ins, a phone in bed) still follow their values. *Veer:* when their own words tie it to people, a tradition or their job ("wine nights with friends", "shop tradition", "it's literally my job"), it's theirs and left alone; "Mostly with people I love" on the company card now means theirs too. Swaps go to solo and autopilot habits. Their nights are never corrected.
+
+Still open:
+- "This is mine" on a clearly harmful habit: Veer wants one gentle reconsider much later (about 90 days). Not built yet.
+- Mixed-evidence cost habits can still be planned into the Ritual (Kenji's "Phone in bed").
+- With Claude off, the swap uses the catalog's `fits_instead`, which sometimes fits a social night better than a solo one (Simone: "same plans, with the last drink a little earlier"). Claude would fit it to her.
+
+What this changed in code (original notes):
 - `unlovedHabit` (decide.ts) protects a cost item when they love it, or when they haven't said and the row's `why_loved` is social ("treat", "ritual", "connection"). That's why Aaron's Monster and late coffee were kept. Replace it: cost items are raised whatever the attachment, worded by attachment (unknown: ask; loved: honest swap; theirs: reconsider, never pushed again for a while).
 - Harm depends on timing (a 6am Monster costs far less sleep than a 6pm one). Use the item's moment and the person's day before deciding how strongly to raise it.
 - Never a "stays part of your days" card for a cost item.
@@ -33,8 +40,8 @@ What this changes in code:
 ## By person
 
 ### aaron-39
-- Monster: the key expects a gentle card he answers "not now" during doubles. Distill only said "Monster stays" (the cost-habit rule above).
-- Coffee after 2pm: kept with "stays part of your days" (the cost-habit rule above).
+- Monster: the key expects a gentle card he answers "not now" during doubles. Distill only said "Monster stays". **Fixed:** a swap card, which he answers "not now".
+- Coffee after 2pm: kept with "stays part of your days". **Fixed:** no card; the company question comes first.
 - CPAP (his doctor's) doesn't appear in his first Ritual.
 - Melatonin at 10 mg, well above the studied doses: Distill said nothing (check `DOSE` rules: a high dose, not only a low one).
 

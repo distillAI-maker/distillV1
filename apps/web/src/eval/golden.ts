@@ -213,7 +213,7 @@ export async function runGolden(person: GoldenPerson, deps: RunDeps): Promise<Tr
           break;
         }
         // The app records a let-go or a "mine" on their list, then tells the engine.
-        if (event.answer === 'yes' && d.kind === 'clear')
+        if (event.answer === 'yes' && d.kind === 'clear' && d.reason !== 'UNLOVED_HABIT')
           progress = { ...progress, items: progress.items.map((i) => (i.id === d.stackItemId ? { ...i, status: 'cut' } : i)) };
         if (event.answer === 'theirs')
           progress = { ...progress, items: progress.items.map((i) => (i.id === d.stackItemId ? { ...i, status: 'kept' } : i)) };

@@ -14,7 +14,7 @@ import type { Progress } from '../../../lib/progress/types';
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
 /** Opens the companion asking why, about the thing on this card. */
-function WhyLink({ stackItemId, ask }: { stackItemId: string; ask: 'clear' | 'keep' | 'question' | 'other' }) {
+function WhyLink({ stackItemId, ask }: { stackItemId: string; ask: 'clear' | 'swap' | 'keep' | 'question' | 'other' }) {
   return (
     <Link className="d-see-all d-see-all--quiet d-one-why" href={`/companion?about=${encodeURIComponent(stackItemId)}&why=${ask}`}>
       {copy.decide.why}
@@ -59,7 +59,9 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
         <>
           <p className="d-sr">{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
           <h2>
-            {d.status === 'yes' && d.kind === 'clear'
+            {d.status === 'yes' && d.kind === 'clear' && d.reason === 'UNLOVED_HABIT'
+              ? copy.decide.swapped
+              : d.status === 'yes' && d.kind === 'clear'
               ? copy.decide.letGone(money(d.money))
               : d.status === 'theirs'
                 ? copy.decide.kept
@@ -75,7 +77,8 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     const answer = (choice: 'yes' | 'not-now' | 'theirs') => {
       const run = () => engineApi.run({ kind: 'decision-answer', decisionId: d.id, answer: choice });
       // Their list is theirs to change, so the app records a let-go or a "mine" before the engine runs.
-      if (d.stackItemId && choice === 'yes' && d.kind === 'clear') {
+      // A swap keeps the habit on their list, done a little differently.
+      if (d.stackItemId && choice === 'yes' && d.kind === 'clear' && d.reason !== 'UNLOVED_HABIT') {
         const next = withItem(d.stackItemId, { status: 'cut' });
         update(next);
         return void act(run, { save: next });
@@ -94,7 +97,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
         <p>{d.line}</p>
         <div className="d-one-thing-actions">
           <button type="button" className="d-one-thing-btn d-one-thing-btn--go" disabled={busy} onClick={() => answer('yes')}>
-            {copy.decide.yes[kind] ?? copy.decide.yes.keep}
+            {(d.reason === 'UNLOVED_HABIT' ? copy.decide.yes.swap : copy.decide.yes[kind]) ?? copy.decide.yes.keep}
           </button>
           {kind === 'clear' || kind === 'adjust' || kind === 'curate' ? (
             <button type="button" className="d-one-thing-btn" disabled={busy} onClick={() => answer('not-now')}>
@@ -107,7 +110,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
             </button>
           ) : null}
         </div>
-        {d.stackItemId ? <WhyLink stackItemId={d.stackItemId} ask={kind === 'clear' ? 'clear' : kind === 'keep' ? 'keep' : 'other'} /> : null}
+        {d.stackItemId ? <WhyLink stackItemId={d.stackItemId} ask={d.reason === 'UNLOVED_HABIT' ? 'swap' : kind === 'clear' ? 'clear' : kind === 'keep' ? 'keep' : 'other'} /> : null}
       </>
     );
   }

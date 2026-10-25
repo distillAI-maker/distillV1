@@ -927,8 +927,9 @@ export const copy = {
       clear: (name: string) => `Why let ${name} go?`,
       keep: (name: string) => `Why keep ${name}?`,
       question: (name: string) => `Why ask about ${name}?`,
+      swap: (name: string) => `Why a swap for ${name}?`,
       other: (name: string) => `Why ${name}?`,
-    } as Record<'clear' | 'keep' | 'question' | 'other', (name: string) => string>,
+    } as Record<'clear' | 'swap' | 'keep' | 'question' | 'other', (name: string) => string>,
   },
   /** Something to do in place of what they let go of: offered once, theirs to add. */
   swap: {
@@ -947,6 +948,7 @@ export const copy = {
   decide: {
     yes: {
       clear: 'Let it go',
+      swap: 'Try the swap',
       adjust: 'Sounds good',
       curate: 'Sounds good',
       keep: 'Good to know',
@@ -957,6 +959,8 @@ export const copy = {
     mine: 'This is mine',
     why: 'Why?',
     letGone: (dollars: string) => `$${dollars} a month back. Lighter already.`,
+    /** A yes to a swap: the habit stays on their list, a little different. */
+    swapped: 'Nice. Try it this week, and see how it feels.',
     kept: 'Yours. We won’t raise it again.',
     later: 'Fair. It can wait.',
     thanks: 'Thank you. It stays with us.',
@@ -992,7 +996,7 @@ export const copy = {
       UNUSED: 'Not being used',
       DOSE_BELOW_MIN: 'The dose is below what studies used',
       FORM_NOT_ABSORBED: 'This form barely absorbs',
-      UNLOVED_HABIT: "A habit you don't enjoy",
+      UNLOVED_HABIT: 'A swap keeps the part you like, with less of the cost',
       NOT_TRAINING: 'Not doing real work for your training',
       TOO_MANY_STEPS: 'More steps than it needs',
       fallback: 'Not doing much for you',

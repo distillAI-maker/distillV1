@@ -18,7 +18,7 @@ export type QuestionPatch =
   | {
       readonly kind: 'attachment';
       readonly stackItemId: string;
-      readonly attachment: 'loved' | 'neutral' | 'borrowed';
+      readonly attachment: 'loved' | 'neutral' | 'borrowed' | 'theirs';
     }
   /** They don't know or would rather not say: nothing changes, and the question rests a while. */
   | { readonly kind: 'unsure'; readonly stackItemId: string };
@@ -158,7 +158,8 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
       // Fixed, so the words always fit the buttons.
       text: `Is ${name} more about the company, or a habit on your own?`,
       options: [
-        { label: 'Mostly with people I love', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'loved' } },
+        // Shared with people they love: theirs, and Distill leaves it alone (Veer, 25 Oct).
+        { label: 'Mostly with people I love', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'theirs' } },
         { label: 'Mostly on my own', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'neutral' } },
         notSure(s.id),
       ],

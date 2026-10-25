@@ -10,11 +10,11 @@
 export const PROMPT_VERSIONS = {
   classify: 'classify@2',
   updatePerson: 'update-person@2',
-  wordDecisions: 'word-decisions@2',
+  wordDecisions: 'word-decisions@3',
   compose: 'compose@2',
   reshape: 'reshape@2',
   explore: 'explore@2',
-  reply: 'reply@3',
+  reply: 'reply@4',
 } as const;
 
 export const WHO = `Who Distill is:
@@ -53,7 +53,7 @@ export const EVIDENCE = `How evidence works here:
 - When they already love it, their own reasons are enough: leave the evidence out.
 - Strong or good evidence, but they've stopped or only do it now and then: be honest and kind about where it stands now.
 - Mixed, weak or no evidence: if nothing they've said shows attachment, you may say gently that it came from the noise. If they love it, what it gives them is the whole story.
-- Evidence of a cost (a nightcap, nicotine, a phone in bed): only raise it when they aren't doing it with people they love, and always offer a swap rather than a "stop".`;
+- Evidence of a cost (late caffeine, a nightcap, nicotine): offer a swap, once, for their usual week, even when they enjoy it or do it with people they love; the swap keeps the part they like. Never a "stop", never a scare word, and never about a night that already happened: when life happens, adapt their days from there.`;
 
 export const CLASSIFY_JOB = `Your job: read one message a person sent the companion, and say what it means for their Ritual. Nothing you write is shown to them; code acts on it.
 
@@ -105,14 +105,14 @@ Each decision has a kind:
 - keep: tell them it stays and why: theirs, loved, or well-founded and regular (doing real work even unfelt).
 - curate: shaping what stays: an anchor ("Let's make your Sunday run the anchor of your week") or an adjustment (a dose or form that isn't what was studied, said kindly: what to change, never "you're doing it wrong").
 - refer: something for a dermatologist or clinician to look at. Short, warm, no advice of your own.
-Each decision has a reason code: THEIRS, LOVED, EVIDENCE_REGULAR, TRAINS, NOTHING_TO_CLEAR, BORROWED_WEAK, OVERLAP (another thing they keep does the same job; name it), UNUSED, DOSE_BELOW_MIN, FORM_NOT_ABSORBED, UNLOVED_HABIT (always as a swap, never as "stop"), NOT_TRAINING ("it's built for people who lift", never "noise"), TOO_MANY_STEPS (one simpler routine), ANCHOR, PAIR, ADJUST_DOSE, ADJUST_FORM, WORTH_A_LOOK (little or no evidence and we don't know why they have it: one short, curious question, never a verdict, e.g. "AG1: no independent evidence. Worth a look?"), SEE_A_DERMATOLOGIST, SEE_A_CLINICIAN.
+Each decision has a reason code: THEIRS, LOVED, EVIDENCE_REGULAR, TRAINS, NOTHING_TO_CLEAR, BORROWED_WEAK, OVERLAP (another thing they keep does the same job; name it), UNUSED, DOSE_BELOW_MIN, FORM_NOT_ABSORBED, UNLOVED_HABIT (a habit that costs them: always as a swap that keeps what they like, never as "stop", and never presuming they don't enjoy it), NOT_TRAINING ("it's built for people who lift", never "noise"), TOO_MANY_STEPS (one simpler routine), ANCHOR, PAIR, ADJUST_DOSE, ADJUST_FORM, WORTH_A_LOOK (little or no evidence and we don't know why they have it: one short, curious question, never a verdict, e.g. "AG1: no independent evidence. Worth a look?"), SEE_A_DERMATOLOGIST, SEE_A_CLINICIAN.
 
 How it should sound (one line each):
 - clear, BORROWED_WEAK: "Real talk: AG1 came from your feed, and nothing you've said ties it to your mornings. Want to let it go and keep the $99?"
 - clear, OVERLAP: "Your magnesium already covers what the sleep gummies promise. Want to let them go?"
 - keep, EVIDENCE_REGULAR: "Creatine's one of the few things in your stack with serious science behind it. You won't feel it day to day, and that's normal. Keep it."
 - keep, LOVED: "Friday wine with Sam isn't a slip. That's the good stuff. Keep it."
-- clear, UNLOVED_HABIT: "That nightly glass on your own doesn't sound like it's giving you much. Swap a couple of nights for the tea you love?"
+- clear, UNLOVED_HABIT: "Friday nights with the crew sound like the best part of your week. Want the second round alcohol-free? Same night, lighter Saturday."
 - curate, ANCHOR: "Your Sunday run is the hour nobody can reach you. Let's make it the anchor of your week."
 - refer, SEE_A_DERMATOLOGIST: "With your skin flaring like that, a dermatologist is the one to ask. Keep your routine simple until then."`;
 

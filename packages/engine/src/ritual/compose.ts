@@ -1,5 +1,5 @@
 import type { CatalogItemView, CatalogView } from '@distill/catalog';
-import type { DecideResult, DecisionDraft } from './decide.js';
+import { attachmentFor, strongCost, tierFor, type DecideResult, type DecisionDraft } from './decide.js';
 import { sortParts } from './ritual.js';
 import { minutesClock, slotOfClock } from './time.js';
 import { DAYS, WEEKDAYS, WEEKEND, type Day, type PersonModel, type RitualPart, type Slot } from './types.js';
@@ -139,6 +139,9 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
   for (const s of [...input.stack].sort((a, b) => a.id.localeCompare(b.id))) {
     if (s.status === 'cut' || s.dataSource || outside.has(s.id) || clearing.has(s.id)) continue;
     const view = catalog.item(s.itemKey);
+    // A habit with strong evidence of a cost (late caffeine, evening drinks) is never planned into
+    // their days, unless they've said it's theirs. Their days still bend around it when it happens.
+    if (strongCost(view, tierFor(view, s, input.stack)) && attachmentFor(person, s, view) !== 'theirs') continue;
     // Less than weekly lives in their collection, not in mornings, nights and weekends.
     if (view && (view.cadence === 'monthly' || view.cadence === 'occasional')) continue;
     const keep = keepOf.get(s.id);

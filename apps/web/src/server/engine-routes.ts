@@ -33,7 +33,7 @@ export const runEventSchema = z.discriminatedUnion('kind', [
       kind: z.literal('question-answer'),
       questionId: text(200),
       label: text(120),
-      attachment: z.enum(['loved', 'neutral', 'borrowed']).optional(),
+      attachment: z.enum(['loved', 'neutral', 'borrowed', 'theirs']).optional(),
       stackItemId: text(120).optional(),
     })
     .strict(),

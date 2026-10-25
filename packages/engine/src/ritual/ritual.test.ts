@@ -308,6 +308,29 @@ describe('composing by rules', () => {
     expect(byTitle['Wine Fridays']!.people).toEqual(['sam']);
     expect(validateRitual({ parts, allowed: allowed({ stackItemIds: new Set(items.map((i) => i.id)) }), perMoment: 3 })).toEqual([]);
   });
+  it('never plans a habit that costs them into their days, unless their words make it theirs', () => {
+    const items = [
+      stackItem('a', 'creatine-monohydrate'),
+      stackItem('nic', 'nicotine-pouches-vape'),
+      stackItem('wine', 'alcohol-in-the-evening', { notes: [{ id: 'n', text: 'Wine night with friends on Fridays.', at: '2026-10-21' }] }),
+    ];
+    const person = personFor(progressWith(items));
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    // Not now: the swap rests, and still no part and no "stays" card.
+    const rested = decide({
+      person,
+      stack: items,
+      catalog: catalogView,
+      history: [{ stackItemId: 'nic', kind: 'clear', reason: 'UNLOVED_HABIT', status: 'not-now', answeredAt: '2026-10-20T10:00:00Z' }],
+      today: '2026-10-21',
+    });
+    expect(rested.decisions.filter((d) => d.stackItemId === 'nic')).toEqual([]);
+    for (const d of [decided, rested]) {
+      const titles = composeByRules({ person, stack: items, decided: d, catalog: catalogView, firstCompose: true }).parts.map((p) => p.title);
+      expect(titles).not.toContain('Nicotine');
+      expect(titles).toContain('Evening drinks');
+    }
+  });
   it('a full weekend never pushes a daily thing out of the weekdays', () => {
     const items = [
       stackItem('a', 'creatine-monohydrate'),

@@ -235,6 +235,40 @@ describe('today’s one thing, from the engine', () => {
     // Why? opens the companion about this card.
     expect(screen.getByRole('link', { name: 'Why?' }).getAttribute('href')).toBe('/companion?about=ag1&why=clear');
   });
+  it('a swap for a habit that costs them says “Try the swap”, and a yes keeps it on their list', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'mon', itemKey: 'energy-drinks', label: 'Monster', monthlyCost: 50, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    const decision = {
+      id: '00000000-0000-4000-8000-000000000002',
+      stackItemId: 'mon',
+      itemKey: 'energy-drinks',
+      kind: 'clear' as const,
+      reason: 'UNLOVED_HABIT' as const,
+      line: 'A swap for Monster: a smaller can before 2pm. You keep the part you like, with less of what it costs you. Want to try it?',
+      money: 0,
+      status: 'proposed' as const,
+      engine: stamp,
+      createdAt: '2026-10-21T19:00:00.000Z',
+    };
+    api.open.mockResolvedValue(result(stateWith({}, { kind: 'clear', decision })));
+    api.run.mockResolvedValue(result(stateWith({}, { kind: 'clear', decision: { ...decision, status: 'yes' } })));
+    const { store, saved } = signedIn(progress);
+    const routed = { items: [{ stackItemId: 'mon', name: 'Monster' }] } as never;
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <EngineToday state={stateWith({}, { kind: 'clear', decision })} routed={routed} />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: 'Try the swap' }));
+    await waitFor(() => expect(api.run).toHaveBeenCalledWith({ kind: 'decision-answer', decisionId: decision.id, answer: 'yes' }));
+    expect(saved.every((p) => p.items[0]!.status === 'listed')).toBe(true);
+    expect(screen.getByRole('link', { name: 'Why?' }).getAttribute('href')).toBe('/companion?about=mon&why=swap');
+  });
   it('offers the swap after a yes, and keeps “Added” on the card once it is in their Ritual', async () => {
     const progress: Progress = {
       ...emptyProgress(),

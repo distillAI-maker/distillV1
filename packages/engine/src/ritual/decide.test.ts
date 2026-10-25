@@ -132,23 +132,35 @@ describe('decide: the clearing rules', () => {
     ]);
     expect(of(result, 'ag1')).toEqual(['clear:UNUSED']);
   });
-  it('asks before naming a habit people often share: drinks are asked about, nicotine is named', () => {
+  it('asks before naming a habit people often share, with no "stays" card meanwhile; nicotine is named', () => {
     const { result } = run([
       stackItem('wine', 'alcohol-in-the-evening'),
       stackItem('nic', 'nicotine-pouches-vape'),
     ]);
-    expect(of(result, 'wine')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    expect(of(result, 'wine')).toEqual([]);
     expect(of(result, 'nic')).toEqual(['clear:UNLOVED_HABIT']);
   });
-  it('a drink alone most nights is named kindly; Friday wine with people is kept', () => {
+  it('offers a swap for a habit that costs them even when loved; tied to people, a tradition or a job, it is theirs', () => {
     const alone = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
       p.values.wine = { attachment: 'neutral', reasons: ['a glass on my own most nights'], from: 'note' };
     });
     expect(of(alone.result, 'wine')).toEqual(['clear:UNLOVED_HABIT']);
-    const loved = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
+    // Enjoying it doesn't change the advice (Veer, 25 Oct 2026): the swap keeps the part they like.
+    const enjoyed = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
+      p.values.wine = { attachment: 'loved', reasons: ['my favourite part of the day, a glass on the couch'], from: 'note' };
+    });
+    expect(of(enjoyed.result, 'wine')).toEqual(['clear:UNLOVED_HABIT']);
+    const shared = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
       p.values.wine = { attachment: 'loved', reasons: ['Fridays Sam and I open a bottle'], from: 'note' };
     });
-    expect(of(loved.result, 'wine')).toEqual(['keep:LOVED']);
+    // Theirs, and never offered as the anchor of their week.
+    expect(of(shared.result, 'wine')).toEqual(['keep:THEIRS']);
+    const shop = run([stackItem('cof', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: 'Smoke break with the crew at the shop.', at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(shop.result, 'cof')).toEqual(['keep:THEIRS']);
+    const job = run([stackItem('nic', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: "It's part of the job on night shifts.", at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(job.result, 'nic')).toEqual(['keep:THEIRS']);
+    // A swap keeps the habit, so it frees no money.
+    expect(alone.result.decisions.find((d) => d.stackItemId === 'wine')!.money).toBe(0);
   });
   it('doubling up on skin is offered as one simpler routine', () => {
     const { result } = run([stackItem('ex', 'two-exfoliants-scrub-plus-acid-or-two-acids')]);

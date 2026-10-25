@@ -36,9 +36,10 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
         ? `This one isn't in the form that's known to work. Want to let it go${money(d.money)}?`
         : `The kind of ${name} you have isn't the form that's known to work. Want to let it go${money(d.money)}?`;
     case 'clear:UNLOVED_HABIT':
+      // Never presumes they don't enjoy it: the swap keeps the part they like.
       return c.fitsInstead
-        ? `${name} doesn't sound like it's giving you much. ${c.fitsInstead} Want to try that swap?`
-        : `${name} doesn't sound like it's giving you much. Want to swap it for something you enjoy more?`;
+        ? `A swap for ${lower}: ${c.fitsInstead.replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())} You keep the part you like, with less of what it costs you. Want to try it?`
+        : `${name} costs you a little more than it shows. Want to find a swap you'd enjoy as much?`;
     case 'clear:NOT_TRAINING':
       return `${name} is built for people who lift. If that isn't you right now, want to let it go${money(d.money)}?`;
     case 'clear:TOO_MANY_STEPS':

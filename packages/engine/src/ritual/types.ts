@@ -451,7 +451,7 @@ export type EngineEvent =
       readonly kind: 'question-answer';
       readonly questionId: string;
       readonly label: string;
-      readonly attachment?: 'loved' | 'neutral' | 'borrowed';
+      readonly attachment?: 'loved' | 'neutral' | 'borrowed' | 'theirs';
       readonly stackItemId?: string;
     }
   /** Their yes to a feeling Distill heard in their words ("is AG1 something you love?"). */
