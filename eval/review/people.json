@@ -1,8 +1,8 @@
 {
-  "sha": "c3f8f1e",
+  "sha": "16ce07b",
   "catalog": "live",
   "claude": false,
-  "made": "2026-10-25T21:18:05.682Z",
+  "made": "2026-10-25T22:48:37.522Z",
   "people": [
     {
       "id": "aaron-39",
@@ -23,6 +23,7 @@
           "name": "CPAP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 45,
           "origin": "doctor",
           "answers": {},
@@ -35,6 +36,7 @@
           "name": "Mouth tape",
           "catalog": "Mouth tape",
           "tier": "D",
+          "cost": false,
           "monthly": 9,
           "origin": "online",
           "answers": {
@@ -49,6 +51,7 @@
           "name": "Nasal strips or dilators",
           "catalog": "Nasal strips or dilators",
           "tier": "C",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -61,6 +64,7 @@
           "name": "Monster",
           "catalog": "Energy drinks (Red Bull, Monster, Celsius and similar)",
           "tier": "A",
+          "cost": true,
           "monthly": 50,
           "origin": "other",
           "answers": {
@@ -73,6 +77,7 @@
           "name": "Coffee after 2pm",
           "catalog": "Coffee after 2pm",
           "tier": "A",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -83,6 +88,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "friend",
           "answers": {
@@ -96,6 +102,7 @@
           "name": "Saturday fishing with Eddie",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 15,
           "origin": "other",
           "answers": {},
@@ -175,17 +182,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Nasal strips or dilators",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Saturday fishing with Eddie",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Nasal strips stays part of your days."
+            "line": "Saturday fishing with Eddie is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
-            "item": "Monster",
+            "item": "Coffee after 2pm",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Monster stays part of your days."
+            "status": "proposed",
+            "line": "Afternoon coffee stays part of your days."
           },
           {
             "kind": "clear",
@@ -203,17 +210,17 @@
           },
           {
             "kind": "keep",
-            "item": "Saturday fishing with Eddie",
-            "reason": "THEIRS",
+            "item": "Nasal strips or dilators",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Saturday fishing with Eddie is yours, and it stays exactly as it is."
+            "line": "Nasal strips stays part of your days."
           },
           {
             "kind": "keep",
-            "item": "Coffee after 2pm",
+            "item": "Monster",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Afternoon coffee stays part of your days."
+            "status": "not-now",
+            "line": "Monster stays part of your days."
           },
           {
             "kind": "keep",
@@ -308,6 +315,7 @@
           "name": "F45",
           "catalog": "Boutique class membership (Barry's, SoulCycle, F45, Orangetheory)",
           "tier": "A",
+          "cost": false,
           "monthly": 199,
           "origin": "friend",
           "answers": {
@@ -322,6 +330,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "other",
           "answers": {
@@ -337,6 +346,7 @@
           "name": "Whole-body cryotherapy sessions",
           "catalog": "Whole-body cryotherapy sessions",
           "tier": "C",
+          "cost": false,
           "monthly": 120,
           "origin": "online",
           "answers": {
@@ -351,6 +361,7 @@
           "name": "LMNT",
           "catalog": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 45,
           "origin": "online",
           "answers": {
@@ -363,6 +374,7 @@
           "name": "Gatorade",
           "catalog": "Electrolyte mix plus a sports drink",
           "tier": "B",
+          "cost": false,
           "monthly": 40,
           "origin": "other",
           "answers": {
@@ -375,6 +387,7 @@
           "name": "Sunday service and brunch with my mom",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -387,6 +400,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -470,10 +484,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Sunday service and brunch with my mom",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday service and brunch with my mom is yours, and it stays exactly as it is."
+            "item": "Whole-body cryotherapy sessions",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Cryotherapy stays part of your days."
           },
           {
             "kind": "keep",
@@ -481,6 +495,27 @@
             "reason": "TRAINS",
             "status": "proposed",
             "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunday service and brunch with my mom",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday service and brunch with my mom is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "curate",
+            "item": "F45",
+            "reason": "ANCHOR",
+            "status": "proposed",
+            "line": "F45 could be the anchor of your week. Want to build the rest around it?"
+          },
+          {
+            "kind": "clear",
+            "item": "LMNT",
+            "reason": "OVERLAP",
+            "status": "proposed",
+            "line": "Gatorade already does what LMNT is for. Want to let LMNT go and keep the $45 a month?"
           },
           {
             "kind": "keep",
@@ -495,27 +530,6 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "F45 is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "clear",
-            "item": "LMNT",
-            "reason": "OVERLAP",
-            "status": "proposed",
-            "line": "Gatorade already does what LMNT is for. Want to let LMNT go and keep the $45 a month?"
-          },
-          {
-            "kind": "curate",
-            "item": "F45",
-            "reason": "ANCHOR",
-            "status": "proposed",
-            "line": "F45 could be the anchor of your week. Want to build the rest around it?"
-          },
-          {
-            "kind": "keep",
-            "item": "Whole-body cryotherapy sessions",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Cryotherapy stays part of your days."
           }
         ],
         "firstRitual": [
@@ -603,6 +617,7 @@
           "name": "Eagles Sundays with my dad",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 40,
           "origin": "other",
           "answers": {
@@ -617,6 +632,7 @@
           "name": "Lisinopril",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 4,
           "origin": "doctor",
           "answers": {},
@@ -629,6 +645,7 @@
           "name": "Walking the twins to school",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -641,6 +658,7 @@
           "name": "Glucosamine / chondroitin",
           "catalog": "Glucosamine / chondroitin",
           "tier": "U",
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {
@@ -723,17 +741,17 @@
           },
           {
             "kind": "keep",
-            "item": "Walking the twins to school",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Walking the twins to school stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Eagles Sundays with my dad",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Eagles Sundays with my dad is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Walking the twins to school",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Walking the twins to school stays part of your days."
           }
         ],
         "firstRitual": [
@@ -811,6 +829,7 @@
           "name": "Strength training",
           "catalog": "Strength training",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -826,6 +845,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "other",
           "answers": {
@@ -844,6 +864,7 @@
           "name": "Protein powder",
           "catalog": "Protein powder",
           "tier": "A",
+          "cost": false,
           "monthly": 45,
           "origin": "other",
           "answers": {
@@ -856,6 +877,7 @@
           "name": "Beta-alanine",
           "catalog": "Beta-alanine",
           "tier": "U",
+          "cost": false,
           "monthly": 20,
           "origin": "friend",
           "answers": {},
@@ -868,6 +890,7 @@
           "name": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "catalog": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "tier": "A",
+          "cost": false,
           "monthly": 35,
           "origin": "friend",
           "answers": {
@@ -880,6 +903,7 @@
           "name": "BCAAs (branched-chain amino acid powder)",
           "catalog": "BCAAs (branched-chain amino acid powder)",
           "tier": "C",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {},
@@ -890,6 +914,7 @@
           "name": "Glutamine (L-glutamine powder)",
           "catalog": "Glutamine (L-glutamine powder)",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {},
@@ -900,6 +925,7 @@
           "name": "ZMA (zinc, magnesium and vitamin B6)",
           "catalog": "ZMA (zinc, magnesium and vitamin B6)",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {},
@@ -912,6 +938,7 @@
           "name": "Massage gun (percussive massager)",
           "catalog": "Massage gun (percussive massager)",
           "tier": "C",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -924,6 +951,7 @@
           "name": "Sunday burritos with the barbell club",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 15,
           "origin": "friend",
           "answers": {},
@@ -936,6 +964,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -1024,52 +1053,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "BCAAs (branched-chain amino acid powder)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "BCAAs stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Strength training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "clear",
-            "item": "Glutamine (L-glutamine powder)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Glutamine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Protein powder",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Sunday burritos with the barbell club",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday burritos with the barbell club is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Beta-alanine",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "theirs",
-            "line": "Beta-alanine stays part of your days."
           },
           {
             "kind": "clear",
@@ -1080,6 +1067,20 @@
           },
           {
             "kind": "keep",
+            "item": "Massage gun (percussive massager)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Massage gun stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Strength training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Creatine monohydrate",
             "reason": "TRAINS",
             "status": "proposed",
@@ -1087,10 +1088,38 @@
           },
           {
             "kind": "keep",
-            "item": "Massage gun (percussive massager)",
+            "item": "Beta-alanine",
             "reason": "NOTHING_TO_CLEAR",
+            "status": "theirs",
+            "line": "Beta-alanine stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Protein powder",
+            "reason": "TRAINS",
             "status": "proposed",
-            "line": "Massage gun stays part of your days."
+            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "BCAAs (branched-chain amino acid powder)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "BCAAs stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Glutamine (L-glutamine powder)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Glutamine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
           },
           {
             "kind": "keep",
@@ -1194,6 +1223,7 @@
           "name": "TRT clinic",
           "catalog": "Hormone or peptide clinic (TRT, GLP-1, peptides)",
           "tier": "A",
+          "cost": false,
           "monthly": 250,
           "origin": "doctor",
           "answers": {},
@@ -1206,6 +1236,7 @@
           "name": "Omega-3 fish oil",
           "catalog": "Omega-3 fish oil",
           "tier": "C",
+          "cost": false,
           "monthly": 20,
           "origin": "doctor",
           "answers": {
@@ -1221,6 +1252,7 @@
           "name": "AG1",
           "catalog": "Greens powder (AG1 and similar)",
           "tier": "N",
+          "cost": false,
           "monthly": 79,
           "origin": "podcast",
           "answers": {
@@ -1234,6 +1266,7 @@
           "name": "Tongkat ali (Eurycoma longifolia)",
           "catalog": "Tongkat ali (Eurycoma longifolia)",
           "tier": "C",
+          "cost": false,
           "monthly": 35,
           "origin": "podcast",
           "answers": {
@@ -1246,6 +1279,7 @@
           "name": "Plunge tub",
           "catalog": "Cold plunge / ice bath tub (owned)",
           "tier": "U",
+          "cost": false,
           "monthly": 60,
           "origin": "podcast",
           "answers": {
@@ -1258,6 +1292,7 @@
           "name": "Recovery studio",
           "catalog": "Sauna or cold-plunge studio when you own one at home",
           "tier": "U",
+          "cost": false,
           "monthly": 150,
           "origin": "online",
           "answers": {
@@ -1273,6 +1308,7 @@
           "name": "Slack in bed",
           "catalog": "Work email after 9pm",
           "tier": "C",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -1287,6 +1323,7 @@
           "name": "Tri training",
           "catalog": "Zone 2 cardio (3+ hours a week)",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -1299,6 +1336,7 @@
           "name": "Coaching Lily's U10 soccer",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -1311,6 +1349,7 @@
           "name": "Friday pizza and a movie",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "other",
           "answers": {},
@@ -1323,6 +1362,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "podcast",
           "answers": {},
@@ -1410,6 +1450,48 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Recovery studio",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Recovery studio stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Friday pizza and a movie",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Friday pizza and a movie is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Coaching Lily's U10 soccer",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Coaching Lily's U10 soccer is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Tongkat ali (Eurycoma longifolia)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "not-now",
+            "line": "Tongkat ali stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Tri training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Tri training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "clear",
+            "item": "Slack in bed",
+            "reason": "UNLOVED_HABIT",
+            "status": "proposed",
+            "line": "Slack in bed doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?"
+          },
+          {
+            "kind": "keep",
             "item": "Plunge tub",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
@@ -1421,48 +1503,6 @@
             "reason": "BORROWED_WEAK",
             "status": "proposed",
             "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Slack in bed",
-            "reason": "UNLOVED_HABIT",
-            "status": "proposed",
-            "line": "Slack in bed doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?"
-          },
-          {
-            "kind": "keep",
-            "item": "Tongkat ali (Eurycoma longifolia)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Tongkat ali stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Recovery studio",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Recovery studio stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Coaching Lily's U10 soccer",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Coaching Lily's U10 soccer is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Tri training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Tri training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Friday pizza and a movie",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Friday pizza and a movie is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -1562,6 +1602,7 @@
           "name": "Chlorophyll water (liquid chlorophyll drops)",
           "catalog": "Chlorophyll water (liquid chlorophyll drops)",
           "tier": "D",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {
@@ -1576,6 +1617,7 @@
           "name": "Sea moss (gel or capsules)",
           "catalog": "Sea moss (gel or capsules)",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {},
@@ -1586,6 +1628,7 @@
           "name": "Activated charcoal (capsules)",
           "catalog": "Activated charcoal (capsules)",
           "tier": "C",
+          "cost": false,
           "monthly": 12,
           "origin": "online",
           "answers": {},
@@ -1598,6 +1641,7 @@
           "name": "Grounding or earthing (sheets, mats)",
           "catalog": "Grounding or earthing (sheets, mats)",
           "tier": "D",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {},
@@ -1610,6 +1654,7 @@
           "name": "EMF blockers and anti-radiation phone stickers",
           "catalog": "EMF blockers and anti-radiation phone stickers",
           "tier": "N",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {},
@@ -1620,6 +1665,7 @@
           "name": "Hydrogen or alkaline water",
           "catalog": "Hydrogen or alkaline water",
           "tier": "C",
+          "cost": false,
           "monthly": 40,
           "origin": "online",
           "answers": {},
@@ -1632,6 +1678,7 @@
           "name": "Salt lamp",
           "catalog": "Salt lamp",
           "tier": "N",
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -1644,6 +1691,7 @@
           "name": "Lymphatic drainage massage",
           "catalog": "Lymphatic drainage massage",
           "tier": "D",
+          "cost": false,
           "monthly": 120,
           "origin": "online",
           "answers": {
@@ -1656,6 +1704,7 @@
           "name": "Detox tea",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {
@@ -1668,6 +1717,7 @@
           "name": "Tuesday trivia with the office girls",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 40,
           "origin": "friend",
           "answers": {
@@ -1682,6 +1732,7 @@
           "name": "Sunrise Camelback hike with my mom",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -1774,31 +1825,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Detox tea",
+            "item": "Salt lamp",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "This one stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Chlorophyll water (liquid chlorophyll drops)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "EMF blockers and anti-radiation phone stickers",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Activated charcoal (capsules)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Activated charcoal stays part of your days."
+            "line": "Salt lamp stays part of your days."
           },
           {
             "kind": "keep",
@@ -1809,10 +1839,38 @@
           },
           {
             "kind": "clear",
+            "item": "Sea moss (gel or capsules)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Detox tea",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "This one stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Activated charcoal (capsules)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Activated charcoal stays part of your days."
+          },
+          {
+            "kind": "clear",
             "item": "Lymphatic drainage massage",
             "reason": "BORROWED_WEAK",
             "status": "proposed",
             "line": "Lymphatic massage came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $120 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Grounding or earthing (sheets, mats)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
           },
           {
             "kind": "keep",
@@ -1823,20 +1881,6 @@
           },
           {
             "kind": "keep",
-            "item": "Salt lamp",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Salt lamp stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Sea moss (gel or capsules)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
-          },
-          {
-            "kind": "keep",
             "item": "Tuesday trivia with the office girls",
             "reason": "THEIRS",
             "status": "proposed",
@@ -1844,10 +1888,17 @@
           },
           {
             "kind": "clear",
-            "item": "Grounding or earthing (sheets, mats)",
+            "item": "EMF blockers and anti-radiation phone stickers",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Chlorophyll water (liquid chlorophyll drops)",
             "reason": "BORROWED_WEAK",
             "status": "proposed",
-            "line": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
+            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
           },
           {
             "kind": "keep",
@@ -1937,6 +1988,7 @@
           "name": "Cold plunge",
           "catalog": "Cold plunge or ice bath",
           "tier": "B",
+          "cost": false,
           "monthly": 100,
           "origin": "podcast",
           "answers": {
@@ -2059,6 +2111,7 @@
           "name": "Friday negronis with Dee",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 60,
           "origin": "friend",
           "answers": {
@@ -2073,6 +2126,7 @@
           "name": "Sunday crossword with Dad",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -2085,6 +2139,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 30,
           "origin": "other",
           "answers": {
@@ -2099,6 +2154,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "friend",
           "answers": {
@@ -2114,6 +2170,7 @@
           "name": "ClassPass",
           "catalog": "Class pack or studio credits",
           "tier": "A",
+          "cost": false,
           "monthly": 79,
           "origin": "online",
           "answers": {
@@ -2129,6 +2186,7 @@
           "name": "LMNT",
           "catalog": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 45,
           "origin": "podcast",
           "answers": {
@@ -2141,6 +2199,7 @@
           "name": "Eye mask",
           "catalog": "Eye mask",
           "tier": "B",
+          "cost": false,
           "monthly": 2,
           "origin": "other",
           "answers": {
@@ -2223,6 +2282,13 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "ClassPass",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "ClassPass stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Eye mask",
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
@@ -2234,13 +2300,6 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Friday negronis with Dee is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday crossword with Dad",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday crossword with Dad is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -2258,10 +2317,10 @@
           },
           {
             "kind": "keep",
-            "item": "ClassPass",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "ClassPass stays part of your days."
+            "item": "Sunday crossword with Dad",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday crossword with Dad is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -2372,6 +2431,7 @@
           "name": "Planet Fitness",
           "catalog": "Gym membership",
           "tier": "A",
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {
@@ -2388,6 +2448,7 @@
           "name": "Protein powder",
           "catalog": "Protein powder",
           "tier": "A",
+          "cost": false,
           "monthly": 45,
           "origin": "friend",
           "answers": {
@@ -2400,6 +2461,7 @@
           "name": "Pickup basketball",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {
@@ -2555,6 +2617,7 @@
           "name": "Zyn",
           "catalog": "Nicotine pouches or vape",
           "tier": "B",
+          "cost": true,
           "monthly": 70,
           "origin": "friend",
           "answers": {
@@ -2569,6 +2632,7 @@
           "name": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "catalog": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "tier": "A",
+          "cost": false,
           "monthly": 35,
           "origin": "friend",
           "answers": {
@@ -2581,6 +2645,7 @@
           "name": "Strength training",
           "catalog": "Strength training",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -2594,6 +2659,7 @@
           "name": "Equinox",
           "catalog": "Premium gym membership (Equinox, Life Time)",
           "tier": "A",
+          "cost": false,
           "monthly": 240,
           "origin": "other",
           "answers": {
@@ -2607,6 +2673,7 @@
           "name": "Celsius",
           "catalog": "Energy drinks (Red Bull, Monster, Celsius and similar)",
           "tier": "A",
+          "cost": true,
           "monthly": 45,
           "origin": "other",
           "answers": {
@@ -2619,6 +2686,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -2629,6 +2697,7 @@
           "name": "Sunday soccer at Pier 40",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -2707,20 +2776,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Strength training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Zyn",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
@@ -2735,10 +2790,24 @@
           },
           {
             "kind": "keep",
+            "item": "Strength training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Sunday soccer at Pier 40",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday soccer at Pier 40 is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -2841,6 +2910,7 @@
           "name": "Wednesday league and tacos after",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 60,
           "origin": "friend",
           "answers": {
@@ -2855,6 +2925,7 @@
           "name": "afternoon cupping",
           "catalog": "Coffee after 2pm",
           "tier": "A",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -2867,6 +2938,7 @@
           "name": "Collagen peptides",
           "catalog": "Collagen peptides",
           "tier": "C",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -2881,6 +2953,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -2964,17 +3037,17 @@
           },
           {
             "kind": "keep",
-            "item": "afternoon cupping",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "afternoon cupping stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Wednesday league and tacos after",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Wednesday league and tacos after is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "afternoon cupping",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "afternoon cupping stays part of your days."
           }
         ],
         "firstRitual": [
@@ -3047,6 +3120,7 @@
           "name": "Morning swim at the Y",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 62,
           "origin": "other",
           "answers": {
@@ -3061,6 +3135,7 @@
           "name": "Calm",
           "catalog": "Meditation app (Calm, Headspace)",
           "tier": "B",
+          "cost": false,
           "monthly": 15,
           "origin": "friend",
           "answers": {
@@ -3218,6 +3293,7 @@
           "name": "Morning walk with June",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -3230,6 +3306,7 @@
           "name": "Therapy or counselling",
           "catalog": "Therapy or counselling",
           "tier": "A",
+          "cost": false,
           "monthly": 180,
           "origin": "friend",
           "answers": {
@@ -3244,6 +3321,7 @@
           "name": "Second (or third) coffee",
           "catalog": "Second (or third) coffee",
           "tier": "A",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -3387,6 +3465,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "friend",
           "answers": {
@@ -3405,6 +3484,7 @@
           "name": "Protein powder",
           "catalog": "Protein powder",
           "tier": "A",
+          "cost": false,
           "monthly": 40,
           "origin": "friend",
           "answers": {
@@ -3418,6 +3498,7 @@
           "name": "24 Hour",
           "catalog": "Gym membership",
           "tier": "A",
+          "cost": false,
           "monthly": 50,
           "origin": "other",
           "answers": {
@@ -3431,6 +3512,7 @@
           "name": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "catalog": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "tier": "A",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -3443,6 +3525,7 @@
           "name": "BCAAs (branched-chain amino acid powder)",
           "catalog": "BCAAs (branched-chain amino acid powder)",
           "tier": "C",
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {},
@@ -3455,6 +3538,7 @@
           "name": "Ashwagandha (KSM-66 / Sensoril)",
           "catalog": "Ashwagandha (KSM-66 / Sensoril)",
           "tier": "B",
+          "cost": false,
           "monthly": 19,
           "origin": "online",
           "answers": {
@@ -3467,6 +3551,7 @@
           "name": "Sunday dinner at my parents'",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -3544,17 +3629,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "24 Hour",
+            "item": "Creatine monohydrate",
             "reason": "TRAINS",
             "status": "proposed",
-            "line": "24 Hour is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Ashwagandha (KSM-66 / Sensoril)",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -3565,6 +3643,13 @@
           },
           {
             "kind": "keep",
+            "item": "24 Hour",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "24 Hour is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "BCAAs (branched-chain amino acid powder)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
@@ -3572,17 +3657,10 @@
           },
           {
             "kind": "keep",
-            "item": "Protein powder",
-            "reason": "TRAINS",
+            "item": "Ashwagandha (KSM-66 / Sensoril)",
+            "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
-            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -3590,6 +3668,13 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday dinner at my parents' is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Protein powder",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -3682,6 +3767,7 @@
           "name": "Lion's mane mushroom (capsules or powder)",
           "catalog": "Lion's mane mushroom (capsules or powder)",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -3697,6 +3783,7 @@
           "name": "Screens / phone in bed",
           "catalog": "Screens / phone in bed",
           "tier": "D",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -3711,6 +3798,7 @@
           "name": "Thursday badminton with the lab",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -3783,10 +3871,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Screens / phone in bed",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Thursday badminton with the lab",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Phone in bed stays part of your days."
+            "line": "Thursday badminton with the lab is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -3797,10 +3885,10 @@
           },
           {
             "kind": "keep",
-            "item": "Thursday badminton with the lab",
-            "reason": "THEIRS",
+            "item": "Screens / phone in bed",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Thursday badminton with the lab is yours, and it stays exactly as it is."
+            "line": "Phone in bed stays part of your days."
           }
         ],
         "firstRitual": [
@@ -3875,6 +3963,7 @@
           "name": "Prenatal vitamin",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 20,
           "origin": "doctor",
           "answers": {},
@@ -3887,6 +3976,7 @@
           "name": "Iron supplement",
           "catalog": "Iron supplement",
           "tier": "A",
+          "cost": false,
           "monthly": 8,
           "origin": "blood test",
           "answers": {
@@ -3902,6 +3992,7 @@
           "name": "Collagen peptides",
           "catalog": "Collagen peptides",
           "tier": "C",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -3916,6 +4007,7 @@
           "name": "Hair growth gummies (biotin blends, such as SugarBearHair)",
           "catalog": "Hair growth gummies (biotin blends, such as SugarBearHair)",
           "tier": "N",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -3928,6 +4020,7 @@
           "name": "Postnatal Pilates pack",
           "catalog": "Class pack or studio credits",
           "tier": "A",
+          "cost": false,
           "monthly": 120,
           "origin": "friend",
           "answers": {
@@ -3943,6 +4036,7 @@
           "name": "Lake Merritt walk with my mom",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -3955,6 +4049,7 @@
           "name": "Kids waking you",
           "catalog": "Kids waking you",
           "tier": "U",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -3967,6 +4062,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "friend",
           "answers": {},
@@ -4051,13 +4147,6 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Hair growth gummies (biotin blends, such as SugarBearHair)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
-          },
-          {
             "kind": "keep",
             "item": "Lake Merritt walk with my mom",
             "reason": "THEIRS",
@@ -4084,6 +4173,13 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Collagen stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Hair growth gummies (biotin blends, such as SugarBearHair)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
           }
         ],
         "firstRitual": [
@@ -4151,6 +4247,7 @@
           "name": "Screens / phone in bed",
           "catalog": "Screens / phone in bed",
           "tier": "D",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -4165,6 +4262,7 @@
           "name": "Sleep gummies (blend)",
           "catalog": "Sleep gummies (blend)",
           "tier": "C",
+          "cost": false,
           "monthly": 18,
           "origin": "online",
           "answers": {
@@ -4177,6 +4275,7 @@
           "name": "Magnesium spray or oil (on the skin)",
           "catalog": "Magnesium spray or oil (on the skin)",
           "tier": "N",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {},
@@ -4189,6 +4288,7 @@
           "name": "Blue-light blocking glasses",
           "catalog": "Blue-light blocking glasses",
           "tier": "C",
+          "cost": false,
           "monthly": 5,
           "origin": "online",
           "answers": {
@@ -4201,6 +4301,7 @@
           "name": "Calm",
           "catalog": "Meditation app (Calm, Headspace)",
           "tier": "B",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {
@@ -4214,6 +4315,7 @@
           "name": "Headspace",
           "catalog": "Second meditation or sleep app",
           "tier": "N",
+          "cost": false,
           "monthly": 13,
           "origin": "friend",
           "answers": {
@@ -4227,6 +4329,7 @@
           "name": "Thursday two-stepping with Bri and Kat",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 10,
           "origin": "friend",
           "answers": {},
@@ -4312,13 +4415,6 @@
       "distill": {
         "decisions": [
           {
-            "kind": "keep",
-            "item": "Thursday two-stepping with Bri and Kat",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Thursday two-stepping with Bri and Kat is yours, and it stays exactly as it is."
-          },
-          {
             "kind": "clear",
             "item": "Calm",
             "reason": "UNUSED",
@@ -4333,18 +4429,18 @@
             "line": "Blue-light glasses stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "Headspace",
-            "reason": "OVERLAP",
-            "status": "yes",
-            "line": "Calm already does what Headspace is for. Want to let Headspace go and keep the $13 a month?"
-          },
-          {
             "kind": "keep",
             "item": "Sleep gummies (blend)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Sleep gummies stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Magnesium spray or oil (on the skin)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
           },
           {
             "kind": "keep",
@@ -4355,10 +4451,17 @@
           },
           {
             "kind": "clear",
-            "item": "Magnesium spray or oil (on the skin)",
-            "reason": "BORROWED_WEAK",
+            "item": "Headspace",
+            "reason": "OVERLAP",
             "status": "yes",
-            "line": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
+            "line": "Calm already does what Headspace is for. Want to let Headspace go and keep the $13 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Thursday two-stepping with Bri and Kat",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Thursday two-stepping with Bri and Kat is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -4435,6 +4538,7 @@
           "name": "Progesterone",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 25,
           "origin": "doctor",
           "answers": {},
@@ -4447,6 +4551,7 @@
           "name": "Strength training",
           "catalog": "Strength training",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "podcast",
           "answers": {
@@ -4462,6 +4567,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "podcast",
           "answers": {
@@ -4477,6 +4583,7 @@
           "name": "Maca root powder or capsules",
           "catalog": "Maca root powder or capsules",
           "tier": "C",
+          "cost": false,
           "monthly": 20,
           "origin": "podcast",
           "answers": {
@@ -4489,6 +4596,7 @@
           "name": "Black cohosh",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 18,
           "origin": "online",
           "answers": {},
@@ -4499,6 +4607,7 @@
           "name": "Evening primrose oil",
           "catalog": "Evening primrose oil",
           "tier": "D",
+          "cost": false,
           "monthly": 12,
           "origin": "friend",
           "answers": {},
@@ -4509,6 +4618,7 @@
           "name": "Magnesium (any form)",
           "catalog": "Magnesium (any form)",
           "tier": "C",
+          "cost": false,
           "monthly": 22,
           "origin": "podcast",
           "answers": {
@@ -4523,6 +4633,7 @@
           "name": "Bovine colostrum powder",
           "catalog": "Bovine colostrum powder",
           "tier": "C",
+          "cost": false,
           "monthly": 50,
           "origin": "online",
           "answers": {
@@ -4535,6 +4646,7 @@
           "name": "Sunday sauna with my sisters",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -4547,6 +4659,7 @@
           "name": "Eight Sleep / cooling mattress pad",
           "catalog": "Eight Sleep / cooling mattress pad",
           "tier": "C",
+          "cost": false,
           "monthly": 50,
           "origin": "online",
           "answers": {
@@ -4561,6 +4674,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "friend",
           "answers": {},
@@ -4648,11 +4762,32 @@
       "distill": {
         "decisions": [
           {
+            "kind": "keep",
+            "item": "Black cohosh",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Black cohosh stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
             "kind": "clear",
             "item": "Evening primrose oil",
             "reason": "BORROWED_WEAK",
             "status": "proposed",
             "line": "Primrose oil came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Maca root powder or capsules",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Maca stays part of your days."
           },
           {
             "kind": "keep",
@@ -4663,10 +4798,10 @@
           },
           {
             "kind": "keep",
-            "item": "Black cohosh",
+            "item": "Eight Sleep / cooling mattress pad",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Black cohosh stays part of your days."
+            "line": "Cooling pad stays part of your days."
           },
           {
             "kind": "keep",
@@ -4684,31 +4819,10 @@
           },
           {
             "kind": "keep",
-            "item": "Eight Sleep / cooling mattress pad",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Cooling pad stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Bovine colostrum powder",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
             "line": "Colostrum stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Maca root powder or capsules",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Maca stays part of your days."
           }
         ],
         "firstRitual": [
@@ -4820,6 +4934,7 @@
           "name": "Equinox",
           "catalog": "Premium gym membership (Equinox, Life Time)",
           "tier": "A",
+          "cost": false,
           "monthly": 260,
           "origin": "other",
           "answers": {
@@ -4835,6 +4950,7 @@
           "name": "Creatine",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "podcast",
           "answers": {
@@ -4853,6 +4969,7 @@
           "name": "Wine Fridays",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 80,
           "origin": "other",
           "answers": {
@@ -4936,17 +5053,17 @@
           },
           {
             "kind": "keep",
-            "item": "Creatine",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Wine Fridays",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Wine Fridays is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Creatine",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -5016,6 +5133,7 @@
           "name": "IV drip bar",
           "catalog": "IV vitamin drips",
           "tier": "N",
+          "cost": false,
           "monthly": 250,
           "origin": "friend",
           "answers": {
@@ -5030,6 +5148,7 @@
           "name": "Hyperbaric oxygen (wellness use)",
           "catalog": "Hyperbaric oxygen (wellness use)",
           "tier": "N",
+          "cost": false,
           "monthly": 300,
           "origin": "online",
           "answers": {
@@ -5045,6 +5164,7 @@
           "name": "NAD+ injections",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 200,
           "origin": "online",
           "answers": {
@@ -5057,6 +5177,7 @@
           "name": "Squeeze",
           "catalog": "Massage membership (Massage Envy, Squeeze)",
           "tier": "B",
+          "cost": false,
           "monthly": 90,
           "origin": "online",
           "answers": {
@@ -5070,6 +5191,7 @@
           "name": "reformer",
           "catalog": "Yoga or pilates studio",
           "tier": "B",
+          "cost": false,
           "monthly": 180,
           "origin": "friend",
           "answers": {
@@ -5084,6 +5206,7 @@
           "name": "Collagen peptides",
           "catalog": "Collagen peptides",
           "tier": "C",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -5096,6 +5219,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "other",
           "answers": {
@@ -5109,6 +5233,7 @@
           "name": "Work email after 9pm",
           "catalog": "Work email after 9pm",
           "tier": "C",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -5121,6 +5246,7 @@
           "name": "Saturday swim lesson with Maddie",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -5133,6 +5259,7 @@
           "name": "Thursday martini with Ben",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 40,
           "origin": "other",
           "answers": {
@@ -5147,6 +5274,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "friend",
           "answers": {},
@@ -5232,11 +5360,25 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Work email after 9pm",
-            "reason": "UNLOVED_HABIT",
+            "kind": "keep",
+            "item": "Collagen peptides",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Late work email doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?"
+            "line": "Collagen stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "IV drip bar",
+            "reason": "BORROWED_WEAK",
+            "status": "not-now",
+            "line": "IV drip bar came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $250 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "reformer",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "reformer is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -5254,24 +5396,17 @@
           },
           {
             "kind": "keep",
-            "item": "reformer",
-            "reason": "EVIDENCE_REGULAR",
+            "item": "Thursday martini with Ben",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "reformer is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Collagen peptides",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Collagen stays part of your days."
+            "line": "Thursday martini with Ben is yours, and it stays exactly as it is."
           },
           {
             "kind": "clear",
-            "item": "Hyperbaric oxygen (wellness use)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?"
+            "item": "Work email after 9pm",
+            "reason": "UNLOVED_HABIT",
+            "status": "proposed",
+            "line": "Late work email doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?"
           },
           {
             "kind": "keep",
@@ -5281,25 +5416,18 @@
             "line": "Melatonin stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "IV drip bar",
-            "reason": "BORROWED_WEAK",
-            "status": "not-now",
-            "line": "IV drip bar came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $250 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Thursday martini with Ben",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Thursday martini with Ben is yours, and it stays exactly as it is."
-          },
-          {
             "kind": "keep",
             "item": "Saturday swim lesson with Maddie",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Saturday swim lesson with Maddie is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "Hyperbaric oxygen (wellness use)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?"
           }
         ],
         "firstRitual": [
@@ -5392,6 +5520,7 @@
           "name": "Personal trainer",
           "catalog": "Personal trainer",
           "tier": "B",
+          "cost": false,
           "monthly": 320,
           "origin": "friend",
           "answers": {
@@ -5407,6 +5536,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "friend",
           "answers": {
@@ -5424,6 +5554,7 @@
           "name": "Protein powder",
           "catalog": "Protein powder",
           "tier": "A",
+          "cost": false,
           "monthly": 50,
           "origin": "friend",
           "answers": {
@@ -5436,6 +5567,7 @@
           "name": "Gym membership",
           "catalog": "Gym membership",
           "tier": "A",
+          "cost": false,
           "monthly": 45,
           "origin": "other",
           "answers": {
@@ -5449,6 +5581,7 @@
           "name": "Fat burner or thermogenic pills",
           "catalog": "Fat burner or thermogenic pills",
           "tier": "C",
+          "cost": false,
           "monthly": 40,
           "origin": "online",
           "answers": {
@@ -5463,6 +5596,7 @@
           "name": "Berberine",
           "catalog": "Berberine",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {},
@@ -5475,6 +5609,7 @@
           "name": "Meal delivery or meal-prep service (meal kits or ready meals)",
           "catalog": "Meal delivery or meal-prep service (meal kits or ready meals)",
           "tier": "C",
+          "cost": false,
           "monthly": 380,
           "origin": "online",
           "answers": {
@@ -5489,6 +5624,7 @@
           "name": "macro app",
           "catalog": "Nutrition or calorie app (premium)",
           "tier": "C",
+          "cost": false,
           "monthly": 12,
           "origin": "online",
           "answers": {
@@ -5501,6 +5637,7 @@
           "name": "retinol + glycolic",
           "catalog": "Retinol or retinoid plus an exfoliating acid on the same nights",
           "tier": "D",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -5513,6 +5650,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -5523,6 +5661,7 @@
           "name": "Sunday dinner at Rafa's parents'",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -5613,11 +5752,18 @@
       "distill": {
         "decisions": [
           {
-            "kind": "keep",
-            "item": "Personal trainer",
-            "reason": "TRAINS",
+            "kind": "clear",
+            "item": "retinol + glycolic",
+            "reason": "TOO_MANY_STEPS",
             "status": "proposed",
-            "line": "Personal trainer is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "retinol + glycolic does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
+          },
+          {
+            "kind": "keep",
+            "item": "Berberine",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Berberine stays part of your days."
           },
           {
             "kind": "keep",
@@ -5628,31 +5774,17 @@
           },
           {
             "kind": "keep",
+            "item": "Personal trainer",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Personal trainer is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Sunday dinner at Rafa's parents'",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday dinner at Rafa's parents' is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Fat burner or thermogenic pills",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Fat burner stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "retinol + glycolic",
-            "reason": "TOO_MANY_STEPS",
-            "status": "proposed",
-            "line": "retinol + glycolic does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
-          },
-          {
-            "kind": "keep",
-            "item": "Protein powder",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -5670,10 +5802,17 @@
           },
           {
             "kind": "keep",
-            "item": "Berberine",
+            "item": "Protein powder",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Fat burner or thermogenic pills",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
-            "line": "Berberine stays part of your days."
+            "line": "Fat burner stays part of your days."
           },
           {
             "kind": "keep",
@@ -5785,6 +5924,7 @@
           "name": "Vyvanse",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 15,
           "origin": "doctor",
           "answers": {},
@@ -5797,6 +5937,7 @@
           "name": "Zyn",
           "catalog": "Nicotine pouches or vape",
           "tier": "B",
+          "cost": true,
           "monthly": 60,
           "origin": "friend",
           "answers": {
@@ -5811,6 +5952,7 @@
           "name": "Celsius",
           "catalog": "Energy drinks (Red Bull, Monster, Celsius and similar)",
           "tier": "A",
+          "cost": true,
           "monthly": 55,
           "origin": "other",
           "answers": {
@@ -5825,6 +5967,7 @@
           "name": "Lion's mane mushroom (capsules or powder)",
           "catalog": "Lion's mane mushroom (capsules or powder)",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -5840,6 +5983,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "online",
           "answers": {
@@ -5853,6 +5997,7 @@
           "name": "Screens / phone in bed",
           "catalog": "Screens / phone in bed",
           "tier": "D",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -5865,6 +6010,7 @@
           "name": "Bouldering with Theo",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 85,
           "origin": "friend",
           "answers": {},
@@ -5949,6 +6095,20 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Lion's mane mushroom (capsules or powder)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Lion's mane stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Screens / phone in bed",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Phone in bed stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Celsius",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
@@ -5963,13 +6123,6 @@
           },
           {
             "kind": "keep",
-            "item": "Screens / phone in bed",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Phone in bed stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Bouldering with Theo",
             "reason": "THEIRS",
             "status": "proposed",
@@ -5981,13 +6134,6 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Melatonin stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Lion's mane mushroom (capsules or powder)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Lion's mane stays part of your days."
           }
         ],
         "firstRitual": [
@@ -6084,6 +6230,7 @@
           "name": "Levothyroxine",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 10,
           "origin": "doctor",
           "answers": {},
@@ -6096,6 +6243,7 @@
           "name": "Vitamin D3",
           "catalog": "Vitamin D3",
           "tier": "B",
+          "cost": false,
           "monthly": 8,
           "origin": "blood test",
           "answers": {
@@ -6111,6 +6259,7 @@
           "name": "Atorvastatin",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 5,
           "origin": "doctor",
           "answers": {},
@@ -6121,6 +6270,7 @@
           "name": "Physical therapy",
           "catalog": "Physical therapy",
           "tier": "U",
+          "cost": false,
           "monthly": 40,
           "origin": "doctor",
           "answers": {
@@ -6135,6 +6285,7 @@
           "name": "Collagen drinks and beauty gummies",
           "catalog": "Collagen drinks and beauty gummies",
           "tier": "C",
+          "cost": false,
           "monthly": 40,
           "origin": "online",
           "answers": {},
@@ -6147,6 +6298,7 @@
           "name": "Turmeric or curcumin supplement",
           "catalog": "Turmeric or curcumin supplement",
           "tier": "C",
+          "cost": false,
           "monthly": 20,
           "origin": "friend",
           "answers": {
@@ -6159,6 +6311,7 @@
           "name": "Glucosamine / chondroitin",
           "catalog": "Glucosamine / chondroitin",
           "tier": "U",
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {
@@ -6171,6 +6324,7 @@
           "name": "ACV gummies",
           "catalog": "Apple cider vinegar (shots or gummies)",
           "tier": "C",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {
@@ -6183,6 +6337,7 @@
           "name": "Multivitamin",
           "catalog": "Multivitamin",
           "tier": "C",
+          "cost": false,
           "monthly": 15,
           "origin": "other",
           "answers": {},
@@ -6193,6 +6348,7 @@
           "name": "Evening walk with Teresa",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -6205,6 +6361,7 @@
           "name": "Friday mahjong at my sister's",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -6294,34 +6451,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Turmeric or curcumin supplement",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Turmeric stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Collagen drinks and beauty gummies",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Collagen gummies stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Evening walk with Teresa",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Evening walk with Teresa is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Glucosamine / chondroitin",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Glucosamine / chondroitin stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Friday mahjong at my sister's",
             "reason": "THEIRS",
             "status": "proposed",
@@ -6336,10 +6465,38 @@
           },
           {
             "kind": "keep",
+            "item": "Turmeric or curcumin supplement",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Turmeric stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Evening walk with Teresa",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Evening walk with Teresa is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
             "item": "Multivitamin",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Multivitamin stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Collagen drinks and beauty gummies",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "not-now",
+            "line": "Collagen gummies stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Glucosamine / chondroitin",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Glucosamine / chondroitin stays part of your days."
           },
           {
             "kind": "keep",
@@ -6437,6 +6594,7 @@
           "name": "scrub + salicylic wash",
           "catalog": "Two exfoliants (a scrub plus an acid, or two acids)",
           "tier": "D",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {
@@ -6451,6 +6609,7 @@
           "name": "Toner (hydrating or balancing)",
           "catalog": "Toner (hydrating or balancing)",
           "tier": "D",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {},
@@ -6461,6 +6620,7 @@
           "name": "under-eye stick",
           "catalog": "Eye cream (alongside a face moisturizer)",
           "tier": "D",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {},
@@ -6471,6 +6631,7 @@
           "name": "Chlorophyll water (liquid chlorophyll drops)",
           "catalog": "Chlorophyll water (liquid chlorophyll drops)",
           "tier": "D",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {
@@ -6483,6 +6644,7 @@
           "name": "Shift beer with the crew",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {
@@ -6497,6 +6659,7 @@
           "name": "Biking home over the bridge",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -6509,6 +6672,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "friend",
           "answers": {
@@ -6594,31 +6758,17 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Biking home over the bridge",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Biking home over the bridge is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
             "item": "Shift beer with the crew",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Shift beer with the crew stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Chlorophyll water (liquid chlorophyll drops)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "under-eye stick",
-            "reason": "OVERLAP",
-            "status": "proposed",
-            "line": "Toner already does what under-eye stick is for. Want to let under-eye stick go and keep the $30 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "scrub + salicylic wash",
-            "reason": "TOO_MANY_STEPS",
-            "status": "yes",
-            "line": "scrub + salicylic wash does the same job twice. One exfoliant that suits the skin, used less often the stronger it is. Want the simpler version?"
           },
           {
             "kind": "keep",
@@ -6635,11 +6785,25 @@
             "line": "Toner does the same job twice. Moisturizer straight after cleansing, while skin is still a little damp. Want the simpler version?"
           },
           {
-            "kind": "keep",
-            "item": "Biking home over the bridge",
-            "reason": "THEIRS",
+            "kind": "clear",
+            "item": "under-eye stick",
+            "reason": "OVERLAP",
             "status": "proposed",
-            "line": "Biking home over the bridge is yours, and it stays exactly as it is."
+            "line": "Toner already does what under-eye stick is for. Want to let under-eye stick go and keep the $30 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Chlorophyll water (liquid chlorophyll drops)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "scrub + salicylic wash",
+            "reason": "TOO_MANY_STEPS",
+            "status": "yes",
+            "line": "scrub + salicylic wash does the same job twice. One exfoliant that suits the skin, used less often the stronger it is. Want the simpler version?"
           }
         ],
         "firstRitual": [
@@ -6705,6 +6869,7 @@
           "name": "Golf Saturdays",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 120,
           "origin": "other",
           "answers": {},
@@ -6717,6 +6882,7 @@
           "name": "Whoop",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -6844,6 +7010,7 @@
           "name": "Sunday cigar with Pop",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "other",
           "answers": {
@@ -6858,6 +7025,7 @@
           "name": "Creatine monohydrate",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 14,
           "origin": "friend",
           "answers": {
@@ -6876,6 +7044,7 @@
           "name": "T booster",
           "catalog": "Testosterone supplement (tribulus, fenugreek, D-aspartic acid blends)",
           "tier": "C",
+          "cost": false,
           "monthly": 40,
           "origin": "podcast",
           "answers": {
@@ -6890,6 +7059,7 @@
           "name": "Shilajit (resin or capsules)",
           "catalog": "Shilajit (resin or capsules)",
           "tier": "N",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -6902,6 +7072,7 @@
           "name": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "catalog": "Pre-workout supplement (caffeinated multi-ingredient blend)",
           "tier": "A",
+          "cost": false,
           "monthly": 35,
           "origin": "friend",
           "answers": {
@@ -6914,6 +7085,7 @@
           "name": "Crunch",
           "catalog": "Gym membership",
           "tier": "A",
+          "cost": false,
           "monthly": 30,
           "origin": "other",
           "answers": {
@@ -6927,6 +7099,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -7012,10 +7185,24 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Sunday cigar with Pop",
-            "reason": "THEIRS",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
             "status": "proposed",
-            "line": "Sunday cigar with Pop is yours, and it stays exactly as it is."
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Crunch",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Crunch is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -7026,20 +7213,6 @@
           },
           {
             "kind": "keep",
-            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "T booster",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
@@ -7047,10 +7220,10 @@
           },
           {
             "kind": "keep",
-            "item": "Crunch",
-            "reason": "TRAINS",
+            "item": "Sunday cigar with Pop",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Crunch is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Sunday cigar with Pop is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -7134,6 +7307,7 @@
           "name": "Club Pilates",
           "catalog": "Yoga or pilates studio",
           "tier": "B",
+          "cost": false,
           "monthly": 139,
           "origin": "friend",
           "answers": {
@@ -7149,6 +7323,7 @@
           "name": "AG1",
           "catalog": "Greens powder (AG1 and similar)",
           "tier": "N",
+          "cost": false,
           "monthly": 79,
           "origin": "online",
           "answers": {
@@ -7163,6 +7338,7 @@
           "name": "Magnesium",
           "catalog": "Magnesium (any form)",
           "tier": "C",
+          "cost": false,
           "monthly": 18,
           "origin": "friend",
           "answers": {
@@ -7242,11 +7418,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "curate",
-            "item": "Club Pilates",
-            "reason": "ANCHOR",
-            "status": "proposed",
-            "line": "Club Pilates could be the anchor of your week. Want to build the rest around it?"
+            "kind": "clear",
+            "item": "AG1",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
           },
           {
             "kind": "keep",
@@ -7256,11 +7432,11 @@
             "line": "Club Pilates is yours, and it stays exactly as it is."
           },
           {
-            "kind": "clear",
-            "item": "AG1",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
+            "kind": "curate",
+            "item": "Club Pilates",
+            "reason": "ANCHOR",
+            "status": "proposed",
+            "line": "Club Pilates could be the anchor of your week. Want to build the rest around it?"
           },
           {
             "kind": "keep",
@@ -7328,6 +7504,7 @@
           "name": "Oil cleanser (double cleanse)",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 22,
           "origin": "online",
           "answers": {},
@@ -7338,6 +7515,7 @@
           "name": "Toner (hydrating or balancing)",
           "catalog": "Toner (hydrating or balancing)",
           "tier": "D",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {},
@@ -7348,6 +7526,7 @@
           "name": "Snail essence",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 28,
           "origin": "online",
           "answers": {},
@@ -7358,6 +7537,7 @@
           "name": "Multiple hydrating serums (two hyaluronic acid products)",
           "catalog": "Multiple hydrating serums (two hyaluronic acid products)",
           "tier": "N",
+          "cost": false,
           "monthly": 50,
           "origin": "online",
           "answers": {},
@@ -7368,6 +7548,7 @@
           "name": "Vitamin C serum (topical, morning)",
           "catalog": "Vitamin C serum (topical, morning)",
           "tier": "C",
+          "cost": false,
           "monthly": 60,
           "origin": "online",
           "answers": {
@@ -7380,6 +7561,7 @@
           "name": "retinol + AHA nights",
           "catalog": "Retinol or retinoid plus an exfoliating acid on the same nights",
           "tier": "D",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -7394,6 +7576,7 @@
           "name": "BHA + rice scrub",
           "catalog": "Two exfoliants (a scrub plus an acid, or two acids)",
           "tier": "D",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {
@@ -7406,6 +7589,7 @@
           "name": "Eye cream (alongside a face moisturizer)",
           "catalog": "Eye cream (alongside a face moisturizer)",
           "tier": "D",
+          "cost": false,
           "monthly": 45,
           "origin": "online",
           "answers": {},
@@ -7416,6 +7600,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 24,
           "origin": "online",
           "answers": {
@@ -7430,6 +7615,7 @@
           "name": "Saturday sheet masks with Lin",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 20,
           "origin": "other",
           "answers": {},
@@ -7442,6 +7628,7 @@
           "name": "skin analysis app",
           "catalog": "Unlisted subscription you're still paying for",
           "tier": "N",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -7531,10 +7718,17 @@
         "decisions": [
           {
             "kind": "clear",
-            "item": "skin analysis app",
-            "reason": "UNUSED",
+            "item": "Eye cream (alongside a face moisturizer)",
+            "reason": "OVERLAP",
+            "status": "not-now",
+            "line": "Toner already does what Eye cream is for. Want to let Eye cream go and keep the $45 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Oil cleanser (double cleanse)",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "skin analysis app hasn't had much use lately. Want to let it go and keep the $10 a month?"
+            "line": "Oil cleanser (double cleanse) stays part of your days."
           },
           {
             "kind": "keep",
@@ -7545,31 +7739,17 @@
           },
           {
             "kind": "clear",
-            "item": "Toner (hydrating or balancing)",
-            "reason": "TOO_MANY_STEPS",
-            "status": "proposed",
-            "line": "Toner does the same job twice. Moisturizer straight after cleansing, while skin is still a little damp. Want the simpler version?"
-          },
-          {
-            "kind": "keep",
-            "item": "Saturday sheet masks with Lin",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Saturday sheet masks with Lin is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "clear",
-            "item": "retinol + AHA nights",
-            "reason": "TOO_MANY_STEPS",
-            "status": "yes",
-            "line": "retinol + AHA nights does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
-          },
-          {
-            "kind": "clear",
             "item": "Multiple hydrating serums (two hyaluronic acid products)",
             "reason": "OVERLAP",
             "status": "proposed",
             "line": "Toner already does what Two HA serums is for. Want to let Two HA serums go and keep the $50 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Toner (hydrating or balancing)",
+            "reason": "TOO_MANY_STEPS",
+            "status": "proposed",
+            "line": "Toner does the same job twice. Moisturizer straight after cleansing, while skin is still a little damp. Want the simpler version?"
           },
           {
             "kind": "keep",
@@ -7580,10 +7760,10 @@
           },
           {
             "kind": "clear",
-            "item": "Eye cream (alongside a face moisturizer)",
-            "reason": "OVERLAP",
-            "status": "not-now",
-            "line": "Toner already does what Eye cream is for. Want to let Eye cream go and keep the $45 a month?"
+            "item": "skin analysis app",
+            "reason": "UNUSED",
+            "status": "proposed",
+            "line": "skin analysis app hasn't had much use lately. Want to let it go and keep the $10 a month?"
           },
           {
             "kind": "keep",
@@ -7601,10 +7781,17 @@
           },
           {
             "kind": "keep",
-            "item": "Oil cleanser (double cleanse)",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Saturday sheet masks with Lin",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Oil cleanser (double cleanse) stays part of your days."
+            "line": "Saturday sheet masks with Lin is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "retinol + AHA nights",
+            "reason": "TOO_MANY_STEPS",
+            "status": "yes",
+            "line": "retinol + AHA nights does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
           }
         ],
         "firstRitual": [
@@ -7683,6 +7870,7 @@
           "name": "tretinoin",
           "catalog": "Retinoid at night (retinol, or prescription tretinoin and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 25,
           "origin": "doctor",
           "answers": {
@@ -7697,6 +7885,7 @@
           "name": "glycolic toner",
           "catalog": "Retinol or retinoid plus an exfoliating acid on the same nights",
           "tier": "D",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -7711,6 +7900,7 @@
           "name": "Multiple hydrating serums (two hyaluronic acid products)",
           "catalog": "Multiple hydrating serums (two hyaluronic acid products)",
           "tier": "N",
+          "cost": false,
           "monthly": 50,
           "origin": "online",
           "answers": {},
@@ -7721,6 +7911,7 @@
           "name": "Eye cream (alongside a face moisturizer)",
           "catalog": "Eye cream (alongside a face moisturizer)",
           "tier": "D",
+          "cost": false,
           "monthly": 45,
           "origin": "online",
           "answers": {
@@ -7733,6 +7924,7 @@
           "name": "Vitamin C serum (topical, morning)",
           "catalog": "Vitamin C serum (topical, morning)",
           "tier": "C",
+          "cost": false,
           "monthly": 60,
           "origin": "online",
           "answers": {
@@ -7745,6 +7937,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 25,
           "origin": "other",
           "answers": {
@@ -7759,6 +7952,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "other",
           "answers": {
@@ -7772,6 +7966,7 @@
           "name": "Breakfast with Carmen after nights",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -7859,10 +8054,17 @@
         "decisions": [
           {
             "kind": "clear",
-            "item": "glycolic toner",
+            "item": "Eye cream (alongside a face moisturizer)",
             "reason": "TOO_MANY_STEPS",
             "status": "yes",
-            "line": "glycolic toner does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
+            "line": "Eye cream does the same job twice. Your moisturizer, patted gently around the eyes with the ring finger. Want the simpler version?"
+          },
+          {
+            "kind": "keep",
+            "item": "Breakfast with Carmen after nights",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Breakfast with Carmen after nights is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -7873,17 +8075,10 @@
           },
           {
             "kind": "keep",
-            "item": "Breakfast with Carmen after nights",
-            "reason": "THEIRS",
+            "item": "Melatonin",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Breakfast with Carmen after nights is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "clear",
-            "item": "Eye cream (alongside a face moisturizer)",
-            "reason": "TOO_MANY_STEPS",
-            "status": "yes",
-            "line": "Eye cream does the same job twice. Your moisturizer, patted gently around the eyes with the ring finger. Want the simpler version?"
+            "line": "Melatonin stays part of your days."
           },
           {
             "kind": "keep",
@@ -7893,11 +8088,11 @@
             "line": "Vitamin C serum stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Melatonin",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Melatonin stays part of your days."
+            "kind": "clear",
+            "item": "glycolic toner",
+            "reason": "TOO_MANY_STEPS",
+            "status": "yes",
+            "line": "glycolic toner does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
           },
           {
             "kind": "clear",
@@ -7975,6 +8170,7 @@
           "name": "vape",
           "catalog": "Nicotine pouches or vape",
           "tier": "B",
+          "cost": true,
           "monthly": 40,
           "origin": "friend",
           "answers": {
@@ -7989,6 +8185,7 @@
           "name": "Sea moss (gel or capsules)",
           "catalog": "Sea moss (gel or capsules)",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {},
@@ -8001,6 +8198,7 @@
           "name": "Calm (free through work)",
           "catalog": "Meditation app (Calm, Headspace)",
           "tier": "B",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -8014,6 +8212,7 @@
           "name": "Sunday FaceTime with Jo",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -8090,10 +8289,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Sunday FaceTime with Jo",
-            "reason": "THEIRS",
+            "item": "Calm (free through work)",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Sunday FaceTime with Jo is yours, and it stays exactly as it is."
+            "line": "Calm (free through work) stays part of your days."
           },
           {
             "kind": "clear",
@@ -8104,17 +8303,17 @@
           },
           {
             "kind": "keep",
-            "item": "Calm (free through work)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Calm (free through work) stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "vape",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "vape stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunday FaceTime with Jo",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday FaceTime with Jo is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -8188,6 +8387,7 @@
           "name": "CBT-I coach",
           "catalog": "CBT-I with a sleep clinician or trained coach",
           "tier": "A",
+          "cost": false,
           "monthly": 200,
           "origin": "doctor",
           "answers": {
@@ -8202,6 +8402,7 @@
           "name": "Magnesium L-threonate (Magtein)",
           "catalog": "Magnesium L-threonate (Magtein)",
           "tier": "N",
+          "cost": false,
           "monthly": 40,
           "origin": "podcast",
           "answers": {
@@ -8214,6 +8415,7 @@
           "name": "Glycine",
           "catalog": "Glycine",
           "tier": "N",
+          "cost": false,
           "monthly": 12,
           "origin": "podcast",
           "answers": {
@@ -8227,6 +8429,7 @@
           "name": "Apigenin",
           "catalog": "Apigenin",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "podcast",
           "answers": {
@@ -8240,6 +8443,7 @@
           "name": "Mouth tape",
           "catalog": "Mouth tape",
           "tier": "D",
+          "cost": false,
           "monthly": 9,
           "origin": "online",
           "answers": {
@@ -8252,6 +8456,7 @@
           "name": "Nasal strips or dilators",
           "catalog": "Nasal strips or dilators",
           "tier": "C",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -8264,6 +8469,7 @@
           "name": "White noise / sound machine",
           "catalog": "White noise / sound machine",
           "tier": "C",
+          "cost": false,
           "monthly": 5,
           "origin": "other",
           "answers": {},
@@ -8274,6 +8480,7 @@
           "name": "Weighted blanket",
           "catalog": "Weighted blanket",
           "tier": "C",
+          "cost": false,
           "monthly": 15,
           "origin": "online",
           "answers": {},
@@ -8286,6 +8493,7 @@
           "name": "Sleep headphones / sleep stories",
           "catalog": "Sleep headphones / sleep stories",
           "tier": "U",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -8298,6 +8506,7 @@
           "name": "Checking the sleep score every morning",
           "catalog": "Checking the sleep score every morning",
           "tier": "C",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -8310,6 +8519,7 @@
           "name": "Saturday cricket with the guys",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -8322,6 +8532,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "podcast",
           "answers": {},
@@ -8408,20 +8619,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Checking the sleep score every morning",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Morning sleep check stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "White noise / sound machine",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "White noise stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Saturday cricket with the guys",
             "reason": "THEIRS",
             "status": "proposed",
@@ -8429,17 +8626,17 @@
           },
           {
             "kind": "keep",
-            "item": "Weighted blanket",
+            "item": "Nasal strips or dilators",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Weighted blanket stays part of your days."
+            "line": "Nasal strips stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "Mouth tape",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
+            "kind": "keep",
+            "item": "Checking the sleep score every morning",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Morning sleep check stays part of your days."
           },
           {
             "kind": "clear",
@@ -8450,17 +8647,17 @@
           },
           {
             "kind": "clear",
-            "item": "Glycine",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
-          },
-          {
-            "kind": "clear",
             "item": "Apigenin",
             "reason": "BORROWED_WEAK",
             "status": "yes",
             "line": "Apigenin came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Mouth tape",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
           },
           {
             "kind": "clear",
@@ -8471,10 +8668,24 @@
           },
           {
             "kind": "keep",
-            "item": "Nasal strips or dilators",
+            "item": "Weighted blanket",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Nasal strips stays part of your days."
+            "line": "Weighted blanket stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "White noise / sound machine",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "White noise stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Glycine",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
           }
         ],
         "firstRitual": [
@@ -8557,6 +8768,7 @@
           "name": "Saturday ride with the club",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -8569,6 +8781,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 15,
           "origin": "other",
           "answers": {
@@ -8583,6 +8796,7 @@
           "name": "Physical therapy",
           "catalog": "Physical therapy",
           "tier": "U",
+          "cost": false,
           "monthly": 40,
           "origin": "doctor",
           "answers": {
@@ -8597,6 +8811,7 @@
           "name": "Glucosamine / chondroitin",
           "catalog": "Glucosamine / chondroitin",
           "tier": "U",
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {
@@ -8609,6 +8824,7 @@
           "name": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
           "catalog": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 45,
           "origin": "friend",
           "answers": {},
@@ -8619,6 +8835,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "other",
           "answers": {},
@@ -8629,6 +8846,7 @@
           "name": "Sunday pancakes with the kids",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -8715,20 +8933,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Glucosamine / chondroitin",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Glucosamine / chondroitin stays part of your days."
-          },
-          {
-            "kind": "refer",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "SEE_A_DERMATOLOGIST",
-            "status": "proposed",
-            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
-          },
-          {
-            "kind": "keep",
             "item": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
@@ -8736,10 +8940,24 @@
           },
           {
             "kind": "keep",
+            "item": "Glucosamine / chondroitin",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "not-now",
+            "line": "Glucosamine / chondroitin stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Sunday pancakes with the kids",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Sunday pancakes with the kids stays part of your days."
+          },
+          {
+            "kind": "refer",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "SEE_A_DERMATOLOGIST",
+            "status": "proposed",
+            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
           },
           {
             "kind": "keep",
@@ -8828,6 +9046,7 @@
           "name": "Peloton",
           "catalog": "Fitness app subscription (Peloton app, Apple Fitness+, Ladder)",
           "tier": "A",
+          "cost": false,
           "monthly": 44,
           "origin": "online",
           "answers": {
@@ -8844,6 +9063,7 @@
           "name": "Epsom bath",
           "catalog": "Hot bath / shower 1–2 h before bed",
           "tier": "U",
+          "cost": false,
           "monthly": 10,
           "origin": "other",
           "answers": {
@@ -8858,6 +9078,7 @@
           "name": "Sunday call with Amma",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -8935,10 +9156,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Epsom bath",
+            "item": "Sunday call with Amma",
             "reason": "THEIRS",
             "status": "proposed",
-            "line": "Epsom bath is yours, and it stays exactly as it is."
+            "line": "Sunday call with Amma is yours, and it stays exactly as it is."
           },
           {
             "kind": "clear",
@@ -8949,10 +9170,10 @@
           },
           {
             "kind": "keep",
-            "item": "Sunday call with Amma",
+            "item": "Epsom bath",
             "reason": "THEIRS",
             "status": "proposed",
-            "line": "Sunday call with Amma is yours, and it stays exactly as it is."
+            "line": "Epsom bath is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -9012,6 +9233,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "podcast",
           "answers": {},
@@ -9022,6 +9244,7 @@
           "name": "WHOOP",
           "catalog": "Second wearable (Oura plus WHOOP)",
           "tier": "N",
+          "cost": false,
           "monthly": 30,
           "origin": "podcast",
           "answers": {
@@ -9036,6 +9259,7 @@
           "name": "AG1",
           "catalog": "Greens powder (AG1 and similar)",
           "tier": "N",
+          "cost": false,
           "monthly": 79,
           "origin": "podcast",
           "answers": {
@@ -9049,6 +9273,7 @@
           "name": "NMN",
           "catalog": "NMN or NR (NAD precursors)",
           "tier": "C",
+          "cost": false,
           "monthly": 70,
           "origin": "podcast",
           "answers": {
@@ -9063,6 +9288,7 @@
           "name": "CGM",
           "catalog": "Continuous glucose monitor (no diabetes)",
           "tier": "C",
+          "cost": false,
           "monthly": 100,
           "origin": "online",
           "answers": {
@@ -9078,6 +9304,7 @@
           "name": "Eight Sleep",
           "catalog": "Eight Sleep / cooling mattress pad",
           "tier": "C",
+          "cost": false,
           "monthly": 50,
           "origin": "podcast",
           "answers": {
@@ -9092,6 +9319,7 @@
           "name": "Mouth tape",
           "catalog": "Mouth tape",
           "tier": "D",
+          "cost": false,
           "monthly": 9,
           "origin": "online",
           "answers": {
@@ -9104,6 +9332,7 @@
           "name": "Red light therapy panel (at home)",
           "catalog": "Red light therapy panel (at home)",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "podcast",
           "answers": {
@@ -9116,6 +9345,7 @@
           "name": "Personal trainer",
           "catalog": "Personal trainer",
           "tier": "B",
+          "cost": false,
           "monthly": 280,
           "origin": "friend",
           "answers": {
@@ -9131,6 +9361,7 @@
           "name": "Thursday climbing with Jess",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 95,
           "origin": "other",
           "answers": {},
@@ -9143,6 +9374,7 @@
           "name": "Checking the sleep score every morning",
           "catalog": "Checking the sleep score every morning",
           "tier": "C",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -9231,25 +9463,18 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Red light therapy panel (at home)",
-            "reason": "UNUSED",
-            "status": "proposed",
-            "line": "Red light panel hasn't had much use lately. Want to let it go and keep the $30 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "WHOOP",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "WHOOP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
-          },
-          {
             "kind": "keep",
             "item": "Thursday climbing with Jess",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Thursday climbing with Jess is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "Red light therapy panel (at home)",
+            "reason": "UNUSED",
+            "status": "proposed",
+            "line": "Red light panel hasn't had much use lately. Want to let it go and keep the $30 a month?"
           },
           {
             "kind": "clear",
@@ -9266,11 +9491,18 @@
             "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
           },
           {
+            "kind": "clear",
+            "item": "CGM",
+            "reason": "UNUSED",
+            "status": "yes",
+            "line": "CGM hasn't had much use lately. Want to let it go and keep the $100 a month?"
+          },
+          {
             "kind": "keep",
-            "item": "Eight Sleep",
+            "item": "NMN",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Eight Sleep stays part of your days."
+            "line": "NMN stays part of your days."
           },
           {
             "kind": "keep",
@@ -9278,13 +9510,6 @@
             "reason": "TRAINS",
             "status": "proposed",
             "line": "Personal trainer is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "clear",
-            "item": "CGM",
-            "reason": "UNUSED",
-            "status": "yes",
-            "line": "CGM hasn't had much use lately. Want to let it go and keep the $100 a month?"
           },
           {
             "kind": "keep",
@@ -9295,10 +9520,17 @@
           },
           {
             "kind": "keep",
-            "item": "NMN",
+            "item": "Eight Sleep",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "NMN stays part of your days."
+            "line": "Eight Sleep stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "WHOOP",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "WHOOP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
           }
         ],
         "firstRitual": [
@@ -9380,6 +9612,7 @@
           "name": "Wine after bedtime",
           "catalog": "Alcohol in the evening",
           "tier": "A",
+          "cost": true,
           "monthly": 90,
           "origin": "other",
           "answers": {
@@ -9394,6 +9627,7 @@
           "name": "Therapy or counselling",
           "catalog": "Therapy or counselling",
           "tier": "A",
+          "cost": false,
           "monthly": 160,
           "origin": "other",
           "answers": {
@@ -9408,6 +9642,7 @@
           "name": "Sertraline",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 10,
           "origin": "doctor",
           "answers": {},
@@ -9418,6 +9653,7 @@
           "name": "Sleep gummies (blend)",
           "catalog": "Sleep gummies (blend)",
           "tier": "C",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {
@@ -9430,6 +9666,7 @@
           "name": "Headspace",
           "catalog": "Meditation app (Calm, Headspace)",
           "tier": "B",
+          "cost": false,
           "monthly": 13,
           "origin": "online",
           "answers": {
@@ -9443,6 +9680,7 @@
           "name": "Tuesday choir",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 25,
           "origin": "friend",
           "answers": {},
@@ -9528,11 +9766,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Headspace",
-            "reason": "UNUSED",
-            "status": "yes",
-            "line": "Headspace hasn't had much use lately. Want to let it go and keep the $13 a month?"
+            "kind": "keep",
+            "item": "Wine after bedtime",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Wine after bedtime stays part of your days."
           },
           {
             "kind": "keep",
@@ -9549,11 +9787,11 @@
             "line": "Sleep gummies stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Wine after bedtime",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Wine after bedtime stays part of your days."
+            "kind": "clear",
+            "item": "Headspace",
+            "reason": "UNUSED",
+            "status": "yes",
+            "line": "Headspace hasn't had much use lately. Want to let it go and keep the $13 a month?"
           }
         ],
         "firstRitual": [
@@ -9623,6 +9861,7 @@
           "name": "Café matcha",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 110,
           "origin": "other",
           "answers": {
@@ -9637,6 +9876,7 @@
           "name": "10-step skincare",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 85,
           "origin": "online",
           "answers": {
@@ -9712,17 +9952,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Café matcha",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Café matcha stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "10-step skincare",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
             "line": "10-step skincare stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Café matcha",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Café matcha stays part of your days."
           }
         ],
         "firstRitual": [
@@ -9785,6 +10025,7 @@
           "name": "LED face mask (red and near-infrared light)",
           "catalog": "LED face mask (red and near-infrared light)",
           "tier": "C",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {
@@ -9799,6 +10040,7 @@
           "name": "NuFace",
           "catalog": "Microcurrent device (NuFACE and similar)",
           "tier": "D",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {
@@ -9811,6 +10053,7 @@
           "name": "Facials (monthly, at a spa or skin studio)",
           "catalog": "Facials (monthly, at a spa or skin studio)",
           "tier": "C",
+          "cost": false,
           "monthly": 165,
           "origin": "friend",
           "answers": {
@@ -9825,6 +10068,7 @@
           "name": "Vitamin C serum (topical, morning)",
           "catalog": "Vitamin C serum (topical, morning)",
           "tier": "C",
+          "cost": false,
           "monthly": 60,
           "origin": "online",
           "answers": {
@@ -9837,6 +10081,7 @@
           "name": "Retinoid at night (retinol, or prescription tretinoin and similar)",
           "catalog": "Retinoid at night (retinol, or prescription tretinoin and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 40,
           "origin": "online",
           "answers": {
@@ -9849,6 +10094,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {
@@ -9861,6 +10107,7 @@
           "name": "Collagen drinks and beauty gummies",
           "catalog": "Collagen drinks and beauty gummies",
           "tier": "C",
+          "cost": false,
           "monthly": 40,
           "origin": "online",
           "answers": {
@@ -9873,6 +10120,7 @@
           "name": "Barry's",
           "catalog": "Boutique class membership (Barry's, SoulCycle, F45, Orangetheory)",
           "tier": "A",
+          "cost": false,
           "monthly": 220,
           "origin": "friend",
           "answers": {
@@ -9888,6 +10136,7 @@
           "name": "Solidcore",
           "catalog": "Second gym or studio membership",
           "tier": "A",
+          "cost": false,
           "monthly": 180,
           "origin": "friend",
           "answers": {
@@ -9900,6 +10149,7 @@
           "name": "Sunday sailing with my dad",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -9912,6 +10162,7 @@
           "name": "Silk pillowcase",
           "catalog": "Silk pillowcase",
           "tier": "D",
+          "cost": false,
           "monthly": 3,
           "origin": "online",
           "answers": {},
@@ -9999,11 +10250,18 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "LED face mask (red and near-infrared light)",
-            "reason": "UNUSED",
-            "status": "yes",
-            "line": "LED mask hasn't had much use lately. Want to let it go and keep the $25 a month?"
+            "kind": "keep",
+            "item": "Sunday sailing with my dad",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday sailing with my dad is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Barry's",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "not-now",
+            "line": "Barry's stays part of your days."
           },
           {
             "kind": "keep",
@@ -10011,6 +10269,13 @@
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
             "line": "Retinoid is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Vitamin C serum (topical, morning)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Vitamin C serum stays part of your days."
           },
           {
             "kind": "clear",
@@ -10027,13 +10292,6 @@
             "line": "Facials stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Barry's",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Barry's stays part of your days."
-          },
-          {
             "kind": "clear",
             "item": "Silk pillowcase",
             "reason": "BORROWED_WEAK",
@@ -10041,11 +10299,18 @@
             "line": "Silk pillowcase came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $3 a month?"
           },
           {
+            "kind": "clear",
+            "item": "LED face mask (red and near-infrared light)",
+            "reason": "UNUSED",
+            "status": "yes",
+            "line": "LED mask hasn't had much use lately. Want to let it go and keep the $25 a month?"
+          },
+          {
             "kind": "keep",
-            "item": "Collagen drinks and beauty gummies",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Solidcore",
+            "reason": "TRAINS",
             "status": "proposed",
-            "line": "Collagen gummies stays part of your days."
+            "line": "Solidcore is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -10056,24 +10321,10 @@
           },
           {
             "kind": "keep",
-            "item": "Vitamin C serum (topical, morning)",
+            "item": "Collagen drinks and beauty gummies",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Vitamin C serum stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday sailing with my dad",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday sailing with my dad is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Solidcore",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Solidcore is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Collagen gummies stays part of your days."
           },
           {
             "kind": "keep",
@@ -10180,6 +10431,7 @@
           "name": "Saturday long run with the club",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "friend",
           "answers": {},
@@ -10192,6 +10444,7 @@
           "name": "Beers after the long run",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 40,
           "origin": "friend",
           "answers": {
@@ -10206,6 +10459,7 @@
           "name": "Strength training",
           "catalog": "Strength training",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -10221,6 +10475,7 @@
           "name": "LMNT",
           "catalog": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
           "tier": "B",
+          "cost": false,
           "monthly": 45,
           "origin": "podcast",
           "answers": {
@@ -10233,6 +10488,7 @@
           "name": "Normatec",
           "catalog": "Compression boots (Normatec and similar)",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {
@@ -10245,6 +10501,7 @@
           "name": "Theragun",
           "catalog": "Massage gun (percussive massager)",
           "tier": "C",
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {},
@@ -10255,6 +10512,7 @@
           "name": "Tart cherry juice or extract",
           "catalog": "Tart cherry juice or extract",
           "tier": "C",
+          "cost": false,
           "monthly": 30,
           "origin": "podcast",
           "answers": {
@@ -10267,6 +10525,7 @@
           "name": "Beet juice shots",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 35,
           "origin": "podcast",
           "answers": {},
@@ -10277,6 +10536,7 @@
           "name": "Melatonin",
           "catalog": "Melatonin",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "friend",
           "answers": {
@@ -10292,6 +10552,7 @@
           "name": "Mushroom coffee (Ryze, Four Sigmatic and similar)",
           "catalog": "Mushroom coffee (Ryze, Four Sigmatic and similar)",
           "tier": "D",
+          "cost": false,
           "monthly": 35,
           "origin": "online",
           "answers": {
@@ -10307,6 +10568,7 @@
           "name": "WHOOP",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 30,
           "origin": "friend",
           "answers": {},
@@ -10399,38 +10661,10 @@
           },
           {
             "kind": "keep",
-            "item": "Normatec",
+            "item": "Tart cherry juice or extract",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Normatec stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "LMNT",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "LMNT stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Beers after the long run",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Beers after the long run stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Mushroom coffee (Ryze, Four Sigmatic and similar)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Mushroom coffee came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $35 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Theragun",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Theragun stays part of your days."
+            "line": "Tart cherry stays part of your days."
           },
           {
             "kind": "keep",
@@ -10441,17 +10675,10 @@
           },
           {
             "kind": "keep",
-            "item": "Beet juice shots",
+            "item": "LMNT",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Beet juice shots stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Tart cherry juice or extract",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Tart cherry stays part of your days."
+            "line": "LMNT stays part of your days."
           },
           {
             "kind": "keep",
@@ -10459,6 +10686,41 @@
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
             "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Beet juice shots",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Beet juice shots stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Mushroom coffee (Ryze, Four Sigmatic and similar)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Mushroom coffee came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $35 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Beers after the long run",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Beers after the long run stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Theragun",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Theragun stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Normatec",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Normatec stays part of your days."
           }
         ],
         "firstRitual": [
@@ -10581,6 +10843,7 @@
           "name": "Sunday mezcal with the crew after close",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 50,
           "origin": "friend",
           "answers": {
@@ -10595,6 +10858,7 @@
           "name": "Inositol",
           "catalog": "Inositol",
           "tier": "U",
+          "cost": false,
           "monthly": 20,
           "origin": "doctor",
           "answers": {},
@@ -10607,6 +10871,7 @@
           "name": "CBD (gummies or oil)",
           "catalog": "CBD (gummies or oil)",
           "tier": "C",
+          "cost": false,
           "monthly": 45,
           "origin": "friend",
           "answers": {
@@ -10619,6 +10884,7 @@
           "name": "Ashwagandha (KSM-66 / Sensoril)",
           "catalog": "Ashwagandha (KSM-66 / Sensoril)",
           "tier": "B",
+          "cost": false,
           "monthly": 19,
           "origin": "online",
           "answers": {
@@ -10631,6 +10897,7 @@
           "name": "Magnesium (any form)",
           "catalog": "Magnesium (any form)",
           "tier": "C",
+          "cost": false,
           "monthly": 22,
           "origin": "online",
           "answers": {
@@ -10645,6 +10912,7 @@
           "name": "Sleep tea blend (valerian, passionflower, lemon balm)",
           "catalog": "Sleep tea blend (valerian, passionflower, lemon balm)",
           "tier": "U",
+          "cost": false,
           "monthly": 17,
           "origin": "online",
           "answers": {},
@@ -10655,6 +10923,7 @@
           "name": "Sleep gummies (blend)",
           "catalog": "Sleep gummies (blend)",
           "tier": "C",
+          "cost": false,
           "monthly": 20,
           "origin": "online",
           "answers": {
@@ -10669,6 +10938,7 @@
           "name": "Massage (monthly)",
           "catalog": "Massage (monthly)",
           "tier": "B",
+          "cost": false,
           "monthly": 120,
           "origin": "friend",
           "answers": {
@@ -10683,6 +10953,7 @@
           "name": "Sunday café de olla at my mom's",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -10695,6 +10966,7 @@
           "name": "Late dinner (within 2 to 3 hours of bed)",
           "catalog": "Late dinner (within 2 to 3 hours of bed)",
           "tier": "C",
+          "cost": true,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -10707,6 +10979,7 @@
           "name": "Oura ring",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 6,
           "origin": "friend",
           "answers": {},
@@ -10799,31 +11072,10 @@
           },
           {
             "kind": "keep",
-            "item": "Sleep gummies (blend)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Sleep gummies stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Massage (monthly)",
+            "item": "Ashwagandha (KSM-66 / Sensoril)",
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
-            "line": "Massage is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Sleep tea blend (valerian, passionflower, lemon balm)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "theirs",
-            "line": "Sleep tea blend stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday café de olla at my mom's",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday café de olla at my mom's is yours, and it stays exactly as it is."
+            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -10834,10 +11086,17 @@
           },
           {
             "kind": "keep",
-            "item": "Ashwagandha (KSM-66 / Sensoril)",
-            "reason": "EVIDENCE_REGULAR",
+            "item": "Sleep gummies (blend)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Sleep gummies stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "CBD (gummies or oil)",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "line": "CBD stays part of your days."
           },
           {
             "kind": "clear",
@@ -10848,10 +11107,24 @@
           },
           {
             "kind": "keep",
-            "item": "CBD (gummies or oil)",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Sunday café de olla at my mom's",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "CBD stays part of your days."
+            "line": "Sunday café de olla at my mom's is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Sleep tea blend (valerian, passionflower, lemon balm)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "theirs",
+            "line": "Sleep tea blend stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Massage (monthly)",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Massage is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -10959,6 +11232,7 @@
           "name": "Gym",
           "catalog": "Strength training",
           "tier": "A",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {
@@ -10971,6 +11245,7 @@
           "name": "Vitamin C tablets",
           "catalog": "Vitamin C (daily supplement)",
           "tier": "A",
+          "cost": false,
           "monthly": 10,
           "origin": "other",
           "answers": {
@@ -10983,6 +11258,7 @@
           "name": "Morning meditation",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -10993,6 +11269,7 @@
           "name": "500 ml of water in the morning",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -11003,6 +11280,7 @@
           "name": "Morning run",
           "catalog": "Morning workout before 8am",
           "tier": "U",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -11013,6 +11291,7 @@
           "name": "Journalling before bed",
           "catalog": "Journaling or a worry list before bed",
           "tier": "C",
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -11025,6 +11304,7 @@
           "name": "Creatine",
           "catalog": "Creatine monohydrate",
           "tier": "A",
+          "cost": false,
           "monthly": 15,
           "origin": "other",
           "answers": {
@@ -11041,6 +11321,7 @@
           "name": "Drinks",
           "catalog": "Alcohol in the evening",
           "tier": "A",
+          "cost": true,
           "monthly": 40,
           "origin": "other",
           "answers": {
@@ -11124,17 +11405,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Creatine",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "500 ml of water in the morning",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "500 ml of water in the morning stays part of your days."
+          },
+          {
+            "kind": "curate",
+            "item": "Gym",
+            "reason": "ANCHOR",
+            "status": "proposed",
+            "line": "Gym could be the anchor of your week. Want to build the rest around it?"
           },
           {
             "kind": "keep",
@@ -11152,10 +11433,24 @@
           },
           {
             "kind": "keep",
+            "item": "Morning meditation",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Morning meditation is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
             "item": "Journalling before bed",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Journalling before bed is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Morning run",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Morning run stays part of your days."
           },
           {
             "kind": "keep",
@@ -11166,24 +11461,10 @@
           },
           {
             "kind": "keep",
-            "item": "Morning meditation",
-            "reason": "THEIRS",
+            "item": "Creatine",
+            "reason": "TRAINS",
             "status": "proposed",
-            "line": "Morning meditation is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Morning run",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Morning run stays part of your days."
-          },
-          {
-            "kind": "curate",
-            "item": "Gym",
-            "reason": "ANCHOR",
-            "status": "proposed",
-            "line": "Gym could be the anchor of your week. Want to build the rest around it?"
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -11278,6 +11559,7 @@
           "name": "Differin + BHA toner",
           "catalog": "Retinol or retinoid plus an exfoliating acid on the same nights",
           "tier": "D",
+          "cost": false,
           "monthly": 30,
           "origin": "online",
           "answers": {
@@ -11292,6 +11574,7 @@
           "name": "Walnut scrub + glycolic pads",
           "catalog": "Two exfoliants (a scrub plus an acid, or two acids)",
           "tier": "D",
+          "cost": false,
           "monthly": 25,
           "origin": "online",
           "answers": {
@@ -11304,6 +11587,7 @@
           "name": "Pimple patches",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 12,
           "origin": "online",
           "answers": {},
@@ -11314,6 +11598,7 @@
           "name": "Zinc (daily supplement)",
           "catalog": "Zinc (daily supplement)",
           "tier": "C",
+          "cost": false,
           "monthly": 8,
           "origin": "online",
           "answers": {},
@@ -11326,6 +11611,7 @@
           "name": "Spearmint tea for hormonal acne",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 10,
           "origin": "online",
           "answers": {
@@ -11338,6 +11624,7 @@
           "name": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "catalog": "Sunscreen (daily, broad-spectrum SPF 30+)",
           "tier": "B",
+          "cost": false,
           "monthly": 18,
           "origin": "online",
           "answers": {
@@ -11350,6 +11637,7 @@
           "name": "Sunday dim sum with my grandparents",
           "catalog": null,
           "tier": null,
+          "cost": false,
           "monthly": 0,
           "origin": "other",
           "answers": {},
@@ -11435,6 +11723,20 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Sunday dim sum with my grandparents",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday dim sum with my grandparents is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Spearmint tea for hormonal acne",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Spearmint tea for hormonal acne stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Zinc (daily supplement)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
@@ -11463,24 +11765,10 @@
           },
           {
             "kind": "keep",
-            "item": "Spearmint tea for hormonal acne",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Spearmint tea for hormonal acne stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Pimple patches",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Pimple patches stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday dim sum with my grandparents",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday dim sum with my grandparents is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [

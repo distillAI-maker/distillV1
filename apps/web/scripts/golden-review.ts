@@ -63,6 +63,8 @@ async function main() {
         name: nameOf(i.id),
         catalog: i.itemKey ? (view.item(i.itemKey)?.name ?? i.itemKey) : null,
         tier: i.itemKey ? (view.item(i.itemKey)?.tier ?? null) : null,
+        /** The grade is for a cost (late caffeine, a nightcap), not a benefit. */
+        cost: view.item(i.itemKey)?.evidenceDirection === 'cost',
         monthly: i.monthlyCost,
         origin: i.origin ?? null,
         answers: i.answers,
