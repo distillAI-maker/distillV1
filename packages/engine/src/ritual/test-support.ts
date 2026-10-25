@@ -33,6 +33,7 @@ function row(over: Partial<V4Item> & Pick<V4Item, 'key' | 'name' | 'area' | 'kin
     clearWhen: [],
     neverClear: false,
     humanQuestion: 'How does it fit your day?',
+    originQuestion: '',
     fitsInstead: '',
     awe: null,
     wearableSees: 'no',

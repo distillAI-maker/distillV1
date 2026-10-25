@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { decide, type DecideInput } from './decide.js';
-import { valuableQuestions } from './questions.js';
+import { NOT_SURE, valuableQuestions, withPatch } from './questions.js';
 import { catalogView, personFor, progressWith, stackItem } from './test-support.js';
 import type { PersonModel, PriorDecision } from './types.js';
 import type { StackItemLike } from './usage.js';
@@ -229,6 +229,38 @@ describe('questions worth asking', () => {
     expect(ids.some((id) => id.startsWith('q:sun:'))).toBe(false);
     // The $99 question comes before the $14 one.
     expect(ids.indexOf('q:ag1:origin')).toBeLessThan(ids.indexOf('q:cr:trains'));
+  });
+
+  it("words each card so its buttons fit, and lets them say they're not sure", () => {
+    const { input } = run([
+      stackItem('ag1', 'greens-powder-ag1-etc', { monthlyCost: 99 }),
+      stackItem('cr', 'creatine-monohydrate', { monthlyCost: 14 }),
+      stackItem('wine', 'alcohol-in-the-evening', { monthlyCost: 60 }),
+    ]);
+    const qs = valuableQuestions(input);
+    const byId = (id: string) => qs.find((q) => q.id === id)!;
+    // The catalog's own questions ("Do you lift, or is it more for focus?") are background for
+    // Claude: a yes/no card always asks a yes/no question.
+    expect(byId('q:cr:trains').text).toBe('Do you lift or train hard most weeks?');
+    expect(byId('q:wine:company').text).toMatch(/more about the company, or a habit on your own\?$/);
+    for (const q of qs) expect(q.options.at(-1)).toEqual({ label: NOT_SURE, patch: { kind: 'unsure', stackItemId: q.stackItemId } });
+    // Not sure changes nothing they told us.
+    expect(withPatch(input, { kind: 'unsure', stackItemId: 'ag1' })).toBe(input);
+  });
+
+  it("asks where it came from in the item's own words when the catalog has them", () => {
+    const view = {
+      ...catalogView,
+      item: (key: string | null) => {
+        const v = catalogView.item(key);
+        return v && key === 'greens-powder-ag1-etc' ? { ...v, originQuestion: 'How did greens powder find its way into your mornings?' } : v;
+      },
+    };
+    const { input } = run([stackItem('ag1', 'greens-powder-ag1-etc', { monthlyCost: 99 })]);
+    const q = valuableQuestions({ ...input, catalog: view }).find((x) => x.id === 'q:ag1:origin')!;
+    expect(q.text).toBe('How did greens powder find its way into your mornings?');
+    expect(q.options.map((o) => o.label)).toEqual(['A feed or an ad', 'A friend', 'A podcast', 'My doctor', 'I found it myself', NOT_SURE]);
+    expect(valuableQuestions(input).find((x) => x.id === 'q:ag1:origin')!.text).toBe('Where did Greens powder come from?');
   });
 });
 

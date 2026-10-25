@@ -27,6 +27,7 @@ import {
   stamp,
   validateOps,
   valuableQuestions,
+  NOT_SURE,
   withNights,
   type Allowed,
   type Decision,
@@ -921,7 +922,7 @@ export class Engine {
     const since = new Date(Date.parse(ctx.instant) - 14 * DAY_MS).toISOString();
     const events = await this.deps.store.events(
       ctx.userId,
-      ['part.done', 'part.skipped', 'today.shown', 'explore.asked', 'explore.added', 'explore.declined'],
+      ['part.done', 'part.skipped', 'today.shown', 'explore.asked', 'explore.added', 'explore.declined', 'question.answered'],
       since,
       db,
     );
@@ -1013,12 +1014,17 @@ export class Engine {
       threadOpen: !!lastAsked && !answeredAfter && Date.parse(ctx.instant) - Date.parse(lastAsked.at) < 7 * DAY_MS,
     });
     const day = Math.floor(Date.parse(`${ctx.today}T12:00:00Z`) / DAY_MS);
+    // "Not sure" rests a question for the two weeks these events cover; any other answer changes
+    // what they told us, so the question stops mattering on its own.
+    const resting = new Set(
+      events.filter((e) => e.kind === 'question.answered' && e.payload.label === NOT_SURE).map((e) => String(e.payload.questionId)),
+    );
     const result = pickToday({
       personId: ctx.userId,
       today: ctx.today,
       season: seasonOn(ctx.person, ctx.today),
       decisions: ctx.decisions,
-      questions: this.questions(ctx),
+      questions: this.questions(ctx).filter((q) => !resting.has(q.id)),
       history,
       moreLeft: morePlaces.map((p) => p.id).filter((id) => !asked.has(id)),
       exploreOpen: gate.open,

@@ -144,6 +144,8 @@ export const v4ItemSchema = z
     clearWhen: z.array(v4ClearCodeSchema),
     neverClear: z.boolean(),
     humanQuestion: text,
+    /** How the app asks where it came from, in this item's own words; the buttons stay the same. */
+    originQuestion: z.string().trim(),
     fitsInstead: z.string().trim(),
     awe: v4AweSchema.nullable(),
     wearableSees: v4SeesSchema,

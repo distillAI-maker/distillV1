@@ -105,6 +105,8 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     const pick = (option: QuestionOption) => {
       const base = { kind: 'question-answer' as const, questionId: q.id, label: option.label };
       const patch = option.patch;
+      // "Not sure" changes nothing they told us; the engine just rests the question.
+      if (patch.kind === 'unsure') return void act(() => engineApi.run(base));
       if (patch.kind === 'attachment')
         return void act(() =>
           engineApi.run({ ...base, attachment: patch.attachment, stackItemId: patch.stackItemId }),

@@ -1,6 +1,6 @@
 {
-  "sha": "80bead0",
-  "made": "2026-10-24T23:39:28.113Z",
+  "sha": "c3f8f1e",
+  "made": "2026-10-25T21:16:49.955Z",
   "rows": [
     {
       "key": "5-htp",
@@ -14,6 +14,7 @@
       "sources": 3,
       "lines": {
         "ask": "5-HTP: little real evidence. Worth a look?",
+        "origin": "Who suggested 5-HTP to you?",
         "letGo": "5-HTP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
         "swap": null,
         "why": "There are no good trials of 5-HTP for adult sleep. Evidence for mood rests on a few small, weak trials. It can clash with antidepressants.",
@@ -49,6 +50,7 @@
       "sources": 3,
       "lines": {
         "ask": "Apigenin: little real evidence. Worth a look?",
+        "origin": "Did apigenin come from a podcast sleep stack, or somewhere else?",
         "letGo": "Apigenin came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
         "swap": null,
         "why": "No human trial has tested apigenin alone for sleep. In mice it acts on calming brain receptors. Chamomile, its main food source, has small trials of its own.",
@@ -73,6 +75,7 @@
       "sources": 3,
       "lines": {
         "ask": "Bone broth: little real evidence. Worth a look?",
+        "origin": "What got bone broth into your day?",
         "letGo": "Bone broth came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $50 a month?",
         "swap": null,
         "why": "No trials yet test bone broth for skin, joints or gut. Lab tests found fewer collagen building blocks than supplement doses in research. Independent collagen trials showed no skin benefit.",
@@ -97,6 +100,7 @@
       "sources": 1,
       "lines": {
         "ask": "Chlorophyll water: little real evidence. Worth a look?",
+        "origin": "Where did chlorophyll water first show up for you?",
         "letGo": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
         "swap": null,
         "why": "Skin evidence is two ten-person studies of gels, not drinks. No trials yet test chlorophyll water for energy or bloating. Most drops are chlorophyllin, a copper-based form.",
@@ -132,6 +136,7 @@
       "sources": 2,
       "lines": {
         "ask": "Colon cleanse: no independent evidence. Worth a look?",
+        "origin": "Who first suggested a colon cleanse?",
         "letGo": "Colon cleanse came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $100 a month?",
         "swap": null,
         "why": "No well-run trials support colon cleansing for general health. Case reports describe harms, and early weight loss from cleanses tends to come back. Your liver and kidneys already clear waste.",
@@ -177,6 +182,7 @@
       "sources": 2,
       "lines": {
         "ask": "DNA test: little real evidence. Worth a look?",
+        "origin": "What got you to order the DNA test?",
         "letGo": "DNA test came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $5 a month?",
         "swap": null,
         "why": "One large trial found gene-matched diet advice did no better than advice based on current eating. Another, in overweight adults, found gene type didn't predict weight loss.",
@@ -201,6 +207,7 @@
       "sources": 2,
       "lines": {
         "ask": "EMF stickers: no independent evidence. Worth a look?",
+        "origin": "Where did you hear about EMF stickers?",
         "letGo": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $2 a month?",
         "swap": null,
         "why": "No evidence these reduce exposure. The FTC charged sellers over false claims, and lab tests found no drop. The FDA links no health problem to phone signals.",
@@ -225,6 +232,7 @@
       "sources": 3,
       "lines": {
         "ask": "Primrose oil: little real evidence. Worth a look?",
+        "origin": "Who first suggested evening primrose oil?",
         "letGo": "Primrose oil came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?",
         "swap": null,
         "why": "Careful reviews found evening primrose oil works no better than a placebo for eczema. For PMS, the few trials are small, and the best-run ones found no benefit.",
@@ -255,6 +263,7 @@
       "sources": 4,
       "lines": {
         "ask": "Eye cream: little real evidence. Worth a look?",
+        "origin": "Who recommended an eye cream on top of your moisturizer?",
         "letGo": "Eye cream came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $45 a month?",
         "swap": null,
         "why": "A 2024 review found few trials of eye creams themselves. Ingredients like retinoids and caffeine have small studies around the eyes, so the ingredient matters more than the jar.",
@@ -279,6 +288,7 @@
       "sources": 6,
       "lines": {
         "ask": "Facial, LED, microcurrent: little real evidence. Worth a look?",
+        "origin": "How did a facial, LED and microcurrent all end up in your routine?",
         "letGo": "Facial, LED, microcurrent came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $140 a month?",
         "swap": null,
         "why": "No study tests stacking all three. Home LED has small trials for fine lines, monthly facials are untested, and microcurrent devices have almost no independent research.",
@@ -303,6 +313,7 @@
       "sources": 3,
       "lines": {
         "ask": "Glutamine: little real evidence. Worth a look?",
+        "origin": "Who put glutamine on your list?",
         "letGo": "Glutamine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
         "swap": null,
         "why": "In trials of healthy people who train, glutamine changed neither strength, muscle, body fat nor immune markers. Protein-rich food already supplies plenty of it.",
@@ -327,6 +338,7 @@
       "sources": 2,
       "lines": {
         "ask": "Glycine: no independent evidence. Worth a look?",
+        "origin": "Where did glycine at bedtime come from?",
         "letGo": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $10 a month?",
         "swap": null,
         "why": "Small Japanese trials found 3 g at bedtime helped people fall asleep sooner and feel less tired. Each involved researchers from a glycine maker; no independent trial yet.",
@@ -351,6 +363,7 @@
       "sources": 5,
       "lines": {
         "ask": "Greens powder: no independent evidence. Worth a look?",
+        "origin": "How did greens powder find its way into your mornings?",
         "letGo": "Greens powder came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?",
         "swap": null,
         "why": "No independent trials yet. Every study so far was run or paid for by a greens brand, showing small shifts in gut bacteria and blood nutrient levels. Products like AG1 hold a multivitamin-level mix plus plant extracts.",
@@ -396,6 +409,7 @@
       "sources": 2,
       "lines": {
         "ask": "Grounding mat: little real evidence. Worth a look?",
+        "origin": "Where did you come across grounding?",
         "letGo": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $4 a month?",
         "swap": null,
         "why": "Most studies are tiny and run by people tied to grounding companies. One small independent trial, in older adults with Alzheimer's, found better sleep scores.",
@@ -420,6 +434,7 @@
       "sources": 5,
       "lines": {
         "ask": "Hair gummies: no independent evidence. Worth a look?",
+        "origin": "Where did you first see the hair gummies?",
         "letGo": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?",
         "swap": null,
         "why": "No study we found tests these gummies. A review found biotin helped hair only when an underlying cause like deficiency was present, and deficiency is uncommon.",
@@ -455,6 +470,7 @@
       "sources": 3,
       "lines": {
         "ask": "Hyperbaric oxygen: no independent evidence. Worth a look?",
+        "origin": "How did you first hear about hyperbaric sessions?",
         "letGo": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?",
         "swap": null,
         "why": "Hyperbaric oxygen is real medicine for diving injuries, carbon monoxide and some wounds. The wellness studies, in adults over 64, came from a clinic chain that sells it.",
@@ -485,6 +501,7 @@
       "sources": 4,
       "lines": {
         "ask": "IV drip: no independent evidence. Worth a look?",
+        "origin": "How did you first hear about IV drips?",
         "letGo": "IV drip came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $215 a month?",
         "swap": null,
         "why": "No good trials in healthy people. A small placebo-controlled trial in fibromyalgia found no difference from a plain fluid drip. IV vitamins are standard care for real deficiencies.",
@@ -540,6 +557,7 @@
       "sources": 2,
       "lines": {
         "ask": "Jaw exerciser: no independent evidence. Worth a look?",
+        "origin": "Where did you first see the jaw exerciser?",
         "letGo": "Jaw exerciser came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $3 a month?",
         "swap": null,
         "why": "No trials. In a 2024 two-person report, three months of use changed nothing visible. Chewing muscles don't shape the fat or skin under the chin.",
@@ -570,6 +588,7 @@
       "sources": 1,
       "lines": {
         "ask": "Lymphatic massage: little real evidence. Worth a look?",
+        "origin": "Where did lymphatic drainage first come up for you?",
         "letGo": "Lymphatic massage came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $120 a month?",
         "swap": null,
         "why": "The medical version is for lymphedema, and even there it adds only a little to compression. There's no good evidence it de-puffs people without swelling.",
@@ -594,6 +613,7 @@
       "sources": 2,
       "lines": {
         "ask": "Mag threonate: no independent evidence. Worth a look?",
+        "origin": "What drew you to this form of magnesium?",
         "letGo": "Mag threonate came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $40 a month?",
         "swap": null,
         "why": "Two trials, both paid for by makers of the Magtein form, found modest gains in self-rated sleep. Ring-tracked sleep improved in one and not the other.",
@@ -624,6 +644,7 @@
       "sources": 1,
       "lines": {
         "ask": "Magnesium spray: no independent evidence. Worth a look?",
+        "origin": "Where did you pick up the magnesium spray?",
         "letGo": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?",
         "swap": null,
         "why": "No controlled study shows magnesium crosses skin in meaningful amounts, and none has tested sleep. A 2017 review found the claims unsupported.",
@@ -648,6 +669,7 @@
       "sources": 4,
       "lines": {
         "ask": "Microcurrent: little real evidence. Worth a look?",
+        "origin": "How did the microcurrent device come into your routine?",
         "letGo": "Microcurrent came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
         "swap": null,
         "why": "We found no independent trial of a NuFACE-style microcurrent device. A 2024 review called the research scarce, and the one trial it cited tested a different electrical device.",
@@ -693,6 +715,7 @@
       "sources": 2,
       "lines": {
         "ask": "Mouth tape: little real evidence. Worth a look?",
+        "origin": "Where did you first hear about mouth tape?",
         "letGo": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
         "swap": null,
         "why": "A 2025 review found ten small, low-quality studies, mostly in people with sleep apnea or mouth breathing; a few saw less snoring. None tested people who sleep normally, and taping is risky with a blocked nose.",
@@ -723,6 +746,7 @@
       "sources": 2,
       "lines": {
         "ask": "Two HA serums: no independent evidence. Worth a look?",
+        "origin": "How did a second hyaluronic serum end up on your shelf?",
         "letGo": "Two HA serums came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
         "swap": null,
         "why": "In a small trial, one hyaluronic acid cream raised skin hydration more than a plain cream. No study we found tests a second hyaluronic serum on top, and the second bottle is the same ingredient again.",
@@ -753,6 +777,7 @@
       "sources": 4,
       "lines": {
         "ask": "Mushroom coffee: little real evidence. Worth a look?",
+        "origin": "Where did mushroom coffee first catch your eye?",
         "letGo": "Mushroom coffee came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $45 a month?",
         "swap": null,
         "why": "One small trial found 1.8 g of lion's mane sped one attention task. A popular blend splits about 2 g across six mushrooms, with about half a coffee's caffeine.",
@@ -777,6 +802,7 @@
       "sources": 6,
       "lines": {
         "ask": "Retinoid plus acid: little real evidence. Worth a look?",
+        "origin": "Who suggested a retinoid and an acid on the same nights?",
         "letGo": "Retinoid plus acid came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
         "swap": null,
         "why": "No trial we found shows that a retinoid plus an exfoliating acid on the same night beats spacing the two out. Each can dry and irritate skin, and dermatologists note exfoliating alongside a retinoid can worsen dryness.",
@@ -812,6 +838,7 @@
       "sources": 1,
       "lines": {
         "ask": "Salt lamp: no independent evidence. Worth a look?",
+        "origin": "How did the salt lamp end up in your room?",
         "letGo": "Salt lamp came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $1 a month?",
         "swap": null,
         "why": "No studies. Clinicians note the lamps give off too few ions to change the air, mood or sleep. The warm glow is the real part.",
@@ -836,6 +863,7 @@
       "sources": 3,
       "lines": {
         "ask": "Phone in bed: little real evidence. Worth a look?",
+        "origin": "How did the phone become part of bedtime?",
         "letGo": "Phone in bed came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go?",
         "swap": null,
         "why": "The research finds no sleep benefit from a phone in bed. In 42 studies of young adults, heavier phone use, especially at night, went with later, shorter, worse sleep. A small trial found a phone-free half hour sped up sleep.",
@@ -860,6 +888,7 @@
       "sources": 3,
       "lines": {
         "ask": "Sea moss: little real evidence. Worth a look?",
+        "origin": "Who got you onto sea moss?",
         "letGo": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?",
         "swap": null,
         "why": "No human trials of sea moss itself. Seaweed products' iodine swings widely, and lab tests found arsenic, mercury and bacteria in some sea moss.",
@@ -900,6 +929,7 @@
       "sources": 2,
       "lines": {
         "ask": "Second calm app: no independent evidence. Worth a look?",
+        "origin": "What got you a second meditation or sleep app?",
         "letGo": "Second calm app came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $13 a month?",
         "swap": null,
         "why": "One mindfulness app gives small lifts in mood and calm in trials. No study has tested whether a second app adds anything.",
@@ -924,6 +954,7 @@
       "sources": 3,
       "lines": {
         "ask": "Second wearable: no independent evidence. Worth a look?",
+        "origin": "What got you wearing a second tracker?",
         "letGo": "Second wearable came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?",
         "swap": null,
         "why": "We found no study testing whether a second tracker adds insight. Worn together in a sleep lab, Oura, WHOOP and Apple Watch each tracked total sleep well and stages only roughly, so two mostly repeat each other.",
@@ -954,6 +985,7 @@
       "sources": 4,
       "lines": {
         "ask": "Shilajit: no independent evidence. Worth a look?",
+        "origin": "What first put shilajit on your radar?",
         "letGo": "Shilajit came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $35 a month?",
         "swap": null,
         "why": "Every human trial found was run or paid for by a shilajit brand. Lab tests have found thallium, a toxic metal, in raw resin and capsules.",
@@ -984,6 +1016,7 @@
       "sources": 1,
       "lines": {
         "ask": "Silk pillowcase: little real evidence. Worth a look?",
+        "origin": "What first sold you on a silk pillowcase?",
         "letGo": "Silk pillowcase came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $3 a month?",
         "swap": null,
         "why": "No trials of real silk on hair or skin. One small trial of a silk-like pillowcase found no fewer breakouts than cotton. Less friction on hair is plausible but untested.",
@@ -1008,6 +1041,7 @@
       "sources": 6,
       "lines": {
         "ask": "Toner: little real evidence. Worth a look?",
+        "origin": "Where did toner come into your routine from?",
         "letGo": "Toner came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $25 a month?",
         "swap": null,
         "why": "In a small study, toner then cream hydrated skin about as well as cream alone. The AAD advises skipping toners with rosacea.",
@@ -1038,6 +1072,7 @@
       "sources": 6,
       "lines": {
         "ask": "Two exfoliants: little real evidence. Worth a look?",
+        "origin": "Where did the idea of two exfoliants come from?",
         "letGo": "Two exfoliants came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?",
         "swap": null,
         "why": "One exfoliant can smooth rough skin, and no study we found shows a second adds more. Over-exfoliating can leave skin red and irritated, glycolic and lactic acids raise sun sensitivity, and strong exfoliation can darken spots on darker skin.",
@@ -1073,6 +1108,7 @@
       "sources": 1,
       "lines": {
         "ask": "Forgotten subscription: no independent evidence. Worth a look?",
+        "origin": "Do you remember how this subscription started?",
         "letGo": "Forgotten subscription came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go?",
         "swap": null,
         "why": "A subscription only helps when it gets used. A large gym study found members often paid for far more than got used.",
@@ -1097,6 +1133,7 @@
       "sources": 4,
       "lines": {
         "ask": "ZMA: little real evidence. Worth a look?",
+        "origin": "Where did you first hear about ZMA?",
         "letGo": "ZMA came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $18 a month?",
         "swap": null,
         "why": "Trials in men eating enough zinc found no rise in testosterone or strength, and two nights of ZMA left sleep unchanged. The magnesium inside is the part with sleep research.",
@@ -1127,6 +1164,7 @@
       "sources": 10,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Evening drinks doesn't sound like it's giving you much. Same plans, with the last drink a little earlier or the second one alcohol-free. Want to try that swap?",
         "why": "Across 27 studies, up to about two drinks already trimmed REM sleep, and more drinks trimmed more. Overnight heart rate also climbs with each drink. Falling asleep faster showed up only around five drinks.",
@@ -1187,6 +1225,7 @@
       "sources": 6,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Morning sleep check doesn't sound like it's giving you much. A weekly look at trends, with the daily score hidden. Want to try that swap?",
         "why": "Trackers mostly feel good to use. In small experiments, a fake low score left people with insomnia feeling less alert that day; in healthy sleepers, one low score didn't change sleep. Score worry tends to cluster with insomnia.",
@@ -1217,6 +1256,7 @@
       "sources": 4,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Afternoon coffee doesn't sound like it's giving you much. A decaf, half-caf or black tea keeps the afternoon break with far less caffeine. Want to try that swap?",
         "why": "Across 24 studies, caffeine cost about 45 minutes of sleep and some deep sleep, more when taken later or in bigger doses. A regular cup's cut-off sits around nine hours before bed, and the loss is easy to miss.",
@@ -1257,6 +1297,7 @@
       "sources": 3,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Late dessert doesn't sound like it's giving you much. Dessert right after dinner keeps the sweet, with more time before bed. Want to try that swap?",
         "why": "Eating within an hour of bed was linked to more night waking. A small study tied more daily sugar to more night arousals. Most of this is observed, not tested.",
@@ -1281,6 +1322,7 @@
       "sources": 8,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Energy drinks doesn't sound like it's giving you much. A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. Want to try that swap?",
         "why": "The caffeine trims sleep just as coffee's does, and some cans hold three cups' worth. Students who drank energy drinks more often slept less and woke more. Blood pressure also rises for a few hours after a can.",
@@ -1336,6 +1378,7 @@
       "sources": 8,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Late dinner doesn't sound like it's giving you much. On late nights, a lighter dinner, with more of the day's food at lunch. Want to try that swap?",
         "why": "Findings are mixed. Surveys tie eating within three hours of bed to more night waking and reflux, yet a 10pm-dinner lab trial found unchanged sleep stages. One small trial saw lower nighttime heart rate with earlier meals.",
@@ -1366,6 +1409,7 @@
       "sources": 3,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Afternoon matcha doesn't sound like it's giving you much. Move it earlier, or pour a caffeine-free tea for the afternoon pause. Want to try that swap?",
         "why": "A 2 g matcha serving holds roughly 60 to 80 mg of caffeine. Across 24 studies, caffeine shortened sleep; a 107 mg coffee needed about nine hours before bed.",
@@ -1396,6 +1440,7 @@
       "sources": 7,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Nicotine doesn't sound like it's giving you much. Daytime only, with the last one a few hours before bed. Want to try that swap?",
         "why": "Nicotine near bedtime makes sleep lighter and more broken, in overnight patch trials and in people tracked at home. Vapes and pouches nudge heart rate up.",
@@ -1446,6 +1491,7 @@
       "sources": 3,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Extra coffee doesn't sound like it's giving you much. Half-caf or decaf for the later cup keeps the ritual. Want to try that swap?",
         "why": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls up to 400 mg a day generally fine for healthy adults.",
@@ -1476,6 +1522,7 @@
       "sources": 5,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Weekend lie-in doesn't sound like it's giving you much. A lie-in kept under an hour, with an earlier night on Friday. Want to try that swap?",
         "why": "Studies disagree. In a Swedish cohort, short weekday sleepers who slept longer on weekends lived as long as steady sleepers, yet a larger device-based study found no benefit. A lab trial found catch-up shifted the body clock later.",
@@ -1500,6 +1547,7 @@
       "sources": 3,
       "lines": {
         "ask": null,
+        "origin": null,
         "letGo": null,
         "swap": "Late work email doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?",
         "why": "Studies following workers link more after-hours email with switching off less and lower measured sleep quality, not shorter sleep. These track patterns, not cause; in a small trial, a phone-free half hour before bed meant falling asleep sooner.",

@@ -10,7 +10,7 @@ V4 is the table the engine reads to decide what is well-founded, what can be let
 
 | Sheet | One row per | Columns that matter most |
 | --- | --- | --- |
-| Items | thing a person does or buys | `evidence_tier`, `evidence_for`, `evidence_requires` + `tier_otherwise`, `keep_when`, `clear_when`, `never_clear`, `dose_min` + `dose_unit`, `moments`, `cadence`, `human_question`, `fits_instead`, `status` |
+| Items | thing a person does or buys | `evidence_tier`, `evidence_for`, `evidence_requires` + `tier_otherwise`, `keep_when`, `clear_when`, `never_clear`, `dose_min` + `dose_unit`, `moments`, `cadence`, `human_question` (background for Claude), `origin_question` (the where-did-it-come-from card in the row's own words, 14 words at most; the buttons stay the same), `fits_instead`, `status` |
 | Sources | paper or page someone opened | `type`, `finding` (30 words at most, paraphrased), `checked_by`, `checked_on`, `brand_funded` |
 | Overlaps | group of things that do the same job | `rule`: keep-one, keep-best-evidence, keep-most-used, or show-together (shown side by side with the total, nothing proposed) |
 | Safety | condition that changes an item | `condition`, `action`: clinician-first, see-dermatologist, never-suggest, or note |

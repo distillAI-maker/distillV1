@@ -19,7 +19,13 @@ export type QuestionPatch =
       readonly kind: 'attachment';
       readonly stackItemId: string;
       readonly attachment: 'loved' | 'neutral' | 'borrowed';
-    };
+    }
+  /** They don't know or would rather not say: nothing changes, and the question rests a while. */
+  | { readonly kind: 'unsure'; readonly stackItemId: string };
+
+/** The last button on every question card. */
+export const NOT_SURE = 'Not sure';
+const notSure = (stackItemId: string): QuestionOption => ({ label: NOT_SURE, patch: { kind: 'unsure', stackItemId } });
 
 export interface QuestionOption {
   readonly label: string;
@@ -40,6 +46,7 @@ export interface QuestionDraft {
 
 /** The input with one answer applied, as if they had told us. */
 export function withPatch(input: DecideInput, patch: QuestionPatch): DecideInput {
+  if (patch.kind === 'unsure') return input;
   const stack = input.stack.map((s) => {
     if (s.id !== patch.stackItemId) return s;
     if (patch.kind === 'answers') return { ...s, answers: { ...s.answers, ...patch.set } };
@@ -91,13 +98,15 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
       stackItemId: s.id,
       variable: 'origin',
       name,
-      text: `Where did ${name} come from?`,
+      // The item's own wording when the catalog has it; the buttons are the same either way.
+      text: v?.originQuestion || `Where did ${name} come from?`,
       options: [
         { label: 'A feed or an ad', patch: { kind: 'origin', stackItemId: s.id, origin: 'online' } },
         { label: 'A friend', patch: { kind: 'origin', stackItemId: s.id, origin: 'friend' } },
         { label: 'A podcast', patch: { kind: 'origin', stackItemId: s.id, origin: 'podcast' } },
         { label: 'My doctor', patch: { kind: 'origin', stackItemId: s.id, origin: 'doctor' } },
         { label: 'I found it myself', patch: { kind: 'origin', stackItemId: s.id, origin: 'other' } },
+        notSure(s.id),
       ],
     });
   if (v && v.evidenceRequires === 'trains' && trainsOf(s, input.stack) === null)
@@ -106,10 +115,12 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
       stackItemId: s.id,
       variable: 'trains',
       name,
-      text: v.humanQuestion || 'Do you lift or train hard most weeks?',
+      // Fixed, so the words always fit the buttons. The catalog's human_question is background for Claude.
+      text: 'Do you lift or train hard most weeks?',
       options: [
         { label: 'Yes, most weeks', patch: { kind: 'answers', stackItemId: s.id, set: { trains: true } } },
         { label: 'Not really', patch: { kind: 'answers', stackItemId: s.id, set: { trains: false } } },
+        notSure(s.id),
       ],
     });
   const usage = usageOf(s, v);
@@ -127,12 +138,14 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
             { label: 'Once or twice', patch: { kind: 'answers', stackItemId: s.id, set: { visitsLast30Days: 2 } } },
             { label: 'About weekly', patch: { kind: 'answers', stackItemId: s.id, set: { visitsLast30Days: 4 } } },
             { label: 'More than that', patch: { kind: 'answers', stackItemId: s.id, set: { visitsLast30Days: 10 } } },
+            notSure(s.id),
           ]
         : [
             { label: 'Most days', patch: { kind: 'answers', stackItemId: s.id, set: { usesLast30Days: 25 } } },
             { label: 'A few times a week', patch: { kind: 'answers', stackItemId: s.id, set: { usesLast30Days: 12 } } },
             { label: 'Now and then', patch: { kind: 'answers', stackItemId: s.id, set: { usesLast30Days: 4 } } },
             { label: 'Not lately', patch: { kind: 'answers', stackItemId: s.id, set: { usesLast30Days: 0 } } },
+            notSure(s.id),
           ],
     });
   }
@@ -142,10 +155,12 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
       stackItemId: s.id,
       variable: 'company',
       name,
-      text: v.humanQuestion || `Is ${name} more about the company, or a habit on your own?`,
+      // Fixed, so the words always fit the buttons.
+      text: `Is ${name} more about the company, or a habit on your own?`,
       options: [
         { label: 'Mostly with people I love', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'loved' } },
         { label: 'Mostly on my own', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'neutral' } },
+        notSure(s.id),
       ],
     });
   return out;

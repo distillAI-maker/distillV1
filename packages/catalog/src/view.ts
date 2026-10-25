@@ -45,6 +45,8 @@ export interface CatalogItemView {
   readonly clearWhen: readonly V4Item['clearWhen'][number][];
   readonly neverClear: boolean;
   readonly humanQuestion: string;
+  /** The where-did-it-come-from question in this item's words, or '' for the plain one. */
+  readonly originQuestion: string;
   readonly fitsInstead: string;
   readonly awe: V4Item['awe'];
   readonly wearableSees: V4Item['wearableSees'];
@@ -137,6 +139,7 @@ export function itemFromV3(item: Item): CatalogItemView {
     clearWhen: ['UNUSED', 'OVERLAP'],
     neverClear: item.tier === 'PROTECTED',
     humanQuestion: item.question,
+    originQuestion: '',
     fitsInstead: '',
     awe: null,
     wearableSees: item.visibility,
@@ -180,6 +183,7 @@ export function itemFromV4(row: V4Item): CatalogItemView {
     clearWhen: row.clearWhen,
     neverClear: row.neverClear,
     humanQuestion: row.humanQuestion,
+    originQuestion: row.originQuestion,
     fitsInstead: row.fitsInstead,
     awe: row.awe,
     wearableSees: row.wearableSees,

@@ -165,6 +165,21 @@ describe('the first Ritual', () => {
     expect(shown).toHaveLength(1);
     expect(shown[0]!.payload.propensity).toBeGreaterThan(0);
   });
+  it('rests a question they answered “Not sure”, and changes nothing they told us', async () => {
+    // AG1 with no origin: "where did it come from?" decides whether to suggest letting it go.
+    progress = { ...progress, items: progress.items.map((i) => (i.id === 'ag1' ? { ...i, origin: undefined } : i)) };
+    const e = engine();
+    await settled();
+    await e.state(alice);
+    const candidates = async () =>
+      ((await store.events(alice, ['today.shown'], '2000-01-01T00:00:00Z')).at(-1)!.payload.candidates as { id: string }[]).map((c) => c.id);
+    expect(await candidates()).toContain('question:q:ag1:origin');
+    await e.run(alice, { kind: 'question-answer', questionId: 'q:ag1:origin', label: 'Not sure' });
+    expect(progress.items.find((i) => i.id === 'ag1')!.origin).toBeUndefined();
+    clock = new Date('2026-10-22T19:00:00Z');
+    await e.state(alice);
+    expect(await candidates()).not.toContain('question:q:ag1:origin');
+  });
   it('stays the same proposal while it waits, brought up to date when their list changes', async () => {
     const e = engine();
     const first = await e.run(alice, { kind: 'onboarding' });

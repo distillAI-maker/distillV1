@@ -44,6 +44,8 @@ One function, `engine.run(person, event)`, takes anything that happens to a pers
 | `part` | A check-off. Three days of mostly skipped mornings (explicit skips only; silence never counts) offers a lighter morning, as a proposal. |
 | `edit` | Their own edit applies at once, no model. |
 
+Question cards always pair words that fit their buttons: the trains and company cards use fixed wording, and the where-did-it-come-from card uses the row's `origin_question` when it has one (the buttons never change). Every card ends in **Not sure**, which changes nothing they told us and rests that question for two weeks. A row's `human_question` is background for Claude, never a card title.
+
 Today's one thing (`pickToday`) ranks what's open (a referral, then a clear on a rhythm, adjustments, questions worth asking, explore when the time is right, a daily question), draws fairly among ties with a seed, and logs the chance each had, so the effect can be measured later.
 
 ## Switches

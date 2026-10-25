@@ -87,6 +87,7 @@ export function validateV4(input: unknown): CatalogV4 {
     for (const [field, value, max] of [
       ['evidence_summary', i.evidenceSummary, 40],
       ['human_question', i.humanQuestion, 11],
+      ['origin_question', i.originQuestion, 14],
       ['fits_instead', i.fitsInstead, 30],
     ] as const)
       if (value) for (const p of personTextProblems(value, c.bannedPhrases, max)) problems.push(`${at('Items', r, field)}: ${p}`);
