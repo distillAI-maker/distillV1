@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import type { QuestionOption } from '@distill/engine/ritual';
+import { SwapCard } from '../../../components/swap-card';
 import { copy } from '../../../lib/copy';
 import type { RoutedStack } from '../../../lib/data/types';
 import { engineApi, type EngineState } from '../../../lib/engine/client';
@@ -10,6 +12,15 @@ import { useProgress } from '../../../lib/progress/context';
 import type { Progress } from '../../../lib/progress/types';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
+
+/** Opens the companion asking why, about the thing on this card. */
+function WhyLink({ stackItemId, ask }: { stackItemId: string; ask: 'clear' | 'keep' | 'question' | 'other' }) {
+  return (
+    <Link className="d-see-all d-see-all--quiet d-one-why" href={`/companion?about=${encodeURIComponent(stackItemId)}&why=${ask}`}>
+      {copy.decide.why}
+    </Link>
+  );
+}
 
 /** The picks this card answers; 'more' and 'learn' use the home screen's own flows. */
 export const ENGINE_CARDS = new Set(['clear', 'adjust', 'curate', 'keep', 'refer', 'celebrate', 'question', 'explore']);
@@ -25,6 +36,12 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
   const [region, setRegion] = useState('');
   const [answered, setAnswered] = useState<Record<string, 'add' | 'decline'>>({});
   const t = state.today;
+  // The swap stays on the card after they answer it, so they see "Added" before it goes.
+  const [swap, setSwap] = useState(t.swap);
+  useEffect(() => {
+    if (t.swap) setSwap(t.swap);
+  }, [t.swap]);
+  const offer = t.swap ?? (swap && swap.stackItemId === t.decision?.stackItemId ? swap : undefined);
   const nameOf = (id: string | null | undefined) =>
     (id && routed.items.find((r) => r.stackItemId === id)?.name) ||
     progress.items.find((i) => i.id === id)?.customName ||
@@ -51,6 +68,8 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
                   : copy.decide.thanks}
           </h2>
           <p className="d-one-thing-done">{copy.home.doneToday}</p>
+          {offer ? <SwapCard key={offer.itemKey} offer={offer} look="today" /> : null}
+          {d.stackItemId && d.status === 'yes' && d.kind === 'clear' ? <WhyLink stackItemId={d.stackItemId} ask="other" /> : null}
         </>
       );
     const answer = (choice: 'yes' | 'not-now' | 'theirs') => {
@@ -88,6 +107,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
             </button>
           ) : null}
         </div>
+        {d.stackItemId ? <WhyLink stackItemId={d.stackItemId} ask={kind === 'clear' ? 'clear' : kind === 'keep' ? 'keep' : 'other'} /> : null}
       </>
     );
   }
@@ -137,6 +157,7 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
             </button>
           ))}
         </div>
+        <WhyLink stackItemId={q.stackItemId} ask="question" />
       </>
     );
   }

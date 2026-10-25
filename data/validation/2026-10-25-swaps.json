@@ -1,0 +1,23 @@
+{
+  "why": "The swap a member can add to their Ritual after letting something go: only rows whose fits_instead is a thing to do, not an adjustment to what they already do. Title is the part's name; slot is when it sits; per_week blank means every day.",
+  "written": "2026-10-25",
+  "swaps": {
+    "greens-powder-ag1-etc": ["Spinach and berry smoothie", "morning", 3],
+    "coffee-after-2pm": ["Decaf or black tea after 2pm", "midday", null],
+    "work-email-after-9pm": ["One evening email check, then notifications off", "evening", 5],
+    "checking-the-sleep-score-every-morning": ["A weekly look at sleep trends", "morning", 1],
+    "screens-phone-in-bed": ["Phone charging outside the bedroom", "night", null],
+    "emf-blockers-anti-radiation-stickers": ["Phone across the room at night", "night", null],
+    "grounding-earthing-sheets-mats": ["Barefoot time on grass or sand", "midday", 2],
+    "salt-lamp": ["A warm, dim lamp in the evening", "evening", null],
+    "mushroom-coffee": ["Half-caf morning coffee", "morning", null],
+    "apigenin": ["Chamomile tea", "night", null],
+    "5-htp": ["A short worry list before bed", "night", null],
+    "magnesium-spray-oil-transdermal": ["A warm bath", "night", 2],
+    "matcha-green-tea-in-the-afternoon": ["A caffeine-free afternoon tea", "midday", null],
+    "bone-broth": ["A mug of miso or homemade stock", "evening", 3],
+    "second-or-third-coffee": ["Half-caf for the later cup", "midday", null],
+    "dessert-sugar-before-bed": ["Dessert right after dinner", "evening", null],
+    "microcurrent-device-nuface": ["Two-minute face massage", "evening", null]
+  }
+}

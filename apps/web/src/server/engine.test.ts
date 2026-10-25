@@ -247,6 +247,77 @@ describe('a message', () => {
   });
 });
 
+describe('a follow-up', () => {
+  const greensWhy = "No independent trial has tested a greens powder. One swap, if you'd like it: a piece of fruit and some greens at lunch.";
+  it('answers a Why? from its card in the catalog’s reviewed words, and offers the swap', async () => {
+    const s = (await settled()).state;
+    expect(s.items.ag1).toBe('clear');
+    const r = await engine().run(alice, { kind: 'message', text: 'Why let Greens powder go?', about: 'ag1' });
+    expect(r.reply).toBe(greensWhy);
+    expect(r.swap).toEqual({ itemKey: 'greens-powder-ag1-etc', stackItemId: 'ag1', title: 'Fruit and greens at lunch', slot: 'midday', perWeek: null });
+    const about = await store.events(alice, ['message.about'], '2000-01-01T00:00:00Z');
+    expect(about.map((x) => x.payload)).toEqual([{ stackItemId: 'ag1', via: 'card' }]);
+  });
+  it('keeps a bare “why?” on what they last asked about, and leaves a free-text question for Claude', async () => {
+    await settled();
+    const e = engine();
+    await e.run(alice, { kind: 'message', text: 'Why let Greens powder go?', about: 'ag1' });
+    expect((await e.run(alice, { kind: 'message', text: 'why?' })).reply).toBe(greensWhy);
+    expect((await e.run(alice, { kind: 'message', text: 'how would I fit that in?' })).reply).toBe(greensWhy);
+    // Named in their own words, with Claude off: the reply waits for a model that can fit it to them.
+    expect((await e.run(alice, { kind: 'message', text: 'is creatine worth it?' })).reply).toBe(REPLY_FALLBACK);
+    // Not a question about anything: no item at all.
+    expect((await e.run(alice, { kind: 'message', text: 'Sam made pasta tonight' })).swap).toBeUndefined();
+  });
+  it('never offers a swap for something Distill keeps', async () => {
+    await settled();
+    const r = await engine().run(alice, { kind: 'message', text: 'Why keep creatine?', about: 'cr' });
+    expect(r.swap).toBeUndefined();
+    expect(r.reply).not.toMatch(/swap/);
+  });
+  it('adds the swap to their Ritual on a yes, and stops offering it', async () => {
+    await settled();
+    const e = engine();
+    const r = await e.swapAnswer(alice, 'greens-powder-ag1-etc', 'add');
+    const part = r.state.ritual.today.parts.find((p) => p.id === 'part:swap:greens-powder-ag1-etc')!;
+    expect(part).toMatchObject({ title: 'Fruit and greens at lunch', source: { kind: 'swap', itemKey: 'greens-powder-ag1-etc' }, status: 'active' });
+    expect(part.when.slot).toBe('midday');
+    expect(r.state.ritual.lastChange).toMatchObject({ undoable: true });
+    expect((await e.run(alice, { kind: 'message', text: 'why?', about: 'ag1' })).swap).toBeUndefined();
+    // A second yes changes nothing.
+    expect((await e.swapAnswer(alice, 'greens-powder-ag1-etc', 'add')).versionId).toBeUndefined();
+  });
+  it('never offers it again after a no, and only swaps for things on their list', async () => {
+    await settled();
+    const e = engine();
+    await e.swapAnswer(alice, 'greens-powder-ag1-etc', 'decline');
+    expect((await e.run(alice, { kind: 'message', text: 'why?', about: 'ag1' })).swap).toBeUndefined();
+    await expect(e.swapAnswer(alice, 'two-exfoliants-scrub-plus-acid-or-two-acids', 'add')).rejects.toThrow(/no_such_swap/);
+  });
+  it('offers the swap on today’s card after a yes to letting it go', async () => {
+    progress = { ...progress, items: progress.items.filter((i) => i.id === 'ag1' || i.id === 'sun') };
+    const s = (await settled()).state;
+    expect(s.today.decision?.stackItemId).toBe('ag1');
+    expect(s.today.swap).toBeUndefined();
+    progress = { ...progress, items: progress.items.map((i) => (i.id === 'ag1' ? { ...i, status: 'cut' } : i)) };
+    const r = await engine().run(alice, { kind: 'decision-answer', decisionId: s.today.decision!.id, answer: 'yes' });
+    expect(r.state.today.swap).toMatchObject({ itemKey: 'greens-powder-ag1-etc', title: 'Fruit and greens at lunch' });
+  });
+  it('gives Claude the whole item: what the sources found, the swap, and room for a fuller answer', async () => {
+    await settled();
+    const { client, answers, requests } = fakeClient();
+    const said = 'No independent trial has looked at greens powders alone. Whole vegetables have a long record, so fruit and greens at lunch would keep the habit. I can add that to your afternoons.';
+    answers.push({ ...tonight, intent: 'question', trigger: null }, { ops: [] }, { reply: said });
+    const r = await engine(client).run(alice, { kind: 'message', text: 'Why let Greens powder go?', about: 'ag1' });
+    expect(r.reply).toBe(said);
+    const asked = JSON.stringify(requests.at(-1));
+    expect(asked).toContain('<item>');
+    expect(asked).toContain('A source found: Found no independent trial of a greens powder');
+    expect(asked).toContain('A swap they could make: A piece of fruit and some greens at lunch.');
+    expect(asked).toContain('Where it stands: Distill suggested letting it go');
+  });
+});
+
 describe('their own edits and answers', () => {
   it('an edit applies at once with no model, for today on, and never rewrites a past day', async () => {
     const settledState = (await settled()).state;

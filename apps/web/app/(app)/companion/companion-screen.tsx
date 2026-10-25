@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { DStar } from '../../../components/d-star';
+import { SwapCard } from '../../../components/swap-card';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
-import { engineApi } from '../../../lib/engine/client';
+import { engineApi, type EngineResult } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
 import { newItemId, type Progress } from '../../../lib/progress/types';
@@ -19,14 +20,40 @@ import { Arrow } from '../today/ritual-today';
 export function CompanionScreen() {
   const { ready, progress, update } = useProgress();
   const { on, state, act, busy, last, clearLast, error } = useEngine();
-  const { routed } = useRouted();
+  const { routed, failed } = useRouted();
   const [text, setText] = useState('');
+  // The swap offered with a reply stays until their next message, so they see "Added".
+  const [offer, setOffer] = useState<EngineResult['swap']>();
+  const asked = useRef(false);
   const end = useRef<HTMLLIElement | null>(null);
   const count = state?.thread.length ?? 0;
 
   useEffect(() => {
     end.current?.scrollIntoView?.({ block: 'end' });
-  }, [count]);
+  }, [count, offer]);
+
+  useEffect(() => {
+    if (last?.swap) setOffer(last.swap);
+  }, [last]);
+
+  // A Why? tap on today's card: ask about that thing, once, and tidy the address.
+  useEffect(() => {
+    // Wait for their list's names, so it asks "Why let AG1 go?" rather than a bare "Why?".
+    if (!ready || !on || !state || busy || asked.current || (!routed && !failed)) return;
+    const params = new URLSearchParams(window.location.search);
+    const about = params.get('about');
+    if (!about) return;
+    asked.current = true;
+    window.history.replaceState(null, '', window.location.pathname);
+    const item = progress.items.find((i) => i.id === about);
+    if (!item) return;
+    const name = routed?.items.find((r) => r.stackItemId === about)?.name || item.label || item.customName || '';
+    const why = params.get('why');
+    const ask = copy.companion.why[why === 'clear' || why === 'keep' || why === 'question' ? why : 'other'];
+    clearLast();
+    setOffer(undefined);
+    void act(() => engineApi.message(name ? ask(name) : copy.decide.why, about));
+  }, [ready, on, state, busy, progress.items, routed, failed, act, clearLast]);
 
   if (!ready || !on)
     return (
@@ -75,6 +102,7 @@ export function CompanionScreen() {
     const message = text.trim().slice(0, 2000);
     if (!message) return;
     clearLast();
+    setOffer(undefined);
     if (await act(() => engineApi.message(message))) setText('');
   }
 
@@ -177,6 +205,7 @@ export function CompanionScreen() {
               </div>
             </li>
           ))}
+          {offer ? <SwapCard key={offer.itemKey} offer={offer} look="chat" /> : null}
           <li ref={end} aria-hidden="true" className="d-chat-end" />
         </ol>
       </div>

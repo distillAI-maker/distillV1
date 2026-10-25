@@ -34,6 +34,7 @@ function row(over: Partial<V4Item> & Pick<V4Item, 'key' | 'name' | 'area' | 'kin
     neverClear: false,
     humanQuestion: 'How does it fit your day?',
     originQuestion: '',
+    swap: null,
     fitsInstead: '',
     awe: null,
     wearableSees: 'no',
@@ -119,7 +120,10 @@ export const v4Rows: V4Item[] = [
     comesFrom: ['feed', 'ad', 'podcast'],
     evidenceTier: 'N',
     clearWhen: ['BORROWED_WEAK', 'UNUSED'],
+    evidenceSummary: 'No independent trial has tested a greens powder.',
+    sources: ['greens-test-review'],
     fitsInstead: 'A piece of fruit and some greens at lunch.',
+    swap: { title: 'Fruit and greens at lunch', slot: 'midday', perWeek: null },
   }),
   row({
     key: 'alcohol-in-the-evening',
@@ -239,7 +243,21 @@ export const v4Fixture: CatalogV4 = {
   sourceFile: 'Routing-Table_V4.xlsx',
   sourceSha256: 'f'.repeat(64),
   items: v4Rows,
-  sources: [],
+  sources: [
+    {
+      id: 'greens-test-review',
+      citation: 'A test review of greens powders.',
+      year: 2024,
+      type: 'review',
+      doiOrUrl: 'https://example.org/greens',
+      finding: 'Found no independent trial of a greens powder; whole vegetables have their own long record.',
+      population: 'healthy adults',
+      checkedBy: 'test',
+      checkedOn: '2026-10-25',
+      brandFunded: false,
+      source: loc,
+    },
+  ],
   overlaps: [
     { group: 'sleep-aids', members: ['sleep-gummies-blend', 'melatonin'], rule: 'keep-best-evidence', note: '', source: loc },
     {

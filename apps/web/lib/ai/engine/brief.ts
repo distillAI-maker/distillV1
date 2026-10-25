@@ -78,6 +78,51 @@ export function evidenceBlock(view: CatalogItemView | undefined): string {
   return `<evidence>\n${about}\nFor: ${clean(view.evidenceFor)}\n${clip(clean(view.evidenceSummary), 400)}\n</evidence>`;
 }
 
+/** What Distill suggested about the thing they're asking about, so a "why?" answers the card they saw. */
+export type ItemStandingNote = 'clinician' | 'theirs' | 'keep' | 'clear' | 'adjust' | 'open' | 'let-go';
+
+const STANDING_WORDS: Record<ItemStandingNote, string> = {
+  clinician: 'From their clinician: outside what Distill edits.',
+  theirs: 'They said it is theirs: Distill keeps it, always.',
+  keep: 'Distill keeps it: one of the well-founded things in their life.',
+  clear: 'Distill suggested letting it go: it seems to have come from the noise.',
+  adjust: 'Distill suggested a change to how they do it.',
+  open: 'Distill is still asking about it.',
+  'let-go': 'They let it go.',
+};
+
+/**
+ * The thing a follow-up is about, in full: grade, what the sources found (paraphrased), why Distill
+ * asks, the swap, and the safety notes for conditions they told us about. Background for a fuller
+ * "why?" or "how do I fit this in?".
+ */
+export function aboutBlock(
+  view: CatalogItemView,
+  ctx: { name: string; standing?: ItemStandingNote; conditions: ReadonlySet<string>; offerSwap: boolean },
+): string {
+  const out = ['<item>', `Name: ${clean(ctx.name)}`];
+  if (ctx.standing) out.push(`Where it stands: ${STANDING_WORDS[ctx.standing]}`);
+  if (view.tier === 'U') out.push('Evidence: not reviewed yet. Say Distill has not looked into it yet.');
+  else {
+    out.push(`${view.evidenceDirection === 'cost' ? 'How well supported the cost is' : 'How well supported'}: ${GRADE[view.tier]}`);
+    if (view.evidenceFor) out.push(`For: ${clean(view.evidenceFor)}`);
+    if (view.evidenceSummary) out.push(`Summary: ${clip(clean(view.evidenceSummary), 500)}`);
+    for (const f of view.findings.slice(0, 4))
+      out.push(`- A source found: ${clip(clean(f.finding), 300)}${f.population ? ` (in ${clean(f.population)})` : ''}`);
+  }
+  if (view.humanQuestion) out.push(`Why Distill asks about it: ${clean(view.humanQuestion)}`);
+  if (ctx.offerSwap && view.fitsInstead) out.push(`A swap they could make: ${clean(view.fitsInstead)}`);
+  if (ctx.offerSwap && view.swap) out.push(`The app offers to add "${clean(view.swap.title)}" to their Ritual right after your reply.`);
+  for (const n of safetyNotes(view, ctx.conditions)) out.push(`Safety note for them: ${clean(n)}`);
+  out.push('</item>');
+  return out.join('\n');
+}
+
+/** Safety notes that apply to everyone, or to a condition they told us about in their own words. */
+export function safetyNotes(view: CatalogItemView, conditions: ReadonlySet<string>): string[] {
+  return view.safety.filter((s) => s.note && (s.condition === 'any' || conditions.has(s.condition))).map((s) => s.note);
+}
+
 export function partLine(p: RitualPart, flags: { locked?: boolean; protected?: boolean } = {}): string {
   const when = [p.when.at, p.when.slot, p.when.days.length === 7 ? 'every day' : p.when.days.join(' '), p.when.perWeek ? `${p.when.perWeek}x a week` : '']
     .filter(Boolean)

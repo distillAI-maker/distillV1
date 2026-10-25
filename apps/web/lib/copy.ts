@@ -922,6 +922,26 @@ export const copy = {
     borrowed: 'Not really mine',
     back: 'Today',
     seeChange: 'See your Ritual',
+    /** What a Why? tap on today's card asks, in their voice. */
+    why: {
+      clear: (name: string) => `Why let ${name} go?`,
+      keep: (name: string) => `Why keep ${name}?`,
+      question: (name: string) => `Why ask about ${name}?`,
+      other: (name: string) => `Why ${name}?`,
+    } as Record<'clear' | 'keep' | 'question' | 'other', (name: string) => string>,
+  },
+  /** Something to do in place of what they let go of: offered once, theirs to add. */
+  swap: {
+    ask: 'Something in its place?',
+    when: (perWeek: number | null, slot: 'morning' | 'midday' | 'evening' | 'night') => {
+      const often = perWeek === null ? 'Every day' : perWeek === 1 ? 'Once a week' : perWeek === 2 ? 'Twice a week' : `${perWeek} times a week`;
+      const at = { morning: 'in the morning', midday: 'in the afternoon', evening: 'in the evening', night: 'before bed' }[slot];
+      return `${often} ${at}`;
+    },
+    add: 'Add to my Ritual',
+    no: 'No thanks',
+    added: 'Added to your Ritual.',
+    declined: "Noted. We won't offer it again.",
   },
   /** Today's one thing, when the engine chose it. */
   decide: {
@@ -935,6 +955,7 @@ export const copy = {
     } as Record<string, string>,
     notNow: 'Not now',
     mine: 'This is mine',
+    why: 'Why?',
     letGone: (dollars: string) => `$${dollars} a month back. Lighter already.`,
     kept: 'Yours. We won’t raise it again.',
     later: 'Fair. It can wait.',

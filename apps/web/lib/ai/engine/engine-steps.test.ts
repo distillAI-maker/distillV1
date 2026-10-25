@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { buildCatalogView } from '@distill/catalog';
 import { checkLine, personFromProgress, scopeTrigger, type RitualPart, type RitualVersion } from '@distill/engine/ritual';
+import { engineCatalog } from '../../catalog/engine';
 import { catalog } from '../../catalog/server';
 import { callJson, HAIKU, OPUS, type ClaudeClient } from './call';
 import { classifyMessage } from './classify';
 import { FALLBACK_REPLY, reshape } from './reshape';
 import { fallbackLine, wordDecisions } from './word-decisions';
+import { whyAnswer } from './reply';
 import { z } from 'zod';
 
 /** A stand-in for the SDK: records every request and answers from a script. */
@@ -183,5 +185,21 @@ describe('wording decisions', () => {
       const line = fallbackLine({ ...draft, kind, reason, context: { keeperName: 'Melatonin' } });
       expect(checkLine(line, { toneRules, allowedNumbers: ['99'], names: ['AG1', 'Melatonin'], maxWords: 40 }), `${kind}:${reason}`).toEqual([]);
     }
+  });
+});
+
+describe('a why, with Claude off', () => {
+  const view = engineCatalog().item('alcohol-in-the-evening')!;
+  const base = { view, name: 'Evening drinks', standing: 'clear' as const, offerSwap: true, fixed: true };
+  it('answers in the catalog’s reviewed words, with a safety note only for a condition they told us about', () => {
+    const plain = whyAnswer({ ...base, conditions: new Set() })!;
+    expect(plain.startsWith(view.evidenceSummary)).toBe(true);
+    const note = view.safety.find((s) => s.condition === 'diabetes')!.note;
+    expect(plain).not.toContain(note);
+    expect(whyAnswer({ ...base, conditions: new Set(['diabetes']) })).toContain(note);
+  });
+  it('offers the swap only when Distill suggested letting it go', () => {
+    expect(whyAnswer({ ...base, conditions: new Set() })).toContain("One swap, if you'd like it: same plans");
+    expect(whyAnswer({ ...base, offerSwap: false, conditions: new Set() })).not.toContain('swap');
   });
 });

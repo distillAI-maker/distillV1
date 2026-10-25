@@ -42,6 +42,9 @@ export const ITEM_HEADERS = [
   'human_question',
   'origin_question',
   'fits_instead',
+  'swap_title',
+  'swap_slot',
+  'swap_per_week',
   'awe',
   'wearable_sees',
   'overlaps',
@@ -144,6 +147,9 @@ export function ingestV4(wb: XLSX.WorkBook, sourceSha256: string): CatalogV4 {
       humanQuestion: text(get('human_question')),
       originQuestion: text(get('origin_question')),
       fitsInstead: text(get('fits_instead')),
+      swap: text(get('swap_title'))
+        ? { title: text(get('swap_title')), slot: text(get('swap_slot')), perWeek: number(get('swap_per_week'), at('swap_per_week')) }
+        : null,
       awe: orNull(get('awe')),
       wearableSees: text(get('wearable_sees')),
       overlaps: list(get('overlaps')),

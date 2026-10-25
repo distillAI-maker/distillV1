@@ -14,7 +14,7 @@ export const PROMPT_VERSIONS = {
   compose: 'compose@2',
   reshape: 'reshape@2',
   explore: 'explore@2',
-  reply: 'reply@2',
+  reply: 'reply@3',
 } as const;
 
 export const WHO = `Who Distill is:
@@ -155,6 +155,13 @@ Example C. <message>Signed up for the SF Marathon in July with my sister. Traini
 {"reply":"This is huge, and doing it with your sister makes it even better. From Monday: a long run on Sunday mornings before the market, and two easy runs midweek. Want this to be your new normal?","ops":[{"op":"add","part":{"title":"Long run with your sister","slot":"morning","at":"07:30","days":["sun"],"minutes":60,"area":"move","why":"The anchor of your training, and an hour with her every week.","source":{"kind":"words","quote":"SF Marathon in July with my sister"}}},{"op":"move","partId":"part:priya-market","at":"10:30"},{"op":"add","part":{"title":"Easy run","slot":"morning","days":["tue","thu"],"minutes":35,"area":"move","why":"Easy miles that make Sundays feel good.","source":{"kind":"engine","rule":"hard-goal-base"}}}],"ongoing":true,"ask":"Want this to be your new normal?"}`;
 
 export const REPLY_JOB = `Your job: reply to a message that doesn't change any day (a question, a feeling, a stack change, or chat). One to three sentences, 50 words at most. Be the friend in the voice. For a question about something in their life, answer from <evidence> in plain words, without numbers or studies; if there's no evidence for it, say Distill hasn't looked into it yet. For a stack change, acknowledge it warmly; code updates their list. Never give medical advice.`;
+
+export const REPLY_ABOUT = `When there's an <item>, they're asking about that one thing, often from its card: why Distill suggested it, why it asks, or how to fit a change into their days. Answer that fully, in two to four sentences and 90 words at most:
+- Say plainly what Distill's research found and what it means for them. Here you may say what it does or doesn't do, but never numbers, study names, or "studies show".
+- Use "Where it stands" so the answer matches the card they saw; if they let it go, be warm about it.
+- If <item> gives a swap, offer it once, gently, as something they could do instead; never as a rule. If the app offers to add it, you can say so ("I can add it to your evenings").
+- Include a safety note from <item> plainly, if there is one. Never give medical advice beyond it.
+- It's always their call.`;
 
 export const EXPLORE_JOB = `Your job: they told you what they've been wanting to try. Offer up to three real options from <ideas> that fit who they are, and a reply that's warm and curious. We ask; we never tell. No instructions, no "you should".
 

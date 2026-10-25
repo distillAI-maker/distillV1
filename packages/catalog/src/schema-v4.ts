@@ -147,6 +147,16 @@ export const v4ItemSchema = z
     /** How the app asks where it came from, in this item's own words; the buttons stay the same. */
     originQuestion: z.string().trim(),
     fitsInstead: z.string().trim(),
+    /** The thing to do they can add to their Ritual once they let this go: never something to buy. */
+    swap: z
+      .object({
+        title: z.string().trim().min(1).max(60),
+        slot: z.enum(['morning', 'midday', 'evening', 'night']),
+        /** Null for every day. */
+        perWeek: z.number().int().min(1).max(7).nullable(),
+      })
+      .strict()
+      .nullable(),
     awe: v4AweSchema.nullable(),
     wearableSees: v4SeesSchema,
     overlaps: z.array(text),
