@@ -4,6 +4,13 @@ Collected while Veer reviews (from 25 October 2026). Fixed together once he fini
 
 ## Rules Veer set
 
+### First: what we're for (Veer, 25 Oct)
+Distill builds each person's own Ritual, fully them, and adapts it on the fly so anxiety stays down and they feel confident: growth mindset and human exploring. We never try to perfect a routine; human life never works like that. Two jobs:
+- **The base:** make it as good as possible from what they value and their goals. This is the only place a swap for a habit that costs them belongs.
+- **The day:** life happens (a late night, a hangover Saturday, good memories). Distill never corrects it after the fact. It encourages them and reshapes the day from that point on, with no judgment.
+
+Every fix below is checked against this. If one makes Distill feel like it's policing their life, it's wrong.
+
 ### Habits that cost them (late caffeine, energy drinks, nightcaps, nicotine)
 *Veer, 25 Oct.* Enjoying it doesn't change the advice. Only "it's non-negotiable" (theirs) changes the wording, and even then, when it's clearly harmful (a Monster at 6pm), Distill still gently asks them to reconsider or offers an alternative. Never shaming, never "stop".
 
@@ -21,6 +28,7 @@ What this changes in code:
 4. **Once, at a calm moment.** Never the morning after a night they told us about, never on a hard week (their season), never as a reply to a happy message.
 5. **Their answer holds.** "Not now" rests it 30 days (as today). "This is mine" rests it about 90 days, then one more gentle check-in at most. Loved things are never talked down: we can offer a swap, never judge the thing.
 6. **Safety is the exception.** A safety note for a condition they told us about (pregnancy, diabetes, a medicine) is said plainly, once, and pointed to their clinician.
+7. **It's about the base, never the night.** The offer shapes their usual week, once. When they go out late anyway, Distill says nothing about it; it lightens tomorrow morning (the reshape that already exists) and keeps them going.
 
 ## By person
 
