@@ -12,7 +12,15 @@ What this changes in code:
 - Harm depends on timing (a 6am Monster costs far less sleep than a 6pm one). Use the item's moment and the person's day before deciding how strongly to raise it.
 - Never a "stays part of your days" card for a cost item.
 - Cost items aren't placed in the first Ritual as planned parts.
-- The `EVIDENCE` prompt says to raise a cost "only when they aren't doing it with people they love". It needs the same change; whether drinks with friends are an exception is still to confirm with Veer.
+- The `EVIDENCE` prompt says to raise a cost "only when they aren't doing it with people they love". *Veer, 25 Oct:* drinks with friends are raised too, gently. Change the prompt to match.
+
+### What "gently" means (proposed to Veer, 25 Oct)
+1. **A question, never an instruction.** "Want to try…?", never "you should" or "stop".
+2. **Keep what they love about it.** The friends, the night, the treat stay; the swap changes one detail (the last drink a little earlier, the second one alcohol-free, the can before 2pm).
+3. **One plain reason, about how they'll feel.** "It's been taking a bite out of your sleep." No numbers, no studies, no scare words ("dangerous", "addiction", "risk").
+4. **Once, at a calm moment.** Never the morning after a night they told us about, never on a hard week (their season), never as a reply to a happy message.
+5. **Their answer holds.** "Not now" rests it 30 days (as today). "This is mine" rests it about 90 days, then one more gentle check-in at most. Loved things are never talked down: we can offer a swap, never judge the thing.
+6. **Safety is the exception.** A safety note for a condition they told us about (pregnancy, diabetes, a medicine) is said plainly, once, and pointed to their clinician.
 
 ## By person
 
