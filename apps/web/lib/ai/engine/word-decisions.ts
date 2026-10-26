@@ -40,6 +40,8 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
       return c.fitsInstead
         ? `A swap for ${lower}: ${c.fitsInstead.replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())} You keep the part you like, with less of what it costs you. Want to try it?`
         : `${name} costs you a little more than it shows. Want to find a swap you'd enjoy as much?`;
+    case 'clear:NOT_FELT':
+      return `You said ${lower} isn't doing much you can feel. Want to let it go${money(d.money)}?`;
     case 'clear:NOT_TRAINING':
       return `${name} is built for people who lift. If that isn't you right now, want to let it go${money(d.money)}?`;
     case 'clear:TOO_MANY_STEPS':

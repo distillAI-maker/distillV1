@@ -10,7 +10,7 @@ import { execSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { RitualPart } from '@distill/engine/ritual';
+import { valuableQuestions, type RitualPart, type StackItemLike } from '@distill/engine/ritual';
 import { engineCatalog } from '../lib/catalog/engine';
 import { catalog } from '../lib/catalog/server';
 import { exploreBank } from '../lib/explore/bank';
@@ -51,6 +51,19 @@ async function main() {
     };
     const first = t.versions.find((v) => v.scope.kind === 'base' && !v.parentId);
     const p = person.progress;
+    // What Distill would ask next, once the two weeks are over: the cards it still has for them.
+    const model = await db.store.person(t.userId);
+    const gone = new Set(t.decisions.filter((d) => d.kind === 'clear' && d.status === 'yes' && d.reason !== 'UNLOVED_HABIT').map((d) => d.stackItemId));
+    const stack: StackItemLike[] = p.items.map((i) => (gone.has(i.id) ? { ...i, status: 'cut' as const } : i));
+    const asks = model
+      ? valuableQuestions({
+          person: model,
+          stack,
+          catalog: view,
+          history: t.decisions.map((d) => ({ stackItemId: d.stackItemId, kind: d.kind, reason: d.reason, status: d.status, ...(d.answeredAt ? { answeredAt: d.answeredAt } : {}) })),
+          today: t.final.ritual.today.date,
+        })
+      : [];
     people.push({
       id: person.id,
       summary: person.summary,
@@ -107,6 +120,7 @@ async function main() {
         gateFails: gates(t),
         missedClears: s.missedClears.map(nameOf),
         missingMentions: s.missingMentions,
+        asks: asks.map((q) => ({ item: nameOf(q.stackItemId), text: q.text, options: q.options.map((o) => o.label) })),
       },
     });
   }

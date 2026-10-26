@@ -225,6 +225,16 @@ export const v4Rows: V4Item[] = [
     fitsInstead: 'One gentle exfoliant, two or three nights a week.',
   }),
   row({
+    key: 'percussion-massage-gun',
+    name: 'Massage gun (Theragun and similar)',
+    shortName: 'Massage gun',
+    area: 'move',
+    kind: 'device',
+    costMonthUsd: 10,
+    evidenceTier: 'C',
+    clearWhen: ['UNUSED'],
+  }),
+  row({
     key: 'therapy-counselling',
     name: 'Therapy or counselling',
     shortName: 'Therapy',

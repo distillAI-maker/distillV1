@@ -365,6 +365,8 @@ export const reasonCodeSchema = z.enum([
   'DOSE_BELOW_MIN',
   'FORM_NOT_ABSORBED',
   'UNLOVED_HABIT',
+  /** Mixed or weak evidence, it costs money, and they said they can't feel it doing anything. */
+  'NOT_FELT',
   'NOT_TRAINING',
   'TOO_MANY_STEPS',
   // curate

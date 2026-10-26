@@ -224,6 +224,33 @@ describe('decide: memory and order', () => {
   });
 });
 
+describe('mixed evidence that costs money', () => {
+  it('asks whether they can feel it, and offers to let it go when they can’t', () => {
+    const asked = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })]);
+    const card = valuableQuestions(asked.input).find((q) => q.id === 'q:gun:feel')!;
+    expect(card.text).toBe('Can you feel Massage gun doing something for you?');
+    expect(card.options.map((o) => o.label)).toEqual(['Yes, I can tell', 'Not really', 'Not sure']);
+    // No reason to change it yet: no card says it "stays".
+    expect(of(asked.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    const no = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { feels: false } })]);
+    expect(of(no.result, 'gun')).toEqual(['clear:NOT_FELT']);
+    expect(no.result.decisions.find((d) => d.stackItemId === 'gun')!.money).toBe(10);
+    const yes = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { feels: true } })]);
+    expect(of(yes.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    expect(valuableQuestions(yes.input).some((q) => q.id === 'q:gun:feel')).toBe(false);
+  });
+  it('never asks about free things, things they love, or well-founded ones', () => {
+    const free = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 0 })]);
+    expect(valuableQuestions(free.input).some((q) => q.variable === 'feel')).toBe(false);
+    const loved = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })], (p) => {
+      p.values.gun = { attachment: 'loved', reasons: ['best part of my evening'], from: 'note' };
+    });
+    expect(valuableQuestions(loved.input).some((q) => q.variable === 'feel')).toBe(false);
+    const founded = run([stackItem('sun', 'sunscreen-daily-spf-30', { monthlyCost: 15, answers: { feels: false } })]);
+    expect(of(founded.result, 'sun')).not.toContain('clear:NOT_FELT');
+  });
+});
+
 describe('questions worth asking', () => {
   it('asks only questions whose answers change what Distill does', () => {
     const { input } = run([

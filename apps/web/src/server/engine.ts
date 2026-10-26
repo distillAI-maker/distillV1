@@ -1189,7 +1189,7 @@ function standingsOf(
   items: Progress['items'],
   decided: { clinicianIds: readonly string[]; theirsIds: readonly string[] },
   open: readonly { stackItemId: string | null; kind: string; reason: string }[],
-  all: readonly { stackItemId: string | null; kind: string }[],
+  all: readonly { stackItemId: string | null; kind: string; reason?: string }[],
 ): Record<string, ItemStanding> {
   const out: Record<string, ItemStanding> = {};
   for (const i of items) {
@@ -1203,7 +1203,8 @@ function standingsOf(
           ? 'clear'
           : mine.some((d) => d.kind === 'curate' && (d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
             ? 'adjust'
-            : all.some((d) => d.stackItemId === i.id && d.kind === 'keep')
+            : // "No reason to change it" is their call, not something Distill keeps for them.
+              all.some((d) => d.stackItemId === i.id && d.kind === 'keep' && d.reason !== 'NOTHING_TO_CLEAR')
               ? 'keep'
               : 'open';
   }

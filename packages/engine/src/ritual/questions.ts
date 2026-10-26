@@ -1,4 +1,4 @@
-import { decide, type DecideInput } from './decide.js';
+import { decide, tierFor, type DecideInput } from './decide.js';
 import { BORROWED_ORIGINS, displayName, trainsOf, usageOf, type StackItemLike } from './usage.js';
 
 /**
@@ -36,7 +36,7 @@ export interface QuestionDraft {
   /** `q:${stackItemId}:${variable}`. */
   readonly id: string;
   readonly stackItemId: string;
-  readonly variable: 'origin' | 'trains' | 'usage' | 'company';
+  readonly variable: 'origin' | 'trains' | 'usage' | 'company' | 'feel';
   readonly name: string;
   readonly text: string;
   readonly options: readonly QuestionOption[];
@@ -131,7 +131,8 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
       stackItemId: s.id,
       variable: 'usage',
       name,
-      text: weekly ? `How often did you go to ${name} last month?` : `How often do you use ${name} these days?`,
+      // You go to a class or a clinic; you use a massage gun.
+      text: v?.kind === 'service' && !/\b(app|apps|delivery|box|subscription)\b/i.test(`${name} ${v.name}`) ? `How often did you go to ${name} last month?` : weekly ? `How often did you use ${name} last month?` : `How often do you use ${name} these days?`,
       options: weekly
         ? [
             { label: 'Not once', patch: { kind: 'answers', stackItemId: s.id, set: { visitsLast30Days: 0 } } },
@@ -149,7 +150,31 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
           ],
     });
   }
-  if (v && attachment === 'unknown' && v.clearWhen.includes('UNLOVED_HABIT'))
+  // Mixed evidence and it costs money: whether they can feel it is what decides (Veer, 25 Oct).
+  if (
+    v &&
+    (attachment === 'unknown' || attachment === 'neutral') &&
+    tierFor(v, s, input.stack) === 'C' &&
+    s.monthlyCost > 0 &&
+    s.answers.feels === undefined &&
+    v.evidenceDirection !== 'cost'
+  )
+    out.push({
+      id: `q:${s.id}:feel`,
+      stackItemId: s.id,
+      variable: 'feel',
+      name,
+      text: `Can you feel ${name} doing something for you?`,
+      options: [
+        { label: 'Yes, I can tell', patch: { kind: 'answers', stackItemId: s.id, set: { feels: true } } },
+        { label: 'Not really', patch: { kind: 'answers', stackItemId: s.id, set: { feels: false } } },
+        notSure(s.id),
+      ],
+    });
+  // Only for things people really share (drinks, a late dinner, the afternoon coffee): never
+  // "Is Celsius more about the company?".
+  // Never once they've told us about it in their own words ("in my hand all day at my desk").
+  if (v && attachment === 'unknown' && !s.notes.length && v.clearWhen.includes('UNLOVED_HABIT') && v.kind !== 'practice' && v.whyLoved.some((w) => w === 'connection' || w === 'belonging'))
     out.push({
       id: `q:${s.id}:company`,
       stackItemId: s.id,

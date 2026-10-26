@@ -343,6 +343,7 @@ export function decide(input: DecideInput): DecideResult {
     else if (can('TOO_MANY_STEPS')) reason = 'TOO_MANY_STEPS';
     else if (can('BORROWED_WEAK') && borrowedWeak(tier, attachment, s, v)) reason = 'BORROWED_WEAK';
     else if (can('UNLOVED_HABIT') && unlovedHabit(attachment, v, tier, s)) reason = 'UNLOVED_HABIT';
+    else if (notFelt(tier, s, v)) reason = 'NOT_FELT';
     if (reason) {
       put(s, 'clear', reason);
       settle(s, `clear:${reason}`);
@@ -406,6 +407,15 @@ function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike,
   if (!weak) return false;
   // Their own origin, never the population's: someone else's AG1 came from a feed, theirs might not.
   return attachment === 'borrowed' || (!!s.origin && BORROWED_ORIGINS.has(s.origin));
+}
+
+/**
+ * Mixed or weak evidence, it costs them money, and they told us they can't feel it doing anything
+ * ("Not really" on "Can you feel it doing something for you?"). Their experience decides: Distill
+ * offers to let it go. Never for a habit that costs them (that's a swap) or anything well-founded.
+ */
+export function notFelt(tier: KnownTier, s: StackItemLike, v: CatalogItemView): boolean {
+  return (tier === 'C' || tier === 'D' || tier === 'N') && s.monthlyCost > 0 && s.answers.feels === false && v.evidenceDirection !== 'cost';
 }
 
 /** No real evidence, and nothing yet says whether it came from a feed or is loved: ask, gently. */

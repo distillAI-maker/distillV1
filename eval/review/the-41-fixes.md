@@ -37,6 +37,13 @@ What this changed in code (original notes):
 6. **Safety is the exception.** A safety note for a condition they told us about (pregnancy, diabetes, a medicine) is said plainly, once, and pointed to their clinician.
 7. **It's about the base, never the night.** The offer shapes their usual week, once. When they go out late anyway, Distill says nothing about it; it lightens tomorrow morning (the reshape that already exists) and keeps them going.
 
+### Mixed evidence that costs money, and "stays" (Veer, 25 Oct, on Tomás)
+Too many things read as kept. **Done (branch `felt-and-quiet`):**
+- "No reason to change it" (NOTHING_TO_CLEAR) is never a card and never "kept": the app shows it as their call, and The 41 lists it in one quiet line.
+- A new card for paid mixed-evidence things: "Can you feel Normatec doing something for you?" (Yes, I can tell / Not really / Not sure). "Not really" offers to let it go (NOT_FELT), with the money back. Never for free things, loved or theirs, well-founded ones, or habits that cost them.
+- The 41 shows "What Distill would ask next" for each person: 73 cards across the 41.
+- Wording fixes: you "use" a massage gun or an app (you "go to" a class), and the company card is only for things people share and haven't told us about.
+
 ## By person
 
 ### aaron-39
