@@ -10,6 +10,7 @@
   ],
   "timeZone": "America/New_York",
   "now": "2026-10-21T05:30:00-04:00",
+  "usualSleepMin": 395,
   "progress": {
     "version": 1,
     "step": "done",
@@ -20,7 +21,7 @@
       "joints / pain / soreness"
     ],
     "name": "Amara",
-    "lifeText": "5:45 F45 with my people, a workday where my tests pass on the first run, a long walk on the BeltLine after. Sunday service and brunch with my mom, then nothing.",
+    "lifeText": "5:45 F45 with my people, a workday where my tests pass on the first run, a long walk on the BeltLine after. Friday nights out with the F45 crew somewhere with good music. Sunday service and brunch with my mom, then nothing.",
     "member": true,
     "items": [
       {
@@ -179,6 +180,11 @@
       "kind": "decision-answer",
       "stackItemId": "amara-cryo",
       "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-23T19:00:00-04:00",
+      "text": "Crew birthday tonight, we're going dancing. Saturday's workout might be a late one."
     },
     {
       "kind": "night",

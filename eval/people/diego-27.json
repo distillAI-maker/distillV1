@@ -10,6 +10,7 @@
   ],
   "timeZone": "America/Los_Angeles",
   "now": "2026-10-21T14:30:00-07:00",
+  "usualSleepMin": 400,
   "progress": {
     "version": 1,
     "step": "done",

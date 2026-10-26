@@ -45,6 +45,8 @@ export const goldenPersonSchema = z
     covers: z.array(z.string()),
     timeZone: z.string(),
     now: at,
+    /** A wearable person's usual night, in minutes. Varies with their life (a new parent, a night nurse). */
+    usualSleepMin: z.number().int().min(240).max(600).optional(),
     progress: progressSchema,
     events: z.array(goldenEventSchema).min(1).max(10),
     expect: z
@@ -152,11 +154,13 @@ export async function runGolden(person: GoldenPerson, deps: RunDeps): Promise<Tr
   let clock = new Date(person.now);
   let progress: Progress = structuredClone(person.progress);
   const wearable = !!progress.dataSource;
-  // A wearable person's usual nights: four weeks around seven hours, a little each way.
+  // A wearable person's usual nights: four weeks around their usual (seven hours unless the file
+  // says), about 25 minutes either way.
+  const usual = person.usualSleepMin ?? 420;
   const nights: { date: string; sleepMin: number }[] = wearable
     ? Array.from({ length: 28 }, (_, i) => {
         const d = new Date(clock.getTime() - (28 - i) * 86_400_000).toISOString().slice(0, 10);
-        return { date: d, sleepMin: 420 + ((i * 37) % 41) - 20 };
+        return { date: d, sleepMin: usual + ((i * 37) % 51) - 25 };
       })
     : [];
   const engine = new Engine({

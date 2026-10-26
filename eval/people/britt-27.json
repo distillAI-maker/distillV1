@@ -19,7 +19,7 @@
       "energy"
     ],
     "name": "Britt",
-    "lifeText": "Sunrise hike up Camelback with my mom before it gets hot, a full day of cleanings (I love my patients!!), then home to my boyfriend and our cat Biscuit. Tuesdays are trivia with the office girls and I live for it.",
+    "lifeText": "Sunrise hike up Camelback with my mom before it gets hot, a full day of cleanings (I love my patients!!), then home to my boyfriend and our cat Biscuit. Tuesdays are trivia with the office girls and I live for it. Fridays we go out in Old Town and I dance until my feet hurt.",
     "member": true,
     "items": [
       {
@@ -257,6 +257,11 @@
       "kind": "decision-answer",
       "stackItemId": "britt-hydrogen",
       "answer": "not-now"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T18:00:00-07:00",
+      "text": "girls night in old town tonight!! wish my feet luck"
     },
     {
       "kind": "answer",

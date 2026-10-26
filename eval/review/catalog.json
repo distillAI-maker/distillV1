@@ -1,6 +1,6 @@
 {
-  "sha": "c3f8f1e",
-  "made": "2026-10-25T21:16:49.955Z",
+  "sha": "bf1a433",
+  "made": "2026-10-26T18:03:07.386Z",
   "rows": [
     {
       "key": "5-htp",
@@ -1166,7 +1166,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Evening drinks doesn't sound like it's giving you much. Same plans, with the last drink a little earlier or the second one alcohol-free. Want to try that swap?",
+        "swap": "A swap for Evening drinks: same plans, with the last drink a little earlier or the second one alcohol-free. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Across 27 studies, up to about two drinks already trimmed REM sleep, and more drinks trimmed more. Overnight heart rate also climbs with each drink. Falling asleep faster showed up only around five drinks.",
         "question": "Mostly with friends, or more of a solo wind-down?",
         "instead": "Same plans, with the last drink a little earlier or the second one alcohol-free."
@@ -1227,7 +1227,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Morning sleep check doesn't sound like it's giving you much. A weekly look at trends, with the daily score hidden. Want to try that swap?",
+        "swap": "A swap for Morning sleep check: a weekly look at trends, with the daily score hidden. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Trackers mostly feel good to use. In small experiments, a fake low score left people with insomnia feeling less alert that day; in healthy sleepers, one low score didn't change sleep. Score worry tends to cluster with insomnia.",
         "question": "Does the score change how the day feels?",
         "instead": "A weekly look at trends, with the daily score hidden."
@@ -1258,7 +1258,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Afternoon coffee doesn't sound like it's giving you much. A decaf, half-caf or black tea keeps the afternoon break with far less caffeine. Want to try that swap?",
+        "swap": "A swap for Afternoon coffee: a decaf, half-caf or black tea keeps the afternoon break with far less caffeine. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Across 24 studies, caffeine cost about 45 minutes of sleep and some deep sleep, more when taken later or in bigger doses. A regular cup's cut-off sits around nine hours before bed, and the loss is easy to miss.",
         "question": "Is the afternoon cup about the caffeine or the break?",
         "instead": "A decaf, half-caf or black tea keeps the afternoon break with far less caffeine."
@@ -1299,7 +1299,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Late dessert doesn't sound like it's giving you much. Dessert right after dinner keeps the sweet, with more time before bed. Want to try that swap?",
+        "swap": "A swap for Late dessert: dessert right after dinner keeps the sweet, with more time before bed. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Eating within an hour of bed was linked to more night waking. A small study tied more daily sugar to more night arousals. Most of this is observed, not tested.",
         "question": "Is the late dessert a want, or a habit?",
         "instead": "Dessert right after dinner keeps the sweet, with more time before bed."
@@ -1324,10 +1324,10 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Energy drinks doesn't sound like it's giving you much. A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. Want to try that swap?",
+        "swap": "A swap for Energy drinks: a smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "The caffeine trims sleep just as coffee's does, and some cans hold three cups' worth. Students who drank energy drinks more often slept less and woke more. Blood pressure also rises for a few hours after a can.",
         "question": "Roughly what time is the last can of the day?",
-        "instead": "A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz."
+        "instead": "A smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine."
       },
       "neverWhen": [
         "THEIRS",
@@ -1380,7 +1380,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Late dinner doesn't sound like it's giving you much. On late nights, a lighter dinner, with more of the day's food at lunch. Want to try that swap?",
+        "swap": "A swap for Late dinner: on late nights, a lighter dinner, with more of the day's food at lunch. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Findings are mixed. Surveys tie eating within three hours of bed to more night waking and reflux, yet a 10pm-dinner lab trial found unchanged sleep stages. One small trial saw lower nighttime heart rate with earlier meals.",
         "question": "Late by choice, or is that when work ends?",
         "instead": "On late nights, a lighter dinner, with more of the day's food at lunch."
@@ -1411,7 +1411,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Afternoon matcha doesn't sound like it's giving you much. Move it earlier, or pour a caffeine-free tea for the afternoon pause. Want to try that swap?",
+        "swap": "A swap for Afternoon matcha: move it earlier, or pour a caffeine-free tea for the afternoon pause. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "A 2 g matcha serving holds roughly 60 to 80 mg of caffeine. Across 24 studies, caffeine shortened sleep; a 107 mg coffee needed about nine hours before bed.",
         "question": "What time does the afternoon matcha usually happen?",
         "instead": "Move it earlier, or pour a caffeine-free tea for the afternoon pause."
@@ -1442,7 +1442,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Nicotine doesn't sound like it's giving you much. Daytime only, with the last one a few hours before bed. Want to try that swap?",
+        "swap": "A swap for Nicotine: daytime only, with the last one a few hours before bed. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Nicotine near bedtime makes sleep lighter and more broken, in overnight patch trials and in people tracked at home. Vapes and pouches nudge heart rate up.",
         "question": "Did it replace cigarettes, or start on its own?",
         "instead": "Daytime only, with the last one a few hours before bed."
@@ -1493,7 +1493,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Extra coffee doesn't sound like it's giving you much. Half-caf or decaf for the later cup keeps the ritual. Want to try that swap?",
+        "swap": "A swap for Extra coffee: half-caf or decaf for the later cup keeps the ritual. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Across 24 studies, caffeine cut about 45 minutes of sleep, and a 107 mg coffee needed about nine hours before bed. FDA calls up to 400 mg a day generally fine for healthy adults.",
         "question": "When does the last cup usually happen?",
         "instead": "Half-caf or decaf for the later cup keeps the ritual."
@@ -1524,7 +1524,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Weekend lie-in doesn't sound like it's giving you much. A lie-in kept under an hour, with an earlier night on Friday. Want to try that swap?",
+        "swap": "A swap for Weekend lie-in: a lie-in kept under an hour, with an earlier night on Friday. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Studies disagree. In a Swedish cohort, short weekday sleepers who slept longer on weekends lived as long as steady sleepers, yet a larger device-based study found no benefit. A lab trial found catch-up shifted the body clock later.",
         "question": "Is the lie-in for pleasure, or catching up on short nights?",
         "instead": "A lie-in kept under an hour, with an earlier night on Friday."
@@ -1549,7 +1549,7 @@
         "ask": null,
         "origin": null,
         "letGo": null,
-        "swap": "Late work email doesn't sound like it's giving you much. One set check in the evening, then notifications off until morning. Want to try that swap?",
+        "swap": "A swap for Late work email: one set check in the evening, then notifications off until morning. You keep the part you like, with less of what it costs you. Want to try it?",
         "why": "Studies following workers link more after-hours email with switching off less and lower measured sleep quality, not shorter sleep. These track patterns, not cause; in a small trial, a phone-free half hour before bed meant falling asleep sooner.",
         "question": "Is it expected at work, or more of a habit?",
         "instead": "One set check in the evening, then notifications off until morning."

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "sourceFile": "Routing-Table_V4.xlsx",
-  "sourceSha256": "b49745ae55e0d6489bc274194a26047152a9238a6abfc91551d167f6628da65e",
+  "sourceSha256": "20e6064b0ac6bc325aebe79974d6a6fcf76b998212e131169610b5f8a9f63688",
   "items": [
     {
       "key": "creatine-monohydrate",
@@ -980,7 +980,7 @@
       "neverClear": false,
       "humanQuestion": "Roughly what time is the last can of the day?",
       "originQuestion": "",
-      "fitsInstead": "A smaller can before 2pm, or a cold sparkling water when it's mostly the fizz.",
+      "fitsInstead": "A smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine.",
       "swap": null,
       "awe": null,
       "wearableSees": "partial",

@@ -20,6 +20,8 @@ const out = process.argv[2] ?? fileURLToPath(new URL('../../../eval/review/peopl
 const sha = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
 const DAYS: Record<string, string> = { mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat', sun: 'Sun' };
 
+const hm = (min: number) => `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m`;
+
 /** "Weekdays, 7:00", "Sat", "3 times a week", "Every day": when a part happens, in words. */
 function whenOf(p: RitualPart): string {
   const d = p.when.days;
@@ -71,6 +73,8 @@ async function main() {
       covers: person.covers,
       timeZone: person.timeZone,
       wearable: p.dataSource ?? null,
+      /** Their usual night, which the test plays as four weeks of ordinary nights before the two weeks. */
+      usualSleep: p.dataSource ? hm(person.usualSleepMin ?? 420) : null,
       list: p.items.map((i) => ({
         id: i.id,
         name: nameOf(i.id),
@@ -95,7 +99,7 @@ async function main() {
             : e.kind === 'answer'
               ? { kind: 'answer', q: e.q, a: e.a }
               : e.kind === 'night'
-                ? { kind: 'night', text: `${Math.floor(e.sleepMin / 60)}h ${e.sleepMin % 60}m of sleep on ${e.date}` }
+                ? { kind: 'night', text: `A short night: ${hm(e.sleepMin)} of sleep on ${e.date} (usually about ${hm(person.usualSleepMin ?? 420)})` }
                 : { kind: 'decision-answer', on: nameOf(e.stackItemId), text: e.answer },
       ),
       expect: {

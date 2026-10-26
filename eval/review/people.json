@@ -1,8 +1,8 @@
 {
-  "sha": "ca23a39",
+  "sha": "bf1a433",
   "catalog": "live",
   "claude": false,
-  "made": "2026-10-26T01:53:32.101Z",
+  "made": "2026-10-26T18:03:06.237Z",
   "people": [
     {
       "id": "aaron-39",
@@ -17,6 +17,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "aaron-cpap",
@@ -181,25 +182,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "keep",
-            "item": "Nasal strips or dilators",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Nasal strips stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Saturday fishing with Eddie",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Saturday fishing with Eddie is yours, and it stays exactly as it is."
-          },
-          {
             "kind": "clear",
             "item": "Monster",
             "reason": "UNLOVED_HABIT",
             "status": "not-now",
-            "line": "A swap for Monster: a smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. You keep the part you like, with less of what it costs you. Want to try it?"
+            "line": "A swap for Monster: a smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine. You keep the part you like, with less of what it costs you. Want to try it?"
           },
           {
             "kind": "keep",
@@ -214,6 +201,20 @@
             "reason": "BORROWED_WEAK",
             "status": "yes",
             "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Saturday fishing with Eddie",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Saturday fishing with Eddie is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Nasal strips or dilators",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Nasal strips stays part of your days."
           }
         ],
         "firstRitual": [
@@ -308,6 +309,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "whoop",
+      "usualSleep": "6h 35m",
       "list": [
         {
           "id": "amara-f45",
@@ -407,7 +409,7 @@
         }
       ],
       "words": {
-        "idealDay": "5:45 F45 with my people, a workday where my tests pass on the first run, a long walk on the BeltLine after. Sunday service and brunch with my mom, then nothing.",
+        "idealDay": "5:45 F45 with my people, a workday where my tests pass on the first run, a long walk on the BeltLine after. Friday nights out with the F45 crew somewhere with good music. Sunday service and brunch with my mom, then nothing.",
         "asks": [
           {
             "q": "What are you working toward right now?",
@@ -426,8 +428,12 @@
           "text": "yes"
         },
         {
+          "kind": "message",
+          "text": "Crew birthday tonight, we're going dancing. Saturday's workout might be a late one."
+        },
+        {
           "kind": "night",
-          "text": "5h 9m of sleep on 2026-10-27"
+          "text": "A short night: 5h 09m of sleep on 2026-10-27 (usually about 6h 35m)"
         },
         {
           "kind": "message",
@@ -482,6 +488,34 @@
       "distill": {
         "decisions": [
           {
+            "kind": "clear",
+            "item": "LMNT",
+            "reason": "OVERLAP",
+            "status": "proposed",
+            "line": "Gatorade already does what LMNT is for. Want to let LMNT go and keep the $45 a month?"
+          },
+          {
+            "kind": "curate",
+            "item": "F45",
+            "reason": "ANCHOR",
+            "status": "proposed",
+            "line": "F45 could be the anchor of your week. Want to build the rest around it?"
+          },
+          {
+            "kind": "keep",
+            "item": "Gatorade",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Gatorade stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Whole-body cryotherapy sessions",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Cryotherapy stays part of your days."
+          },
+          {
             "kind": "keep",
             "item": "F45",
             "reason": "THEIRS",
@@ -494,34 +528,6 @@
             "reason": "TRAINS",
             "status": "proposed",
             "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Whole-body cryotherapy sessions",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Cryotherapy stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Gatorade",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Gatorade stays part of your days."
-          },
-          {
-            "kind": "curate",
-            "item": "F45",
-            "reason": "ANCHOR",
-            "status": "proposed",
-            "line": "F45 could be the anchor of your week. Want to build the rest around it?"
-          },
-          {
-            "kind": "clear",
-            "item": "LMNT",
-            "reason": "OVERLAP",
-            "status": "proposed",
-            "line": "Gatorade already does what LMNT is for. Want to let LMNT go and keep the $45 a month?"
           },
           {
             "kind": "keep",
@@ -580,6 +586,11 @@
             "changed": false
           },
           {
+            "message": "Crew birthday tonight, we're going dancing. Saturday's workout might be a late one.",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
+          },
+          {
             "message": "Should I start doing two-a-days to get ready?",
             "reply": "Got it, thank you for telling me.",
             "changed": false
@@ -621,6 +632,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "andre-eagles",
@@ -744,17 +756,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Walking the twins to school",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Walking the twins to school stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Eagles Sundays with my dad",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Eagles Sundays with my dad is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Walking the twins to school",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Walking the twins to school stays part of your days."
           },
           {
             "kind": "keep",
@@ -834,6 +846,7 @@
       ],
       "timeZone": "America/Denver",
       "wearable": "whoop",
+      "usualSleep": "6h 50m",
       "list": [
         {
           "id": "becca-strength",
@@ -1003,7 +1016,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 18m of sleep on 2026-10-26"
+          "text": "A short night: 5h 18m of sleep on 2026-10-26 (usually about 6h 50m)"
         },
         {
           "kind": "note",
@@ -1063,6 +1076,41 @@
       "distill": {
         "decisions": [
           {
+            "kind": "keep",
+            "item": "BCAAs (branched-chain amino acid powder)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "BCAAs stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunday burritos with the barbell club",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday burritos with the barbell club is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "ZMA (zinc, magnesium and vitamin B6)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "ZMA came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Massage gun (percussive massager)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Massage gun stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Strength training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
             "kind": "clear",
             "item": "Glutamine (L-glutamine powder)",
             "reason": "BORROWED_WEAK",
@@ -1078,6 +1126,13 @@
           },
           {
             "kind": "keep",
+            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Beta-alanine",
             "reason": "NOTHING_TO_CLEAR",
             "status": "theirs",
@@ -1085,52 +1140,10 @@
           },
           {
             "kind": "keep",
-            "item": "BCAAs (branched-chain amino acid powder)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "BCAAs stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Massage gun (percussive massager)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Massage gun stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Creatine monohydrate",
             "reason": "TRAINS",
             "status": "proposed",
             "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "clear",
-            "item": "ZMA (zinc, magnesium and vitamin B6)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "ZMA came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday burritos with the barbell club",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday burritos with the barbell club is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Strength training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -1259,6 +1272,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "whoop",
+      "usualSleep": "6h 10m",
       "list": [
         {
           "id": "brandon-trt",
@@ -1427,7 +1441,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 48m of sleep on 2026-10-24"
+          "text": "A short night: 4h 48m of sleep on 2026-10-24 (usually about 6h 10m)"
         },
         {
           "kind": "decision-answer",
@@ -1491,11 +1505,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "AG1",
-            "reason": "BORROWED_WEAK",
+            "kind": "keep",
+            "item": "Plunge tub",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
+            "line": "Plunge tub stays part of your days."
           },
           {
             "kind": "keep",
@@ -1512,11 +1526,18 @@
             "line": "Tongkat ali stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Coaching Lily's U10 soccer",
-            "reason": "THEIRS",
+            "kind": "clear",
+            "item": "AG1",
+            "reason": "BORROWED_WEAK",
             "status": "proposed",
-            "line": "Coaching Lily's U10 soccer is yours, and it stays exactly as it is."
+            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Tri training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Tri training is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -1527,10 +1548,10 @@
           },
           {
             "kind": "keep",
-            "item": "Plunge tub",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Coaching Lily's U10 soccer",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Plunge tub stays part of your days."
+            "line": "Coaching Lily's U10 soccer is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -1538,13 +1559,6 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Friday pizza and a movie is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Tri training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Tri training is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -1649,6 +1663,7 @@
       ],
       "timeZone": "America/Phoenix",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "britt-chlorophyll",
@@ -1795,7 +1810,7 @@
         }
       ],
       "words": {
-        "idealDay": "Sunrise hike up Camelback with my mom before it gets hot, a full day of cleanings (I love my patients!!), then home to my boyfriend and our cat Biscuit. Tuesdays are trivia with the office girls and I live for it.",
+        "idealDay": "Sunrise hike up Camelback with my mom before it gets hot, a full day of cleanings (I love my patients!!), then home to my boyfriend and our cat Biscuit. Tuesdays are trivia with the office girls and I live for it. Fridays we go out in Old Town and I dance until my feet hurt.",
         "asks": [
           {
             "q": "Who do you feel your best around?",
@@ -1826,6 +1841,10 @@
           "kind": "decision-answer",
           "on": "Hydrogen or alkaline water",
           "text": "not-now"
+        },
+        {
+          "kind": "message",
+          "text": "girls night in old town tonight!! wish my feet luck"
         },
         {
           "kind": "answer",
@@ -1877,18 +1896,32 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Lymphatic drainage massage",
-            "reason": "BORROWED_WEAK",
+            "kind": "keep",
+            "item": "Salt lamp",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Lymphatic massage came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $120 a month?"
+            "line": "Salt lamp stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Activated charcoal (capsules)",
-            "reason": "NOTHING_TO_CLEAR",
+            "kind": "clear",
+            "item": "Grounding or earthing (sheets, mats)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "EMF blockers and anti-radiation phone stickers",
+            "reason": "BORROWED_WEAK",
             "status": "yes",
-            "line": "Activated charcoal stays part of your days."
+            "line": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Sea moss (gel or capsules)",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
           },
           {
             "kind": "keep",
@@ -1896,6 +1929,13 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "not-now",
             "line": "Hydrogen water stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Detox tea",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "This one stays part of your days."
           },
           {
             "kind": "keep",
@@ -1912,25 +1952,18 @@
             "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
           },
           {
-            "kind": "keep",
-            "item": "Detox tea",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "This one stays part of your days."
-          },
-          {
             "kind": "clear",
-            "item": "EMF blockers and anti-radiation phone stickers",
+            "item": "Lymphatic drainage massage",
             "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "EMF stickers came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+            "status": "proposed",
+            "line": "Lymphatic massage came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $120 a month?"
           },
           {
             "kind": "keep",
-            "item": "Salt lamp",
+            "item": "Activated charcoal (capsules)",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Salt lamp stays part of your days."
+            "status": "yes",
+            "line": "Activated charcoal stays part of your days."
           },
           {
             "kind": "keep",
@@ -1938,20 +1971,6 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Tuesday trivia with the office girls is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "clear",
-            "item": "Grounding or earthing (sheets, mats)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Grounding mat came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Sea moss (gel or capsules)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Sea moss came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
           },
           {
             "kind": "keep",
@@ -2011,6 +2030,11 @@
           },
           {
             "message": "it's 99 degrees at the end of october, why do we live here",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
+          },
+          {
+            "message": "girls night in old town tonight!! wish my feet luck",
             "reply": "Got it, thank you for telling me.",
             "changed": false
           }
@@ -2077,6 +2101,7 @@
       ],
       "timeZone": "America/Denver",
       "wearable": "whoop",
+      "usualSleep": "7h 00m",
       "list": [
         {
           "id": "chris-plunge",
@@ -2109,7 +2134,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 47m of sleep on 2026-10-28"
+          "text": "A short night: 4h 47m of sleep on 2026-10-28 (usually about 7h 00m)"
         },
         {
           "kind": "note",
@@ -2201,6 +2226,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "oura",
+      "usualSleep": "6h 20m",
       "list": [
         {
           "id": "claire-negronis",
@@ -2320,7 +2346,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 36m of sleep on 2026-10-27"
+          "text": "A short night: 4h 36m of sleep on 2026-10-27 (usually about 6h 20m)"
         },
         {
           "kind": "message",
@@ -2378,17 +2404,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Eye mask",
-            "reason": "EVIDENCE_REGULAR",
+            "item": "Sunday crossword with Dad",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Eye mask is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "LMNT",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "LMNT stays part of your days."
+            "line": "Sunday crossword with Dad is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -2399,10 +2418,10 @@
           },
           {
             "kind": "keep",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "EVIDENCE_REGULAR",
+            "item": "LMNT",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "line": "LMNT stays part of your days."
           },
           {
             "kind": "keep",
@@ -2413,17 +2432,24 @@
           },
           {
             "kind": "keep",
-            "item": "Sunday crossword with Dad",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday crossword with Dad is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
             "item": "Friday negronis with Dee",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Friday negronis with Dee is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Eye mask",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Eye mask is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -2532,6 +2558,7 @@
       ],
       "timeZone": "America/Chicago",
       "wearable": "whoop",
+      "usualSleep": "7h 10m",
       "list": [
         {
           "id": "daniel-gym",
@@ -2595,7 +2622,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 1m of sleep on 2026-10-25"
+          "text": "A short night: 4h 01m of sleep on 2026-10-25 (usually about 7h 10m)"
         },
         {
           "kind": "message",
@@ -2639,17 +2666,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Planet Fitness",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Planet Fitness is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Pickup basketball",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Pickup basketball stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Planet Fitness",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Planet Fitness is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -2731,6 +2758,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "whoop",
+      "usualSleep": "5h 50m",
       "list": [
         {
           "id": "devon-zyn",
@@ -2837,7 +2865,7 @@
         },
         {
           "kind": "night",
-          "text": "3h 34m of sleep on 2026-10-23"
+          "text": "A short night: 3h 34m of sleep on 2026-10-23 (usually about 5h 50m)"
         },
         {
           "kind": "message",
@@ -2895,11 +2923,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Celsius",
-            "reason": "UNLOVED_HABIT",
+            "kind": "keep",
+            "item": "Sunday soccer at Pier 40",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "A swap for Celsius: a smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. You keep the part you like, with less of what it costs you. Want to try it?"
+            "line": "Sunday soccer at Pier 40 is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -2930,11 +2958,11 @@
             "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
-            "kind": "keep",
-            "item": "Sunday soccer at Pier 40",
-            "reason": "THEIRS",
+            "kind": "clear",
+            "item": "Celsius",
+            "reason": "UNLOVED_HABIT",
             "status": "proposed",
-            "line": "Sunday soccer at Pier 40 is yours, and it stays exactly as it is."
+            "line": "A swap for Celsius: a smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine. You keep the part you like, with less of what it costs you. Want to try it?"
           }
         ],
         "firstRitual": [
@@ -3007,6 +3035,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "whoop",
+      "usualSleep": "6h 40m",
       "list": [
         {
           "id": "diego-league",
@@ -3079,7 +3108,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 1m of sleep on 2026-10-22"
+          "text": "A short night: 5h 01m of sleep on 2026-10-22 (usually about 6h 40m)"
         },
         {
           "kind": "message",
@@ -3133,6 +3162,13 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Collagen peptides",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Collagen stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Wednesday league and tacos after",
             "reason": "THEIRS",
             "status": "proposed",
@@ -3144,13 +3180,6 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "afternoon cupping is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Collagen peptides",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Collagen stays part of your days."
           }
         ],
         "firstRitual": [
@@ -3228,6 +3257,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "elena-swim",
@@ -3402,6 +3432,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "eli-june",
@@ -3505,17 +3536,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Morning walk with June",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Morning walk with June is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
             "item": "Second (or third) coffee",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Extra coffee is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Morning walk with June",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Morning walk with June is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -3575,6 +3606,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "whoop",
+      "usualSleep": "6h 45m",
       "list": [
         {
           "id": "ethan-creatine",
@@ -3677,7 +3709,7 @@
         }
       ],
       "words": {
-        "idealDay": "gym before work, actually leave the office before 7, dinner with my roommates, gaming with the boys. sundays at my parents in san jose",
+        "idealDay": "gym before work, actually leave the office before 7, dinner with my roommates, gaming with the boys, and fridays a bar in the marina with the analyst class till way too late. sundays at my parents in san jose",
         "asks": []
       },
       "events": [
@@ -3692,11 +3724,15 @@
         },
         {
           "kind": "message",
+          "text": "analyst happy hour then probably a bar after. tomorrow's gym might be a write-off lol"
+        },
+        {
+          "kind": "message",
           "text": "got the flu. been in bed since saturday"
         },
         {
           "kind": "night",
-          "text": "4h 50m of sleep on 2026-10-28"
+          "text": "A short night: 4h 50m of sleep on 2026-10-28 (usually about 6h 45m)"
         },
         {
           "kind": "message",
@@ -3745,24 +3781,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Protein powder",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Ashwagandha (KSM-66 / Sensoril)",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "item": "BCAAs (branched-chain amino acid powder)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "BCAAs stays part of your days."
           },
           {
             "kind": "keep",
@@ -3773,10 +3795,10 @@
           },
           {
             "kind": "keep",
-            "item": "Creatine monohydrate",
+            "item": "Pre-workout supplement (caffeinated multi-ingredient blend)",
             "reason": "TRAINS",
             "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Pre-workout is doing real work for your training, even when you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -3787,10 +3809,24 @@
           },
           {
             "kind": "keep",
-            "item": "BCAAs (branched-chain amino acid powder)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "BCAAs stays part of your days."
+            "item": "Ashwagandha (KSM-66 / Sensoril)",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Protein powder",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -3838,6 +3874,11 @@
         "replies": [
           {
             "message": "can I stop the creatine? I don't feel anything",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
+          },
+          {
+            "message": "analyst happy hour then probably a bar after. tomorrow's gym might be a write-off lol",
             "reply": "Got it, thank you for telling me.",
             "changed": false
           },
@@ -3899,6 +3940,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "fatima-lionsmane",
@@ -3946,7 +3988,7 @@
         }
       ],
       "words": {
-        "idealDay": "Coffee on the fire escape, four honest hours of writing before anyone emails me, badminton with the lab on Thursdays, and a call with my sisters where we all talk at once. Asleep before 1 would be a miracle.",
+        "idealDay": "Coffee on the fire escape, four honest hours of writing before anyone emails me, badminton with the lab on Thursdays, a call with my sisters where we all talk at once, and once a month a show uptown with the lab when we've earned it. Asleep before 1 would be a miracle.",
         "asks": []
       },
       "events": [
@@ -4009,17 +4051,17 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Thursday badminton with the lab",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Thursday badminton with the lab is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
             "item": "Screens / phone in bed",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Phone in bed stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Thursday badminton with the lab",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Thursday badminton with the lab is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -4106,6 +4148,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "5h 40m",
       "list": [
         {
           "id": "grace-prenatal",
@@ -4230,7 +4273,7 @@
       "events": [
         {
           "kind": "night",
-          "text": "3h 25m of sleep on 2026-10-23"
+          "text": "A short night: 3h 25m of sleep on 2026-10-23 (usually about 5h 40m)"
         },
         {
           "kind": "message",
@@ -4303,13 +4346,6 @@
             "line": "Kids waking you stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "Hair growth gummies (biotin blends, such as SugarBearHair)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
-          },
-          {
             "kind": "keep",
             "item": "Lake Merritt walk with my mom",
             "reason": "THEIRS",
@@ -4317,18 +4353,25 @@
             "line": "Lake Merritt walk with my mom is yours, and it stays exactly as it is."
           },
           {
-            "kind": "clear",
-            "item": "Postnatal Pilates pack",
-            "reason": "UNUSED",
-            "status": "not-now",
-            "line": "Postnatal Pilates pack hasn't had much use lately. Want to let it go and keep the $120 a month?"
-          },
-          {
             "kind": "keep",
             "item": "Collagen peptides",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Collagen stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Hair growth gummies (biotin blends, such as SugarBearHair)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Hair gummies came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Postnatal Pilates pack",
+            "reason": "UNUSED",
+            "status": "not-now",
+            "line": "Postnatal Pilates pack hasn't had much use lately. Want to let it go and keep the $120 a month?"
           }
         ],
         "firstRitual": [
@@ -4401,6 +4444,7 @@
       ],
       "timeZone": "America/Chicago",
       "wearable": "oura",
+      "usualSleep": "6h 15m",
       "list": [
         {
           "id": "hana-phone",
@@ -4524,7 +4568,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 22m of sleep on 2026-11-01"
+          "text": "A short night: 4h 22m of sleep on 2026-11-01 (usually about 6h 15m)"
         },
         {
           "kind": "message",
@@ -4575,11 +4619,18 @@
       "distill": {
         "decisions": [
           {
+            "kind": "clear",
+            "item": "Magnesium spray or oil (on the skin)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
+          },
+          {
             "kind": "keep",
-            "item": "Sleep gummies (blend)",
+            "item": "Screens / phone in bed",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Sleep gummies stays part of your days."
+            "line": "Phone in bed stays part of your days."
           },
           {
             "kind": "clear",
@@ -4589,18 +4640,11 @@
             "line": "Calm hasn't had much use lately. Want to let it go and keep the $15 a month?"
           },
           {
-            "kind": "clear",
-            "item": "Magnesium spray or oil (on the skin)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Magnesium spray came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Headspace",
-            "reason": "OVERLAP",
-            "status": "yes",
-            "line": "Calm already does what Headspace is for. Want to let Headspace go and keep the $13 a month?"
+            "kind": "keep",
+            "item": "Sleep gummies (blend)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Sleep gummies stays part of your days."
           },
           {
             "kind": "keep",
@@ -4610,11 +4654,11 @@
             "line": "Thursday two-stepping with Bri and Kat is yours, and it stays exactly as it is."
           },
           {
-            "kind": "keep",
-            "item": "Screens / phone in bed",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Phone in bed stays part of your days."
+            "kind": "clear",
+            "item": "Headspace",
+            "reason": "OVERLAP",
+            "status": "yes",
+            "line": "Calm already does what Headspace is for. Want to let Headspace go and keep the $13 a month?"
           },
           {
             "kind": "keep",
@@ -4712,6 +4756,7 @@
       ],
       "timeZone": "America/Chicago",
       "wearable": "oura",
+      "usualSleep": "6h 30m",
       "list": [
         {
           "id": "ingrid-progesterone",
@@ -4882,7 +4927,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 56m of sleep on 2026-10-28"
+          "text": "A short night: 4h 56m of sleep on 2026-10-28 (usually about 6h 30m)"
         },
         {
           "kind": "decision-answer",
@@ -4942,25 +4987,25 @@
       "distill": {
         "decisions": [
           {
+            "kind": "keep",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Eight Sleep / cooling mattress pad",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Cooling pad stays part of your days."
+          },
+          {
             "kind": "clear",
             "item": "Evening primrose oil",
             "reason": "BORROWED_WEAK",
             "status": "proposed",
             "line": "Primrose oil came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Strength training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Black cohosh",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Black cohosh stays part of your days."
           },
           {
             "kind": "keep",
@@ -4971,10 +5016,10 @@
           },
           {
             "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
+            "item": "Black cohosh",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Black cohosh stays part of your days."
           },
           {
             "kind": "keep",
@@ -4985,13 +5030,6 @@
           },
           {
             "kind": "keep",
-            "item": "Magnesium (any form)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Magnesium stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Maca root powder or capsules",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
@@ -4999,10 +5037,17 @@
           },
           {
             "kind": "keep",
-            "item": "Eight Sleep / cooling mattress pad",
+            "item": "Strength training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Magnesium (any form)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Cooling pad stays part of your days."
+            "line": "Magnesium stays part of your days."
           }
         ],
         "firstRitual": [
@@ -5157,6 +5202,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "oura",
+      "usualSleep": "7h 00m",
       "list": [
         {
           "id": "jake-equinox",
@@ -5225,7 +5271,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 52m of sleep on 2026-10-23"
+          "text": "A short night: 4h 52m of sleep on 2026-10-23 (usually about 7h 00m)"
         },
         {
           "kind": "note",
@@ -5275,13 +5321,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Equinox",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Equinox is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Creatine",
             "reason": "TRAINS",
             "status": "proposed",
@@ -5293,6 +5332,13 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Wine Fridays is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Equinox",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Equinox is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -5357,6 +5403,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "oura",
+      "usualSleep": "6h 25m",
       "list": [
         {
           "id": "joanna-iv",
@@ -5527,7 +5574,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 48m of sleep on 2026-10-24"
+          "text": "A short night: 4h 48m of sleep on 2026-10-24 (usually about 6h 25m)"
         },
         {
           "kind": "decision-answer",
@@ -5591,17 +5638,10 @@
         "decisions": [
           {
             "kind": "clear",
-            "item": "Squeeze",
-            "reason": "UNUSED",
+            "item": "Work email after 9pm",
+            "reason": "UNLOVED_HABIT",
             "status": "proposed",
-            "line": "Squeeze hasn't had much use lately. Want to let it go and keep the $90 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Collagen peptides",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Collagen stays part of your days."
+            "line": "A swap for Late work email: one set check in the evening, then notifications off until morning. You keep the part you like, with less of what it costs you. Want to try it?"
           },
           {
             "kind": "keep",
@@ -5609,41 +5649,6 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Melatonin stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Work email after 9pm",
-            "reason": "UNLOVED_HABIT",
-            "status": "proposed",
-            "line": "A swap for Late work email: one set check in the evening, then notifications off until morning. You keep the part you like, with less of what it costs you. Want to try it?"
-          },
-          {
-            "kind": "clear",
-            "item": "IV drip bar",
-            "reason": "BORROWED_WEAK",
-            "status": "not-now",
-            "line": "IV drip bar came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $250 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Hyperbaric oxygen (wellness use)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Thursday martini with Ben",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Thursday martini with Ben is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "reformer",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "reformer is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -5654,10 +5659,52 @@
           },
           {
             "kind": "keep",
+            "item": "Collagen peptides",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Collagen stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Hyperbaric oxygen (wellness use)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Hyperbaric oxygen came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $300 a month?"
+          },
+          {
+            "kind": "keep",
             "item": "NAD+ injections",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "NAD+ injections stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "reformer",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "reformer is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "clear",
+            "item": "Squeeze",
+            "reason": "UNUSED",
+            "status": "proposed",
+            "line": "Squeeze hasn't had much use lately. Want to let it go and keep the $90 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Thursday martini with Ben",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Thursday martini with Ben is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "IV drip bar",
+            "reason": "BORROWED_WEAK",
+            "status": "not-now",
+            "line": "IV drip bar came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $250 a month?"
           }
         ],
         "firstRitual": [
@@ -5764,6 +5811,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "whoop",
+      "usualSleep": "6h 40m",
       "list": [
         {
           "id": "jordan-trainer",
@@ -5921,7 +5969,7 @@
         }
       ],
       "words": {
-        "idealDay": "An early session with Dani, a smoothie in the car between showings, close a deal, then Sunday dinner at Rafa's parents' place where his mom feeds everyone twice. I want to feel strong and like myself on the wedding day, not starving.",
+        "idealDay": "An early session with Dani, a smoothie in the car between showings, close a deal, then Sunday dinner at Rafa's parents' place where his mom feeds everyone twice. Friday is date night with Rafa somewhere new, or tacos with my girls if he's working. I want to feel strong and like myself on the wedding day, not starving.",
         "asks": [
           {
             "q": "What are you working toward right now?",
@@ -5941,7 +5989,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 56m of sleep on 2026-10-26"
+          "text": "A short night: 4h 56m of sleep on 2026-10-26 (usually about 6h 40m)"
         },
         {
           "kind": "note",
@@ -5952,6 +6000,10 @@
           "kind": "decision-answer",
           "on": "Berberine",
           "text": "yes"
+        },
+        {
+          "kind": "message",
+          "text": "Bachelorette planning night with my girls tonight. It's going to be a late one."
         },
         {
           "kind": "message",
@@ -6003,59 +6055,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Meal delivery or meal-prep service (meal kits or ready meals)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Meal delivery stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Gym membership",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Gym membership is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "Fat burner or thermogenic pills",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
             "line": "Fat burner stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Personal trainer",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Personal trainer is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "clear",
-            "item": "retinol + glycolic",
-            "reason": "TOO_MANY_STEPS",
-            "status": "proposed",
-            "line": "retinol + glycolic does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
-          },
-          {
-            "kind": "keep",
-            "item": "Protein powder",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "macro app",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "macro app stays part of your days."
           },
           {
             "kind": "keep",
@@ -6066,10 +6069,59 @@
           },
           {
             "kind": "keep",
+            "item": "macro app",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "macro app stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "retinol + glycolic",
+            "reason": "TOO_MANY_STEPS",
+            "status": "proposed",
+            "line": "retinol + glycolic does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
+          },
+          {
+            "kind": "keep",
+            "item": "Gym membership",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Gym membership is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Sunday dinner at Rafa's parents'",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday dinner at Rafa's parents' is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Meal delivery or meal-prep service (meal kits or ready meals)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Meal delivery stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Personal trainer",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Personal trainer is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Protein powder",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Protein powder is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -6133,6 +6185,11 @@
         "replies": [
           {
             "message": "Can you make me a cut plan for the wedding? Like real numbers.",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
+          },
+          {
+            "message": "Bachelorette planning night with my girls tonight. It's going to be a late one.",
             "reply": "Got it, thank you for telling me.",
             "changed": false
           },
@@ -6239,6 +6296,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "kenji-vyvanse",
@@ -6416,31 +6474,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Melatonin",
+            "item": "Lion's mane mushroom (capsules or powder)",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Melatonin stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Zyn",
-            "reason": "UNLOVED_HABIT",
-            "status": "proposed",
-            "line": "A swap for Zyn: daytime only, with the last one a few hours before bed. You keep the part you like, with less of what it costs you. Want to try it?"
-          },
-          {
-            "kind": "clear",
-            "item": "Celsius",
-            "reason": "UNLOVED_HABIT",
-            "status": "proposed",
-            "line": "A swap for Celsius: a smaller can before 2pm, or a cold sparkling water when it's mostly the fizz. You keep the part you like, with less of what it costs you. Want to try it?"
-          },
-          {
-            "kind": "keep",
-            "item": "Screens / phone in bed",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Phone in bed stays part of your days."
+            "status": "yes",
+            "line": "Lion's mane stays part of your days."
           },
           {
             "kind": "keep",
@@ -6450,11 +6487,32 @@
             "line": "Bouldering with Theo is yours, and it stays exactly as it is."
           },
           {
+            "kind": "clear",
+            "item": "Zyn",
+            "reason": "UNLOVED_HABIT",
+            "status": "proposed",
+            "line": "A swap for Zyn: daytime only, with the last one a few hours before bed. You keep the part you like, with less of what it costs you. Want to try it?"
+          },
+          {
             "kind": "keep",
-            "item": "Lion's mane mushroom (capsules or powder)",
+            "item": "Melatonin",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Lion's mane stays part of your days."
+            "status": "proposed",
+            "line": "Melatonin stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Celsius",
+            "reason": "UNLOVED_HABIT",
+            "status": "proposed",
+            "line": "A swap for Celsius: a smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine. You keep the part you like, with less of what it costs you. Want to try it?"
+          },
+          {
+            "kind": "keep",
+            "item": "Screens / phone in bed",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Phone in bed stays part of your days."
           }
         ],
         "firstRitual": [
@@ -6549,6 +6607,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "linda-levo",
@@ -6776,31 +6835,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Collagen drinks and beauty gummies",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "not-now",
-            "line": "Collagen gummies stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Friday mahjong at my sister's",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Friday mahjong at my sister's is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
             "item": "Turmeric or curcumin supplement",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Turmeric stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "ACV gummies",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "ACV gummies stays part of your days."
           },
           {
             "kind": "keep",
@@ -6811,10 +6849,31 @@
           },
           {
             "kind": "keep",
+            "item": "Collagen drinks and beauty gummies",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "not-now",
+            "line": "Collagen gummies stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Glucosamine / chondroitin",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Glucosamine / chondroitin stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "ACV gummies",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "ACV gummies stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Friday mahjong at my sister's",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Friday mahjong at my sister's is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -6973,6 +7032,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "luca-exfoliants",
@@ -7143,10 +7203,10 @@
         "decisions": [
           {
             "kind": "clear",
-            "item": "under-eye stick",
-            "reason": "OVERLAP",
-            "status": "proposed",
-            "line": "Toner already does what under-eye stick is for. Want to let under-eye stick go and keep the $30 a month?"
+            "item": "Chlorophyll water (liquid chlorophyll drops)",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
           },
           {
             "kind": "keep",
@@ -7154,6 +7214,13 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Melatonin stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "under-eye stick",
+            "reason": "OVERLAP",
+            "status": "proposed",
+            "line": "Toner already does what under-eye stick is for. Want to let under-eye stick go and keep the $30 a month?"
           },
           {
             "kind": "keep",
@@ -7170,11 +7237,11 @@
             "line": "scrub + salicylic wash does the same job twice. One exfoliant that suits the skin, used less often the stronger it is. Want the simpler version?"
           },
           {
-            "kind": "clear",
-            "item": "Chlorophyll water (liquid chlorophyll drops)",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Chlorophyll water came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $15 a month?"
+            "kind": "keep",
+            "item": "Biking home over the bridge",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Biking home over the bridge is yours, and it stays exactly as it is."
           },
           {
             "kind": "clear",
@@ -7182,13 +7249,6 @@
             "reason": "TOO_MANY_STEPS",
             "status": "proposed",
             "line": "Toner does the same job twice. Moisturizer straight after cleansing, while skin is still a little damp. Want the simpler version?"
-          },
-          {
-            "kind": "keep",
-            "item": "Biking home over the bridge",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Biking home over the bridge is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -7259,6 +7319,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "whoop",
+      "usualSleep": "7h 00m",
       "list": [
         {
           "id": "marcus-golf",
@@ -7296,7 +7357,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 1m of sleep on 2026-10-24"
+          "text": "A short night: 5h 01m of sleep on 2026-10-24 (usually about 7h 00m)"
         },
         {
           "kind": "answer",
@@ -7401,6 +7462,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "whoop",
+      "usualSleep": "6h 15m",
       "list": [
         {
           "id": "matteo-cigar",
@@ -7519,7 +7581,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 44m of sleep on 2026-10-23"
+          "text": "A short night: 4h 44m of sleep on 2026-10-23 (usually about 6h 15m)"
         },
         {
           "kind": "message",
@@ -7582,6 +7644,13 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Creatine monohydrate",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
             "item": "Crunch",
             "reason": "TRAINS",
             "status": "proposed",
@@ -7603,24 +7672,17 @@
           },
           {
             "kind": "keep",
-            "item": "Sunday cigar with Pop",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday cigar with Pop is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine monohydrate",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
             "item": "T booster",
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
             "line": "T booster stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunday cigar with Pop",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday cigar with Pop is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -7709,6 +7771,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "7h 05m",
       "list": [
         {
           "id": "maya-pilates",
@@ -7781,7 +7844,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 18m of sleep on 2026-10-29"
+          "text": "A short night: 5h 18m of sleep on 2026-10-29 (usually about 7h 05m)"
         },
         {
           "kind": "message",
@@ -7826,11 +7889,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "curate",
-            "item": "Club Pilates",
-            "reason": "ANCHOR",
+            "kind": "keep",
+            "item": "Magnesium",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Club Pilates could be the anchor of your week. Want to build the rest around it?"
+            "line": "Magnesium stays part of your days."
           },
           {
             "kind": "keep",
@@ -7840,18 +7903,18 @@
             "line": "Club Pilates is yours, and it stays exactly as it is."
           },
           {
+            "kind": "curate",
+            "item": "Club Pilates",
+            "reason": "ANCHOR",
+            "status": "proposed",
+            "line": "Club Pilates could be the anchor of your week. Want to build the rest around it?"
+          },
+          {
             "kind": "clear",
             "item": "AG1",
             "reason": "BORROWED_WEAK",
             "status": "yes",
             "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Magnesium",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Magnesium stays part of your days."
           }
         ],
         "firstRitual": [
@@ -7928,6 +7991,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "mei-oilcleanser",
@@ -8069,7 +8133,7 @@
         }
       ],
       "words": {
-        "idealDay": "slow morning, a matcha latte, writing button copy that makes someone's day 1% easier lol. evenings: a routine i secretly love and secretly hate. saturdays are sheet masks and k-dramas with my sister lin",
+        "idealDay": "slow morning, a matcha latte, writing button copy that makes someone's day 1% easier lol. evenings: a routine i secretly love and secretly hate. fridays: dinner somewhere new with my work friends, then karaoke if we're feeling brave. saturdays are sheet masks and k-dramas with my sister lin",
         "asks": [
           {
             "q": "Where do you feel most like yourself?",
@@ -8101,6 +8165,10 @@
           "kind": "decision-answer",
           "on": "Eye cream (alongside a face moisturizer)",
           "text": "not-now"
+        },
+        {
+          "kind": "message",
+          "text": "karaoke tonight for my coworker's birthday. tomorrow's routine is NOT happening lol"
         },
         {
           "kind": "answer",
@@ -8161,6 +8229,13 @@
             "line": "Snail essence stays part of your days."
           },
           {
+            "kind": "keep",
+            "item": "Vitamin C serum (topical, morning)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Vitamin C serum stays part of your days."
+          },
+          {
             "kind": "clear",
             "item": "Toner (hydrating or balancing)",
             "reason": "TOO_MANY_STEPS",
@@ -8176,17 +8251,10 @@
           },
           {
             "kind": "keep",
-            "item": "Vitamin C serum (topical, morning)",
-            "reason": "NOTHING_TO_CLEAR",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
-            "line": "Vitamin C serum stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Saturday sheet masks with Lin",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Saturday sheet masks with Lin is yours, and it stays exactly as it is."
+            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -8218,10 +8286,10 @@
           },
           {
             "kind": "keep",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "EVIDENCE_REGULAR",
+            "item": "Saturday sheet masks with Lin",
+            "reason": "THEIRS",
             "status": "proposed",
-            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "line": "Saturday sheet masks with Lin is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -8271,6 +8339,11 @@
             "message": "honestly can someone just tell me which steps to keep",
             "reply": "Got it, thank you for telling me.",
             "changed": false
+          },
+          {
+            "message": "karaoke tonight for my coworker's birthday. tomorrow's routine is NOT happening lol",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
           }
         ],
         "notes": [],
@@ -8305,6 +8378,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "oura",
+      "usualSleep": "6h 00m",
       "list": [
         {
           "id": "naomi-tret",
@@ -8432,7 +8506,7 @@
         },
         {
           "kind": "night",
-          "text": "3h 52m of sleep on 2026-10-24"
+          "text": "A short night: 3h 52m of sleep on 2026-10-24 (usually about 6h 00m)"
         },
         {
           "kind": "note",
@@ -8494,11 +8568,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "keep",
-            "item": "Melatonin",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Melatonin stays part of your days."
+            "kind": "clear",
+            "item": "Eye cream (alongside a face moisturizer)",
+            "reason": "TOO_MANY_STEPS",
+            "status": "yes",
+            "line": "Eye cream does the same job twice. Your moisturizer, patted gently around the eyes with the ring finger. Want the simpler version?"
           },
           {
             "kind": "keep",
@@ -8508,11 +8582,11 @@
             "line": "Breakfast with Carmen after nights is yours, and it stays exactly as it is."
           },
           {
-            "kind": "keep",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "kind": "clear",
+            "item": "glycolic toner",
+            "reason": "TOO_MANY_STEPS",
+            "status": "yes",
+            "line": "glycolic toner does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
           },
           {
             "kind": "keep",
@@ -8522,18 +8596,18 @@
             "line": "Vitamin C serum stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "Eye cream (alongside a face moisturizer)",
-            "reason": "TOO_MANY_STEPS",
-            "status": "yes",
-            "line": "Eye cream does the same job twice. Your moisturizer, patted gently around the eyes with the ring finger. Want the simpler version?"
+            "kind": "keep",
+            "item": "Melatonin",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Melatonin stays part of your days."
           },
           {
-            "kind": "clear",
-            "item": "glycolic toner",
-            "reason": "TOO_MANY_STEPS",
-            "status": "yes",
-            "line": "glycolic toner does the same job twice. The retinoid and the acid on separate nights, or the retinoid alone. Want the simpler version?"
+            "kind": "keep",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -8625,6 +8699,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "nora-vape",
@@ -8683,7 +8758,7 @@
         }
       ],
       "words": {
-        "idealDay": "wake up and not immediately feel behind?? an iced latte, a day where my ideas make it into the deck, then sunday night facetime with jo watching our show. idk i'm 22 i'm figuring it out",
+        "idealDay": "wake up and not immediately feel behind?? an iced latte, a day where my ideas make it into the deck, then fridays out in williamsburg with my college friends, staying out way later than i should, and sunday night facetime with jo watching our show. idk i'm 22 i'm figuring it out",
         "asks": [
           {
             "q": "Who do you feel your best around?",
@@ -8695,6 +8770,10 @@
         {
           "kind": "message",
           "text": "first big pitch tomorrow and my manager wants me to present a slide. i'm going to throw up"
+        },
+        {
+          "kind": "message",
+          "text": "going out for my roommate's birthday tonight, it's going to be a LATE one"
         },
         {
           "kind": "answer",
@@ -8750,13 +8829,6 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Calm (free through work)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Calm (free through work) stays part of your days."
-          },
-          {
-            "kind": "keep",
             "item": "Sunday FaceTime with Jo",
             "reason": "THEIRS",
             "status": "proposed",
@@ -8768,6 +8840,13 @@
             "reason": "UNLOVED_HABIT",
             "status": "proposed",
             "line": "A swap for vape: daytime only, with the last one a few hours before bed. You keep the part you like, with less of what it costs you. Want to try it?"
+          },
+          {
+            "kind": "keep",
+            "item": "Calm (free through work)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Calm (free through work) stays part of your days."
           },
           {
             "kind": "clear",
@@ -8798,6 +8877,11 @@
         "replies": [
           {
             "message": "first big pitch tomorrow and my manager wants me to present a slide. i'm going to throw up",
+            "reply": "Got it, thank you for telling me.",
+            "changed": false
+          },
+          {
+            "message": "going out for my roommate's birthday tonight, it's going to be a LATE one",
             "reply": "Got it, thank you for telling me.",
             "changed": false
           },
@@ -8833,6 +8917,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "5h 55m",
       "list": [
         {
           "id": "omar-cbti",
@@ -9012,7 +9097,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 34m of sleep on 2026-10-25"
+          "text": "A short night: 4h 34m of sleep on 2026-10-25 (usually about 5h 55m)"
         },
         {
           "kind": "message",
@@ -9070,39 +9155,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "Magnesium L-threonate (Magtein)",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Mag threonate came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $40 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Mouth tape",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
-          },
-          {
-            "kind": "clear",
-            "item": "Sleep headphones / sleep stories",
-            "reason": "UNUSED",
-            "status": "proposed",
-            "line": "Sleep headphones / hasn't had much use lately. Want to let it go and keep the $10 a month?"
-          },
-          {
             "kind": "keep",
-            "item": "Checking the sleep score every morning",
+            "item": "Nasal strips or dilators",
             "reason": "NOTHING_TO_CLEAR",
-            "status": "yes",
-            "line": "Morning sleep check stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Apigenin",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "Apigenin came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+            "status": "proposed",
+            "line": "Nasal strips stays part of your days."
           },
           {
             "kind": "keep",
@@ -9113,10 +9170,17 @@
           },
           {
             "kind": "clear",
-            "item": "Glycine",
-            "reason": "BORROWED_WEAK",
+            "item": "Sleep headphones / sleep stories",
+            "reason": "UNUSED",
             "status": "proposed",
-            "line": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
+            "line": "Sleep headphones / hasn't had much use lately. Want to let it go and keep the $10 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Apigenin",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "Apigenin came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
           },
           {
             "kind": "keep",
@@ -9133,11 +9197,32 @@
             "line": "Weighted blanket stays part of your days."
           },
           {
-            "kind": "keep",
-            "item": "Nasal strips or dilators",
-            "reason": "NOTHING_TO_CLEAR",
+            "kind": "clear",
+            "item": "Magnesium L-threonate (Magtein)",
+            "reason": "BORROWED_WEAK",
             "status": "proposed",
-            "line": "Nasal strips stays part of your days."
+            "line": "Mag threonate came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $40 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Mouth tape",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
+          },
+          {
+            "kind": "clear",
+            "item": "Glycine",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Glycine came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $12 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Checking the sleep score every morning",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "yes",
+            "line": "Morning sleep check stays part of your days."
           }
         ],
         "firstRitual": [
@@ -9265,6 +9350,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "whoop",
+      "usualSleep": "6h 45m",
       "list": [
         {
           "id": "owen-ride",
@@ -9372,7 +9458,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 22m of sleep on 2026-10-24"
+          "text": "A short night: 5h 22m of sleep on 2026-10-24 (usually about 6h 45m)"
         },
         {
           "kind": "note",
@@ -9435,18 +9521,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "refer",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "SEE_A_DERMATOLOGIST",
-            "status": "proposed",
-            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
-          },
-          {
             "kind": "keep",
-            "item": "Sunday pancakes with the kids",
+            "item": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Sunday pancakes with the kids stays part of your days."
+            "line": "Electrolytes stays part of your days."
           },
           {
             "kind": "keep",
@@ -9457,17 +9536,24 @@
           },
           {
             "kind": "keep",
+            "item": "Sunday pancakes with the kids",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Sunday pancakes with the kids stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Saturday ride with the club",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Saturday ride with the club is yours, and it stays exactly as it is."
           },
           {
-            "kind": "keep",
-            "item": "Electrolyte drink mixes (LMNT, Liquid I.V. and similar)",
-            "reason": "NOTHING_TO_CLEAR",
+            "kind": "refer",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "SEE_A_DERMATOLOGIST",
             "status": "proposed",
-            "line": "Electrolytes stays part of your days."
+            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
           },
           {
             "kind": "keep",
@@ -9565,6 +9651,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "priya-peloton",
@@ -9742,7 +9829,7 @@
     },
     {
       "id": "ravi-31",
-      "summary": "Ravi, 31, San Francisco engineer with two wearables, a CGM he stopped wearing and a cabinet of podcast supplements; climbing with Jess and the Eight Sleep are his. Tests clearing a second wearable without arbitrating numbers, plus a New York trip.",
+      "summary": "Ravi, 31, San Francisco engineer with an Oura, plus a WHOOP he switched from but never cancelled, a CGM he stopped wearing and a cabinet of podcast supplements; climbing with Jess and the Eight Sleep are his. Tests clearing a second wearable without arbitrating numbers, plus a New York trip.",
       "draftedBy": "Claude",
       "covers": [
         "stack:10+",
@@ -9753,6 +9840,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "7h 15m",
       "list": [
         {
           "id": "ravi-oura",
@@ -9777,7 +9865,7 @@
             "stillPaying": true
           },
           "notes": [
-            "Got it to cross-check the Oura. They disagree most mornings and I check both before I'm out of bed."
+            "Had the WHOOP first, switched to the Oura when the strap got annoying, never cancelled it. Still open the app some mornings to see if they agree. They never do."
           ]
         },
         {
@@ -9925,7 +10013,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 56m of sleep on 2026-10-23"
+          "text": "A short night: 4h 56m of sleep on 2026-10-23 (usually about 7h 15m)"
         },
         {
           "kind": "message",
@@ -9989,46 +10077,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "clear",
-            "item": "AG1",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "NMN",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "NMN stays part of your days."
-          },
-          {
             "kind": "keep",
             "item": "Eight Sleep",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Eight Sleep stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Mouth tape",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Checking the sleep score every morning",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Morning sleep check stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "WHOOP",
-            "reason": "BORROWED_WEAK",
-            "status": "yes",
-            "line": "WHOOP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
           },
           {
             "kind": "keep",
@@ -10045,6 +10098,20 @@
             "line": "Red light panel hasn't had much use lately. Want to let it go and keep the $30 a month?"
           },
           {
+            "kind": "keep",
+            "item": "NMN",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "NMN stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "AG1",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "AG1 came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $79 a month?"
+          },
+          {
             "kind": "clear",
             "item": "CGM",
             "reason": "UNUSED",
@@ -10052,11 +10119,32 @@
             "line": "CGM hasn't had much use lately. Want to let it go and keep the $100 a month?"
           },
           {
+            "kind": "clear",
+            "item": "Mouth tape",
+            "reason": "BORROWED_WEAK",
+            "status": "proposed",
+            "line": "Mouth tape came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $9 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Checking the sleep score every morning",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Morning sleep check stays part of your days."
+          },
+          {
             "kind": "keep",
             "item": "Thursday climbing with Jess",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Thursday climbing with Jess is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "WHOOP",
+            "reason": "BORROWED_WEAK",
+            "status": "yes",
+            "line": "WHOOP came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $30 a month?"
           }
         ],
         "firstRitual": [
@@ -10152,6 +10240,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "6h 30m",
       "list": [
         {
           "id": "simone-wine",
@@ -10251,7 +10340,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 12m of sleep on 2026-10-25"
+          "text": "A short night: 5h 12m of sleep on 2026-10-25 (usually about 6h 30m)"
         },
         {
           "kind": "message",
@@ -10313,6 +10402,13 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "Tuesday choir",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Tuesday choir is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
             "item": "Sleep gummies (blend)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
@@ -10331,13 +10427,6 @@
             "reason": "UNLOVED_HABIT",
             "status": "proposed",
             "line": "A swap for Wine after bedtime: same plans, with the last drink a little earlier or the second one alcohol-free. You keep the part you like, with less of what it costs you. Want to try it?"
-          },
-          {
-            "kind": "keep",
-            "item": "Tuesday choir",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Tuesday choir is yours, and it stays exactly as it is."
           }
         ],
         "firstRitual": [
@@ -10402,6 +10491,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "sofia-matcha",
@@ -10567,6 +10657,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": "oura",
+      "usualSleep": "6h 35m",
       "list": [
         {
           "id": "tess-led",
@@ -10733,7 +10824,7 @@
         },
         {
           "kind": "night",
-          "text": "5h 0m of sleep on 2026-10-24"
+          "text": "A short night: 5h 00m of sleep on 2026-10-24 (usually about 6h 35m)"
         },
         {
           "kind": "decision-answer",
@@ -10798,25 +10889,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "keep",
-            "item": "Collagen drinks and beauty gummies",
-            "reason": "NOTHING_TO_CLEAR",
+            "kind": "clear",
+            "item": "NuFace",
+            "reason": "BORROWED_WEAK",
             "status": "proposed",
-            "line": "Collagen gummies stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Vitamin C serum (topical, morning)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Vitamin C serum stays part of your days."
+            "line": "NuFace came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
           },
           {
             "kind": "clear",
@@ -10827,24 +10904,24 @@
           },
           {
             "kind": "keep",
-            "item": "Sunday sailing with my dad",
-            "reason": "THEIRS",
+            "item": "Vitamin C serum (topical, morning)",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Sunday sailing with my dad is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "clear",
-            "item": "NuFace",
-            "reason": "BORROWED_WEAK",
-            "status": "proposed",
-            "line": "NuFace came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go and keep the $20 a month?"
+            "line": "Vitamin C serum stays part of your days."
           },
           {
             "kind": "keep",
-            "item": "Solidcore",
-            "reason": "TRAINS",
+            "item": "Retinoid at night (retinol, or prescription tretinoin and similar)",
+            "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
-            "line": "Solidcore is doing real work for your training, even when you can't feel it. Keep it."
+            "line": "Retinoid is one of the well-founded things you do, even on days you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Collagen drinks and beauty gummies",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Collagen gummies stays part of your days."
           },
           {
             "kind": "keep",
@@ -10852,13 +10929,6 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "not-now",
             "line": "Barry's stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "LED face mask (red and near-infrared light)",
-            "reason": "UNUSED",
-            "status": "yes",
-            "line": "LED mask hasn't had much use lately. Want to let it go and keep the $25 a month?"
           },
           {
             "kind": "keep",
@@ -10869,10 +10939,31 @@
           },
           {
             "kind": "keep",
-            "item": "Retinoid at night (retinol, or prescription tretinoin and similar)",
+            "item": "Sunday sailing with my dad",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday sailing with my dad is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "clear",
+            "item": "LED face mask (red and near-infrared light)",
+            "reason": "UNUSED",
+            "status": "yes",
+            "line": "LED mask hasn't had much use lately. Want to let it go and keep the $25 a month?"
+          },
+          {
+            "kind": "keep",
+            "item": "Solidcore",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Solidcore is doing real work for your training, even when you can't feel it. Keep it."
+          },
+          {
+            "kind": "keep",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
-            "line": "Retinoid is one of the well-founded things you do, even on days you can't feel it. Keep it."
+            "line": "Sunscreen is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -11002,6 +11093,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": "whoop",
+      "usualSleep": "6h 20m",
       "list": [
         {
           "id": "tomas-runclub",
@@ -11177,7 +11269,7 @@
         },
         {
           "kind": "night",
-          "text": "4h 28m of sleep on 2026-11-01"
+          "text": "A short night: 4h 28m of sleep on 2026-11-01 (usually about 6h 20m)"
         },
         {
           "kind": "message",
@@ -11231,38 +11323,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "Strength training",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Theragun",
+            "item": "Beers after the long run",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Theragun stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Melatonin",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Melatonin stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "LMNT",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "LMNT stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Tart cherry juice or extract",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Tart cherry stays part of your days."
+            "line": "Beers after the long run stays part of your days."
           },
           {
             "kind": "keep",
@@ -11273,17 +11337,24 @@
           },
           {
             "kind": "keep",
-            "item": "Saturday long run with the club",
-            "reason": "THEIRS",
+            "item": "LMNT",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Saturday long run with the club is yours, and it stays exactly as it is."
+            "line": "LMNT stays part of your days."
           },
           {
             "kind": "keep",
-            "item": "Beers after the long run",
+            "item": "Theragun",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Beers after the long run stays part of your days."
+            "line": "Theragun stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Strength training",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Strength training is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "clear",
@@ -11294,10 +11365,31 @@
           },
           {
             "kind": "keep",
+            "item": "Tart cherry juice or extract",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Tart cherry stays part of your days."
+          },
+          {
+            "kind": "keep",
             "item": "Normatec",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Normatec stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Saturday long run with the club",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Saturday long run with the club is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Melatonin",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Melatonin stays part of your days."
           }
         ],
         "firstRitual": [
@@ -11463,6 +11555,7 @@
       ],
       "timeZone": "America/Chicago",
       "wearable": "oura",
+      "usualSleep": "6h 50m",
       "list": [
         {
           "id": "valeria-mezcal",
@@ -11624,7 +11717,7 @@
       "events": [
         {
           "kind": "night",
-          "text": "4h 28m of sleep on 2026-10-26"
+          "text": "A short night: 4h 28m of sleep on 2026-10-26 (usually about 6h 50m)"
         },
         {
           "kind": "message",
@@ -11691,6 +11784,20 @@
         "decisions": [
           {
             "kind": "keep",
+            "item": "CBD (gummies or oil)",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "CBD stays part of your days."
+          },
+          {
+            "kind": "clear",
+            "item": "Magnesium (any form)",
+            "reason": "DOSE_BELOW_MIN",
+            "status": "proposed",
+            "line": "Magnesium is below the amount that's known to do anything. Want to let it go and keep the $22 a month?"
+          },
+          {
+            "kind": "keep",
             "item": "Sleep tea blend (valerian, passionflower, lemon balm)",
             "reason": "NOTHING_TO_CLEAR",
             "status": "theirs",
@@ -11698,10 +11805,24 @@
           },
           {
             "kind": "keep",
+            "item": "Sunday mezcal with the crew after close",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Sunday mezcal with the crew after close is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
             "item": "Sunday café de olla at my mom's",
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Sunday café de olla at my mom's is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Ashwagandha (KSM-66 / Sensoril)",
+            "reason": "EVIDENCE_REGULAR",
+            "status": "proposed",
+            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -11723,34 +11844,6 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "yes",
             "line": "Sleep gummies stays part of your days."
-          },
-          {
-            "kind": "clear",
-            "item": "Magnesium (any form)",
-            "reason": "DOSE_BELOW_MIN",
-            "status": "proposed",
-            "line": "Magnesium is below the amount that's known to do anything. Want to let it go and keep the $22 a month?"
-          },
-          {
-            "kind": "keep",
-            "item": "Sunday mezcal with the crew after close",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Sunday mezcal with the crew after close is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "CBD (gummies or oil)",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "CBD stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Ashwagandha (KSM-66 / Sensoril)",
-            "reason": "EVIDENCE_REGULAR",
-            "status": "proposed",
-            "line": "Ashwagandha is one of the well-founded things you do, even on days you can't feel it. Keep it."
           },
           {
             "kind": "keep",
@@ -11881,6 +11974,7 @@
       ],
       "timeZone": "America/Los_Angeles",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "veer-gym",
@@ -12060,45 +12154,10 @@
         "decisions": [
           {
             "kind": "keep",
-            "item": "500 ml of water in the morning",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "500 ml of water in the morning stays part of your days."
-          },
-          {
-            "kind": "keep",
-            "item": "Creatine",
-            "reason": "TRAINS",
-            "status": "proposed",
-            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Journalling before bed",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Journalling before bed is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
             "item": "Vitamin C tablets",
             "reason": "EVIDENCE_REGULAR",
             "status": "proposed",
             "line": "Vitamin C tablets is one of the well-founded things you do, even on days you can't feel it. Keep it."
-          },
-          {
-            "kind": "keep",
-            "item": "Morning meditation",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Morning meditation is yours, and it stays exactly as it is."
-          },
-          {
-            "kind": "keep",
-            "item": "Gym",
-            "reason": "THEIRS",
-            "status": "proposed",
-            "line": "Gym is yours, and it stays exactly as it is."
           },
           {
             "kind": "curate",
@@ -12109,10 +12168,24 @@
           },
           {
             "kind": "keep",
-            "item": "Morning run",
+            "item": "500 ml of water in the morning",
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "Morning run stays part of your days."
+            "line": "500 ml of water in the morning stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Gym",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Gym is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Journalling before bed",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Journalling before bed is yours, and it stays exactly as it is."
           },
           {
             "kind": "keep",
@@ -12120,6 +12193,27 @@
             "reason": "THEIRS",
             "status": "proposed",
             "line": "Drinks is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Morning meditation",
+            "reason": "THEIRS",
+            "status": "proposed",
+            "line": "Morning meditation is yours, and it stays exactly as it is."
+          },
+          {
+            "kind": "keep",
+            "item": "Morning run",
+            "reason": "NOTHING_TO_CLEAR",
+            "status": "proposed",
+            "line": "Morning run stays part of your days."
+          },
+          {
+            "kind": "keep",
+            "item": "Creatine",
+            "reason": "TRAINS",
+            "status": "proposed",
+            "line": "Creatine is doing real work for your training, even when you can't feel it. Keep it."
           }
         ],
         "firstRitual": [
@@ -12209,6 +12303,7 @@
       ],
       "timeZone": "America/New_York",
       "wearable": null,
+      "usualSleep": null,
       "list": [
         {
           "id": "zoe-differin",
@@ -12378,11 +12473,11 @@
       "distill": {
         "decisions": [
           {
-            "kind": "refer",
-            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
-            "reason": "SEE_A_DERMATOLOGIST",
+            "kind": "keep",
+            "item": "Pimple patches",
+            "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
-            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
+            "line": "Pimple patches stays part of your days."
           },
           {
             "kind": "keep",
@@ -12390,6 +12485,20 @@
             "reason": "NOTHING_TO_CLEAR",
             "status": "proposed",
             "line": "Zinc stays part of your days."
+          },
+          {
+            "kind": "refer",
+            "item": "Differin + BHA toner",
+            "reason": "SEE_A_DERMATOLOGIST",
+            "status": "proposed",
+            "line": "With your skin the way it is, a dermatologist is the one to ask about Differin + BHA toner. Keep things simple until then."
+          },
+          {
+            "kind": "refer",
+            "item": "Sunscreen (daily, broad-spectrum SPF 30+)",
+            "reason": "SEE_A_DERMATOLOGIST",
+            "status": "proposed",
+            "line": "With your skin the way it is, a dermatologist is the one to ask about Sunscreen. Keep things simple until then."
           },
           {
             "kind": "keep",
@@ -12411,20 +12520,6 @@
             "reason": "SEE_A_DERMATOLOGIST",
             "status": "yes",
             "line": "With your skin the way it is, a dermatologist is the one to ask about Walnut scrub + glycolic pads. Keep things simple until then."
-          },
-          {
-            "kind": "keep",
-            "item": "Pimple patches",
-            "reason": "NOTHING_TO_CLEAR",
-            "status": "proposed",
-            "line": "Pimple patches stays part of your days."
-          },
-          {
-            "kind": "refer",
-            "item": "Differin + BHA toner",
-            "reason": "SEE_A_DERMATOLOGIST",
-            "status": "proposed",
-            "line": "With your skin the way it is, a dermatologist is the one to ask about Differin + BHA toner. Keep things simple until then."
           }
         ],
         "firstRitual": [

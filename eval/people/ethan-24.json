@@ -11,6 +11,7 @@
   ],
   "timeZone": "America/Los_Angeles",
   "now": "2026-10-21T07:20:00-07:00",
+  "usualSleepMin": 405,
   "progress": {
     "version": 1,
     "step": "done",
@@ -21,7 +22,7 @@
       "energy"
     ],
     "name": "Ethan",
-    "lifeText": "gym before work, actually leave the office before 7, dinner with my roommates, gaming with the boys. sundays at my parents in san jose",
+    "lifeText": "gym before work, actually leave the office before 7, dinner with my roommates, gaming with the boys, and fridays a bar in the marina with the analyst class till way too late. sundays at my parents in san jose",
     "member": true,
     "items": [
       {
@@ -172,6 +173,11 @@
       "kind": "decision-answer",
       "stackItemId": "ethan-bcaa",
       "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-23T18:30:00-07:00",
+      "text": "analyst happy hour then probably a bar after. tomorrow's gym might be a write-off lol"
     },
     {
       "kind": "message",

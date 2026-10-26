@@ -51,6 +51,14 @@ Too many things read as kept. **Done (branch `felt-and-quiet`):**
 - Coffee after 2pm: kept with "stays part of your days". **Fixed:** no card; the company question comes first.
 - CPAP (his doctor's) doesn't appear in his first Ritual.
 - Melatonin at 10 mg, well above the studied doses: Distill said nothing (check `DOSE` rules: a high dose, not only a low one).
+- *Veer, 25 Oct:* the swap guessed why he drinks it ("when it's mostly the fizz"). Late caffeine usually patches short or poor sleep; the real swap is a better base (sleep habits, an earlier wind-down) so he feels fresher and needs the late can less. **Done for the words:** energy drinks' `fits_instead` now reads "A smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine." **Still open (Claude on):** link a caffeine swap to their sleep in the base Ritual, and teach the prompt to look upstream like this.
+
+### ravi-31
+- *Veer:* an Oura and a WHOOP at once is unlikely. **Done:** he switched from the WHOOP to the Oura and never cancelled it (still tests the second wearable).
+
+## The set itself (Veer, 26 Oct)
+- Too few people go out. **Done:** Britt, Ethan, Jordan, Mei, Nora, Fatima and Amara now have nights out in their ideal days, and six send a "going out tonight" message, which tests reshaping the next morning.
+- Everyone seemed to sleep about 5 hours. That was only the one short night each person was written to test; the test already played four weeks of ordinary nights around 7 hours, unseen. **Done:** each wearable person has their own usual (5h 40m for Grace, four months postpartum, to 7h 15m for Ravi), shown on the page, and every short night still reads as short against it.
 
 ## Review page fixes (done)
 - "Their answer" now reads "Taps a card", with the card's own words above each tap.

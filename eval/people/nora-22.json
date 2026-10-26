@@ -19,7 +19,7 @@
       "mood / anxiety"
     ],
     "name": "Nora",
-    "lifeText": "wake up and not immediately feel behind?? an iced latte, a day where my ideas make it into the deck, then sunday night facetime with jo watching our show. idk i'm 22 i'm figuring it out",
+    "lifeText": "wake up and not immediately feel behind?? an iced latte, a day where my ideas make it into the deck, then fridays out in williamsburg with my college friends, staying out way later than i should, and sunday night facetime with jo watching our show. idk i'm 22 i'm figuring it out",
     "member": true,
     "items": [
       {
@@ -125,6 +125,11 @@
       "kind": "message",
       "at": "2026-10-22T22:10:00-04:00",
       "text": "first big pitch tomorrow and my manager wants me to present a slide. i'm going to throw up"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-23T21:00:00-04:00",
+      "text": "going out for my roommate's birthday tonight, it's going to be a LATE one"
     },
     {
       "kind": "answer",
