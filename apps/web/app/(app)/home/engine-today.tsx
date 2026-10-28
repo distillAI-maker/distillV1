@@ -167,7 +167,12 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
             </button>
           ))}
         </div>
-        <WhyLink stackItemId={q.stackItemId} ask="question" />
+        <div className="d-one-links">
+          <WhyLink stackItemId={q.stackItemId} ask="question" />
+          <Link className="d-see-all d-see-all--quiet d-one-why" href={`/companion?about=${encodeURIComponent(q.stackItemId)}&why=tell`}>
+            {copy.companion.tellLink}
+          </Link>
+        </div>
       </>
     );
   }

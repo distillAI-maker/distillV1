@@ -153,6 +153,7 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
   // Mixed evidence and it costs money: whether they can feel it is what decides (Veer, 25 Oct).
   if (
     v &&
+    FELT_KINDS.has(v.kind) &&
     (attachment === 'unknown' || attachment === 'neutral') &&
     tierFor(v, s, input.stack) === 'C' &&
     s.monthlyCost > 0 &&
@@ -214,5 +215,17 @@ export function valuableQuestions(input: DecideInput, limit = 10): QuestionDraft
       out.push({ ...q, value });
     }
   }
-  return out.sort((a, b) => b.value - a.value || a.id.localeCompare(b.id)).slice(0, limit);
+  // One question per thing at a time, the one that settles most first: how often comes before
+  // "can you feel it" (unused makes feeling moot), and the rest wait their turn.
+  const one = new Map<string, QuestionDraft>();
+  for (const q of out) {
+    const had = one.get(q.stackItemId);
+    if (!had || ORDER.indexOf(q.variable) < ORDER.indexOf(had.variable)) one.set(q.stackItemId, q);
+  }
+  return [...one.values()].sort((a, b) => b.value - a.value || a.id.localeCompare(b.id)).slice(0, limit);
 }
+
+const ORDER: readonly QuestionDraft['variable'][] = ['origin', 'usage', 'trains', 'company', 'feel'];
+
+/** Things whose point is how they make you feel. Never a service (meal delivery, an app, a class). */
+const FELT_KINDS = new Set(['supplement', 'food-drink', 'topical', 'device', 'practice', 'movement']);

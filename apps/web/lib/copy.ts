@@ -922,6 +922,11 @@ export const copy = {
     borrowed: 'Not really mine',
     back: 'Today',
     seeChange: 'See your Ritual',
+    /** From a question card: their own words instead of a button. */
+    tellLink: 'Or tell me in your words',
+    tellAbout: (name: string) => `About ${name}`,
+    tellPlaceholder: (name: string) => `Tell me about ${name}, in your words`,
+    tellClear: 'Not about this',
     /** What a Why? tap on today's card asks, in their voice. */
     why: {
       clear: (name: string) => `Why let ${name} go?`,

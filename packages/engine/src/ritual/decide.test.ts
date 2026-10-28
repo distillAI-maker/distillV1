@@ -226,16 +226,19 @@ describe('decide: memory and order', () => {
 
 describe('mixed evidence that costs money', () => {
   it('asks whether they can feel it, and offers to let it go when they can’t', () => {
-    const asked = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })]);
+    // One question at a time: how often first, then whether they can feel it.
+    const first = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })]);
+    expect(valuableQuestions(first.input).filter((q) => q.stackItemId === 'gun').map((q) => q.variable)).toEqual(['usage']);
+    const asked = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12 } })]);
     const card = valuableQuestions(asked.input).find((q) => q.id === 'q:gun:feel')!;
     expect(card.text).toBe('Can you feel Massage gun doing something for you?');
     expect(card.options.map((o) => o.label)).toEqual(['Yes, I can tell', 'Not really', 'Not sure']);
     // No reason to change it yet: no card says it "stays".
     expect(of(asked.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
-    const no = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { feels: false } })]);
+    const no = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12, feels: false } })]);
     expect(of(no.result, 'gun')).toEqual(['clear:NOT_FELT']);
     expect(no.result.decisions.find((d) => d.stackItemId === 'gun')!.money).toBe(10);
-    const yes = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { feels: true } })]);
+    const yes = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12, feels: true } })]);
     expect(of(yes.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
     expect(valuableQuestions(yes.input).some((q) => q.id === 'q:gun:feel')).toBe(false);
   });

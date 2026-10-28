@@ -606,7 +606,8 @@ export class Engine {
             await say(CLINICAL_REPLY);
             break;
           }
-          const learned = await this.learn(ctx, tx, 'message', event.text);
+          // Said about one thing ("Or tell me in your words"): what they say is about that thing.
+          const learned = await this.learn(ctx, tx, 'message', event.text, event.about ? { stackItemId: event.about } : {});
           if (learned.ask.length) ask = learned.ask;
           if (learned.applied) await this.syncDecisions(ctx, tx);
           if (c?.trigger && ctx.reshapesLeft > 0) {
@@ -633,7 +634,9 @@ export class Engine {
           }
           const asking = c ? c.intent === 'question' || (c.intent === 'chat' && QUESTIONISH.test(event.text)) : QUESTIONISH.test(event.text);
           const found = await this.aboutFor(ctx, event, asking, tx);
-          const followUp = found ? await this.followUpFor(ctx, found.item, found.via !== 'named', tx) : undefined;
+          // The catalog's reviewed answer only for a question ("Why let AG1 go?"); something they told us
+          // about it ("I eat maybe half of them") is thanked, and Claude, when on, reads it.
+          const followUp = found ? await this.followUpFor(ctx, found.item, found.via !== 'named' && QUESTIONISH.test(event.text), tx) : undefined;
           if (found && followUp) {
             await store.log({ userId, kind: 'message.about', payload: { stackItemId: found.item.id, via: found.via } }, tx);
             swap = followUp.swap;

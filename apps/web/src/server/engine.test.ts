@@ -269,6 +269,11 @@ describe('a follow-up', () => {
     // Not a question about anything: no item at all.
     expect((await e.run(alice, { kind: 'message', text: 'Sam made pasta tonight' })).swap).toBeUndefined();
   });
+  it('thanks them for something they told us about a card, rather than answering a question they didn’t ask', async () => {
+    await settled();
+    const r = await engine().run(alice, { kind: 'message', text: 'I drink maybe half of them', about: 'ag1' });
+    expect(r.reply).toBe(REPLY_FALLBACK);
+  });
   it('never offers a swap for something Distill keeps', async () => {
     await settled();
     const r = await engine().run(alice, { kind: 'message', text: 'Why keep creatine?', about: 'cr' });

@@ -24,6 +24,8 @@ export function CompanionScreen() {
   const [text, setText] = useState('');
   // The swap offered with a reply stays until their next message, so they see "Added".
   const [offer, setOffer] = useState<EngineResult['swap']>();
+  // From "Or tell me in your words" on a question card: their next message is about this thing.
+  const [telling, setTelling] = useState<{ id: string; name: string } | null>(null);
   const asked = useRef(false);
   const end = useRef<HTMLLIElement | null>(null);
   const count = state?.thread.length ?? 0;
@@ -49,6 +51,10 @@ export function CompanionScreen() {
     if (!item) return;
     const name = routed?.items.find((r) => r.stackItemId === about)?.name || item.label || item.customName || '';
     const why = params.get('why');
+    if (why === 'tell') {
+      setTelling({ id: about, name: name || copy.decide.why });
+      return;
+    }
     const ask = copy.companion.why[why === 'clear' || why === 'swap' || why === 'keep' || why === 'question' ? why : 'other'];
     clearLast();
     setOffer(undefined);
@@ -103,7 +109,10 @@ export function CompanionScreen() {
     if (!message) return;
     clearLast();
     setOffer(undefined);
-    if (await act(() => engineApi.message(message))) setText('');
+    if (await act(() => engineApi.message(message, telling?.id))) {
+      setText('');
+      setTelling(null);
+    }
   }
 
   /** They stopped something: it leaves their list, and the rules run again on what is left. */
@@ -216,6 +225,14 @@ export function CompanionScreen() {
         </p>
       ) : null}
 
+      {telling ? (
+        <p className="d-compose-about">
+          {copy.companion.tellAbout(telling.name)}
+          <button type="button" onClick={() => setTelling(null)}>
+            {copy.companion.tellClear}
+          </button>
+        </p>
+      ) : null}
       <form
         className="d-compose-bar d-compose-bar--distill"
         onSubmit={(e) => {
@@ -228,7 +245,7 @@ export function CompanionScreen() {
           aria-label={copy.companion.label}
           maxLength={2000}
           value={text}
-          placeholder={busy ? copy.companion.sending : copy.app.message}
+          placeholder={busy ? copy.companion.sending : telling ? copy.companion.tellPlaceholder(telling.name) : copy.app.message}
           onChange={(e) => setText(e.target.value)}
         />
         {text.trim() ? (

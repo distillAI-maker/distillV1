@@ -374,4 +374,30 @@ describe('today’s one thing, from the engine', () => {
     expect(await screen.findByText('Spinach and berry smoothie · 3 times a week in the morning')).toBeTruthy();
     expect(api.message).toHaveBeenCalledTimes(1);
   });
+  it('“Or tell me in your words” sends their next message about that thing, without asking for them', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'ag1', itemKey: 'greens-powder-ag1-etc', monthlyCost: 99, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    api.message.mockReset();
+    api.open.mockResolvedValue(result(stateWith()));
+    api.message.mockResolvedValue({ ...result(stateWith()), reply: 'Got it.' });
+    window.history.replaceState(null, '', '/companion?about=ag1&why=tell');
+    const { store } = signedIn(progress);
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <CompanionScreen />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText('About AG1')).toBeTruthy();
+    expect(api.message).not.toHaveBeenCalled();
+    const box = screen.getByRole('textbox');
+    expect(box.getAttribute('placeholder')).toBe('Tell me about AG1, in your words');
+    fireEvent.change(box, { target: { value: 'I drink maybe half of them' } });
+    fireEvent.submit(box.closest('form')!);
+    await waitFor(() => expect(api.message).toHaveBeenCalledWith('I drink maybe half of them', 'ag1'));
+  });
 });
