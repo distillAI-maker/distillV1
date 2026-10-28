@@ -4,6 +4,46 @@ Written 28 October 2026, at the end of a long session with Veer, so a new Claude
 
 **In one line:** the engine's rules and Claude are built and reviewed; Claude's first run on the 41 test people scored 2.99 of 5; we fixed what held Claude back, and a re-run on all 41 was started at the end of this session to measure the jump.
 
+## Update, 28 October afternoon (read this first)
+
+**Who owns what now:** Rohan owns the backend: the engine, catalog words, the 41, the judged runs and prompt engineering. Veer and Claude are on the frontend: building the approved Figma Make design into `apps/web` and connecting it to the engine. Flag engine changes for Rohan rather than deciding them.
+
+**The re-run finished: 3.45 of 5** (was 2.99). Report: `eval/reports/2026-10-28-judged.md`, PR #48.
+
+| Question | First run | Re-run |
+| --- | --- | --- |
+| Fits who they are | 2.24 | 3.00 |
+| Specific to them | 3.10 | 3.73 |
+| Respects what they love | 3.41 | 3.98 |
+| Respects the evidence | 2.51 | 2.88 (weakest) |
+| Free of pressure | 4.20 | 4.29 |
+| Sounds like Distill | 2.88 | 3.46 |
+| Ritual feels like theirs | 2.76 | 3.17 |
+| Believable reshape | 2.83 | 3.12 |
+
+- **Other results:**
+  - People under 3.5: 36 → 17 of 41.
+  - Clears found: 50% → 64%.
+  - People and places named: 82% → 97%.
+  - All 4 planted controls caught.
+  - $5.16 for the run.
+- **Gates:** 19 people failed, 17 of them on the new "must stay, missing from the first Ritual" check. Cause: Claude's onboarding read set `occasion` to regular days ("Tuesdays and Thursdays"), so compose dropped the thing and Claude re-added it from their words, unlinked. **Rohan fixed this in `15251eb`.** It was spot-checked on daniel-26, grace-34, kenji-26 and marcus-38, but the full 41 haven't been re-run since.
+- **Lowest people, and why:**
+  - **omar-33 (2.50):** a daily sleep-score check that his CBT-I coach told him to stop.
+  - **elena-52 (2.62):** her swim stayed scheduled when the pool was closed, and the reply was flat.
+  - **simone-38 (2.62):** her ask to make wine "not every night" was ignored.
+  - **kenji-26 (2.62):** bouldering duplicated (the occasion bug), and Vyvanse placed in the evening.
+- **The judge also marks down:**
+  - "Real talk" and "$X a month back" read like a feed.
+  - Using their first name counts as "invented". That's a rubric question for Veer's hand-grading.
+- **Product gap:** the real onboarding no longer asks for an ideal day (the box became the private study). The first Ritual only knows taps and answers, so places, people and ideal-day parts come later, from notes.
+
+**Next for the backend (Rohan's call):**
+1. Re-run the 41 with the occasion fix: `pnpm eval:engine --claude --judge --yes`, about $5–6.
+2. Then section 5 below: a "When needed" section, how often from their words, and the Mei/Linda/Naomi rewrites.
+
+**The frontend:** the app is being redesigned around four tabs (Ritual, Your things, Explore, Settings). The chat tab is replaced by "What's coming up?" on the Ritual tab plus notes on each thing. Changes show in place with Undo. The look is a restyled onboarding with the same logic. A separate session is building this and will list what the frontend needs from the engine in `docs/FRONTEND-MAP.md`.
+
 ---
 
 ## 1. Where the code is
