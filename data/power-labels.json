@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "powerSourceHash": "713010a723871eb4d5b2c50d973b4e56c12ed3db37d41b68ed6af081cd9b9e4b",
+  "powerSourceHash": "798a2303a3d8c77172aecdb35a24f3af37be101886fe84e1c8854533f4bf7712",
   "purpose": "Review overlay for source labels; conditional synthetic power, not clinical evidence or a personal forecast",
   "routingGate": 0.8,
   "referenceProtocol": {
