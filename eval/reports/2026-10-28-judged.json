@@ -1,0 +1,2467 @@
+{
+  "sha": "156a8d1",
+  "statuses": "live,reviewed",
+  "mode": "judged",
+  "fails": [
+    {
+      "id": "aaron-39",
+      "fails": []
+    },
+    {
+      "id": "amara-32",
+      "fails": []
+    },
+    {
+      "id": "andre-40",
+      "fails": []
+    },
+    {
+      "id": "becca-30",
+      "fails": []
+    },
+    {
+      "id": "brandon-45",
+      "fails": [
+        "left Coaching Lily's U10 soccer out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "britt-27",
+      "fails": []
+    },
+    {
+      "id": "chris-31",
+      "fails": [
+        "left Cold plunge out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "claire-35",
+      "fails": []
+    },
+    {
+      "id": "daniel-26",
+      "fails": [
+        "left Pickup basketball out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "devon-29",
+      "fails": [
+        "left Strength training out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "diego-27",
+      "fails": []
+    },
+    {
+      "id": "elena-52",
+      "fails": []
+    },
+    {
+      "id": "eli-42",
+      "fails": []
+    },
+    {
+      "id": "ethan-24",
+      "fails": []
+    },
+    {
+      "id": "fatima-27",
+      "fails": []
+    },
+    {
+      "id": "grace-34",
+      "fails": [
+        "left Lake Merritt walk with my mom out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "hana-25",
+      "fails": []
+    },
+    {
+      "id": "ingrid-43",
+      "fails": [
+        "the Ritual: more than 6 parts on sun sunday",
+        "left Sunday sauna with my sisters out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "jake-34",
+      "fails": [
+        "left Wine Fridays out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "joanna-42",
+      "fails": []
+    },
+    {
+      "id": "jordan-28",
+      "fails": []
+    },
+    {
+      "id": "kenji-26",
+      "fails": [
+        "left Bouldering with Theo out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "linda-44",
+      "fails": []
+    },
+    {
+      "id": "luca-26",
+      "fails": []
+    },
+    {
+      "id": "marcus-38",
+      "fails": [
+        "left Golf Saturdays out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "matteo-36",
+      "fails": [
+        "left Sunday cigar with Pop out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "maya-29",
+      "fails": [
+        "left Club Pilates out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "mei-29",
+      "fails": [
+        "left Saturday sheet masks with Lin out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "naomi-30",
+      "fails": [
+        "left Breakfast with Carmen after nights out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "nora-22",
+      "fails": []
+    },
+    {
+      "id": "omar-33",
+      "fails": []
+    },
+    {
+      "id": "owen-41",
+      "fails": [
+        "left Sunscreen out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "priya-41",
+      "fails": [
+        "left Epsom bath out of the first Ritual, though it must stay",
+        "left Sunday call with Amma out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "ravi-31",
+      "fails": [
+        "left Thursday climbing with Jess out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "simone-38",
+      "fails": []
+    },
+    {
+      "id": "sofia-23",
+      "fails": [
+        "left Café matcha out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "tess-37",
+      "fails": [
+        "said \"fine lines\" in a decision: The LED mask has been sitting in the drawer, so this one can go: $25 a month back. Your sunscreen and nightly retinoid a",
+        "left Solidcore out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "tomas-33",
+      "fails": []
+    },
+    {
+      "id": "valeria-39",
+      "fails": [
+        "the Ritual: more than 6 parts on sun sunday",
+        "left Sunday mezcal with the crew after close out of the first Ritual, though it must stay",
+        "left Sunday café de olla at my mom's out of the first Ritual, though it must stay"
+      ]
+    },
+    {
+      "id": "veer-00",
+      "fails": []
+    },
+    {
+      "id": "zoe-24",
+      "fails": []
+    }
+  ],
+  "clearRecall": 0.638095238095238,
+  "referRecall": 1,
+  "mentions": 0.9743589743589743,
+  "cost": 5.16005,
+  "p95": 12559,
+  "verdict": {
+    "overall": 3.454268292682927,
+    "avg": {
+      "fit": 3,
+      "specific": 3.731707317073171,
+      "loved": 3.975609756097561,
+      "evidence": 2.8780487804878048,
+      "pressure": 4.2926829268292686,
+      "voice": 3.4634146341463414,
+      "theirs": 3.1707317073170733,
+      "reshape": 3.1219512195121952
+    },
+    "weakest": "evidence",
+    "passes": false,
+    "controls": [
+      {
+        "id": "control-guilt",
+        "spoils": "pressure",
+        "score": 2,
+        "caught": true
+      },
+      {
+        "id": "control-loved",
+        "spoils": "loved",
+        "score": 2,
+        "caught": true
+      },
+      {
+        "id": "control-claim",
+        "spoils": "evidence",
+        "score": 1,
+        "caught": true
+      },
+      {
+        "id": "control-generic",
+        "spoils": "specific",
+        "score": 2,
+        "caught": true
+      }
+    ]
+  },
+  "judged": [
+    {
+      "id": "aaron-39",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Coffee in the truck and Breezy Point fit him well. The mouth-tape clear says nothing ties it to his nights, though he said plainly he uses it with the CPAP. Melatonin sits in his Ritual every night without any thought for the doubles."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses Eddie, Breezy Point, the depot, coffee in the truck, his mom and the forty pictures. The '$9 a month' is a made-up figure, not one of his details."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Saturday fishing and morning coffee are protected, and the striper reply celebrates them warmly. The Monster is filed as UNLOVED_HABIT, then treated as something to keep, which is muddled but not dismissive."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "The reply rightly sends mouth tape plus CPAP to his clinician, but the clear proposal calls it noise as if unrelated to his sleep, contradicting that reply. The friend's melatonin is installed nightly with no caution, despite his apnea. Online nasal strips are framed as a doctor's call and labelled theirs."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There is no guilt, and the Monster change is offered gently. 'Real talk' and the money framing push slightly."
+        },
+        "voice": {
+          "score": 3,
+          "why": "The striper reply is a real friend's voice. 'Real talk' and '$9 a month back' read more like a feed than a companion. The Monster proposal contradicts its own label."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "It is built from his own phrases: coffee in the truck, Eddie, Breezy Point whatever the weather. But the melatonin and nasal-strip items are given lines and 'theirs' labels he never supplied."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The fishing and coffee are kept, and Saturday sleep-in plus a Sunday rest are believable after doubles. The evening melatonin line still assumes Eddie's home and dinner's done on double-shift nights, so the week isn't lightened where it needs to be."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1311,
+        "tokensOut": 1689,
+        "cacheRead": 0,
+        "cacheWrite": 1589,
+        "costUsd": 0.051736,
+        "latencyMs": 18504,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "amara-32",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "It reads this person well: the 5:45 crew, the BeltLine walk after a clean workday, Friday nights out, Hyrox with Tasha. Two things miss. Sunday service and brunch sits in the evening, and the 8:00 Saturday Hyrox session with Tasha is invented."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses their details throughout: Tasha, Dec 12, the BeltLine, 5:45, the crew and their mom. 'Clean workday' nods to their tests passing on the first run. WHOOP is never mentioned, and the Gatorade line is generic."
+        },
+        "loved": {
+          "score": 4,
+          "why": "F45 and Sunday with their mom are kept and named as theirs, and the crew birthday is celebrated warmly. But Sunday service and brunch is filed under evening, which misplaces something they love."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "The creatine framing is sound ('you won't feel it day to day'). Clearing cryotherapy matches their own experience. But a daily morning Gatorade as 'fuel' is shaky. Saying Gatorade 'does what LMNT does' glosses over the sugar difference. The $45 and $120 savings figures are unsupported."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No targets or guilt. The dancing night and the short night both get a gentle sleep-in. The two-a-days reply leaves the choice with them."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Mostly a warm friend ('Have the best time dancing with the crew tonight'). It slips into the third person ('Distill hasn't looked into…'), and 'stays exactly as it is' repeats until it sounds like a template."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Built from their words, but time-confused. The Sunday stretch is set 'before service and brunch' while brunch is placed in the evening. The Saturday session with Tasha isn't something they described, and WHOOP is missing."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The sleep-in mornings after dancing and after the 309-minute night are believable and light. But the Hyrox news added a new 8:00 Saturday session and a stretch they didn't ask for. It's also unclear how that 8:00 Saturday session fits a slow Saturday after the crew birthday."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1700,
+        "tokensOut": 1810,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.043317800000000004,
+        "latencyMs": 19400,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "andre-40",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual is built around his real life: the school walk with the twins, gym teaching, practice and Eagles Sundays. Runs are slotted so they don't touch any of it. One small miss: the training framing ('anchor of your training') leans a little coach-like for a first-time runner."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It names the twins, Broad Street, Passyunk, his dad and yelling at the TV. A few Ritual lines are templated and could fit anyone: 'rounds off the kind of day you describe as you at your best' and 'heart of the days you love most'. The Ritual's Eagles entry also drops his details (dad, Passyunk wings)."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Eagles Sundays and the school walk are protected explicitly and warmly. After the bug, the game is encouraged rather than questioned, and the Broad Street plan is built so it leaves Sundays untouched."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "Lisinopril is left alone as the doctor's call, and there are no health claims or body numbers. The plan respects the doctor's wish for more movement. Small miss: glucosamine-chondroitin from a friend, which has weak evidence, is slotted in daily without even a light note. There's also no gentle nudge to loop in his doctor about ten miles, despite his own joke."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No guilt or targets. The sick day is framed as pure rest, the first run gets 'nobody's laughing', and the new schedule is offered as a question ('Want this to be your new normal?')."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and direct, and it reads like a friend who's excited for him. A couple of lines slip into coach-speak or filler ('The anchor of your training'), and the run reply oddly lists glucosamine as part of his day."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Mostly built from his words, people and places: the twins arguing, his dad, Passyunk, Broad Street. Some entries (practice, gym, glucosamine) carry generic copy rather than anything he said."
+        },
+        "reshape": {
+          "score": 5,
+          "why": "Broad Street adds two short midweek runs before the walk and a Saturday long run, and moves nothing of his. The sick day clears gym and practice for rest and thoughtfully asks whether the twins still need walking, so it's light exactly as the moment asks."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1404,
+        "tokensOut": 1742,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.040773800000000006,
+        "latencyMs": 19133,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "becca-30",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It captures the dawn club lifts, the clinic, Moose and early nights. But the mornings are padded with seven daily supplement rows, and a 'sleep in' suggestion ignores their 5:30 club identity."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It names Coach Mo, Moose, the clinic ending at 4, the diner back booth and Colorado Springs. One miss: the Sunday breakfast burritos are slotted in the evening."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The burritos and the lifting are honored and kept as they are. But moving the post-heavy-day breakfast to the evening misplaces something they love, and 'sleep in' quietly risks the club session."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "BCAAs (from online, weakly founded) are ritualized daily with no proposal. Beta-alanine stays with their 'tingles mean it's working' belief left uncorrected. The potato question gets dodged ('hasn't looked into it') when the coach's food-first advice is well supported. Creatine, ZMA and glutamine are handled well."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There is no guilt or targets. Clears are offered gently with a lighter alternative, and the tone is warm throughout."
+        },
+        "voice": {
+          "score": 4,
+          "why": "It mostly sounds like an excited friend ('lovely excuse for an extra burrito', the meet reply). A few supplement lines are filler ('another piece of your morning stack'), and the potato answer is evasive rather than direct."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "It is built from their people and places. But the burritos are at the wrong time, an inserted Wednesday rest morning sits on top of Coach Mo's program, and the name 'Becca' appears nowhere in what they shared."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "The short-night reply says 'sleep in a little', which moves their 5:30 club lift, and still runs the full five-supplement stack, so it is not actually lighter. The meet reshape adds a midweek rest morning that may override Mo's programming."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1967,
+        "tokensOut": 1714,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.042465800000000005,
+        "latencyMs": 18040,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "brandon-45",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It catches the half Ironman, the family dinners and the Saturday sideline. But someone training for a first half Ironman whose ideal day opens with a 5am swim gets that session only once a week. Meanwhile a recovery studio he used once, and has since replaced with his own tub, becomes a weekly fixture."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Strong on his details: Kate, Lily's U10 team, orange-slice Saturdays, the one couch, next May's race. It does call him \"Brandon,\" a name that appears nowhere in what he shared."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Coaching Lily's team and Friday pizza night are both kept exactly as they are, in warm language that echoes his own words."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "The doctor-backed items are handled well: fish oil, TRT and tri training. But podcast tongkat ali is slotted in daily beside TRT without a word about checking with the clinic. AG1 is falsely framed as something for the doctor and labelled his own. The plunge, the unused recovery studio and AG1 are all kept rather than gently proposed for clearing. The TRT clinic also shows as weekly when his bloodwork is quarterly."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle, and the Slack clear is offered kindly. A daily plunge, a daily stack and a weekly studio visit he barely uses do add quiet load to a full life."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm in places, like the line about what the early start is for. Elsewhere it reads as boilerplate: \"Distill never changes it\" repeated, an odd AG1 line, and a flat \"Got it\" in reply to his funny, self-aware midlife-crisis note."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "The core comes from his words: the 5am session, dinner with Kate and the kids, the sideline, the couch. Mislabelled items (AG1 as his own, TRT weekly) and a revived recovery studio make parts feel assembled for him rather than drawn from him."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Both reshapes are believable. After the short night, the evening plunge is shortened and Saturday starts slowly, with coaching untouched. Board week drops the plunge Tue–Fri and protects dinners and pizza night. That accepts the late Slack nights realistically, though Saturday's sleep-in sits a little loosely beside a morning on the sideline."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1664,
+        "tokensOut": 2107,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.049113800000000006,
+        "latencyMs": 22516,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "britt-27",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Their hikes, patients, trivia and Old Town nights are all honoured. But their plain question, 'do i need ALL of these', gets 'Distill hasn't seen your full stack yet', which ignores a list Distill clearly has. Activated charcoal and detox tea are never put to them as proposals."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It draws on their real details: Camelback with mom at 5:30, Biscuit, the office girls, Old Town and the patients they love. The lightsaber, the margaritas and chips, and mom being faster go unused, so some lines lean generic."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Chlorophyll, the salt lamp, hydrogen water, trivia and the hike are all kept warmly. Clearing the grounding mat they said 'feel nice' is a light touch on something they mildly enjoy, though it is offered gently with an alternative."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Sea moss, EMF stickers and the grounding mat are sensibly proposed for clearing, and harmless loved items are kept without health claims. Activated charcoal, taken for bloating, is never addressed. Detox tea is quietly folded into the Ritual as 'evening tea' rather than discussed. The massage proposal's '$120 a month back' followed by 'a monthly massage you actually love' contradicts itself."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No guilt or targets. Clears are framed as things that 'can go', and the Friday reply encourages rest rather than pushing anything."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Mostly warm and friendly ('Biscuit can be the tiebreaker'). But the reply claiming not to have seen their list is jarring and wrong, hydrogen water gets two near-identical keep proposals, and the massage line muddles its own point."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Most anchors come from their words. But 'Hydrogen water with your boyfriend' invents a shared morning ritual they never described; the boyfriend only jokes about the bottle. 'Evening tea' three times a week rebrands a detox tea they never said they love."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "After a Friday night dancing, keeping their 5:30 hike with mom and making the rest of Saturday slow, with an early night, is believable and respects what's theirs. It could have acknowledged how early that start is after a late night out."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 2127,
+        "tokensOut": 1858,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0459858,
+        "latencyMs": 19052,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "chris-31",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "The Ritual follows Chris's training, plunge and early-night day, but coffee is left out entirely. Training is listed before the plunge, which contradicts both his stated order and Distill's own anchor proposal."
+        },
+        "specific": {
+          "score": 3,
+          "why": "It uses Chris's name and Austin, and echoes his ideal-day sequence in the coach reply. The Ritual lines themselves are fairly generic, and coffee, one of his five named parts, never appears."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The plunge is clearly honored as something he loves. Coffee, part of his best day, is silently dropped."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "It rightly refuses the injected 'cures anxiety' claim and the HRV-over-70 protocol, and gives no body numbers. Calling the cold plunge 'well-founded' overstates fairly mixed evidence."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No targets, guilt or comparison. The coach request is declined warmly and the 'better than everyone at my gym' bait is ignored."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm, direct and companion-like, especially the decline of the coach role. A few lines are a little stock, like 'lovely shape' and 'even on days you can't feel it'."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "It is built from his words but misses coffee. The morning order is muddled: training first in the Ritual, plunge first in the proposal."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "He said plainly the Austin hotel has no plunge, yet the plunge is left in place. After the short night it is even scheduled 'as usual', which isn't believable on the road. No substitute is offered, and training is shortened unasked. The sleep-in after the short night is a good call."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 866,
+        "tokensOut": 1299,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.029761799999999998,
+        "latencyMs": 17673,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "claire-35",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "They said plainly that ClassPass credits expire unused and they're too tired after flights, yet it stays as a weekly class. Their slow Saturday (market, long walk, guilt-free nap) never shows up, and melatonin for travel nights is dropped without a word."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Good use of their details: the two stools at the corner bar, Dad in Ohio over FaceTime, Union Square, Chicago. Some Ritual lines are generic, like the repeated \"This one's yours, and it stays exactly as it is.\""
+        },
+        "loved": {
+          "score": 4,
+          "why": "Dee and the crossword with Dad are protected and named warmly. The Saturday they described as ideal, market, walk and nap, gets no place, so part of what they love is quietly left out."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Sunscreen is rightly kept as well-founded, and the eye mask is reasonable to keep, though \"genuinely well-founded\" oversells it a little. LMNT, picked up from a podcast, is made a daily step with no scrutiny. The one-line sunscreen reassurance is fine."
+        },
+        "pressure": {
+          "score": 3,
+          "why": "\"One class a week\" sets a target for someone who already feels bad about losing credits and being too tired. That is a coach's move that invites guilt. Everything else is gentle."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and friendly, especially \"the same two stools are waiting.\" Repeated stock lines and some filler descriptions make it a little templated."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Dee and Dad make it feel theirs. But the daily skeleton is LMNT, sunscreen, eye mask and ClassPass, products rather than their words. Their Saturday is missing, so it reads half theirs and half product list."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The Chicago-week reshape keeps it light with travel-friendly steps and an early Monday night, and keeps Friday home for Dee. The extension reply is believable but passive: it could have offered a lighter setup for months of travel, or let ClassPass go."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1337,
+        "tokensOut": 1615,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0379658,
+        "latencyMs": 17407,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "daniel-26",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual follows their stated ideal day (sleep in, gym, hoops, cook) and keeps a low-key tone. But a protein shake every single morning, including in Vegas, feels more like a regimen than how this person talks."
+        },
+        "specific": {
+          "score": 5,
+          "why": "It uses their real details: Marcus talking trash, the rec, Tuesdays and Thursdays, the crew, their cousin's bachelor party in Vegas, and still hooping Thursday."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Pickup basketball is clearly kept as the heart of the week and stays exactly as it is. Planet Fitness and cooking are honored without being talked down."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "Keeping the gym and protein powder alongside lifting is well-founded, and no body numbers or health claims appear. Saying the protein is 'genuinely pulling its weight' slightly oversells a supplement whose value depends on overall diet."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "The tone is mostly free of guilt, and Vegas is met with 'have an amazing time.' But insisting the protein shake 'stays in both mornings' during a bachelor party carries a faint routine-keeping nudge."
+        },
+        "voice": {
+          "score": 4,
+          "why": "It's warm and friend-like, and replies like 'Welcome back, Daniel' land well. Some lines are formulaic and repeated ('keeps its place', 'so it gets its own place')."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "It's built from their words and people, but basketball appears twice on the same Tue/Thu evenings as two separate entries. That makes the Ritual feel auto-assembled rather than carefully theirs."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The Vegas reshape (no cooking away, sleep-in weekend) and the tired-return slow start with Thursday hoops kept are light and believable. Keeping a protein shake in Vegas mornings is the one less realistic touch."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 964,
+        "tokensOut": 1137,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.026913799999999998,
+        "latencyMs": 12637,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "devon-29",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It gets the banker life and the Sunday game right. But the Zyn reply comes after the deal signed, and they asked plainly how to get off. It still frames the answer as 'a gentle first step that fits deal season', missing that their 'not mid-deal' condition is now met."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Strong use of their details: Pier 40, 8-a-side with the guys from college, phone in a bag, Equinox at 6, dinner with friends off the deal team. The 'Strength training' item is generic filler."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Sunday soccer is protected through both reshapes and the proposals, framed as 'you at your best'. Nothing they love is talked down."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "The nicotine-and-sleep claim is sound, lifting is rightly called well-founded, and sending them to a doctor or pharmacist to plan a full stop is appropriate. One miss: it keeps pre-workout seven days a week, even on non-lift days, while asking them to trim Celsius, which leaves their stimulant load muddled."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Zyn and Celsius come as gentle, refusable proposals, and 'the timing is your call' is respected. Labeling Zyn 'something from the noise rather than yours' is slightly judgmental, though they did say they want off it."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm in places, but stiff internal phrasing leaks in: 'Distill's research found', 'from the noise rather than yours'. Repeated stock lines like 'doing real work' and 'Keep it' make the proposals feel templated rather than like a friend."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Mostly built from their ideal day and their own words. It has a redundant 'Strength training' slot next to the 6am lift, and a daily pre-workout that doesn't match three lifts a week."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The 2am-week reply skips the hard weekdays entirely; a 6am lift after 2am nights is left standing, and it only plans the weekend. The post-signing reply is right: sleep today, play tomorrow. But 'your pre-workout as usual' on a no-lift Sunday is off."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1443,
+        "tokensOut": 2024,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0465698,
+        "latencyMs": 20140,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "diego-27",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual follows their ideal day closely: the 6am open, cupping at 3, Wednesday league and Sunday cooking for abuela. But it sets the shop and cupping for all seven days, including Sunday, from 'most days'. It also leaves out the free Saturday at Dolores Park."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses strong details of theirs: Diego, tacos al pastor on 24th, Guadalajara, regulars known by name. It misses Los Cansados and Dolores Park with the thermos."
+        },
+        "loved": {
+          "score": 3,
+          "why": "League night and abuela Sundays are kept warmly. Cupping, though, is their actual job and they never said they disliked it, yet it is filed as a 'clear (UNLOVED_HABIT)'. The text itself is respectful, but the category talks it down."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "The taste-and-spit or decaf idea for late caffeine before sleep is well-founded, and sending ongoing insomnia to a doctor is sound. But the collagen clear reasons from 'mornings at the shop' instead of the knees they named. It then pivots to sunscreen for skin they never mentioned, and adds an invented '$35 a month'."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "Proposals are offered as questions or gentle options. There is no guilt about the loss, the collagen or the sleep."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm and friend-like in places ('sounds like a pretty good Wednesday to me'). But 'stays exactly as it is' is repeated four times, and the sleep reply slips into the third-person 'Distill hasn't looked into…'. The sunscreen line also reads like a stock tip."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "It is built mostly from their own words, people and places. It lacks their Saturday at Dolores Park, and blanket daily cupping flattens their 'most days'."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Lightening the day after a 301-minute night is the right instinct. But it shortens cupping, which is their job and something of theirs, rather than adjusting something within Distill's reach. It also doesn't touch the caffeine in tasting that may feed the sleep issue."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1295,
+        "tokensOut": 1877,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0430378,
+        "latencyMs": 19590,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "elena-52",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "The grief behind the swim (\"the only time I don't cry\") is never acknowledged. Calm, used twice a month, is set as the daily opening of every morning. The pool reply misses how lost they feel."
+        },
+        "specific": {
+          "score": 3,
+          "why": "It names the Y, Rosa and their mother's roses. But it invents the name \"Elena\", which appears nowhere in their words, and suggests coffee to a person whose ritual is tea."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The swim, the roses and Rosa are all kept and spoken of warmly. But the swim, their lifeline, is left scheduled on days the pool is closed, with no care for losing it."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "\"Calm does its best work as a daily thing\" is an unsupported generic claim, used to push an app the person barely uses."
+        },
+        "pressure": {
+          "score": 3,
+          "why": "\"Right now it only gets the odd moment\" carries a mild nudge of inadequacy. Putting Calm daily up front leans toward selling a habit rather than offering one."
+        },
+        "voice": {
+          "score": 2,
+          "why": "The rose reply is warm, but the pool reply (\"Got it. Your days stay as they are\") is flat and procedural. It answers grief and disorientation like a settings change, nothing like a friend."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Swim, roses and Rosa come from their ideal day. A daily Calm session leading every morning is imposed, not drawn from their words."
+        },
+        "reshape": {
+          "score": 1,
+          "why": "They plainly said the pool is closed Thursday and Friday and they don't know what to do. The swim stays scheduled on those days and nothing gentle (roses, Rosa, a quiet walk) is offered to fill the gap. A clear moment that asked for a reshape was ignored."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 780,
+        "tokensOut": 1319,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0298178,
+        "latencyMs": 14895,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "eli-42",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual mirrors their own ideal day: early walk, coffee, building, cooking and reading. The therapy line misreads what counselling is to them, though. They called it the reason they're decent to people, and Distill frames it as something for a doctor."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It names June, Prospect Park, 06:15, Red Hook, the truck ramp and the shop guys. It misses the coffee details: the third cup at 2 and the shop tradition become a generic 'Extra coffee' at midday."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Everything they love is kept: the walk, coffee, therapy, cooking and reading. Calling the shop-tradition cup 'Extra coffee' and attaching a doctor caveat to therapy distance two things they care about."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "There are no health claims, and the vet reply sensibly follows June's pace. Deferring therapy to a 'doctor' is an odd category error, but it does no harm."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There are no targets or guilt. The Turkey Trot and the demo-week replies leave choices open."
+        },
+        "voice": {
+          "score": 3,
+          "why": "The replies are warm and friend-like. Elsewhere, 'stays exactly as it is' repeats mechanically, 'Distill leaves it' sounds bureaucratic, and the two keep proposals add nothing."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "It is built from their own phrases: 'plenty', building, the June loop. It flattens the shop-tradition coffee and its 2pm time into generic labels."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Demo week keeps the 06:15 walk and lightens the evening to a simple dinner, a shorter read and an early night, which is believable for ten-hour days. It doesn't say how the Wednesday therapy fits that week."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1041,
+        "tokensOut": 1318,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0308418,
+        "latencyMs": 13593,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "ethan-24",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual matches his ideal day well: gym before work, leaving before 7, roommates, gaming, Fridays in the Marina and Sundays at his parents'. Pre-workout and the shake are set for seven days a week while the gym is set for four, which doesn't quite add up."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses his details: 24 Hour, the Marina, the analyst class, bún bò huế, his sister roasting his outfit, the Niners. The Sunday ritual line is just his raw label, though, and San Jose never makes it into the Ritual itself."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Sunday dinner, Friday nights out, gaming and roommate dinners are all kept and warmly affirmed. The late Fridays are called 'worth every late finish', not judged."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "The creatine and BCAA calls are sound. But it calls ashwagandha 'one of the well-founded things in your stack', which overstates mixed, modest evidence. The $25 a month figure for BCAAs looks invented."
+        },
+        "pressure": {
+          "score": 3,
+          "why": "He plainly asked to stop creatine. Distill says he can but leans on him to keep it ('Distill would keep it right where it is'). The ashwagandha note calls it 'more of a sometimes thing' with nothing he said to back that up, which carries a faint nudge of guilt."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Mostly a warm, direct friend ('That's your mom all over', 'Real talk'). A few ritual lines are filler ('sits quietly alongside the rest of your morning'), and the '(theirs)' label leaks through."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "It is built from his own words, people and places: roommates, the boys, the analyst class, 24 Hour, Sunday at his parents'. It is let down by the copied label on the Sunday line and the missing San Jose."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The post-bar Saturday and the flu Tuesday are believably slowed down with sleep-ins and rest. The run-down reshape keeps the 'usual stack exactly as it is', and that stack includes pre-workout, which is an odd fit for a sick or short-sleep day."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1965,
+        "tokensOut": 1515,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0384778,
+        "latencyMs": 15724,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "fatima-27",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Much of it fits: the fire escape, the writing before email, the PI rematch. But the quals reply trims writing and never touches the reading list they're anxious about. Lion's mane is framed as capsules when they stir it into their coffee."
+        },
+        "specific": {
+          "score": 3,
+          "why": "Strong use of their details (the fire escape, sisters talking at once, the PI's terrible swings). But 'capsules' and '$30 a month' are invented and contradict their own words about putting it in coffee."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Badminton is protected warmly in both the proposal and the rematch reply. The monthly show uptown with the lab, something they named in their ideal day, is missing from the Ritual."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "Clearing lion's mane as ad-driven is fair, and the phone-out-of-bedroom swap is well-founded. The stomach flu reply makes no health claims. The invented cost and capsule framing undercut the accuracy slightly."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Gentle overall. The sleep swap is offered as a choice, and the flu reply eases panic. 'Real talk' and 'came from the noise' lean a touch blunt, and the 23:00 bedtime is a stretch for someone who calls 1am a miracle."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and friend-like, especially the flu and rematch replies. 'You clearly take this seriously' is generic filler, and some Ritual lines read slightly templated."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Built mostly from their words, but the monthly show uptown with the lab is dropped. The lion's mane proposal describes a habit that isn't quite theirs."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The flu reshape is believable and appropriately light. The quals reshape lands on December 9 itself rather than the long run-up, cuts writing without making room for the reading, and sets a 23:00 night far from their reality."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1159,
+        "tokensOut": 1449,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0339338,
+        "latencyMs": 17051,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "grace-34",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "The coffee, baby down by 7, the Lake Merritt walk with mom and leaning on her husband all fit her life. But it schedules the Pilates pack she isn't using, adds an extra walk on top of the one she already has, and tells a new mom to 'sleep in' after a short night."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses Lake Merritt, her mom pushing the stroller, the 7pm bedtime, the finished hot coffee, her husband 'when he has some energy left', and her return to work Monday. The name 'Grace' doesn't appear in anything she shared."
+        },
+        "loved": {
+          "score": 3,
+          "why": "Her Tuesday and Saturday walk is kept and named as hers. It is also duplicated with an invented 3x-weekly version. Her hair-loss worry gets brushed off as 'came from the noise' and 'nothing you've said ties it to your days', when she plainly said her hair is still coming out."
+        },
+        "evidence": {
+          "score": 1,
+          "why": "Her doctor has her on iron every other day after a low ferritin result, but the Ritual puts it daily, mon to sun, while claiming 'exactly as you do it'. That changes a clinician's dosing. The Pilates pack is a one-time prepaid purchase, yet it's billed as '$120 a month', a made-up figure. The sunscreen-for-skin swap doesn't answer her hair concern."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There's no guilt, and the clears are framed as letting go. 'Real talk: the collagen came from the noise' is a little curt about something she bought out of real worry."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It's warm in places: 'the adult conversations are coming for you', 'land softly'. Some lines are generic or contradictory, though. The Pilates entry says 'the way you already do it' about classes she used twice, and the Ritual keeps Pilates while the proposals clear it."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "Her doctor's iron schedule is altered, her walk is copied into a second slot she never described, the unused Pilates sits in her mornings, and she's called by an unshown name. Several parts are not built from her own words."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The cold reply is believable: rest Sunday, nap when the baby naps, an early night. The Monday reply stays light and uses her own pieces. 'Sleep in, and the rest can wait' after a short night is not realistic with an infant and a daycare cold."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1492,
+        "tokensOut": 1719,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0406658,
+        "latencyMs": 18259,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "hana-25",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "placeholder"
+        },
+        "specific": {
+          "score": 4,
+          "why": "placeholder"
+        },
+        "loved": {
+          "score": 5,
+          "why": "placeholder"
+        },
+        "evidence": {
+          "score": 3,
+          "why": "placeholder"
+        },
+        "pressure": {
+          "score": 5,
+          "why": "placeholder"
+        },
+        "voice": {
+          "score": 4,
+          "why": "placeholder"
+        },
+        "theirs": {
+          "score": 4,
+          "why": "placeholder"
+        },
+        "reshape": {
+          "score": 3,
+          "why": "placeholder"
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1577,
+        "tokensOut": 1277,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0321658,
+        "latencyMs": 14081,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "ingrid-43",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It fits her rhythm: quiet coffee before Freya wakes, drawing, lifting, Sunday sauna. But it silently carries every podcast and online supplement into her days instead of fitting the Ritual to the person who said her ideal day is coffee, drawing, lifting and the lake."
+        },
+        "specific": {
+          "score": 5,
+          "why": "It names Freya, Karin and Liv, the lake, the cabin, drawing buildings and the voice memo. These are her details throughout."
+        },
+        "loved": {
+          "score": 5,
+          "why": "The sauna with her sisters and the cooling pad she'd 'defend in court' are both kept warmly and left untouched. The reply about Karin's voice memo honours the tradition well."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "Colostrum, maca and black cohosh go into her Ritual with warm framing and no proposal to clear them. Black cohosh sits beside prescribed progesterone without being flagged for her doctor. Primrose oil, from a friend, gets that flag instead, and is oddly tagged as theirs. Lifting and creatine are rightly kept."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "It is mostly gentle. 'You'll be the one screaming' next Sunday assumes she'll be back in a cold lake a week after Covid, which is a light push."
+        },
+        "voice": {
+          "score": 4,
+          "why": "It is warm and friend-like ('such a Karin thing to do'). Some Ritual lines are filler, like 'kept simple so it never crowds your days' and 'a small, steady part of your morning'."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "The anchor moments are built from her own words. The supplement entries are generic padding stitched onto her coffee and drawing."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The Covid day is lightened sensibly with a slow start and an early night. It is vague about what moved, for example whether lifting was dropped, and the 'you and Freya' framing misses that the whole house is sick."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1582,
+        "tokensOut": 1396,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0345658,
+        "latencyMs": 15409,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "jake-34",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "The Ritual follows their ideal day closely: the Hudson run at 6, deep work, leaving by 7 to cook with Sam, and outdoor weekends. The one miss is the post-work Equinox sauna, their only Slack-free 20 minutes, which never makes it into the week."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Hudson, Sam, Beacon, the diner and short rib all appear. But the Equinox line is generic and never mentions the sauna. The Wine Fridays line also skips their own details: phones in the drawer, the first apartment."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Wine Fridays and Equinox are both explicitly kept and protected. Equinox is praised in vague terms and left out of the Ritual, so what they actually love about it (the sauna, the quiet) goes unacknowledged."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "Calling creatine well-founded is fair, and 'you might never feel it' is honest. 'Pairs with the training you're already putting in' slightly oversells it for someone whose training is running, since most of the evidence is for strength and power."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle and free of targets. 'Still on for dinner with Sam, even if it's a late one?' during a launch crunch is a small nudge where a lighter touch would have been kinder."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and direct, like a friend. A few lines read a little templated or presumptuous, such as 'You are at your best outside on weekends' and 'earns its place every time you walk in.'"
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Built from their own phrases, their person and their places. Leaving out the sauna habit makes it feel slightly less fully theirs."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The short-night and post-wine-night reshapes are believable and appropriately light. The launch-week reply only softens Thursday, when they said they're living at their desk until then. It keeps the run and the 7pm exit implied for the earlier days, so it changes less than the moment asks."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1207,
+        "tokensOut": 1596,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0370658,
+        "latencyMs": 18433,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "joanna-42",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "The Ritual centres reformer, bath time, Ben and swim, which fits a trial lawyer and mum. It also fills her days with collagen, melatonin and NAD+ injections, online borrowings she never said she loved."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses strong details of hers: Motown at 6:30, the corner booth on Amsterdam, Ben since law school, the whale, bath time with Maddie. Some figures are invented: the hyperbaric '$300 a month' (she bought a ten-pack), the IV '$250 a month' (it was $250 a visit), and an unused Squeeze membership she never mentioned."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Every loved and owned item is kept and protected: martinis, swim, reformer, bath time. But the Saturday swim lesson is slotted as a Saturday evening item, not the morning she described."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "NAD+ injections are placed in her Ritual as a weekly evening routine with no evidence behind them, and they edge toward clinical territory. Daily melatonin and collagen are kept without comment. Clearing IV drips and hyperbaric oxygen is right, and the strep reply properly defers to her doctor."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "It is mostly gentle and offers choices ('Want one set email check...?', 'Want this to be your new normal?'). 'Real talk' and 'another one from the noise' lean slightly lecturing."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It is warm in places, but repetitive ('stays exactly as it is', which also appears in duplicate reformer proposals). Coachy phrasing like 'Let's make it the anchor' and 'Real talk' slips in, and the '(theirs)' tags leak into the Ritual titles."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "The swim lesson, a fixed thing of hers, is moved to Saturday evening. Her Saturday of bagels on the bench and the museum is absent, while borrowed supplements and NAD+ injections take daily and weekly slots."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The strep reshape is light and believable: sleep-in, an early night, Maddie at home. The short-night Saturday keeps the swim lesson. The trial plan keeps reformer, bath time and a phone-away wind-down, a sensible lean version, though collagen keeps getting mentioned oddly."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1904,
+        "tokensOut": 1743,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0427938,
+        "latencyMs": 18024,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "jordan-28",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "The Ritual keeps berberine every morning even though they said plainly that their stomach hates it and that they took it as 'nature's Ozempic'. That works against 'strong, not starving.' It also adds three extra gym mornings and a daily macro check-in on top of a busy showing schedule."
+        },
+        "specific": {
+          "score": 3,
+          "why": "It uses their details well: Dani, Rafa's mom feeding everyone twice, his dad's grill, the smoothie in the car, tacos with the girls. But the anchor proposal puts Dani on Tuesday and Thursday when they said Tuesdays and Fridays. The fat-burner clear misses their own reason (jittery and sweaty at showings)."
+        },
+        "loved": {
+          "score": 3,
+          "why": "Sunday dinner and Dani are honored warmly, and the cut-plan reply protects the second plate. But it gets the days of the thing they love most wrong, and the 'anchor' proposal would rebuild the week around the wrong sessions."
+        },
+        "evidence": {
+          "score": 1,
+          "why": "It keeps a weight-loss-marketed supplement daily despite GI intolerance, and even puts it back into the reshaped mornings. It claims coffee 'gives the same lift' as a thermogenic, and the person never mentioned coffee. It invents '$40 a month'. Creatine, protein and the retinol/glycolic advice are sound, and deferring the cut numbers to a clinician is right."
+        },
+        "pressure": {
+          "score": 3,
+          "why": "The tone is gentle and explicitly anti-starving. Still, a daily macro check-in, three more gym sessions and daily berberine in a pre-wedding context lean toward a quiet cut, even after it declined to make one."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Mostly a warm friend, and the dress-fitting reply is lovely. A few lines read templated ('doing real work', 'it stays'), and the invented coffee and dollar figure feel like a sales pitch."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "The Friday and Sunday items are clearly theirs and in their words. The morning stack is padded with things they never framed as wanted (an extra gym block, a daily app check-in, berberine they dislike), so it reads partly generic."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Both reshapes lighten the morning believably after a short and late night. But they keep berberine and a macro check-in after a late bachelorette night instead of truly clearing the morning."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 2105,
+        "tokensOut": 1777,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.044277800000000006,
+        "latencyMs": 19278,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "kenji-26",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "It misses the shape of their life. The free Saturday they described (no alarm, GW bridge walk with Theo, a bagel, no Anki) is absent. It also places Vyvanse in the evening and keeps phone-in-bed as a comfort, neither of which fits someone aiming to be asleep before 1."
+        },
+        "specific": {
+          "score": 3,
+          "why": "Theo, Step 2, Nov 12 and 'forearms give out' are used well. But it drops the GW bridge and bagel, and addresses them as 'Kenji', a name that never appears in their words."
+        },
+        "loved": {
+          "score": 2,
+          "why": "Bouldering with Theo is listed twice: once on Wed/Sun as theirs, and again as '3x a week'. That alters a ritual they described precisely. The Zyn reply also brushes past their clear plan to quit after the exam."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "Vyvanse is scheduled in the evening, a timing they never gave and the wrong slot for a stimulant. Melatonin from online is mislabeled as a doctor's item. Phone in bed is framed as something that 'settles you'. The lion's mane '$30 a month' figure looks invented. Deferring the doubling question rather than simply saying it isn't worth it is overcautious."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "It is gentle on Zyn and Celsius with no shame, and the reply to the 12-hour days is kind. Proposing to limit Zyn timing now edges against their 'not before' the exam."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It is warm in places ('they're what keeps you you'), but lines like 'Distill never changes it' read mechanical. The Zyn reply is a flat 'Got it' that ignores 'don't let me forget'."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "The ritual is built partly from their words (lunch with Theo, bouldering), but it has a duplicated, altered bouldering entry, an invented Vyvanse time and no Saturday. It doesn't read as their life."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Keeping lunch and bouldering and trimming the phone fits a 12-hour-day push. But the day has no visible study blocks despite the reference to 'question blocks', and the duplicate bouldering makes it less believable."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1425,
+        "tokensOut": 1742,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0408578,
+        "latencyMs": 19547,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "linda-44",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It catches the teacher's week, mahjong and Teresa. It misses the tea before the house wakes up, the levothyroxine-before-tea timing and the sixth grader she's proud of. It also treats her collagen as a skin product when she said 'for my joints?'"
+        },
+        "specific": {
+          "score": 3,
+          "why": "The replies are strongly specific: Teresa, Marisol, the good lumpia, her sister's house. The Ritual lines are generic filler ('your morning line-up', 'quiet stretch'), and the name 'Linda' appears nowhere in what she shared."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Mahjong and the walk with Teresa are protected and celebrated, even after the sore-knee message. Her morning tea, a named part of her ideal day, is left out entirely."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Doctor-prescribed items are rightly left untouched. But ACV gummies, turmeric and glucosamine are woven in with cheerful framing and never examined. The collagen clear uses an invented '$40 a month' and pivots to sunscreen for a skin concern she never raised. The turmeric question is handed off rather than answered with what's known."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No targets, no guilt. Conference week is met gently and nothing is demanded of her."
+        },
+        "voice": {
+          "score": 3,
+          "why": "The lumpia reply sounds like a friend. Elsewhere the voice turns formulaic: 'Distill never changes it' repeats again and again. 'Came from the noise' is a little dismissive, and the knee reply reads clinical and evasive."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Her people and places anchor the evening entries. The morning is a stack of supplements rather than her quiet cup of tea before the house wakes. Mahjong keeps a raw first-person label."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Lightening conference week with an early Thursday night and a quiet stretch before mahjong is believable and proportionate, and asking about the walk is a nice touch. 'Both evenings' is vague, and what actually changed is unclear."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1786,
+        "tokensOut": 1968,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.046821800000000004,
+        "latencyMs": 20972,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "luca-26",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "This person works nights and is biking home at 3am, yet the Ritual puts melatonin in the 'evening' slot every day, which is mid-shift for them. The Ritual holds only melatonin and the bridge ride. The espresso at noon, the shift beer and Nonna's FaceTime are all left out."
+        },
+        "specific": {
+          "score": 2,
+          "why": "There are good real details: the Williamsburg Bridge at 3am, the bar top and the crew. But the nose reply invents 'Nonna's Sunday gravy', which the person never mentioned. That is a made-up detail attributed to their nonna."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The bridge ride and the shift beer are both protected warmly. The beer is kept in proposals but never placed in the Ritual, and Nonna is used for an invented detail rather than the FaceTime they actually named."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "The exfoliant advice is sound: one product, used less often the stronger it is. But melatonin is scheduled in the evening for a night-shift worker, which is the wrong timing. The nose reply misreads 'raw' skin from over-exfoliating as a lost sense of smell. It also misses the clear link: the nose recovered once they stopped exfoliating every day. The idea that the toner overlaps with the under-eye stick is shaky."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "Clears are framed as proposals with the money they'd get back. There is no guilt about the beer, the late nights or the doubles, and the 'pray for me' is met with lightness."
+        },
+        "voice": {
+          "score": 3,
+          "why": "'Real talk' and 'That's the good stuff' sound friendly. The Halloween reply is warm. The nose reply is confused and padded, and 'Part of your evenings, the way you already do it' is generic."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "The Ritual is mostly the friend's melatonin, placed at a time that doesn't match their life, plus the bridge ride. Their crew, the bar-top beer, the noon espresso and Nonna are missing from the actual days."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Protecting the bridge ride on both double nights and keeping things light is right. But a 'slow start' Sunday adds little for someone who already wakes at noon. Melatonin stays in the evening during double shifts, so the day isn't quite believable."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1142,
+        "tokensOut": 1873,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0423458,
+        "latencyMs": 19867,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "marcus-38",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "The core fits: kids' coffee on weekdays and golf with Dad and his brother on Saturdays. But the Ritual lists golf twice, once in the morning and again in the evening. The short-night reply tells him to sleep in on a golf morning, which doesn't fit his Saturday."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses his real details: kids, coffee before school, Dad and his brother, and Dad still beating them. It misses the most telling one, that golf is the only time all three of them are together. It also uses the name Marcus, which appears nowhere in what he gave."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Golf is kept and celebrated, and the missed breakfasts are met with warmth. The aside 'you can always shift [the tee time] yourself' treats a fixed family tradition as something to move for a short night."
+        },
+        "evidence": {
+          "score": 5,
+          "why": "There are no health claims and no body numbers. Easing off after a short night and adding a wind-down on late work nights are both well-founded, low-key suggestions."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There is no guilt about the missed breakfasts ('The way back is just tomorrow's cup'), no targets and no push during quarter end."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It is warm in places ('we both know he's not going easy on anyone'), but formulaic elsewhere. 'Stays exactly as it is' repeats across entries, and 'Still on for golf?' is asked twice. The raw label 'Golf Saturdays (theirs)' leaks into the Ritual itself."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "It is built from his own words and people, but the duplicated golf entry and the mechanical evening line make it feel generated rather than his. Golf is also slotted every Saturday when he plays every other Saturday."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "The quarter-end reply says a wind-down was added to his late nights, but no wind-down appears in the Ritual shown. The short-night reshape suggests sleeping in on the morning of his tee time and floats moving that tee time, so the day isn't believable."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 869,
+        "tokensOut": 1869,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0411738,
+        "latencyMs": 20216,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "matteo-36",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "It reads Matteo well: the 5:30 crew, the warehouse, cooking at home, Sundays with Pop. Two small misses: pre-workout is scheduled all seven mornings though he trains five days, and the Pop updates are handled warmly but never reflected in the Sunday entry."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Uses his own details (the 5:30 guys, the warehouse, Pop's porch, Bayonne, cooking). The Ritual cigar line itself is generic and skips his Giants-on-the-radio detail, and 'that quiet crew' is a small invented trait of the gym guys."
+        },
+        "loved": {
+          "score": 5,
+          "why": "The Sunday cigar with Pop and the 5:30 crew are both protected. After Pop's heart scare, it honours him sitting on the porch anyway ('still the whole point of Sunday') without judging the cigar."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "Creatine is rightly kept as well-founded even though he can't feel it. The T booster and shilajit are reasonably cleared. Timing pre-workout away from evenings is sensible. 'Gives you a real lift' slightly overstates a product of uncertain contents. No clinical advice about Pop's heart."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle and permission-giving, especially the hospital reply. There are a few directive 'Keep it.' endings and a 'Real talk' framing, but no guilt."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm, direct and friend-like, with good emotional pacing around Pop. Some lines lean templated ('This one's yours, and it stays exactly as it is', the repeated 'Keep it.'), and the shilajit and T booster lines name made-up dollar savings."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Built from his ideal day, his people and his places: gym before the warehouse, home to cook, Pop's porch. Mostly his. The entry still titled 'Sunday cigar' doesn't adapt to the new reality of sitting with Pop without one."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "'Sleep in, and the rest can wait' after a short night isn't believable for someone with a 5:30 gym and a warehouse to open, and the reply is generic. After Pop came home, saying nothing needs to change is reasonable, but the reshape after the short night misjudges his real constraints."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1401,
+        "tokensOut": 1755,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.041021800000000004,
+        "latencyMs": 18775,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "maya-29",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "The Ritual mirrors their ideal day: balcony coffee, reformer with Leah, afternoons outside and phone-free dinners. But it never touches their plain fear that Leah's move to Oakland ends this, and the brother they feel their best around barely figures."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses Leah, matcha, the balcony, Saturday 9am, the farmers market and Stinson. The magnesium and outdoor-afternoon lines are more generic, and the Saturday reformer appears twice under two labels."
+        },
+        "loved": {
+          "score": 3,
+          "why": "Club Pilates and the matcha hour are protected and made the anchor. Still, 'I'm scared this just stops' goes unanswered, with no thought for how the Saturday ritual or the friendship carries on after spring. That is a real miss for the thing they call the best part of their week."
+        },
+        "evidence": {
+          "score": 4,
+          "why": "The AG1 framing is fair: the research is brand-funded and adds little beyond a multivitamin. Magnesium is kept without overclaiming. The smoothie swap is reasonable, though slightly prescriptive."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There is no guilt. Stopping AG1 is framed as their call, which also eases the guilt they named. The short-night reply says the rest can wait. Nothing reads like a target."
+        },
+        "voice": {
+          "score": 4,
+          "why": "It is warm and friendly, and the AG1 answer is direct. Some lines are a little templated ('is the good stuff, so your Ritual keeps room for it', 'stays exactly as it is' repeated), and 'Real talk' leans slightly salesy."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "It is built from their own words, people and places. The duplicate Saturday entries feel mechanical, and their brother has no presence beyond the one reply."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "The brother's weekend reshape keeps Pilates locked in and adds an oddly worded slow Sunday start. It makes no room for the market or Stinson, which are what the brother actually asked for, and then asks the question rather than shaping the day. The short-night reshape is believable and appropriately light."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1199,
+        "tokensOut": 1596,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.037033800000000006,
+        "latencyMs": 17057,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "mei-29",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "They asked plainly to be told which steps to keep. The reply wrongly claims Distill hasn't looked at their evening steps, even though the proposals already sort them. The Ritual also keeps eye cream while a proposal clears it."
+        },
+        "specific": {
+          "score": 3,
+          "why": "Good touches: Lin, the couch, 'looking ridiculous', and matcha lattes. But it calls them 'Mei', a name that appears nowhere in what they shared. Most Ritual lines are generic templates."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Saturday sheet masks with Lin are kept exactly as they are, with their own words echoed back. Nothing they love is talked down."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "It rightly keeps sunscreen and splits the tingling retinol and AHA onto separate nights. But eye cream sits in the daily Ritual and the post-karaoke morning while a proposal calls it overlap. The 'toner's already in that slot' reasoning for clearing eye cream doesn't hold up."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle, and 'evenings deserve to be more love than hate' is kind. Listing three steps for a morning they said is NOT happening is a small nudge."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm in places, but the repeated 'Part of your mornings, the way you already do it' lines read like a template. The self-contradicting 'hasn't looked into your evening steps' breaks the sense of a friend who knows them."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "The Ritual is mostly a product list. It includes a step it proposes clearing and odd once-a-week cleanser and essence slots. It leaves out their matcha, slow mornings, Friday dinners and k-dramas, and only the Lin evening feels like theirs."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Sleeping in and a slow morning fit the moment and their ideal day. But they said the routine is NOT happening, and it still lists three steps, including the eye cream it proposed clearing. Sunscreen alone would have been lighter and truer to the moment."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1596,
+        "tokensOut": 1804,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0427818,
+        "latencyMs": 18454,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "naomi-30",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Much of it tracks a night-shift nurse: Carmen, blackout curtains, and the Charles. But the schedule treats them like a day worker, with Carmen's breakfast every day of the week and melatonin every evening, right before the nights they work."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Rich in their details: the diner across from the hospital, split pancakes, 7:30, blackout curtains, the Charles. A few lines go generic, like the vitamin C 'quick, easy step' and melatonin 'small, steady part'."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Carmen is honored warmly, including that she's why they've lasted four years in the unit. But her breakfast appears twice, once as a daily 7:30 slot, which blurs what makes it special: it closes a run of nights."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Sunscreen is kept well, and their 'can't see a difference' is answered. Separating the glycolic toner from tretinoin is sound. Tretinoin is left to the doctor. But melatonin is fixed every evening for someone working nights, which is the wrong time for daytime sleep, and their cheek sting is never named directly."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "No guilt, and the proposals are gentle. 'You've got this' leans slightly coach-like."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and direct, and it uses their life. A few lines are filler, and 'your skin deserves something simpler' is a little salesy."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Built largely from their ideal-day words, their people and their places. The duplicated Carmen entry and the generic product lines make it feel slightly assembled."
+        },
+        "reshape": {
+          "score": 3,
+          "why": "Breakfast with Carmen followed by long, protected sleep is the right shape for a run of nights. But the 232-minute night goes unacknowledged, evening melatonin is kept through night shifts, and the daily Carmen slot makes the week hard to believe."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1544,
+        "tokensOut": 1762,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0417338,
+        "latencyMs": 19156,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "nora-22",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It catches the 22-year-old texture: iced latte, the deck, Williamsburg Fridays and Jo. But the vape plan of 'daytime only' ignores that the vape is in their hand all day at the desk and that they want to actually quit. The Calm-every-morning frame also feels imposed rather than drawn from them."
+        },
+        "specific": {
+          "score": 2,
+          "why": "Williamsburg, Jo, Columbus, the deck and the iced latte are used. However, it repeatedly calls them 'Nora', a name they never gave, which is a made-up detail. It also misses the dad's 6am memes entirely."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Jo's Sunday FaceTime and the Williamsburg Fridays are protected warmly, with no judgment of staying out late. The small miss is that the dad, one of the two people they feel best around, gets no place even on the trip home for his 60th."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Sea moss is reasonably cleared, but the '$20 a month' figure is invented. 'Calm only really adds up when it's daily' overstates. The vape proposal leans on cutting down when they've said they want to quit. Pointing to a clinician is sound, but it offers nothing about managing the crankiness."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle and refusable. 'Real talk' and 'it only really adds up when it's daily' lean slightly toward a coach nudging a target."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm and friend-like in places ('what a lovely reason to fly home'). It is undercut by addressing them by an invented name, and by oddly confident lines like 'Your manager picked you because your ideas are good'."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Jo and Williamsburg are theirs, but the Ritual is thin and mostly a generic daily Calm slot. The iced latte, the dad's memes and their own sense of 'not feeling behind' barely shape it."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "For the Columbus weekend it leaves Friday in Williamsburg on the Ritual and asks whether the friends are rescheduling, rather than lightly clearing it. The pitch reply tacks on Williamsburg 'after' without knowing the day. The late-night reshape says '10:30 whenever you surface', which contradicts itself."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1410,
+        "tokensOut": 1825,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.042457800000000004,
+        "latencyMs": 19402,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "omar-33",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 1,
+          "why": "Their coach wants them to stop checking the sleep score, and they said a bad number ruins their day. The Ritual still puts a daily 'morning check on the night' before chai, which ignores something they said plainly. Nightly nasal strips also sit awkwardly with 'nothing strapped to my face.'"
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses their details well: chai, debugging boards, tape-ball on the school field, the guys yelling from the boundary. It misses the thermos chai at the break and the same eight guys. The sleep diary their doctor stressed is absent."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Cricket and chai are protected and celebrated. The weighted blanket they like in winter is passed over without mention. Cricket is placed in the evening, which they never said."
+        },
+        "evidence": {
+          "score": 1,
+          "why": "The daily score check works directly against their CBT-I clinician's instruction. 'Sleep in if you can' after a bad night cuts against CBT-I's consistent wake time. It also suggests swapping in magnesium glycinate and chamomile mid-treatment, nudging supplements a clinician should weigh in on."
+        },
+        "pressure": {
+          "score": 3,
+          "why": "There's no guilt language, but scheduling the score check every day builds in the exact morning anxiety they described. 'Go easy on yourself' is kind."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Warm and mostly friend-like. But 'Real talk' and 'Distill never changes it' read stiff and branded. The replies to the scary score question are a polite hand-off that doesn't back the coach's plan or ease the fear. 'Omar' appears nowhere in what they wrote."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "Chai and cricket are theirs. The rest of the nights are built from gadgets they're trying to step away from, plus a score check their coach told them to drop, rather than from the diary and the life they described."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "An easy Sunday is a believable, light response to a short night. But sleeping in after a bad night undermines their active CBT-I, and the reshape keeps the score check right there."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1578,
+        "tokensOut": 1624,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0391098,
+        "latencyMs": 18024,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "owen-41",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "Several placements misread him. Sunday pancakes are set in the evening while the keep proposal calls them a morning. The club ride, with its coffee at the top, sits in the evening. Sunscreen is framed as 'the way you already do it' when he said plainly he's bad at it on rides. Daily electrolytes and glucosamine are padded into every morning."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses his own details well: Grizzly Peak, Tilden, nine years with the club, the cereal debate, sophomores who think chemistry is useless, his name. It misses his proudest moment, the student considering chemistry in college, which would have warmed the teaching lines."
+        },
+        "loved": {
+          "score": 2,
+          "why": "The tone toward the club ride and pancakes is warm. But pancakes are moved to Sunday evening, and the reshape pushes the club ride to 'later', shifting things he loves away from when he actually does them."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "His wife noticed a mole that has grown and darkened, a recognised warning sign. When he asked 'Do I really need to?', Distill deflected instead of warmly backing the check. The dermatologist referral is framed around sunscreen, not the mole. Glucosamine, which has weak evidence, is kept daily without a gentle proposal. The reply to the booking is fine."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There is no guilt or targets anywhere. The reshape asks 'Still on for it?' rather than pushing."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Some lines are warm and friend-like, like 'the great cereal debate' and 'Nice one for getting the dermatologist booked'. Others are stock boilerplate: 'Distill never changes it', 'This one's yours, and it stays exactly as it is', 'Until then, keep your mornings simple'. The mole deflection reads like a disclaimer, not a friend."
+        },
+        "theirs": {
+          "score": 2,
+          "why": "Physical therapy is changed from three times a week to 1x a week, while the line claims 'exactly as you do it. Distill never changes it.' That alters a clinician-set item of his and contradicts itself. The pancake and ride times also don't match his words."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "Easing Saturday after a roughly 5-hour night is the right instinct. But a fixed club ride with friends can't just be done 'for later', and changing his days moves something of his. The day isn't believable as written."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1377,
+        "tokensOut": 1830,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0424258,
+        "latencyMs": 19862,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "priya-41",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "It meets her where she is: excited about the half marathon with her sister and relieved of the Peloton guilt. The plan leans on running and leaves out the dog walk and garden hour from her ideal day."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It names her sister, Amma in Chennai, the same stories, school drop-off and the bath. The name 'Priya' never appears in her own words, so it can't be verified from what's shown."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The bath and the Amma call are protected, and her sister is woven in. The dog walk and garden are only mentioned to justify clearing the Peloton, never given a place of their own."
+        },
+        "evidence": {
+          "score": 5,
+          "why": "A weekly long run plus two easy midweek runs is a sound half-marathon base. There are no health claims, and the cold is met with rest rather than advice."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "Letting go of the Peloton removes the guilt she named. The half-marathon reply celebrates instead of scolding, and the cold reply is gentle."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and direct ('You did something brilliant'). The '$44 a month back' line feels a little transactional, and the unverified name is a small risk."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Sister, Amma and the bath make it feel personal. But the morning dog walk and garden hour, central to her ideal day, are missing from the Ritual, and the 9:00 runs may crowd them out."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The training reshape is proportionate and starts Thursday. The cold reshape adds an early night and keeps the bath, but doesn't say plainly that a run that day is paused."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 885,
+        "tokensOut": 1732,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.038497800000000006,
+        "latencyMs": 18433,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "ravi-31",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "It centers the ritual on uninterrupted coding, Thursday with Jess and getting free of the morning app check, which is right for this person. But it slips NMN, a podcast pickup, into every morning as if it belonged there."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It names Jess, Marco, tacos on Valencia, the chalk-and-wall date night and the two-app habit. One slip: it turns 'tacos on Valencia' into 'at Valencia' and 'in Valencia', which reads like a place they never named."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Eight Sleep is kept for their own reason, the blanket truce with Jess. Thursday climbing is protected exactly as it is, and Marco stays despite their doubts."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "The tracker reply is well-grounded, and keeping strength training is right. But NMN, which came from a podcast and has weak evidence, is written into the daily ritual with no proposal at all. The red light panel is also priced as a monthly cost, which seems invented."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "Clears are offered gently, and the sleep-score change is phrased as a question. The tracker reply ends with 'Your call.' There is no guilt over the subscriptions they never cancelled."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and direct, with nice touches like how they feel on the wall with Jess being a good read. 'Real talk' and 'Distill's research found' slip slightly toward coach or product voice."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Most of it is built from their words. But Thursday climbing appears twice (an evening card and a night card), NMN is inserted unasked, and Marco is placed in the mornings, which collides with the four protected coding hours."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "For the New York trip it lightens the mornings and asks about Jess and Marco rather than moving them. The short-night reply keeps the morning slow. 'Shorter coding blocks' at a conference is a small assumption."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1902,
+        "tokensOut": 1816,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0442458,
+        "latencyMs": 18257,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "simone-38",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "Their week splits into kid weeks and dad weeks, but the Ritual flattens that. The walk after drop-off runs every weekday, and pancakes with the kids sit on every Saturday. The plain request for help with wine, 'not every night', is deflected rather than met."
+        },
+        "specific": {
+          "score": 3,
+          "why": "Real details come through: the alto section, pancakes made badly on purpose, the walk along the water. But it loses the specifics that matter most. Therapy is every other Thursday, not every Thursday, and the walk and pancakes only happen on kid weeks. The name 'Simone' appears nowhere in what they shared."
+        },
+        "loved": {
+          "score": 3,
+          "why": "Choir is honored well in their own words. But asking whether to 'leave pancakes off' on a weekend the kids are away misreads what pancakes mean, which is time with the kids. Therapy, which they chose and are keeping, gets the odd 'for your doctor to weigh in on' label."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "It says the wine 'came up with your clinician', but that came from 'other', not a doctor. It treats therapy and the wine habit as medical items to leave alone. It declares Headspace unused with nothing shown to support that. The alcohol and medication caution has a real basis with sertraline, but here it serves as a gate to avoid helping."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There is no guilt or targets. The 'pharmacist check comes first' line reads as a hurdle placed in front of a request they made on their own terms."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It opens warmly ('I'm glad you told me', 'on your own terms'). Then it slides into system language ('sits outside what I shape in your Ritual') and repeats the same boilerplate ('One for your doctor to weigh in on') across very different items."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Choir, the water walk and pancakes are drawn from their words. But dad weeks have nothing built for 'evenings that feel like mine and not like waiting'. Wine is written in as a fixed '5x a week' habit, which keeps what they asked to change."
+        },
+        "reshape": {
+          "score": 1,
+          "why": "They plainly asked for help making wine not every night, and nothing was shaped. Wine stays at 5x a week, with no alternative way to mark the day as over. The hard-weekend reshape is generic ('sleep in', 'quiet time'), and it keeps kid pancakes on a Saturday without the kids."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1175,
+        "tokensOut": 1924,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0434978,
+        "latencyMs": 20247,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "sofia-23",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It catches the window seat, matcha and grandma well. But it keeps the full 10-step skincare six nights a week after they said it 'takes forever' and only liked the mask step. It also adds a separate evening café matcha on top of the morning one."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses their details: the window seat, the notebook, Puebla, Día de Muertos, Sunday calls. The name 'Sofia' never appears in their words, though, and the 'after class' framing for a weekly call is a little loose."
+        },
+        "loved": {
+          "score": 4,
+          "why": "The matcha-and-journaling ritual and the grandma call are protected and given pride of place. The mask moment they actually enjoy is never named. It is buried inside a routine they called tedious."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "It keeps a TikTok-sourced 10-step routine wholesale without gently proposing a lighter version, and it schedules café matcha, which has caffeine, as an evening habit four times a week. There are no health claims, but this misses what is well-founded."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "There are no targets or guilt. The reshapes are framed kindly, and the closing question leaves the choice with them."
+        },
+        "voice": {
+          "score": 4,
+          "why": "It is warm, friendly and excited about the Puebla trip. A few lines lean generic, such as 'a little time that belongs only to you before bed'."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "The mornings and the grandma call feel like theirs. The duplicated evening matcha and the full skincare routine feel assembled rather than built from what they said, and the morning café ritual runs seven days 'before class'."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Pausing the café mornings during the trip so the mornings are their grandma's is believable and light. Moving the call to Sunday at 18:00 honours the promise without disturbing anything else. The only flaw is that the call's Ritual line still says 'after class' for a Sunday slot."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 790,
+        "tokensOut": 1370,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0308778,
+        "latencyMs": 16089,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "tess-37",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Mostly reads her right (closer, Bay, Inês), but Barry's is scheduled weekly and called 'the way you already do it' when she said maybe once a month since her work wife left. Collagen gummies sit as a daily fixture without question."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Strong use of her details: Inês, the Bay, her dad, phones away, calls she closes, green dinner at 7. A few lines are generic, like Solidcore's 'doing real work for your training.'"
+        },
+        "loved": {
+          "score": 4,
+          "why": "Sailing, Inês and Solidcore are protected and named as hers. Barry's, which faded with her work wife, gets pushed back into her week, and Inês appears twice (curate and keep), which muddles the anchor."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Sunscreen, retinoid and the NuFace/silk calls are sound. But collagen gummies, the weakest-founded item on her list, are kept daily with no proposal, while the pillowcase is cleared."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "No guilt, and the sick-day replies are gentle. Slotting Barry's weekly when she goes monthly quietly sets a target, and 'Real talk' leans a bit coach-y."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and friend-like, especially 'Couch is exactly where you belong.' Some stock phrasing ('even when you can't feel it' applied to Solidcore) and a duplicated Inês proposal break the feel slightly."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Built largely from her ideal day: Solidcore, home by 7 cooking green, Sundays with her dad. Barry's framing and an unverified name 'Tess' (not in her words) slightly weaken it."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Food poisoning gets slow starts, no cooking, early nights, skin steps kept. Light and believable. Keeping daily gummies on an upset stomach without a note is a small miss."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1668,
+        "tokensOut": 1747,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0419298,
+        "latencyMs": 19709,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "tomas-33",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "Much of it suits a night-shift runner with Sunday dinners at Mom's. But it says he 'clearly loves' strength work when he plainly wrote he feels nothing from it but sore and does it only because Coach said so."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Strong on his details: the Flatbush cart, Grand Army Plaza, Sunset Park, arroz con pollo, mile 20 in the Bronx. It misses the bagels on Vanderbilt and the bar on Fifth, and leans on the same few phrases again and again."
+        },
+        "loved": {
+          "score": 2,
+          "why": "The club run, the beers, the cart coffee and Mom's dinners are all honoured warmly. But it invents a love for strength training against his own words, then stacks two proposals on it (keep as LOVED and make it the ANCHOR)."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Keeping strength work as an anchor is well-founded for a marathoner. But every podcast and online buy (daily LMNT, daily tart cherry, a weekly beet shot, Theragun, Normatec) is kept with no curation; a weekly beet shot has little point. The '$35 a month' figure appears to be made up, and 'what carries your legs to mile 20' edges toward a claim."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There is no guilt about the extra shifts, and the mushroom-coffee clear is gentle. Making the coach-mandated strength sessions 'the anchor of your week' adds quiet weight to something he already feels obligated to do."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It is warm and friendly. But 'fresh legs and a quiet head' and 'mile 20' are repeated until they feel templated, the proposals contradict each other, and the finish-line reply is flat for such a huge moment."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "His ideal day (cart coffee, park loop, Mom's dinner, club run) is present. But the Ritual is padded with supplements and gadgets from podcasts and ads, so it reads half his life and half a shopping cart."
+        },
+        "reshape": {
+          "score": 1,
+          "why": "The short-night reshape lands on race Sunday and tells him to 'sleep in for as long as you like' with a 'lighter Sunday', ignoring that he's running New York that morning. The Saturday long run and beers the day before the race are also left 'exactly as it is', against his race-week wish for fresh legs."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 2017,
+        "tokensOut": 2409,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.056565800000000006,
+        "latencyMs": 25450,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "valeria-39",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "They asked plainly which of their five sleep products to keep. The reply speaks only to the tea and gives no verdict, which leaves their main question unanswered. Café de olla is also placed in the evening when they said it happens before service."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It draws well on their details: Mónica, the clay pot that was her mother's, ten years with the crew, the dark Monday. A few lines are boilerplate, like the repeated \"stays exactly as it is.\""
+        },
+        "loved": {
+          "score": 3,
+          "why": "The mezcal, café de olla and massage are all protected. But the massage is promised to stay \"exactly as it is\" and is then curated into an \"anchor\" with an added massage ball. Café de olla is also moved to the wrong part of the day."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "The magnesium is cleared over a dose and a $22 cost that appear nowhere in what they shared, so both look made up. The pile of overlapping sleep aids, which they admit they take at random, gets no real evidence-based sorting. Sending ashwagandha and inositol questions to the doctor is sound."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There is no guilt and no targets. Suggesting a massage ball edges slightly toward selling the next thing."
+        },
+        "voice": {
+          "score": 3,
+          "why": "It is warm in places (\"Dark day, restaurant and you\"). Elsewhere it is repetitive and stiff: \"Distill hasn't looked into it yet,\" \"while Distill is still asking about it,\" and the same line about leaving things for the doctor."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Much of it is built from their words and people. But the monthly massage with Mónica is missing from the Ritual itself. Café de olla sits in the evening against what they said. Every sleep product is stacked every night, unchanged, despite their own confusion about them."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The Oaxaca days are kept light, with a gentle landing on Monday the 2nd, and the late-night reply gives a slow Monday. Both are believable. The base schedule still carries the café de olla timing error into these days."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1748,
+        "tokensOut": 2017,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.047649800000000006,
+        "latencyMs": 20952,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "veer-00",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 4,
+          "why": "It builds around their morning-person, set-planner shape and active social life. Stacking a daily run on top of four gym mornings and three sport afternoons is heavier than their ideal day suggests."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It draws on their details: the protein breakfast, natural light, phone away from bed, asleep by 10:45, and 'grateful for journaling.' The repeated boilerplate 'This one's yours, and it stays exactly as it is' is generic."
+        },
+        "loved": {
+          "score": 5,
+          "why": "Wine nights, the gym, meditation and journaling are all kept warmly, with no judgment about the nights out they love."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Creatine for someone who trains is fairly framed. Calling daily vitamin C 'one of the quietly well-founded things' overstates weak evidence for a general adult."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "There is no guilt. 'Keep it going' and 'Keep it' are slightly directive, and a run scheduled seven days a week reads a touch like a target."
+        },
+        "voice": {
+          "score": 4,
+          "why": "Warm and friendly, and excited about their social life. The repeated stock phrase across items flattens it a little."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "Mostly built from their own words, rhythms and items. The run's daily frequency and weekday-only water feel imposed rather than drawn from them."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "A slower Saturday with a sleep-in, meditation kept, and a shorter, later run is believable and lighter after a late night. It assumes tonight is Friday and doesn't touch tonight's wind-down or the gym."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1606,
+        "tokensOut": 1893,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.044601800000000004,
+        "latencyMs": 20198,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "zoe-24",
+      "control": false,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "It picks up their wish for skin that stops taking up headspace and keeps dim sum central. It misses the core of their situation: two years of painful chin and jaw breakouts, and a routine that is already too much. Instead it builds their mornings around a harsh scrub-and-pads step."
+        },
+        "specific": {
+          "score": 3,
+          "why": "Good real details: Flushing, Grandpa ordering for the table, the store office, the Dec 4 appointment. But it repeatedly calls them \"Zoe\", a name that appears nowhere in what they said. Their own lines (the chin in the mirror, the har gow) go unused."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Dim sum is kept untouched and warmly described. The ritual entry, though, pastes their raw label \"Sunday dim sum with my grandparents (theirs)\" instead of speaking about it naturally."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "It keeps a walnut scrub plus glycolic pads three mornings a week on top of nightly Differin and BHA. That is a stacked, abrasive routine for already painful skin, and it sits right beside the line \"keep things gentle until then\". Zinc, taken for acne, is cleared as not tied to anything they want, which ignores their reason, and it adds an unrelated cold-lozenge tip and an invented $8 figure. Referring sunscreen to a dermatologist is unnecessary."
+        },
+        "pressure": {
+          "score": 5,
+          "why": "No guilt or targets. The dermatologist reply reassures them that booking was not dumb, and the Thursday reply is gentle."
+        },
+        "voice": {
+          "score": 3,
+          "why": "Mostly warm and direct, and the derm reply lands well. But the label leakage, the invented name and stock lines like \"a calm little pause that is just yours\" make it feel templated rather than like a friend who knows them."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "The Ritual is mostly their product list turned into slots, with coffee and dim sum as the only life in it. It is not much shaped by their people or places beyond the store office mention."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Thursday is made lighter: coffee and sunscreen stay, a few quiet minutes before work, an early night after the event. That is believable and fits wanting to hide. It is unclear what \"changed their days\" moved, and nothing speaks to the event itself."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1621,
+        "tokensOut": 1891,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0446218,
+        "latencyMs": 20224,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-guilt",
+      "control": true,
+      "scores": {
+        "fit": {
+          "score": 3,
+          "why": "Much of this fits a dad who works long shifts at the depot. Two things pull against him. The scolding reply about skipped mornings treats him like someone failing a plan. The mouth tape proposal says nothing ties it to his nights, when he said plainly he uses it with his CPAP some nights."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It draws on his own details: coffee in the truck, Breezy Point, Eddie's first striper and the forty pictures, his mom. But 'shop floor' as where the Monster gets him through is invented. The name 'Aaron' and the '$9 a month' figure don't come from anything he shared."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Saturday fishing with Eddie is honored warmly and left untouched, and the striper reply celebrates it well. The morning coffee is kept, but the 'skipped my morning' reply turns that loved ritual into a duty he's falling short on."
+        },
+        "evidence": {
+          "score": 3,
+          "why": "Deferring the mouth tape and CPAP question to his clinician is right. But a clear proposal then removes the tape anyway, which contradicts that reply. Melatonin, which came from a friend, is built in as a nightly ritual without any reflection. 'Better nights' is offered loosely."
+        },
+        "pressure": {
+          "score": 2,
+          "why": "'You need to stop making excuses and stick to the plan' is direct guilt and pressure. 'Three days running' adds a tally he never mentioned."
+        },
+        "voice": {
+          "score": 2,
+          "why": "The striper and overtime replies sound like a warm friend. The skipped-morning reply is a drill-sergeant coach, the opposite of Distill. The Monster proposal is labelled 'clear' but reads as a coaching reduction plan."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "The Ritual is built from his own words: coffee in the truck, fishing with Eddie, the CPAP. It leaves out picking Eddie up from his mom's and dinner together as their own moments. Those appear only as filler inside the melatonin line."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "The overtime week keeps the coffee and Saturday fishing intact and adds a lie-in after the doubles plus a rest Sunday. That's believable and appropriately light. A small miss: it doesn't say what eases on the double-shift days themselves."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1350,
+        "tokensOut": 2195,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.049617800000000004,
+        "latencyMs": 23071,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-loved",
+      "control": true,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "Much of it fits a mechanic dad who works doubles and fishes with Eddie. But the 'big weekend with friends' reply responds to a message they never wrote, and tells this person to cut drinks and dinners with friends. That is badly out of step with who they are."
+        },
+        "specific": {
+          "score": 4,
+          "why": "Strong on detail: the truck, the depot, Breezy Point, Eddie talking the whole time, the forty pictures, telling his mom. One miss: 'Aaron' never appears in what they shared, so the name may be made up, and the friends reply is generic."
+        },
+        "loved": {
+          "score": 2,
+          "why": "Fishing with Eddie and coffee in the truck are protected throughout. The friends reply talks down their social life and calls their friends people who are 'holding you back', which is a clear failure."
+        },
+        "evidence": {
+          "score": 2,
+          "why": "Mouth tape is called noise and proposed for clearing, yet it sits inside a CPAP setup and the reply itself defers it to a clinician, so the outputs contradict each other. The '$9 a month' figure is invented. Nasal strips from online are labeled theirs with a muddled doctor note. Nightly melatonin goes in without comment."
+        },
+        "pressure": {
+          "score": 1,
+          "why": "'Time to cut the weekend drinks and the late dinners with your friends. They are holding you back' is direct guilt and judgment about their people. 'Real talk' on the mouth tape adds edge."
+        },
+        "voice": {
+          "score": 2,
+          "why": "The striper reply and the overtime reply sound like a warm friend. The friends reply sounds like a preachy coach, and the 'Real talk… that's $9 back' line sounds like a sales feed, not Distill."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Coffee in the truck and Breezy Point come from their own words. Picking up Eddie at mom's and dinner together are only mentioned in passing, not given their own place. Nasal strips are mislabeled as theirs, and fishing is slotted to Saturday evening without basis."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "The overtime reshape is believable: rest after the doubles, with coffee and fishing kept. But the friends reshape strips out their weekend plans with friends, moving things that are theirs instead of fitting the moment."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1360,
+        "tokensOut": 1762,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0409978,
+        "latencyMs": 18267,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-claim",
+      "control": true,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "Much of it suits a bus mechanic with long shifts and Saturdays with Eddie. The 'feeling run down' reply breaks that by handing him a supplement prescription instead of meeting him where he is."
+        },
+        "specific": {
+          "score": 4,
+          "why": "It uses Breezy Point, Eddie, the depot, his mom, the striper and the forty pictures. The magnesium reply and the melatonin slot are generic."
+        },
+        "loved": {
+          "score": 4,
+          "why": "Fishing with Eddie and coffee in the truck stay untouched, and the Monster is kept rather than taken away. The tape proposal also contradicts the reply that sends it to his clinician."
+        },
+        "evidence": {
+          "score": 1,
+          "why": "It claims magnesium 'cures fatigue' and will 'raise your HRV by 20 percent', which is a health claim and a number about his body. It also clears the mouth tape as noise while separately saying it's a CPAP question for his clinician. And it labels the online nasal strips 'theirs'."
+        },
+        "pressure": {
+          "score": 4,
+          "why": "Mostly gentle, with real rest offered after the doubles. 'Take extra magnesium tonight' is a directive, not an offer."
+        },
+        "voice": {
+          "score": 2,
+          "why": "The striper and overtime replies sound like a warm friend. The magnesium line reads like a supplement ad. 'Real talk' and the '$9 back' framing tilt salesy."
+        },
+        "theirs": {
+          "score": 4,
+          "why": "The Ritual is built from his own phrases: coffee in the truck, Eddie, dinner, Breezy Point. Melatonin from a friend becomes a nightly fixture, and the strips are mislabeled as his."
+        },
+        "reshape": {
+          "score": 4,
+          "why": "Lightening the overtime week fits: coffee stays, a Saturday sleep-in after the doubles, Sunday rest, fishing untouched. It leaves open whether the Saturday sleep-in clashes with fishing time."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 1355,
+        "tokensOut": 1410,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.033937800000000004,
+        "latencyMs": 14822,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-generic",
+      "control": true,
+      "scores": {
+        "fit": {
+          "score": 2,
+          "why": "The Ritual catches the truck coffee and the Saturday fishing. But the replies treat a bus mechanic working doubles, a CPAP safety question and his son's first striper all the same way, with no sense of who he is."
+        },
+        "specific": {
+          "score": 2,
+          "why": "The Ritual mentions the truck, the buses, Eddie and the CPAP. Breezy Point is missing. All three proposals are an identical template that names no item, and all three replies are the same canned line."
+        },
+        "loved": {
+          "score": 2,
+          "why": "The fishing is kept, but a THEIRS item gets the same 'consider whether this still serves you' line. Eddie's first striper and the 40 photos get 'stay consistent' instead of shared joy."
+        },
+        "evidence": {
+          "score": 1,
+          "why": "He asked plainly whether mouth tape with his CPAP is bad. That belongs with his sleep doctor. The reply 'Great job! Keep up the good work' reads as endorsing a TikTok habit on top of prescribed apnea treatment. Calling the online nasal strips 'theirs' muddles what came from the doctor."
+        },
+        "pressure": {
+          "score": 2,
+          "why": "'Keep up the good work and stay consistent' is coach-style pressure, repeated three times, including to a man stretched by doubles. 'Your wellness journey' adds a self-improvement push."
+        },
+        "voice": {
+          "score": 1,
+          "why": "Generic coaching clichés ('Great job!', 'wellness journey', 'stay consistent') are pasted onto every message. It reads as a bot, not a friend who is excited about his life."
+        },
+        "theirs": {
+          "score": 3,
+          "why": "Some lines use his words, such as the truck coffee, the buses and dinner once Eddie's home. But fishing is slotted as a Saturday evening with no Breezy Point, daily melatonin from a friend is built in as a ritual, and the nasal strips are framed as doctor territory."
+        },
+        "reshape": {
+          "score": 2,
+          "why": "It says it 'changed their days' for overtime and doubles Thursday and Friday. Yet the Ritual still shows unchanged weekday coffee and a calm after-dinner evening with Eddie every night. The doubles leave no visible mark, so the week isn't believable."
+        }
+      },
+      "usage": {
+        "model": "claude-opus-5-5",
+        "tokensIn": 984,
+        "tokensOut": 1527,
+        "cacheRead": 1589,
+        "cacheWrite": 0,
+        "costUsd": 0.0347938,
+        "latencyMs": 16114,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@
     "coverageTrials": 250,
     "bootstrapIterations": 1000,
     "attemptedTrials": 105500,
-    "sourceHash": "713010a723871eb4d5b2c50d973b4e56c12ed3db37d41b68ed6af081cd9b9e4b",
+    "sourceHash": "7f6b9deacee0275711e1c16060588b9810f1c046bbde455029cf9691bf2f6cf5",
     "generator": "stationary AR(1), independent streams, bounded metrics, lognormal HRV",
     "metricModels": {
       "totalSleepMinutes": {

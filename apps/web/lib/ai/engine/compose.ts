@@ -40,7 +40,7 @@ const edit = z
 const out = z
   .object({
     parts: z.array(edit),
-    additions: z.array(newPartSchema).max(3),
+    additions: z.array(newPartSchema).max(4),
     summary: z.string().max(240),
   })
   .strict();
@@ -167,8 +167,9 @@ export async function composeRitual(
     parse: z.preprocess(dropNulls, out) as unknown as z.ZodType<Out>,
     check,
     // The first Ritual is made once and is worth the wait; later recomposes stay quick.
-    timeoutMs: input.firstCompose ? 60000 : 30000,
-    maxTokens: 10000,
+    // Thinking shares the token budget: too little, and the answer is cut off mid-JSON.
+    timeoutMs: input.firstCompose ? 120000 : 45000,
+    maxTokens: input.firstCompose ? 20000 : 12000,
   });
   if (!result.ok) return { ...rules, ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
   return {

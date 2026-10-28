@@ -126,7 +126,8 @@ function attachmentOf(person: PersonModel, item: StackItemLike, v?: CatalogItemV
   const said = person.values[item.id]?.attachment ?? (item.status === 'kept' ? 'theirs' : 'unknown');
   // A habit that costs them, which their own words tie to people, a tradition or their job (wine
   // nights with friends, the shop's 2pm coffee, cupping for work): theirs, and left alone (Veer, 25 Oct).
-  if (said !== 'theirs' && v?.evidenceDirection === 'cost' && tiedToTheirLife(person, item)) return 'theirs';
+  // Never against what they told us themselves: "neutral" or "borrowed" from their words stands.
+  if ((said === 'unknown' || said === 'loved') && v?.evidenceDirection === 'cost' && tiedToTheirLife(person, item)) return 'theirs';
   return said;
 }
 
@@ -136,11 +137,18 @@ const TIED_WORDS =
 /** "Sam and I", "with Maya": someone they named, even before we know who they are. */
 const NAMED_SOMEONE = /\b[A-Z][a-z]+ and I\b|\bwith [A-Z][a-z]+\b/;
 
-/** Their own words (notes, its name, what they told us) tie it to people, a tradition or their job. */
+/** Someone disliking it, or them doing it despite themselves: never a reason it's theirs. */
+const AGAINST = /\b(hates?|hated|can't stand|cannot stand|annoy\w*|complains?|wish I didn't|wish I could stop|do it anyway|want off|want to (quit|stop))\b/i;
+
+/**
+ * Their own words (notes, its name, what they told us) tie it to people, a tradition or their job:
+ * "wine nights with friends", "shop tradition", "it's literally my job", "Sam and I". Only real
+ * sharing counts: naming someone isn't sharing ("Kate hates it"), and a sentence against it never is.
+ */
 export function tiedToTheirLife(person: PersonModel, item: StackItemLike): boolean {
-  const words = [item.customName ?? '', item.label ?? '', ...item.notes.map((n) => n.text), ...(person.values[item.id]?.reasons ?? [])].join(' . ');
-  if (TIED_WORDS.test(words) || NAMED_SOMEONE.test(words)) return true;
-  return person.people.some((p) => p.name.length > 1 && new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(words));
+  const said = [item.customName ?? '', item.label ?? '', ...item.notes.map((n) => n.text), ...(person.values[item.id]?.reasons ?? [])];
+  const sentences = said.flatMap((t) => t.split(/(?<=[.!?])\s+/)).filter((t) => t.trim() && !AGAINST.test(t));
+  return sentences.some((t) => TIED_WORDS.test(t) || NAMED_SOMEONE.test(t));
 }
 
 /** How they feel about it, read through the catalog row (see attachmentOf). */
@@ -370,7 +378,7 @@ export function decide(input: DecideInput): DecideResult {
     else if (can('TOO_MANY_STEPS')) reason = 'TOO_MANY_STEPS';
     else if (can('BORROWED_WEAK') && borrowedWeak(tier, attachment, s, v)) reason = 'BORROWED_WEAK';
     else if (can('UNLOVED_HABIT') && unlovedHabit(attachment, v, tier, s)) reason = 'UNLOVED_HABIT';
-    else if (notFelt(tier, s, v)) reason = 'NOT_FELT';
+    else if (notFelt(tier, s, v, person)) reason = 'NOT_FELT';
     if (reason) {
       put(s, 'clear', reason);
       settle(s, `clear:${reason}`);
@@ -459,8 +467,10 @@ function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike,
  * ("Not really" on "Can you feel it doing something for you?"). Their experience decides: Distill
  * offers to let it go. Never for a habit that costs them (that's a swap) or anything well-founded.
  */
-export function notFelt(tier: KnownTier, s: StackItemLike, v: CatalogItemView): boolean {
-  return (tier === 'C' || tier === 'D' || tier === 'N') && s.monthlyCost > 0 && s.answers.feels === false && v.evidenceDirection !== 'cost';
+export function notFelt(tier: KnownTier, s: StackItemLike, v: CatalogItemView, person?: PersonModel): boolean {
+  // Their tap, or their own words read by Claude ("makes me jittery during showings").
+  const feels = s.answers.feels ?? person?.values[s.id]?.feels;
+  return (tier === 'C' || tier === 'D' || tier === 'N') && s.monthlyCost > 0 && feels === false && v.evidenceDirection !== 'cost';
 }
 
 /** What counts as expensive enough to offer a budget version, in dollars a month. */

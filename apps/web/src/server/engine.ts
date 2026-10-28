@@ -50,7 +50,7 @@ import type { CallUsage, ClaudeClient } from '../../lib/ai/engine/call';
 import { classifyMessage, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
 import { composeRitual, PROMPT_VERSION as COMPOSE_VERSION } from '../../lib/ai/engine/compose';
 import { explore as exploreStep, PROMPT_VERSION as EXPLORE_VERSION } from '../../lib/ai/engine/explore';
-import { CLINICAL_REPLY, CRISIS_REPLY, replyTo, type ReplyAbout, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
+import { CRISIS_REPLY, replyTo, type ReplyAbout, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
 import { reshape, PROMPT_VERSION as RESHAPE_VERSION } from '../../lib/ai/engine/reshape';
 import { updatePerson, PROMPT_VERSION as UPDATE_VERSION } from '../../lib/ai/engine/update-person';
 import { fallbackLine, wordDecisions, PROMPT_VERSION as WORD_VERSION } from '../../lib/ai/engine/word-decisions';
@@ -336,7 +336,9 @@ export class Engine {
     const decided = this.decideNow(ctx);
     const keyOf = (d: { stackItemId: string | null; kind: string }) => `${d.stackItemId ?? ''}:${d.kind}`;
     const open = new Map(ctx.decisions.filter((d) => d.status === 'proposed').map((d) => [keyOf(d), d]));
-    const fresh = decided.decisions.filter((d) => open.get(keyOf(d))?.reason !== d.reason);
+    // "No reason to change it" is nothing to say: no card, no line, no row. The rules still keep it.
+    const said = decided.decisions.filter((d) => d.reason !== 'NOTHING_TO_CLEAR');
+    const fresh = said.filter((d) => open.get(keyOf(d))?.reason !== d.reason);
     const worded = await wordDecisions(ctx.client, {
       person: ctx.person,
       decisions: fresh,
@@ -347,7 +349,7 @@ export class Engine {
     });
     this.logCall(ctx, 'word-decisions', WORD_VERSION, worded.usage, { dropped: worded.dropped });
     const lines = new Map(worded.decisions.map((d) => [d.key, d.line]));
-    const all = decided.decisions.map((d) => ({ ...d, line: lines.get(d.key) ?? open.get(keyOf(d))?.line ?? fallbackLine(d, this.deps.toneRules.bannedPhrases) }));
+    const all = said.map((d) => ({ ...d, line: lines.get(d.key) ?? open.get(keyOf(d))?.line ?? fallbackLine(d, this.deps.toneRules.bannedPhrases) }));
     const synced = await this.deps.store.syncDecisions(ctx.userId, all, this.stampFor(decided.decisions, WORD_VERSION), tx);
     if (synced.added.length || synced.withdrawn.length)
       await this.deps.store.log(
@@ -483,7 +485,21 @@ export class Engine {
   }
 
   /** Learns from their words: a note, an answer or a message. Feelings about their things need their yes. */
-  private async learn(ctx: Ctx, tx: Tx, kind: 'note' | 'answer' | 'message', text: string, extra: { question?: string; stackItemId?: string } = {}) {
+  /**
+   * Their first Ritual: Claude reads everything they've told us (ideal day, answers, every note)
+   * before the rules decide anything, so "Kate hates it. I hate it.", "makes me jittery" and "only
+   * on travel nights" shape what Distill does. Once per person.
+   */
+  private async readEverything(ctx: Ctx, tx: Tx) {
+    if (!ctx.client) return;
+    const done = await this.deps.store.events(ctx.userId, ['person.read'], '2000-01-01T00:00:00Z', tx);
+    if (done.length) return;
+    const words = theirWords(ctx.person, ctx.progress.items, ctx.progress.asks.map((a) => a.a));
+    if (words.trim()) await this.learn(ctx, tx, 'onboarding', words);
+    await this.deps.store.log({ userId: ctx.userId, kind: 'person.read', payload: { length: words.length } }, tx);
+  }
+
+  private async learn(ctx: Ctx, tx: Tx, kind: 'note' | 'answer' | 'message' | 'onboarding', text: string, extra: { question?: string; stackItemId?: string } = {}) {
     const learned = await updatePerson(ctx.client, {
       person: ctx.person,
       stack: ctx.progress.items,
@@ -523,8 +539,9 @@ export class Engine {
         case 'onboarding':
         case 'stack-change':
         case 'refresh': {
-          const decided = await this.syncDecisions(ctx, tx);
           const anyBase = ctx.versions.some((v) => v.scope.kind === 'base' && (v.status === 'accepted' || v.status === 'proposed'));
+          if (!anyBase) await this.readEverything(ctx, tx);
+          const decided = await this.syncDecisions(ctx, tx);
           const v = anyBase ? await this.syncBase(ctx, decided, event.kind === 'refresh' ? 'refresh' : 'decision', tx) : await this.composeFirst(ctx, decided, tx);
           if (v) versionId = v.id;
           break;
@@ -603,7 +620,17 @@ export class Engine {
           }
           if (c?.safety === 'clinical') {
             if (c.condition) await this.learn(ctx, tx, 'message', event.text);
-            await say(CLINICAL_REPLY);
+            // Claude says it warmly, in their terms; the fixed line is only the stand-in.
+            const r = await replyTo(ctx.client, {
+              person: ctx.person,
+              message: event.text,
+              clinical: true,
+              toneRules: this.deps.toneRules,
+              lineContext: this.lineContext(ctx, [event.text]),
+              today: ctx.today,
+            });
+            this.logCall(ctx, 'reply', REPLY_VERSION, r.usage, { from: r.from, clinical: true, problems: r.problems?.slice(0, 5) ?? [] });
+            await say(r.reply);
             break;
           }
           // Said about one thing ("Or tell me in your words"): what they say is about that thing.
@@ -649,7 +676,7 @@ export class Engine {
             lineContext: this.lineContext(ctx, [event.text]),
             today: ctx.today,
           });
-          this.logCall(ctx, 'reply', REPLY_VERSION, r.usage, { from: r.from });
+          this.logCall(ctx, 'reply', REPLY_VERSION, r.usage, { from: r.from, problems: r.problems?.slice(0, 5) ?? [] });
           await say(r.reply);
           break;
         }

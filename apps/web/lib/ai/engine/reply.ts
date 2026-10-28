@@ -57,13 +57,15 @@ export async function replyTo(
     about?: CatalogItemView;
     /** A follow-up about one thing: a fuller answer, with what the research found and the swap. */
     followUp?: ReplyAbout;
+    /** It touches medical care: warm, plainly theirs and their clinician's, no advice of Distill's own. */
+    clinical?: boolean;
     toneRules: Pick<ToneRules, 'bannedPhrases' | 'maxWordsExclusive' | 'gatedMaxWords'>;
     lineContext: Omit<LineContext, 'toneRules' | 'maxWords'>;
     today: string;
   },
-): Promise<{ reply: string; from: 'claude' | 'fallback'; usage?: CallUsage }> {
+): Promise<{ reply: string; from: 'claude' | 'fallback'; usage?: CallUsage; problems?: readonly string[] }> {
   const f = input.followUp;
-  const fallback = (f?.fixed && whyAnswer(f)) || REPLY_FALLBACK;
+  const fallback = input.clinical ? CLINICAL_REPLY : (f?.fixed && whyAnswer(f)) || REPLY_FALLBACK;
   if (!client) return { reply: fallback, from: 'fallback' };
   const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: f ? 90 : 50 };
   const result = await callJson(client, {
@@ -74,6 +76,9 @@ export async function replyTo(
     content: [
       personBlock(input.person, { today: input.today }),
       f ? aboutBlock(f.view, f) : input.about ? evidenceBlock(input.about) : '',
+      input.clinical
+        ? '<care>This message asks something only their clinician can answer. Be warm and specific to them, say plainly that this one is for their clinician, give no medical advice of your own, and say nothing in their Ritual changes because of it.</care>'
+        : '',
       `<message>${input.message.slice(0, 2000)}</message>`,
     ]
       .filter(Boolean)
@@ -84,6 +89,6 @@ export async function replyTo(
     timeoutMs: 12000,
     maxTokens: 1500,
   });
-  if (!result.ok) return { reply: fallback, from: 'fallback', ...(result.usage ? { usage: result.usage } : {}) };
+  if (!result.ok) return { reply: fallback, from: 'fallback', ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
   return { reply: result.data.reply.trim(), from: 'claude', usage: result.usage };
 }

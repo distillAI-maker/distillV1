@@ -3,6 +3,8 @@ import type { ToneRules } from '@distill/catalog';
 import {
   applyOps,
   checkLine,
+  dayOf,
+  daysBetween,
   opSchema,
   replyErrors,
   validateOps,
@@ -77,9 +79,40 @@ export interface ReshapeResult {
   readonly baseOps: readonly Op[];
   readonly ongoing: boolean;
   readonly ask: string | null;
-  readonly from: 'claude' | 'fallback';
+  readonly from: 'claude' | 'rules' | 'fallback';
   readonly usage?: CallUsage;
   readonly problems?: readonly string[];
+}
+
+const DAY_NAME = { mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday' } as const;
+
+/**
+ * When the day should be lighter and Claude is off or couldn't land a valid edit: the next morning
+ * starts slow ("Sleep in"), so "out late tonight" or a short night still changes something real.
+ * Only ever lighter, never touching anything theirs, protected or with people in it.
+ */
+export function lighterByRules(input: { trigger: { kind: string; load: string }; scope: Scope; today: string }): ReshapeResult | null {
+  const { scope, trigger } = input;
+  if (trigger.load !== 'lighter' || scope.kind !== 'day') return null;
+  const morning = scope.targets.find((t) => t.moments.some((m) => m === 'morning' || m === 'saturday' || m === 'sunday'));
+  if (!morning) return null;
+  const op: Op = {
+    op: 'add',
+    part: {
+      title: 'Sleep in',
+      slot: 'morning',
+      area: 'sleep',
+      why: 'A slow start, so the rest of the day can wait until you are ready for it.',
+      source: { kind: 'engine', rule: 'slow-start' },
+    },
+  };
+  const gap = daysBetween(input.today, morning.date);
+  const when = gap === 0 ? 'This morning' : gap === 1 ? 'Tomorrow' : DAY_NAME[dayOf(morning.date)];
+  const reply =
+    trigger.kind === 'night'
+      ? `Short night, so ${when.toLowerCase() === 'this morning' ? 'this morning' : when} starts slow: sleep in, and the rest can wait.`
+      : `${when} starts slow: sleep in, and the rest can wait until you're ready.`;
+  return { reply, opsByDate: { [morning.date]: [op] }, baseOps: [], ongoing: false, ask: null, from: 'rules' };
 }
 
 export async function reshape(
@@ -96,7 +129,7 @@ export async function reshape(
   },
 ): Promise<ReshapeResult> {
   const fallback: ReshapeResult = { reply: FALLBACK_REPLY, opsByDate: {}, baseOps: [], ongoing: false, ask: null, from: 'fallback' };
-  if (!client) return fallback;
+  if (!client) return lighterByRules(input) ?? fallback;
   const { scope } = input;
   const locked = new Set(scope.locked);
   const prot = new Set(scope.protected);
@@ -203,7 +236,8 @@ export async function reshape(
     timeoutMs: 15000,
     maxTokens: 4000,
   });
-  if (!result.ok) return { ...fallback, ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
+  if (!result.ok)
+    return { ...(lighterByRules(input) ?? fallback), ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
   return {
     reply: result.data.reply.trim(),
     opsByDate: scope.kind === 'day' ? split(result.data.ops) : {},

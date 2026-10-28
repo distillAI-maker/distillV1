@@ -28,6 +28,8 @@ const UPDATE_SCHEMA = obj({
       obj({ op: en(['awe']), awe: en(['nature', 'music', 'visual', 'collective', 'moral', 'spiritual', 'life', 'epiphany']), quote: str() }),
       obj({ op: en(['season']), season: en(['steady', 'busy', 'stressed', 'travelling', 'energised', 'low', 'unwell']), until: nul(str('YYYY-MM-DD')), quote: str() }),
       obj({ op: en(['condition']), condition: en(conditionSchema.options), quote: str() }),
+      obj({ op: en(['feels']), stackItemId: str(), feels: bool(), quote: str() }),
+      obj({ op: en(['occasion']), stackItemId: str(), occasion: str(), quote: str() }),
     ],
   }),
 });
@@ -49,7 +51,7 @@ export async function updatePerson(
     stack: readonly StackItemLike[];
     catalog: CatalogView;
     banned: readonly string[];
-    kind: 'note' | 'answer' | 'message';
+    kind: 'note' | 'answer' | 'message' | 'onboarding';
     text: string;
     question?: string;
     stackItemId?: string;
@@ -60,7 +62,9 @@ export async function updatePerson(
   const unchanged = { person: input.person, applied: [], dropped: [], ask: [] };
   if (!client) return { ...unchanged, status: 'off' };
   const what =
-    input.kind === 'note'
+    input.kind === 'onboarding'
+      ? `They just finished onboarding. Read everything they've told us: <person> (their ideal day and answers) and every note in <items>. Return everything it teaches, for every item their words speak to.\n<everything>${input.text.slice(0, 8000)}</everything>`
+      : input.kind === 'note'
       ? `They wrote this note about item ${input.stackItemId}:\n<notes>${input.text.slice(0, 4000)}</notes>`
       : input.kind === 'answer'
         ? `They answered the daily question "${input.question ?? ''}":\n<answer>${input.text.slice(0, 2000)}</answer>`
@@ -78,8 +82,8 @@ export async function updatePerson(
     content,
     jsonSchema: UPDATE_SCHEMA,
     parse: z.preprocess(dropNulls, out) as unknown as z.ZodType<z.infer<typeof out>>,
-    timeoutMs: 15000,
-    maxTokens: 3000,
+    timeoutMs: input.kind === 'onboarding' ? 40000 : 15000,
+    maxTokens: input.kind === 'onboarding' ? 6000 : 3000,
   });
   if (!result.ok) return { ...unchanged, status: 'failed', ...(result.usage ? { usage: result.usage } : {}) };
   const patch = applyPersonOps(input.person, result.data.ops, input.text, {

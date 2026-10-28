@@ -99,6 +99,13 @@ async function main() {
   const verdict = judged.length ? summarise(judged) : null;
   const date = new Date().toISOString().slice(0, 10);
   const mode = useJudge ? 'judged' : useClaude ? 'claude' : 'rules';
+  // Every call failing (no credit, a bad key) looks like a run where Claude said nothing: stop,
+  // rather than write a report of zeros over a real one.
+  if (useClaude && cost === 0) {
+    console.error('Claude was on, but no call cost anything: every call failed (check the credit balance and the key). No report written.');
+    process.exitCode = 1;
+    return;
+  }
 
   const lines = [
     `# Engine evaluation, ${date} (${mode})`,

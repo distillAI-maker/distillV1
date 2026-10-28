@@ -27,7 +27,9 @@ export function toneLint(
   const limit = options.gated ? rules.gatedMaxWords : rules.maxWordsExclusive - 1;
   if (words > limit)
     issues.push({ code: 'WORD_LIMIT', detail: `${words} words; maximum ${limit}` });
-  if (/\b(the user|the person|their|they)\b/i.test(normalized))
+  // Talking about the reader instead of to them. Not "they" or "their": a friend says "your kids…
+  // they" and "your crew… their" all the time, and catching those threw away good replies.
+  if (/\b(the user|the person|the member|the reader|this person)\b/i.test(normalized))
     issues.push({ code: 'THIRD_PERSON', detail: 'Address the reader directly' });
   return issues;
 }

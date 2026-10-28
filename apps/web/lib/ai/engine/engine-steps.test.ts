@@ -70,8 +70,8 @@ describe('calling Claude', () => {
     expect(requests[1]).not.toHaveProperty('fallbacks');
     if (opus.ok) expect(opus.usage.costUsd).toBeCloseTo((1000 * 4 + 200 * 20 + 4000 * 0.2) / 1e6, 8);
   });
-  it('retries once with the problems listed, then gives up', async () => {
-    const { client, requests } = fakeClient(['not json', { n: 2 }]);
+  it('retries with the problems listed, then gives up, keeping the last answer for what can be salvaged', async () => {
+    const { client, requests } = fakeClient(['not json', { n: 2 }, { n: 3 }]);
     const r = await callJson(client, {
       step: 't',
       model: OPUS,
@@ -84,8 +84,9 @@ describe('calling Claude', () => {
       timeoutMs: 5000,
     });
     expect(r.ok).toBe(false);
-    expect(requests).toHaveLength(2);
+    expect(requests).toHaveLength(3);
     expect(String((requests[1]!.messages as { content: string }[])[0]!.content)).toMatch(/could not be used/);
+    expect(r.ok ? null : r.partial).toEqual({ n: 3 });
   });
   it('without a key, every step falls back and nothing breaks', async () => {
     expect((await callJson(null, { step: 't', model: OPUS, effort: 'low', system: [], content: '', jsonSchema: {}, parse: z.any(), timeoutMs: 1 })).ok).toBe(false);
@@ -138,11 +139,14 @@ describe('Example A, end to end through the reshape step', () => {
   });
   it('refuses to move the coffee walk, asks again, and falls back when it still does', async () => {
     const bad = { ...good, ops: [{ op: 'move', partId: 'p3', at: '11:00' }] };
-    const { client, requests } = fakeClient([bad, bad]);
+    const { client, requests } = fakeClient([bad, bad, bad]);
     const r = await reshape(client, input);
-    expect(requests).toHaveLength(2);
-    expect(r.from).toBe('fallback');
-    expect(r.reply).toBe(FALLBACK_REPLY);
+    expect(requests).toHaveLength(3);
+    // Claude couldn't land a valid edit, so the rules make the morning lighter instead of nothing.
+    expect(r.from).toBe('rules');
+    expect(r.reply).toMatch(/starts slow: sleep in/);
+    expect(Object.values(r.opsByDate).flat()).toEqual([expect.objectContaining({ op: 'add', part: expect.objectContaining({ title: 'Sleep in' }) })]);
+    expect(r.reply).not.toBe(FALLBACK_REPLY);
     expect(r.problems!.join()).toMatch(/theirs/);
   });
   it('refuses a reply that promises something the edits do not do', async () => {

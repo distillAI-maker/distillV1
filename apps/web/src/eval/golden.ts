@@ -7,9 +7,12 @@ import type { CatalogView, ToneRules } from '@distill/catalog';
 import type { Database } from '@distill/data';
 import {
   MAX_PER_MOMENT,
+  OCCASION,
+  onlySometimes,
   validateRitual,
   type Decision,
   type ExploreBank,
+  type PersonModel,
   type RitualPart,
   type RitualVersion,
 } from '@distill/engine/ritual';
@@ -136,6 +139,9 @@ export interface Transcript {
   readonly notes: readonly string[];
   readonly calls: number;
   readonly costUsd: number;
+  /** Who Distill understood them to be at the end, and the catalog it read: for the gates. */
+  readonly model: PersonModel | null;
+  readonly catalog: CatalogView;
 }
 
 export interface RunDeps {
@@ -248,7 +254,10 @@ export async function runGolden(person: GoldenPerson, deps: RunDeps): Promise<Tr
     ),
     ...(final.ritual.summary ? [{ where: 'summary' as const, text: final.ritual.summary }] : []),
   ].filter((s) => s.text);
+  const model = await deps.store.person(userId);
   return {
+    model,
+    catalog: deps.catalog,
     person,
     userId,
     decisions,
@@ -315,12 +324,29 @@ export function gates(t: Transcript): string[] {
         words: '',
         stackItemIds: new Set(p.progress.items.map((i) => i.id)),
         ideaIds: new Set(),
-        peopleIds: new Set(),
+        // The people Distill knows from their words: a part naming anyone else invented them.
+        peopleIds: new Set((t.model?.people ?? []).map((x) => x.id)),
         productNames: [],
       },
       perMoment: MAX_PER_MOMENT,
     }).filter((e) => !/quote|their words/i.test(e));
     for (const e of errors) fails.push(`the Ritual: ${e}`);
+  }
+  // Nothing they love, nothing that must stay, nothing from their doctor goes missing from their
+  // first Ritual (Aaron's CPAP, Veer's morning run), unless it isn't a weekly thing at all.
+  const first = t.versions.find((v) => v.scope.kind === 'base' && !v.parentId);
+  if (first) {
+    const placed = new Set(first.parts.filter((x) => x.status === 'active' && x.source.kind === 'stack').map((x) => (x.source as { stackItemId: string }).stackItemId));
+    for (const i of p.progress.items) {
+      const doctor = clinician.includes(i.id);
+      if (!doctor && !p.expect.keep.includes(i.id)) continue;
+      if (placed.has(i.id) || i.status === 'cut' || i.dataSource) continue;
+      const v = t.catalog.item(i.itemKey);
+      if (v && (v.cadence === 'monthly' || v.cadence === 'occasional')) continue;
+      const words = [i.customName ?? '', i.label ?? '', ...i.notes.map((n) => n.text)].join(' . ');
+      if (OCCASION.test(words) || onlySometimes(t.model?.values[i.id]?.occasion)) continue;
+      fails.push(`left ${i.customName ?? i.label ?? v?.shortName ?? i.id} out of the first Ritual, though ${doctor ? 'it came from their doctor' : 'it must stay'}`);
+    }
   }
   return fails;
 }

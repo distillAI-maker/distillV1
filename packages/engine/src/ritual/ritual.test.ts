@@ -331,6 +331,45 @@ describe('composing by rules', () => {
       expect(titles).toContain('Evening drinks');
     }
   });
+  it('shows a doctor’s thing locked, lets pills ride along, and leaves when-needed things off the schedule', () => {
+    const items = [
+      stackItem('cpap', null, { customName: 'CPAP', origin: 'doctor', notes: [{ id: 'n', text: 'Sleep study last year. Makes me a different guy.', at: '2026-10-21' }] }),
+      stackItem('mel', 'melatonin', { notes: [{ id: 'n', text: 'Only on travel nights.', at: '2026-10-21' }] }),
+      stackItem('cr', 'creatine-monohydrate', { answers: { trains: true, usesLast30Days: 30, dose: 5, doseUnit: 'g' } }),
+      stackItem('sun', 'sunscreen-daily-spf-30', { answers: { usesLast30Days: 30 } }),
+      stackItem('fish', null, { customName: 'Saturday fishing with Eddie', status: 'kept', notes: [{ id: 'n', text: 'Saturdays we fish at Breezy Point.', at: '2026-10-21' }] }),
+    ];
+    const person = personFor(progressWith(items));
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const parts = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts;
+    const byTitle = Object.fromEntries(parts.map((p) => [p.title, p]));
+    expect(byTitle.CPAP).toMatchObject({ lock: 'clinician', when: { slot: 'night' } });
+    expect(byTitle.Melatonin).toBeUndefined();
+    expect(byTitle['Saturday fishing with Eddie']!.place).toBe('Breezy Point');
+    expect(Object.values(byTitle).every((p) => !/Part of your days as they are/.test(p.why))).toBe(true);
+  });
+  it('reads regular days Claude found as a schedule, never as when-needed, and an attachment keeps them', () => {
+    const items = [
+      stackItem('hoops', null, { customName: 'Pickup basketball', status: 'kept' }),
+      stackItem('mel', 'melatonin'),
+    ];
+    const read = applyPersonOps(
+      personFor(progressWith(items)),
+      [
+        { op: 'occasion', stackItemId: 'hoops', occasion: 'Tuesdays and Thursdays', quote: 'Tuesdays and Thursdays' },
+        { op: 'attachment', stackItemId: 'hoops', attachment: 'loved', basis: 'explicit', quote: 'with the guys' },
+        { op: 'occasion', stackItemId: 'mel', occasion: 'travel nights', quote: 'travel nights' },
+      ],
+      'Pickup at the rec with the guys, Tuesdays and Thursdays. Melatonin on travel nights.',
+      { today: '2026-10-21', at: '2026-10-21T09:00:00Z', from: 'onboarding' },
+    );
+    const person = read.person;
+    expect(person.values.hoops!.occasion).toBe('Tuesdays and Thursdays');
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const parts = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts;
+    expect(parts.find((p) => p.title === 'Pickup basketball')?.when.days).toEqual(['tue', 'thu']);
+    expect(parts.find((p) => p.title === 'Melatonin')).toBeUndefined();
+  });
   it('puts an anchored thing there every day, next to its anchor', () => {
     const items = [stackItem('cr', 'creatine-monohydrate', { answers: { trains: true, usesLast30Days: 10, dose: 5, doseUnit: 'g', paired: true } })];
     const person = personFor(progressWith(items));
@@ -350,11 +389,11 @@ describe('composing by rules', () => {
     const person = personFor(progress);
     const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
     const { parts } = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true });
-    // Three fill each weekend day; the fourth still has its weekday mornings or nights.
+    // Pills and creams ride along with their moment, so none of them crowds out another day.
     expect(parts).toHaveLength(4);
-    expect(parts.filter((p) => p.when.days.length === 7)).toHaveLength(3);
-    expect(parts.find((p) => p.when.days.length < 7)!.when.days).toEqual(['mon', 'tue', 'wed', 'thu', 'fri']);
-    expect(validateRitual({ parts, allowed: allowed({ stackItemIds: new Set(items.map((i) => i.id)) }), perMoment: 3 })).toEqual([]);
+    expect(parts.filter((p) => p.when.days.length === 7)).toHaveLength(4);
+    // Three things they do a moment on day one; what rides along fills up to the most a moment holds.
+    expect(validateRitual({ parts, allowed: allowed({ stackItemIds: new Set(items.map((i) => i.id)) }), perMoment: 6 })).toEqual([]);
   });
   it('reads days and times from their words, and never reads "the sun" as Sunday', () => {
     expect(whenFromWords('Saturday 9am with Leah')).toEqual({ days: ['sat'], at: '09:00', slot: 'morning' });

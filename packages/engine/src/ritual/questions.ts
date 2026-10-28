@@ -172,6 +172,7 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
     tierFor(v, s, input.stack) === 'C' &&
     s.monthlyCost > 0 &&
     s.answers.feels === undefined &&
+    input.person.values[s.id]?.feels === undefined &&
     v.evidenceDirection !== 'cost'
   )
     out.push({
