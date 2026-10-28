@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useGo } from '../../../components/onboarding/go';
-import { Mark } from '../../../components/onboarding/mark';
-import { Icon } from '../../../components/icon';
-import { Button, Field, Skeleton } from '../../../components/ui';
+import { RitualToken } from '../../../components/ds/ritual-token';
+import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
@@ -29,11 +28,18 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
   const [problem, setProblem] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [link, setLink] = useState<Link>({ state: 'idle' });
+  const emailId = useId();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [progress.member]);
   if (!routed || !summary)
     return (
-      <section className="stack" aria-busy="true">
-        <Skeleton kind="title" count={2} />
-      </section>
+      <div className="ob-content" aria-busy="true">
+        <div className="ob-wait">
+          <i />
+          <i />
+        </div>
+      </div>
     );
 
   const member = progress.member;
@@ -66,97 +72,90 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
     }
   }
 
-  return (
-    <div className="invitation">
-      <section className="invite-hero">
-        <div className="member-card" aria-hidden="true">
-          <div className="member-top">
-            <Mark />
-            <span>Distill · 2026</span>
-          </div>
-          <div className="member-mid">
-            <span className="label">{copy.invitation.cardKicker}</span>
-            <b>{copy.invitation.cardTitle}</b>
-            <em>{progress.name.trim() || copy.invitation.cardNameFallback}</em>
-          </div>
-          <span className="member-line">{copy.invitation.cardLine}</span>
-        </div>
-        <h1>
-          {copy.invitation.titleStart} <i>{copy.invitation.titleEnd}</i>
-        </h1>
-        <p className="invite-line">{copy.invitation.line}</p>
-      </section>
+  const name = progress.name.trim();
 
-      <section className="includes">
-        <h2 className="h-label">{copy.invitation.includesTitle}</h2>
+  if (member)
+    return (
+      <section className="jn-welcome" aria-live="polite">
+        <RitualToken />
+        <Mark />
+        <h1>{name ? copy.invitation.joinedNamed(name) : copy.invitation.joined}</h1>
+        <h2>{copy.invitation.joinedLine}</h2>
+        {link.state === 'sent' ? (
+          <p>{copy.invitation.linkSent(link.email)}</p>
+        ) : link.state === 'failed' ? (
+          <p>{copy.invitation.linkFailed}</p>
+        ) : null}
+        <button type="button" className="ds-primary" onClick={() => go('connect')}>
+          {copy.invitation.connect}
+          <Arrow />
+        </button>
+      </section>
+    );
+
+  return (
+    <div className="ob-content">
+      <RitualToken />
+      <section className="jn-card" aria-hidden="true">
+        <div className="jn-card-top">
+          <span>Distill · 2026</span>
+          <span>{copy.invitation.cardKicker}</span>
+        </div>
+        <Mark light />
+        <p className="jn-card-kicker">{copy.invitation.cardTitle}</p>
+        <h2>{name || copy.invitation.cardNameFallback}</h2>
+        <small>{copy.invitation.cardLine}</small>
+      </section>
+      <header className="jn-heading">
+        <h1>{copy.invitation.title}</h1>
+        <p>{copy.invitation.line}</p>
+      </header>
+
+      <section className="jn-get">
+        <h2>{copy.invitation.includesTitle}</h2>
         <ul>
           {copy.invitation.includes.map((b) => (
             <li key={b.label}>
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M3 8l3.5 3.5L13 4.5" />
-              </svg>
-              <div>
-                <p className="inc-label">{b.label}</p>
-                <p className="inc-detail">{b.detail}</p>
-              </div>
+              <strong>{b.label}</strong>
+              <p>{b.detail}</p>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="join" aria-live="polite">
-        {member ? (
-          <div className="joined">
-            <div className="joined-mark" aria-hidden="true">
-              <Mark />
-            </div>
-            <p className="joined-title">
-              {progress.name.trim()
-                ? copy.invitation.joinedNamed(progress.name.trim())
-                : copy.invitation.joined}
-            </p>
-            <p className="muted">
-              {link.state === 'sent'
-                ? copy.invitation.linkSent(link.email)
-                : link.state === 'failed'
-                  ? copy.invitation.linkFailed
-                  : copy.invitation.joinedLine}
-            </p>
-            <div className="actions">
-              <Button onClick={() => go('connect')}>
-                {copy.invitation.connect}
-                <Icon name="arrow" size={18} />
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <form
-            className="join-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void join();
-            }}
-          >
-            <p className="muted join-line">{copy.invitation.freeLine}</p>
-            <Field
-              label={copy.invitation.emailLabel}
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              placeholder={copy.invitation.emailPlaceholder}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={problem ?? undefined}
-            />
-            <div className="actions">
-              <Button type="submit" busy={busy}>
-                {copy.invitation.begin}
-                <Icon name="arrow" size={18} />
-              </Button>
-            </div>
-          </form>
-        )}
-      </section>
+      <form
+        className="jn-form"
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault();
+          void join();
+        }}
+      >
+        <p>{copy.invitation.freeLine}</p>
+        <label className="sr-only" htmlFor={emailId}>
+          {copy.invitation.emailLabel}
+        </label>
+        <input
+          id={emailId}
+          className="ds-field"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          placeholder={copy.invitation.emailPlaceholder}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={problem ? true : undefined}
+        />
+        {problem ? (
+          <p className="ds-error" role="alert">
+            {problem}
+          </p>
+        ) : null}
+        <button type="submit" className="ds-primary" disabled={busy} aria-busy={busy || undefined}>
+          {copy.invitation.begin}
+          <Arrow />
+        </button>
+      </form>
     </div>
   );
 }

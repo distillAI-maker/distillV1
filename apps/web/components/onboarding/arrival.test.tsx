@@ -27,58 +27,33 @@ async function arrive(saved?: Parameters<LocalProgressStore['save']>[0]) {
       <Arrival />
     </ProgressProvider>,
   );
-  const screenEl = screen.getByRole('button', { name: /There's so much noise/ });
   // Let progress load.
   await act(async () => {
-    await vi.advanceTimersByTimeAsync(50);
+    await new Promise((r) => setTimeout(r, 20));
   });
-  return screenEl;
 }
 
 describe('Arrival', () => {
   afterEach(cleanup);
-  beforeEach(() => {
-    push.mockClear();
-    delete document.documentElement.dataset.motion;
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-  });
+  beforeEach(() => push.mockClear());
 
-  it('opens on the noise, clears it, then lands the line; Begin goes to the name', async () => {
-    const el = await arrive();
-    expect(el.className).toContain('is-noise');
-    expect(el.textContent).toContain('Day 1 of 75');
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(2100);
-    });
-    expect(el.className).toContain('is-clear');
-    await act(async () => {
-      await vi.advanceTimersByTimeAsync(700);
-    });
-    expect(el.className).toContain('is-settled');
-    fireEvent.click(el);
+  it('opens still on the line, and Begin goes to the name', async () => {
+    await arrive();
+    expect(screen.getByRole('heading', { name: "There's so much noise." })).toBeTruthy();
+    expect(screen.getByText('Doing everything wears you down.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Begin/ }));
     expect(push).toHaveBeenCalledWith('/name');
   });
 
-  it('skips the noise on the first tap, and only begins on the second', async () => {
-    const el = await arrive();
-    fireEvent.click(el);
-    expect(el.className).toContain('is-settled');
-    expect(push).not.toHaveBeenCalled();
-    fireEvent.keyDown(el, { key: 'Enter' });
-    expect(push).toHaveBeenCalledWith('/name');
-  });
-
-  it('lands someone coming back straight on the line, and picks up where they left off', async () => {
-    const el = await arrive({ ...emptyProgress(), step: 'study', updatedAt: new Date().toISOString() });
-    expect(el.className).toContain('is-settled');
-    expect(el.textContent).toContain('Pick up where you left off');
-    fireEvent.click(el);
+  it('picks up where someone coming back left off', async () => {
+    await arrive({ ...emptyProgress(), step: 'study', updatedAt: new Date().toISOString() });
+    fireEvent.click(screen.getByRole('button', { name: /Pick up where you left off/ }));
     expect(push).toHaveBeenCalledWith('/study');
   });
 
-  it('skips the noise for anyone who asked for less motion', async () => {
-    document.documentElement.dataset.motion = 'reduce';
-    const el = await arrive();
-    expect(el.className).toContain('is-settled');
+  it('signs in an existing account', async () => {
+    await arrive();
+    fireEvent.click(screen.getByRole('button', { name: 'I already have an account' }));
+    expect(push).toHaveBeenCalledWith('/sign-in');
   });
 });
