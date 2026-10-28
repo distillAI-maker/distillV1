@@ -1,7 +1,8 @@
 """Build Distill's logo and profile pictures as SVG (public/assets/brand/).
 
-The mark is the Figma eight-point chisel star (apps/web/components/d-star.tsx), with its
-core drawn out into an arrow pointing north (Veer, 27 Oct).
+The mark is "Star in the noise" (Veer, 27 Oct): the Figma eight-point chisel star
+(apps/web/components/d-star.tsx) with specks of noise outside it and one persimmon dot,
+the choice, at its centre.
 The wordmark is Newsreader, outlined to paths so the files need no font.
 Run: python3 scripts/build_brand_assets.py   (PNG exports: scripts/export_brand_pngs.sh)
 """
@@ -21,26 +22,22 @@ STAR = ("M20 2.5l3.8 12.8 9.7-8.6-8.7 9.6 12.7 3.7-12.7 3.7 8.7 9.6-9.7-8.6L20 3
         "l-3.8-12.8-9.7 8.6 8.7-9.6L2.5 20l12.7-3.7-8.7-9.6 9.7 8.6L20 2.5z")
 
 
-def needle(stroke, gap=0.85, base=21.2):
-    """The core drawn out into an arrow up the north ray.
+def star(x, y, size, color, core=None, stroke=1.35):
+    """Star in the noise, in a size x size box at (x, y). stroke is in the 40-unit box.
 
-    Its sides run parallel to the ray's, an even gap inside the outline, from the
-    centre to just short of the tip: the star points north, the direction we want
-    your life to go in.
+    The chisel star, a little smaller, with loose specks of noise left outside it
+    and one dot inside: the noise distilled down to one choice.
     """
     import math
-    half = math.atan(3.8 / 12.8)                          # the north ray's half-angle
-    ay = 2.5 + (stroke / 2 + gap) / math.sin(half)        # apex, `gap` inside the stroke
-    hw = (base - ay) * math.tan(half)
-    return f"M20 {ay:.2f}L{20 + hw:.2f} {base}L{20 - hw:.2f} {base}Z"
-
-
-def star(x, y, size, color, core=None, stroke=1.35):
-    """The star in a size x size box at (x, y). stroke is in the 40-unit box."""
-    s = size / 40
+    s, w = size / 40, stroke / 1.35
+    specks = ""
+    for a in range(0, 360, 45):
+        for r, rad in ((13.5, 0.55), (17.5, 0.4)):
+            t = math.radians(a + 22.5)
+            specks += f'<circle cx="{20 + r * math.sin(t):.2f}" cy="{20 - r * math.cos(t):.2f}" r="{rad * w:.2f}" fill="{color}"/>'
     return (f'<g transform="translate({x:.2f} {y:.2f}) scale({s:.4f})">'
-            f'<path d="{STAR}" fill="none" stroke="{color}" stroke-width="{stroke}"/>'
-            f'<path d="{needle(stroke)}" fill="{core or color}"/></g>')
+            f'<path d="{STAR}" transform="translate(3.6 3.6) scale(0.82)" fill="none" stroke="{color}" stroke-width="{stroke / 0.82:.2f}"/>'
+            f'{specks}<circle cx="20" cy="20" r="2.9" fill="{core or color}"/></g>')
 
 
 def wordmark_font():
@@ -126,7 +123,7 @@ PROFILES = {
 }
 
 
-def profile(p, size=1080, mark_ratio=0.5, stroke=1.9):
+def profile(p, size=1080, mark_ratio=0.58, stroke=1.9):
     m = size * mark_ratio
     o = (size - m) / 2
     body = f'<rect width="{size}" height="{size}" fill="{p["bg"]}"/>\n' + star(o, o, m, p["star"], p["core"], stroke)
@@ -137,10 +134,10 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     font = wordmark_font()
     files = {
-        "distill-logo-light.svg": lockup(font, INK),       # for light grounds
-        "distill-logo-dark.svg": lockup(font, GROUND),     # for dark grounds
-        "distill-mark-light.svg": mark_only(INK),
-        "distill-mark-dark.svg": mark_only(GROUND),
+        "distill-logo-light.svg": lockup(font, INK, PERSIMMON),       # for light grounds
+        "distill-logo-dark.svg": lockup(font, GROUND, PERSIMMON),     # for dark grounds
+        "distill-mark-light.svg": mark_only(INK, PERSIMMON),
+        "distill-mark-dark.svg": mark_only(GROUND, PERSIMMON),
     }
     for key, p in PROFILES.items():
         files[f"profile-{key}.svg"] = profile(p)
