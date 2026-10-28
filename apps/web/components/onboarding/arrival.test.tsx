@@ -7,7 +7,8 @@ import { emptyProgress } from '../../lib/progress/types';
 import { Arrival } from './arrival';
 
 const push = vi.fn();
-vi.mock('next/navigation', () => ({ useRouter: () => ({ push, back: vi.fn() }) }));
+const replace = vi.fn();
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push, replace, back: vi.fn() }) }));
 vi.mock('../../lib/track', () => ({ track: vi.fn() }));
 
 function memory() {
@@ -35,7 +36,10 @@ async function arrive(saved?: Parameters<LocalProgressStore['save']>[0]) {
 
 describe('Arrival', () => {
   afterEach(cleanup);
-  beforeEach(() => push.mockClear());
+  beforeEach(() => {
+    push.mockClear();
+    replace.mockClear();
+  });
 
   it('opens still on the line, and Begin goes to the name', async () => {
     await arrive();
@@ -55,5 +59,11 @@ describe('Arrival', () => {
     await arrive();
     fireEvent.click(screen.getByRole('button', { name: 'I already have an account' }));
     expect(push).toHaveBeenCalledWith('/sign-in');
+  });
+
+  it('takes someone already through onboarding straight to their Ritual', async () => {
+    await arrive({ ...emptyProgress(), step: 'done', updatedAt: new Date().toISOString() });
+    expect(replace).toHaveBeenCalledWith('/ritual');
+    expect(screen.queryByRole('button', { name: /Begin|Pick up/ })).toBeNull();
   });
 });

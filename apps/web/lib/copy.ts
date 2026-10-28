@@ -100,7 +100,7 @@ export const copy = {
     noAccountsTitle: 'No account needed in this build.',
     noAccountsLine: 'Your progress is saved on this device.',
     beginWithout: 'Begin without an account',
-    onThisPhone: 'Carry on, on this phone',
+    onThisPhone: 'Not now, keep going on this phone',
   },
   connect: {
     title: 'Where do your nights come from?',
@@ -110,16 +110,13 @@ export const copy = {
     apple: 'Import your nights',
     appleHint: 'Apple Health export or a CSV file',
     appleHow: 'How to export from the Health app',
-    demo: 'Use demo data',
-    demoLine:
-      'A made-up person with six months of nights and a 21-item stack. Nothing here is yours yet.',
     unavailable: 'Not yet connected in this build.',
     backfillTitle: 'Reading your history.',
     backfillCount: (n: number) => `${n} nights so far`,
     backfillDone: 'Six months of nights, ready.',
     open: 'Open your Ritual',
     without: 'No wearable? Continue without one',
-    errorStart: "We couldn't start that connection. Try again, or use demo data for now.",
+    errorStart: "We couldn't start that connection. Try again, or carry on without one for now.",
     errorFile: "We couldn't read that file. Pick the export.zip the Health app made.",
   },
   stack: {

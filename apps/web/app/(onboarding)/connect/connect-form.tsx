@@ -2,7 +2,7 @@
 import { api } from '../../../lib/api';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RitualToken } from '../../../components/ds/ritual-token';
 import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
@@ -12,9 +12,8 @@ import { useProgress } from '../../../lib/progress/context';
 import { track } from '../../../lib/track';
 import type { DataSourceId } from '../../../lib/progress/types';
 
-/** Six months of demo nights. The number counts up as the bar fills. */
+/** Six months of nights, shown once a connected wearable's history is in. */
 export const demoNights = 183;
-const demoBackfillMs = 2000;
 
 type Phase = 'pick' | 'backfill' | 'done' | 'error';
 
@@ -37,7 +36,6 @@ export function ConnectForm() {
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
   const [settling, setSettling] = useState(false);
-  const frame = useRef<number | null>(null);
 
   // A reload after the backfill, or a finished import, lands on the finished state, not the start.
   useEffect(() => {
@@ -46,18 +44,6 @@ export function ConnectForm() {
       setPhase('done');
     }
   }, [ready, progress.dataSource, progress.backfill]);
-
-  useEffect(() => () => void (frame.current && cancelAnimationFrame(frame.current)), []);
-
-  function finish(n: number) {
-    setNights(n);
-    setPhase('done');
-    update({
-      dataSource: 'demo',
-      connectedAt: new Date().toISOString(),
-      backfill: { nights: n, done: true },
-    });
-  }
 
   /** Onboarding ends here: the Ritual they accepted settles into its tab, and the app opens on it. */
   function openRitual() {
@@ -70,22 +56,6 @@ export function ConnectForm() {
       update(next);
       router.push(RITUAL_HOME);
     });
-  }
-
-  function startDemo() {
-    track('wearable', { source: 'demo' });
-    update({ dataSource: 'demo', backfill: { nights: 0, done: false } });
-    if (motionOff()) return finish(demoNights);
-    setPhase('backfill');
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const k = Math.min(1, (t - t0) / demoBackfillMs);
-      const eased = 1 - Math.pow(1 - k, 3);
-      setNights(Math.round(eased * demoNights));
-      if (k < 1) frame.current = requestAnimationFrame(tick);
-      else finish(demoNights);
-    };
-    frame.current = requestAnimationFrame(tick);
   }
 
   async function startLive(id: DataSourceId) {
@@ -231,12 +201,6 @@ export function ConnectForm() {
           <button type="button" className="ng-option" onClick={() => router.push('/connect/import')}>
             <strong>{copy.connect.apple}</strong>
             <span>{copy.connect.appleHint}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="ng-option" onClick={startDemo}>
-            <strong>{copy.connect.demo}</strong>
-            <span>{copy.connect.demoLine}</span>
           </button>
         </li>
       </ul>

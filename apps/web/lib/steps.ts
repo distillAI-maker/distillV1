@@ -82,3 +82,8 @@ export function backFrom(pathname: string | null): string {
   const older = olderPrevious[first];
   return older ? `/${older}` : '/';
 }
+
+/** Steps after the reveal: they've said "Make it mine" to their first Ritual. */
+export function saidMakeItMine(step: string): boolean {
+  return step === 'invitation' || step === 'connect' || step === 'done';
+}

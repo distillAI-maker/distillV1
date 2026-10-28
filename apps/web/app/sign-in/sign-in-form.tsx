@@ -3,6 +3,8 @@
 import { useActionState, useId } from 'react';
 import { Arrow, Mark } from '../../components/ds/ui';
 import { copy } from '../../lib/copy';
+import { useProgress } from '../../lib/progress/context';
+import { resumePath } from '../../lib/steps';
 import { requestMagicLink } from './actions';
 import type { SignInState } from './actions';
 
@@ -68,10 +70,12 @@ export function SignInForm({ expired }: { expired?: boolean }) {
   );
 }
 
-/** Signing in is optional: everything also runs on this device, and the opener resumes it. */
+/** Signing in is optional: everything also runs on this phone. This goes back to where they left off. */
 function CarryOn() {
+  const { ready, progress } = useProgress();
+  const started = progress.items.length > 0 || (progress.step !== 'stack' && progress.step !== 'name');
   return (
-    <a className="ds-link ds-link--quiet" href="/">
+    <a className="ds-link ds-link--quiet" href={ready && started ? resumePath(progress.step) : '/'}>
       {copy.signIn.onThisPhone}
     </a>
   );
