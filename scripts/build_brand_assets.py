@@ -1,8 +1,7 @@
 """Build Distill's logo and profile pictures as SVG (public/assets/brand/).
 
-The mark is "Star in the noise" (Veer, 27 Oct): the Figma eight-point chisel star
-(apps/web/components/d-star.tsx) with specks of noise outside it and one persimmon dot,
-the choice, at its centre.
+The mark is the solid star (Veer, 27 Oct): the Figma eight-point chisel star
+(apps/web/components/d-star.tsx) filled in, with one persimmon dot, the choice, at its centre.
 The wordmark is Newsreader, outlined to paths so the files need no font.
 Run: python3 scripts/build_brand_assets.py   (PNG exports: scripts/export_brand_pngs.sh)
 """
@@ -22,22 +21,12 @@ STAR = ("M20 2.5l3.8 12.8 9.7-8.6-8.7 9.6 12.7 3.7-12.7 3.7 8.7 9.6-9.7-8.6L20 3
         "l-3.8-12.8-9.7 8.6 8.7-9.6L2.5 20l12.7-3.7-8.7-9.6 9.7 8.6L20 2.5z")
 
 
-def star(x, y, size, color, core=None, stroke=1.35):
-    """Star in the noise, in a size x size box at (x, y). stroke is in the 40-unit box.
-
-    The chisel star, a little smaller, with loose specks of noise left outside it
-    and one dot inside: the noise distilled down to one choice.
-    """
-    import math
-    s, w = size / 40, stroke / 1.35
-    specks = ""
-    for a in range(0, 360, 45):
-        for r, rad in ((13.5, 0.55), (17.5, 0.4)):
-            t = math.radians(a + 22.5)
-            specks += f'<circle cx="{20 + r * math.sin(t):.2f}" cy="{20 - r * math.cos(t):.2f}" r="{rad * w:.2f}" fill="{color}"/>'
+def star(x, y, size, color, core=None):
+    """The solid star in a size x size box at (x, y): one filled shape, one dot."""
+    s = size / 40
     return (f'<g transform="translate({x:.2f} {y:.2f}) scale({s:.4f})">'
-            f'<path d="{STAR}" transform="translate(3.6 3.6) scale(0.82)" fill="none" stroke="{color}" stroke-width="{stroke / 0.82:.2f}"/>'
-            f'{specks}<circle cx="20" cy="20" r="2.9" fill="{core or color}"/></g>')
+            f'<path d="{STAR}" fill="{color}"/>'
+            f'<circle cx="20" cy="20" r="3.6" fill="{core or color}"/></g>')
 
 
 def wordmark_font():
@@ -99,34 +88,34 @@ def svg(w, h, body, label):
 
 
 def lockup(font, color, core=None):
-    # Proportions from the site's nav: 25px star, 11px gap, 28px wordmark.
-    size, mark, gap, pad = 112, 100, 44, 8
+    # Proportions from Veer's pick (27 Oct): star 0.96em, gap 0.22em, centred 0.26em above the baseline.
+    size, pad = 112, 8
+    mark, gap = 0.96 * size, 0.22 * size
     d, tw, cap = text_path(font, "Distill", size)
-    h = mark + pad * 2
-    baseline = pad + mark / 2 + cap / 2  # star centred on the capitals
+    top = pad
+    baseline = top + mark / 2 + 0.26 * size
     x0 = pad + mark + gap
-    body = (star(pad, pad, mark, color, core) +
+    body = (star(pad, top, mark, color, core) +
             f'\n<path transform="translate({x0:.2f} {baseline:.2f})" d="{d}" fill="{color}"/>')
-    return svg(round(x0 + tw + pad), h, body, "Distill")
+    return svg(round(x0 + tw + pad), round(top + mark + pad), body, "Distill")
 
 
-def mark_only(color, core=None, stroke=1.35):
-    return svg(120, 120, star(10, 10, 100, color, core, stroke), "Distill")
+def mark_only(color, core=None):
+    return svg(120, 120, star(10, 10, 100, color, core), "Distill")
 
 
 # Profile pictures: a full-bleed square, star kept inside the circle crop.
-# A heavier stroke so the star holds at 40px in a feed.
 PROFILES = {
     "a-ink":       dict(bg=INK,       star=GROUND, core=PERSIMMON, label="Ink"),
     "b-ground":    dict(bg=GROUND,    star=INK,    core=PERSIMMON, label="Ground"),
-    "c-persimmon": dict(bg=PERSIMMON, star=INK,    core=INK,       label="Persimmon"),
+    "c-persimmon": dict(bg=PERSIMMON, star=INK,    core=PERSIMMON, label="Persimmon"),
 }
 
 
-def profile(p, size=1080, mark_ratio=0.58, stroke=1.9):
+def profile(p, size=1080, mark_ratio=0.5):
     m = size * mark_ratio
     o = (size - m) / 2
-    body = f'<rect width="{size}" height="{size}" fill="{p["bg"]}"/>\n' + star(o, o, m, p["star"], p["core"], stroke)
+    body = f'<rect width="{size}" height="{size}" fill="{p["bg"]}"/>\n' + star(o, o, m, p["star"], p["core"])
     return svg(size, size, body, "Distill")
 
 
