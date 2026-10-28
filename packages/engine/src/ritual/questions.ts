@@ -1,4 +1,4 @@
-import { decide, tierFor, type DecideInput } from './decide.js';
+import { checkInDue, decide, tierFor, type DecideInput } from './decide.js';
 import { BORROWED_ORIGINS, displayName, trainsOf, usageOf, type StackItemLike } from './usage.js';
 
 /**
@@ -36,7 +36,7 @@ export interface QuestionDraft {
   /** `q:${stackItemId}:${variable}`. */
   readonly id: string;
   readonly stackItemId: string;
-  readonly variable: 'origin' | 'trains' | 'usage' | 'company' | 'feel';
+  readonly variable: 'origin' | 'trains' | 'usage' | 'company' | 'feel' | 'checkin';
   readonly name: string;
   readonly text: string;
   readonly options: readonly QuestionOption[];
@@ -92,6 +92,20 @@ function candidates(input: DecideInput, s: StackItemLike): Omit<QuestionDraft, '
   const name = displayName(s, v);
   const out: Omit<QuestionDraft, 'value'>[] = [];
   const attachment = input.person.values[s.id]?.attachment ?? 'unknown';
+  // A week after "not now", once and lightly: how has it been going? (Veer, 27 Oct)
+  if (attachment !== 'loved' && attachment !== 'theirs' && checkInDue(input.history, s, input.today))
+    out.push({
+      id: `q:${s.id}:checkin`,
+      stackItemId: s.id,
+      variable: 'checkin',
+      name,
+      text: `How's ${name} been going?`,
+      options: [
+        { label: 'Really good', patch: { kind: 'attachment', stackItemId: s.id, attachment: 'loved' } },
+        { label: 'Honestly, not much', patch: { kind: 'answers', stackItemId: s.id, set: { checkedIn: input.today } } },
+        notSure(s.id),
+      ],
+    });
   if (!s.origin && attachment === 'unknown')
     out.push({
       id: `q:${s.id}:origin`,
@@ -225,7 +239,7 @@ export function valuableQuestions(input: DecideInput, limit = 10): QuestionDraft
   return [...one.values()].sort((a, b) => b.value - a.value || a.id.localeCompare(b.id)).slice(0, limit);
 }
 
-const ORDER: readonly QuestionDraft['variable'][] = ['origin', 'usage', 'trains', 'company', 'feel'];
+const ORDER: readonly QuestionDraft['variable'][] = ['checkin', 'origin', 'usage', 'trains', 'company', 'feel'];
 
 /** Things whose point is how they make you feel. Never a service (meal delivery, an app, a class). */
 const FELT_KINDS = new Set(['supplement', 'food-drink', 'topical', 'device', 'practice', 'movement']);

@@ -367,6 +367,8 @@ export const reasonCodeSchema = z.enum([
   'UNLOVED_HABIT',
   /** Mixed or weak evidence, it costs money, and they said they can't feel it doing anything. */
   'NOT_FELT',
+  /** Something expensive they don't love: the same activity for less, offered once. */
+  'BUDGET',
   'NOT_TRAINING',
   'TOO_MANY_STEPS',
   // curate

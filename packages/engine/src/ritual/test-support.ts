@@ -36,6 +36,7 @@ function row(over: Partial<V4Item> & Pick<V4Item, 'key' | 'name' | 'area' | 'kin
     originQuestion: '',
     swap: null,
     builds: false,
+    budgetOption: '',
     fitsInstead: '',
     awe: null,
     wearableSees: 'no',
@@ -184,6 +185,7 @@ export const v4Rows: V4Item[] = [
     overlaps: ['fitness-memberships'],
     keepWhen: ['THEIRS', 'LOVED', 'EVIDENCE_REGULAR'],
     clearWhen: ['UNUSED', 'OVERLAP'],
+      budgetOption: 'A standard gym with the equipment you use, plus a class pass for the days you want the extras.',
   }),
   row({
     key: 'sunscreen-daily-spf-30',

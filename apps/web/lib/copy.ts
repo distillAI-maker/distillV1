@@ -966,6 +966,8 @@ export const copy = {
     letGone: (dollars: string) => `$${dollars} a month back. Lighter already.`,
     /** A yes to a swap: the habit stays on their list, a little different. */
     swapped: 'Nice. Try it this week, and see how it feels.',
+    /** A yes to the budget version. */
+    budgeted: 'Nice. Try it next month and see if you miss anything.',
     kept: 'Yours. We won’t raise it again.',
     later: 'Fair. It can wait.',
     thanks: 'Thank you. It stays with us.',
@@ -1005,6 +1007,7 @@ export const copy = {
       NOT_TRAINING: 'Not doing real work for your training',
       NOT_FELT: "You said it isn't doing much",
       pair: 'Works when it’s daily: next to something you already do',
+      budget: 'Worth keeping, and there’s a way to do it for less',
       TOO_MANY_STEPS: 'More steps than it needs',
       fallback: 'Not doing much for you',
       look: 'No independent evidence',

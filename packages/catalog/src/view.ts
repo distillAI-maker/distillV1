@@ -52,6 +52,8 @@ export interface CatalogItemView {
   readonly swap: V4Item['swap'];
   /** The benefit builds with daily use, so consistency is what makes it work. */
   readonly builds: boolean;
+  /** The same activity for less, for something expensive. */
+  readonly budgetOption: string;
   /** What the sources behind the tier found, paraphrased, with who they studied. */
   readonly findings: readonly { readonly finding: string; readonly population: string }[];
   readonly awe: V4Item['awe'];
@@ -149,6 +151,7 @@ export function itemFromV3(item: Item): CatalogItemView {
     fitsInstead: '',
     swap: null,
     builds: false,
+    budgetOption: '',
     findings: [],
     awe: null,
     wearableSees: item.visibility,
@@ -196,6 +199,7 @@ export function itemFromV4(row: V4Item, sources: ReadonlyMap<string, V4Source> =
     fitsInstead: row.fitsInstead,
     swap: row.swap,
     builds: row.builds,
+    budgetOption: row.budgetOption,
     findings: row.sources.flatMap((id) => {
       const s = sources.get(id);
       return s?.finding ? [{ finding: s.finding, population: s.population }] : [];

@@ -83,6 +83,7 @@ export function tryList(input: TryInput, view: CatalogView, banned: readonly str
     }
     if (mine.some((d) => d.reason === 'WORTH_A_LOOK')) return { ...base, status: 'look', why: t.why.look };
     if (mine.some((d) => d.reason === 'PAIR')) return { ...base, status: 'adjust', why: t.why.pair };
+    if (mine.some((d) => d.reason === 'BUDGET')) return { ...base, status: 'adjust', why: t.why.budget };
     if (mine.some((d) => d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
       return { ...base, status: 'adjust', why: mine.some((d) => d.reason === 'ADJUST_DOSE') ? t.why.dose : t.why.form };
     if (mine.some((d) => d.kind === 'keep' && (d.reason === 'EVIDENCE_REGULAR' || d.reason === 'TRAINS')))

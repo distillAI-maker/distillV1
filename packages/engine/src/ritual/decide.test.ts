@@ -98,7 +98,8 @@ describe('decide: overlap is settled as a group', () => {
       stackItem('pf', 'gym-membership', { answers: { visitsLast30Days: 1 } }),
     ]);
     expect(of(result, 'pf')).toEqual(['clear:OVERLAP']);
-    expect(of(result, 'eq')).toEqual(['keep:EVIDENCE_REGULAR']);
+    // The one they use stays, and as an expensive one, it's offered a budget version too.
+    expect(of(result, 'eq')).toEqual(['curate:BUDGET', 'keep:EVIDENCE_REGULAR']);
   });
   it('never clears a loved member of a group', () => {
     const { result } = run(
@@ -284,6 +285,50 @@ describe('consistency', () => {
     const { result } = run(items);
     // Melatonin sits at night; creatine in the morning: no anchor at that time, so the moment itself.
     expect(result.decisions.find((d) => d.reason === 'PAIR')!.context.anchorName).toBe('your morning coffee or breakfast');
+  });
+});
+
+describe('a week after "not now"', () => {
+  const notNow = (answeredAt: string): PriorDecision[] => [
+    { stackItemId: 'ag1', kind: 'clear', reason: 'BORROWED_WEAK', status: 'not-now', answeredAt },
+  ];
+  const ag1 = (answers: Record<string, unknown> = {}) => [stackItem('ag1', 'greens-powder-ag1-etc', { origin: 'online', answers })];
+  it('checks in once, lightly, and "not much" brings the let-go back', () => {
+    const early = run(ag1(), () => {}, notNow('2026-10-18T10:00:00Z'));
+    expect(valuableQuestions(early.input).some((q) => q.variable === 'checkin')).toBe(false);
+    const week = run(ag1(), () => {}, notNow('2026-10-12T10:00:00Z'));
+    expect(of(week.result, 'ag1')).not.toContain('clear:BORROWED_WEAK');
+    const card = valuableQuestions(week.input).find((q) => q.variable === 'checkin')!;
+    expect(card.text).toBe("How's Greens powder been going?");
+    expect(card.options.map((o) => o.label)).toEqual(['Really good', 'Honestly, not much', 'Not sure']);
+    const notMuch = run(ag1({ checkedIn: '2026-10-21' }), () => {}, notNow('2026-10-12T10:00:00Z'));
+    expect(of(notMuch.result, 'ag1')).toContain('clear:BORROWED_WEAK');
+    expect(valuableQuestions(notMuch.input).some((q) => q.variable === 'checkin')).toBe(false);
+    const good = run(ag1(), (p) => {
+      p.values.ag1 = { attachment: 'loved', reasons: [], from: 'tap' };
+    }, notNow('2026-10-12T10:00:00Z'));
+    expect(of(good.result, 'ag1')).toEqual(['keep:LOVED']);
+  });
+});
+
+describe('something expensive', () => {
+  const eq = (answers: Record<string, unknown> = { visitsLast30Days: 12 }) => [stackItem('eq', 'premium-gym-membership-equinox-life-time', { monthlyCost: 250, answers })];
+  it('offers a budget version once, as an option, and never when they love it', () => {
+    const { result } = run(eq());
+    expect(of(result, 'eq')).toContain('curate:BUDGET');
+    const d = result.decisions.find((x) => x.reason === 'BUDGET')!;
+    expect(d.context).toMatchObject({ monthly: 250, budgetOption: expect.stringMatching(/^A standard gym/) });
+    const loved = run(eq(), (p) => {
+      p.values.eq = { attachment: 'loved', reasons: ['the sauna and the people I see there'], from: 'note' };
+    });
+    expect(of(loved.result, 'eq')).toContain('keep:LOVED');
+    expect(of(loved.result, 'eq')).not.toContain('curate:BUDGET');
+    // Their words count too: someone they named, or that they love it.
+    const named = run([stackItem('eq', 'premium-gym-membership-equinox-life-time', { monthlyCost: 250, answers: { visitsLast30Days: 12 }, notes: [{ id: 'n', text: 'Tuesdays and Fridays with Dani.', at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(named.result, 'eq')).not.toContain('curate:BUDGET');
+    // Unused, it's simply let go: no budget version of something they don't do.
+    const unused = run(eq({ visitsLast30Days: 0 }));
+    expect(of(unused.result, 'eq')).not.toContain('curate:BUDGET');
   });
 });
 

@@ -1591,6 +1591,11 @@
   display: inline-block;
   margin-top: 14px;
 }
+.d-one-thing-btn--link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
 .d-one-links {
   display: flex;
   flex-wrap: wrap;

@@ -159,6 +159,8 @@ export const v4ItemSchema = z
       .nullable(),
     /** The benefit builds with daily use (creatine, sunscreen): done now and then, it mostly misses. */
     builds: z.boolean(),
+    /** For something expensive: the same activity for less, offered once unless they love it. */
+    budgetOption: z.string().trim(),
     awe: v4AweSchema.nullable(),
     wearableSees: v4SeesSchema,
     overlaps: z.array(text),

@@ -71,6 +71,9 @@ export interface DecisionDraft {
     readonly anchorName?: string;
     readonly anchorId?: string | null;
     readonly slot?: 'morning' | 'midday' | 'evening' | 'night';
+    /** BUDGET: the cheaper way to keep it, and what they pay now. */
+    readonly budgetOption?: string;
+    readonly monthly?: number;
   };
 }
 
@@ -151,6 +154,7 @@ function underCooldown(
   kind: DecisionKind,
   reason: ReasonCode,
   today: string,
+  checkedIn?: unknown,
 ): boolean {
   const days = NOT_NOW_DAYS[reason] ?? NOT_NOW_DEFAULT_DAYS;
   return history.some(
@@ -159,8 +163,24 @@ function underCooldown(
       h.kind === kind &&
       h.status === 'not-now' &&
       !!h.answeredAt &&
-      daysBetween(h.answeredAt.slice(0, 10), today) < days,
+      daysBetween(h.answeredAt.slice(0, 10), today) < days &&
+      // "Honestly, not much" at the week-later check-in ends the rest early.
+      !(typeof checkedIn === 'string' && checkedIn >= h.answeredAt.slice(0, 10)),
   );
+}
+
+/** A week after "not now" on letting something go, one light check-in: "How's it been going?". */
+export const CHECK_IN_DAYS = 7;
+
+/** The "not now" a check-in would follow up, if one is due: a week on, still resting, not yet asked. */
+export function checkInDue(history: readonly PriorDecision[], item: StackItemLike, today: string): PriorDecision | undefined {
+  const checked = typeof item.answers.checkedIn === 'string' ? item.answers.checkedIn : '';
+  return history.find((h) => {
+    if (h.stackItemId !== item.id || h.kind !== 'clear' || h.status !== 'not-now' || !h.answeredAt) return false;
+    const said = h.answeredAt.slice(0, 10);
+    const since = daysBetween(said, today);
+    return since >= CHECK_IN_DAYS && since < (NOT_NOW_DAYS[h.reason] ?? NOT_NOW_DEFAULT_DAYS) && checked < said;
+  });
 }
 
 function answeredAlready(
@@ -365,9 +385,14 @@ export function decide(input: DecideInput): DecideResult {
   for (const s of live) {
     if (clinician.has(s.id) || theirs.has(s.id) || drafts.has(`${s.id}:clear`) || drafts.has(`${s.id}:curate`) || drafts.has(`${s.id}:refer`)) continue;
     const v = view(s);
-    if (!v || !pairWorthy(s, v, tierFor(v, s, stack), stack)) continue;
-    const anchor = anchorFor(person, stack, s, catalog);
-    put(s, 'curate', 'PAIR', { context: { anchorName: anchor.name, anchorId: anchor.id, slot: anchor.slot } });
+    if (!v) continue;
+    if (pairWorthy(s, v, tierFor(v, s, stack), stack)) {
+      const anchor = anchorFor(person, stack, s, catalog);
+      put(s, 'curate', 'PAIR', { context: { anchorName: anchor.name, anchorId: anchor.id, slot: anchor.slot } });
+    } else if (budgetWorthy(person, s, v, attachmentOf(person, s, v))) {
+      // Something expensive they don't love: the same thing for less, as an option (Veer, 27 Oct).
+      put(s, 'curate', 'BUDGET', { context: { budgetOption: v.budgetOption, monthly: Math.round(s.monthlyCost) } });
+    }
   }
 
   // Pass 4: everything left is kept; kept anchors are offered as the centre of a moment. A habit
@@ -396,7 +421,10 @@ export function decide(input: DecideInput): DecideResult {
     .filter((d) => {
       if (!d.stackItemId) return true;
       if (answeredAlready(history, d.stackItemId, d.kind, d.reason)) return false;
-      if ((d.kind === 'clear' || d.kind === 'curate') && underCooldown(history, d.stackItemId, d.kind, d.reason, today))
+      if (
+        (d.kind === 'clear' || d.kind === 'curate') &&
+        underCooldown(history, d.stackItemId, d.kind, d.reason, today, stack.find((x) => x.id === d.stackItemId)?.answers.checkedIn)
+      )
         return false;
       return true;
     })
@@ -433,6 +461,28 @@ function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike,
  */
 export function notFelt(tier: KnownTier, s: StackItemLike, v: CatalogItemView): boolean {
   return (tier === 'C' || tier === 'D' || tier === 'N') && s.monthlyCost > 0 && s.answers.feels === false && v.evidenceDirection !== 'cost';
+}
+
+/** What counts as expensive enough to offer a budget version, in dollars a month. */
+export const BUDGET_FROM = 100;
+
+/** Words that say they love it, even before they've tapped "I love it". */
+const LOVE_WORDS = /\b(love|loves|favou?rite|best part|the reason I|before I give|never give|'d never|would never|can't live without|non-negotiable)\b/i;
+
+/**
+ * Expensive, with a cheaper way to keep the activity, and nothing says they love it: not a tap,
+ * not their words ("Mónica fixes my back… I'd sell the restaurant before I give that up"), not
+ * someone they named ("with Dani"), not their ideal day.
+ */
+export function budgetWorthy(person: PersonModel, s: StackItemLike, v: CatalogItemView, attachment: Attachment): boolean {
+  if (!v.budgetOption || s.monthlyCost < BUDGET_FROM) return false;
+  if (attachment === 'loved' || attachment === 'theirs') return false;
+  const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
+  if (LOVE_WORDS.test(words) || tiedToTheirLife(person, s)) return false;
+  const day = person.identity.idealDay.toLowerCase();
+  const names = [s.label, s.customName, v.shortName].filter((x): x is string => !!x && x.length > 3).map((x) => x.toLowerCase());
+  if (names.some((n) => day.includes(n))) return false;
+  return usageOf(s, v).unused !== true;
 }
 
 /** Fewer days than this a month, for something meant to be daily, isn't consistent enough to work. */
