@@ -2,7 +2,6 @@
 
 import { useId, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
-import { Button } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { search } from '../../../lib/search/match';
 import type { IndexEntry } from '../../../lib/search/match';
@@ -65,7 +64,7 @@ export function Typeahead({
   }
 
   return (
-    <div className="field combo">
+    <div className="ob-search">
       <label htmlFor={id}>{copy.stack.searchLabel}</label>
       <input
         ref={input}
@@ -90,7 +89,7 @@ export function Typeahead({
         onBlur={() => setTimeout(() => setOpen(false), 150)}
       />
       {expanded ? (
-        <div className="listbox" role="listbox" id={listId} aria-label={copy.stack.resultsLabel}>
+        <div className="ob-results" role="listbox" id={listId} aria-label={copy.stack.resultsLabel}>
           {results.map((r, i) => (
             <div
               key={r.key}
@@ -110,11 +109,16 @@ export function Typeahead({
             </div>
           ))}
           {showEmpty ? (
-            <div className="empty">
+            <div className="ob-results-empty">
               <span>{copy.stack.noMatch}</span>
-              <Button size="sm" variant="ghost" onMouseDown={(e) => e.preventDefault()} onClick={custom}>
+              <button
+                type="button"
+                className="ds-link"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={custom}
+              >
                 {copy.stack.addAsCustom(query)}
-              </Button>
+              </button>
             </div>
           ) : null}
         </div>

@@ -8,6 +8,8 @@ import { engineApi, type EngineResult, type EngineState } from './client';
 
 /** Onboarding is behind them once they reach these steps; the first Ritual can be made. */
 const PAST_ONBOARDING = new Set<Progress['step']>(['ready', 'invitation', 'connect', 'done', 'day-one']);
+/** Steps after the reveal: they've said "Make it mine". */
+const SAID_MAKE_IT_MINE = new Set<Progress['step']>(['invitation', 'connect', 'done']);
 
 export interface EngineContextValue {
   /** Signed in, so there is an engine to talk to. Signed out, screens show the rules-only preview. */
@@ -92,6 +94,17 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     synced.current = listSignature(progress);
     void act(() => engineApi.run({ kind: 'onboarding' }), { saveFirst: true });
   }, [on, state, progress, act]);
+
+  // "Make it mine" at the reveal was their yes to the first Ritual, so the engine's first version
+  // is accepted for them once it arrives, instead of asking again. Later proposals still wait.
+  const acceptedFirst = useRef(false);
+  useEffect(() => {
+    const first = state?.ritual.proposed;
+    if (!on || acceptedFirst.current || state?.ritual.status !== 'proposed' || !first || first.parentId) return;
+    if (!SAID_MAKE_IT_MINE.has(progress.step)) return;
+    acceptedFirst.current = true;
+    void act(() => engineApi.accept(first.id));
+  }, [on, state, progress.step, act]);
 
   // Their list changed (let go, kept, added, an answer about it): the rules run again.
   const signature = listSignature(progress);

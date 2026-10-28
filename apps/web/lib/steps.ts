@@ -42,13 +42,43 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
   return onboardingSteps[i + 1] ?? 'done';
 }
 
+/** Where people land once onboarding is done: their Ritual. */
+export const RITUAL_HOME = '/today';
+
 /** Where a saved person picks up: the step they reached, or the app once onboarding is done. */
 export function resumePath(step: string): string {
-  if (step === 'done') return '/home';
+  if (step === 'done') return RITUAL_HOME;
   // Older saves: the ideal day, the goals, "at your best" and "what makes you you" all became the
   // study; the questions resume at the number; the sort and the day-one screens at the invitation.
   if (['life', 'goals', 'best', 'yours'].includes(step)) return '/study';
   if (step === 'questions') return '/number';
   if (['heard', 'sorted', 'ready', 'day-one'].includes(step)) return '/invitation';
   return (onboardingSteps as readonly string[]).includes(step) ? `/${step}` : '/stack';
+}
+
+/** Older pages that still answer at their address, and the step that comes before each. */
+const olderPrevious: Record<string, OnboardingStep> = {
+  questions: 'number',
+  sorted: 'study',
+  ready: 'reveal',
+  life: 'number',
+  best: 'number',
+  yours: 'number',
+};
+
+/**
+ * Where Back goes from a path: the step before it, never the opener unless this is the first step.
+ * A page inside a step (/connect/import) goes back to that step's own page.
+ */
+export function backFrom(pathname: string | null): string {
+  const parts = (pathname ?? '').split('/').filter(Boolean);
+  const first = parts[0] ?? '';
+  const step = onboardingSteps.find((s) => s === first);
+  if (step && parts.length > 1) return `/${step}`;
+  if (step) {
+    const i = onboardingSteps.indexOf(step);
+    return i > 0 ? `/${onboardingSteps[i - 1]}` : '/';
+  }
+  const older = olderPrevious[first];
+  return older ? `/${older}` : '/';
 }

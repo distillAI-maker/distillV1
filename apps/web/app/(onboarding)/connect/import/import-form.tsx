@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Field } from '../../../../components/ui';
 import { api } from '../../../../lib/api';
 import { env } from '../../../../lib/env';
 import { supabaseBrowser } from '../../../../lib/supabase/client';
@@ -90,53 +89,59 @@ export function ImportForm() {
     }
   }
   return (
-    <section className="stack">
-      <h1>Import your nights</h1>
-      <label>
-        File format{' '}
-        <select
-          value={source}
-          disabled={Boolean(job)}
-          onChange={(e) => setSource(e.target.value as 'csv' | 'apple_export')}
-        >
-          <option value="csv">CSV nights</option>
-          <option value="apple_export">Apple Health ZIP</option>
-        </select>
-      </label>
-      <p>
-        CSV files need a sleepDate column (YYYY-MM-DD). Optional columns include totalSleepMinutes,
-        sleepLatencyMinutes, overnightHrvMs and restingHeartRateBpm. HRV requires hrvMethod (rmssd
-        or sdnn). Empty measurements remain missing.
-      </p>
-      {source === 'apple_export' ? (
-        <Field
-          label="Exact device sourceName from your Apple Health export"
-          value={sourceName}
-          onChange={(e) => setSourceName(e.target.value)}
+    <div className="ob-content">
+      <header className="ob-heading">
+        <h1>Import your nights</h1>
+        <p>
+          CSV files need a sleepDate column (YYYY-MM-DD). Optional columns include totalSleepMinutes,
+          sleepLatencyMinutes, overnightHrvMs and restingHeartRateBpm. HRV requires hrvMethod (rmssd
+          or sdnn). Empty measurements remain missing.
+        </p>
+      </header>
+      <section className="ds-card" style={{ display: 'grid', gap: 14 }}>
+        <label className="st-field-label" style={{ display: 'grid', gap: 6, margin: 0 }}>
+          File format
+          <select
+            className="ds-field"
+            value={source}
+            disabled={Boolean(job)}
+            onChange={(e) => setSource(e.target.value as 'csv' | 'apple_export')}
+          >
+            <option value="csv">CSV nights</option>
+            <option value="apple_export">Apple Health ZIP</option>
+          </select>
+        </label>
+        {source === 'apple_export' ? (
+          <label className="st-field-label" style={{ display: 'grid', gap: 6, margin: 0 }}>
+            Exact device sourceName from your Apple Health export
+            <input className="ds-field" value={sourceName} onChange={(e) => setSourceName(e.target.value)} />
+          </label>
+        ) : null}
+        <input
+          aria-label="Sleep data file"
+          type="file"
+          accept={source === 'csv' ? '.csv' : '.zip'}
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
         />
-      ) : null}
-      <input
-        aria-label="Sleep data file"
-        type="file"
-        accept={source === 'csv' ? '.csv' : '.zip'}
-        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-      />
-      <Button
-        disabled={busy || !file || (source === 'apple_export' && !sourceName.trim())}
-        onClick={() => void upload()}
-      >
-        Upload and import
-      </Button>
-      {job ? (
-        <Button variant="ghost" disabled={busy} onClick={() => void check()}>
-          Check import and continue
-        </Button>
-      ) : null}
+        <button
+          type="button"
+          className="ds-primary"
+          disabled={busy || !file || (source === 'apple_export' && !sourceName.trim())}
+          onClick={() => void upload()}
+        >
+          Upload and import
+        </button>
+        {job ? (
+          <button type="button" className="ds-secondary" disabled={busy} onClick={() => void check()}>
+            Check import and continue
+          </button>
+        ) : null}
+      </section>
       {message ? (
-        <p className="notice" role="status">
+        <p className="ds-notice" role="status">
           {message}
         </p>
       ) : null}
-    </section>
+    </div>
   );
 }

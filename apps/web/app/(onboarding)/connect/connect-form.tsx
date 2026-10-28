@@ -3,11 +3,11 @@ import { api } from '../../../lib/api';
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
-import { Icon } from '../../../components/icon';
-import { Button, Skeleton } from '../../../components/ui';
+import { RitualToken } from '../../../components/ds/ritual-token';
+import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
+import { RITUAL_HOME } from '../../../lib/steps';
 import { useProgress } from '../../../lib/progress/context';
 import { track } from '../../../lib/track';
 import type { DataSourceId } from '../../../lib/progress/types';
@@ -36,6 +36,7 @@ export function ConnectForm() {
   const [phase, setPhase] = useState<Phase>('pick');
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
+  const [settling, setSettling] = useState(false);
   const frame = useRef<number | null>(null);
 
   // A reload after the backfill, or a finished import, lands on the finished state, not the start.
@@ -58,16 +59,17 @@ export function ConnectForm() {
     });
   }
 
-  /** Onboarding ends here; what to read, ask and let go of happens in the app, a day at a time. */
-  function openStandard() {
+  /** Onboarding ends here: the Ritual they accepted settles into its tab, and the app opens on it. */
+  function openRitual() {
     if (!progress.dataSource) track('no_wearable');
+    setSettling(true);
     const next = { ...progress, step: 'done' as const, updatedAt: new Date().toISOString() };
-    void saveNow(next)
-      .catch(() => undefined)
-      .finally(() => {
-        update(next);
-        router.push('/home');
-      });
+    const saved = saveNow(next).catch(() => undefined);
+    const settled = new Promise((r) => setTimeout(r, motionOff() ? 0 : 850));
+    void Promise.all([saved, settled]).finally(() => {
+      update(next);
+      router.push(RITUAL_HOME);
+    });
   }
 
   function startDemo() {
@@ -149,116 +151,106 @@ export function ConnectForm() {
 
   if (!ready) {
     return (
-      <section className="stack" aria-busy="true">
-        <h1>{copy.connect.title}</h1>
-        <p className="lede">{copy.connect.line}</p>
-        <Skeleton kind="option" count={5} />
-      </section>
+      <div className="ob-content" aria-busy="true">
+        <header className="ob-heading">
+          <h1>{copy.connect.title}</h1>
+          <p>{copy.connect.line}</p>
+        </header>
+        <div className="ob-wait">
+          <i />
+          <i />
+        </div>
+      </div>
     );
   }
 
   if (phase === 'backfill' || phase === 'done') {
-    const pct = Math.round((nights / demoNights) * 100);
     const done = phase === 'done';
     return (
-      <section className="stack" aria-live="polite">
-        <h2>{copy.connect.backfillTitle}</h2>
-        <p className="lede mono">
-          {done ? copy.connect.backfillDone : copy.connect.backfillCount(nights)}
-        </p>
-        <div
-          className="bar"
-          role="progressbar"
-          aria-label={copy.connect.backfillTitle}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={pct}
-        >
-          <i style={{ '--w': `${pct}%` } as CSSProperties} />
+      <section className="ng-reading" aria-live="polite">
+        <RitualToken settling={settling} />
+        <Mark />
+        <h1>{done ? copy.connect.backfillDone : nights ? copy.connect.backfillCount(nights) : copy.connect.backfillTitle}</h1>
+        <div className={`ng-wave${done ? ' is-done' : ''}`} aria-hidden="true">
+          {Array.from({ length: 18 }, (_, i) => (
+            <i key={i} />
+          ))}
         </div>
         {done ? (
-          <div className="actions">
-            <Button onClick={openStandard}>
-              {copy.connect.open}
-              <Icon name="arrow" size={18} />
-            </Button>
-          </div>
+          <button type="button" className="ds-primary" onClick={openRitual}>
+            {copy.connect.open}
+            <Arrow />
+          </button>
         ) : null}
       </section>
     );
   }
 
   return (
-    <section className="stack">
-      <h1>{copy.connect.title}</h1>
-      <p className="lede">{copy.connect.line}</p>
+    <div className="ob-content">
+      <RitualToken settling={settling} />
+      <header className="ob-heading">
+        <h1>{copy.connect.title}</h1>
+        <p>{copy.connect.line}</p>
+      </header>
       {store.id === 'supabase' &&
       progress.dataSource &&
       ['oura', 'whoop', 'fitbit'].includes(progress.dataSource) ? (
-        <div className="stack-tight">
-          <Button variant="ghost" disabled={Boolean(busy)} onClick={() => void checkLive()}>
+        <div style={{ marginBottom: 16 }}>
+          <button type="button" className="ds-secondary" disabled={Boolean(busy)} onClick={() => void checkLive()}>
             Check connection and continue
-          </Button>
+          </button>
           {liveMessage ? (
-            <p className="notice" role="status">
+            <p className="ds-notice" role="status">
               {liveMessage}
             </p>
           ) : null}
         </div>
       ) : null}
       {phase === 'error' ? (
-        <p className="notice" role="alert">
+        <p className="ds-notice" role="alert">
           {copy.connect.errorStart}
         </p>
       ) : null}
-      <ul className="options" aria-label={copy.connect.title}>
+      <ul className="ng-options" aria-label={copy.connect.title}>
         {live.map((p) => (
           <li key={p.id}>
             <button
               type="button"
-              className="option"
+              className="ng-option"
               disabled={!env.providersEnabled}
               aria-describedby={env.providersEnabled ? undefined : 'connect-unavailable'}
               onClick={() => startLive(p.id)}
               aria-busy={busy === p.id || undefined}
             >
-              <Icon name="watch" />
-              <span>
-                <b>{p.label}</b>
-              </span>
+              <strong>{p.label}</strong>
             </button>
           </li>
         ))}
         <li>
-          <button type="button" className="option" onClick={() => router.push('/connect/import')}>
-            <Icon name="heart" />
-            <span>
-              <b>{copy.connect.apple}</b>
-              <small>{copy.connect.appleHint}</small>
-            </span>
+          <button type="button" className="ng-option" onClick={() => router.push('/connect/import')}>
+            <strong>{copy.connect.apple}</strong>
+            <span>{copy.connect.appleHint}</span>
           </button>
         </li>
         <li>
-          <button type="button" className="option option-primary" onClick={startDemo}>
-            <Icon name="spark" />
-            <span>
-              <b>{copy.connect.demo}</b>
-              <small>{copy.connect.demoLine}</small>
-            </span>
+          <button type="button" className="ng-option" onClick={startDemo}>
+            <strong>{copy.connect.demo}</strong>
+            <span>{copy.connect.demoLine}</span>
           </button>
         </li>
       </ul>
       {!env.providersEnabled ? (
-        <p className="muted" id="connect-unavailable" style={{ fontSize: 14 }}>
+        <p className="rv-note" id="connect-unavailable">
           {copy.connect.unavailable}
         </p>
       ) : null}
       {/* Most people don't own a wearable: the app works without one, and they can connect later. */}
-      <div className="actions">
-        <Button variant="link" onClick={openStandard}>
+      <div className="ob-other" style={{ marginTop: 28 }}>
+        <button type="button" className="ds-link" onClick={openRitual}>
           {copy.connect.without}
-        </Button>
+        </button>
       </div>
-    </section>
+    </div>
   );
 }

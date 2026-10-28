@@ -1,16 +1,36 @@
 'use client';
 
-import { useEffect, type CSSProperties } from 'react';
+import { useEffect } from 'react';
+import { Arrow } from '../../../components/ds/ui';
 import { useGo } from '../../../components/onboarding/go';
-import { Icon } from '../../../components/icon';
-import { Button, Skeleton } from '../../../components/ui';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
 import { track } from '../../../lib/track';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
-/** The reckoning: their own item names drift in and gather, then the count and the monthly cost. */
+/** Where each name starts, across the whole screen, before they gather into the spark. */
+const spots: readonly [number, number][] = [
+  [9, 15],
+  [52, 27],
+  [67, 43],
+  [18, 51],
+  [44, 66],
+  [72, 72],
+  [15, 78],
+  [58, 16],
+  [32, 37],
+  [59, 56],
+  [6, 31],
+  [36, 85],
+  [70, 8],
+  [24, 24],
+];
+
+/**
+ * The number: their own things' names appear across the screen, drift together and distil into one
+ * spark, which rises above the count and the monthly cost. Under reduced motion it simply appears.
+ */
 export function TheNumber() {
   const go = useGo();
   const { routed, summary, failed, retry } = useRouted();
@@ -21,56 +41,53 @@ export function TheNumber() {
 
   if (failed)
     return (
-      <section className="stack">
-        <p className="notice" role="alert">
+      <div className="ob-content">
+        <p className="ds-notice" role="alert">
           {copy.dayOne.error}
         </p>
-        <div className="actions-row">
-          <Button onClick={retry}>{copy.common.tryAgain}</Button>
-        </div>
-      </section>
+        <button type="button" className="ds-secondary" onClick={retry}>
+          {copy.common.tryAgain}
+        </button>
+      </div>
     );
   if (!routed || !summary)
     return (
-      <section className="theatre" aria-busy="true">
-        <p className="lede">{copy.dayOne.reading}</p>
-        <Skeleton kind="title" count={2} />
-      </section>
+      <div className="ob-content" aria-busy="true">
+        <div className="ob-wait">
+          <p>{copy.dayOne.reading}</p>
+          <i />
+          <i />
+        </div>
+      </div>
     );
 
   const names = routed.items
     .map((r) => r.name)
     .filter(Boolean)
-    .slice(0, 14);
+    .slice(0, spots.length);
   return (
-    <section className="theatre" aria-live="polite">
-      <div className="drift" aria-hidden="true">
+    <section className="ob-number" aria-live="polite">
+      <div className="ob-number-names" aria-hidden="true">
         {names.map((name, i) => (
           <span
             key={`${name}-${i}`}
-            style={
-              {
-                '--i': i,
-                '--x': `${10 + ((i * 29) % 78)}%`,
-                '--y': `${8 + ((i * 17) % 70)}%`,
-              } as CSSProperties
-            }
+            className="ob-number-name"
+            style={{ left: `${spots[i]![0]}%`, top: `${spots[i]![1]}%`, animationDelay: `${i * 80}ms` }}
           >
             {name}
           </span>
         ))}
       </div>
-      <div className="reckoning">
-        <h1 className="reckon reckon-1">{copy.number.things(summary.count)}</h1>
-        <p className="reckon reckon-2">{copy.number.aMonth(money(summary.monthlyTotal))}</p>
-        <p className="reckon reckon-3">{copy.number.line}</p>
+      <i className="ob-number-spark" aria-hidden="true" />
+      <div className="ob-number-result">
+        <h1>{copy.number.things(summary.count)}</h1>
+        <strong className="ob-number-money">{copy.number.aMonth(money(summary.monthlyTotal))}</strong>
+        <p>{copy.number.line}</p>
       </div>
-      <div className="reckon reckon-4 actions">
-        <Button onClick={() => go('study')}>
-          {copy.number.next}
-          <Icon name="arrow" size={18} />
-        </Button>
-      </div>
+      <button type="button" className="ds-primary ob-number-next" onClick={() => go('study')}>
+        {copy.number.next}
+        <Arrow />
+      </button>
     </section>
   );
 }

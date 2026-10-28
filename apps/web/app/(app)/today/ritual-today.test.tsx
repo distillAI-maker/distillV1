@@ -167,7 +167,7 @@ describe('today’s Ritual', () => {
         </EngineProvider>
       </ProgressProvider>,
     );
-    fireEvent.click(await screen.findByRole('button', { name: 'This is my Ritual' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Make it mine' }));
     await waitFor(() => expect(api.accept).toHaveBeenCalledWith('v1'));
     expect(await screen.findByRole('tab', { name: 'Morning' })).toBeTruthy();
   });

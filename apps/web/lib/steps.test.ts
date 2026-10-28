@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { stepSchema } from './progress/types';
-import { NUMBERED_STEPS, nextStep, onboardingSteps, resumePath, stepForPath, stepNumber } from './steps';
+import { backFrom, NUMBERED_STEPS, nextStep, onboardingSteps, resumePath, stepForPath, stepNumber } from './steps';
 
 describe('onboarding steps', () => {
   it('run name, then the steps to the first Ritual, then the invitation and connect', () => {
@@ -31,9 +31,19 @@ describe('onboarding steps', () => {
     for (const s of ['life', 'goals', 'best', 'yours']) expect(resumePath(s)).toBe('/study');
     expect(resumePath('questions')).toBe('/number');
     for (const s of ['heard', 'sorted', 'ready', 'day-one']) expect(resumePath(s)).toBe('/invitation');
-    expect(resumePath('done')).toBe('/home');
+    expect(resumePath('done')).toBe('/today');
     expect(resumePath('study')).toBe('/study');
     expect(resumePath('reveal')).toBe('/reveal');
     expect(resumePath('something-else')).toBe('/stack');
+  });
+
+  it('go back one step, never to the opener from the middle of onboarding', () => {
+    expect(backFrom('/name')).toBe('/');
+    expect(backFrom('/stack')).toBe('/name');
+    expect(backFrom('/number')).toBe('/stack');
+    expect(backFrom('/reveal')).toBe('/study');
+    expect(backFrom('/connect')).toBe('/invitation');
+    expect(backFrom('/connect/import')).toBe('/connect');
+    for (const p of ['/questions', '/sorted', '/ready']) expect(backFrom(p)).not.toBe('/');
   });
 });

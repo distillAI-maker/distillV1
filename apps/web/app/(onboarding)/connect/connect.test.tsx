@@ -31,7 +31,7 @@ describe('Connect', () => {
     document.documentElement.style.setProperty('--motion', '0');
   });
 
-  it('runs the demo backfill and finishes onboarding on Your Standard', async () => {
+  it('runs the demo backfill and finishes onboarding on their Ritual', async () => {
     const store = new LocalProgressStore(memory());
     render(
       <ProgressProvider store={store}>
@@ -43,11 +43,10 @@ describe('Connect', () => {
       fireEvent.click(demo);
     });
     expect(await screen.findByText('Six months of nights, ready.')).toBeTruthy();
-    expect(screen.getByRole('progressbar').getAttribute('aria-valuenow')).toBe('100');
     await act(async () => {
-      fireEvent.click(await screen.findByRole('button', { name: /Open your Standard/ }));
+      fireEvent.click(await screen.findByRole('button', { name: /Open your Ritual/ }));
     });
-    expect(push).toHaveBeenCalledWith('/home');
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/today'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.dataSource).toBe('demo');
@@ -56,7 +55,7 @@ describe('Connect', () => {
     });
   });
 
-  it('lets someone without a wearable finish onboarding and open Your Standard', async () => {
+  it('lets someone without a wearable finish onboarding and open their Ritual', async () => {
     const store = new LocalProgressStore(memory());
     render(
       <ProgressProvider store={store}>
@@ -67,7 +66,7 @@ describe('Connect', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('No wearable? Continue without one'));
     });
-    expect(push).toHaveBeenCalledWith('/home');
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/today'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.step).toBe('done');
