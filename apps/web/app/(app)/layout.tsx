@@ -1,10 +1,15 @@
 import type { ReactNode } from 'react';
-import { AppFolio, AppTabs } from '../../components/app-tabs';
+import { AppFolio } from '../../components/app-tabs';
 import { DBrand } from '../../components/d-star';
+import { TabBar } from '../../components/ds/tab-bar';
 import { EngineProvider } from '../../lib/engine/context';
 import '../app-screens.css';
 
-/** The daily screens, in Figma's frame: the mark, a folio, and four tabs (Today, Distill, Standard, Settings). */
+/**
+ * The older screens (the companion thread, Your Standard, readings, verdicts, the file). None are in
+ * the navigation since the four tabs (28 Oct); they stay reachable by address until Veer decides
+ * what to delete, and show the four tabs along the bottom.
+ */
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="dapp">
@@ -16,7 +21,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <main className="d-app-body">
           <EngineProvider>{children}</EngineProvider>
         </main>
-        <AppTabs />
+        <TabBar />
       </div>
     </div>
   );
