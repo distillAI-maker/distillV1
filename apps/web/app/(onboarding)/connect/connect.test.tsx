@@ -31,30 +31,6 @@ describe('Connect', () => {
     document.documentElement.style.setProperty('--motion', '0');
   });
 
-  it('runs the demo backfill and finishes onboarding on their Ritual', async () => {
-    const store = new LocalProgressStore(memory());
-    render(
-      <ProgressProvider store={store}>
-        <ConnectForm />
-      </ProgressProvider>,
-    );
-    const demo = await screen.findByRole('button', { name: /Use demo data/ });
-    await act(async () => {
-      fireEvent.click(demo);
-    });
-    expect(await screen.findByText('Six months of nights, ready.')).toBeTruthy();
-    await act(async () => {
-      fireEvent.click(await screen.findByRole('button', { name: /Open your Ritual/ }));
-    });
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/ritual'));
-    await waitFor(async () => {
-      const saved = await store.load();
-      expect(saved?.dataSource).toBe('demo');
-      expect(saved?.backfill).toEqual({ nights: demoNights, done: true });
-      expect(saved?.step).toBe('done');
-    });
-  });
-
   it('lets someone without a wearable finish onboarding and open their Ritual', async () => {
     const store = new LocalProgressStore(memory());
     render(
@@ -62,7 +38,7 @@ describe('Connect', () => {
         <ConnectForm />
       </ProgressProvider>,
     );
-    await screen.findByRole('button', { name: /Use demo data/ });
+    await screen.findByText('No wearable? Continue without one');
     await act(async () => {
       fireEvent.click(screen.getByText('No wearable? Continue without one'));
     });
@@ -72,6 +48,16 @@ describe('Connect', () => {
       expect(saved?.step).toBe('done');
       expect(saved?.dataSource).toBeUndefined();
     });
+  });
+
+  it('offers no demo data', async () => {
+    render(
+      <ProgressProvider store={new LocalProgressStore(memory())}>
+        <ConnectForm />
+      </ProgressProvider>,
+    );
+    await screen.findByText('No wearable? Continue without one');
+    expect(screen.queryByText(/demo/i)).toBeNull();
   });
 
   it('keeps live providers off until the flag is on', async () => {

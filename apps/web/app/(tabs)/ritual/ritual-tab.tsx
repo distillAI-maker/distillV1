@@ -12,6 +12,7 @@ import { engineApi, type EngineResult, type EngineState } from '../../../lib/eng
 import { useEngine } from '../../../lib/engine/context';
 import { previewRitual } from '../../../lib/engine/preview';
 import { useProgress } from '../../../lib/progress/context';
+import { saidMakeItMine } from '../../../lib/steps';
 import { newItemId, type Progress } from '../../../lib/progress/types';
 import { revealGroups, whenLine } from '../../../lib/ritual-groups';
 import { whyLine } from '../../../lib/ritual-lines';
@@ -116,19 +117,20 @@ function Timeline({
   parts,
   marks,
   onCheck,
-  busy,
+  ticked,
 }: {
   parts: readonly ShownPart[];
   marks?: Map<string, ChangeMark>;
   onCheck?: (part: ShownPart) => void;
-  busy?: boolean;
+  /** Ticked on this phone, shown at once while the engine records it. */
+  ticked?: ReadonlySet<string>;
 }) {
   if (!parts.length) return <p className="rt-empty">{t.nothing}</p>;
   return (
     <ol className="rt-timeline">
       {parts.map((p, i) => {
         const mark = marks?.get(p.id);
-        const done = p.check === 'done';
+        const done = p.check === 'done' || !!ticked?.has(p.id);
         const why = whyLine(p);
         return (
           <li
@@ -152,7 +154,7 @@ function Timeline({
                 className="rt-check"
                 aria-label={done ? t.done(p.title) : t.check(p.title)}
                 aria-pressed={done}
-                disabled={busy || done}
+                disabled={done}
                 onClick={() => onCheck(p)}
               >
                 {done ? <Icon name="check" /> : null}
@@ -360,6 +362,7 @@ export function RitualTab() {
   const [sent, setSent] = useState<{ text: string; result: EngineResult } | null>(null);
   const [marks, setMarks] = useState<{ date: string; map: Map<string, ChangeMark> } | null>(null);
   const [why, setWhy] = useState<{ ask: string; about: string } | null>(null);
+  const [ticked, setTicked] = useState<ReadonlySet<string>>(new Set());
   const top = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -387,7 +390,9 @@ export function RitualTab() {
   const r = state.ritual;
   const today = r.today.date;
 
-  if (r.status === 'none')
+  // "Make it mine" already said yes: while the engine's first version is accepted, it's still shaping.
+  const accepting = r.status === 'proposed' && !!r.proposed && !r.proposed.parentId && saidMakeItMine(progress.step);
+  if (r.status === 'none' || accepting)
     return (
       <main className="tb-page" aria-busy="true">
         <Header date={today} name={name} />
@@ -443,6 +448,18 @@ export function RitualTab() {
   const reply = sent?.result.reply ?? change?.reply;
   const youSaid = sent?.text ?? (change?.reply ? lastPerson?.text : undefined);
   const dayMarks = marks?.date === day.date ? marks.map : undefined;
+
+  /** A tick shows at once; the engine records it behind. If it doesn't go through, the tick comes off. */
+  async function tick(partId: string) {
+    setTicked((t0) => new Set([...t0, partId]));
+    const res = await act(() => engineApi.run({ kind: 'part', partId, date: today, done: true }));
+    if (!res)
+      setTicked((t0) => {
+        const next = new Set(t0);
+        next.delete(partId);
+        return next;
+      });
+  }
 
   async function send(text: string) {
     setComposing(false);
@@ -525,8 +542,8 @@ export function RitualTab() {
         key={day.date}
         parts={day.parts}
         marks={dayMarks}
-        busy={busy}
-        onCheck={day.date === today ? (p) => void act(() => engineApi.run({ kind: 'part', partId: p.id, date: today, done: true })) : undefined}
+        ticked={ticked}
+        onCheck={day.date === today ? (p) => void tick(p.id) : undefined}
       />
 
       <DailyCard

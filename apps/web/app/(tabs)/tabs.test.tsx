@@ -135,6 +135,17 @@ describe('the Ritual tab', () => {
     expect(screen.queryByRole('button', { name: 'Mark Pilates with Leah done' })).toBeNull();
   });
 
+  it('shows a tick at once, and takes it off if it does not go through', async () => {
+    api.open.mockResolvedValue(result(stateWith()));
+    let fail: (e: Error) => void = () => {};
+    api.run.mockReturnValue(new Promise((_, reject) => (fail = reject)));
+    renderTab('ritual');
+    fireEvent.click(await screen.findByRole('button', { name: 'Mark Balcony coffee done' }));
+    expect(screen.getByRole('button', { name: 'Balcony coffee, done' })).toBeTruthy();
+    fail(new Error('offline'));
+    expect(await screen.findByRole('button', { name: 'Mark Balcony coffee done' })).toBeTruthy();
+  });
+
   it('says the let-go firmly once, and Let it go takes it off their list', async () => {
     api.open.mockResolvedValue(result(stateWith()));
     api.run.mockResolvedValue(result(stateWith({ decisions: [{ ...decision, status: 'yes' }], today: { kind: 'clear', decision: { ...decision, status: 'yes' } } })));
