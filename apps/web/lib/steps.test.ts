@@ -31,7 +31,7 @@ describe('onboarding steps', () => {
     for (const s of ['life', 'goals', 'best', 'yours']) expect(resumePath(s)).toBe('/study');
     expect(resumePath('questions')).toBe('/number');
     for (const s of ['heard', 'sorted', 'ready', 'day-one']) expect(resumePath(s)).toBe('/invitation');
-    expect(resumePath('done')).toBe('/today');
+    expect(resumePath('done')).toBe('/ritual');
     expect(resumePath('study')).toBe('/study');
     expect(resumePath('reveal')).toBe('/reveal');
     expect(resumePath('something-else')).toBe('/stack');

@@ -46,7 +46,7 @@ describe('Connect', () => {
     await act(async () => {
       fireEvent.click(await screen.findByRole('button', { name: /Open your Ritual/ }));
     });
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/today'));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/ritual'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.dataSource).toBe('demo');
@@ -66,7 +66,7 @@ describe('Connect', () => {
     await act(async () => {
       fireEvent.click(screen.getByText('No wearable? Continue without one'));
     });
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/today'));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/ritual'));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.step).toBe('done');

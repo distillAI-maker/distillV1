@@ -1,8 +1,6 @@
-import type { Metadata } from 'next';
-import { TodayScreen } from './today-screen';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = { title: 'Today' };
-
+/** Today became the Ritual tab (28 Oct). Old links and saves land there. Its screen stays in the code for now. */
 export default function TodayPage() {
-  return <TodayScreen />;
+  redirect('/ritual');
 }

@@ -43,7 +43,7 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
 }
 
 /** Where people land once onboarding is done: their Ritual. */
-export const RITUAL_HOME = '/today';
+export const RITUAL_HOME = '/ritual';
 
 /** Where a saved person picks up: the step they reached, or the app once onboarding is done. */
 export function resumePath(step: string): string {
