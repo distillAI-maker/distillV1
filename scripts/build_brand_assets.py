@@ -1,6 +1,7 @@
 """Build Distill's logo and profile pictures as SVG (public/assets/brand/).
 
-The mark is the Figma eight-point chisel star (apps/web/components/d-star.tsx).
+The mark is the Figma eight-point chisel star (apps/web/components/d-star.tsx), with its
+core drawn out into an arrow pointing north (Veer, 27 Oct).
 The wordmark is Newsreader, outlined to paths so the files need no font.
 Run: python3 scripts/build_brand_assets.py   (PNG exports: scripts/export_brand_pngs.sh)
 """
@@ -18,7 +19,20 @@ GROUND, PARCHMENT, PERSIMMON, WALNUT, INK = "#f0ece2", "#ddd3bf", "#f26342", "#4
 # The star on a 40-unit box, centred on (20, 20), exactly as the app draws it.
 STAR = ("M20 2.5l3.8 12.8 9.7-8.6-8.7 9.6 12.7 3.7-12.7 3.7 8.7 9.6-9.7-8.6L20 37.5"
         "l-3.8-12.8-9.7 8.6 8.7-9.6L2.5 20l12.7-3.7-8.7-9.6 9.7 8.6L20 2.5z")
-STAR_CORE_R = 2.8
+
+
+def needle(stroke, gap=0.85, base=21.2):
+    """The core drawn out into an arrow up the north ray.
+
+    Its sides run parallel to the ray's, an even gap inside the outline, from the
+    centre to just short of the tip: the star points north, the direction we want
+    your life to go in.
+    """
+    import math
+    half = math.atan(3.8 / 12.8)                          # the north ray's half-angle
+    ay = 2.5 + (stroke / 2 + gap) / math.sin(half)        # apex, `gap` inside the stroke
+    hw = (base - ay) * math.tan(half)
+    return f"M20 {ay:.2f}L{20 + hw:.2f} {base}L{20 - hw:.2f} {base}Z"
 
 
 def star(x, y, size, color, core=None, stroke=1.35):
@@ -26,7 +40,7 @@ def star(x, y, size, color, core=None, stroke=1.35):
     s = size / 40
     return (f'<g transform="translate({x:.2f} {y:.2f}) scale({s:.4f})">'
             f'<path d="{STAR}" fill="none" stroke="{color}" stroke-width="{stroke}"/>'
-            f'<circle cx="20" cy="20" r="{STAR_CORE_R}" fill="{core or color}"/></g>')
+            f'<path d="{needle(stroke)}" fill="{core or color}"/></g>')
 
 
 def wordmark_font():
