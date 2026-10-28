@@ -1587,6 +1587,61 @@
 .d-one-thing-card .d-see-all {
   margin-top: 6px;
 }
+.d-one-thing-card .d-one-why {
+  display: inline-block;
+  margin-top: 14px;
+}
+.d-one-thing-btn--link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.d-one-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.d-compose-about {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 6px;
+  color: var(--d-muted-ink);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.d-compose-about button {
+  background: none;
+  border: none;
+  color: var(--d-persimmon);
+  font: inherit;
+  padding: 0;
+}
+.d-one-swap {
+  border-top: 1px solid var(--d-line);
+  margin-top: 16px;
+  padding-top: 14px;
+}
+.d-one-thing-card .d-one-swap p {
+  margin: 0 0 10px;
+}
+.d-one-thing-card .d-one-swap .d-one-swap__ask {
+  font-family: var(--d-interface);
+  color: var(--d-muted-ink);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+.d-one-thing-card .d-one-swap .d-one-swap__part {
+  font-family: var(--d-display);
+  font-size: 15.5px;
+  font-weight: 300;
+}
+.d-one-swap__part strong {
+  font-weight: 500;
+}
 .d-standard-links {
   display: flex;
   gap: 18px;

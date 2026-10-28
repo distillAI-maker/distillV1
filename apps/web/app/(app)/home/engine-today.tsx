@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import type { QuestionOption } from '@distill/engine/ritual';
+import { SwapCard } from '../../../components/swap-card';
 import { copy } from '../../../lib/copy';
 import type { RoutedStack } from '../../../lib/data/types';
 import { engineApi, type EngineState } from '../../../lib/engine/client';
@@ -10,6 +12,15 @@ import { useProgress } from '../../../lib/progress/context';
 import type { Progress } from '../../../lib/progress/types';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
+
+/** Opens the companion asking why, about the thing on this card. */
+function WhyLink({ stackItemId, ask }: { stackItemId: string; ask: 'clear' | 'swap' | 'keep' | 'question' | 'other' }) {
+  return (
+    <Link className="d-see-all d-see-all--quiet d-one-why" href={`/companion?about=${encodeURIComponent(stackItemId)}&why=${ask}`}>
+      {copy.decide.why}
+    </Link>
+  );
+}
 
 /** The picks this card answers; 'more' and 'learn' use the home screen's own flows. */
 export const ENGINE_CARDS = new Set(['clear', 'adjust', 'curate', 'keep', 'refer', 'celebrate', 'question', 'explore']);
@@ -25,6 +36,12 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
   const [region, setRegion] = useState('');
   const [answered, setAnswered] = useState<Record<string, 'add' | 'decline'>>({});
   const t = state.today;
+  // The swap stays on the card after they answer it, so they see "Added" before it goes.
+  const [swap, setSwap] = useState(t.swap);
+  useEffect(() => {
+    if (t.swap) setSwap(t.swap);
+  }, [t.swap]);
+  const offer = t.swap ?? (swap && swap.stackItemId === t.decision?.stackItemId ? swap : undefined);
   const nameOf = (id: string | null | undefined) =>
     (id && routed.items.find((r) => r.stackItemId === id)?.name) ||
     progress.items.find((i) => i.id === id)?.customName ||
@@ -42,7 +59,11 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
         <>
           <p className="d-sr">{copy.decide.eyebrow[kind] ?? copy.home.todayEyebrow}</p>
           <h2>
-            {d.status === 'yes' && d.kind === 'clear'
+            {d.status === 'yes' && d.reason === 'BUDGET'
+              ? copy.decide.budgeted
+              : d.status === 'yes' && d.kind === 'clear' && d.reason === 'UNLOVED_HABIT'
+              ? copy.decide.swapped
+              : d.status === 'yes' && d.kind === 'clear'
               ? copy.decide.letGone(money(d.money))
               : d.status === 'theirs'
                 ? copy.decide.kept
@@ -51,13 +72,23 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
                   : copy.decide.thanks}
           </h2>
           <p className="d-one-thing-done">{copy.home.doneToday}</p>
+          {offer ? <SwapCard key={offer.itemKey} offer={offer} look="today" /> : null}
+          {d.stackItemId && d.status === 'yes' && d.kind === 'clear' ? <WhyLink stackItemId={d.stackItemId} ask="other" /> : null}
         </>
       );
     const answer = (choice: 'yes' | 'not-now' | 'theirs') => {
       const run = () => engineApi.run({ kind: 'decision-answer', decisionId: d.id, answer: choice });
       // Their list is theirs to change, so the app records a let-go or a "mine" before the engine runs.
-      if (d.stackItemId && choice === 'yes' && d.kind === 'clear') {
+      // A swap keeps the habit on their list, done a little differently.
+      if (d.stackItemId && choice === 'yes' && d.kind === 'clear' && d.reason !== 'UNLOVED_HABIT') {
         const next = withItem(d.stackItemId, { status: 'cut' });
+        update(next);
+        return void act(run, { save: next });
+      }
+      // A yes to "next to your morning coffee" anchors it: the Ritual then has it there, every day.
+      if (d.stackItemId && choice === 'yes' && d.reason === 'PAIR') {
+        const item = progress.items.find((i) => i.id === d.stackItemId);
+        const next = withItem(d.stackItemId, { answers: { ...(item?.answers ?? {}), paired: true } });
         update(next);
         return void act(run, { save: next });
       }
@@ -75,19 +106,33 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
         <p>{d.line}</p>
         <div className="d-one-thing-actions">
           <button type="button" className="d-one-thing-btn d-one-thing-btn--go" disabled={busy} onClick={() => answer('yes')}>
-            {copy.decide.yes[kind] ?? copy.decide.yes.keep}
+            {(d.reason === 'UNLOVED_HABIT' ? copy.decide.yes.swap : copy.decide.yes[kind]) ?? copy.decide.yes.keep}
           </button>
-          {kind === 'clear' || kind === 'adjust' || kind === 'curate' ? (
+          {/* Letting go is said with confidence: Why? sits right next to it (Veer, 27 Oct). */}
+          {kind === 'clear' && d.stackItemId ? (
+            <Link className="d-one-thing-btn d-one-thing-btn--link" href={`/companion?about=${encodeURIComponent(d.stackItemId)}&why=${d.reason === 'UNLOVED_HABIT' ? 'swap' : 'clear'}`}>
+              {copy.decide.why}
+            </Link>
+          ) : null}
+          {kind === 'adjust' || kind === 'curate' ? (
             <button type="button" className="d-one-thing-btn" disabled={busy} onClick={() => answer('not-now')}>
               {copy.decide.notNow}
             </button>
           ) : null}
-          {kind === 'clear' ? (
-            <button type="button" className="d-one-thing-btn d-one-thing-btn--mine" disabled={busy} onClick={() => answer('theirs')}>
+        </div>
+        {kind === 'clear' ? (
+          // Their answer still decides: quieter, never hidden.
+          <div className="d-one-links">
+            <button type="button" className="d-see-all d-see-all--quiet d-one-why" disabled={busy} onClick={() => answer('not-now')}>
+              {copy.decide.notNow}
+            </button>
+            <button type="button" className="d-see-all d-see-all--quiet d-one-why" disabled={busy} onClick={() => answer('theirs')}>
               {copy.decide.mine}
             </button>
-          ) : null}
-        </div>
+          </div>
+        ) : d.stackItemId ? (
+          <WhyLink stackItemId={d.stackItemId} ask={kind === 'keep' ? 'keep' : 'other'} />
+        ) : null}
       </>
     );
   }
@@ -105,6 +150,8 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
     const pick = (option: QuestionOption) => {
       const base = { kind: 'question-answer' as const, questionId: q.id, label: option.label };
       const patch = option.patch;
+      // "Not sure" changes nothing they told us; the engine just rests the question.
+      if (patch.kind === 'unsure') return void act(() => engineApi.run(base));
       if (patch.kind === 'attachment')
         return void act(() =>
           engineApi.run({ ...base, attachment: patch.attachment, stackItemId: patch.stackItemId }),
@@ -134,6 +181,12 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
               {o.label}
             </button>
           ))}
+        </div>
+        <div className="d-one-links">
+          <WhyLink stackItemId={q.stackItemId} ask="question" />
+          <Link className="d-see-all d-see-all--quiet d-one-why" href={`/companion?about=${encodeURIComponent(q.stackItemId)}&why=tell`}>
+            {copy.companion.tellLink}
+          </Link>
         </div>
       </>
     );

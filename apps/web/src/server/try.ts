@@ -75,11 +75,15 @@ export function tryList(input: TryInput, view: CatalogView, banned: readonly str
     const clear = mine.find((d) => d.kind === 'clear');
     const context = (clear ?? mine[0])?.context as { keeperName?: string; fitsInstead?: string } | undefined;
     const base = { key: s.itemKey!, name, monthly: s.monthlyCost, ...(context?.fitsInstead ? { instead: context.fitsInstead } : {}) };
+    // A habit that costs them gets a swap, not a let-go: it stays, done a little differently.
+    if (clear?.reason === 'UNLOVED_HABIT') return { ...base, status: 'adjust', why: t.why.UNLOVED_HABIT };
     if (clear) {
       const why = clear.reason === 'OVERLAP' && context?.keeperName ? t.why.overlap(context.keeperName) : t.why[clear.reason as keyof typeof t.why];
       return { ...base, status: 'go', why: typeof why === 'string' ? why : t.why.fallback };
     }
     if (mine.some((d) => d.reason === 'WORTH_A_LOOK')) return { ...base, status: 'look', why: t.why.look };
+    if (mine.some((d) => d.reason === 'PAIR')) return { ...base, status: 'adjust', why: t.why.pair };
+    if (mine.some((d) => d.reason === 'BUDGET')) return { ...base, status: 'adjust', why: t.why.budget };
     if (mine.some((d) => d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
       return { ...base, status: 'adjust', why: mine.some((d) => d.reason === 'ADJUST_DOSE') ? t.why.dose : t.why.form };
     if (mine.some((d) => d.kind === 'keep' && (d.reason === 'EVIDENCE_REGULAR' || d.reason === 'TRAINS')))

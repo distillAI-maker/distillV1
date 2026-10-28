@@ -10,7 +10,7 @@ import { execSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { RitualPart } from '@distill/engine/ritual';
+import { valuableQuestions, type RitualPart, type StackItemLike } from '@distill/engine/ritual';
 import { engineCatalog } from '../lib/catalog/engine';
 import { catalog } from '../lib/catalog/server';
 import { exploreBank } from '../lib/explore/bank';
@@ -19,6 +19,8 @@ import { gates, loadGolden, memoryDatabase, runGolden, scores } from '../src/eva
 const out = process.argv[2] ?? fileURLToPath(new URL('../../../eval/review/people.json', import.meta.url));
 const sha = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
 const DAYS: Record<string, string> = { mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat', sun: 'Sun' };
+
+const hm = (min: number) => `${Math.floor(min / 60)}h ${String(min % 60).padStart(2, '0')}m`;
 
 /** "Weekdays, 7:00", "Sat", "3 times a week", "Every day": when a part happens, in words. */
 function whenOf(p: RitualPart): string {
@@ -51,6 +53,19 @@ async function main() {
     };
     const first = t.versions.find((v) => v.scope.kind === 'base' && !v.parentId);
     const p = person.progress;
+    // What Distill would ask next, once the two weeks are over: the cards it still has for them.
+    const model = await db.store.person(t.userId);
+    const gone = new Set(t.decisions.filter((d) => d.kind === 'clear' && d.status === 'yes' && d.reason !== 'UNLOVED_HABIT').map((d) => d.stackItemId));
+    const stack: StackItemLike[] = p.items.map((i) => (gone.has(i.id) ? { ...i, status: 'cut' as const } : i));
+    const asks = model
+      ? valuableQuestions({
+          person: model,
+          stack,
+          catalog: view,
+          history: t.decisions.map((d) => ({ stackItemId: d.stackItemId, kind: d.kind, reason: d.reason, status: d.status, ...(d.answeredAt ? { answeredAt: d.answeredAt } : {}) })),
+          today: t.final.ritual.today.date,
+        })
+      : [];
     people.push({
       id: person.id,
       summary: person.summary,
@@ -58,11 +73,15 @@ async function main() {
       covers: person.covers,
       timeZone: person.timeZone,
       wearable: p.dataSource ?? null,
+      /** Their usual night, which the test plays as four weeks of ordinary nights before the two weeks. */
+      usualSleep: p.dataSource ? hm(person.usualSleepMin ?? 420) : null,
       list: p.items.map((i) => ({
         id: i.id,
         name: nameOf(i.id),
         catalog: i.itemKey ? (view.item(i.itemKey)?.name ?? i.itemKey) : null,
         tier: i.itemKey ? (view.item(i.itemKey)?.tier ?? null) : null,
+        /** The grade is for a cost (late caffeine, a nightcap), not a benefit. */
+        cost: view.item(i.itemKey)?.evidenceDirection === 'cost',
         monthly: i.monthlyCost,
         origin: i.origin ?? null,
         answers: i.answers,
@@ -80,7 +99,7 @@ async function main() {
             : e.kind === 'answer'
               ? { kind: 'answer', q: e.q, a: e.a }
               : e.kind === 'night'
-                ? { kind: 'night', text: `${Math.floor(e.sleepMin / 60)}h ${e.sleepMin % 60}m of sleep on ${e.date}` }
+                ? { kind: 'night', text: `A short night: ${hm(e.sleepMin)} of sleep on ${e.date} (usually about ${hm(person.usualSleepMin ?? 420)})` }
                 : { kind: 'decision-answer', on: nameOf(e.stackItemId), text: e.answer },
       ),
       expect: {
@@ -105,6 +124,7 @@ async function main() {
         gateFails: gates(t),
         missedClears: s.missedClears.map(nameOf),
         missingMentions: s.missingMentions,
+        asks: asks.map((q) => ({ item: nameOf(q.stackItemId), text: q.text, options: q.options.map((o) => o.label) })),
       },
     });
   }

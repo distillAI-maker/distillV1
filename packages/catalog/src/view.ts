@@ -1,5 +1,5 @@
 import type { Catalog, Item } from './schema.js';
-import type { CatalogV4, V4Item } from './schema-v4.js';
+import type { CatalogV4, V4Item, V4Source } from './schema-v4.js';
 
 /**
  * One view of an item for the engine, whichever table it comes from.
@@ -45,7 +45,17 @@ export interface CatalogItemView {
   readonly clearWhen: readonly V4Item['clearWhen'][number][];
   readonly neverClear: boolean;
   readonly humanQuestion: string;
+  /** The where-did-it-come-from question in this item's words, or '' for the plain one. */
+  readonly originQuestion: string;
   readonly fitsInstead: string;
+  /** What they can add to their Ritual once they let this go: a thing to do, never to buy. */
+  readonly swap: V4Item['swap'];
+  /** The benefit builds with daily use, so consistency is what makes it work. */
+  readonly builds: boolean;
+  /** The same activity for less, for something expensive. */
+  readonly budgetOption: string;
+  /** What the sources behind the tier found, paraphrased, with who they studied. */
+  readonly findings: readonly { readonly finding: string; readonly population: string }[];
   readonly awe: V4Item['awe'];
   readonly wearableSees: V4Item['wearableSees'];
   readonly overlaps: readonly string[];
@@ -137,7 +147,12 @@ export function itemFromV3(item: Item): CatalogItemView {
     clearWhen: ['UNUSED', 'OVERLAP'],
     neverClear: item.tier === 'PROTECTED',
     humanQuestion: item.question,
+    originQuestion: '',
     fitsInstead: '',
+    swap: null,
+    builds: false,
+    budgetOption: '',
+    findings: [],
     awe: null,
     wearableSees: item.visibility,
     overlaps: item.overlapGroups,
@@ -147,7 +162,7 @@ export function itemFromV3(item: Item): CatalogItemView {
   };
 }
 
-export function itemFromV4(row: V4Item): CatalogItemView {
+export function itemFromV4(row: V4Item, sources: ReadonlyMap<string, V4Source> = new Map()): CatalogItemView {
   return {
     key: row.key,
     name: row.name,
@@ -180,7 +195,15 @@ export function itemFromV4(row: V4Item): CatalogItemView {
     clearWhen: row.clearWhen,
     neverClear: row.neverClear,
     humanQuestion: row.humanQuestion,
+    originQuestion: row.originQuestion,
     fitsInstead: row.fitsInstead,
+    swap: row.swap,
+    builds: row.builds,
+    budgetOption: row.budgetOption,
+    findings: row.sources.flatMap((id) => {
+      const s = sources.get(id);
+      return s?.finding ? [{ finding: s.finding, population: s.population }] : [];
+    }),
     awe: row.awe,
     wearableSees: row.wearableSees,
     overlaps: row.overlaps,
@@ -202,8 +225,9 @@ export function buildCatalogView(
   options: ViewOptions = { statuses: ['live'] },
 ): CatalogView {
   const allowed = new Set(options.statuses);
+  const sources = new Map((v4?.sources ?? []).map((s) => [s.id, s]));
   const v4Rows = new Map(
-    (v4?.items ?? []).filter((r) => allowed.has(r.status)).map((r) => [r.key, itemFromV4(r)]),
+    (v4?.items ?? []).filter((r) => allowed.has(r.status)).map((r) => [r.key, itemFromV4(r, sources)]),
   );
   const v3Rows = new Map(v3.items.map((i) => [i.key, i]));
   const cache = new Map<string, CatalogItemView>();

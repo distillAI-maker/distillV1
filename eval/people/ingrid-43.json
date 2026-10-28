@@ -12,6 +12,7 @@
   ],
   "timeZone": "America/Chicago",
   "now": "2026-10-21T06:30:00-05:00",
+  "usualSleepMin": 390,
   "progress": {
     "version": 1,
     "step": "done",

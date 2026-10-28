@@ -33,7 +33,7 @@ export const runEventSchema = z.discriminatedUnion('kind', [
       kind: z.literal('question-answer'),
       questionId: text(200),
       label: text(120),
-      attachment: z.enum(['loved', 'neutral', 'borrowed']).optional(),
+      attachment: z.enum(['loved', 'neutral', 'borrowed', 'theirs']).optional(),
       stackItemId: text(120).optional(),
     })
     .strict(),
@@ -56,8 +56,10 @@ export async function engineRoute(
   switch (path) {
     case 'run':
       return engine.run(userId, z.object({ event: runEventSchema }).strict().parse(input).event as EngineEvent, opts);
-    case 'message':
-      return engine.run(userId, { kind: 'message', text: z.object({ text: text(2000) }).strict().parse(input).text }, opts);
+    case 'message': {
+      const m = z.object({ text: text(2000), about: text(120).optional() }).strict().parse(input);
+      return engine.run(userId, { kind: 'message', text: m.text, ...(m.about ? { about: m.about } : {}) }, opts);
+    }
     case 'accept':
       return engine.accept(userId, z.object({ versionId: z.uuid() }).strict().parse(input).versionId, opts);
     case 'undo':
@@ -71,6 +73,10 @@ export async function engineRoute(
     case 'explore-answer': {
       const { ideaId, answer } = z.object({ ideaId: text(120), answer: z.enum(['add', 'decline']) }).strict().parse(input);
       return engine.exploreAnswer(userId, ideaId, answer, opts);
+    }
+    case 'swap-answer': {
+      const { itemKey, answer } = z.object({ itemKey: text(120), answer: z.enum(['add', 'decline']) }).strict().parse(input);
+      return engine.swapAnswer(userId, itemKey, answer, opts);
     }
     case 'night-check':
       return (await engine.checkNight(userId, opts)) ?? { state: await engine.state(userId, opts) };

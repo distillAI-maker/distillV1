@@ -11,6 +11,7 @@
   ],
   "timeZone": "America/New_York",
   "now": "2026-10-21T06:10:00-04:00",
+  "usualSleepMin": 380,
   "progress": {
     "version": 1,
     "step": "done",

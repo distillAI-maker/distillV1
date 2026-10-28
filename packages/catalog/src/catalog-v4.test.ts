@@ -102,6 +102,17 @@ describe('routing table V4', () => {
     expect(ingestV4(workbook([forSome]), 'a'.repeat(64)).items[0]!.clearWhen).toContain('BORROWED_WEAK');
     expect(() => ingestV4(workbook([{ ...forSome, tier_otherwise: 'B' }]), 'a'.repeat(64))).toThrow(/BORROWED_WEAK is for tiers C, D and N/);
   });
+  it('gives each item its sources’ findings, and a swap only when it is something to do', () => {
+    const v3 = catalogSchema.parse(data);
+    const tea = { ...creatine, fits_instead: 'Chamomile tea is the everyday source.', swap_title: 'Chamomile tea', swap_slot: 'night' };
+    const view = buildCatalogView(ingestV4(workbook([tea]), 'a'.repeat(64)), v3).item('creatine-monohydrate')!;
+    expect(view.swap).toEqual({ title: 'Chamomile tea', slot: 'night', perWeek: null });
+    expect(view.findings).toEqual([{ finding: source.finding, population: 'adults who train' }]);
+    expect(() => ingestV4(workbook([{ ...tea, swap_title: 'A sleep supplement' }]), 'a'.repeat(64))).toThrow(/never something to buy/);
+    expect(() => ingestV4(workbook([{ ...tea, fits_instead: '' }]), 'a'.repeat(64))).toThrow(/a swap needs the fits_instead line/);
+    expect(() => ingestV4(workbook([{ ...tea, swap_slot: 'weekend' }]), 'a'.repeat(64))).toThrow();
+    expect(() => ingestV4(workbook([{ ...tea, swap_per_week: 'often' }]), 'a'.repeat(64))).toThrow(/swap_per_week: expected a number/);
+  });
   it('only lets reviewed rows reach the engine; everything else reads as unknown evidence', () => {
     const v3 = catalogSchema.parse(data);
     const draft = ingestV4(workbook([{ ...creatine, status: 'draft', reviewed_by: '', reviewed_on: '' }]), 'a'.repeat(64));

@@ -31,7 +31,7 @@ export const engineApi = {
   /** On open: last night's check, if it hasn't run, and the state either way. */
   open: () => call<EngineResult>('night-check', {}),
   run: (event: RunEvent) => call<EngineResult>('run', { event }),
-  message: (text: string) => call<EngineResult>('message', { text }),
+  message: (text: string, about?: string) => call<EngineResult>('message', about ? { text, about } : { text }),
   accept: (versionId: string) => call<EngineResult>('accept', { versionId }),
   undo: (versionId: string) => call<EngineResult>('undo', { versionId }),
   settings: (nightsShapeMornings: boolean) => call<EngineResult>('settings', { nightsShapeMornings }),
@@ -39,4 +39,6 @@ export const engineApi = {
     call<EngineResult>('explore', region ? { want, region } : { want }),
   exploreAnswer: (ideaId: string, answer: 'add' | 'decline') =>
     call<EngineResult>('explore-answer', { ideaId, answer }),
+  swapAnswer: (itemKey: string, answer: 'add' | 'decline') =>
+    call<EngineResult>('swap-answer', { itemKey, answer }),
 };

@@ -1,6 +1,6 @@
 {
   "id": "ravi-31",
-  "summary": "Ravi, 31, San Francisco engineer with two wearables, a CGM he stopped wearing and a cabinet of podcast supplements; climbing with Jess and the Eight Sleep are his. Tests clearing a second wearable without arbitrating numbers, plus a New York trip.",
+  "summary": "Ravi, 31, San Francisco engineer with an Oura, plus a WHOOP he switched from but never cancelled, a CGM he stopped wearing and a cabinet of podcast supplements; climbing with Jess and the Eight Sleep are his. Tests clearing a second wearable without arbitrating numbers, plus a New York trip.",
   "draftedBy": "Claude",
   "covers": [
     "stack:10+",
@@ -11,6 +11,7 @@
   ],
   "timeZone": "America/Los_Angeles",
   "now": "2026-10-21T07:15:00-07:00",
+  "usualSleepMin": 435,
   "progress": {
     "version": 1,
     "step": "done",
@@ -54,7 +55,7 @@
         "notes": [
           {
             "id": "n1",
-            "text": "Got it to cross-check the Oura. They disagree most mornings and I check both before I'm out of bed.",
+            "text": "Had the WHOOP first, switched to the Oura when the strap got annoying, never cancelled it. Still open the app some mornings to see if they agree. They never do.",
             "at": "2026-10-19T07:20:00-07:00"
           }
         ],

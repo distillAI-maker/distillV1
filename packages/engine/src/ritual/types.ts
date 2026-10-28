@@ -218,6 +218,8 @@ export const partSourceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('words'), quote }).strict(),
   z.object({ kind: z.literal('explore'), ideaId: z.string().min(1) }).strict(),
   z.object({ kind: z.literal('engine'), rule: z.string().min(1).max(60) }).strict(),
+  /** The catalog's swap for something they let go of (chamomile tea for apigenin), added on their yes. */
+  z.object({ kind: z.literal('swap'), itemKey: z.string().min(1) }).strict(),
 ]);
 export type PartSource = z.infer<typeof partSourceSchema>;
 
@@ -363,6 +365,10 @@ export const reasonCodeSchema = z.enum([
   'DOSE_BELOW_MIN',
   'FORM_NOT_ABSORBED',
   'UNLOVED_HABIT',
+  /** Mixed or weak evidence, it costs money, and they said they can't feel it doing anything. */
+  'NOT_FELT',
+  /** Something expensive they don't love: the same activity for less, offered once. */
+  'BUDGET',
   'NOT_TRAINING',
   'TOO_MANY_STEPS',
   // curate
@@ -434,7 +440,8 @@ export type EngineEvent =
   | { readonly kind: 'stack-change' }
   | { readonly kind: 'note'; readonly stackItemId: string; readonly text: string }
   | { readonly kind: 'answer'; readonly q: string; readonly a: string; readonly stackItemId?: string }
-  | { readonly kind: 'message'; readonly text: string }
+  /** `about`: the stackItemId of the card they asked from (a Why? tap), when there is one. */
+  | { readonly kind: 'message'; readonly text: string; readonly about?: string }
   | { readonly kind: 'night'; readonly date: string; readonly sleepMin: number }
   | { readonly kind: 'edit'; readonly scope: 'base' | 'day'; readonly date?: string; readonly ops: readonly Op[] }
   | {
@@ -448,7 +455,7 @@ export type EngineEvent =
       readonly kind: 'question-answer';
       readonly questionId: string;
       readonly label: string;
-      readonly attachment?: 'loved' | 'neutral' | 'borrowed';
+      readonly attachment?: 'loved' | 'neutral' | 'borrowed' | 'theirs';
       readonly stackItemId?: string;
     }
   /** Their yes to a feeling Distill heard in their words ("is AG1 something you love?"). */

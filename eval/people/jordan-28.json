@@ -12,6 +12,7 @@
   ],
   "timeZone": "America/Los_Angeles",
   "now": "2026-10-21T07:00:00-07:00",
+  "usualSleepMin": 400,
   "progress": {
     "version": 1,
     "step": "done",
@@ -23,7 +24,7 @@
       "skin / hair"
     ],
     "name": "Jordan",
-    "lifeText": "An early session with Dani, a smoothie in the car between showings, close a deal, then Sunday dinner at Rafa's parents' place where his mom feeds everyone twice. I want to feel strong and like myself on the wedding day, not starving.",
+    "lifeText": "An early session with Dani, a smoothie in the car between showings, close a deal, then Sunday dinner at Rafa's parents' place where his mom feeds everyone twice. Friday is date night with Rafa somewhere new, or tacos with my girls if he's working. I want to feel strong and like myself on the wedding day, not starving.",
     "member": true,
     "items": [
       {
@@ -270,6 +271,11 @@
       "kind": "decision-answer",
       "stackItemId": "jordan-berberine",
       "answer": "yes"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T17:00:00-07:00",
+      "text": "Bachelorette planning night with my girls tonight. It's going to be a late one."
     },
     {
       "kind": "message",

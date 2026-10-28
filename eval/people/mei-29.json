@@ -18,7 +18,7 @@
       "skin / hair"
     ],
     "name": "Mei",
-    "lifeText": "slow morning, a matcha latte, writing button copy that makes someone's day 1% easier lol. evenings: a routine i secretly love and secretly hate. saturdays are sheet masks and k-dramas with my sister lin",
+    "lifeText": "slow morning, a matcha latte, writing button copy that makes someone's day 1% easier lol. evenings: a routine i secretly love and secretly hate. fridays: dinner somewhere new with my work friends, then karaoke if we're feeling brave. saturdays are sheet masks and k-dramas with my sister lin",
     "member": true,
     "items": [
       {
@@ -238,6 +238,11 @@
       "kind": "decision-answer",
       "stackItemId": "mei-eyecream",
       "answer": "not-now"
+    },
+    {
+      "kind": "message",
+      "at": "2026-10-30T19:00:00-04:00",
+      "text": "karaoke tonight for my coworker's birthday. tomorrow's routine is NOT happening lol"
     },
     {
       "kind": "answer",

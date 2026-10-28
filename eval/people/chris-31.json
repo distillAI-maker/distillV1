@@ -9,6 +9,7 @@
   ],
   "timeZone": "America/Denver",
   "now": "2026-10-21T06:45:00-06:00",
+  "usualSleepMin": 420,
   "progress": {
     "version": 1,
     "step": "done",

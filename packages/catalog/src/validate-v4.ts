@@ -37,6 +37,10 @@ const formatIssue = (issue: z.core.$ZodIssue, input: unknown) => {
     : `${path.join('.')}: ${issue.message}`;
 };
 
+/** The engine's own list of words that mean "a thing to buy" (validate.ts): a swap never adds one. */
+const BUY_WORDS =
+  /\b(supplement|capsules?|gummies|gummy|pills?|tablets?|powder|serum|cream|mask|patch|drops?|tincture|shake|bar|subscription|membership|device|tracker|ring|app)\b/i;
+
 export function validateV4(input: unknown): CatalogV4 {
   const parsed = catalogV4Schema.safeParse(input);
   if (!parsed.success) throw new V4ValidationError(parsed.error.issues.map((i) => formatIssue(i, input)));
@@ -84,10 +88,17 @@ export function validateV4(input: unknown): CatalogV4 {
       problems.push(`${at('Items', r, 'overlaps')}: OVERLAP needs at least one overlap group`);
     for (const g of i.overlaps)
       if (!groups.has(g)) problems.push(`${at('Items', r, 'overlaps')}: no group "${g}" on the Overlaps sheet`);
+    if (i.swap && !i.fitsInstead)
+      problems.push(`${at('Items', r, 'swap_title')}: a swap needs the fits_instead line that explains it`);
+    if (i.swap && BUY_WORDS.test(i.swap.title))
+      problems.push(`${at('Items', r, 'swap_title')}: a swap is something to do, never something to buy`);
     for (const [field, value, max] of [
+      ['swap_title', i.swap?.title ?? '', 8],
       ['evidence_summary', i.evidenceSummary, 40],
       ['human_question', i.humanQuestion, 11],
+      ['origin_question', i.originQuestion, 14],
       ['fits_instead', i.fitsInstead, 30],
+      ['budget_option', i.budgetOption, 30],
     ] as const)
       if (value) for (const p of personTextProblems(value, c.bannedPhrases, max)) problems.push(`${at('Items', r, field)}: ${p}`);
   }

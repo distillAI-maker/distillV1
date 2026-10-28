@@ -33,6 +33,10 @@ function row(over: Partial<V4Item> & Pick<V4Item, 'key' | 'name' | 'area' | 'kin
     clearWhen: [],
     neverClear: false,
     humanQuestion: 'How does it fit your day?',
+    originQuestion: '',
+    swap: null,
+    builds: false,
+    budgetOption: '',
     fitsInstead: '',
     awe: null,
     wearableSees: 'no',
@@ -71,6 +75,7 @@ export const v4Rows: V4Item[] = [
     keepWhen: ['THEIRS', 'LOVED', 'EVIDENCE_REGULAR', 'TRAINS'],
     clearWhen: ['DOSE_BELOW_MIN', 'NOT_TRAINING'],
     humanQuestion: 'Do you lift, or is it more for focus?',
+    builds: true,
   }),
   row({
     key: 'sleep-gummies-blend',
@@ -118,7 +123,10 @@ export const v4Rows: V4Item[] = [
     comesFrom: ['feed', 'ad', 'podcast'],
     evidenceTier: 'N',
     clearWhen: ['BORROWED_WEAK', 'UNUSED'],
+    evidenceSummary: 'No independent trial has tested a greens powder.',
+    sources: ['greens-test-review'],
     fitsInstead: 'A piece of fruit and some greens at lunch.',
+    swap: { title: 'Fruit and greens at lunch', slot: 'midday', perWeek: null },
   }),
   row({
     key: 'alcohol-in-the-evening',
@@ -177,6 +185,7 @@ export const v4Rows: V4Item[] = [
     overlaps: ['fitness-memberships'],
     keepWhen: ['THEIRS', 'LOVED', 'EVIDENCE_REGULAR'],
     clearWhen: ['UNUSED', 'OVERLAP'],
+      budgetOption: 'A standard gym with the equipment you use, plus a class pass for the days you want the extras.',
   }),
   row({
     key: 'sunscreen-daily-spf-30',
@@ -220,6 +229,16 @@ export const v4Rows: V4Item[] = [
     fitsInstead: 'One gentle exfoliant, two or three nights a week.',
   }),
   row({
+    key: 'percussion-massage-gun',
+    name: 'Massage gun (Theragun and similar)',
+    shortName: 'Massage gun',
+    area: 'move',
+    kind: 'device',
+    costMonthUsd: 10,
+    evidenceTier: 'C',
+    clearWhen: ['UNUSED'],
+  }),
+  row({
     key: 'therapy-counselling',
     name: 'Therapy or counselling',
     shortName: 'Therapy',
@@ -238,7 +257,21 @@ export const v4Fixture: CatalogV4 = {
   sourceFile: 'Routing-Table_V4.xlsx',
   sourceSha256: 'f'.repeat(64),
   items: v4Rows,
-  sources: [],
+  sources: [
+    {
+      id: 'greens-test-review',
+      citation: 'A test review of greens powders.',
+      year: 2024,
+      type: 'review',
+      doiOrUrl: 'https://example.org/greens',
+      finding: 'Found no independent trial of a greens powder; whole vegetables have their own long record.',
+      population: 'healthy adults',
+      checkedBy: 'test',
+      checkedOn: '2026-10-25',
+      brandFunded: false,
+      source: loc,
+    },
+  ],
   overlaps: [
     { group: 'sleep-aids', members: ['sleep-gummies-blend', 'melatonin'], rule: 'keep-best-evidence', note: '', source: loc },
     {

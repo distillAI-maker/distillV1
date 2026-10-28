@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import type { CatalogView, ToneRules } from '@distill/catalog';
+import type { CatalogItemView, CatalogView, ToneRules } from '@distill/catalog';
 import {
   addDays,
   allowedNumbersFrom,
@@ -27,6 +27,7 @@ import {
   stamp,
   validateOps,
   valuableQuestions,
+  NOT_SURE,
   withNights,
   type Allowed,
   type Decision,
@@ -44,12 +45,12 @@ import {
   type TodayHistory,
   type TodayPick,
 } from '@distill/engine/ritual';
-import { theirWords } from '../../lib/ai/engine/brief';
+import { theirWords, type ItemStandingNote } from '../../lib/ai/engine/brief';
 import type { CallUsage, ClaudeClient } from '../../lib/ai/engine/call';
 import { classifyMessage, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
 import { composeRitual, PROMPT_VERSION as COMPOSE_VERSION } from '../../lib/ai/engine/compose';
 import { explore as exploreStep, PROMPT_VERSION as EXPLORE_VERSION } from '../../lib/ai/engine/explore';
-import { CLINICAL_REPLY, CRISIS_REPLY, replyTo, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
+import { CLINICAL_REPLY, CRISIS_REPLY, replyTo, type ReplyAbout, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
 import { reshape, PROMPT_VERSION as RESHAPE_VERSION } from '../../lib/ai/engine/reshape';
 import { updatePerson, PROMPT_VERSION as UPDATE_VERSION } from '../../lib/ai/engine/update-person';
 import { fallbackLine, wordDecisions, PROMPT_VERSION as WORD_VERSION } from '../../lib/ai/engine/word-decisions';
@@ -129,6 +130,8 @@ export interface EngineState {
     readonly question?: QuestionDraft;
     readonly more?: string;
     readonly learn?: string;
+    /** After a yes to letting something go: the catalog's swap, theirs to add or not. */
+    readonly swap?: SwapOffer;
   };
   readonly thread: readonly StoredMessage[];
   /** Where each thing on their list stands, for the app's labels. */
@@ -140,6 +143,15 @@ export interface EngineState {
 /** Outside the edit (a clinician's), theirs, worth keeping, proposed to let go, to adjust, or still open. */
 export type ItemStanding = 'clinician' | 'theirs' | 'keep' | 'clear' | 'adjust' | 'open';
 
+/** Something to do in place of what they let go of, offered once: never something to buy. */
+export interface SwapOffer {
+  readonly itemKey: string;
+  readonly stackItemId: string;
+  readonly title: string;
+  readonly slot: 'morning' | 'midday' | 'evening' | 'night';
+  readonly perWeek: number | null;
+}
+
 export interface EngineResult {
   readonly state: EngineState;
   readonly reply?: string;
@@ -149,6 +161,8 @@ export interface EngineResult {
   /** Feelings about things on their list that need their yes before Distill records them. */
   readonly ask?: readonly { stackItemId: string; attachment: string; quote: string }[];
   readonly explore?: { options: readonly { ideaId: string; title: string; why: string; url: string; partner: boolean }[] };
+  /** A follow-up about something they let go of (or Distill suggested letting go of) that has a swap. */
+  readonly swap?: SwapOffer;
 }
 
 interface Ctx {
@@ -498,6 +512,7 @@ export class Engine {
       let versionId: string | undefined;
       let stackChange: EngineResult['stackChange'];
       let ask: EngineResult['ask'];
+      let swap: SwapOffer | undefined;
       const say = async (text: string, version?: string) => {
         reply = text;
         if (version) versionId = version;
@@ -591,7 +606,8 @@ export class Engine {
             await say(CLINICAL_REPLY);
             break;
           }
-          const learned = await this.learn(ctx, tx, 'message', event.text);
+          // Said about one thing ("Or tell me in your words"): what they say is about that thing.
+          const learned = await this.learn(ctx, tx, 'message', event.text, event.about ? { stackItemId: event.about } : {});
           if (learned.ask.length) ask = learned.ask;
           if (learned.applied) await this.syncDecisions(ctx, tx);
           if (c?.trigger && ctx.reshapesLeft > 0) {
@@ -616,11 +632,19 @@ export class Engine {
             const match = matchItem(ctx.progress, this.deps.catalog, c.stack.name);
             stackChange = { action: c.stack.action, name: c.stack.name, ...(match ? { stackItemId: match } : {}) };
           }
-          const about = c?.intent === 'question' ? aboutItem(ctx.progress, this.deps.catalog, event.text) : undefined;
+          const asking = c ? c.intent === 'question' || (c.intent === 'chat' && QUESTIONISH.test(event.text)) : QUESTIONISH.test(event.text);
+          const found = await this.aboutFor(ctx, event, asking, tx);
+          // The catalog's reviewed answer only for a question ("Why let AG1 go?"); something they told us
+          // about it ("I eat maybe half of them") is thanked, and Claude, when on, reads it.
+          const followUp = found ? await this.followUpFor(ctx, found.item, found.via !== 'named' && QUESTIONISH.test(event.text), tx) : undefined;
+          if (found && followUp) {
+            await store.log({ userId, kind: 'message.about', payload: { stackItemId: found.item.id, via: found.via } }, tx);
+            swap = followUp.swap;
+          }
           const r = await replyTo(ctx.client, {
             person: ctx.person,
             message: event.text,
-            ...(about ? { about } : {}),
+            ...(followUp ? { followUp: followUp.about } : {}),
             toneRules: this.deps.toneRules,
             lineContext: this.lineContext(ctx, [event.text]),
             today: ctx.today,
@@ -665,8 +689,88 @@ export class Engine {
         ...(versionId ? { versionId } : {}),
         ...(stackChange ? { stackChange } : {}),
         ...(ask ? { ask } : {}),
+        ...(swap ? { swap } : {}),
       };
     });
+  }
+
+  /**
+   * The thing a message is about: the card they tapped Why? on; the thing they named, when they're
+   * asking; or, for a short follow-up ("why?", "how do I fit this in?"), what they last asked about
+   * or today's card, whichever came later.
+   */
+  private async aboutFor(
+    ctx: Ctx,
+    event: Extract<EngineEvent, { kind: 'message' }>,
+    asking: boolean,
+    tx: Tx,
+  ): Promise<{ item: Progress['items'][number]; via: 'card' | 'named' | 'follow-up' } | undefined> {
+    const items = ctx.progress.items;
+    if (event.about) {
+      const hit = items.find((i) => i.id === event.about);
+      if (hit) return { item: hit, via: 'card' };
+    }
+    if (!asking) return undefined;
+    const named = matchItem(ctx.progress, this.deps.catalog, event.text);
+    const hit = items.find((i) => i.id === named);
+    if (hit) return { item: hit, via: 'named' };
+    if (!isFollowUp(event.text)) return undefined;
+    const since = new Date(Date.parse(ctx.instant) - FOLLOW_UP_MS).toISOString();
+    const recent = await this.deps.store.events(ctx.userId, ['message.about', 'today.shown'], since, tx);
+    for (const e of [...recent].sort((a, b) => a.at.localeCompare(b.at)).reverse()) {
+      const id = e.kind === 'message.about' ? String(e.payload.stackItemId) : e.payload.date === ctx.today ? this.cardItem(ctx, e.payload.pick) : undefined;
+      const back = id ? items.find((i) => i.id === id) : undefined;
+      if (back) return { item: back, via: 'follow-up' };
+    }
+    return undefined;
+  }
+
+  /** The item behind a card that was shown: a decision's, or a question's (`q:${id}:${variable}`). */
+  private cardItem(ctx: Ctx, pick: unknown): string | undefined {
+    const p = pick as { kind?: string; ref?: string } | null;
+    if (!p?.ref) return undefined;
+    if (p.kind === 'question') return p.ref.startsWith('q:') ? p.ref.slice(2, p.ref.lastIndexOf(':')) : undefined;
+    return ctx.decisions.find((d) => d.id === p.ref)?.stackItemId ?? undefined;
+  }
+
+  /**
+   * Everything a fuller answer needs about one thing on their list, and the swap to offer with it.
+   * `fixed`: with Claude off, answer in the catalog's reviewed words. Only for a card they tapped or
+   * followed up on; a free-text question about something waits for Claude, which can fit the answer
+   * to them.
+   */
+  private async followUpFor(ctx: Ctx, item: Progress['items'][number], fixed: boolean, tx: Tx): Promise<{ about: ReplyAbout; swap?: SwapOffer } | undefined> {
+    const view = this.deps.catalog.item(item.itemKey);
+    if (!view) return undefined;
+    const standing: ItemStandingNote =
+      item.status === 'cut'
+        ? 'let-go'
+        : (standingsOf([item], this.decideNow(ctx), ctx.decisions.filter((d) => d.status === 'proposed'), ctx.decisions)[item.id] ?? 'open');
+    const offerSwap = standing === 'clear' || standing === 'let-go';
+    const swap = offerSwap ? await this.swapFor(ctx, item.id, tx) : undefined;
+    return {
+      about: {
+        view,
+        name: item.label || item.customName || view.shortName || view.name,
+        standing,
+        conditions: new Set(ctx.person.constraints.conditions.map((c) => c.condition)),
+        offerSwap,
+        fixed,
+      },
+      ...(swap ? { swap } : {}),
+    };
+  }
+
+  /** The catalog's swap for this item, unless it's already in their Ritual or they said no to it. */
+  private async swapFor(ctx: Ctx, stackItemId: string, tx: Tx): Promise<SwapOffer | undefined> {
+    const item = ctx.progress.items.find((i) => i.id === stackItemId);
+    const view = this.deps.catalog.item(item?.itemKey);
+    if (!item || !view?.swap) return undefined;
+    const base = baseOn(ctx.versions, ctx.today);
+    if (!base || base.parts.some((p) => p.id === swapPartId(view.key) && p.status === 'active')) return undefined;
+    const declined = await this.deps.store.events(ctx.userId, ['swap.declined'], '2000-01-01T00:00:00Z', tx);
+    if (declined.some((e) => e.payload.itemKey === view.key)) return undefined;
+    return { itemKey: view.key, stackItemId, title: view.swap.title, slot: view.swap.slot, perWeek: view.swap.perWeek };
   }
 
   private async lastNightReshape(ctx: Ctx, tx: Tx) {
@@ -898,6 +1002,32 @@ export class Engine {
     });
   }
 
+  /** Their answer to a swap: added to their Ritual where it fits, or never offered again. */
+  async swapAnswer(userId: string, itemKey: string, answer: 'add' | 'decline', opts: { timeZone?: string } = {}): Promise<EngineResult> {
+    return this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const view = this.deps.catalog.item(itemKey);
+      if (!view?.swap || !ctx.progress.items.some((i) => i.itemKey === itemKey)) throw new HttpError(404, 'no_such_swap');
+      if (answer === 'decline') {
+        await this.deps.store.log({ userId, kind: 'swap.declined', payload: { itemKey } }, tx);
+        return { state: await this.stateFrom(ctx, tx) };
+      }
+      const base = baseOn(ctx.versions, ctx.today);
+      if (!base) throw new HttpError(409, 'no_ritual');
+      const id = swapPartId(itemKey);
+      if (base.parts.some((p) => p.id === id && p.status === 'active')) return { state: await this.stateFrom(ctx, tx) };
+      const op: Op = { op: 'add', part: partForSwap(view) };
+      const parts = applyOps(base.parts.filter((p) => p.id !== id), [op], { scope: 'base', newId: idQueue([id]) }).parts;
+      const v = await this.saveVersion(
+        ctx,
+        { parentId: base.id, scope: { kind: 'base', effectiveFrom: ctx.today }, parts, ops: [op], changes: [{ op: 'add', partId: id, reason: 'swap' }], cause: { eventId: null, trigger: 'edit' }, status: 'accepted', engine: this.stampFor({ itemKey }) },
+        tx,
+      );
+      await this.rebaseFuture(ctx, [op], [id], tx);
+      await this.deps.store.log({ userId, kind: 'swap.added', payload: { itemKey, versionId: v.id } }, tx);
+      return { state: await this.stateFrom(ctx, tx), versionId: v.id };
+    });
+  }
+
   /**
    * Called when the app opens: the night check runs once for the newest night their wearable sent,
    * if it is last night's. Returns null when there is nothing new to check.
@@ -921,7 +1051,7 @@ export class Engine {
     const since = new Date(Date.parse(ctx.instant) - 14 * DAY_MS).toISOString();
     const events = await this.deps.store.events(
       ctx.userId,
-      ['part.done', 'part.skipped', 'today.shown', 'explore.asked', 'explore.added', 'explore.declined'],
+      ['part.done', 'part.skipped', 'today.shown', 'explore.asked', 'explore.added', 'explore.declined', 'question.answered'],
       since,
       db,
     );
@@ -949,6 +1079,7 @@ export class Engine {
     const ref = pick && 'ref' in pick ? (pick.ref as string | undefined) : undefined;
     const decision = pick && ref ? ctx.decisions.find((d) => d.id === ref) : undefined;
     const question = pick?.kind === 'question' ? this.questions(ctx).find((q) => q.id === ref) : undefined;
+    const swap = decision?.kind === 'clear' && decision.status === 'yes' && decision.stackItemId ? await this.swapFor(ctx, decision.stackItemId, db) : undefined;
     const decided = this.decideNow(ctx);
     const items = standingsOf(
       ctx.progress.items,
@@ -981,6 +1112,7 @@ export class Engine {
         ...(question ? { question } : {}),
         ...(pick?.kind === 'more' && ref ? { more: ref } : {}),
         ...(pick?.kind === 'learn' && ref ? { learn: ref } : {}),
+        ...(swap ? { swap } : {}),
       },
       thread: await this.deps.store.messages(ctx.userId, 60, db),
       items,
@@ -1013,12 +1145,17 @@ export class Engine {
       threadOpen: !!lastAsked && !answeredAfter && Date.parse(ctx.instant) - Date.parse(lastAsked.at) < 7 * DAY_MS,
     });
     const day = Math.floor(Date.parse(`${ctx.today}T12:00:00Z`) / DAY_MS);
+    // "Not sure" rests a question for the two weeks these events cover; any other answer changes
+    // what they told us, so the question stops mattering on its own.
+    const resting = new Set(
+      events.filter((e) => e.kind === 'question.answered' && e.payload.label === NOT_SURE).map((e) => String(e.payload.questionId)),
+    );
     const result = pickToday({
       personId: ctx.userId,
       today: ctx.today,
       season: seasonOn(ctx.person, ctx.today),
       decisions: ctx.decisions,
-      questions: this.questions(ctx),
+      questions: this.questions(ctx).filter((q) => !resting.has(q.id)),
       history,
       moreLeft: morePlaces.map((p) => p.id).filter((id) => !asked.has(id)),
       exploreOpen: gate.open,
@@ -1055,7 +1192,7 @@ function standingsOf(
   items: Progress['items'],
   decided: { clinicianIds: readonly string[]; theirsIds: readonly string[] },
   open: readonly { stackItemId: string | null; kind: string; reason: string }[],
-  all: readonly { stackItemId: string | null; kind: string }[],
+  all: readonly { stackItemId: string | null; kind: string; reason?: string }[],
 ): Record<string, ItemStanding> {
   const out: Record<string, ItemStanding> = {};
   for (const i of items) {
@@ -1069,7 +1206,8 @@ function standingsOf(
           ? 'clear'
           : mine.some((d) => d.kind === 'curate' && (d.reason === 'ADJUST_DOSE' || d.reason === 'ADJUST_FORM'))
             ? 'adjust'
-            : all.some((d) => d.stackItemId === i.id && d.kind === 'keep')
+            : // "No reason to change it" is their call, not something Distill keeps for them.
+              all.some((d) => d.stackItemId === i.id && d.kind === 'keep' && d.reason !== 'NOTHING_TO_CLEAR')
               ? 'keep'
               : 'open';
   }
@@ -1208,9 +1346,34 @@ function partForIdea(idea: ExploreBank['ideas'][number]): NewPart {
   };
 }
 
+const swapPartId = (itemKey: string) => `part:swap:${itemKey}`;
+
+function partForSwap(view: CatalogItemView): NewPart {
+  const swap = view.swap!;
+  return {
+    title: swap.title,
+    slot: swap.slot,
+    ...(swap.perWeek ? { perWeek: swap.perWeek } : {}),
+    area: view.area,
+    why: view.fitsInstead.slice(0, 240),
+    source: { kind: 'swap', itemKey: view.key },
+  };
+}
+
+/** A message that asks something. */
+const QUESTIONISH = /\?|^\s*(why|how|what|should|is|are|does|do|can|could|would|will)\b/i;
+/** A short follow-up to the card or the last answer: "why?", "is it worth it?", "how do I fit this in?". */
+const POINTS_BACK = /\b(it|this|that|these|those|them|one|swap|instead)\b/i;
+const BARE = /^\s*(why|how come|how so|how|really|wait|huh)\b/i;
+const FOLLOW_UP_MS = 12 * 3_600_000;
+function isFollowUp(text: string): boolean {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return words <= 14 && (POINTS_BACK.test(text) || (BARE.test(text) && words <= 5));
+}
+
 /** Message text lives (with consent) in the thread table; the event log keeps only its shape. */
 function redact(event: EngineEvent): Record<string, unknown> {
-  if (event.kind === 'message') return { kind: event.kind, length: event.text.length };
+  if (event.kind === 'message') return { kind: event.kind, length: event.text.length, ...(event.about ? { about: event.about } : {}) };
   if (event.kind === 'note') return { kind: event.kind, stackItemId: event.stackItemId, length: event.text.length };
   if (event.kind === 'answer') return { kind: event.kind, q: event.q, length: event.a.length };
   return { ...event } as Record<string, unknown>;
@@ -1251,8 +1414,3 @@ export function matchItem(progress: Progress, catalog: CatalogView, name: string
   return best?.id;
 }
 
-function aboutItem(progress: Progress, catalog: CatalogView, text: string) {
-  const id = matchItem(progress, catalog, text);
-  const item = progress.items.find((i) => i.id === id);
-  return item ? catalog.item(item.itemKey) : undefined;
-}

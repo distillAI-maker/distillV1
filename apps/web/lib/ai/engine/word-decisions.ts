@@ -10,7 +10,8 @@ import { arr, obj, str } from './schema';
 /** Step 4: say each decision in the companion voice (Opus 5.5, low). */
 export const PROMPT_VERSION = PROMPT_VERSIONS.wordDecisions;
 
-const money = (n: number) => (n > 0 ? ` and keep the $${Math.round(n)} a month` : '');
+/** Said with confidence (Veer, 27 Oct): it can go, and what comes back. Their answer still decides. */
+const back = (n: number) => (n > 0 ? `: $${Math.round(n)} a month back.` : '.');
 
 /**
  * The line when Claude is off or a line fails its checks: plain, kind, and built only from facts.
@@ -24,23 +25,26 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
   const c = d.context;
   switch (`${d.kind}:${d.reason}`) {
     case 'clear:BORROWED_WEAK':
-      return `${name} came from someone else's routine, and nothing you've told us ties it to your days. Want to let it go${money(d.money)}?`;
+      return `${name} came from someone else's routine, and nothing you've told us ties it to your days. It can go${back(d.money)}`;
     case 'clear:OVERLAP':
-      return `${c.keeperName ?? 'Something you keep'} already does what ${lower} is for. Want to let ${lower} go${money(d.money)}?`;
+      return `${c.keeperName ?? 'Something you keep'} already does what ${lower} is for, so ${lower} can go${back(d.money)}`;
     case 'clear:UNUSED':
-      return `${name} hasn't had much use lately. Want to let it go${money(d.money)}?`;
+      return `${name} hasn't had much use lately. It can go${back(d.money)}`;
     case 'clear:DOSE_BELOW_MIN':
-      return `${name} is below the amount that's known to do anything. Want to let it go${money(d.money)}?`;
+      return `${name} is below the amount that's known to do anything, so as it is, it can go${back(d.money)}`;
     case 'clear:FORM_NOT_ABSORBED':
       return unsayable
-        ? `This one isn't in the form that's known to work. Want to let it go${money(d.money)}?`
-        : `The kind of ${name} you have isn't the form that's known to work. Want to let it go${money(d.money)}?`;
+        ? `This one isn't in the form that's known to work, so it can go${back(d.money)}`
+        : `The kind of ${name} you have isn't the form that's known to work, so it can go${back(d.money)}`;
     case 'clear:UNLOVED_HABIT':
+      // Never presumes they don't enjoy it: the swap keeps the part they like.
       return c.fitsInstead
-        ? `${name} doesn't sound like it's giving you much. ${c.fitsInstead} Want to try that swap?`
-        : `${name} doesn't sound like it's giving you much. Want to swap it for something you enjoy more?`;
+        ? `A swap for ${lower}: ${c.fitsInstead.replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())} You keep the part you like, with less of what it costs you. Want to try it?`
+        : `${name} costs you a little more than it shows. Want to find a swap you'd enjoy as much?`;
+    case 'clear:NOT_FELT':
+      return `You said ${lower} isn't doing much you can feel, so it can go${back(d.money)}`;
     case 'clear:NOT_TRAINING':
-      return `${name} is built for people who lift. If that isn't you right now, want to let it go${money(d.money)}?`;
+      return `${name} is built for people who lift. If that isn't you right now, it can go${back(d.money)}`;
     case 'clear:TOO_MANY_STEPS':
       return c.fitsInstead ? `${name} does the same job twice. ${c.fitsInstead} Want the simpler version?` : `${name} doubles up on a step you already have. Want one simpler routine?`;
     case 'keep:THEIRS':
@@ -51,6 +55,12 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
       return `${name} is one of the well-founded things you do, even on days you can't feel it. Keep it.`;
     case 'keep:TRAINS':
       return `${name} is doing real work for your training, even when you can't feel it. Keep it.`;
+    case 'curate:BUDGET':
+      return c.budgetOption
+        ? `${name} is $${c.monthly ?? 0} a month. If you'd like it lighter on your wallet: ${c.budgetOption.replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())} Want to try that?`
+        : `${name} is one of the bigger costs in your month. Want to look at a lighter way to keep it?`;
+    case 'curate:PAIR':
+      return `${name} works best when it's every day. Want it next to ${(c.anchorName ?? 'something you already do every day').replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())}, so it happens without thinking?`;
     case 'curate:ANCHOR':
       return `${name} could be the anchor of your week. Want to build the rest around it?`;
     case 'curate:WORTH_A_LOOK':

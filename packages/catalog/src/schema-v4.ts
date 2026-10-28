@@ -144,7 +144,23 @@ export const v4ItemSchema = z
     clearWhen: z.array(v4ClearCodeSchema),
     neverClear: z.boolean(),
     humanQuestion: text,
+    /** How the app asks where it came from, in this item's own words; the buttons stay the same. */
+    originQuestion: z.string().trim(),
     fitsInstead: z.string().trim(),
+    /** The thing to do they can add to their Ritual once they let this go: never something to buy. */
+    swap: z
+      .object({
+        title: z.string().trim().min(1).max(60),
+        slot: z.enum(['morning', 'midday', 'evening', 'night']),
+        /** Null for every day. */
+        perWeek: z.number().int().min(1).max(7).nullable(),
+      })
+      .strict()
+      .nullable(),
+    /** The benefit builds with daily use (creatine, sunscreen): done now and then, it mostly misses. */
+    builds: z.boolean(),
+    /** For something expensive: the same activity for less, offered once unless they love it. */
+    budgetOption: z.string().trim(),
     awe: v4AweSchema.nullable(),
     wearableSees: v4SeesSchema,
     overlaps: z.array(text),

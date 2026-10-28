@@ -6,6 +6,7 @@ import type { EngineResult, EngineState } from '../../../lib/engine/client';
 import { EngineProvider } from '../../../lib/engine/context';
 import { ProgressProvider } from '../../../lib/progress/context';
 import { emptyProgress, type Progress, type ProgressStore } from '../../../lib/progress/types';
+import { CompanionScreen } from '../companion/companion-screen';
 import { EngineToday } from '../home/engine-today';
 import { RitualToday } from './ritual-today';
 
@@ -19,8 +20,12 @@ const api = vi.hoisted(() => ({
   settings: vi.fn(),
   explore: vi.fn(),
   exploreAnswer: vi.fn(),
+  swapAnswer: vi.fn(),
 }));
 vi.mock('../../../lib/engine/client', () => ({ engineApi: api }));
+vi.mock('../../../lib/data/use-routed', () => ({
+  useRouted: () => ({ routed: { items: [{ stackItemId: 'ag1', name: 'AG1' }] }, summary: null, failed: false, retry: () => {} }),
+}));
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }), usePathname: () => '/today' }));
 
 const stamp = { engineVersion: 't', catalogVersion: 't', inputsHash: 't' };
@@ -227,5 +232,172 @@ describe('today’s one thing, from the engine', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Let it go' }));
     await waitFor(() => expect(api.run).toHaveBeenCalledWith({ kind: 'decision-answer', decisionId: decision.id, answer: 'yes' }));
     expect(saved.at(-1)!.items[0]!.status).toBe('cut');
+    // Why? opens the companion about this card.
+    expect(screen.getByRole('link', { name: 'Why?' }).getAttribute('href')).toBe('/companion?about=ag1&why=clear');
+  });
+  it('a swap for a habit that costs them says “Try the swap”, and a yes keeps it on their list', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'mon', itemKey: 'energy-drinks', label: 'Monster', monthlyCost: 50, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    const decision = {
+      id: '00000000-0000-4000-8000-000000000002',
+      stackItemId: 'mon',
+      itemKey: 'energy-drinks',
+      kind: 'clear' as const,
+      reason: 'UNLOVED_HABIT' as const,
+      line: 'A swap for Monster: a smaller can before 2pm. You keep the part you like, with less of what it costs you. Want to try it?',
+      money: 0,
+      status: 'proposed' as const,
+      engine: stamp,
+      createdAt: '2026-10-21T19:00:00.000Z',
+    };
+    api.open.mockResolvedValue(result(stateWith({}, { kind: 'clear', decision })));
+    api.run.mockResolvedValue(result(stateWith({}, { kind: 'clear', decision: { ...decision, status: 'yes' } })));
+    const { store, saved } = signedIn(progress);
+    const routed = { items: [{ stackItemId: 'mon', name: 'Monster' }] } as never;
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <EngineToday state={stateWith({}, { kind: 'clear', decision })} routed={routed} />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: 'Try the swap' }));
+    await waitFor(() => expect(api.run).toHaveBeenCalledWith({ kind: 'decision-answer', decisionId: decision.id, answer: 'yes' }));
+    expect(saved.every((p) => p.items[0]!.status === 'listed')).toBe(true);
+    expect(screen.getByRole('link', { name: 'Why?' }).getAttribute('href')).toBe('/companion?about=mon&why=swap');
+  });
+  it('a yes to anchoring something marks it anchored on their list', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'cr', itemKey: 'creatine-monohydrate', monthlyCost: 14, answers: { usesLast30Days: 10 }, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    const decision = {
+      id: '00000000-0000-4000-8000-000000000003',
+      stackItemId: 'cr',
+      itemKey: 'creatine-monohydrate',
+      kind: 'curate' as const,
+      reason: 'PAIR' as const,
+      line: 'Creatine works best when it’s every day. Want it next to your morning coffee or breakfast, so it happens without thinking?',
+      money: 0,
+      status: 'proposed' as const,
+      engine: stamp,
+      createdAt: '2026-10-21T19:00:00.000Z',
+    };
+    api.open.mockResolvedValue(result(stateWith({}, { kind: 'curate', decision })));
+    api.run.mockResolvedValue(result(stateWith({}, { kind: 'curate', decision: { ...decision, status: 'yes' } })));
+    const { store, saved } = signedIn(progress);
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <EngineToday state={stateWith({}, { kind: 'curate', decision })} routed={{ items: [{ stackItemId: 'cr', name: 'Creatine' }] } as never} />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: 'Sounds good' }));
+    await waitFor(() => expect(api.run).toHaveBeenCalledWith({ kind: 'decision-answer', decisionId: decision.id, answer: 'yes' }));
+    expect(saved.at(-1)!.items[0]!.answers).toEqual({ usesLast30Days: 10, paired: true });
+  });
+  it('offers the swap after a yes, and keeps “Added” on the card once it is in their Ritual', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'ag1', itemKey: 'greens-powder-ag1-etc', monthlyCost: 99, answers: {}, chips: {}, unknown: [], status: 'cut', notes: [], position: 0 }],
+    };
+    const decision = {
+      id: '00000000-0000-4000-8000-000000000001',
+      stackItemId: 'ag1',
+      itemKey: 'greens-powder-ag1-etc',
+      kind: 'clear' as const,
+      reason: 'BORROWED_WEAK' as const,
+      line: '',
+      money: 99,
+      status: 'yes' as const,
+      engine: stamp,
+      createdAt: '2026-10-21T19:00:00.000Z',
+    };
+    const swap = { itemKey: 'greens-powder-ag1-etc', stackItemId: 'ag1', title: 'Spinach and berry smoothie', slot: 'morning' as const, perWeek: 3 };
+    const offered = stateWith({}, { kind: 'clear', decision, swap });
+    const after = stateWith({}, { kind: 'clear', decision });
+    api.open.mockResolvedValue(result(offered));
+    api.swapAnswer.mockResolvedValue(result(after));
+    const { store } = signedIn(progress);
+    const routed = { items: [{ stackItemId: 'ag1', name: 'AG1' }] } as never;
+    let current = offered;
+    function Card() {
+      return <EngineToday state={current} routed={routed} />;
+    }
+    const view = render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <Card />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText('Spinach and berry smoothie')).toBeTruthy();
+    expect(screen.getByText(/3 times a week in the morning/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Add to my Ritual' }));
+    await waitFor(() => expect(api.swapAnswer).toHaveBeenCalledWith('greens-powder-ag1-etc', 'add'));
+    current = after;
+    view.rerender(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <Card />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText('Added to your Ritual.')).toBeTruthy();
+  });
+  it('a Why? tap asks the companion about that card, once, and tidies the address', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'ag1', itemKey: 'greens-powder-ag1-etc', monthlyCost: 99, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    const swap = { itemKey: 'greens-powder-ag1-etc', stackItemId: 'ag1', title: 'Spinach and berry smoothie', slot: 'morning' as const, perWeek: 3 };
+    api.open.mockResolvedValue(result(stateWith()));
+    api.message.mockResolvedValue({ ...result(stateWith()), reply: 'No independent trial has tested a greens powder.', swap });
+    window.history.replaceState(null, '', '/companion?about=ag1&why=clear');
+    const { store } = signedIn(progress);
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <CompanionScreen />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    await waitFor(() => expect(api.message).toHaveBeenCalledWith('Why let AG1 go?', 'ag1'));
+    expect(window.location.search).toBe('');
+    expect(await screen.findByText('Spinach and berry smoothie · 3 times a week in the morning')).toBeTruthy();
+    expect(api.message).toHaveBeenCalledTimes(1);
+  });
+  it('“Or tell me in your words” sends their next message about that thing, without asking for them', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'ag1', itemKey: 'greens-powder-ag1-etc', monthlyCost: 99, answers: {}, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    api.message.mockReset();
+    api.open.mockResolvedValue(result(stateWith()));
+    api.message.mockResolvedValue({ ...result(stateWith()), reply: 'Got it.' });
+    window.history.replaceState(null, '', '/companion?about=ag1&why=tell');
+    const { store } = signedIn(progress);
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <CompanionScreen />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText('About AG1')).toBeTruthy();
+    expect(api.message).not.toHaveBeenCalled();
+    const box = screen.getByRole('textbox');
+    expect(box.getAttribute('placeholder')).toBe('Tell me about AG1, in your words');
+    fireEvent.change(box, { target: { value: 'I drink maybe half of them' } });
+    fireEvent.submit(box.closest('form')!);
+    await waitFor(() => expect(api.message).toHaveBeenCalledWith('I drink maybe half of them', 'ag1'));
   });
 });

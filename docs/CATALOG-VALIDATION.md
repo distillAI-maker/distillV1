@@ -25,7 +25,7 @@ Claude agents drafted every row on 20 and 22 October from sources they opened (1
 
 Of 156 rows: 81 fine, 75 worth a look, none wrong. 140 tiers judged right. Where it disagreed:
 
-- **Premium and paid extras** (premium gym, a second membership, a personal trainer, a premium app): the evidence is for training or logging, not the purchase. **Veer's decision:** protect the activity, never push a cheaper version of something premium. These rows only come up when unused or doubled; services carry no "instead" line, and no "instead" line anywhere talks price (the money back is shown separately).
+- **Premium and paid extras** (premium gym, a second membership, a personal trainer, a premium app): the evidence is for training or logging, not the purchase. **Veer's decision (24 Oct):** protect the activity. These rows only come up when unused or doubled; services carry no "instead" line, and no "instead" line anywhere talks price (the money back is shown separately). **Revised 27 Oct:** a budget option for something expensive is a useful offer (Equinox at $250 a month), unless they love it for the luxury or the people there, in which case Distill encourages keeping it. Not built yet: see `eval/review/the-41-fixes.md`.
 - **Evidence that holds only for a group** (melatonin for sleep problems or jet lag, a light box for seasonal depression, a dietitian for weight or blood-sugar goals, acupuncture for chronic pain): **Veer's decision:** their call (C) for everyone, since the engine treats "can't tell" as "protect". C is never pushed to drop, so people in the group lose nothing. When the engine can read these conditions from their words, give the rows `evidence_requires` back.
 - **Grades moved for accuracy:** sunscreen and retinoids A to B, a personal trainer A to B (all still protected); a consistent wake time, paper reading before bed and earplugs B to C (single small or patient-only studies).
 - **Overstated words fixed** in 38 summaries; 35 "instead" lines rewritten or removed; 11 tiers changed. For example, creatine's strength gain is shown mostly in men; CBT-I's gains "seemed to last"; the camping light study had no evening electric light.
@@ -38,3 +38,14 @@ After the edits all 41 golden people still pass every hard gate, and the engine 
 ## Left for the expert (step 4)
 
 The re-check flagged these without a clear answer from abstracts alone: psyllium's `low_intake` condition, the electrolyte rows' tier, ashwagandha's studied forms (Shoden vs Sensoril), zinc's typical dose against the 40 mg upper limit, and the gua sha row's "less puffy" claim. Plus a spot-check of the A/B/D/N tiers and the 218 Safety rows.
+
+## Tabled: the swaps (25 October)
+
+The 17 swaps a person can add to their Ritual (`swap_title`, from PR #39) come from the reviewed `fits_instead` lines. Claude drafted those, and the step 2 re-check only checked that they don't overstate. No expert has checked them, and none has evidence of its own. They rest on three things: their own catalog row (chamomile tea, the worry list), less of something with a cost (decaf after 2pm, the phone out of the bedroom), or nothing but keeping what the person liked (miso, a warm lamp). Until this is done, a swap "keeps the part you liked" and is never called better for you.
+
+To do, about 45 minutes plus 5 for Veer:
+- label each swap with what it rests on
+- write one honest "why this swap?" line for each, with Claude on or off
+- link chamomile tea and the worry list to their rows
+- add the 17 to the expert check in step 4
+

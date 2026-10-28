@@ -57,6 +57,7 @@ const rows = raw.items
       sources: sourcesOf(r).length,
       lines: {
         ask: weak ? fallbackLine(draft(r, 'curate', 'WORTH_A_LOOK', 0), banned) : null,
+        origin: weak ? r.originQuestion || `Where did ${r.shortName || r.name} come from?` : null,
         letGo: weak ? fallbackLine(draft(r, 'clear', 'BORROWED_WEAK', cost), banned) : null,
         swap: habit ? fallbackLine(draft(r, 'clear', 'UNLOVED_HABIT', 0), banned) : null,
         why: r.evidenceSummary,

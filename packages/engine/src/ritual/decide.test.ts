@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { decide, type DecideInput } from './decide.js';
-import { valuableQuestions } from './questions.js';
+import { NOT_SURE, valuableQuestions, withPatch } from './questions.js';
 import { catalogView, personFor, progressWith, stackItem } from './test-support.js';
 import type { PersonModel, PriorDecision } from './types.js';
 import type { StackItemLike } from './usage.js';
@@ -98,7 +98,8 @@ describe('decide: overlap is settled as a group', () => {
       stackItem('pf', 'gym-membership', { answers: { visitsLast30Days: 1 } }),
     ]);
     expect(of(result, 'pf')).toEqual(['clear:OVERLAP']);
-    expect(of(result, 'eq')).toEqual(['keep:EVIDENCE_REGULAR']);
+    // The one they use stays, and as an expensive one, it's offered a budget version too.
+    expect(of(result, 'eq')).toEqual(['curate:BUDGET', 'keep:EVIDENCE_REGULAR']);
   });
   it('never clears a loved member of a group', () => {
     const { result } = run(
@@ -132,23 +133,35 @@ describe('decide: the clearing rules', () => {
     ]);
     expect(of(result, 'ag1')).toEqual(['clear:UNUSED']);
   });
-  it('asks before naming a habit people often share: drinks are asked about, nicotine is named', () => {
+  it('asks before naming a habit people often share, with no "stays" card meanwhile; nicotine is named', () => {
     const { result } = run([
       stackItem('wine', 'alcohol-in-the-evening'),
       stackItem('nic', 'nicotine-pouches-vape'),
     ]);
-    expect(of(result, 'wine')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    expect(of(result, 'wine')).toEqual([]);
     expect(of(result, 'nic')).toEqual(['clear:UNLOVED_HABIT']);
   });
-  it('a drink alone most nights is named kindly; Friday wine with people is kept', () => {
+  it('offers a swap for a habit that costs them even when loved; tied to people, a tradition or a job, it is theirs', () => {
     const alone = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
       p.values.wine = { attachment: 'neutral', reasons: ['a glass on my own most nights'], from: 'note' };
     });
     expect(of(alone.result, 'wine')).toEqual(['clear:UNLOVED_HABIT']);
-    const loved = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
+    // Enjoying it doesn't change the advice (Veer, 25 Oct 2026): the swap keeps the part they like.
+    const enjoyed = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
+      p.values.wine = { attachment: 'loved', reasons: ['my favourite part of the day, a glass on the couch'], from: 'note' };
+    });
+    expect(of(enjoyed.result, 'wine')).toEqual(['clear:UNLOVED_HABIT']);
+    const shared = run([stackItem('wine', 'alcohol-in-the-evening')], (p) => {
       p.values.wine = { attachment: 'loved', reasons: ['Fridays Sam and I open a bottle'], from: 'note' };
     });
-    expect(of(loved.result, 'wine')).toEqual(['keep:LOVED']);
+    // Theirs, and never offered as the anchor of their week.
+    expect(of(shared.result, 'wine')).toEqual(['keep:THEIRS']);
+    const shop = run([stackItem('cof', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: 'Smoke break with the crew at the shop.', at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(shop.result, 'cof')).toEqual(['keep:THEIRS']);
+    const job = run([stackItem('nic', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: "It's part of the job on night shifts.", at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(job.result, 'nic')).toEqual(['keep:THEIRS']);
+    // A swap keeps the habit, so it frees no money.
+    expect(alone.result.decisions.find((d) => d.stackItemId === 'wine')!.money).toBe(0);
   });
   it('doubling up on skin is offered as one simpler routine', () => {
     const { result } = run([stackItem('ex', 'two-exfoliants-scrub-plus-acid-or-two-acids')]);
@@ -212,6 +225,113 @@ describe('decide: memory and order', () => {
   });
 });
 
+describe('mixed evidence that costs money', () => {
+  it('asks whether they can feel it, and offers to let it go when they can’t', () => {
+    // One question at a time: how often first, then whether they can feel it.
+    const first = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })]);
+    expect(valuableQuestions(first.input).filter((q) => q.stackItemId === 'gun').map((q) => q.variable)).toEqual(['usage']);
+    const asked = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12 } })]);
+    const card = valuableQuestions(asked.input).find((q) => q.id === 'q:gun:feel')!;
+    expect(card.text).toBe('Can you feel Massage gun doing something for you?');
+    expect(card.options.map((o) => o.label)).toEqual(['Yes, I can tell', 'Not really', 'Not sure']);
+    // No reason to change it yet: no card says it "stays".
+    expect(of(asked.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    const no = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12, feels: false } })]);
+    expect(of(no.result, 'gun')).toEqual(['clear:NOT_FELT']);
+    expect(no.result.decisions.find((d) => d.stackItemId === 'gun')!.money).toBe(10);
+    const yes = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10, answers: { usesLast30Days: 12, feels: true } })]);
+    expect(of(yes.result, 'gun')).toEqual(['keep:NOTHING_TO_CLEAR']);
+    expect(valuableQuestions(yes.input).some((q) => q.id === 'q:gun:feel')).toBe(false);
+  });
+  it('never asks about free things, things they love, or well-founded ones', () => {
+    const free = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 0 })]);
+    expect(valuableQuestions(free.input).some((q) => q.variable === 'feel')).toBe(false);
+    const loved = run([stackItem('gun', 'percussion-massage-gun', { monthlyCost: 10 })], (p) => {
+      p.values.gun = { attachment: 'loved', reasons: ['best part of my evening'], from: 'note' };
+    });
+    expect(valuableQuestions(loved.input).some((q) => q.variable === 'feel')).toBe(false);
+    const founded = run([stackItem('sun', 'sunscreen-daily-spf-30', { monthlyCost: 15, answers: { feels: false } })]);
+    expect(of(founded.result, 'sun')).not.toContain('clear:NOT_FELT');
+  });
+});
+
+describe('consistency', () => {
+  const train = { trains: true };
+  it('offers to anchor something that only works daily, done now and then', () => {
+    const { result } = run([
+      stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 12, dose: 5, doseUnit: 'g' } }),
+      stackItem('sun', 'sunscreen-daily-spf-30', { answers: { usesLast30Days: 28 } }),
+    ]);
+    // Still well-founded: kept, and offered a place next to something they already do.
+    expect(of(result, 'cr')).toEqual(['curate:PAIR', 'keep:TRAINS']);
+    const pair = result.decisions.find((d) => d.stackItemId === 'cr' && d.reason === 'PAIR')!;
+    expect(pair.context.anchorName).toBe('your morning coffee or breakfast');
+    expect(pair.money).toBe(0);
+  });
+  it('never for things that work on the day, things done daily already, or anything already anchored', () => {
+    const daily = run([stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 28, dose: 5, doseUnit: 'g' } })]);
+    expect(of(daily.result, 'cr')).not.toContain('curate:PAIR');
+    const paired = run([stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 12, dose: 5, doseUnit: 'g', paired: true } })]);
+    expect(of(paired.result, 'cr')).toEqual(['keep:TRAINS']);
+    // Sunscreen in the fixture doesn't build (builds: false): no offer however often.
+    const sun = run([stackItem('sun', 'sunscreen-daily-spf-30', { answers: { usesLast30Days: 6 } })]);
+    expect(of(sun.result, 'sun')).not.toContain('curate:PAIR');
+  });
+  it('anchors to something they truly do every day at that time, never to another thing done now and then', () => {
+    const items = [
+      stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 10, dose: 5, doseUnit: 'g' } }),
+      stackItem('mel', 'melatonin', { answers: { usesLast30Days: 30 } }),
+    ];
+    const { result } = run(items);
+    // Melatonin sits at night; creatine in the morning: no anchor at that time, so the moment itself.
+    expect(result.decisions.find((d) => d.reason === 'PAIR')!.context.anchorName).toBe('your morning coffee or breakfast');
+  });
+});
+
+describe('a week after "not now"', () => {
+  const notNow = (answeredAt: string): PriorDecision[] => [
+    { stackItemId: 'ag1', kind: 'clear', reason: 'BORROWED_WEAK', status: 'not-now', answeredAt },
+  ];
+  const ag1 = (answers: Record<string, unknown> = {}) => [stackItem('ag1', 'greens-powder-ag1-etc', { origin: 'online', answers })];
+  it('checks in once, lightly, and "not much" brings the let-go back', () => {
+    const early = run(ag1(), () => {}, notNow('2026-10-18T10:00:00Z'));
+    expect(valuableQuestions(early.input).some((q) => q.variable === 'checkin')).toBe(false);
+    const week = run(ag1(), () => {}, notNow('2026-10-12T10:00:00Z'));
+    expect(of(week.result, 'ag1')).not.toContain('clear:BORROWED_WEAK');
+    const card = valuableQuestions(week.input).find((q) => q.variable === 'checkin')!;
+    expect(card.text).toBe("How's Greens powder been going?");
+    expect(card.options.map((o) => o.label)).toEqual(['Really good', 'Honestly, not much', 'Not sure']);
+    const notMuch = run(ag1({ checkedIn: '2026-10-21' }), () => {}, notNow('2026-10-12T10:00:00Z'));
+    expect(of(notMuch.result, 'ag1')).toContain('clear:BORROWED_WEAK');
+    expect(valuableQuestions(notMuch.input).some((q) => q.variable === 'checkin')).toBe(false);
+    const good = run(ag1(), (p) => {
+      p.values.ag1 = { attachment: 'loved', reasons: [], from: 'tap' };
+    }, notNow('2026-10-12T10:00:00Z'));
+    expect(of(good.result, 'ag1')).toEqual(['keep:LOVED']);
+  });
+});
+
+describe('something expensive', () => {
+  const eq = (answers: Record<string, unknown> = { visitsLast30Days: 12 }) => [stackItem('eq', 'premium-gym-membership-equinox-life-time', { monthlyCost: 250, answers })];
+  it('offers a budget version once, as an option, and never when they love it', () => {
+    const { result } = run(eq());
+    expect(of(result, 'eq')).toContain('curate:BUDGET');
+    const d = result.decisions.find((x) => x.reason === 'BUDGET')!;
+    expect(d.context).toMatchObject({ monthly: 250, budgetOption: expect.stringMatching(/^A standard gym/) });
+    const loved = run(eq(), (p) => {
+      p.values.eq = { attachment: 'loved', reasons: ['the sauna and the people I see there'], from: 'note' };
+    });
+    expect(of(loved.result, 'eq')).toContain('keep:LOVED');
+    expect(of(loved.result, 'eq')).not.toContain('curate:BUDGET');
+    // Their words count too: someone they named, or that they love it.
+    const named = run([stackItem('eq', 'premium-gym-membership-equinox-life-time', { monthlyCost: 250, answers: { visitsLast30Days: 12 }, notes: [{ id: 'n', text: 'Tuesdays and Fridays with Dani.', at: '2026-10-20T10:00:00Z' }] })]);
+    expect(of(named.result, 'eq')).not.toContain('curate:BUDGET');
+    // Unused, it's simply let go: no budget version of something they don't do.
+    const unused = run(eq({ visitsLast30Days: 0 }));
+    expect(of(unused.result, 'eq')).not.toContain('curate:BUDGET');
+  });
+});
+
 describe('questions worth asking', () => {
   it('asks only questions whose answers change what Distill does', () => {
     const { input } = run([
@@ -229,6 +349,38 @@ describe('questions worth asking', () => {
     expect(ids.some((id) => id.startsWith('q:sun:'))).toBe(false);
     // The $99 question comes before the $14 one.
     expect(ids.indexOf('q:ag1:origin')).toBeLessThan(ids.indexOf('q:cr:trains'));
+  });
+
+  it("words each card so its buttons fit, and lets them say they're not sure", () => {
+    const { input } = run([
+      stackItem('ag1', 'greens-powder-ag1-etc', { monthlyCost: 99 }),
+      stackItem('cr', 'creatine-monohydrate', { monthlyCost: 14 }),
+      stackItem('wine', 'alcohol-in-the-evening', { monthlyCost: 60 }),
+    ]);
+    const qs = valuableQuestions(input);
+    const byId = (id: string) => qs.find((q) => q.id === id)!;
+    // The catalog's own questions ("Do you lift, or is it more for focus?") are background for
+    // Claude: a yes/no card always asks a yes/no question.
+    expect(byId('q:cr:trains').text).toBe('Do you lift or train hard most weeks?');
+    expect(byId('q:wine:company').text).toMatch(/more about the company, or a habit on your own\?$/);
+    for (const q of qs) expect(q.options.at(-1)).toEqual({ label: NOT_SURE, patch: { kind: 'unsure', stackItemId: q.stackItemId } });
+    // Not sure changes nothing they told us.
+    expect(withPatch(input, { kind: 'unsure', stackItemId: 'ag1' })).toBe(input);
+  });
+
+  it("asks where it came from in the item's own words when the catalog has them", () => {
+    const view = {
+      ...catalogView,
+      item: (key: string | null) => {
+        const v = catalogView.item(key);
+        return v && key === 'greens-powder-ag1-etc' ? { ...v, originQuestion: 'How did greens powder find its way into your mornings?' } : v;
+      },
+    };
+    const { input } = run([stackItem('ag1', 'greens-powder-ag1-etc', { monthlyCost: 99 })]);
+    const q = valuableQuestions({ ...input, catalog: view }).find((x) => x.id === 'q:ag1:origin')!;
+    expect(q.text).toBe('How did greens powder find its way into your mornings?');
+    expect(q.options.map((o) => o.label)).toEqual(['A feed or an ad', 'A friend', 'A podcast', 'My doctor', 'I found it myself', NOT_SURE]);
+    expect(valuableQuestions(input).find((x) => x.id === 'q:ag1:origin')!.text).toBe('Where did Greens powder come from?');
   });
 });
 
