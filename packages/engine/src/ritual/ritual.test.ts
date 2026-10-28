@@ -331,6 +331,14 @@ describe('composing by rules', () => {
       expect(titles).toContain('Evening drinks');
     }
   });
+  it('puts an anchored thing there every day, next to its anchor', () => {
+    const items = [stackItem('cr', 'creatine-monohydrate', { answers: { trains: true, usesLast30Days: 10, dose: 5, doseUnit: 'g', paired: true } })];
+    const person = personFor(progressWith(items));
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const part = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts.find((p) => p.title === 'Creatine')!;
+    expect(part.when).toEqual({ slot: 'morning', days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] });
+    expect(part.why).toBe('Next to your morning coffee or breakfast, so it happens without thinking.');
+  });
   it('a full weekend never pushes a daily thing out of the weekdays', () => {
     const items = [
       stackItem('a', 'creatine-monohydrate'),

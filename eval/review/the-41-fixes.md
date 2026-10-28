@@ -44,6 +44,9 @@ Too many things read as kept. **Done (branch `felt-and-quiet`):**
 - The 41 shows "What Distill would ask next" for each person: 73 cards across the 41.
 - Wording fixes: you "use" a massage gun or an app (you "go to" a class), and the company card is only for things people share and haven't told us about.
 
+### Consistency (Veer, 27 Oct)
+People buy things, aren't consistent, and that's why they don't work. **Done (branch `anchor-it`):** a well-founded thing that builds with daily use, done on fewer than about 20 days a month, gets "Want it next to your morning coffee or breakfast, so it happens without thinking?"; a yes puts it there in their Ritual every day. New catalog column `builds` (14 rows yes). In The 41: Elena's and Nora's Calm, Ethan's ashwagandha (next to his daily creatine).
+
 ## By person
 
 ### aaron-39

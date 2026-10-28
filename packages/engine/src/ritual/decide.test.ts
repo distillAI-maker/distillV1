@@ -251,6 +251,39 @@ describe('mixed evidence that costs money', () => {
   });
 });
 
+describe('consistency', () => {
+  const train = { trains: true };
+  it('offers to anchor something that only works daily, done now and then', () => {
+    const { result } = run([
+      stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 12, dose: 5, doseUnit: 'g' } }),
+      stackItem('sun', 'sunscreen-daily-spf-30', { answers: { usesLast30Days: 28 } }),
+    ]);
+    // Still well-founded: kept, and offered a place next to something they already do.
+    expect(of(result, 'cr')).toEqual(['curate:PAIR', 'keep:TRAINS']);
+    const pair = result.decisions.find((d) => d.stackItemId === 'cr' && d.reason === 'PAIR')!;
+    expect(pair.context.anchorName).toBe('your morning coffee or breakfast');
+    expect(pair.money).toBe(0);
+  });
+  it('never for things that work on the day, things done daily already, or anything already anchored', () => {
+    const daily = run([stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 28, dose: 5, doseUnit: 'g' } })]);
+    expect(of(daily.result, 'cr')).not.toContain('curate:PAIR');
+    const paired = run([stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 12, dose: 5, doseUnit: 'g', paired: true } })]);
+    expect(of(paired.result, 'cr')).toEqual(['keep:TRAINS']);
+    // Sunscreen in the fixture doesn't build (builds: false): no offer however often.
+    const sun = run([stackItem('sun', 'sunscreen-daily-spf-30', { answers: { usesLast30Days: 6 } })]);
+    expect(of(sun.result, 'sun')).not.toContain('curate:PAIR');
+  });
+  it('anchors to something they truly do every day at that time, never to another thing done now and then', () => {
+    const items = [
+      stackItem('cr', 'creatine-monohydrate', { answers: { ...train, usesLast30Days: 10, dose: 5, doseUnit: 'g' } }),
+      stackItem('mel', 'melatonin', { answers: { usesLast30Days: 30 } }),
+    ];
+    const { result } = run(items);
+    // Melatonin sits at night; creatine in the morning: no anchor at that time, so the moment itself.
+    expect(result.decisions.find((d) => d.reason === 'PAIR')!.context.anchorName).toBe('your morning coffee or breakfast');
+  });
+});
+
 describe('questions worth asking', () => {
   it('asks only questions whose answers change what Distill does', () => {
     const { input } = run([

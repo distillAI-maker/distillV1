@@ -999,6 +999,7 @@ export const copy = {
       UNLOVED_HABIT: 'A swap keeps the part you like, with less of the cost',
       NOT_TRAINING: 'Not doing real work for your training',
       NOT_FELT: "You said it isn't doing much",
+      pair: 'Works when it’s daily: next to something you already do',
       TOO_MANY_STEPS: 'More steps than it needs',
       fallback: 'Not doing much for you',
       look: 'No independent evidence',

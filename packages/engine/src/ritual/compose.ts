@@ -1,9 +1,9 @@
-import type { CatalogItemView, CatalogView } from '@distill/catalog';
-import { attachmentFor, strongCost, tierFor, type DecideResult, type DecisionDraft } from './decide.js';
+import type { CatalogView } from '@distill/catalog';
+import { anchorFor, attachmentFor, strongCost, tierFor, type DecideResult, type DecisionDraft } from './decide.js';
 import { sortParts } from './ritual.js';
 import { minutesClock, slotOfClock } from './time.js';
 import { DAYS, WEEKDAYS, WEEKEND, type Day, type PersonModel, type RitualPart, type Slot } from './types.js';
-import { displayName, usageOf, type StackItemLike } from './usage.js';
+import { displayName, placement, usageOf, type StackItemLike } from './usage.js';
 import { DAY_ONE_PER_MOMENT, MAX_PER_MOMENT } from './validate.js';
 
 /**
@@ -89,19 +89,6 @@ const WHY: Record<string, string> = {
   NOTHING_TO_CLEAR: 'Part of your days as they are.',
 };
 
-/** Where a row naturally sits, when they haven't told us. */
-function placement(view: CatalogItemView | undefined): { slot: Slot; weekendOnly: boolean } {
-  const m = view?.moments ?? ['any'];
-  const weekendOnly = m.length === 1 && m[0] === 'weekend';
-  const first = m.find((x) => x !== 'any' && x !== 'weekend');
-  if (first) return { slot: first, weekendOnly };
-  if (!view) return { slot: 'evening', weekendOnly };
-  if (view.area === 'sleep') return { slot: 'night', weekendOnly };
-  if (view.kind === 'supplement' || view.kind === 'food-drink') return { slot: 'morning', weekendOnly };
-  if (view.area === 'mind' || view.area === 'skin') return { slot: 'morning', weekendOnly };
-  return { slot: weekendOnly ? 'morning' : 'evening', weekendOnly };
-}
-
 const RANK: Record<string, number> = { THEIRS: 5, LOVED: 4, TRAINS: 3, EVIDENCE_REGULAR: 3, NOTHING_TO_CLEAR: 1 };
 
 export interface ComposeInput {
@@ -112,6 +99,9 @@ export interface ComposeInput {
   /** Day one: three parts a moment at most. */
   readonly firstCompose: boolean;
 }
+
+/** "Morning meditation" reads on mid-sentence as "morning meditation"; "AG1" stays as it is. */
+export const lowerFirst = (t: string) => t.replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase());
 
 export function partIdFor(stackItemId: string): string {
   return `part:${stackItemId}`;
@@ -197,6 +187,12 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       lock: reason === 'THEIRS' ? 'theirs' : null,
     };
     if (!part.when.days.length && !part.when.perWeek) part.when = { ...part.when, perWeek: 1 };
+    // Anchored ("next to your morning coffee"): every day, right where the anchor already happens.
+    if (s.answers.paired === true) {
+      const anchor = anchorFor(person, input.stack, s, catalog);
+      part.when = { slot: anchor.slot, days: [...DAYS] };
+      part.why = `Next to ${lowerFirst(anchor.name)}, so it happens without thinking.`;
+    }
     candidates.push({ part, rank: (RANK[reason] ?? 1) + (view?.ritualRole === 'anchor' ? 0.5 : 0) + (people.length ? 1 : 0) });
   }
   // Keep each moment within the cap: theirs and loved first, then anchors, then the well-founded.

@@ -83,6 +83,13 @@ export function EngineToday({ state, routed }: { state: EngineState; routed: Rou
         update(next);
         return void act(run, { save: next });
       }
+      // A yes to "next to your morning coffee" anchors it: the Ritual then has it there, every day.
+      if (d.stackItemId && choice === 'yes' && d.reason === 'PAIR') {
+        const item = progress.items.find((i) => i.id === d.stackItemId);
+        const next = withItem(d.stackItemId, { answers: { ...(item?.answers ?? {}), paired: true } });
+        update(next);
+        return void act(run, { save: next });
+      }
       if (d.stackItemId && choice === 'theirs') {
         const next = withItem(d.stackItemId, { status: 'kept' });
         update(next);

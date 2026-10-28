@@ -54,6 +54,8 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
       return `${name} is one of the well-founded things you do, even on days you can't feel it. Keep it.`;
     case 'keep:TRAINS':
       return `${name} is doing real work for your training, even when you can't feel it. Keep it.`;
+    case 'curate:PAIR':
+      return `${name} works best when it's every day. Want it next to ${(c.anchorName ?? 'something you already do every day').replace(/^([A-Z])(?![A-Z0-9])/, (x) => x.toLowerCase())}, so it happens without thinking?`;
     case 'curate:ANCHOR':
       return `${name} could be the anchor of your week. Want to build the rest around it?`;
     case 'curate:WORTH_A_LOOK':

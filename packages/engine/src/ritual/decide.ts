@@ -13,6 +13,7 @@ import {
   BORROWED_ORIGINS,
   displayName,
   doseCheck,
+  placement,
   requirementMet,
   trainsOf,
   usageOf,
@@ -66,6 +67,10 @@ export interface DecisionDraft {
     readonly doseUnit?: string;
     readonly studiedForms?: readonly string[];
     readonly safety?: readonly string[];
+    /** PAIR: what it's anchored to ("your morning coffee or breakfast", or a thing on their list). */
+    readonly anchorName?: string;
+    readonly anchorId?: string | null;
+    readonly slot?: 'morning' | 'midday' | 'evening' | 'night';
   };
 }
 
@@ -273,7 +278,9 @@ export function decide(input: DecideInput): DecideResult {
     const evidenceKeeps = !!v && (v.keepWhen.includes('EVIDENCE_REGULAR') || v.keepWhen.includes('TRAINS'));
     // A membership is only praised as real work once we know they use it; unknown use is a question.
     const useKnown = v?.kind !== 'service' || usage.regular === true;
-    if (v && evidenceKeeps && (tier === 'A' || tier === 'B') && useKnown && usage.regular !== false && usage.unused !== true) {
+    // Anchored to something they do every day: they've built it in, so it counts as regular.
+    const regular = usage.regular !== false || s.answers.paired === true;
+    if (v && evidenceKeeps && (tier === 'A' || tier === 'B') && useKnown && regular && usage.unused !== true) {
       const trains = v.evidenceRequires === 'trains' && trainsOf(s, stack) === true;
       protectedIds.add(s.id);
       put(s, 'keep', trains ? 'TRAINS' : 'EVIDENCE_REGULAR');
@@ -353,6 +360,16 @@ export function decide(input: DecideInput): DecideResult {
     }
   }
 
+  // Pass 3b: something well-founded that only works done daily, done now and then. The thing isn't
+  // the problem, the consistency is (Veer, 27 Oct): offer to anchor it to something they already do.
+  for (const s of live) {
+    if (clinician.has(s.id) || theirs.has(s.id) || drafts.has(`${s.id}:clear`) || drafts.has(`${s.id}:curate`) || drafts.has(`${s.id}:refer`)) continue;
+    const v = view(s);
+    if (!v || !pairWorthy(s, v, tierFor(v, s, stack), stack)) continue;
+    const anchor = anchorFor(person, stack, s, catalog);
+    put(s, 'curate', 'PAIR', { context: { anchorName: anchor.name, anchorId: anchor.id, slot: anchor.slot } });
+  }
+
   // Pass 4: everything left is kept; kept anchors are offered as the centre of a moment. A habit
   // that costs them is never told it "stays": it rests, with no card, until its swap comes round.
   for (const s of live) {
@@ -416,6 +433,60 @@ function borrowedWeak(tier: KnownTier, attachment: Attachment, s: StackItemLike,
  */
 export function notFelt(tier: KnownTier, s: StackItemLike, v: CatalogItemView): boolean {
   return (tier === 'C' || tier === 'D' || tier === 'N') && s.monthlyCost > 0 && s.answers.feels === false && v.evidenceDirection !== 'cost';
+}
+
+/** Fewer days than this a month, for something meant to be daily, isn't consistent enough to work. */
+export const CONSISTENT_FROM = 20;
+
+/**
+ * Well-founded, meant to be daily, and done on fewer than about five days a week: worth anchoring.
+ * Never a habit that costs them, never something they've already anchored, and never for anyone
+ * the evidence doesn't cover (creatine for someone who doesn't train).
+ */
+export function pairWorthy(s: StackItemLike, v: CatalogItemView, tier: KnownTier, stack: readonly StackItemLike[]): boolean {
+  if (s.answers.paired === true || !v.builds || v.evidenceDirection === 'cost' || v.cadence !== 'daily') return false;
+  if (!(v.keepWhen.includes('EVIDENCE_REGULAR') || v.keepWhen.includes('TRAINS'))) return false;
+  if (tier !== 'A' && tier !== 'B') return false;
+  if (v.evidenceRequires === 'trains' && trainsOf(s, stack) === false) return false;
+  const u = usageOf(s, v);
+  return u.unused !== true && u.perMonth !== null && u.perMonth > 0 && u.perMonth < CONSISTENT_FROM;
+}
+
+const SWALLOWED = new Set(['supplement', 'food-drink']);
+
+const SLOT_ANCHOR: Record<'morning' | 'midday' | 'evening' | 'night', string> = {
+  morning: 'your morning coffee or breakfast',
+  midday: 'lunch',
+  evening: 'dinner',
+  night: 'brushing your teeth',
+};
+
+/**
+ * What to anchor something to: another thing on their list they already do every day at the same
+ * time of day (never a habit that costs them), or the everyday moment itself ("your morning coffee
+ * or breakfast"). The Ritual builder places a paired thing right there, every day.
+ */
+export function anchorFor(
+  person: PersonModel,
+  stack: readonly StackItemLike[],
+  item: StackItemLike,
+  catalog: CatalogView,
+): { id: string | null; name: string; slot: 'morning' | 'midday' | 'evening' | 'night' } {
+  const v = catalog.item(item.itemKey);
+  const slot = placement(v).slot;
+  const other = stack
+    .filter((o) => o.id !== item.id && o.status !== 'cut' && !o.dataSource)
+    .find((o) => {
+      const ov = catalog.item(o.itemKey);
+      if (!ov || ov.evidenceDirection === 'cost' || ov.cadence !== 'daily' || placement(ov).slot !== slot) return false;
+      // Something you swallow goes with food, drink or another supplement, never "next to sunscreen".
+      if (SWALLOWED.has(v?.kind ?? '') !== SWALLOWED.has(ov.kind)) return false;
+      const a = attachmentOf(person, o, ov);
+      // Something they truly do every day: never another thing that's itself done now and then.
+      const u = usageOf(o, ov);
+      return (u.regular === true && (u.perMonth === null || u.perMonth >= CONSISTENT_FROM)) || a === 'theirs' || a === 'loved';
+    });
+  return other ? { id: other.id, name: displayName(other, catalog.item(other.itemKey)), slot } : { id: null, name: SLOT_ANCHOR[slot], slot };
 }
 
 /** No real evidence, and nothing yet says whether it came from a feed or is loved: ask, gently. */

@@ -269,6 +269,38 @@ describe('today’s one thing, from the engine', () => {
     expect(saved.every((p) => p.items[0]!.status === 'listed')).toBe(true);
     expect(screen.getByRole('link', { name: 'Why?' }).getAttribute('href')).toBe('/companion?about=mon&why=swap');
   });
+  it('a yes to anchoring something marks it anchored on their list', async () => {
+    const progress: Progress = {
+      ...emptyProgress(),
+      step: 'done',
+      items: [{ id: 'cr', itemKey: 'creatine-monohydrate', monthlyCost: 14, answers: { usesLast30Days: 10 }, chips: {}, unknown: [], status: 'listed', notes: [], position: 0 }],
+    };
+    const decision = {
+      id: '00000000-0000-4000-8000-000000000003',
+      stackItemId: 'cr',
+      itemKey: 'creatine-monohydrate',
+      kind: 'curate' as const,
+      reason: 'PAIR' as const,
+      line: 'Creatine works best when it’s every day. Want it next to your morning coffee or breakfast, so it happens without thinking?',
+      money: 0,
+      status: 'proposed' as const,
+      engine: stamp,
+      createdAt: '2026-10-21T19:00:00.000Z',
+    };
+    api.open.mockResolvedValue(result(stateWith({}, { kind: 'curate', decision })));
+    api.run.mockResolvedValue(result(stateWith({}, { kind: 'curate', decision: { ...decision, status: 'yes' } })));
+    const { store, saved } = signedIn(progress);
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <EngineToday state={stateWith({}, { kind: 'curate', decision })} routed={{ items: [{ stackItemId: 'cr', name: 'Creatine' }] } as never} />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+    fireEvent.click(await screen.findByRole('button', { name: 'Sounds good' }));
+    await waitFor(() => expect(api.run).toHaveBeenCalledWith({ kind: 'decision-answer', decisionId: decision.id, answer: 'yes' }));
+    expect(saved.at(-1)!.items[0]!.answers).toEqual({ usesLast30Days: 10, paired: true });
+  });
   it('offers the swap after a yes, and keeps “Added” on the card once it is in their Ritual', async () => {
     const progress: Progress = {
       ...emptyProgress(),

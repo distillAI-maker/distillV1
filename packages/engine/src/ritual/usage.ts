@@ -1,4 +1,5 @@
 import type { CatalogItemView } from '@distill/catalog';
+import type { Slot } from './types.js';
 
 /** The parts of a saved stack item the decide step reads. Structural, like progress itself. */
 export interface StackItemLike {
@@ -156,4 +157,17 @@ export function requirementMet(
 
 export function displayName(item: StackItemLike, view: CatalogItemView | undefined): string {
   return (item.label || view?.shortName || item.customName || view?.name || 'This').slice(0, 80);
+}
+
+/** Where a row naturally sits, when they haven't told us. */
+export function placement(view: CatalogItemView | undefined): { slot: Slot; weekendOnly: boolean } {
+  const m = view?.moments ?? ['any'];
+  const weekendOnly = m.length === 1 && m[0] === 'weekend';
+  const first = m.find((x) => x !== 'any' && x !== 'weekend');
+  if (first) return { slot: first, weekendOnly };
+  if (!view) return { slot: 'evening', weekendOnly };
+  if (view.area === 'sleep') return { slot: 'night', weekendOnly };
+  if (view.kind === 'supplement' || view.kind === 'food-drink') return { slot: 'morning', weekendOnly };
+  if (view.area === 'mind' || view.area === 'skin') return { slot: 'morning', weekendOnly };
+  return { slot: weekendOnly ? 'morning' : 'evening', weekendOnly };
 }

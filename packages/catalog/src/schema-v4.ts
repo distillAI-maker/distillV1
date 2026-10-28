@@ -157,6 +157,8 @@ export const v4ItemSchema = z
       })
       .strict()
       .nullable(),
+    /** The benefit builds with daily use (creatine, sunscreen): done now and then, it mostly misses. */
+    builds: z.boolean(),
     awe: v4AweSchema.nullable(),
     wearableSees: v4SeesSchema,
     overlaps: z.array(text),

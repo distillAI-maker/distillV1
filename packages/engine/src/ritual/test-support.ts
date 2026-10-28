@@ -35,6 +35,7 @@ function row(over: Partial<V4Item> & Pick<V4Item, 'key' | 'name' | 'area' | 'kin
     humanQuestion: 'How does it fit your day?',
     originQuestion: '',
     swap: null,
+    builds: false,
     fitsInstead: '',
     awe: null,
     wearableSees: 'no',
@@ -73,6 +74,7 @@ export const v4Rows: V4Item[] = [
     keepWhen: ['THEIRS', 'LOVED', 'EVIDENCE_REGULAR', 'TRAINS'],
     clearWhen: ['DOSE_BELOW_MIN', 'NOT_TRAINING'],
     humanQuestion: 'Do you lift, or is it more for focus?',
+    builds: true,
   }),
   row({
     key: 'sleep-gummies-blend',

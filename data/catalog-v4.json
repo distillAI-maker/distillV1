@@ -1,7 +1,7 @@
 {
   "schemaVersion": 4,
   "sourceFile": "Routing-Table_V4.xlsx",
-  "sourceSha256": "20e6064b0ac6bc325aebe79974d6a6fcf76b998212e131169610b5f8a9f63688",
+  "sourceSha256": "138fff2759cc24be9b51ba96fbefb3c4a7acee01c36c3a965e6e8ff65ffe7be9",
   "items": [
     {
       "key": "creatine-monohydrate",
@@ -63,6 +63,7 @@
       "originQuestion": "",
       "fitsInstead": "Plain unflavored monohydrate, the form the trials used.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -161,6 +162,7 @@
       "originQuestion": "",
       "fitsInstead": "Greek yogurt, eggs, tofu or lentils can cover the same protein at meals.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -245,6 +247,7 @@
       "originQuestion": "",
       "fitsInstead": "One or two meals a week of salmon, sardines or mackerel.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -338,6 +341,7 @@
       "originQuestion": "",
       "fitsInstead": "A plain tablet near 600 IU, the usual daily amount advised for adults.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -424,6 +428,7 @@
       "originQuestion": "",
       "fitsInstead": "A basic multivitamin covers the same ground.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -512,6 +517,7 @@
         "slot": "morning",
         "perWeek": 3
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -608,6 +614,7 @@
       "originQuestion": "",
       "fitsInstead": "Daily sunscreen, which slowed skin aging over four years in one trial.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -688,6 +695,7 @@
       "originQuestion": "",
       "fitsInstead": "Water on ordinary days, saving a stick or a pinch of salt for long, sweaty sessions.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -786,6 +794,7 @@
       "originQuestion": "",
       "fitsInstead": "A large coffee about an hour before training covers the caffeine part.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -889,6 +898,7 @@
         "slot": "midday",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -982,6 +992,7 @@
       "originQuestion": "",
       "fitsInstead": "A smaller can before 2pm, and an earlier wind-down, so the afternoon dip asks for less caffeine.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -1093,6 +1104,7 @@
       "originQuestion": "",
       "fitsInstead": "Same plans, with the last drink a little earlier or the second one alcohol-free.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [],
@@ -1202,6 +1214,7 @@
       "originQuestion": "",
       "fitsInstead": "On late nights, a lighter dinner, with more of the day's food at lunch.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -1281,6 +1294,7 @@
       "originQuestion": "",
       "fitsInstead": "A smaller plan with fewer meals a week, or a Sunday plan and batch cook.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -1349,6 +1363,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": true,
       "awe": "nature",
       "wearableSees": "partial",
       "overlaps": [
@@ -1435,6 +1450,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -1512,6 +1528,7 @@
       "originQuestion": "",
       "fitsInstead": "Five minutes listing tomorrow's tasks in detail, the version tested in a sleep lab.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -1581,6 +1598,7 @@
       "originQuestion": "",
       "fitsInstead": "Once a week instead of nightly, if nightly feels like a chore.",
       "swap": null,
+      "builds": true,
       "awe": "moral",
       "wearableSees": "no",
       "overlaps": [
@@ -1652,6 +1670,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -1719,6 +1738,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -1795,6 +1815,7 @@
         "slot": "evening",
         "perWeek": 5
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -1868,6 +1889,7 @@
         "slot": "morning",
         "perWeek": 1
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -1947,6 +1969,7 @@
       "originQuestion": "What got you wearing a second tracker?",
       "fitsInstead": "One device, whichever is more comfortable to wear day and night.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -2028,6 +2051,7 @@
       "originQuestion": "",
       "fitsInstead": "Daytime only, with the last one a few hours before bed.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -2131,6 +2155,7 @@
       "originQuestion": "",
       "fitsInstead": "Two full-body sessions a week, enough to build strength and muscle in trials.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -2213,6 +2238,7 @@
       "originQuestion": "",
       "fitsInstead": "Brisk walking, which counts as moderate cardio toward the same weekly minutes.",
       "swap": null,
+      "builds": false,
       "awe": "nature",
       "wearableSees": "yes",
       "overlaps": [],
@@ -2288,6 +2314,7 @@
       "originQuestion": "",
       "fitsInstead": "A steady 7,000 to 8,000 steps a day, where large studies see much of the benefit.",
       "swap": null,
+      "builds": true,
       "awe": "nature",
       "wearableSees": "yes",
       "overlaps": [],
@@ -2359,6 +2386,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2434,6 +2462,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2511,6 +2540,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -2602,6 +2632,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -2679,6 +2710,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2761,6 +2793,7 @@
       "originQuestion": "",
       "fitsInstead": "A 30 to 90 second cold finish to a shower, though it was tested for sick days, not soreness.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2864,6 +2897,7 @@
       "originQuestion": "",
       "fitsInstead": "A hot bath or shower an hour or two before bed, for the wind-down.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -2958,6 +2992,7 @@
       "originQuestion": "",
       "fitsInstead": "A broad-spectrum SPF 30 moisturizer, so one bottle covers two morning steps.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -3042,6 +3077,7 @@
       "originQuestion": "",
       "fitsInstead": "Two or three retinoid nights a week, building up as the skin adjusts.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -3143,6 +3179,7 @@
       "originQuestion": "",
       "fitsInstead": "A serum with 10 to 20% L-ascorbic acid, the best-studied form.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -3216,6 +3253,7 @@
       "originQuestion": "Who suggested a retinoid and an acid on the same nights?",
       "fitsInstead": "The retinoid and the acid on separate nights, or the retinoid alone.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -3299,6 +3337,7 @@
       "originQuestion": "Where did the idea of two exfoliants come from?",
       "fitsInstead": "One exfoliant that suits the skin, used less often the stronger it is.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -3379,6 +3418,7 @@
       "originQuestion": "How did a second hyaluronic serum end up on your shelf?",
       "fitsInstead": "One hydrating serum, or a moisturizer that already has hyaluronic acid or glycerin.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -3464,6 +3504,7 @@
       "originQuestion": "",
       "fitsInstead": "A handful of pumpkin seeds or almonds at dinner, which adds magnesium for very little.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -3546,6 +3587,7 @@
       "originQuestion": "",
       "fitsInstead": "Keeping it for travel and schedule shifts, where the effect is largest.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -3643,6 +3685,7 @@
       "originQuestion": "",
       "fitsInstead": "Plain melatonin on travel nights, where it helps most.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -3743,6 +3786,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -3830,6 +3874,7 @@
       "originQuestion": "Where did you first hear about mouth tape?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -3906,6 +3951,7 @@
       "originQuestion": "",
       "fitsInstead": "A fan, lighter bedding and a cooler room, for far less.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -3971,6 +4017,7 @@
       "originQuestion": "",
       "fitsInstead": "Weekend wake-ups within an hour of weekdays, rather than to the minute.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -4040,6 +4087,7 @@
         "slot": "night",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -4106,6 +4154,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": "epiphany",
       "wearableSees": "partial",
       "overlaps": [
@@ -4172,6 +4221,7 @@
       "originQuestion": "",
       "fitsInstead": "A lie-in kept under an hour, with an earlier night on Friday.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -4240,6 +4290,7 @@
       "originQuestion": "",
       "fitsInstead": "Two minutes of slow breathing in bed keeps the wind-down.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -4304,6 +4355,7 @@
       "originQuestion": "",
       "fitsInstead": "Thirty cold seconds at the end of a warm shower.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4381,6 +4433,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "yes",
       "overlaps": [
@@ -4451,6 +4504,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4525,6 +4579,7 @@
       "originQuestion": "What got you a second meditation or sleep app?",
       "fitsInstead": "Keep the one you open most.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -4593,6 +4648,7 @@
       "originQuestion": "",
       "fitsInstead": "A foam roller or tennis ball does a similar job.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -4667,6 +4723,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -4736,6 +4793,7 @@
       "originQuestion": "",
       "fitsInstead": "Ten minutes of squats and heel raises, no plate.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4801,6 +4859,7 @@
       "originQuestion": "Where did you first see the jaw exerciser?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4878,6 +4937,7 @@
         "slot": "night",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -4937,6 +4997,7 @@
       "originQuestion": "Do you remember how this subscription started?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5004,6 +5065,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -5067,6 +5129,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -5133,6 +5196,7 @@
       "originQuestion": "",
       "fitsInstead": "A sound app or a fan gives the same steady sound.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -5210,6 +5274,7 @@
       "originQuestion": "",
       "fitsInstead": "Open curtains and a short walk outside bring real morning light.",
       "swap": null,
+      "builds": false,
       "awe": "nature",
       "wearableSees": "no",
       "overlaps": [
@@ -5276,6 +5341,7 @@
       "originQuestion": "",
       "fitsInstead": "Dimmer lamps and lower screen brightness after dark keep the wind-down.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5340,6 +5406,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -5413,6 +5480,7 @@
       "originQuestion": "What first sold you on a silk pillowcase?",
       "fitsInstead": "A satin pillowcase gives the same smooth feel.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5480,6 +5548,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -5556,6 +5625,7 @@
       "originQuestion": "",
       "fitsInstead": "A morning walk outside brings bright light too, though it hasn't been tested the same way.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -5633,6 +5703,7 @@
         "slot": "midday",
         "perWeek": 2
       },
+      "builds": false,
       "awe": "nature",
       "wearableSees": "no",
       "overlaps": [],
@@ -5703,6 +5774,7 @@
         "slot": "evening",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5770,6 +5842,7 @@
       "originQuestion": "",
       "fitsInstead": "Yogurt or kefir with breakfast keeps the habit.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -5842,6 +5915,7 @@
       "originQuestion": "",
       "fitsInstead": "Zinc lozenges at the first sign of a cold, instead of daily.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -5920,6 +5994,7 @@
       "originQuestion": "",
       "fitsInstead": "An orange or kiwi keeps the morning habit, though at less than the 200 mg studied.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -5995,6 +6070,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6075,6 +6151,7 @@
       "originQuestion": "",
       "fitsInstead": "A fortified plant milk or cereal can cover the daily amount.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -6156,6 +6233,7 @@
       "originQuestion": "",
       "fitsInstead": "Turmeric in cooking, with black pepper, keeps the ritual.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6242,6 +6320,7 @@
       "originQuestion": "",
       "fitsInstead": "Oats, beans and berries add fibre too.",
       "swap": null,
+      "builds": true,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6312,6 +6391,7 @@
       "originQuestion": "",
       "fitsInstead": "Oily fish twice a week, or a standard fish oil.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -6384,6 +6464,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6455,6 +6536,7 @@
       "originQuestion": "Who first suggested evening primrose oil?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6531,6 +6613,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6599,6 +6682,7 @@
       "originQuestion": "",
       "fitsInstead": "A short daily back routine, and a visit when it flares.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6669,6 +6753,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -6752,6 +6837,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -6817,6 +6903,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -6884,6 +6971,7 @@
       "originQuestion": "",
       "fitsInstead": "A yearly physical with bloodwork, often covered by insurance.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -6954,6 +7042,7 @@
       "originQuestion": "",
       "fitsInstead": "A month of wear, then keep the meals you learned from.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -7027,6 +7116,7 @@
       "originQuestion": "What got you to order the DNA test?",
       "fitsInstead": "Keep the ancestry part; skip the paid add-on reports.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -7097,6 +7187,7 @@
       "originQuestion": "How did you first hear about hyperbaric sessions?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -7171,6 +7262,7 @@
       "originQuestion": "Where did lymphatic drainage first come up for you?",
       "fitsInstead": "A monthly massage you love keeps the quiet hour.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -7239,6 +7331,7 @@
       "originQuestion": "Who first suggested a colon cleanse?",
       "fitsInstead": "A week of more fibre, water and walks.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -7335,6 +7428,7 @@
       "originQuestion": "",
       "fitsInstead": "A protein-rich meal or shake after training covers the same amino acids.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -7406,6 +7500,7 @@
       "originQuestion": "Who put glutamine on your list?",
       "fitsInstead": "A protein-rich meal after training already brings glutamine along.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -7479,6 +7574,7 @@
       "originQuestion": "Where did you first hear about ZMA?",
       "fitsInstead": "Plain magnesium at bedtime keeps the ritual with fewer ingredients.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -7559,6 +7655,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -7652,6 +7749,7 @@
       "originQuestion": "",
       "fitsInstead": "A morning coffee gives the same caffeine lift.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -7745,6 +7843,7 @@
       "originQuestion": "",
       "fitsInstead": "A morning coffee covers the best-studied part, the caffeine.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -7827,6 +7926,7 @@
       "originQuestion": "",
       "fitsInstead": "One drink for long, sweaty sessions; water the rest of the time.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -7916,6 +8016,7 @@
         "slot": "morning",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -7987,6 +8088,7 @@
       "originQuestion": "Who got you onto sea moss?",
       "fitsInstead": "Iodised salt and a varied diet cover iodine more steadily.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -8076,6 +8178,7 @@
       "originQuestion": "What first put shilajit on your radar?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8152,6 +8255,7 @@
       "originQuestion": "",
       "fitsInstead": "Cooked lion's mane mushrooms keep it as food.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8222,6 +8326,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8297,6 +8402,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -8371,6 +8477,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8443,6 +8550,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8531,6 +8639,7 @@
       "originQuestion": "",
       "fitsInstead": "Grapes and berries carry resveratrol as everyday food.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8601,6 +8710,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8673,6 +8783,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8773,6 +8884,7 @@
       "originQuestion": "",
       "fitsInstead": "Brewed green tea keeps the habit, with a long safety record.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -8855,6 +8967,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -8923,6 +9036,7 @@
       "originQuestion": "Where did glycine at bedtime come from?",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -8998,6 +9112,7 @@
       "originQuestion": "",
       "fitsInstead": "One small glass, rather than two, keeps the ritual with less sugar.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9080,6 +9195,7 @@
       "originQuestion": "",
       "fitsInstead": "Chamomile tea keeps the night ritual for far less.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9179,6 +9295,7 @@
       "originQuestion": "",
       "fitsInstead": "Chamomile tea keeps the evening wind-down, without the liver questions.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -9278,6 +9395,7 @@
         "slot": "night",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9347,6 +9465,7 @@
       "originQuestion": "",
       "fitsInstead": "Chamomile tea keeps the bedtime ritual.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9421,6 +9540,7 @@
         "slot": "night",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9502,6 +9622,7 @@
       "originQuestion": "What drew you to this form of magnesium?",
       "fitsInstead": "If magnesium is the goal, plain glycinate at bedtime, though its sleep evidence is thin too.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9581,6 +9702,7 @@
         "slot": "night",
         "perWeek": 2
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9653,6 +9775,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9735,6 +9858,7 @@
       "originQuestion": "",
       "fitsInstead": "Sparkling water with a splash of juice keeps the fizz.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -9815,6 +9939,7 @@
         "slot": "midday",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -9900,6 +10025,7 @@
         "slot": "evening",
         "perWeek": 3
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -9971,6 +10097,7 @@
       "originQuestion": "",
       "fitsInstead": "Plain tap or filtered water, in a bottle you like carrying.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -10045,6 +10172,7 @@
       "originQuestion": "",
       "fitsInstead": "Vinegar on a salad at lunch, no shot needed.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -10134,6 +10262,7 @@
         "slot": "midday",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -10206,6 +10335,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -10288,6 +10418,7 @@
       "originQuestion": "",
       "fitsInstead": "Testing your own tap first, since lead often comes from home pipes.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -10365,6 +10496,7 @@
         "slot": "evening",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [],
@@ -10432,6 +10564,7 @@
       "originQuestion": "Where did chlorophyll water first show up for you?",
       "fitsInstead": "A glass of water with a handful of spinach in a smoothie.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -10509,6 +10642,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -10590,6 +10724,7 @@
       "originQuestion": "",
       "fitsInstead": "Daily sunscreen and a nightly retinoid carry stronger evidence for fine lines.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -10684,6 +10819,7 @@
       "originQuestion": "",
       "fitsInstead": "A cool spoon or cold cloth in the morning gives the same chill.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -10758,6 +10894,7 @@
         "slot": "evening",
         "perWeek": null
       },
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -10852,6 +10989,7 @@
       "originQuestion": "",
       "fitsInstead": "A facial each season, with a simple daily routine between visits.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -10933,6 +11071,7 @@
       "originQuestion": "Who recommended an eye cream on top of your moisturizer?",
       "fitsInstead": "Your moisturizer, patted gently around the eyes with the ring finger.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11007,6 +11146,7 @@
       "originQuestion": "Where did toner come into your routine from?",
       "fitsInstead": "Moisturizer straight after cleansing, while skin is still a little damp.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11085,6 +11225,7 @@
       "originQuestion": "How did a facial, LED and microcurrent all end up in your routine?",
       "fitsInstead": "The one you would keep, plus daily sunscreen.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11163,6 +11304,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11248,6 +11390,7 @@
       "originQuestion": "Where did you first see the hair gummies?",
       "fitsInstead": "A dermatologist visit, if hair shedding is the real worry.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11331,6 +11474,7 @@
       "originQuestion": "",
       "fitsInstead": "A clinician check, if hair or nails have changed lately.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11415,6 +11559,7 @@
       "originQuestion": "",
       "fitsInstead": "Daily sunscreen, which slowed skin aging over four years in one trial.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11488,6 +11633,7 @@
       "originQuestion": "",
       "fitsInstead": "",
       "swap": null,
+      "builds": false,
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -11561,6 +11707,7 @@
       "originQuestion": "",
       "fitsInstead": "Pay per massage in the months you want one.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11642,6 +11789,7 @@
       "originQuestion": "",
       "fitsInstead": "A gym with a sauna, or a hot bath at home.",
       "swap": null,
+      "builds": false,
       "awe": "collective",
       "wearableSees": "partial",
       "overlaps": [
@@ -11741,6 +11889,7 @@
       "originQuestion": "",
       "fitsInstead": "A pay-per-visit pass for the sauna and plunge you use.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -11832,6 +11981,7 @@
       "originQuestion": "",
       "fitsInstead": "Keep the one you use; drop-in passes cover the other.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "partial",
       "overlaps": [
@@ -11905,6 +12055,7 @@
       "originQuestion": "",
       "fitsInstead": "A massage ball for sore spots between visits.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -11982,6 +12133,7 @@
       "originQuestion": "",
       "fitsInstead": "A 10-minute stretch routine at home, a few times a week.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -12051,6 +12203,7 @@
       "originQuestion": "",
       "fitsInstead": "A warm bath with the lights off and the phone elsewhere.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -12123,6 +12276,7 @@
       "originQuestion": "",
       "fitsInstead": "A cold-water plunge, which has more evidence behind it.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [
@@ -12207,6 +12361,7 @@
       "originQuestion": "How did you first hear about IV drips?",
       "fitsInstead": "Water, rest and a decent breakfast cover most of it.",
       "swap": null,
+      "builds": false,
       "awe": null,
       "wearableSees": "no",
       "overlaps": [],
@@ -12306,6 +12461,7 @@
       "originQuestion": "",
       "fitsInstead": "A phone-free Saturday with a long walk and an early night.",
       "swap": null,
+      "builds": false,
       "awe": "nature",
       "wearableSees": "partial",
       "overlaps": [],
