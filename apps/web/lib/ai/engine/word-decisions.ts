@@ -113,7 +113,7 @@ export async function wordDecisions(
       return [
         `<decision id="${d.key}">`,
         `kind: ${d.kind}; reason: ${d.reason}`,
-        `<item>${d.name}${v ? `, ${v.kind}` : ''}${d.money ? `, they pay $${Math.round(d.money)} a month` : ''}${d.context.keeperName ? `; another thing they keep that does the same job: ${d.context.keeperName}` : ''}${d.context.fitsInstead ? `; instead: ${d.context.fitsInstead}` : ''}</item>`,
+        `<item>${d.name}${v ? `, ${v.kind}` : ''}${d.money ? `, they pay $${Math.round(d.money)} a month` : ''}${d.context.keeperName ? `; another thing they keep that does the same job: ${d.context.keeperName}` : ''}${d.kind !== 'keep' && d.context.fitsInstead ? `; instead: ${d.context.fitsInstead}` : ''}</item>`,
         evidenceBlock(v),
         '</decision>',
       ].join('\n');
@@ -138,7 +138,10 @@ export async function wordDecisions(
   });
   let dropped = 0;
   const lines = new Map<string, string>();
-  if (result.ok) for (const l of result.data.lines) if (wanted.has(l.id)) lines.set(l.id, l.line.trim());
+  // Every line that passes is kept, even if another line in the batch didn't: one bad line never
+  // sends the rest back to the fixed wording.
+  const data = result.ok ? result.data : result.partial;
+  if (data) for (const l of data.lines) if (wanted.has(l.id)) lines.set(l.id, l.line.trim());
   const decisions = input.decisions.map((d): WordedDecision => {
     const line = lines.get(d.key);
     if (line && checkLine(line, ctx).length === 0) return { ...d, line, lineFrom: 'claude' };

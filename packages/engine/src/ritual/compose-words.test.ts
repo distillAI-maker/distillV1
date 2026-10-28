@@ -78,8 +78,9 @@ describe('their own words quoted back', () => {
   it('lets "their" through inside three or more of their words', () => {
     expect(checkLine('A long dinner where nobody checks their phone, just as you like it.', ctx)).toEqual([]);
   });
-  it('still flags "their" written about them', () => {
-    expect(checkLine('They love a long dinner with their friends.', ctx).map((i) => i.code)).toContain('TONE');
+  it('still flags writing about the reader, but never "they" about other people', () => {
+    expect(checkLine('The person loves a long dinner with friends.', ctx).map((i) => i.code)).toContain('TONE');
+    expect(checkLine('Your crew had the best night, and their Saturday starts slow too.', ctx)).toEqual([]);
   });
 });
 

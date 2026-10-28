@@ -296,6 +296,14 @@ export const personOpSchema = z.discriminatedUnion('op', [
   z
     .object({ op: z.literal('condition'), condition: conditionSchema, quote: z.string().min(1).max(600) })
     .strict(),
+  /** "Makes me jittery during showings" (false), "Mónica fixes my back" (true). */
+  z
+    .object({ op: z.literal('feels'), stackItemId: z.string().min(1), feels: z.boolean(), quote: z.string().min(1).max(600) })
+    .strict(),
+  /** "Only on travel nights", "after night shifts": when it actually happens. */
+  z
+    .object({ op: z.literal('occasion'), stackItemId: z.string().min(1), occasion: z.string().min(1).max(80), quote: z.string().min(1).max(600) })
+    .strict(),
 ]);
 export type PersonOp = z.infer<typeof personOpSchema>;
 
@@ -335,7 +343,7 @@ export function applyPersonOps(
   person: PersonModel,
   ops: readonly PersonOp[],
   source: string,
-  ctx: { today: string; at: string; from: 'note' | 'answer' | 'message' },
+  ctx: { today: string; at: string; from: 'note' | 'answer' | 'message' | 'onboarding' },
 ): PersonPatchResult {
   const applied: PersonOp[] = [];
   const dropped: { op: PersonOp; why: string }[] = [];
@@ -371,6 +379,21 @@ export function applyPersonOps(
           attachment: op.attachment,
           reasons: [...current.reasons, op.quote].slice(-10),
           from: ctx.from,
+        };
+        applied.push(op);
+        break;
+      }
+      case 'feels':
+      case 'occasion': {
+        const current = next.values[op.stackItemId];
+        if (!current) {
+          dropped.push({ op, why: 'unknown item' });
+          break;
+        }
+        next.values[op.stackItemId] = {
+          ...current,
+          reasons: [...current.reasons, op.quote].slice(-10),
+          ...(op.op === 'feels' ? { feels: op.feels } : { occasion: op.occasion }),
         };
         applied.push(op);
         break;
@@ -438,7 +461,7 @@ export function applyPersonOps(
           season: op.season,
           since: ctx.today,
           ...(until ? { until } : {}),
-          from: ctx.from === 'note' ? 'message' : ctx.from,
+          from: ctx.from === 'note' || ctx.from === 'onboarding' ? 'message' : ctx.from,
         };
         applied.push(op);
         break;

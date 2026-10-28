@@ -229,8 +229,16 @@ export function plannedMinutes(parts: readonly RitualPart[]): number {
     if (p.status === 'removed') return t;
     const rest = p.source.kind === 'engine' ? RESTFUL_PRACTICES.get(p.source.rule) : undefined;
     if (rest && p.title === rest.title) return t;
-    return t + (p.minutes ?? 10);
+    return t + (p.minutes ?? unsetMinutes(p));
   }, 0);
+}
+
+/**
+ * A part with no length set counts as its kind usually takes: a run or a class is a real block of
+ * time, a pill isn't. Counting a run as ten minutes made "shorter, at 20" read as a fuller day.
+ */
+function unsetMinutes(p: RitualPart): number {
+  return p.area === 'move' ? 45 : 10;
 }
 
 export function slotOf(part: Pick<RitualPart, 'when'>): Slot {

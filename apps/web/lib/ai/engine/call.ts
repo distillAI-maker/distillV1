@@ -37,7 +37,14 @@ export interface CallUsage {
 
 export type CallResult<T> =
   | { readonly ok: true; readonly data: T; readonly usage: CallUsage }
-  | { readonly ok: false; readonly reason: 'no-key' | 'timeout' | 'refusal' | 'invalid' | 'api-error'; readonly usage?: CallUsage; readonly problems?: readonly string[] };
+  | {
+      readonly ok: false;
+      readonly reason: 'no-key' | 'timeout' | 'refusal' | 'invalid' | 'api-error';
+      readonly usage?: CallUsage;
+      readonly problems?: readonly string[];
+      /** The last answer that parsed but still had problems: a caller may keep the parts that pass. */
+      readonly partial?: T;
+    };
 
 /** The parts of the SDK client the engine uses, so tests can stand in for it. */
 export interface ClaudeClient {
@@ -113,6 +120,8 @@ function body(input: CallInput<unknown>, content: string) {
   };
 }
 
+const ATTEMPTS = 3;
+
 export async function callJson<T>(client: ClaudeClient | null, input: CallInput<T>): Promise<CallResult<T>> {
   if (!client) return { ok: false, reason: 'no-key' };
   const started = Date.now();
@@ -121,7 +130,9 @@ export async function callJson<T>(client: ClaudeClient | null, input: CallInput<
   let problems: string[] = [];
   let stopReason: string | null = null;
   let model: string = input.model;
-  for (let attempt = 1; attempt <= 2; attempt++) {
+  let partial: T | undefined;
+  // Three tries: the fixed line is a stand-in, so Claude gets every fair chance to land its own.
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     const remaining = input.timeoutMs - (Date.now() - started);
     if (remaining <= 250) return { ok: false, reason: 'timeout', usage: usageOf(), problems };
     let raw: Raw;
@@ -158,10 +169,11 @@ export async function callJson<T>(client: ClaudeClient | null, input: CallInput<
     } else {
       problems = [...(input.check?.(parsed.data) ?? [])];
       if (!problems.length) return { ok: true, data: parsed.data, usage: usageOf(attempt) };
+      partial = parsed.data;
     }
     content = `${input.content}\n\n<problems>\nYour previous answer could not be used. Fix exactly these and answer again:\n${problems.map((p) => `- ${p}`).join('\n')}\n</problems>`;
   }
-  return { ok: false, reason: 'invalid', usage: usageOf(2), problems };
+  return { ok: false, reason: 'invalid', usage: usageOf(ATTEMPTS), problems, ...(partial !== undefined ? { partial } : {}) };
 
   function usageOf(attempts = 1): CallUsage {
     return { model, ...totals, latencyMs: Date.now() - started, stopReason, attempts };

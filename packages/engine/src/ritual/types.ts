@@ -160,7 +160,11 @@ export const personModelSchema = z
           attachment: attachmentSchema,
           /** Their words, quoted from notes, answers or messages. */
           reasons: z.array(quote).max(10),
-          from: z.enum(['tap', 'note', 'answer', 'message', 'progress']),
+          from: z.enum(['tap', 'note', 'answer', 'message', 'progress', 'onboarding']),
+          /** From their words: it does something for them (true), or nothing / something bad (false). */
+          feels: z.boolean().optional(),
+          /** From their words: only at certain times ("travel nights", "after night shifts"). */
+          occasion: z.string().max(80).optional(),
         })
         .strict(),
     ),

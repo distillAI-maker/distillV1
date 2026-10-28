@@ -152,7 +152,13 @@ export function validateOps(check: OpsCheck): string[] {
     for (const m of ['morning', 'night', 'saturday', 'sunday'] as const)
       if (partsInMoment(after, check.date, m).length > MAX_PER_MOMENT)
         errors.push(`more than ${MAX_PER_MOMENT} parts in the ${m}`);
-    if (check.load !== 'heavier' && plannedMinutes(after) > plannedMinutes(check.before))
+    // A shortened part never counts as more than it was, even when it had no length set before.
+    const shortened = new Set(check.ops.filter((o) => o.op === 'shorten').map((o) => (o as { partId: string }).partId));
+    const counted = after.map((p) => {
+      const was = check.before.find((b) => b.id === p.id);
+      return was && shortened.has(p.id) ? was : p;
+    });
+    if (check.load !== 'heavier' && plannedMinutes(counted) > plannedMinutes(check.before))
       errors.push('the day got fuller, and this change asked for lighter or the same');
   } else {
     for (const day of DAYS) {
@@ -285,9 +291,19 @@ export function replyErrors(
     saturday: 'sat',
     sunday: 'sun',
   };
-  for (const m of reply.toLowerCase().matchAll(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow)\b/g)) {
+  // Naming a day to reassure ("Friday with Dee stays", "Saturday at Breezy Point is untouched") is
+  // fine; only a day the reply says changes has to be a day the edits changed.
+  const lower = reply.toLowerCase();
+  const sentenceAt = (i: number) => {
+    const start = Math.max(lower.lastIndexOf('. ', i), lower.lastIndexOf('? ', i), lower.lastIndexOf(': ', i)) + 1;
+    const ends = ['. ', '? ', '! '].map((e) => lower.indexOf(e, i)).filter((x) => x >= 0);
+    return lower.slice(start, ends.length ? Math.min(...ends) : lower.length);
+  };
+  const STAYS = /\b(stays?|untouched|as (it|they) (is|are)|still|same|waiting|keeps?|nothing changes|unchanged|as usual|on for|put)\b/;
+  for (const m of lower.matchAll(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow)\b/g)) {
     const word = m[1]!;
     if (said.includes(word)) continue;
+    if (STAYS.test(sentenceAt(m.index ?? 0))) continue;
     if (word === 'tomorrow') {
       const t = new Date(+new Date(`${ctx.today}T00:00:00Z`) + 86400000).toISOString().slice(0, 10);
       if (!ctx.dates.includes(t)) errors.push('reply promises something tomorrow, and nothing changed tomorrow');

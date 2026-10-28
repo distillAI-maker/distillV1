@@ -160,6 +160,11 @@ describe('decide: the clearing rules', () => {
     expect(of(shop.result, 'cof')).toEqual(['keep:THEIRS']);
     const job = run([stackItem('nic', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: "It's part of the job on night shifts.", at: '2026-10-20T10:00:00Z' }] })]);
     expect(of(job.result, 'nic')).toEqual(['keep:THEIRS']);
+    // Naming someone isn't sharing: "Kate hates it. I hate it. I do it anyway." isn't theirs.
+    const kate = run([stackItem('nic', 'nicotine-pouches-vape', { notes: [{ id: 'n', text: 'Kate hates it. I hate it. I do it anyway.', at: '2026-10-20T10:00:00Z' }] })], (p) => {
+      p.people.push({ id: 'kate', name: 'Kate', what: 'his wife', quote: 'Kate' });
+    });
+    expect(of(kate.result, 'nic')).toEqual(['clear:UNLOVED_HABIT']);
     // A swap keeps the habit, so it frees no money.
     expect(alone.result.decisions.find((d) => d.stackItemId === 'wine')!.money).toBe(0);
   });

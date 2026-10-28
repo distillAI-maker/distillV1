@@ -89,7 +89,37 @@ const WHY: Record<string, string> = {
   NOTHING_TO_CLEAR: 'Part of your days as they are.',
 };
 
-const RANK: Record<string, number> = { THEIRS: 5, LOVED: 4, TRAINS: 3, EVIDENCE_REGULAR: 3, NOTHING_TO_CLEAR: 1 };
+const RANK: Record<string, number> = { CLINICIAN: 5, THEIRS: 5, LOVED: 4, TRAINS: 3, EVIDENCE_REGULAR: 3, NOTHING_TO_CLEAR: 1 };
+
+const RIDES = new Set(['supplement', 'topical', 'food-drink']);
+/** "Only on travel nights", "after night shifts", "when I can't sleep", "as needed". */
+export const OCCASION = /\bonly (on|after|when|if|before)\b|\bafter (my |a )?night shifts?\b|\bwhen I (can't|cannot|need)\b|\bas needed\b|\bon travel (days|nights)\b/i;
+const NIGHT_WORDS = /\b(sleep|bed|bedtime|night|cpap)\b/i;
+
+/** A place they named with "at" ("Saturdays we fish at Breezy Point"), or one Distill already knows. */
+function placeIn(person: PersonModel, text: string): string | undefined {
+  const known = person.places.find((p) => p.name.length > 2 && new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text));
+  if (known) return known.name.slice(0, 80);
+  const m = /\bat ((?:[A-Z][\w'’]+)(?: [A-Z][\w'’]+){0,3})/.exec(text);
+  return m && !/^(I|The|My|Our|Home|Work|Noon|Night)$/.test(m[1]!) ? m[1]!.slice(0, 80) : undefined;
+}
+
+/**
+ * Why a part is there, with Claude off. Never their notes quoted back ("…after Mom died") and never
+ * a catalog claim ("less snoring"): Claude writes the real why, in their terms, when it's on.
+ */
+const DOCTOR_ORIGINS = new Set(['doctor', 'blood test']);
+
+function whyFor(reason: string, slot: Slot, fromDoctor: boolean): string {
+  if (reason === 'CLINICIAN')
+    return fromDoctor
+      ? 'From your doctor, exactly as you do it. Distill never changes it.'
+      : 'One for your doctor to weigh in on, so Distill leaves it exactly as it is.';
+  if (WHY[reason] && reason !== 'NOTHING_TO_CLEAR') return WHY[reason]!;
+  return `Part of your ${SLOT_WORDS_PLURAL[slot]}, the way you already do it.`;
+}
+
+const SLOT_WORDS_PLURAL: Record<Slot, string> = { morning: 'mornings', midday: 'afternoons', evening: 'evenings', night: 'nights' };
 
 export interface ComposeInput {
   readonly person: PersonModel;
@@ -122,21 +152,28 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
   for (const d of decided.decisions) {
     if (!d.stackItemId) continue;
     if (d.kind === 'keep') keepOf.set(d.stackItemId, d);
-    if (d.kind === 'clear' || d.kind === 'refer') clearing.add(d.stackItemId);
+    // A referral keeps its place ("keep things simple until then"): only letting go removes a part.
+    if (d.kind === 'clear') clearing.add(d.stackItemId);
   }
+  // From a clinician: in their Ritual, locked, exactly as they do it. Distill never changes it, but
+  // it's part of their days (Aaron's CPAP "makes him a different guy").
   const outside = new Set(decided.clinicianIds);
-  const candidates: { part: RitualPart; rank: number }[] = [];
+  const candidates: { part: RitualPart; rank: number; rides: boolean }[] = [];
   for (const s of [...input.stack].sort((a, b) => a.id.localeCompare(b.id))) {
-    if (s.status === 'cut' || s.dataSource || outside.has(s.id) || clearing.has(s.id)) continue;
+    if (s.status === 'cut' || s.dataSource || clearing.has(s.id)) continue;
     const view = catalog.item(s.itemKey);
+    const clinician = outside.has(s.id);
+    const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
+    // Only at certain times ("only on travel nights", "after night shifts"): when it happens, not
+    // every day. It stays on their list; the companion brings it in on those days.
+    if (!clinician && (person.values[s.id]?.occasion || OCCASION.test(words))) continue;
     // A habit with strong evidence of a cost (late caffeine, evening drinks) is never planned into
     // their days, unless they've said it's theirs. Their days still bend around it when it happens.
-    if (strongCost(view, tierFor(view, s, input.stack)) && attachmentFor(person, s, view) !== 'theirs') continue;
+    if (!clinician && strongCost(view, tierFor(view, s, input.stack)) && attachmentFor(person, s, view) !== 'theirs') continue;
     // Less than weekly lives in their collection, not in mornings, nights and weekends.
     if (view && (view.cadence === 'monthly' || view.cadence === 'occasional')) continue;
     const keep = keepOf.get(s.id);
-    const reason = keep?.reason ?? (person.values[s.id]?.attachment === 'theirs' ? 'THEIRS' : 'NOTHING_TO_CLEAR');
-    const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
+    const reason = clinician ? 'CLINICIAN' : (keep?.reason ?? (person.values[s.id]?.attachment === 'theirs' ? 'THEIRS' : 'NOTHING_TO_CLEAR'));
     // Their words first, then the row's own name ("Reading before bed"), then where the row sits.
     const own = whenFromWords(words);
     // A row's name gives a time of day ("Morning workout"), never a clock time ("before 8am" isn't when they run).
@@ -159,16 +196,19 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       days: own.days ?? (mention ? (inDay.days ?? [...DAYS]) : named.days),
     };
     const place = placement(view);
-    const weekly = view?.cadence === 'weekly' || (!view && !said.days);
+    // Something of their own with a time of day in its name ("500 ml of water in the morning") is
+    // daily; with no time and no count, it's weekly until they say.
+    const weekly = view?.cadence === 'weekly' || (!view && !said.days && !own.slot && !clinician && !NIGHT_WORDS.test(words));
     const perWeek = weekly
       ? Math.max(1, Math.min(7, Math.round((usage.perMonth ?? 4) / 4.3)))
       : undefined;
     const days: Day[] = said.days ?? (place.weekendOnly ? [...WEEKEND] : weekly ? [] : [...DAYS]);
     const people = peopleIn(person, words);
+    const at = placeIn(person, [words, mention ?? ''].join(' . '));
     const part: RitualPart = {
       id: partIdFor(s.id),
       when: {
-        slot: said.slot ?? place.slot,
+        slot: said.slot ?? (!view && NIGHT_WORDS.test(words) ? 'night' : place.slot),
         days,
         ...(said.at ? { at: said.at } : {}),
         ...(!days.length && perWeek ? { perWeek } : {}),
@@ -177,14 +217,15 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       title: displayName(s, view),
       ...(view?.kind === 'movement' || view?.ritualRole === 'anchor' ? { minutes: 45 } : {}),
       ...(people.length ? { people } : {}),
+      ...(at ? { place: at } : {}),
       area: view?.area ?? 'mind',
-      why: WHY[reason] ?? WHY.NOTHING_TO_CLEAR!,
+      why: whyFor(reason, said.slot ?? (!view && NIGHT_WORDS.test(words) ? 'night' : place.slot), !!s.origin && DOCTOR_ORIGINS.has(s.origin)),
       source: { kind: 'stack', stackItemId: s.id, itemKey: s.itemKey },
       ...(view && (view.tier === 'A' || view.tier === 'B') && s.itemKey
         ? { evidence: { itemKey: s.itemKey, tier: view.tier } }
         : {}),
       status: 'active',
-      lock: reason === 'THEIRS' ? 'theirs' : null,
+      lock: reason === 'THEIRS' ? 'theirs' : clinician ? 'clinician' : null,
     };
     if (!part.when.days.length && !part.when.perWeek) part.when = { ...part.when, perWeek: 1 };
     // Anchored ("next to your morning coffee"): every day, right where the anchor already happens.
@@ -193,15 +234,25 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       part.when = { slot: anchor.slot, days: [...DAYS] };
       part.why = `Next to ${lowerFirst(anchor.name)}, so it happens without thinking.`;
     }
-    candidates.push({ part, rank: (RANK[reason] ?? 1) + (view?.ritualRole === 'anchor' ? 0.5 : 0) + (people.length ? 1 : 0) });
+    candidates.push({
+      part,
+      rank: (RANK[reason] ?? 1) + (view?.ritualRole === 'anchor' ? 0.5 : 0) + (people.length ? 1 : 0),
+      // A pill or a cream rides along with the moment it's taken in: it never takes a place from
+      // something they do (a vitamin C tablet pushed out a morning run).
+      rides: !!view && RIDES.has(view.kind) && view.evidenceDirection !== 'cost',
+    });
   }
   // Keep each moment within the cap: theirs and loved first, then anchors, then the well-founded.
   candidates.sort((a, b) => b.rank - a.rank || a.part.id.localeCompare(b.part.id));
   const kept: RitualPart[] = [];
   const count = new Map<string, number>();
   const keyOf = (d: Day, slot: Slot) => `${d}:${momentKey(d, slot)}`;
-  const roomIn = (k: string) => (count.get(k) ?? 0) < cap;
-  for (const { part } of candidates) {
+  // Things they do first, within the cap; then the pills and creams that ride along fill what's
+  // left of each moment, up to the most a moment can hold.
+  const ordered = [...candidates.filter((c) => !c.rides), ...candidates.filter((c) => c.rides)];
+  for (const { part, rides } of ordered) {
+    const limit = rides ? MAX_PER_MOMENT : cap;
+    const roomIn = (k: string) => (count.get(k) ?? 0) < limit;
     const fixedDays = part.when.days;
     if (!fixedDays.length) {
       const k = `flex:${part.when.slot}`;

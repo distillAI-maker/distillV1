@@ -113,8 +113,10 @@ export function checkLine(text: string, ctx: LineContext): LineIssue[] {
   for (const issue of toneLint(line, ctx.toneRules))
     if (issue.code !== 'WORD_LIMIT' && !(issue.code === 'THIRD_PERSON' && quoted))
       issues.push({ code: 'TONE', detail: `${issue.code}: ${issue.detail}` });
+  // A little give on length: 51 words is never a reason to throw a good line away.
   const words = line.split(/\s+/u).filter(Boolean).length;
-  if (words > maxWords) issues.push({ code: 'TONE', detail: `WORD_LIMIT: ${words} words; maximum ${maxWords}` });
+  const allowance = maxWords + Math.ceil(maxWords * 0.2);
+  if (words > allowance) issues.push({ code: 'TONE', detail: `WORD_LIMIT: ${words} words; maximum ${maxWords}` });
   if (RITUAL_WORD.test(line)) issues.push({ code: 'RITUAL_WORD', detail: 'Say "your Ritual" or the habit by name' });
   if (CLAIMS.test(line)) issues.push({ code: 'CLAIM', detail: (CLAIMS.exec(line) ?? [''])[0] });
   if (EMOJI.test(line)) issues.push({ code: 'EMOJI', detail: 'No emoji' });
