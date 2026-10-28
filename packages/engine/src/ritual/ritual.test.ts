@@ -348,6 +348,28 @@ describe('composing by rules', () => {
     expect(byTitle['Saturday fishing with Eddie']!.place).toBe('Breezy Point');
     expect(Object.values(byTitle).every((p) => !/Part of your days as they are/.test(p.why))).toBe(true);
   });
+  it('reads regular days Claude found as a schedule, never as when-needed, and an attachment keeps them', () => {
+    const items = [
+      stackItem('hoops', null, { customName: 'Pickup basketball', status: 'kept' }),
+      stackItem('mel', 'melatonin'),
+    ];
+    const read = applyPersonOps(
+      personFor(progressWith(items)),
+      [
+        { op: 'occasion', stackItemId: 'hoops', occasion: 'Tuesdays and Thursdays', quote: 'Tuesdays and Thursdays' },
+        { op: 'attachment', stackItemId: 'hoops', attachment: 'loved', basis: 'explicit', quote: 'with the guys' },
+        { op: 'occasion', stackItemId: 'mel', occasion: 'travel nights', quote: 'travel nights' },
+      ],
+      'Pickup at the rec with the guys, Tuesdays and Thursdays. Melatonin on travel nights.',
+      { today: '2026-10-21', at: '2026-10-21T09:00:00Z', from: 'onboarding' },
+    );
+    const person = read.person;
+    expect(person.values.hoops!.occasion).toBe('Tuesdays and Thursdays');
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const parts = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts;
+    expect(parts.find((p) => p.title === 'Pickup basketball')?.when.days).toEqual(['tue', 'thu']);
+    expect(parts.find((p) => p.title === 'Melatonin')).toBeUndefined();
+  });
   it('puts an anchored thing there every day, next to its anchor', () => {
     const items = [stackItem('cr', 'creatine-monohydrate', { answers: { trains: true, usesLast30Days: 10, dose: 5, doseUnit: 'g', paired: true } })];
     const person = personFor(progressWith(items));

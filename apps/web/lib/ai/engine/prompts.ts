@@ -9,7 +9,7 @@
 
 export const PROMPT_VERSIONS = {
   classify: 'classify@3',
-  updatePerson: 'update-person@3',
+  updatePerson: 'update-person@4',
   wordDecisions: 'word-decisions@5',
   compose: 'compose@4',
   reshape: 'reshape@3',
@@ -107,7 +107,7 @@ Return a list of ops, each with "quote": the exact words of theirs it rests on, 
 - season: busy, stressed, travelling, energised, low, unwell or steady, only when they say so; until as YYYY-MM-DD only when they said how long.
 - condition: only when they state one plainly about themselves now.
 - feels: for a thing in their life (by id), false when their words say it does nothing for them or makes them feel worse ("can't tell any difference", "makes me jittery during showings"), true when they say it plainly helps ("fixes my back", "makes me a different guy").
-- occasion: when they only do it at certain times, in their words, short ("travel nights", "after night shifts", "when I can't sleep").
+- occasion: when they only do it at certain times, in their words, short ("travel nights", "after night shifts", "when I can't sleep"). Regular days ("Tuesdays and Thursdays", "Saturdays with Eddie") are a schedule, not an occasion: leave those out.
 Feelings belong to them: "Kate hates it" is Kate's feeling, not theirs; "I hate it. I do it anyway" is theirs (neutral, never loved). Something they do with people they love isn't the same as mentioning someone.
 Return an empty list when there's nothing new. Never infer a feeling they didn't express.`;
 

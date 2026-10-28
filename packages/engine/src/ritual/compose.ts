@@ -96,6 +96,15 @@ const RIDES = new Set(['supplement', 'topical', 'food-drink']);
 export const OCCASION = /\bonly (on|after|when|if|before)\b|\bafter (my |a )?night shifts?\b|\bwhen I (can't|cannot|need)\b|\bas needed\b|\bon travel (days|nights)\b/i;
 const NIGHT_WORDS = /\b(sleep|bed|bedtime|night|cpap)\b/i;
 
+/**
+ * Whether an occasion Claude read means "not on a schedule" ("travel nights", "when I can't sleep").
+ * Regular days ("Tuesdays and Thursdays", "Saturdays") are a schedule, so the thing stays in their
+ * Ritual on those days: Daniel's pickup basketball was being dropped.
+ */
+export function onlySometimes(occasion: string | undefined): boolean {
+  return !!occasion && !whenFromWords(occasion).days;
+}
+
 /** A place they named with "at" ("Saturdays we fish at Breezy Point"), or one Distill already knows. */
 function placeIn(person: PersonModel, text: string): string | undefined {
   const known = person.places.find((p) => p.name.length > 2 && new RegExp(`\\b${p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text));
@@ -166,7 +175,8 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     const words = [s.customName ?? '', s.label ?? '', ...s.notes.map((n) => n.text)].join(' . ');
     // Only at certain times ("only on travel nights", "after night shifts"): when it happens, not
     // every day. It stays on their list; the companion brings it in on those days.
-    if (!clinician && (person.values[s.id]?.occasion || OCCASION.test(words))) continue;
+    const occasion = person.values[s.id]?.occasion;
+    if (!clinician && (onlySometimes(occasion) || OCCASION.test(words))) continue;
     // A habit with strong evidence of a cost (late caffeine, evening drinks) is never planned into
     // their days, unless they've said it's theirs. Their days still bend around it when it happens.
     if (!clinician && strongCost(view, tierFor(view, s, input.stack)) && attachmentFor(person, s, view) !== 'theirs') continue;
@@ -174,8 +184,9 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     if (view && (view.cadence === 'monthly' || view.cadence === 'occasional')) continue;
     const keep = keepOf.get(s.id);
     const reason = clinician ? 'CLINICIAN' : (keep?.reason ?? (person.values[s.id]?.attachment === 'theirs' ? 'THEIRS' : 'NOTHING_TO_CLEAR'));
-    // Their words first, then the row's own name ("Reading before bed"), then where the row sits.
-    const own = whenFromWords(words);
+    // Their words first (with the days Claude read, "Tuesdays and Thursdays"), then the row's own
+    // name ("Reading before bed"), then where the row sits.
+    const own = whenFromWords(occasion ? `${words} . ${occasion}` : words);
     // A row's name gives a time of day ("Morning workout"), never a clock time ("before 8am" isn't when they run).
     type When = ReturnType<typeof whenFromWords>;
     const fromName: When = view ? whenFromWords(view.name) : {};

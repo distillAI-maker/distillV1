@@ -375,7 +375,9 @@ export function applyPersonOps(
           dropped.push({ op, why: 'borrowed needs their explicit words' });
           break;
         }
+        // Keep what else was read about it (feels, occasion): an attachment says why, not when.
         next.values[op.stackItemId] = {
+          ...current,
           attachment: op.attachment,
           reasons: [...current.reasons, op.quote].slice(-10),
           from: ctx.from,

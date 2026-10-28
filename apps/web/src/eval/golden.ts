@@ -8,6 +8,7 @@ import type { Database } from '@distill/data';
 import {
   MAX_PER_MOMENT,
   OCCASION,
+  onlySometimes,
   validateRitual,
   type Decision,
   type ExploreBank,
@@ -343,7 +344,7 @@ export function gates(t: Transcript): string[] {
       const v = t.catalog.item(i.itemKey);
       if (v && (v.cadence === 'monthly' || v.cadence === 'occasional')) continue;
       const words = [i.customName ?? '', i.label ?? '', ...i.notes.map((n) => n.text)].join(' . ');
-      if (OCCASION.test(words) || t.model?.values[i.id]?.occasion) continue;
+      if (OCCASION.test(words) || onlySometimes(t.model?.values[i.id]?.occasion)) continue;
       fails.push(`left ${i.customName ?? i.label ?? v?.shortName ?? i.id} out of the first Ritual, though ${doctor ? 'it came from their doctor' : 'it must stay'}`);
     }
   }
