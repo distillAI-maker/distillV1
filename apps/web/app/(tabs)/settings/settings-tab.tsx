@@ -11,6 +11,7 @@ import { supabaseConfigured } from '../../../lib/env';
 import { engineApi } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
+import { LocalProgressStore } from '../../../lib/progress/local';
 import { deleteEverything, signOut } from './actions';
 
 const t = copy.settingsTab;
@@ -200,7 +201,11 @@ export function SettingsTab({
 
       {supabaseConfigured && signedIn ? (
         <div style={{ marginTop: 18 }}>
-          <button type="button" className="ds-link" style={{ paddingLeft: 0 }} onClick={() => onSignOut()}>
+          <button type="button" className="ds-link" style={{ paddingLeft: 0 }} onClick={async () => {
+              // The copy of their Ritual kept on this phone goes too, so the next person sees nothing of it.
+              await new LocalProgressStore().clear();
+              await onSignOut();
+            }}>
             {s.signOut}
           </button>
         </div>

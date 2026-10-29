@@ -41,7 +41,9 @@ export function Arrival() {
     router.push(ready && started ? resumePath(progress.step) : '/name');
   };
 
-  if (straightIn) return <div className="ds" aria-busy="true" />;
+  // Until their saved progress is read (an account can take a moment after the email link), show
+  // the ground, never the opener: it would look like onboarding starting again.
+  if (!ready || straightIn) return <div className="ds" aria-busy="true" />;
 
   return (
     <div className="ds">
@@ -53,6 +55,7 @@ export function Arrival() {
               {copy.welcome.title} {copy.welcome.titleEnd}
             </h1>
             <p>{copy.welcome.line}</p>
+            {store.id === 'supabase' && !started ? <p className="ob-opener-note">{copy.welcome.signedInFresh}</p> : null}
           </section>
           <div className="ob-opener-actions">
             <button type="button" className="ds-primary ds-primary--light" onClick={begin}>

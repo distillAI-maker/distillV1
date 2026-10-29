@@ -24,6 +24,8 @@ export interface EngineContextValue {
     opts?: { saveFirst?: boolean; save?: Progress },
   ) => Promise<EngineResult | null>;
   readonly clearLast: () => void;
+  /** Loads the state again, after a failed first load. */
+  readonly retry: () => void;
 }
 
 /** Exported for tests and previews that supply a state directly. */
@@ -68,12 +70,22 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     [saveNow],
   );
 
-  // First load: last night's check, and the state.
+  // First load: last night's check, and the state. Someone who has just signed in from the email
+  // link may still have their onboarding on its way to the server, so a first failure saves it and
+  // asks once more before saying anything went wrong.
+  const [attempt, setAttempt] = useState(0);
+  const save = useRef(saveNow);
+  save.current = saveNow;
   useEffect(() => {
     if (!on) return;
     let alive = true;
+    setError(null);
     engineApi
       .open()
+      .catch(async () => {
+        await save.current().catch(() => undefined);
+        return engineApi.open();
+      })
       .then((r) => {
         if (!alive) return;
         setState(r.state);
@@ -83,7 +95,7 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     return () => {
       alive = false;
     };
-  }, [on]);
+  }, [on, attempt]);
 
   // Once onboarding is done, the first Ritual is made (rules always; Claude when it is on).
   useEffect(() => {
@@ -122,7 +134,7 @@ export function EngineProvider({ children }: { children: ReactNode }) {
   }, [on, state, signature, act]);
 
   const value = useMemo<EngineContextValue>(
-    () => ({ on, state, error, busy, last, act, clearLast: () => setLast(null) }),
+    () => ({ on, state, error, busy, last, act, clearLast: () => setLast(null), retry: () => setAttempt((a) => a + 1) }),
     [on, state, error, busy, last, act],
   );
   return <EngineContext.Provider value={value}>{children}</EngineContext.Provider>;
@@ -137,6 +149,7 @@ const OFF: EngineContextValue = {
   last: null,
   act: async () => null,
   clearLast: () => {},
+  retry: () => {},
 };
 
 export function useEngine(): EngineContextValue {

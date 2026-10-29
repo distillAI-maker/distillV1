@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>
-        <ProgressProvider key={user?.id ?? 'device'} userId={user?.id}>
+        <ProgressProvider key={user?.id ?? 'device'} userId={user?.id} userEmail={user?.email ?? undefined}>
           {children}
         </ProgressProvider>
       </body>

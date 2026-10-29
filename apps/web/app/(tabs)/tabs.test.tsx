@@ -6,7 +6,7 @@ import type { EngineResult, EngineState } from '../../lib/engine/client';
 import { EngineProvider } from '../../lib/engine/context';
 import { ProgressProvider } from '../../lib/progress/context';
 import { emptyProgress, type Progress, type ProgressStore } from '../../lib/progress/types';
-import { RitualTab } from './ritual/ritual-tab';
+import { RitualPreviewTab, RitualTab } from './ritual/ritual-tab';
 import { ThingsTab } from './things/things-tab';
 
 const api = vi.hoisted(() => ({
@@ -26,6 +26,7 @@ vi.mock('../../lib/data/use-routed', () => ({
   useRouted: () => ({ routed: { items: [{ stackItemId: 'ag1', name: 'AG1' }, { stackItemId: 'pil', name: 'Pilates' }] }, summary: null, failed: false, retry: () => {} }),
 }));
 vi.mock('../../lib/ai/companion-client', () => ({ relearn: vi.fn(async () => null) }));
+vi.mock('../../lib/engine/preview', () => ({ previewRitual: vi.fn(async () => ({ parts: [], standings: {} })) }));
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn() }), usePathname: () => '/ritual' }));
 window.scrollTo = vi.fn() as never;
 
@@ -118,6 +119,22 @@ describe('the Ritual tab', () => {
   afterEach(cleanup);
   beforeEach(() => {
     for (const fn of Object.values(api)) fn.mockReset();
+  });
+
+  it('right after the email link, saves their onboarding and asks the engine again', async () => {
+    api.open.mockRejectedValueOnce(new Error('no_progress')).mockResolvedValue(result(stateWith()));
+    const saved = renderTab('ritual');
+    expect(await screen.findByText('Balcony coffee')).toBeTruthy();
+    expect(api.open).toHaveBeenCalledTimes(2);
+    expect(saved.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/didn't go through/)).toBeNull();
+  });
+
+  it('offers Try again when the engine still can’t be reached', async () => {
+    api.open.mockRejectedValueOnce(new Error('down')).mockRejectedValueOnce(new Error('down')).mockResolvedValue(result(stateWith()));
+    renderTab('ritual');
+    fireEvent.click(await screen.findByRole('button', { name: 'Try again' }));
+    expect(await screen.findByText('Balcony coffee')).toBeTruthy();
   });
 
   it('shows today as one line, ticks a part off, and keeps what is theirs locked', async () => {
@@ -264,3 +281,18 @@ describe('Your things', () => {
     expect(await screen.findByText('Let go')).toBeTruthy();
   });
 });
+
+describe('the Ritual tab, signed out', () => {
+  afterEach(cleanup);
+  it('puts the one last step first for someone who joined but has not tapped the link', async () => {
+    const store: ProgressStore = { id: 'local', load: async () => ({ ...maya(), member: true }), save: async () => {}, clear: async () => {} };
+    render(
+      <ProgressProvider store={store}>
+        <RitualPreviewTab />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByRole('heading', { name: 'One last step' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Send it again/ }).getAttribute('href')).toBe('/sign-in');
+  });
+});
+
