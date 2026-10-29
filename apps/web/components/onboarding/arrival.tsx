@@ -41,7 +41,9 @@ export function Arrival() {
     router.push(ready && started ? resumePath(progress.step) : '/name');
   };
 
-  if (straightIn) return <div className="ds" aria-busy="true" />;
+  // Until their saved progress is read (an account can take a moment after the email link), show
+  // the ground, never the opener: it would look like onboarding starting again.
+  if (!ready || straightIn) return <div className="ds" aria-busy="true" />;
 
   return (
     <div className="ds">

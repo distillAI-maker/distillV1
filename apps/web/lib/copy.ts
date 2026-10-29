@@ -1123,6 +1123,10 @@ export const copy = {
     firstDraftLine: 'Built around what you keep and what you told us. Make it yours, or tell us what to change.',
     signedOut: 'This is how your Ritual would start. Sign in to keep it, and it shapes itself around your weeks.',
     signIn: 'Sign in',
+    lastStep: 'One last step',
+    lastStepLine: 'Tap the link we emailed you to keep your Ritual. Open it on this phone, in this browser.',
+    sendAgain: 'Send it again',
+    tryAgain: 'Try again',
     error: "That didn't go through. Try again in a moment.",
   },
   things: {

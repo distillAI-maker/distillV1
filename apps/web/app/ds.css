@@ -2291,6 +2291,14 @@
 .rt-signin {
   margin-top: 20px;
 }
+.rt-signin--top {
+  margin: 0 0 20px;
+  border-left: 3px solid var(--spark);
+}
+.rt-signin h2 {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
 .rt-signin p {
   margin-bottom: 12px;
   color: #394345;

@@ -353,7 +353,7 @@ function ProposedWeek({ version, onAccept, onDecline, busy }: { version: NonNull
 
 /** Signed in: today's Ritual from the engine, and everything that changes it. */
 export function RitualTab() {
-  const { state, error, busy, act } = useEngine();
+  const { state, error, busy, act, retry } = useEngine();
   const { progress } = useProgress();
   const { nameOf, routed } = useNames();
   const [selected, setSelected] = useState<string | null>(null);
@@ -375,9 +375,14 @@ export function RitualTab() {
       <main className="tb-page" aria-busy={!error}>
         <Header date={null} name={name} />
         {error ? (
-          <p className="ds-notice" role="alert">
-            {t.error}
-          </p>
+          <>
+            <p className="ds-notice" role="alert">
+              {t.error}
+            </p>
+            <button type="button" className="ds-secondary" onClick={retry}>
+              {t.tryAgain}
+            </button>
+          </>
         ) : (
           <div className="tb-wait">
             <i />
@@ -596,6 +601,17 @@ export function RitualPreviewTab() {
   return (
     <main className="tb-page">
       <Header date={shown?.date ?? today} name={progress.name} />
+      {/* Signed out, keeping it comes first: joined and waiting on the email link, or not yet in. */}
+      {ready ? (
+        <section className="ds-card rt-signin rt-signin--top" aria-label={progress.member ? t.lastStep : t.signIn}>
+          {progress.member ? <h2>{t.lastStep}</h2> : null}
+          <p>{progress.member ? t.lastStepLine : t.signedOut}</p>
+          <Link className="ds-primary" href="/sign-in">
+            {progress.member ? t.sendAgain : t.signIn}
+            <Arrow />
+          </Link>
+        </section>
+      ) : null}
       {!parts || !shown || !today ? (
         <div className="tb-wait">
           <i />
@@ -609,13 +625,6 @@ export function RitualPreviewTab() {
           <AnyDay parts={parts} />
         </>
       )}
-      <section className="ds-card rt-signin">
-        <p>{t.signedOut}</p>
-        <Link className="ds-primary" href="/sign-in">
-          {t.signIn}
-          <Arrow />
-        </Link>
-      </section>
     </main>
   );
 }
