@@ -122,6 +122,8 @@ export const progressSchema = z
     lifeText: z.string().max(4000).default(''),
     /** Founding membership: free while the app is in beta. Unlocks the private reading. */
     member: z.boolean().default(false),
+    /** The email they joined with on this device, so a sign-in only ever carries this onboarding into that account. */
+    joinedEmail: z.string().max(254).optional(),
     items: z.array(stackItemSchema).default([]),
     /** Follow-up questions already shown, as `${itemId}:${field}`. Back removes the last one. */
     seenQuestions: z.array(z.string()).default([]),

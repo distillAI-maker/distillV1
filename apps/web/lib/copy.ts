@@ -76,6 +76,9 @@ export const copy = {
     resume: 'Pick up where you left off',
     tapToBegin: "There's so much noise. Doing everything wears you down. Begin.",
     haveAccount: 'I already have an account',
+    /** Signed in from the email link in a browser that has none of their answers. */
+    signedInFresh:
+      "You're signed in. Your answers are in the browser you started in: open the email link there, or begin again here.",
   },
   name: {
     title: 'First, what do we call you?',
@@ -93,7 +96,7 @@ export const copy = {
     differentAddress: 'Use a different address',
     errorSend: "We couldn't send the link. Check the address and try again.",
     errorRate: "That's a lot of links in a short time. Give it a few minutes.",
-    errorInvalid: 'That address does not look right. Check it and try again.',
+    errorInvalid: 'That email is not valid. Try again.',
     signingIn: 'Signing you in',
     expiredTitle: 'That link has expired or was already used.',
     sendNew: 'Send a new link',
@@ -426,7 +429,9 @@ export const copy = {
     begin: 'Join free',
     emailLabel: 'Your email',
     emailPlaceholder: 'you@example.com',
-    emailError: 'That address does not look right. Check it and try again.',
+    emailError: 'That email is not valid. Try again.',
+    didYouMean: 'Did you mean',
+    changeEmail: 'Wrong email? Change it',
     joined: "You're a founding member.",
     joinedNamed: (name: string) => `Welcome, ${name}.`,
     joinedLine: "You're a founding member. One last step.",

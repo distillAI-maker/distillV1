@@ -7,6 +7,7 @@ import { Icon } from '../../../components/ds/icons';
 import { Sheet } from '../../../components/ds/sheet';
 import { Arrow, Bubble, Locked, Mark } from '../../../components/ds/ui';
 import { useNames } from '../../../components/ds/use-names';
+import { useRefreshOnReturn } from '../../../components/ds/use-refresh-on-return';
 import { copy } from '../../../lib/copy';
 import { engineApi, type EngineResult, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
@@ -574,6 +575,7 @@ export function RitualTab() {
 /** Signed out: the same rules on what they told us, nothing stored, and a way to keep it. */
 export function RitualPreviewTab() {
   const { ready, progress } = useProgress();
+  useRefreshOnReturn(ready && progress.member);
   const [parts, setParts] = useState<readonly RitualPart[] | null>(null);
   const now = useNow();
   const [selected, setSelected] = useState<string | null>(null);

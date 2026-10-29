@@ -55,6 +55,7 @@ export function Arrival() {
               {copy.welcome.title} {copy.welcome.titleEnd}
             </h1>
             <p>{copy.welcome.line}</p>
+            {store.id === 'supabase' && !started ? <p className="ob-opener-note">{copy.welcome.signedInFresh}</p> : null}
           </section>
           <div className="ob-opener-actions">
             <button type="button" className="ds-primary ds-primary--light" onClick={begin}>

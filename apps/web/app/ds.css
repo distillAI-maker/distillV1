@@ -581,6 +581,14 @@
   color: rgba(250, 247, 240, 0.86);
   font: 400 20px/1.35 var(--serif);
 }
+.ob-opener-copy p.ob-opener-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: rgba(250, 247, 240, 0.12);
+  border-left: 3px solid var(--spark);
+  border-radius: 2px 12px 12px 2px;
+  font: 400 15px/1.4 var(--sans);
+}
 .ob-opener-actions {
   position: relative;
   display: grid;

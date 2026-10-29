@@ -3,15 +3,16 @@
 import { useEffect, useId, useState } from 'react';
 import { useGo } from '../../../components/onboarding/go';
 import { RitualToken } from '../../../components/ds/ritual-token';
+import { useRefreshOnReturn } from '../../../components/ds/use-refresh-on-return';
 import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
+import { checkEmail } from '../../../lib/email';
 import { useRouted } from '../../../lib/data/use-routed';
 import { useProgress } from '../../../lib/progress/context';
 import { track } from '../../../lib/track';
 import { joinWaitlist } from '../../../lib/waitlist';
 import { requestMagicLink } from '../../sign-in/actions';
 
-const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 
 type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'failed' };
 
@@ -22,16 +23,21 @@ type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'fai
  */
 export function Invitation({ accounts = false }: { accounts?: boolean }) {
   const go = useGo();
-  const { progress, update, saveNow } = useProgress();
+  const { progress, update, saveNow, store } = useProgress();
+  useRefreshOnReturn(accounts && progress.member && store.id === 'local');
   const { routed, summary } = useRouted();
   const [email, setEmail] = useState('');
   const [problem, setProblem] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [link, setLink] = useState<Link>({ state: 'idle' });
+  /** "Did you mean …?": asked once for the address they typed. */
+  const [suggestion, setSuggestion] = useState<{ for: string; email: string } | null>(null);
+  /** "Wrong email? Change it": the form again, after joining. */
+  const [changing, setChanging] = useState(false);
   const emailId = useId();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [progress.member]);
+  }, [progress.member, changing]);
   if (!routed || !summary)
     return (
       <div className="ob-content" aria-busy="true">
@@ -46,7 +52,13 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
 
   async function join() {
     setProblem(null);
-    if (!looksLikeEmail(email)) return setProblem(copy.invitation.emailError);
+    const typed = email.trim();
+    const check = checkEmail(typed);
+    if (!check.ok) return setProblem(copy.invitation.emailError);
+    // A likely slip ("gmial.com") is asked about once; joining again sends to what they typed.
+    if (check.suggestion && suggestion?.for !== typed) return setSuggestion({ for: typed, email: check.suggestion });
+    setSuggestion(null);
+    setChanging(false);
     track('joined', { email: true });
     setBusy(true);
     // On the list either way; a failed save never stops anyone joining.
@@ -55,11 +67,11 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
       setBusy(false);
       return update({ member: true });
     }
-    const next = { ...progress, member: true, updatedAt: new Date().toISOString() };
+    const next = { ...progress, member: true, joinedEmail: typed.toLowerCase(), updatedAt: new Date().toISOString() };
     try {
       // Saved on this device first, so the sign-in link carries it into the account.
       await saveNow(next);
-      update({ member: true });
+      update({ member: true, joinedEmail: typed.toLowerCase() });
       const form = new FormData();
       form.set('email', email.trim());
       const sent = await requestMagicLink({ status: 'idle', email: '' }, form);
@@ -74,7 +86,7 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
 
   const name = progress.name.trim();
 
-  if (member)
+  if (member && !changing)
     return (
       <section className="jn-welcome" aria-live="polite">
         <RitualToken />
@@ -90,6 +102,20 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
           {copy.invitation.connect}
           <Arrow />
         </button>
+        {accounts ? (
+          <div className="ob-other">
+            <button
+              type="button"
+              className="ds-link ds-link--quiet"
+              onClick={() => {
+                setEmail(link.state === 'sent' ? link.email : '');
+                setChanging(true);
+              }}
+            >
+              {copy.invitation.changeEmail}
+            </button>
+          </div>
+        ) : null}
       </section>
     );
 
@@ -143,12 +169,32 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
           autoComplete="email"
           placeholder={copy.invitation.emailPlaceholder}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setProblem(null);
+          }}
           aria-invalid={problem ? true : undefined}
         />
         {problem ? (
           <p className="ds-error" role="alert">
             {problem}
+          </p>
+        ) : null}
+        {suggestion ? (
+          <p className="ds-error" role="alert" style={{ color: 'var(--ink)' }}>
+            {copy.invitation.didYouMean}{' '}
+            <button
+              type="button"
+              className="ds-link"
+              style={{ minHeight: 0, padding: 0 }}
+              onClick={() => {
+                setEmail(suggestion.email);
+                setSuggestion(null);
+              }}
+            >
+              {suggestion.email}
+            </button>
+            ?
           </p>
         ) : null}
         <button type="submit" className="ds-primary" disabled={busy} aria-busy={busy || undefined}>
