@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Distill</title>
+    <style>
+      /* Shown by the iOS app when the live app can't be reached. Same paper, ink and type as the app. */
+      @font-face { font-family: 'Newsreader'; src: url(fonts/newsreader.woff2) format('woff2'); font-weight: 200 800; font-style: normal; }
+      @font-face { font-family: 'Source Sans 3'; src: url(fonts/source-sans-3.woff2) format('woff2'); font-weight: 200 900; font-style: normal; }
+      :root {
+        --ground: #f2eee5;
+        --ink: #11191b;
+        --muted: #5f696a;
+        --spark: #f26342;
+        --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--ground); color: var(--ink); }
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Source Sans 3', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.45;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+        padding: env(safe-area-inset-top) 24px max(24px, env(safe-area-inset-bottom));
+      }
+      main {
+        flex: 1;
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 18px;
+      }
+      svg { width: 34px; height: 34px; }
+      h1 {
+        margin: 6px 0 0;
+        font-family: 'Newsreader', Georgia, serif;
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        text-wrap: balance;
+      }
+      p { margin: 0; color: var(--muted); font-size: 17px; max-width: 32ch; }
+      button {
+        width: 100%;
+        max-width: 440px;
+        min-height: 52px;
+        margin: 0 auto;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 0;
+        border-radius: 3px 17px 17px 17px;
+        background: var(--ink);
+        color: #fff;
+        font: 600 16px/1 'Source Sans 3', system-ui, sans-serif;
+        transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+      }
+      button:active { transform: scale(0.98); }
+      button[aria-busy='true'] { opacity: 0.6; }
+      button span:last-child { font-weight: 400; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 2.5l3.8 12.8 9.7-8.6-8.7 9.6 12.7 3.7-12.7 3.7 8.7 9.6-9.7-8.6L20 37.5l-3.8-12.8-9.7 8.6 8.7-9.6L2.5 20l12.7-3.7-8.7-9.6 9.7 8.6L20 2.5z" fill="#11191b" />
+        <circle cx="20" cy="20" r="3.6" fill="#f26342" />
+      </svg>
+      <h1>You're offline right now.</h1>
+      <p>Distill needs a connection to open your Ritual. As soon as you're back online, it picks up where you left off.</p>
+    </main>
+    <button type="button" id="retry"><span>Try again</span><span aria-hidden="true">&rarr;</span></button>
+    <script>
+      // The native shell passes the page that failed (?retry=); only the live app is ever retried.
+      var APP_URL = 'https://distill-app-nu.vercel.app/';
+      var asked = new URLSearchParams(location.search).get('retry');
+      var target = asked && asked.indexOf(APP_URL) === 0 ? asked : APP_URL;
+      var button = document.getElementById('retry');
+      function retry() {
+        button.setAttribute('aria-busy', 'true');
+        location.replace(target);
+      }
+      button.addEventListener('click', retry);
+      window.addEventListener('online', retry);
+    </script>
+  </body>
+</html>
