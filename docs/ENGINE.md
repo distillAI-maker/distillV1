@@ -16,7 +16,7 @@ One function, `engine.run(person, event)`, takes anything that happens to a pers
 | Claude's steps | `apps/web/lib/ai/engine/`: `classify.ts` (Haiku 5.5), `update-person.ts`, `word-decisions.ts`, `compose.ts`, `reshape.ts`, `reply.ts`, `explore.ts` (Opus 5.5), `call.ts` (one retry with the problems listed, then the fallback), `prompts.ts` (the shared voice) |
 | The orchestrator | `apps/web/src/server/engine.ts` (`Engine`, `previewEngine`), `engine-deps.ts`, `engine-routes.ts` → `/api/app/engine/*` |
 | The app | `apps/web/lib/engine/` (client and shared state), Today (`app/(app)/today/`), the companion thread (`app/(app)/companion/`), Home's one thing (`home/engine-today.tsx`), Settings |
-| The evaluation | `eval/people/` (40 people), `apps/web/src/eval/` (runner, hard gates, judge), `apps/web/scripts/eval-engine.ts`, `eval-ab.ts` |
+| The evaluation | `eval/people/` (41 people), `apps/web/src/eval/` (runner, hard gates, judge), `apps/web/scripts/eval-engine.ts`, `eval-ab.ts` |
 
 ## How a message becomes a changed day
 
@@ -77,9 +77,9 @@ Caps: 40 Claude calls and 6 reshapes per person per day; past either, rules answ
 - Rules: 54 unit tests, including Veer's three worked examples, order independence, cooldowns, and the safety cases.
 - The engine on Postgres (PGlite): 20 tests through the whole loop, with Claude scripted.
 - The screens: component tests for Today and Home's one thing.
-- The golden set: 40 people (the 8 companion examples and 32 drafted ones) played through onboarding and two weeks of their events. With Claude off, all 40 pass every hard gate: nothing of theirs proposed for clearing, nothing from a clinician touched, no locked part moved, nothing they asked us never to say, every Ritual valid. `pnpm eval:gates` runs this in about three seconds.
-- With Claude off, the engine finds 27% of the clears a careful friend would propose. Most misses are rows outside the first 50 V4 rows (sea moss, EMF stickers, BCAAs), which the engine reads as unknown evidence and never clears; the rest need Claude to read "an Instagram mom said" as borrowed. Dermatologist referrals: 2 of 2.
-- `pnpm eval:engine --claude --judge --yes` runs the same 40 with Claude and has Opus score each on the plan's eight questions, with four planted bad outputs it must catch. About $15. Not run yet: there's no key on this machine.
+- The golden set: 41 people (the 8 companion examples, 32 drafted ones and Veer) played through onboarding and two weeks of their events, reviewed and confirmed by Veer on 27 Oct. With Claude off, all 41 pass every hard gate: nothing of theirs proposed for clearing, nothing from a clinician touched, no locked part moved, nothing they asked us never to say, every Ritual valid. `pnpm eval:gates` runs this in about three seconds.
+- With Claude off, the engine finds 49% of the clears a careful friend would propose (27% on 23 Oct). Most misses are mixed-evidence things whose "Can you feel it?" card the scripts never answer, rows still on V3 (glucosamine), or words only Claude can read. Dermatologist referrals: 2 of 2.
+- `pnpm eval:engine --claude --judge --yes` runs the same 41 with Claude and has Opus score each on the plan's eight questions, with four planted bad outputs it must catch. About $15. Not run yet; Veer approved it on 27 Oct.
 
 ## Where it differs from the plan
 

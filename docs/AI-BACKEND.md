@@ -15,8 +15,8 @@ Veer's 20 October build plan (the "One engine" diagram: words, stack, nights and
 | Claude's steps: read a message (Haiku 5.5); learn, word, compose, reshape, reply (Opus 5.5) | Built, behind `ENGINE_CLAUDE=on`. **Never run on real people.** |
 | Code checks on every Claude output, one retry with the problems listed, then the rules version | Built (`apps/web/lib/ai/engine/call.ts`) |
 | Crisis words → 988 and a human flag, even with Claude off | Built |
-| Golden set: 41 people played through onboarding and two weeks | Built; with Claude off all 41 pass every hard gate, and it finds 27% of the clears it should |
-| The judge (Opus scores the plan's eight questions, with four planted bad outputs it must catch) and a blind A/B | Built (`apps/web/src/eval/`). **Never run: it needs a key and about $15.** |
+| Golden set: 41 people played through onboarding and two weeks | Built, and **reviewed and confirmed by Veer (27 Oct)**; with Claude off all 41 pass every hard gate, and it finds 49% of the clears it should |
+| The judge (Opus scores the plan's eight questions, with four planted bad outputs it must catch) and a blind A/B | Built (`apps/web/src/eval/`). **Never run. Veer approved the ~$15 run on 27 Oct: it's next.** |
 | Server settings on Vercel | Done: `/api/app/*` answers "sign in required", not 503 |
 | Engine tables in Supabase (`supabase/migrations/20261021000001_engine.sql`) | Unknown. Check by signing in on the live app and finishing onboarding |
 | `ENGINE_CLAUDE` in production | Off |
@@ -55,7 +55,7 @@ Veer's 20 October build plan (the "One engine" diagram: words, stack, nights and
 
 | Decision | Who |
 | --- | --- |
-| Spend about $15 to run Claude on the golden set (step 1) | Veer |
+| Spend about $15 to run Claude on the golden set (step 1) | Veer: **approved 27 Oct** |
 | Add a runtime judge for the first Ritual | Ishan, after step 1 shows how often Claude fails |
 | Confirm the engine tables exist in Supabase (step 4) | Rohan |
 | When Claude goes on for us, and then wave 1 | Veer |
