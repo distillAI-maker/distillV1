@@ -25,7 +25,7 @@ Decided 29 October: Distill enrolls as an organization, so the listing shows the
 | A D-U-N-S number for that company (free, from Dun & Bradstreet) | **Open.** Look it up, or request one, at https://developer.apple.com/enroll/duns-lookup/ with the company's exact legal name and address. D&B takes up to 5 business days, then Apple up to 2 more. |
 | The person who enrolls can sign for the company: an owner or founder, an executive, or someone they authorise | **Open: pick who.** They become the Account Holder, the one person who accepts Apple's agreements. Anyone who isn't an owner or founder gives Apple a reference who confirms their authority. |
 | An Apple Account with two-factor authentication, in that person's legal first and last name, on a work email at the company's domain | **Ready.** Any address at distillthenoise.com reaches the team inbox (disttilai@gmail.com) through the ImprovMX catch-all, so make a new Apple Account with, say, apple@distillthenoise.com. Send it a test email first. |
-| A public, working website on that domain | **Ready:** https://distillthenoise.com serves the landing page. www.distillthenoise.com shows a certificate warning until it's added to the distill-v1 project on Vercel as a redirect to distillthenoise.com. |
+| A public, working website on that domain | **Ready:** https://distillthenoise.com serves the landing page, and www.distillthenoise.com redirects to it. |
 
 Then:
 
