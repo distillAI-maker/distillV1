@@ -444,7 +444,7 @@
   position: sticky;
   z-index: 20;
   top: 0;
-  padding: 16px 20px 9px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 9px;
   background: linear-gradient(var(--ground) 76%, rgba(242, 238, 229, 0));
 }
 .ob-progress-row {
@@ -526,7 +526,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: 25px 20px max(20px, env(safe-area-inset-bottom));
+  padding: calc(25px + env(safe-area-inset-top, 0px)) 20px max(20px, env(safe-area-inset-bottom));
   overflow: hidden;
   color: var(--paper);
   background: linear-gradient(164deg, #9a9a86 0, #5c675b 36%, #243432 72%, #10191b 100%);
@@ -840,7 +840,7 @@
 .ob-number {
   position: relative;
   flex: 1;
-  min-height: calc(100dvh - 70px);
+  min-height: calc(100dvh - 70px - env(safe-area-inset-top, 0px));
   overflow: hidden;
 }
 .ob-number-names {
@@ -941,12 +941,12 @@
   position: sticky;
   z-index: 20;
   top: 0;
-  height: 70px;
+  height: calc(70px + env(safe-area-inset-top, 0px));
   display: grid;
   grid-template-columns: 52px 1fr auto;
   align-items: center;
   gap: 14px;
-  padding: 0 20px;
+  padding: env(safe-area-inset-top, 0px) 20px 0;
   background: var(--ground);
 }
 .st-top .ob-back {
@@ -1225,7 +1225,7 @@
   position: relative;
   isolation: isolate;
   flex: 1;
-  padding: 18px 20px max(30px, env(safe-area-inset-bottom));
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 20px max(30px, env(safe-area-inset-bottom));
   background:
     radial-gradient(ellipse at 78% 7%, rgba(255, 255, 255, 0.9) 0 9%, rgba(224, 225, 213, 0.48) 25%, transparent 43%),
     radial-gradient(ellipse at -12% 10%, rgba(71, 78, 65, 0.38), transparent 43%),
@@ -1503,7 +1503,7 @@
 }
 .ds-token.is-arriving {
   position: fixed;
-  top: 64px;
+  top: calc(64px + env(safe-area-inset-top, 0px));
   right: max(20px, calc(50% - var(--col) / 2 + 20px));
   margin: 0;
   animation: ds-gather 0.72s var(--ease) both;
@@ -1716,9 +1716,56 @@
 }
 
 /* Signing in. */
+/* Reading pages (privacy, help): the app's column, plain text, room to breathe. */
+.rd {
+  flex: 1;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 20px max(40px, env(safe-area-inset-bottom));
+  color: var(--ink);
+}
+.rd-top {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rd h1 {
+  margin-top: 30px;
+  font-size: 36px;
+  line-height: 1.04;
+}
+.rd-updated {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.rd-lead {
+  margin-top: 20px;
+  font: 400 19px/1.45 var(--serif);
+}
+.rd h2 {
+  margin-top: 32px;
+  font-size: 22px;
+}
+:where(.rd) p,
+:where(.rd) li {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+:where(.rd) li {
+  margin-top: 6px;
+}
+:where(.ds) .rd ul {
+  padding-left: 20px;
+  list-style: disc;
+}
+.rd a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
 .si {
   flex: 1;
-  padding: 24px 20px;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 20px max(24px, env(safe-area-inset-bottom));
   background: radial-gradient(ellipse at 82% 2%, rgba(255, 255, 255, 0.8), transparent 28%), var(--ground);
 }
 .si-card {
@@ -1741,7 +1788,7 @@
 
 .tb-page {
   flex: 1;
-  padding: 24px 20px calc(110px + env(safe-area-inset-bottom));
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(110px + env(safe-area-inset-bottom));
   animation: ds-page-in 0.45s ease both;
 }
 .tb-header {

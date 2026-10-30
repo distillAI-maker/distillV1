@@ -1,3 +1,5 @@
 packages:
   - packages/*
   - apps/*
+  # The iOS shell installs its own Capacitor packages with npm (apps/mobile/README.md).
+  - '!apps/mobile'
