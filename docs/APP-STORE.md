@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | iOS app: shell, icon, launch screen, offline screen, sign-in links, privacy manifest | Claude | Done, tested in the Simulator (iPhone 18 Pro, iOS 27) |
 | Web: safe areas, `/privacy`, `/support`, Settings links, the sign-in-link file | Claude | In this PR; live when it merges |
-| An Apple Developer Program membership for Distill | Ishan, with Veer | **Open: the next decision** |
+| An Apple Developer Program membership, as an organization (decided 29 October) | A founder who can sign for the company | **Open:** needs a registered company and its D-U-N-S number first (section 1) |
 | Team ID into the Xcode project and onto Vercel (`APPLE_TEAM_ID`) | Ishan | After the membership |
 | The engine live in production (HANDOVER priority 1) | Rohan | Check before submitting: a reviewer who signs in must get a first Ritual |
 | App Store Connect record, listing, privacy answers | Ishan, Veer signs off the words | Drafts below |
@@ -17,12 +17,26 @@
 
 ## 1. Once: the developer account
 
-Apple sells apps under a developer account's legal name, shown on the listing as the seller.
+Decided 29 October: Distill enrolls as an organization, so the listing shows the company as the seller. Apple checks all of this before it takes the $99 a year:
 
-- **Organization (recommended):** the seller shows as Distill's company. Needs a legal entity and a free D-U-N-S number (Apple checks it; allow one to two weeks). $99 a year.
-- **Individual:** fastest (a day or two), but the seller shows as that founder's own name, and moving the app to a company later is an app transfer.
+| Apple needs | Where Distill is |
+| --- | --- |
+| A legal entity: a registered company (an LLC or a corporation). A trade name or DBA doesn't count. | **Open.** If Distill isn't registered yet, this comes first. The kind of company matters for taxes, ownership and fundraising, so choose it as a team with a lawyer or a startup legal clinic; Apple only needs it to exist. |
+| A D-U-N-S number for that company (free, from Dun & Bradstreet) | **Open.** Look it up, or request one, at https://developer.apple.com/enroll/duns-lookup/ with the company's exact legal name and address. D&B takes up to 5 business days, then Apple up to 2 more. |
+| The person who enrolls can sign for the company: an owner or founder, an executive, or someone they authorise | **Open: pick who.** They become the Account Holder, the one person who accepts Apple's agreements. Anyone who isn't an owner or founder gives Apple a reference who confirms their authority. |
+| An Apple Account with two-factor authentication, in that person's legal first and last name, on a work email at the company's domain | **Ready.** Any address at distillthenoise.com reaches the team inbox (disttilai@gmail.com) through the ImprovMX catch-all, so make a new Apple Account with, say, apple@distillthenoise.com. Send it a test email first. |
+| A public, working website on that domain | **Ready:** https://distillthenoise.com serves the landing page. www.distillthenoise.com shows a certificate warning until it's added to the distill-v1 project on Vercel as a redirect to distillthenoise.com. |
 
-Enroll at https://developer.apple.com/programs/enroll. Then, in Xcode (Settings, Accounts), add the Apple ID.
+Then:
+
+1. Enroll at https://developer.apple.com/programs/enroll with that Apple Account. Keep the company's registration papers to hand: Apple may ask for notarised copies, or phone to check.
+2. When Apple emails that it has verified the company, accept the license agreement and pay.
+3. Users and Access: invite Ishan as an Admin (Admins can sign, archive and upload).
+4. In Xcode (Settings, Accounts), add the Apple Account that's on the team.
+
+Allow about two to three weeks from a registered company to an active membership; most of it is D&B and Apple's checks.
+
+**Until then, on your own iPhone, free.** Xcode can put the app on a phone with any Apple Account's free Personal Team (the app runs for 7 days, then install it again). For that build only, in Signing & Capabilities: pick the Personal Team, add `.dev` to the bundle identifier (so the real one stays free for the company's team) and remove Associated Domains (personal teams can't have it). Don't commit those changes. On the phone, turn on Developer Mode (Settings, Privacy & Security) and trust the developer (Settings, General, VPN & Device Management). Everything works except sign-in links, which open in Safari without the association.
 
 ## 2. Once: connect the app to the account
 
@@ -31,6 +45,7 @@ Enroll at https://developer.apple.com/programs/enroll. Then, in Xcode (Settings,
 3. Check https://distill-app-nu.vercel.app/.well-known/apple-app-site-association shows JSON with `<TEAM ID>.com.distillthenoise.app`. Apple's copy updates within a day: https://app-site-association.cdn-apple.com/a/v1/distill-app-nu.vercel.app
 4. Nothing changes in Supabase: the sign-in link already goes to `https://distill-app-nu.vercel.app/auth/callback`, which the app now opens.
 5. App Store Connect, Apps, New App: platform iOS, name (below), language English (U.S.), bundle ID `com.distillthenoise.app`, SKU `distill-ios-1`, full access.
+6. Put the company's legal name in the copyright line (section 4) and at the top of the privacy page, so people know who "we" are.
 
 ## 3. Every build: upload
 
@@ -74,9 +89,11 @@ Once the engine is live in production, add a paragraph on reshaping: "Out late w
 
 **Category:** Health & Fitness; secondary Lifestyle.
 
+**Price and availability:** free; the United States only at first, where the wedge is. Apple asks every developer to declare an EU trader status (Business, Agreements, Compliance), and a trader's address, phone and email appear on its EU product pages, so add EU countries once there's a business address to show.
+
 **URLs:** support https://distill-app-nu.vercel.app/support · privacy https://distill-app-nu.vercel.app/privacy · marketing https://distill-v1-tau.vercel.app
 
-**Copyright:** 2026 Distill
+**Copyright:** 2026 and the company's legal name, the same name Apple shows as the seller.
 
 **Screenshots** (6.9-inch, 1320 x 2868, required): seven are in `apps/mobile/store/screenshots/`, taken in the iPhone 18 Pro Max Simulator from this branch's web app with a sample person (Maya, 14 things): the noise, tap your stack, the number, what can go, your Ritual, the Ritual tab, the private study. They are JPEGs without transparency, as App Store Connect asks. Upload them in that order; retake any screen that changes before submitting. iPhone only, so no iPad screenshots are needed.
 
