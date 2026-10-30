@@ -184,6 +184,8 @@ export function SettingsTab({
         <h2 id="st-privacy">{t.privacy}</h2>
         <Row title={t.knows} line={t.knowsLine} href="/things#knows" />
         <Row title={t.data} line={t.dataLine} onClick={exportData} />
+        <Row title={t.policy} line={t.policyLine} href="/privacy" />
+        <Row title={t.help} line={t.helpLine} href="/support" />
         <div className="st-row">
           <div>
             <strong id="st-motion">{s.lessMotion}</strong>
