@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { preload } from 'react-dom';
 import { copy } from '../../lib/copy';
 import { useProgress } from '../../lib/progress/context';
 import { resumePath } from '../../lib/steps';
@@ -9,7 +10,8 @@ import { track } from '../../lib/track';
 import { Arrow, Brand } from '../ds/ui';
 
 /**
- * The first screen opens on the problem, still and calm (Veer, 28 Oct: no noise animation):
+ * The first screen opens on the problem, still and calm (Veer, 28 Oct: no noise animation), over
+ * the morning photo, "First light" (Veer, 3 Nov):
  * "There's so much noise. Doing everything wears you down." Begin goes to the name; someone with
  * saved progress picks up where they left off. A quiet link signs in an existing account. Anyone
  * already through onboarding, or signed in partway, goes straight back to where they were.
@@ -18,6 +20,8 @@ export function Arrival() {
   const router = useRouter();
   const { ready, progress, store } = useProgress();
   const left = useRef(false);
+  // The photo starts loading with the page, so the opener arrives with its light.
+  preload('/brand/arrival.jpg', { as: 'image', fetchPriority: 'high' });
 
   const started =
     progress.items.length > 0 || (progress.step !== 'stack' && progress.step !== 'name');
@@ -68,7 +72,6 @@ export function Arrival() {
           </div>
           <div className="ob-time-range" aria-hidden="true">
             <span>Morning 06:45</span>
-            <i />
             <span>Night 21:40</span>
           </div>
         </main>
