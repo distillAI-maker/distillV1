@@ -348,6 +348,19 @@ describe('composing by rules', () => {
     expect(byTitle['Saturday fishing with Eddie']!.place).toBe('Breezy Point');
     expect(Object.values(byTitle).every((p) => !/Part of your days as they are/.test(p.why))).toBe(true);
   });
+  it('reads "sometimes" as how often, not when: it stays in their Ritual', () => {
+    const items = [stackItem('sports', null, { customName: 'Sports', status: 'kept' })];
+    const read = applyPersonOps(personFor(progressWith(items)), [{ op: 'occasion', stackItemId: 'sports', occasion: 'sometimes', quote: 'Sometimes' }], 'Sometimes play sports.', { today: '2026-10-21', at: '2026-10-21T09:00:00Z', from: 'onboarding' });
+    const decided = decide({ person: read.person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    expect(composeByRules({ person: read.person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts.map((p) => p.title)).toContain('Sports');
+  });
+  it('keeps a fourth flexible thing on day one: with no set day, it crowds no day', () => {
+    const items = ['Bulk', 'Nights out', 'Pushups', 'Sports'].map((name) => stackItem(name.toLowerCase(), null, { customName: name, notes: [{ id: 'n', text: 'Sometimes.', at: '2026-10-21' }] }));
+    const person = personFor(progressWith(items));
+    const decided = decide({ person, stack: items, catalog: catalogView, history: [], today: '2026-10-21' });
+    const titles = composeByRules({ person, stack: items, decided, catalog: catalogView, firstCompose: true }).parts.map((p) => p.title);
+    expect(titles).toEqual(expect.arrayContaining(['Bulk', 'Nights out', 'Pushups', 'Sports']));
+  });
   it('reads regular days Claude found as a schedule, never as when-needed, and an attachment keeps them', () => {
     const items = [
       stackItem('hoops', null, { customName: 'Pickup basketball', status: 'kept' }),

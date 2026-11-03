@@ -370,7 +370,9 @@ export function decide(input: DecideInput): DecideResult {
     const can = (code: CatalogItemView['clearWhen'][number]) => v.clearWhen.includes(code);
     const dose = doseCheck(s, v);
     let reason: ReasonCode | null = null;
-    if (can('UNUSED') && usage.unused === true) reason = 'UNUSED';
+    // Their clinician leads (Omar's CBT-I coach wants the sleep score hidden): a clear, whatever the row allows.
+    if (attachment !== 'theirs' && attachment !== 'loved' && clinicianAsked(s)) reason = 'CLINICIAN_ASKED';
+    else if (can('UNUSED') && usage.unused === true) reason = 'UNUSED';
     else if (can('DOSE_BELOW_MIN') && dose.below === true && tier !== 'U') reason = 'DOSE_BELOW_MIN';
     else if (can('FORM_NOT_ABSORBED') && dose.unstudiedForm === true && tier !== 'U')
       reason = 'FORM_NOT_ABSORBED';
@@ -572,6 +574,12 @@ export function strongCost(v: CatalogItemView | undefined, tier: KnownTier): boo
  * Mixed evidence (a late dinner, the morning sleep score): their values decide, so it's offered only
  * when it isn't loved, and things often loved for the company are asked about first.
  */
+/** "My coach wants me to stop looking", "my doctor told me to cut it out": their clinician asked them to stop. */
+const CLINICIAN_ASKED = /\b(coach|doctor|dr|therapist|clinician|psychiatrist|psychologist|OB|GP|dietitian|physio|nurse)\b[^.]*\b(wants|told|asked|says|said)\b[^.]*\b(stop|quit|hide|cut (it |this )?out|give (it |this )?up|drop)\b/i;
+export function clinicianAsked(s: StackItemLike): boolean {
+  return s.notes.some((n) => CLINICIAN_ASKED.test(n.text));
+}
+
 function unlovedHabit(attachment: Attachment, v: CatalogItemView, tier: KnownTier, s: StackItemLike): boolean {
   if (attachment === 'theirs') return false;
   // Strong evidence: offered whether or not they enjoy it. When we know nothing and it's often

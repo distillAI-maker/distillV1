@@ -49,7 +49,7 @@ export function personBlock(
   const season = seasonOn(person, ctx.today);
   if (season !== 'steady') out.push(`Their season right now: ${season}`);
   if (ctx.lockedTitles?.length) out.push(`Parts of their Ritual that are theirs: ${ctx.lockedTitles.join('; ')}`);
-  for (const a of (ctx.asks ?? []).slice(-8)) if (a.a.trim()) out.push(`They answered "${clean(a.q)}": ${clip(clean(a.a), 600)}`);
+  for (const a of (ctx.asks ?? []).slice(-12)) if (a.a.trim()) out.push(`They answered "${clean(a.q)}": ${clip(clean(a.a), 600)}`);
   out.push('</person>');
   return out.join('\n');
 }
@@ -135,6 +135,14 @@ export function partLine(p: RitualPart, flags: { locked?: boolean; protected?: b
     .filter(Boolean)
     .join('; ');
   return `- id ${p.id}: "${clean(p.title)}" (${when}${p.minutes ? `, ${p.minutes} min` : ''})${tags ? ` [${tags}]` : ''}`;
+}
+
+/** What they wrote about the thing a part stands for, to sit under its line in <ritual>. */
+export function partNotes(p: RitualPart, stack: readonly StackItemLike[]): string[] {
+  if (p.source.kind !== 'stack') return [];
+  const id = p.source.stackItemId;
+  const notes = stack.find((s) => s.id === id)?.notes ?? [];
+  return notes.slice(-6).map((n) => `  <notes>${clip(clean(n.text), 800)}</notes>`);
 }
 
 export function nowBlock(instant: string, timeZone: string, today: string, minute: number): string {

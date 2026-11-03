@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { CatalogItemView, ToneRules } from '@distill/catalog';
 import { checkLine, type LineContext, type PersonModel } from '@distill/engine/ritual';
 import { aboutBlock, evidenceBlock, personBlock, safetyNotes, type ItemStandingNote } from './brief';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { EVIDENCE, PROMPT_VERSIONS, REPLY_ABOUT, REPLY_JOB, voice, WHO } from './prompts';
 import { obj, str } from './schema';
 
@@ -70,8 +70,8 @@ export async function replyTo(
   const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: f ? 90 : 50 };
   const result = await callJson(client, {
     step: 'reply',
-    model: OPUS,
-    effort: 'low',
+    model: CAPI,
+    effort: 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), REPLY_JOB, EVIDENCE, REPLY_ABOUT],
     content: [
       personBlock(input.person, { today: input.today }),

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { ToneRules } from '@distill/catalog';
 import { checkLine, type Idea, type LineContext, type PersonModel } from '@distill/engine/ritual';
 import { personBlock } from './brief';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { EXPLORE_JOB, PROMPT_VERSIONS, voice, WHO } from './prompts';
 import { arr, obj, str } from './schema';
 
@@ -68,8 +68,8 @@ export async function explore(
   ].join('\n');
   const result = await callJson(client, {
     step: 'explore',
-    model: OPUS,
-    effort: 'low',
+    model: CAPI,
+    effort: 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), EXPLORE_JOB],
     content,
     jsonSchema: SCHEMA,

@@ -3,9 +3,10 @@
  *
  *   pnpm eval:engine                          rules only, free: the hard gates and what it found
  *   pnpm eval:engine --claude --yes           every step live with Claude (needs ANTHROPIC_API_KEY)
- *   pnpm eval:engine --claude --judge --yes   plus Opus judging the 8 questions, with planted controls
+ *   pnpm eval:engine --claude --judge --yes   plus the JUDGE: seven pass-or-fail tests and a headline, with planted controls
  *
- * Options: --people jake-34,maya-29 to run a few, --catalog live (default live,reviewed).
+ * Options: --people jake-34,maya-29 to run a few, --catalog live (default live,reviewed),
+ * --save to write every person's transcript for the grading page (eval/runs/<date>-<mode>.json).
  * Nothing calls Claude without --yes: the script prints what the run would cost and stops.
  */
 import { execSync } from 'node:child_process';
@@ -15,7 +16,7 @@ import { engineCatalog } from '../lib/catalog/engine';
 import { catalog } from '../lib/catalog/server';
 import { exploreBank } from '../lib/explore/bank';
 import { gates, loadGolden, memoryDatabase, runGolden, scores, type Transcript } from '../src/eval/golden';
-import { CONTROLS, judge, RUBRIC, summarise, type Judged } from '../src/eval/judge';
+import { agreement, CONTROLS, judge, judgeInput, JUDGE_VERSION, loadGrades, summarise, TESTS, type Judged } from '../src/eval/judge';
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.includes(name);
@@ -39,8 +40,8 @@ const people = loadGolden().filter((p) => !wanted || wanted.includes(p.id));
 const statuses = value('--catalog') ?? 'live,reviewed';
 
 // Rough, from the prices in lib/ai/engine/call.ts: a person's two weeks with Claude, and one judging.
-const perPerson = (useClaude ? 0.25 : 0) + (useJudge ? 0.12 : 0);
-const estimate = people.length * perPerson + (useJudge ? CONTROLS.length * 0.12 : 0);
+const perPerson = (useClaude ? 0.1 : 0) + (useJudge ? 0.03 : 0);
+const estimate = people.length * perPerson + (useJudge ? CONTROLS.length * 0.03 : 0);
 if ((useClaude || useJudge) && !process.env.ANTHROPIC_API_KEY) {
   console.error('This run needs ANTHROPIC_API_KEY (in the environment or apps/web/.env.local).');
   process.exit(1);
@@ -72,12 +73,26 @@ async function main() {
 
   const judged: Judged[] = [];
   const judgeClient = useJudge ? claudeClient() : null;
+  // Veer's graded examples go into the JUDGE's prompt, from this run's transcripts of those people.
+  // Dev and test grades never do: those are how we measure it.
+  const grades = loadGrades();
+  const examples = grades
+    .filter((g) => g.split === 'example')
+    .flatMap((g) => {
+      const t = runs.find((r) => r.person.id === g.id);
+      return t ? [{ grade: g, input: judgeInput(t) }] : [];
+    });
   if (judgeClient) {
-    for (const t of runs) judged.push(await judge(judgeClient, t));
+    for (const t of runs) {
+      if (examples.some((e) => e.grade.id === t.person.id)) continue;
+      judged.push(await judge(judgeClient, t, t.person.id, examples));
+    }
     // Each control spoils the transcript of someone with replies and proposals to spoil.
     const host = runs.find((t) => t.replies.length && t.decisions.length) ?? runs[0]!;
-    for (const c of CONTROLS) judged.push(await judge(judgeClient, c.spoil(host), c.id));
+    for (const c of CONTROLS) judged.push(await judge(judgeClient, c.spoil(host), c.id, examples));
   }
+  const agreeDev = agreement(judged, grades.filter((g) => g.split === 'dev'));
+  const agreeTest = agreement(judged, grades.filter((g) => g.split === 'test'));
 
   const latency = await db.pg.query<{ ms: number }>(
     `select latency_ms as ms from public.engine_events where kind = 'llm.call' and payload->>'step' = 'reshape' and latency_ms is not null order by latency_ms`,
@@ -110,12 +125,12 @@ async function main() {
   const lines = [
     `# Engine evaluation, ${date} (${mode})`,
     '',
-    `Commit ${sha}. ${people.length} people from eval/people. Catalog rows: ${statuses}. Claude ${useClaude ? 'on' : 'off'}${useJudge ? ', judged by Opus 5.5 at high effort' : ''}.`,
+    `Commit ${sha}. ${people.length} people from eval/people. Catalog rows: ${statuses}. Claude ${useClaude ? 'on' : 'off'}${useJudge ? ', judged by Sonnet 5.5 at high effort' : ''}.`,
     '',
     '## Hard gates',
     '',
     fails.every((f) => !f.fails.length)
-      ? `All ${people.length} people pass every gate: nothing of theirs proposed for clearing, nothing from a clinician touched, no locked part moved, nothing they asked us never to say, and every Ritual valid.`
+      ? `All ${people.length} people pass every gate: nothing of theirs proposed for clearing, nothing from a clinician touched, no locked part moved, and every Ritual valid.`
       : fails.filter((f) => f.fails.length).map((f) => `- **${f.id}**: ${f.fails.join('; ')}`).join('\n'),
     '',
     '## What it found',
@@ -136,17 +151,24 @@ async function main() {
     '',
     ...(verdict
       ? [
-          '## The judge',
+          `## The JUDGE (${JUDGE_VERSION})`,
           '',
-          `Overall ${verdict.overall.toFixed(2)} of 5; weakest: ${verdict.weakest}. Founding 100 bar (4.0 average, nothing under 3.5, every control caught): **${verdict.passes ? 'met' : 'not met'}**.`,
+          `**${pct(verdict.passRate)} of ${verdict.judged} people pass** (would Veer show this to them?). Founding 100 bar (90% pass, no clinician failure, every control caught): **${verdict.passes ? 'met' : 'not met'}**.`,
           '',
-          '| Question | Average |',
+          '| Test | Fails |',
           '|---|---|',
-          ...RUBRIC.map((r) => `| ${r.q} | ${verdict.avg[r.id].toFixed(2)} |`),
+          ...TESTS.map((x) => `| ${x.id} ${x.name} | ${pct(verdict.failRate[x.id])} |`),
           '',
-          'Planted controls (the judge must score the spoiled question 2 or lower):',
-          ...verdict.controls.map((c) => `- ${c.id} (${c.spoils}): ${c.score ?? 'no score'} ${c.caught ? 'caught' : '**missed**'}`),
+          'Planted controls (the JUDGE must fail the spoiled test):',
+          ...verdict.controls.map((c) => `- ${c.id} (${c.spoils}): ${c.verdict ?? 'no verdict'} ${c.caught ? 'caught' : '**missed**'}`),
           '',
+          ...[['dev', agreeDev], ['test', agreeTest]].flatMap(([name, a]) => {
+            const x = a as ReturnType<typeof agreement>;
+            return x.n
+              ? [`Agreement with the ${name} grades (${x.n} people): kappa ${x.kappa.toFixed(2)}, fails caught ${pct(x.failsCaught)}, passes caught ${pct(x.passesCaught)}${x.disagreements.length ? `; disagree on ${x.disagreements.join(', ')}` : ''}.`, '']
+              : [];
+          }),
+          ...(grades.length ? [] : ['Not yet calibrated: no grades in eval/grades/grades.json.', '']),
         ]
       : []),
     '## Missed clears',
@@ -174,7 +196,11 @@ async function main() {
         ...t.decisions.filter((d) => d.status !== 'withdrawn').map((d) => `- ${d.kind} ${d.stackItemId ?? ''} (${d.reason}, ${d.status}): ${d.line}`),
         ...t.replies.map((r) => `- "${r.message}" → ${r.reply}${r.changed ? ' *(days changed)*' : ''}`),
         ...t.notes.map((n) => `- note: ${n}`),
-        ...(j?.scores ? [`- judge: ${RUBRIC.map((r) => `${r.id} ${j.scores![r.id].score}`).join(', ')}`] : []),
+        ...(j?.verdicts
+          ? [
+              `- JUDGE: **${j.pass ? 'pass' : 'fail'}**, ${TESTS.filter((x) => j.verdicts!.tests[x.id].verdict === 'fail').map((x) => x.id).join(', ') || 'no test failed'}. ${j.verdicts.headline.critique}`,
+            ]
+          : []),
         '',
       ];
     }),
@@ -183,8 +209,35 @@ async function main() {
   mkdirSync(dir, { recursive: true });
   const file = new URL(`${date}-${mode}.md`, dir);
   writeFileSync(file, lines.join('\n'));
-  writeFileSync(new URL(`${date}-${mode}.json`, dir), JSON.stringify({ sha, statuses, mode, fails, clearRecall, referRecall, mentions, cost, p95, verdict, judged }, null, 2));
+  writeFileSync(new URL(`${date}-${mode}.json`, dir), JSON.stringify({ sha, statuses, mode, judge: JUDGE_VERSION, fails, clearRecall, referRecall, mentions, cost, p95, verdict, agreeDev, agreeTest, judged }, null, 2));
   console.log(`Report: ${file.pathname}`);
+  if (flag('--save')) {
+    // What each person said and what CAPI produced, for the grading page: the JUDGE's own input,
+    // plus its verdicts, shown to a grader only after they've made their own call.
+    const runsDir = new URL('../../../eval/runs/', import.meta.url);
+    mkdirSync(runsDir, { recursive: true });
+    const saved = new URL(`${date}-${mode}.json`, runsDir);
+    writeFileSync(
+      saved,
+      JSON.stringify(
+        {
+          sha,
+          mode,
+          judge: JUDGE_VERSION,
+          people: runs.map((t) => ({
+            id: t.person.id,
+            summary: t.person.summary,
+            input: judgeInput(t),
+            gates: gates(t),
+            judged: judged.find((j) => j.id === t.person.id) ?? null,
+          })),
+        },
+        null,
+        2,
+      ),
+    );
+    console.log(`Transcripts: ${saved.pathname}`);
+  }
   await db.pg.close();
   if (fails.some((f) => f.fails.length)) process.exitCode = 1;
 }

@@ -203,7 +203,7 @@ describe('a message', () => {
     const said = 'Have a great night out. Your morning starts later, at 9:30.';
     answers.push(tonight, { ops: [] }, { reply: said, ops: [{ op: 'move', partId: target.id, at: '09:30' }], ongoing: false, ask: null });
     const r = await e.run(alice, { kind: 'message', text: 'out late with the team tonight' });
-    expect(requests.map((q) => q.model)).toEqual(['claude-haiku-5-5', 'claude-opus-5-5', 'claude-opus-5-5']);
+    expect(requests.map((q) => q.model)).toEqual(['claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-sonnet-5-5']);
     expect(r.reply).toBe(said);
     const tomorrow = r.state.ritual.week[1]!;
     expect(tomorrow.changed).toBe(true);

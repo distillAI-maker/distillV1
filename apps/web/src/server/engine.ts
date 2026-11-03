@@ -346,6 +346,8 @@ export class Engine {
       toneRules: this.deps.toneRules,
       lineContext: this.lineContext(ctx),
       today: ctx.today,
+      stack: ctx.progress.items,
+      asks: ctx.progress.asks,
     });
     this.logCall(ctx, 'word-decisions', WORD_VERSION, worded.usage, { dropped: worded.dropped });
     const lines = new Map(worded.decisions.map((d) => [d.key, d.line]));
@@ -462,6 +464,8 @@ export class Engine {
       lineContext: this.lineContext(ctx),
       firstCompose: true,
       today: ctx.today,
+      stack: ctx.progress.items,
+      asks: ctx.progress.asks,
       newId: () => `part:${randomUUID()}`,
     });
     this.logCall(ctx, 'compose', COMPOSE_VERSION, shaped.usage, { from: shaped.from, problems: shaped.problems?.slice(0, 5) ?? [] });
@@ -865,6 +869,7 @@ export class Engine {
       toneRules: this.deps.toneRules,
       lineContext: this.lineContext(ctx, t.message ? [t.message] : []),
       today: ctx.today,
+      asks: ctx.progress.asks,
     });
     this.logCall(ctx, 'reshape', RESHAPE_VERSION, r.usage, { from: r.from, problems: r.problems?.slice(0, 5) ?? [] });
     if (r.from === 'fallback') return { reply: r.reply };
@@ -1304,6 +1309,8 @@ export async function previewCompose(
     },
     firstCompose: true,
     today,
+    stack: progress.items,
+    asks: progress.asks,
     newId: () => `part:${randomUUID()}`,
   });
   return { parts: shaped.parts, summary: shaped.summary, from: shaped.from };

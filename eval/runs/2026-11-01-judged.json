@@ -1,0 +1,74 @@
+{
+  "sha": "5d51118",
+  "mode": "judged",
+  "judge": "judge@2",
+  "people": [
+    {
+      "id": "rohan-18",
+      "summary": "Rohan, 18, UC Berkeley student: a short list and little to clear. The gym has lapsed from 5x to 1x a week because of a packed schedule, energy drinks are for staying awake at night, and sleep is short with uneven days and no sense of direction. Tests that nothing is invented to cut, that a real person's problem can be sleep and structure, that a late night out pushes the wake-up and drops the extras, and that it never comments on weight.",
+      "input": "<person>\nIdeal day, in their words: Getting 8-9 hours of sleep, waking up by 10:00 so I don't feel sluggish, I really like sunlight in the morning. After that I got up, got some work done in the morning before breakfast, ate, went to the gym, came home, showered, worked for 1-2 hours, ate lunch, and then after that leisure time to do whatever or study some more, dinner and then unwind time to myself.\n- Gym, from other: \"I used to go 5x a week, now it's more like 1x a week. I stopped right now due to being too busy.\"\n- Sports, from other: \"Sometimes play sports.\"\n- Pushups and pistol squats, from other: \"I try to do pushups/pistol squats every single day. Whenever I feel like I have time.\"\n- Calorie bulk, from other: \"I'm trying to calorie bulk but it's not working. I don't really like the fact I have to eat more to gain weight but ik that's the only way to gain weight.\"\n- Energy drinks, from other: \"2-3 times a week, $15 a week. I have them whenever I need to stay awake, usually at night.\"\n- screens-phone-in-bed, from other: \"I'm on screens before bed.\"\n- Journaling, from other: \"I try to journal before bed.\"\n- Morning sunlight, from other: \"I really like sunlight in the morning. Guaranteed sunlight if possible.\"\n- Nights out with mocktails, from other: \"Nights out are MOCKTAILS.\"\nAsked \"Morning person or night person?\", they said: \"More of a night person.\"\nAsked \"Set plans or go with the flow?\", they said: \"I like going with the flow and having set plans. I like fixed anchors.\"\nAsked \"Fun night out or cozy night in?\", they said: \"Night in.\"\nAsked \"Nature or the city?\", they said: \"Nature.\"\nAsked \"When do you do your best work?\", they said: \"Mornings.\"\nAsked \"What does a good night look like?\", they said: \"Sleeping by like 12, because I need my sleep.\"\nAsked \"How does a normal day differ from your ideal day?\", they said: \"It's too cramped with random stuff to do right now. I feel like I don't get enough sleep, and some days are PACKED with stuff to do and others are too lax. I also don't really have a sense of direction or urgency some days.\"\nAsked \"What's your week like?\", they said: \"Classes, food, study, and maybe an event in the evenings.\"\nAsked \"On a day with no direction, what would actually help?\", they said: \"A push, a clear priority, and personalized recommendations that Distill would know could help me get out of my slump.\"\nThey wrote: \"Late night out, can you push back my wakeup time tomorrow?\"\n</person>\n<facts>\n- Gym: evidence tier A (of a benefit); $0 a month on their list; read as unknown\n- Sports: their own item, no catalog row; $0 a month on their list; read as unknown\n- Pushups and pistol squats: their own item, no catalog row; $0 a month on their list; read as unknown\n- Calorie bulk: their own item, no catalog row; $0 a month on their list; read as neutral\n- Energy drinks: evidence tier A (of a cost); $65 a month on their list; read as unknown\n- screens-phone-in-bed: evidence tier D (of a cost); $0 a month on their list; read as unknown\n- Journaling: evidence tier C (of a neutral); $0 a month on their list; read as unknown\n- Morning sunlight: evidence tier B (of a benefit); $0 a month on their list; read as loved\n- Nights out with mocktails: their own item, no catalog row; $0 a month on their list; read as unknown\n</facts>\n<outputs>\nTheir Ritual:\n- morning mon,tue,wed,thu,fri: Morning work before breakfast. Getting some work done before you eat is how your best days start, and it clears your head for everything after.\n- morning 1x a week: Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower, and this keeps that anchor in place.\n- morning mon,tue,wed,thu,fri,sat,sun: Morning sunlight. You really like sunlight in the morning, and it gives your day a fixed anchor to start from.\n- midday mon,tue,wed,thu,fri: Leisure time or a bit of study. After lunch your ideal day leaves room to do whatever you like or study some more, on your own terms.\n- evening 1x a week: Calorie bulk. Gaining weight is what you're working toward, and eating well around your gym day keeps that moving without turning it into a project.\n- evening 1x a week: Nights out with mocktails. Evenings out are yours to enjoy, mocktail in hand, with nothing to prove beyond a good night.\n- evening 1x a week: Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.\n- evening 1x a week: Sports. Sport is leisure time to do whatever you like, and a way to move that isn't the gym.\n- night mon,tue,wed,thu,fri,sat,sun: Journaling. A few minutes with your own thoughts fits the unwind time to yourself that makes your evenings feel right.\n- night mon,tue,wed,thu,fri,sat,sun: Phone in bed. This is part of your quiet end to the day, time to yourself with nothing asked of you.\nProposals:\n- keep (EVIDENCE_REGULAR): Your gym session is one of the well-founded things in your life, and it's squarely what your bulk is built on. You may not feel it session to session, and that's normal. Keep it.\n- clear (UNLOVED_HABIT): Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down? Your evening time to yourself gets easier, and the afternoon dip asks for less.\n- keep (LOVED): Morning sunlight is yours, Rohan, and it clearly sets the tone for your whole day. It stays exactly as it is. Keep it.\n- curate (ANCHOR): Morning sunlight is already the part of your day you light up about, Rohan. Let's make it the fixed anchor of your day, with your work and breakfast following from it.\nReplies:\n- To \"Late night out, can you push back my wakeup time tomorrow?\": Have a great night out, Rohan. Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are. [and changed their days]\n</outputs>",
+      "gates": [
+        "said \"weight\" in a part: Gaining weight is what you're working toward, and eating well around your gym day keeps that moving without turning it i"
+      ],
+      "judged": {
+        "id": "rohan-18",
+        "control": false,
+        "verdicts": {
+          "tests": {
+            "T1": {
+              "quote": "Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower, and this keeps that anchor in place.",
+              "critique": "No clinician items and no medical conditions named. Nothing in the Ritual or proposals fights a treatment or gives medical advice. Nothing fails here.",
+              "verdict": "pass"
+            },
+            "T2": {
+              "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+              "critique": "Energy drinks are tier A evidence of a cost at $65/month, yet the proposal praises them ('can carry you through') and says the lift stays, softening a costly item. Also the Phone in bed Ritual line frames a tier D cost as a quiet, nothing-asked end to the day. The gym keep line says 'You may not feel it session to session', which is fine, but 'it's squarely what your bulk is built on' goes beyond the evidence shown. The cost of energy drinks is never named, and the proposal does not clearly clear them.",
+              "verdict": "fail"
+            },
+            "T3": {
+              "quote": "Gaining weight is what you're working toward, and eating well around your gym day keeps that moving without turning it into a project.",
+              "critique": "Several statements miss what they said. They said they go to the gym about 1x/week but also 'stopped right now due to being too busy', and the Ritual puts the gym in as though active. They said they dislike having to eat more to bulk, and the Ritual frames it as something they are happily working toward. They said they're a night person who wants 8-9 hours and sleep by 12, but nothing on sleep appears. They asked for a push, a clear priority, and personalized recommendations, and the Ritual is soft and gives none. Pushups/pistol squats were said to be daily and are placed 1x a week. The 'sleep by 12' request is ignored.",
+              "verdict": "fail"
+            },
+            "T4": {
+              "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+              "critique": "Energy drinks are their own item, not marked loved, so a nudge is allowed in principle. However, the keep and curate proposals on morning sunlight say 'Let's make it the fixed anchor... with your work and breakfast following from it', which reshapes a loved thing's role. The reply moves morning sunlight to 09:30, shifting a loved item. Their journaling and mocktail nights are untouched, but the sunlight shift and the pushups being cut to 1x a week alter things that are theirs.",
+              "verdict": "fail"
+            },
+            "T5": {
+              "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+              "critique": "No should/must, no scores or streaks. The proposal is phrased as a question. Nothing corrects a night that already happened. Mild, but within bounds.",
+              "verdict": "pass"
+            },
+            "T6": {
+              "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+              "critique": "Pushups/pistol squats are daily by their words but placed 1x a week. Gym is shown as active though they paused it. Energy drinks, which they do 2-3x/week at night, are left out of the Ritual. Whys like 'A few minutes with your own thoughts' and 'easy to slot in around a busy week' are fairly stock. 'Morning work before breakfast' and morning sunlight fit their words, but the schedule has wrong days/frequency for things they do.",
+              "verdict": "fail"
+            },
+            "T7": {
+              "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+              "critique": "A modest pushback to 09:30 fits a late night and keeps sunlight. But it moves morning sunlight, which is loved and theirs, and their ideal is waking by 10:00, so it fits that. Still, the reply doesn't say whether work before breakfast shifts, and a loved item is moved. Shifting a loved item counts as something theirs moving.",
+              "verdict": "fail"
+            }
+          },
+          "headline": {
+            "critique": "Veer would not show this as is. The energy drink proposal softens a costly item and doesn't clearly clear it. The Ritual gets frequencies wrong (daily pushups as 1x/week, a paused gym shown as active), ignores their sleep-by-12 and 8-9 hour wish, and gives no clear push or priority although they asked for one. The reply also shifts loved morning sunlight.",
+            "verdict": "fail"
+          }
+        },
+        "pass": false,
+        "usage": {
+          "model": "claude-sonnet-5-5",
+          "tokensIn": 2183,
+          "tokensOut": 1516,
+          "cacheRead": 2706,
+          "cacheWrite": 0,
+          "costUsd": 0.0200672,
+          "latencyMs": 12928,
+          "stopReason": "end_turn",
+          "attempts": 1
+        }
+      }
+    }
+  ]
+}

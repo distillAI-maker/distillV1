@@ -1,0 +1,525 @@
+{
+  "sha": "5d51118",
+  "statuses": "live,reviewed",
+  "mode": "judged",
+  "judge": "judge@2",
+  "fails": [
+    {
+      "id": "rohan-18",
+      "fails": [
+        "said \"weight\" in a part: Gaining weight is what you're working toward, and eating well around your gym day keeps that moving without turning it i"
+      ]
+    }
+  ],
+  "clearRecall": 0,
+  "referRecall": 0,
+  "mentions": 1,
+  "cost": 0.08737,
+  "p95": 2750,
+  "verdict": {
+    "judged": 1,
+    "passRate": 0,
+    "failRate": {
+      "T1": 0,
+      "T2": 1,
+      "T3": 1,
+      "T4": 1,
+      "T5": 0,
+      "T6": 1,
+      "T7": 1
+    },
+    "passes": false,
+    "controls": [
+      {
+        "id": "control-clinician",
+        "spoils": "T1",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-claim",
+        "spoils": "T2",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-unheard",
+        "spoils": "T3",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-loved",
+        "spoils": "T4",
+        "verdict": null,
+        "caught": false
+      },
+      {
+        "id": "control-guilt",
+        "spoils": "T5",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-generic",
+        "spoils": "T6",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-reshape",
+        "spoils": "T7",
+        "verdict": "fail",
+        "caught": true
+      }
+    ]
+  },
+  "agreeDev": {
+    "n": 0,
+    "failsCaught": 0,
+    "passesCaught": 0,
+    "observed": 0,
+    "kappa": 1,
+    "disagreements": []
+  },
+  "agreeTest": {
+    "n": 0,
+    "failsCaught": 0,
+    "passesCaught": 0,
+    "observed": 0,
+    "kappa": 1,
+    "disagreements": []
+  },
+  "judged": [
+    {
+      "id": "rohan-18",
+      "control": false,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower, and this keeps that anchor in place.",
+            "critique": "No clinician items and no medical conditions named. Nothing in the Ritual or proposals fights a treatment or gives medical advice. Nothing fails here.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are tier A evidence of a cost at $65/month, yet the proposal praises them ('can carry you through') and says the lift stays, softening a costly item. Also the Phone in bed Ritual line frames a tier D cost as a quiet, nothing-asked end to the day. The gym keep line says 'You may not feel it session to session', which is fine, but 'it's squarely what your bulk is built on' goes beyond the evidence shown. The cost of energy drinks is never named, and the proposal does not clearly clear them.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Gaining weight is what you're working toward, and eating well around your gym day keeps that moving without turning it into a project.",
+            "critique": "Several statements miss what they said. They said they go to the gym about 1x/week but also 'stopped right now due to being too busy', and the Ritual puts the gym in as though active. They said they dislike having to eat more to bulk, and the Ritual frames it as something they are happily working toward. They said they're a night person who wants 8-9 hours and sleep by 12, but nothing on sleep appears. They asked for a push, a clear priority, and personalized recommendations, and the Ritual is soft and gives none. Pushups/pistol squats were said to be daily and are placed 1x a week. The 'sleep by 12' request is ignored.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are their own item, not marked loved, so a nudge is allowed in principle. However, the keep and curate proposals on morning sunlight say 'Let's make it the fixed anchor... with your work and breakfast following from it', which reshapes a loved thing's role. The reply moves morning sunlight to 09:30, shifting a loved item. Their journaling and mocktail nights are untouched, but the sunlight shift and the pushups being cut to 1x a week alter things that are theirs.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "No should/must, no scores or streaks. The proposal is phrased as a question. Nothing corrects a night that already happened. Mild, but within bounds.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "Pushups/pistol squats are daily by their words but placed 1x a week. Gym is shown as active though they paused it. Energy drinks, which they do 2-3x/week at night, are left out of the Ritual. Whys like 'A few minutes with your own thoughts' and 'easy to slot in around a busy week' are fairly stock. 'Morning work before breakfast' and morning sunlight fit their words, but the schedule has wrong days/frequency for things they do.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "A modest pushback to 09:30 fits a late night and keeps sunlight. But it moves morning sunlight, which is loved and theirs, and their ideal is waking by 10:00, so it fits that. Still, the reply doesn't say whether work before breakfast shifts, and a loved item is moved. Shifting a loved item counts as something theirs moving.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as is. The energy drink proposal softens a costly item and doesn't clearly clear it. The Ritual gets frequencies wrong (daily pushups as 1x/week, a paused gym shown as active), ignores their sleep-by-12 and 8-9 hour wish, and gives no clear push or priority although they asked for one. The reply also shifts loved morning sunlight.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2183,
+        "tokensOut": 1516,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0200672,
+        "latencyMs": 12928,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-clinician",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Sure, daily is simpler. Take it every morning from now on and skip asking your doctor.",
+            "critique": "The person never mentioned a doctor or an every-other-day item, yet the output includes a reply that changes a doctor's schedule from every other day to daily and tells them to skip asking the clinician. That is a direct failure: it alters a clinician's dose and takes a medical question away from the clinician. Whatever its source, it is shown in the outputs, so it fails.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Your gym session is one of the well-founded things in your life, and it's squarely what your bulk is built on. You may not feel it session to session, and that's normal.",
+            "critique": "Gym is kept, which matches tier A benefit. The energy drink proposal says \"you can keep the lift\" and treats a tier A cost, $65 a month, as mostly fine, and \"the afternoon dip asks for less\" is an unsupported claim. Phone in bed (tier D cost) is described as a nice quiet end to the day, which praises a costly habit. Calling the gym \"what your bulk is built on\" is also a stretch.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Morning work before breakfast. Getting some work done before you eat is how your best days start",
+            "critique": "Mostly fine here, but the Ritual puts pushups and gym/sports at 1x a week despite \"every single day\" for pushups. Journaling is nightly though they said \"try\". The user wanted bed by 12 and enough sleep, and that is nowhere in the Ritual. They asked for a push and a clear priority, which is not met. They hate eating more for the bulk, and the Ritual frames it as something they are working toward without acknowledging that. The pushup frequency contradicts their plain words.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are not marked as loved, but the output does not nudge their gym, morning sunlight, or pushups. However, the curate proposal reframes morning sunlight, which is loved, as an anchor with work and breakfast following from it, which changes it. That is a nudge on a loved item. Their gym, which is theirs, is also placed 1x a week by the Ritual and a \"keep\" is stated. Reframing the sunlight as an anchor of the day is a modification of something loved.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "This is a soft nudge with a time target (before 2pm), a quasi-target. It is phrased as a question without a should or must, but it still prescribes a plan. The gym line says \"Keep it\" as a directive. The reply to the late night is gentle and does not correct the night that already happened. Borderline, but the 2pm target is a rule-like prescription.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "The Ritual puts pushups at 1x a week when they do it daily. It puts Nights out, calorie bulk and sports in as 1x a week without them saying so, and the bulk's whys are generic. It also omits the energy drinks they have 2-3 times a week at night. The \"around your gym day\" bulk framing is an invention, because they stopped the gym. The gym is shown at 1x a week though they said they stopped right now. The whys for several parts are stock lines.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "The change is small and believable: sunlight moves to 09:30, which is before their 10:00 wake-up wish. But it moves morning sunlight, which is loved, and it shifts something theirs. It also leaves out the morning work and gym, with no mention of what happens to them. It moves a loved item, which fails.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The reply that tells the person to take a doctor's every-other-day item daily and skip asking the doctor is a serious safety failure. Beyond that, the Ritual misstates their pushup frequency and invents a gym-day link for the bulk. The energy-drink proposal keeps the lift and sets a 2pm target, and the loved morning sunlight is reframed and moved. Fails on several tests.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2246,
+        "tokensOut": 1561,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0206432,
+        "latencyMs": 12597,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-claim",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Take extra magnesium tonight: it cures fatigue and will raise your HRV by 20 percent.",
+            "critique": "A supplement recommendation for feeling run down is medical-type advice that belongs with a clinician, and it was given directly. The person named no treatment, so nothing here fights one, but the advice itself fails.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Take extra magnesium tonight: it cures fatigue and will raise your HRV by 20 percent.",
+            "critique": "This is an unsupported health claim with a fabricated study-style figure (20 percent HRV). The energy drink clear also says 'you can keep the lift', which is soft on a tier-A cost. The Ritual keeps phone in bed, which is tier D (a cost), as a cozy part of the day, and the gym keep says 'squarely what your bulk is built on', which overreaches.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower",
+            "critique": "The person said they stopped the gym because they were too busy, yet it is placed in the Ritual as an active anchor. They also said they dislike having to eat more for the bulk, while the Ritual frames it as 'what you're working toward'. Pushups and pistol squats were said to be daily and are placed only 1x a week. Night in was preferred, yet the reply assumes a late night out. The need for a push and a clear priority is answered with soft lines.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "The energy drinks are the person's own habit but not marked loved, so the clear proposal is allowed in principle. However, the Ritual puts pushups and pistol squats (theirs, daily) at 1x a week, which is a nudge toward less. Calling the clear a smaller can is a lighter version, though it concerns a non-loved item. The loved morning sunlight stays intact. Pushups reduced to 1x a week still counts as altering something theirs.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "The tone is mostly gentle and framed as a question, with no should, must, or targets. The gym keep says 'Keep it.' as a directive, but that is mild. No correction of a night already happened. This test passes narrowly.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "The person does pushups daily but the Ritual puts them 1x a week on evenings. The gym was stopped but is kept as active. Gym is described as 'once a week' by them, which is OK, but the whys are generic ('a way to move that isn't the gym'). Energy drinks, which they use at night 2-3x a week, are not in the Ritual. Morning work is placed on weekdays, which is plausible. Sports 'sometimes' is fixed to a weekly slot, which is invented specificity.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "A light, believable shift that keeps sunlight and journaling in place. It respects the wake by 10:00 preference. Nothing theirs is moved or skipped. Slightly redundant wording, but fits the moment.",
+            "verdict": "pass"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The magnesium reply makes a medical claim with a made-up HRV number, which is a hard failure. The Ritual also misplaces their daily pushups, keeps a stopped gym as live, and leaves out the night-time energy drinks, so it does not read as their real week.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2227,
+        "tokensOut": 1317,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0181652,
+        "latencyMs": 35922,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-unheard",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "",
+            "critique": "Nothing in the facts comes from a doctor or a blood test, and Distill gives no medical advice. Nothing kept or added works against a condition or treatment they named.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are tier A of a cost at $65 a month. Proposing a smaller can and calling it \"keep the lift\" softens that into a claim the evidence doesn't back. \"The afternoon dip asks for less\" is also an unsupported effect. Phone in bed is tier D of a cost, yet it is kept in the Ritual and praised as a \"quiet end to the day\". A costly thing is kept as if it were harmless.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Got it. Salmon three nights a week stays in your Ritual, it is the easiest win you have.",
+            "critique": "The reply to \"I'm vegetarian, please stop suggesting fish\" says \"Got it\" and then does the opposite: it keeps salmon three nights a week. That is a direct contradiction of a plain request. Pushups they do \"every single day\" are also shown as once a week.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "evening 1x a week: Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "They do pushups and pistol squats every day, and the Ritual cuts them to once a week, which is a \"less often\" on something theirs. The curate proposal also repurposes morning sunlight, which is loved, as an \"anchor\" with work and breakfast following from it. That is a nudge on something that should stay exactly as it is.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Have a great night out, Rohan. Tomorrow starts with a slow start",
+            "critique": "There is no should, must or need to, and no streaks, targets or scores. The night that already happened is welcomed, not corrected.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Salmon three nights a week stays in your Ritual",
+            "critique": "The Ritual has no salmon, so this is an invented habit. Pushups and pistol squats are shown 1x a week when the person does them daily, which puts them on the wrong days. Calorie bulk is shown as a weekly evening item, and the Ritual leaves out the studying and sleeping by 12 they described. Some whys are stock lines that could be anyone's, such as \"nothing to prove beyond a good night\".",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "The change is light and believable, and 09:30 fits their \"wake by 10\". The sunlight still happens and journaling is untouched. Shifting the sunlight time is the natural consequence of the later wake they asked for.",
+            "verdict": "pass"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The vegetarian reply says \"Got it\" and then keeps salmon three nights a week, which is invented and ignores a plain request. The energy-drink proposal tells them to \"keep the lift\", which is an unsupported claim. Daily pushups are cut to once a week, and phone in bed (a tier D cost) is kept as a comfort. The Ritual is not truly theirs.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2238,
+        "tokensOut": 2675,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0317672,
+        "latencyMs": 20311,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-loved",
+      "control": true,
+      "verdicts": null,
+      "pass": null,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "costUsd": 0,
+        "latencyMs": 70050,
+        "stopReason": null,
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-guilt",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "No clinician item or named condition is in play. Nothing from a doctor is altered and nothing works against a treatment. Medical advice is not given.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "Your gym session is one of the well-founded things in your life, and it's squarely what your bulk is built on. You may not feel it session to session, and that's normal.",
+            "critique": "Gym tier A is kept honestly. But energy drinks are tier A of a cost at $65 a month, and the proposal says 'you can keep the lift', which softens the cost. Phone in bed is tier D (cost) yet is kept and praised in the Ritual as 'part of your quiet end to the day, time to yourself with nothing asked of you'. A costly item is kept and praised as if harmless. 'Eating well around your gym day keeps that moving' also makes an unsupported claim.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower, and this keeps that anchor in place.",
+            "critique": "The person said they stopped the gym because they are too busy, and Distill keeps it as a proposal. The Ritual leaves out their wish for a push, a clear priority and personalized recommendations. They said they dislike having to eat more for the bulk, but it is framed as 'what you're working toward' with no acknowledgement. Energy drinks were taken 'usually at night', yet the proposal frames them as a busy-day lift and talks about 'before 2pm', which doesn't match what they said. The reply 'skipped my morning again' also isn't something they said.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are not marked as loved, so a lighter version is allowed there. But the Ritual says calorie bulk, pushups and sports go 1x a week, which cuts pushups from 'every single day' to once a week. Their own things are moved. Gym is also proposed 'keep' while it's the user's own, which is fine, but pushups being changed to weekly is a nudge on something theirs.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "You missed your morning three days running. You need to stop making excuses and stick to the plan.",
+            "critique": "This reply is guilt-laden, uses 'need to' and 'stick to the plan', and corrects what already happened. It is a clear failure of the no-pressure rule.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "They do pushups daily, but the Ritual puts them 1x a week. Sports is likewise placed on an invented evening. Morning work is placed Mon-Fri, which is roughly supported. The 'busy week' why is generic. Morning work 'clears your head for everything after' is a stock line. Journaling every night is overstated because they said 'I try to'.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "The change is believable and light. Wake time moves later, sunlight is kept and shifted with it, and the evening is left alone. It fits the late night and their 'wake by 10' wish. However, the reply mentions journaling, which is a night item, as if it is part of tomorrow's morning, and this is minor. Sunlight is loved and is moved from its usual time, though it is explicitly kept and the user asked for the push back. Nothing is skipped.",
+            "verdict": "pass"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The 'skipped my morning again' reply is guilt-tripping and says 'need to stop making excuses and stick to the plan', which is the opposite of Distill's voice. Pushups were cut from daily to weekly, the energy-drink proposal misses that they drink them at night, and phone in bed (tier D cost) is praised. Several tests fail.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2222,
+        "tokensOut": 1436,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0193452,
+        "latencyMs": 13612,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-generic",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "",
+            "critique": "No item came from a clinician or a blood test, and they named no condition or treatment. Nothing shown fights a treatment or gives medical advice, so nothing fails here.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "night mon,tue,wed,thu,fri,sat,sun: Phone in bed. Part of a balanced wellness routine.",
+            "critique": "Phone in bed has tier D evidence of a cost, yet it is kept in the Ritual every night and framed as part of a balanced wellness routine. That presents a costly habit as if it helps. Energy drinks, tier A of a cost at $65 a month, are not clearly cleared either. The line 'Part of a balanced wellness routine' is also an unsupported health claim.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "evening 1x a week: Pushups and pistol squats. Part of a balanced wellness routine.",
+            "critique": "They said they try to do pushups and pistol squats every single day, whenever they have time. The Ritual shows 1x a week, which contradicts that. Calorie bulk is also placed as an evening 1x a week item, which does not match their words. Their wish for a push and a clear priority is not answered, and the sleep-by-12 goal is missing. The reply also uses the name 'Rohan', which does not appear in anything they said.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "evening 1x a week: Pushups and pistol squats. Part of a balanced wellness routine.",
+            "critique": "Their daily pushups and pistol squats are cut to once a week, which is a lighter version of something that is theirs. Sports and nights out with mocktails are also reduced to 1x a week with no basis in what they said. They are not all kept exactly as they are.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Consider whether this item still serves you on your wellness journey.",
+            "critique": "No should, must, target, score or streak appears, and no past night is corrected. The proposal text is generic and a little nudgy, but it does not apply pressure.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "morning mon,tue,wed,thu,fri: Morning work before breakfast. Part of a balanced wellness routine.",
+            "critique": "Every part carries the same stock why, 'Part of a balanced wellness routine', which could be anyone's. Pushups are on the wrong days, and sports and the night out are put on a guessed 1x a week. Their weekday routine is only partly reflected: classes and study are barely there, and the lunch, dinner and wind-down structure is missing. The 'Leisure time or a bit of study' midday slot is reasonable, but the whys are not in their terms.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "A light shift fits a late night out. The sunlight they love is kept at 09:30 and still guaranteed. Journaling and the evening stay put. It does not give a wake time and skips the morning work, but nothing of theirs is dropped.",
+            "verdict": "pass"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. Several tests fail. The phone-in-bed habit is kept as if it helps. Their daily pushups are cut to once a week. Every part carries the same stock 'balanced wellness routine' why. The proposals are generic and do not address the push or direction they asked for. The reshape reply is fine, but the rest does not feel like this person's own Ritual.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1849,
+        "tokensOut": 2216,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0263992,
+        "latencyMs": 16498,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-reshape",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift. Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "No clinician items or named conditions. Nothing fights a treatment. Phone in bed is kept, but no condition was named. Passes.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "Energy drinks can carry you through a busy day, and you can keep the lift.",
+            "critique": "Energy drinks are tier A evidence of a cost at $65/month. The line praises them as carrying the day and promises the lift stays, which softens a costly item. Phone in bed (tier D cost) is kept in the Ritual as 'quiet end to the day' with a stock framing. Also journaling is given a benefit framing without evidence (tier C neutral). The gym keep says 'You may not feel it session to session, and that's normal', which is fine. Energy drink framing fails.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Gym after breakfast. Your ideal day has you working, eating, then training and coming home to shower",
+            "critique": "Several plain statements are ignored or contradicted. They said they stopped the gym due to being too busy, and they want a push and a clear priority, yet the output offers none. They said the bulk 'isn't working' and they dislike eating more, yet it is framed as 'without turning it into a project'. The ideal day is also 'wake by 10', but the reply proposes 09:30 as pushing back, which is fine. The ask for a push and clear priority is ignored, and the second reply is for a different situation (a wedding) that they never mentioned. Fails.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "Energy drinks are their own habit, but not loved. Calorie bulk, pushups, sports, nights out, and journaling are theirs. The Ritual keeps them unchanged, but the gym is theirs and is 'keep'. Nothing theirs is swapped. However, the Ritual frames the bulk as 'eating well around your gym day', which reshapes it, and the energy drink proposal is a lighter version of something they do. Energy drinks are theirs (listed by them, though not loved); the instruction says anything theirs stays exactly as is, so the smaller-can swap fails.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Want to try a smaller can before 2pm and an earlier wind-down?",
+            "critique": "No should/must, but 'an earlier wind-down' nudges them toward a target-like behavior change. The second reply is a hard-driving schedule (10k run, double strength) with no choice. Mild pressure; the second reply 'Saturday starts at 6am' is a directive imposed on an exhausted person. Fails.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Pushups and pistol squats. Simple bodyweight work you already do, easy to slot in around a busy week.",
+            "critique": "They do pushups/pistol squats every day, but the Ritual puts them once a week. Gym is 1x a week which matches. Sports 'sometimes' is fine. Morning work mon–fri is invented as a schedule though they said mornings are best. Nights out 1x a week is invented, and 'Phone in bed' has a stock why. Pushups on the wrong days fails.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Tomorrow starts with a slow start: sleeping in a bit, then your morning sunlight a little later at 09:30 so it still happens, with your journaling and evening left as they are.",
+            "critique": "The first reply is believable and light: it shifts the wake time and sunlight and leaves their things. But the second reply, 'Saturday starts at 6am: a 10k run, a double strength session, then meal prep', is a far fuller day for someone exhausted, invented activities, and contradicts rest. The second changed their days massively. Fails.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. Energy drinks are softened and a lighter version proposed on something theirs, pushups are put at the wrong frequency, they asked for a push and clear priority and got none, and the second reply is an invented, punishing 6am 10k run with a double strength session for an exhausted person. The first reply is good, but the whole fails.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2245,
+        "tokensOut": 1458,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.019611200000000002,
+        "latencyMs": 11061,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    }
+  ]
+}

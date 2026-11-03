@@ -93,3 +93,4 @@ skin+ = doing too much on skin; derm = skin concern for a dermatologist.
 38. `joanna-42` (Claude): UWS litigator; IV drips, hyperbaric, NAD+; martini with Ben; strep, then trial
 39. `britt-27` (Claude): Phoenix; TikTok Shop stack, salt lamp she likes; trivia; hikes with her mom
 40. `aaron-39` (Claude): Rockaway bus mechanic; CPAP plus TikTok mouth tape; fishing with Eddie; overtime
+41. `rohan-18` (Rohan): Berkeley student; lapsed gym, night-time energy drinks, short sleep, no direction; reference in `eval/references/rohan-18.md`

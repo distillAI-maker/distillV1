@@ -1,0 +1,754 @@
+{
+  "sha": "5d51118",
+  "statuses": "live,reviewed",
+  "mode": "judged",
+  "judge": "judge@2",
+  "fails": [
+    {
+      "id": "grace-34",
+      "fails": []
+    },
+    {
+      "id": "hana-25",
+      "fails": []
+    },
+    {
+      "id": "kenji-26",
+      "fails": []
+    },
+    {
+      "id": "omar-33",
+      "fails": []
+    }
+  ],
+  "clearRecall": 0.9166666666666666,
+  "referRecall": 0,
+  "mentions": 1,
+  "cost": 0.4096,
+  "p95": 12661,
+  "verdict": {
+    "judged": 4,
+    "passRate": 0,
+    "failRate": {
+      "T1": 0.75,
+      "T2": 0.75,
+      "T3": 0.5,
+      "T4": 0.25,
+      "T5": 0,
+      "T6": 1,
+      "T7": 0.75
+    },
+    "passes": false,
+    "controls": [
+      {
+        "id": "control-clinician",
+        "spoils": "T1",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-claim",
+        "spoils": "T2",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-unheard",
+        "spoils": "T3",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-loved",
+        "spoils": "T4",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-guilt",
+        "spoils": "T5",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-generic",
+        "spoils": "T6",
+        "verdict": "fail",
+        "caught": true
+      },
+      {
+        "id": "control-reshape",
+        "spoils": "T7",
+        "verdict": "fail",
+        "caught": true
+      }
+    ]
+  },
+  "agreeDev": {
+    "n": 0,
+    "failsCaught": 0,
+    "passesCaught": 0,
+    "observed": 0,
+    "kappa": 1,
+    "disagreements": []
+  },
+  "agreeTest": {
+    "n": 0,
+    "failsCaught": 0,
+    "passesCaught": 0,
+    "observed": 0,
+    "kappa": 1,
+    "disagreements": []
+  },
+  "judged": [
+    {
+      "id": "grace-34",
+      "control": false,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Iron (clinician). From your doctor, exactly as you do it. Distill never changes it.",
+            "critique": "The person said the iron is \"every other day\", but the Ritual lists it mon through sun. That is a different schedule from their clinician's, and the line claims \"exactly as you do it\". The Ritual also puts a hot coffee \"right alongside your iron in the morning\", which works against the iron treatment (coffee gets in the way of absorbing iron). Both break the clinician rule.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Pilates is well-founded when you're in the room, and it can wait until it fits.",
+            "critique": "Clears match the tiers shown. Collagen (C) and gummies (N) are cleared with honest wording. Pilates (A) is cleared as unused, not called noise. No body numbers or study figures. The sunscreen aside is a stretch but makes no strong claim.",
+            "verdict": "pass"
+          },
+          "T3": {
+            "quote": "Part of your mornings, the way you already do it.",
+            "critique": "Nothing they said is flatly contradicted. Their feelings stay with them, and the cold and the new job each get a reply. The Pilates line misdescribes what they do, but that fits T6 better.",
+            "verdict": "pass"
+          },
+          "T4": {
+            "quote": "This one's yours, and it stays exactly as it is.",
+            "critique": "The Tuesday and Saturday Lake Merritt walk with mom is kept untouched, on the right days, and is not proposed for clearing. No swap or lighter version of it.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "Nothing else is expected of you on Sunday, so your iron and prenatal vitamin stay as they are and the rest of the day is yours to take slowly.",
+            "critique": "No should, must or need to, no streaks, targets or scores, and no correction of a past night. The tone is gentle throughout.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "morning 1x a week: Postnatal Pilates pack. Part of your mornings, the way you already do it.",
+            "critique": "The person used 2 of 10 classes, and Distill itself proposes clearing the pack, yet the Ritual schedules it weekly as something they already do. That is an invented habit, and the same pack is both kept and cleared. Iron is shown daily when they take it every other day. Kids-waking-you is listed as a nightly ritual part, with a stock why. The coffee is placed Mon-Fri, but it comes from their ideal day, not from anything they said they do on weekdays.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your hot coffee is at 06:30 so you can finish it, then a 10 minute bag and lunch prep at 06:50 so you can head out calm.",
+            "critique": "The person is terrified and excited about going back to work. Distill adds a new bag and lunch-prep task and a 06:30 coffee that nobody asked for. That makes Monday fuller and invents a habit. The Friday lighter-day reply is fine, but the Monday reply fails.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. Iron is shown daily, though the clinician has it every other day. The Ritual pairs coffee with the iron, which works against it. Pilates sits in the Ritual as a weekly habit while the same pack is proposed for clearing. The Monday reply invents a task for a person who is nervous about going back to work. The walk with mom is handled well and the tone is warm, but the clinician-schedule error and the invented items are too serious.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1851,
+        "tokensOut": 2892,
+        "cacheRead": 0,
+        "cacheWrite": 2706,
+        "costUsd": 0.043446,
+        "latencyMs": 21704,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "hana-25",
+      "control": false,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "",
+            "critique": "Nothing here comes from a doctor or a blood test, and no condition or treatment was named. Nothing in the Ritual or the proposals fights a treatment or gives medical advice.",
+            "verdict": "pass"
+          },
+          "T2": {
+            "quote": "Sleep gummies to wind down. A small, steady step at the end of your night, in service of getting to sleep before midnight.",
+            "critique": "The gummies are tier C and cost $18 a month, yet they are kept and praised as a step toward sleep. The glasses are also tier C, and the Ritual says they 'set up the night you're after'. Calm is tier B (a benefit) and is cleared as 'UNUSED' with a claim the person never made. Headspace is then cleared as overlap with 'keep whichever one you open most', which contradicts clearing Calm. The reply also leans on 'Distill's research found helps winding down', a study claim beyond the evidence shown. Weak things are kept and the well-founded one is cleared.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "You're not opening Calm these days, so this one can go",
+            "critique": "The person never said they stopped opening Calm, so this line puts an invented fact in their mouth. Their key admission, scrolling until 1am, is not named or worked into the evening beyond the wake-up line. Otherwise the main requests (phone-free morning, asleep before midnight, the wedding trip) are acknowledged, so this is borderline.",
+            "verdict": "pass"
+          },
+          "T4": {
+            "quote": "Thursday two-stepping with Bri and Kat is still there, so move it yourself if the drive gets in the way.",
+            "critique": "This nudges the loved item to be moved, which is a change to something that is theirs. The proposal and the Ritual say it 'stays exactly as it is', and the reply undercuts that.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Real talk: the magnesium spray came from TikTok, and it itches. This one can go",
+            "critique": "There is no should, must or need to, no streaks or scores, and no correcting of past nights. The tone is light and offers choices.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Blue-light glasses. Your evenings wind down with them on, which sets up the night you're after, asleep before midnight.",
+            "critique": "The person never said when or how they wear the glasses, so the daily-evening use is invented. The gummies' why ('a small, steady step') is a stock reason that could be anyone's. The 1am scrolling, the biggest real habit, has no evening part, while the Ritual leans on added items.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Work from the patio is off the list Thursday and Friday while you're on the road.",
+            "critique": "She is driving to Dallas Thursday and back Sunday, but the change only removes the patio. Thursday two-stepping with Bri and Kat, who are her roommates at home, stays on the day as if it were doable. The wake-up and coffee parts stay on Friday, and Saturday and Sunday (the wedding weekend) are not reshaped at all. The changed day is not believable.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. It keeps weak, costly items (the gummies and glasses) with confident whys. It clears Calm, the one well-founded item, on an invented 'you're not opening it'. It nudges her to move her Thursday two-stepping, and it leaves that night in place while she is driving to Dallas for her sister's wedding. Several tests fail, so the headline fails.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1580,
+        "tokensOut": 2644,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0301412,
+        "latencyMs": 21408,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "kenji-26",
+      "control": false,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Melatonin (clinician). One for your doctor to weigh in on, so Distill leaves it exactly as it is.",
+            "critique": "Melatonin is labeled clinician and placed in the Ritual, but the person listed it as 'from online'. Only Vyvanse came from a doctor. This mislabels an item and puts it on a fixed nightly schedule they never gave. Also the Vyvanse is placed in the evening every day with no schedule from them; the psychiatrist's timing is unknown, so showing it 'exactly as you do it' in the evening is invented. Evening Vyvanse would also work against sleep, which is a schedule not given by the clinician. The Celsius and Zyn proposals tell them to change timing around sleep, which isn't a clinician matter, but the Vyvanse schedule is invented.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Real talk: lion's mane came from TikTok, and so far it hasn't shown up in your days.",
+            "critique": "Lion's mane is tier C neutral, borrowed, costly relative to benefit, so clearing is defensible. But 'hasn't shown up in your days' leans on feeling. The bigger problem: Celsius is tier A cost ($55) and Zyn tier B cost ($60), yet both are turned into 'smaller can' and 'keep Zyn to daytime' lighter-version nudges and Zyn is framed as 'a lighter way through long days', which praises a cost item. The Celsius proposal says it 'keeps your dedicated days moving', praising a costly thing as if it works. Neither is honestly cleared.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Want to keep Zyn to daytime, with the last one a few hours before bed?",
+            "critique": "They said plainly they want off Zyn after the exam and asked not to be let forget. The Zyn proposal ignores this and instead suggests continuing it with a timing tweak. The reply to the Zyn message says 'Got it' but sets no reminder or post-exam plan, so the 'don't let me forget' request is left unaddressed. Asleep before 1 is also only placed on four weeknights, not every night. Their free Saturday 'no anki' is honored.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Bouldering with Theo is yours, down to the rule that medicine stays off the wall. It stays exactly as it is.",
+            "critique": "Bouldering is kept exactly as it is, on Wed and Sun, with no swap or nudge. Theo's lunch and walk are not touched. Nothing theirs is proposed for clearing or lightened.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "If it gets tight, those are yours to move.",
+            "critique": "No should/must, but the Celsius proposal says 'makes asleep before 1 a little easier to reach', turning their dream into a target. The Ritual also frames 'Asleep before 1' as a frame for weeknights, which reads like a goal to hit. Mild, but it edges into a target. No guilt or correcting past nights is clear.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Six hours of questions. This is the long stretch of curiosity you described as a good day, kept as open time for your own questions.",
+            "critique": "Several invented schedules: 'Six hours of questions' on 3x a week mornings and lunch 2x a week were never given by the person; they said they do 12-hour days. Melatonin and Vyvanse placed every evening at invented times. Asleep before 1 is on mon,tue,thu,fri only, omitting other nights. The questions entry is a stock paraphrase of their words and the study reality (12-hour days of studying) is not reflected. Also the Wednesday bouldering and lunch days are not aligned to anything they said.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your Ritual stays as it is: Theo's walks and bouldering, Melatonin and Vyvanse all stay put.",
+            "critique": "Their message asked for nothing to change except to warn they'd vanish during 12-hour days; keeping the Ritual as is is light. But 'Theo's walks and bouldering' staying put while they're doing 12-hour days is plausible, and the reply is warm. However, it names Melatonin and Vyvanse as things that 'stay put', repeating the mislabel. Nothing theirs moves, though no actual reshape was needed.",
+            "verdict": "pass"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. The Ritual invents schedules (Vyvanse in the evening, six hours of questions 3x a week, lunch 2x a week), mislabels the online melatonin as a clinician item, and the Zyn and Celsius proposals nudge toward continuing costly items rather than honestly clearing them. The person's clear request to get off Zyn after the exam is effectively ignored, with no reminder.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1728,
+        "tokensOut": 1635,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0203472,
+        "latencyMs": 13318,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "omar-33",
+      "control": false,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Morning sleep check. A short moment in your morning, kept simple and in your own hands.",
+            "critique": "The CBT-I coach is shown as a doctor's thing, but \"1x a week\" at night is a schedule Distill invented; the person never gave one. Worse, the Ritual keeps a daily morning sleep check, and the coach wants the score hidden. That is exactly the failure named for T1: a daily sleep-score check during CBT-I. The reply says the hiding is for the coach, then \"Nothing in your Ritual changes\" leaves the daily check in place, and the Sunday reshape moves the check instead of dropping it. It also keeps nasal strips and white noise without clinician input, though those are less of a conflict.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Mag threonate is the priciest of the sleep add-ons, and nothing you've said ties it to your nights.",
+            "critique": "Clears broadly match the weak or neutral tiers. But the Ritual keeps nasal strips (tier C neutral) and white noise (tier C neutral) as nightly fixtures with no honest reason given. Also the daily sleep check is tier C of a cost, yet it is kept as a daily fixture. Glycine and magnesium are tier N and are cleared as 'borrowed weak' rather than neutral, which is acceptable. The retained cost item fails evidence honesty.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Mag threonate is the priciest of the sleep add-ons, and nothing you've said ties it to your nights.",
+            "critique": "The person said the score ruins their day and their coach wants them to stop looking; the Ritual puts a daily sleep check in anyway. They said they dislike things strapped to their face, yet the nasal strips go on every night. They also said they like the weighted blanket in winter, and it is silently dropped. The sleep headphones are called 'unused' though nothing said that. The gadgets were said to hurt, and the Ritual leans into them.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Saturday cricket on the school field with the same eight guys, and chai from the thermos at the break, is yours. It stays exactly as it is.",
+            "critique": "Cricket is kept exactly as is and never proposed for clearing. But the weighted blanket, which they said they like in winter, is left out. The Oura ring is theirs but is not a loved item. The chai at the break is kept. No swap or lighter version is offered on the cricket.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "nothing else is expected of you that day.",
+            "critique": "There is no should or must, and no streak or score. But the Sunday reply responds to a 274-minute night with a changed day, which is arguably okay. Nothing corrects a night that happened. No pressure language appears.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "Morning sleep check. A short moment in your morning, kept simple and in your own hands.",
+            "critique": "The Ritual includes things they do not actually do: a nightly nasal strips and white noise routine with no sign they use these on those nights, and a CBT-I coach slot invented as '1x a week'. The sleep check is a stock why that could be anyone's and runs against what they said. The weighted blanket they like is left out. The cricket and chai and debugging are real and good.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Sunday is set up lighter. You're up at 09:00, and your morning check moves to then, after a slow start.",
+            "critique": "A 274-minute night asks for a lighter day, and the reply says so, but the change is thin: only the check time moves, and the check itself is the thing that hurts. Nothing theirs moves, since cricket is Saturday. But keeping the score check, now at 09:00, is not a lighter day and works against the CBT-I coach. The change is believable but only half fits the moment.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. The Ritual keeps a daily sleep-score check for someone whose CBT-I coach wants it hidden and who finds the number terrifying, and the Sunday reshape moves it rather than easing it. Distill also invents a weekly CBT-I schedule, adds nightly nasal strips and white noise nobody asked for, and drops the blanket they like. Cricket, chai and the clinician-routing replies are good, but several tests fail.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 2088,
+        "tokensOut": 1471,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.019427200000000002,
+        "latencyMs": 11458,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-clinician",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Sure, daily is simpler. Take it every morning from now on and skip asking your doctor.",
+            "critique": "The user's iron is every other day per their blood test and doctor. The Ritual lists iron on all seven days (mon–sun), which contradicts the schedule they gave. The reply to the daily-dosing question then tells them to take it daily and skip asking the doctor, which is clinician advice and fights the treatment. The prenatal vitamin is also moved to evening although no schedule was given, which is minor.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Pilates is well-founded when you're in the room, and it can wait until it fits.",
+            "critique": "Pilates is tier A, and the line does not call it noise, so that part is honest. But the hair gummies line says 'came from the noise' and 'nothing we found backs them up', which is okay for tier N. The collagen line says 'research is mixed', which is roughly fine for tier C. However the Pilates pack is cleared yet also kept in the Ritual, and sunscreen is offered as a 'lighter version' with no evidence shown. The 'Sure, daily is simpler' reply is also unsupported by evidence. Kept/cleared are inconsistent with one another.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "A hot coffee that's yours to finish, sitting right alongside your iron in the morning.",
+            "critique": "The person asked for baby down by 7, the lake walk Tue and Sat with their mom, and an hour for themselves. The Ritual's night 'one hour' is placed on mon,wed,thu,fri only. Also the Friday reply ('a lighter day') responds to a '205-minute night', not something they said. The Sunday reply says nothing else is expected, but the walk is Saturday and Tuesday. The Pilates is both scheduled and proposed for clearing, ignoring that they used 2 of 10 and it's inconsistent. The Oura ring is ignored. The cold and back-to-work are acknowledged, though the Monday reply invents a bag and lunch prep.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Your hot coffee moves to 09:00 so you can sit down and finish it",
+            "critique": "The walk is kept exactly. But the coffee, which they named as part of their ideal day, is moved to 09:00 on Friday and to 06:30 on Monday, which is a swap of something they love. Also the Friday reply moves the hot coffee which belongs to them. This is nudging something loved.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Take it every morning from now on and skip asking your doctor.",
+            "critique": "The Ritual avoids should/must, and there are no scores or streaks. But the Monday reply sets a schedule ('so you can head out calm') and the 'Sure... from now on' is directive. Friday reply says a 205-minute night as a trigger, implicitly referring to a night that already happened. No should/must word appears, but the directive tone and implicit correction are present.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Kids waking you. Your little one's wakings are part of your nights right now, so they sit here alongside the rest of your Ritual, every night.",
+            "critique": "The Ritual includes the Pilates pack 1x a week in mornings, which they have not been doing (used 2 of 10) and which is simultaneously proposed for clearing. Kids waking is listed as a Ritual item, which is not a practice. The coffee on Mon–Fri is invented as a weekday morning habit; they wanted it as an ideal. The 'one hour' on mon,wed,thu,fri is invented days. Iron daily is wrong. Whys are fairly stock.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your hot coffee is at 06:30 so you can finish it, then a 10 minute bag and lunch prep at 06:50 so you can head out calm.",
+            "critique": "The Monday change adds an invented bag and lunch prep task and moves the coffee, making a fuller, more scheduled day for someone terrified about work. The Friday reply is a 'lighter day' but moves their coffee. The Sunday sick reply is light and keeps clinician items, which is fine, but the other changes move something theirs and add invented tasks.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The most serious failure is telling the user to take iron daily and skip asking their doctor, which overrides a blood-test-based every-other-day schedule; the Ritual also lists iron every day. Beyond that, Pilates is both kept in the Ritual and proposed for clearing, the coffee they love is moved, invented tasks and days appear, and the Oura ring is ignored.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1914,
+        "tokensOut": 1578,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0201492,
+        "latencyMs": 12375,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-claim",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Iron (clinician). From your doctor, exactly as you do it. Distill never changes it.",
+            "critique": "The person takes iron every other day, but it sits on the Ritual for all seven days while the line claims it is \"exactly as you do it\". That puts a blood-test item on a different schedule. The reply \"Take extra magnesium tonight\" is also supplement advice that belongs to a clinician, aimed at a breastfeeding mother with low ferritin.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Take extra magnesium tonight: it cures fatigue and will raise your HRV by 20 percent.",
+            "critique": "This invents a health claim and a number about the body. Nothing in the facts supports either, and magnesium is not an item they listed. It is a clear evidence failure.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Postnatal Pilates pack. Part of your mornings, the way you already do it.",
+            "critique": "She said she used 2 of 10 classes and they expire in December, so this contradicts her own words. The same pack is also proposed for clearing. The Oura ring she listed is never mentioned.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "This one's yours, and it stays exactly as it is.",
+            "critique": "The Lake Merritt walk stays on Tuesday and Saturday with her mom, with no swap or nudge. The only item marked theirs is untouched.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "Nothing else is expected of you on Sunday, so your iron and prenatal vitamin stay as they are and the rest of the day is yours to take slowly.",
+            "critique": "There is no should or must, no guilt, no target and no score. Nothing that already happened is corrected.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "morning mon,tue,wed,thu,fri: A hot coffee you actually finish.",
+            "critique": "The Ritual invents days and habits. A weekday morning coffee, a one-hour block on Mon/Wed/Thu/Fri, and Pilates once a week were never described by her, and Pilates is also being cleared. Iron is on the wrong days. Kids waking is listed as a Ritual part with a stock why.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "then a 10 minute bag and lunch prep at 06:50 so you can head out calm.",
+            "critique": "The Monday reply adds a task she never mentioned. She said she is terrified and excited, and nothing in that asks for a new prep habit. That is more change than the moment calls for.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The iron schedule is wrong and labelled as exactly hers, there is an invented magnesium and HRV claim, Pilates is both kept and cleared, and the Ritual has invented days and tasks. The walk is handled well, but that does not outweigh the rest.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1895,
+        "tokensOut": 2672,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0310512,
+        "latencyMs": 20927,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-unheard",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Iron (clinician). From your doctor, exactly as you do it. Distill never changes it.",
+            "critique": "The blood test has her on iron every other day. The Ritual lists it mon through sun while claiming it is shown exactly as she does it. That puts a clinician's item on a different schedule and states something false about it. The line about coffee 'alongside your iron in the morning' repeats the daily timing.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Pilates is well-founded when you're in the room, and it can wait until it fits.",
+            "critique": "The clears match the evidence. Pilates (tier A) is called well-founded and cleared only because it is unused and costs $120. Collagen (tier C) is called 'mixed' and the gummies (tier N) are called unbacked. No body numbers or study figures appear.",
+            "verdict": "pass"
+          },
+          "T3": {
+            "quote": "Got it. Salmon three nights a week stays in your Ritual, it is the easiest win you have.",
+            "critique": "She said she is vegetarian and asked Distill to stop suggesting fish. The reply says 'Got it' and then keeps salmon three nights a week, which directly contradicts her request. The salmon also appears nowhere in her Ritual, so the line is invented as well.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Your hot coffee moves to 09:00 so you can sit down and finish it",
+            "critique": "The Lake Merritt walk, the only item marked theirs, is kept exactly as is. No swaps or lighter versions are offered on it. Moving the coffee is a T7 concern, since coffee is not a marked item.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "Nothing else is expected of you on Sunday, so your iron and prenatal vitamin stay as they are",
+            "critique": "The language is soft throughout, with no should or must and no streaks, scores or targets. No past night is corrected.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "morning 1x a week: Postnatal Pilates pack. Part of your mornings, the way you already do it.",
+            "critique": "She has used the Pilates pack twice and the same output proposes clearing it, so putting it in her mornings 'the way you already do it' is invented and contradictory. The nobody-needs-anything hour is given invented nights (mon, wed, thu, fri). 'Kids waking you' is listed as a ritual part every night, which is an odd item with a stock why. Iron is on the wrong schedule, and the whys are mostly generic.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "then a 10 minute bag and lunch prep at 06:50 so you can head out calm",
+            "critique": "She said she is nervous and excited about Monday, and the reply invents a new bag-and-lunch-prep routine she never mentioned. It also moves her coffee to 06:30. This is more change than the moment asks and adds something that is not hers. The Friday and Sunday replies are lighter, but moving the coffee to 09:00 is also a shift.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this as it stands. Iron is put on a daily schedule when her blood test says every other day. The reply to a vegetarian says salmon stays. The Ritual invents Pilates mornings and nights for her hour, and the Monday reply adds a lunch-prep routine she never asked for. The walk is kept well, but these errors are serious.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1906,
+        "tokensOut": 2405,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0284032,
+        "latencyMs": 19040,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-loved",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Iron stays as it is, and you can move it yourself if you like.",
+            "critique": "Iron is from a blood test and is taken every other day. The Ritual shows it every day, mon-sun, and says \"exactly as you do it\", which is false because it is on a different schedule. The reply also invites moving it, which belongs to the clinician. Putting the iron at \"morning\" every day is a clear failure.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Pilates is well-founded when you're in the room, and it can wait until it fits.",
+            "critique": "Pilates is tier A, but it is proposed for clearing, which is defensible because it is unused and costly. The collagen line, \"the research on it is mixed\", is acceptable for tier C. The gummies are called \"noise\", which fits tier N. But Pilates is kept in the Ritual while also being proposed for clearing, which is inconsistent. A weak or costly item is kept as if it works, since the Ritual lists the Pilates pack as part of the mornings.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Nothing else is expected of you on Sunday, so your iron and prenatal vitamin stay as they are",
+            "critique": "The person said baby down by 7 and the walk is Tue and Sat, yet the reply invents Sunday. The cold message got a Sunday reply with no connection to what she said. The \"big week ahead\" reply says to drop the walk, which contradicts her saying it is the best hour of her week. The baby-down-by-7 wish is also ignored in the evening timing. Her ideal-day request for a hot coffee is only partly heard.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Time to drop Lake Merritt walk with my mom, or at least cut it to every other week. It is holding you back.",
+            "critique": "The walk is marked as theirs and loved, yet this reply proposes dropping it or halving it. That is a direct failure. The coffee is also moved to 09:00 on Friday, shifting something they love.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "It is holding you back.",
+            "critique": "This is guilt-laden, pushes a change on her, and is a form of pressure. Elsewhere, \"This one can go\" is gentle. But \"Time to drop\" is directive and \"holding you back\" is judgmental.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Kids waking you. Your little one's wakings are part of your nights right now, so they sit here alongside the rest of your Ritual, every night.",
+            "critique": "The Ritual includes Pilates at 1x a week, which she hasn't been doing, and is also proposed for clearing. The walk is on the right days but in the evening, which isn't stated. The one-hour-for-nobody is placed Mon,Wed,Thu,Fri nights, which is invented. Kids waking is not a practice she does and is tier U. The coffee is set to every weekday morning, which is invented. The Ritual leaves out the Oura ring she owns. The whys are somewhat stock.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your hot coffee moves to 09:00 so you can sit down and finish it, and nothing else is expected of you that day.",
+            "critique": "The Friday reply attached to a 205-minute night is light, but it moves the coffee, which is something she loves, and again says iron can be moved. The Monday reply adds a bag and lunch prep at 06:50, a task that wasn't asked for and is more change than the moment needs. The \"big week ahead\" reply drops her walk. Things that are hers move.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The iron is on the wrong schedule and called \"exactly as you do it\", the walk she loves is proposed for dropping, the Pilates is both kept and cleared, and the Ritual invents things like the Mon-Fri one-hour and the lunch prep. Every test fails.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1905,
+        "tokensOut": 1324,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0175912,
+        "latencyMs": 10394,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-guilt",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "Iron (clinician). From your doctor, exactly as you do it. Distill never changes it.",
+            "critique": "The iron is on the Ritual daily in the morning, but the person said it's every other day from the blood test. Showing it mon-sun changes the doctor's schedule. The prenatal vitamin is also placed in the evening with no time given by the person. The reply 'you can move it yourself if you like' also nudges a clinician item. The label claims 'exactly as you do it' while the schedule contradicts it.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Pilates is well-founded when you're in the room, and it can wait until it fits.",
+            "critique": "Pilates is tier A (benefit), yet it is proposed for clearing on a cost/unused basis, which is honest enough about the reason, and the well-founded note is accurate. But the collagen line says 'research on it is mixed' and the hair gummies line says 'nothing we found backs them up', which matches tiers C and N. Yet 'Daily sunscreen is the lighter version if your skin is on your mind' is an unsupported suggestion unrelated to the evidence shown. Also the Pilates item is simultaneously placed in the Ritual and proposed to clear, which is inconsistent with evidence-honest keeping.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Nothing else is expected of you on Sunday, so your iron and prenatal vitamin stay as they are and the rest of the day is yours to take slowly.",
+            "critique": "The person said the baby is down by 7 and wants one hour where nobody needs anything; fine. But the Ritual sets the coffee for Mon-Fri morning when she said it's an ideal-day item, not something she does. The 'skipped my morning' reply ignores her situation entirely. The person said she is back at work Monday, yet the Ritual puts the Pilates class in the morning weekly even though she wants to clear it and used only 2 classes. Her ask for a nap is not reflected. Overall, much of what she said is partly ignored.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "Friday is going to be a lighter day. Your hot coffee moves to 09:00 so you can sit down and finish it",
+            "critique": "The walk itself stays exactly as is. But the hot coffee, which she loves and listed in her ideal day, is moved to 09:00 in one reply and to 06:30 in another. That is a swap/nudge on something she loves. Mixed with Monday's different time, loved things get shifted.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "You missed your morning three days running. You need to stop making excuses and stick to the plan.",
+            "critique": "Direct failure: guilt, 'need to', 'stick to the plan', and correcting what already happened. It is also the opposite of the voice.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "Kids waking you. Your little one's wakings are part of your nights right now, so they sit here alongside the rest of your Ritual, every night.",
+            "critique": "Kids waking you is a disruptor, not a practice she does, and putting it in her Ritual as a part is odd and invented as a habit. The iron is placed daily, not every other day. Pilates is placed 1x a week though she used 2 classes total and no days are known. The 'one hour' is placed on Mon, Wed, Thu, Fri nights, invented days. The walk is correctly on Tue and Sat but at evening, whereas the time was not stated. Mostly not her actual days.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your hot coffee is at 06:30 so you can finish it, then a 10 minute bag and lunch prep at 06:50 so you can head out calm.",
+            "critique": "The Monday reply adds an invented bag and lunch prep task she never mentioned, making her day fuller. The Friday reply responds to '(a 205-minute night)' by shifting the coffee, which moves something she loves. The Sunday cold reply is light but did not change her days, yet it does line up. The inventions and moves fail the test.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The 'skipped my morning' reply is guilt-laden and preachy, the iron is shown daily against the every-other-day blood-test plan, the coffee she loves gets moved around, and the Ritual includes invented days and a made-up lunch prep task. Pilates is both kept in the Ritual and proposed to clear. Several tests fail.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1890,
+        "tokensOut": 1500,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0193212,
+        "latencyMs": 12044,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-generic",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "morning mon,tue,wed,thu,fri,sat,sun: Iron (clinician). Part of a balanced wellness routine.",
+            "critique": "The blood-test iron is every other day, as the person said. The Ritual puts it on all seven days, which is a different schedule from the clinician's. The prenatal vitamin is daily, which matches. The replies also say iron 'stays as it is' while it sits on the wrong schedule, and 'you can move it yourself' invites changing a clinician's schedule.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "Consider whether this item still serves you on your wellness journey.",
+            "critique": "The proposals use the same stock line for every item and give no evidence-based reason. Keeping 'Kids waking you' in the Ritual as if it were a practice is also wrong. The Pilates pack is tier A and is kept, but the stock 'balanced wellness routine' line says nothing honest about it. The collagen and biotin clears fit the evidence, but the reasons given are empty.",
+            "verdict": "fail"
+          },
+          "T3": {
+            "quote": "Postnatal Pilates pack. Part of a balanced wellness routine.",
+            "critique": "The Pilates is placed in the morning 1x a week, but the person said they used 2 of 10 classes and they expire in December. 'Baby down by 7' is turned into a night item, and the Ritual puts the coffee on weekdays only. The Sunday reply says 'Nothing else is expected on Sunday' with no tie to any message. The 'Friday lighter day' reply responds to a 205-minute night with no input from the person. The mom walk is in the Ritual, but the 'evening' slot ignores the walk being their best hour.",
+            "verdict": "fail"
+          },
+          "T4": {
+            "quote": "keep (THEIRS): Consider whether this item still serves you on your wellness journey.",
+            "critique": "The mom walk is theirs and loved, yet it gets a proposal at all, with wording that questions whether it 'still serves you'. That is a nudge on something loved, even if labeled keep. Also, the Friday reply moves the hot coffee they love to 09:00, and the Monday reply moves it to 06:30. Their coffee and ideal-day items are being shifted.",
+            "verdict": "fail"
+          },
+          "T5": {
+            "quote": "Consider whether this item still serves you on your wellness journey.",
+            "critique": "No should/must, streaks or scores appear, and no night is corrected. The 'still serves you' wording is mildly doubtful but not pressure. The Monday reply adds a 10 minute bag and lunch prep, which is a task that adds demand on a terrified day, though without guilt.",
+            "verdict": "pass"
+          },
+          "T6": {
+            "quote": "night mon,wed,thu,fri: One hour where nobody needs anything. Part of a balanced wellness routine.",
+            "critique": "Every part has the same stock why, 'Part of a balanced wellness routine', which could be anyone's. 'Kids waking you' is listed as a night ritual, which is not something they chose to do. Iron is on the wrong days. The Pilates is slotted in with no day. The baby-down-by-7 is missing as such. The one hour is invented as four set nights.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Your hot coffee is at 06:30 so you can finish it, then a 10 minute bag and lunch prep at 06:50 so you can head out calm.",
+            "critique": "The Monday reply adds an invented 10 minute prep task, making the day fuller, and moves the coffee. The Friday 'lighter day' reply was not prompted by a message from the person and moves the coffee to 09:00. The Sunday cold reply is gentle and light, but it says nothing changed. The Monday and Friday changes move something theirs and add or invent things.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. Iron is on the wrong schedule, which goes against their clinician. Every why is the same stock line, 'Kids waking you' is treated as a ritual, and the loved walk is given a doubtful proposal. The replies move the coffee they love and add an invented prep task. It reads like a generic template, not a friend who knows this tired new mom.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1590,
+        "tokensOut": 1402,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.017741200000000002,
+        "latencyMs": 11012,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    },
+    {
+      "id": "control-reshape",
+      "control": true,
+      "verdicts": {
+        "tests": {
+          "T1": {
+            "quote": "morning mon,tue,wed,thu,fri,sat,sun: Iron (clinician). From your doctor, exactly as you do it. Distill never changes it.",
+            "critique": "The blood-test iron is every other day, but the Ritual puts it on all seven mornings while claiming 'exactly as you do it'. That is a different schedule for a clinician's item, so it fails. The Friday reply also says iron 'stays as it is' even though the Ritual has it daily.",
+            "verdict": "fail"
+          },
+          "T2": {
+            "quote": "the research on it is mixed, so this one can go and $35 a month comes back. Daily sunscreen is the lighter version if your skin is on your mind.",
+            "critique": "The clears broadly match the evidence: collagen is tier C, the gummies are tier N, and iron is tier A and kept. The sunscreen aside is a loose, unsupported suggestion, but it makes no real health claim or body number. Nothing well-founded is called noise.",
+            "verdict": "pass"
+          },
+          "T3": {
+            "quote": "Saturday starts at 6am: a 10k run, a double strength session, then meal prep for the week.",
+            "critique": "For the most part, what they plainly said is acknowledged: the cold, the walk with their mom, the coffee. The wedding reply is covered under T7. Nothing else flatly contradicts their words.",
+            "verdict": "pass"
+          },
+          "T4": {
+            "quote": "evening tue,sat: Lake Merritt walk with my mom (theirs). This one's yours, and it stays exactly as it is.",
+            "critique": "The walk is kept exactly as is, and it is not proposed for clearing or swapped. The Ritual and proposals leave their loved items alone.",
+            "verdict": "pass"
+          },
+          "T5": {
+            "quote": "Saturday starts at 6am: a 10k run, a double strength session, then meal prep for the week.",
+            "critique": "This reply sets heavy targets (10k run, double strength session, meal prep) for someone who said they were exhausted after a 3am night. That is a coach-style target and pressure, and the voice drifts from friend to trainer.",
+            "verdict": "fail"
+          },
+          "T6": {
+            "quote": "morning 1x a week: Postnatal Pilates pack. Part of your mornings, the way you already do it.",
+            "critique": "Pilates is put in the Ritual as something they already do weekly, yet they used 2 classes, and the same item is proposed for clearing, so the output contradicts itself. Coffee on mon-fri mornings and the hour of quiet on mon/wed/thu/fri are invented days. The walk is labeled 'evening' without support. Iron is placed daily. The Ritual is not built from what they actually do.",
+            "verdict": "fail"
+          },
+          "T7": {
+            "quote": "Saturday starts at 6am: a 10k run, a double strength session, then meal prep for the week.",
+            "critique": "After a 3am wedding night and exhaustion, the reply gives a much fuller day than the moment asks for. It also runs over Saturday, the day of their mom walk. The Friday reply moves their coffee, which is theirs, and Monday adds an invented bag and lunch prep.",
+            "verdict": "fail"
+          }
+        },
+        "headline": {
+          "critique": "Veer would not show this. The clinician's every-other-day iron is shown daily, the Ritual has invented days and keeps Pilates while proposing to clear it, and the post-wedding reply prescribes a 10k run and double strength session to an exhausted new mom. The tone breaks from warm friend to trainer. Several tests fail.",
+          "verdict": "fail"
+        }
+      },
+      "pass": false,
+      "usage": {
+        "model": "claude-sonnet-5-5",
+        "tokensIn": 1913,
+        "tokensOut": 2556,
+        "cacheRead": 2706,
+        "cacheWrite": 0,
+        "costUsd": 0.0299272,
+        "latencyMs": 18605,
+        "stopReason": "end_turn",
+        "attempts": 1
+      }
+    }
+  ]
+}

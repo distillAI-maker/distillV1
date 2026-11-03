@@ -12,7 +12,7 @@ Veer's 20 October build plan (the "One engine" diagram: words, stack, nights and
 | --- | --- |
 | Rules: decide, compose, reshape, safety | Built, tested (54 unit tests, 20 end-to-end on Postgres) |
 | Routing table V4 | 156 rows, all live (23 Oct) |
-| Claude's steps: read a message (Haiku 5.5); learn, word, compose, reshape, reply (Opus 5.5) | Built, behind `ENGINE_CLAUDE=on`. **Never run on real people.** |
+| Claude's steps: read a message (Haiku 5.5); learn, word, compose, reshape, reply (CAPI: Sonnet 5.5) | Built, behind `ENGINE_CLAUDE=on`. **Never run on real people.** |
 | Code checks on every Claude output, one retry with the problems listed, then the rules version | Built (`apps/web/lib/ai/engine/call.ts`) |
 | Crisis words → 988 and a human flag, even with Claude off | Built |
 | Golden set: 41 people played through onboarding and two weeks | Built; with Claude off all 41 pass every hard gate, and it finds 27% of the clears it should |
@@ -49,7 +49,7 @@ Veer's 20 October build plan (the "One engine" diagram: words, stack, nights and
   1. **A few axes, not types**, from taps people already make: up early or late, set plans or go with the flow, a night out or a night in, best work in the morning or afternoon (HANDOVER priority 3), plus the study's answers (wake time, most days, what they reach for, what goes first, who they want more time with). These feed the person model directly.
   2. **Archetypes for testing**: make sure the golden set covers each kind of person, and later pick the 2–3 nearest kept Rituals as examples (Loop 3).
 - **RAG.** Our data is small and structured (156 V4 rows, one person's history), so it already goes straight into the prompt; retrieval would add moving parts without adding knowledge. The one place retrieval helps is Loop 3: finding the most similar people's kept Rituals. That's a later step, after real people have kept Rituals. Agreed: not a priority now.
-- **Which model judges.** Opus 5.5 composes. A judge from a different model grades less leniently; try one against Veer's hand grades and keep whichever agrees with him more.
+- **Which model judges.** CAPI and the JUDGE both run on Sonnet 5.5 (30 Oct, for cost). A judge from a different model grades less leniently; try one against Veer's hand grades and keep whichever agrees with him more.
 
 ## 5. Decisions needed
 

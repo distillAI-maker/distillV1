@@ -14,9 +14,10 @@ import {
   type LineContext,
   type PersonModel,
   type RitualPart,
+  type StackItemLike,
 } from '@distill/engine/ritual';
-import { partLine, personBlock } from './brief';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { partLine, partNotes, personBlock } from './brief';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { COMPOSE_JOB, PROMPT_VERSIONS, voice, WHO } from './prompts';
 import { arr, dropNulls, en, int, nul, obj, str } from './schema';
 
@@ -34,7 +35,9 @@ const edit = z
     title: z.string().min(1).max(60).optional(),
     why: z.string().max(240).optional(),
     at: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/).optional(),
+    slot: z.enum(['morning', 'midday', 'evening', 'night']).optional(),
     days: z.array(daySchema).max(7).optional(),
+    perWeek: z.number().int().min(1).max(7).optional(),
   })
   .strict();
 const out = z
@@ -60,7 +63,7 @@ const newPartJson = obj({
   source: obj({ kind: en(['words']), quote: str() }),
 });
 const SCHEMA = obj({
-  parts: arr(obj({ id: str(), title: nul(str()), why: nul(str()), at: nul(str('HH:MM')), days: nul(arr(en(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']))) })),
+  parts: arr(obj({ id: str(), title: nul(str()), why: nul(str()), at: nul(str('HH:MM')), slot: nul(en(['morning', 'midday', 'evening', 'night'])), days: nul(arr(en(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']))), perWeek: nul(int()) })),
   additions: arr(newPartJson),
   summary: str(),
 });
@@ -97,13 +100,18 @@ function apply(rules: readonly RitualPart[], data: Out, newId: () => string, cap
     const e = byId.get(p.id);
     if (!e || p.lock) continue;
     const words = { ...p, ...(e.title ? { title: e.title } : {}), ...(e.why ? { why: e.why } : {}) };
-    const timed = { ...words, when: { ...p.when, ...(e.at ? { at: e.at } : {}) } };
+    const timed = { ...words, when: { ...p.when, ...(e.slot ? { slot: e.slot } : {}), ...(e.at ? { at: e.at } : {}) } };
     // Days they named replace "a few times a week".
+    const at = timed.when.at ? { at: timed.when.at } : {};
     const withDays: RitualPart = e.days?.length
-      ? { ...timed, when: { slot: timed.when.slot, days: e.days, ...(timed.when.at ? { at: timed.when.at } : {}) } }
-      : timed;
+      ? { ...timed, when: { slot: timed.when.slot, days: e.days, ...at } }
+      : e.perWeek && !p.when.days.length
+        ? { ...timed, when: { slot: timed.when.slot, days: [], perWeek: e.perWeek, ...at } }
+        : timed;
     const swap = (q: RitualPart) => current.map((x) => (x.id === p.id ? q : x));
-    current = fits(swap(withDays)) ? swap(withDays) : swap(timed);
+    const onDays = (days: RitualPart['when']['days']): RitualPart => ({ ...withDays, when: { ...withDays.when, days } });
+    const room = withDays.when.days.filter((d) => fits(swap(onDays([d]))));
+    current = fits(swap(withDays)) ? swap(withDays) : room.length ? swap(onDays(room)) : swap(timed);
   }
   for (const a of data.additions) {
     const part = partFromNew(a, newId(), ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
@@ -128,6 +136,9 @@ export async function composeRitual(
     lineContext: Omit<LineContext, 'toneRules' | 'maxWords'>;
     firstCompose: boolean;
     today: string;
+    /** Their list and answers: the Ritual is shaped from their words, so it has to see them. */
+    stack?: readonly StackItemLike[];
+    asks?: readonly { q: string; a: string }[];
     newId: () => string;
   },
 ): Promise<ComposeResult> {
@@ -136,9 +147,9 @@ export async function composeRitual(
   const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 30, theirWords: input.allowed.words };
   const locked = input.rules.parts.filter((p) => p.lock);
   const content = [
-    personBlock(input.person, { today: input.today, lockedTitles: locked.map((p) => p.title) }),
+    personBlock(input.person, { today: input.today, lockedTitles: locked.map((p) => p.title), ...(input.asks ? { asks: input.asks } : {}) }),
     '<ritual>',
-    ...input.rules.parts.map((p) => partLine(p)),
+    ...input.rules.parts.flatMap((p) => [partLine(p), ...partNotes(p, input.stack ?? [])]),
     '</ritual>',
   ].join('\n');
   const cap = input.firstCompose ? DAY_ONE_PER_MOMENT : undefined;
@@ -159,8 +170,8 @@ export async function composeRitual(
   };
   const result = await callJson(client, {
     step: 'compose',
-    model: OPUS,
-    effort: input.firstCompose ? 'medium' : 'low',
+    model: CAPI,
+    effort: input.firstCompose ? 'high' : 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), COMPOSE_JOB],
     content,
     jsonSchema: SCHEMA,
@@ -171,7 +182,20 @@ export async function composeRitual(
     timeoutMs: input.firstCompose ? 120000 : 45000,
     maxTokens: input.firstCompose ? 20000 : 12000,
   });
-  if (!result.ok) return { ...rules, ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
+  if (!result.ok) {
+    // One bad line never sends the rest back to the draft: it loses that line, and keeps the Ritual.
+    const fine = (line: string) => checkLine(line, ctx).length === 0;
+    const kept: Out | null = result.partial
+      ? {
+          parts: result.partial.parts.map(({ why, ...p }) => ({ ...p, ...(why && fine(why) ? { why } : {}) })),
+          additions: result.partial.additions.filter((a) => fine(a.why)),
+          summary: fine(result.partial.summary) ? result.partial.summary : input.rules.summary,
+        }
+      : null;
+    if (kept && !check(kept).length)
+      return { parts: apply(input.rules.parts, kept, input.newId, cap), summary: kept.summary, from: 'claude', ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [] };
+    return { ...rules, ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
+  }
   return {
     parts: apply(input.rules.parts, result.data, input.newId, cap),
     summary: result.data.summary,

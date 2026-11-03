@@ -4,8 +4,9 @@ import type { z } from 'zod';
 /**
  * One way to ask Claude for structured output, used by every engine step. Server only.
  *
- * - Opus 5.5 for everything a person reads, with the server-side refusal fallback on; Haiku 5.5 for
- *   reading messages, where speed matters and nothing it says is shown. Haiku has no fallback.
+ * - CAPI (every step a person reads) runs on Sonnet 5.5, with the server-side refusal fallback on:
+ *   half Opus 5.5's price per token (Rohan, 30 Oct). Haiku 5.5 reads messages, where speed matters
+ *   and nothing it says is shown; Haiku has no fallback. Opus stays available for a step that needs it.
  * - The system prompt is static (no dates, names or ids) and cached for an hour; the person's
  *   material goes in the user turn, inside tags the system prompt calls theirs, not instructions.
  * - Structured output via output_config.format, then a zod parse. A failed parse or a failed check
@@ -14,12 +15,16 @@ import type { z } from 'zod';
  */
 
 export const OPUS = 'claude-opus-5-5';
+export const SONNET = 'claude-sonnet-5-5';
 export const HAIKU = 'claude-haiku-5-5';
-export type EngineModel = typeof OPUS | typeof HAIKU;
+export type EngineModel = typeof OPUS | typeof SONNET | typeof HAIKU;
+/** The model behind CAPI, the agent that distills: every step whose words a person reads. */
+export const CAPI = SONNET;
 
 /** USD per million tokens. Cache writes at one hour cost twice the input rate. */
 const PRICE: Record<EngineModel, { input: number; output: number; cacheRead: number; cacheWrite1h: number }> = {
   [OPUS]: { input: 4, output: 20, cacheRead: 0.2, cacheWrite1h: 8 },
+  [SONNET]: { input: 2, output: 10, cacheRead: 0.2, cacheWrite1h: 4 },
   [HAIKU]: { input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite1h: 0.2 },
 };
 
