@@ -26,6 +26,7 @@ const OLD_MARKS = ['At my best: '];
 
 const Q = {
   wake: 'What time are you usually up?',
+  bed: 'What time are you usually in bed?',
   work: 'What are most days?',
   valve: "When it's a lot, what do you reach for?",
   busy: 'When a week gets busy, what goes first?',
@@ -34,8 +35,8 @@ const Q = {
 type AskKey = keyof typeof Q;
 
 export const DEFAULT_WAKE = '07:00';
-const WAKE_MIN = 5 * 60;
-const WAKE_MAX = 9 * 60 + 30;
+export const DEFAULT_BED = '23:00';
+const DAY_MINUTES = 24 * 60;
 
 const slug = (s: string) =>
   s
@@ -176,9 +177,12 @@ export function wake(p: Progress): string {
 }
 
 /** "6:30" for "06:30". */
-export function wakeLabel(p: Progress): string {
-  const [h = '0', m = '00'] = wake(p).split(':');
+function wakeLabelOf(time: string): string {
+  const [h = '0', m = '00'] = time.split(':');
   return `${Number(h)}:${m}`;
+}
+export function wakeLabel(p: Progress): string {
+  return wakeLabelOf(wake(p));
 }
 
 /** Their wake-up time as they told us ("6:30"), or nothing if they never said. */
@@ -186,15 +190,32 @@ export function wakeSaid(p: Progress): string | null {
   return answer(p, 'wake') ? wakeLabel(p) : null;
 }
 
-/** Fifteen minutes earlier or later, between 5:00 and 9:30. */
+/** Fifteen minutes earlier or later, round the whole 24-hour clock (23:45 comes before 00:00). */
+const nudged = (time: string, by: -15 | 15) => toClock((((toMinutes(time) + by) % DAY_MINUTES) + DAY_MINUTES) % DAY_MINUTES);
+
 export function nudgeWake(p: Progress, by: -15 | 15, now: string): Progress {
-  const next = Math.min(WAKE_MAX, Math.max(WAKE_MIN, toMinutes(wake(p)) + by));
-  return withAbout(setAnswer(p, 'wake', toClock(next), now));
+  return withAbout(setAnswer(p, 'wake', nudged(wake(p), by), now));
 }
 
 /** Saving the time they see, even if they never touched it. */
 export function confirmWake(p: Progress, now: string): Progress {
-  return answer(p, 'wake') ? p : withAbout(setAnswer(p, 'wake', DEFAULT_WAKE, now));
+  const woke = answer(p, 'wake') ? p : setAnswer(p, 'wake', DEFAULT_WAKE, now);
+  const slept = answer(woke, 'bed') ? woke : setAnswer(woke, 'bed', DEFAULT_BED, now);
+  return slept === p ? p : withAbout(slept);
+}
+
+/** When they're usually in bed, as "HH:MM". */
+export function bed(p: Progress): string {
+  return answer(p, 'bed') ?? DEFAULT_BED;
+}
+
+/** "23:00", "00:30": the 24-hour clock, as the time pickers show it. */
+export function bedLabel(p: Progress): string {
+  return bed(p);
+}
+
+export function nudgeBed(p: Progress, by: -15 | 15, now: string): Progress {
+  return withAbout(setAnswer(p, 'bed', nudged(bed(p), by), now));
 }
 
 export function work(p: Progress): string | undefined {
@@ -286,7 +307,11 @@ export function readOf(p: Progress): { title: readonly [string, string]; context
 export function aboutFrom(p: Progress): string {
   const out: string[] = [];
   const mine = study.mine;
-  const day = [answer(p, 'wake') ? `up at ${wakeLabel(p)}` : null, pick(mine.work as Keyed<string>, work(p))].filter(Boolean);
+  const day = [
+    answer(p, 'wake') ? `up at ${wakeLabel(p)}` : null,
+    answer(p, 'bed') ? `in bed by ${wakeLabelOf(bed(p))}` : null,
+    pick(mine.work as Keyed<string>, work(p)),
+  ].filter(Boolean);
   if (day.length) out.push(`${ABOUT_MARK}${day.join(', ')}.`);
   const v = pick(mine.valve as Keyed<string>, valve(p));
   if (v) out.push(v);

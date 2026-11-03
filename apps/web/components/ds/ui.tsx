@@ -87,16 +87,20 @@ export function Bubble({
   onClick,
   children,
   className = '',
+  expanded,
 }: {
   on: boolean;
   onClick: () => void;
   children: ReactNode;
   className?: string;
+  /** For a chip that opens into more chips under it (Gym, then which gym). */
+  expanded?: boolean;
 }) {
   return (
     <button
       type="button"
       aria-pressed={on}
+      aria-expanded={expanded}
       className={`ds-bubble${className ? ` ${className}` : ''}`}
       onClick={onClick}
     >

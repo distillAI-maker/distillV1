@@ -14,10 +14,30 @@ export interface CommonItem {
   cost: number;
 }
 
+/**
+ * A general chip that opens into the specific ones under it (Gym, then Equinox, Barry's or F45).
+ * Tapping it adds the general row; picking a specific one swaps the general row for it.
+ */
+export interface CommonParent extends CommonItem {
+  /** The line over the specific chips once it opens ("Which gym?"). */
+  ask: string;
+  options: readonly CommonItem[];
+}
+export type CommonChip = CommonItem | CommonParent;
+
+export function isParent(chip: CommonChip): chip is CommonParent {
+  return 'options' in chip;
+}
+
+/** Every chip, the specific ones under a general chip included. */
+export function allChips(chips: readonly CommonChip[]): CommonItem[] {
+  return chips.flatMap((c) => (isParent(c) ? [c, ...c.options] : [c]));
+}
+
 export type CommonGroupId = 'supplements' | 'memberships' | 'habits' | 'apps' | 'body' | 'food';
 export type MorePlaceId = 'shelf' | 'bookings' | 'phone' | 'bedside' | 'kitchen';
 
-export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonItem[] }[] = [
+export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonChip[] }[] = [
   {
     id: 'supplements',
     items: [
@@ -40,11 +60,31 @@ export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonI
   {
     id: 'memberships',
     items: [
-      { key: 'gym-membership', text: 'Gym', cost: 60 },
-      { key: 'premium-gym-membership-equinox-life-time', text: 'Equinox or Life Time', cost: 250 },
-      { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'Barry\'s, SoulCycle or F45', cost: 200 },
-      { key: 'yoga-pilates-studio', text: 'Yoga or Pilates', cost: 150 },
-      { key: 'class-pack-or-studio-credits', text: 'ClassPass or credits', cost: 120 },
+      {
+        key: 'gym-membership',
+        text: 'Gym',
+        cost: 60,
+        ask: 'Which gym?',
+        options: [
+          { key: 'premium-gym-membership-equinox-life-time', text: 'Equinox', cost: 250 },
+          { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: "Barry's", cost: 200 },
+          { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'F45', cost: 200 },
+        ],
+      },
+      {
+        key: 'class-pack-or-studio-credits',
+        text: 'Class-based exercise',
+        cost: 120,
+        ask: 'Which classes?',
+        options: [
+          { key: 'yoga-pilates-studio', text: 'Yoga studio', cost: 150 },
+          { key: 'yoga-pilates-studio', text: 'Pilates', cost: 150 },
+          { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'SoulCycle', cost: 200 },
+          { key: 'class-pack-or-studio-credits', text: 'ClassPass', cost: 120 },
+        ],
+      },
+      // Yoga on its own, for the many who do it at home: the routing table's at-home stretch row.
+      { key: 'stretching-yoga-before-bed', text: 'Yoga', cost: 0 },
       { key: 'personal-trainer', text: 'Personal trainer', cost: 300 },
       { key: 'massage-membership-massage-envy-squeeze', text: 'Massage membership', cost: 90 },
       { key: 'sauna-bathhouse-membership', text: 'Sauna or bathhouse', cost: 150 },
@@ -93,7 +133,7 @@ export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonI
   {
     id: 'food',
     items: [
-      { key: 'mushroom-coffee', text: 'Mushroom coffee', cost: 35 },
+      { key: 'coffee-after-2pm', text: 'Afternoon coffee', cost: 0 },
       { key: 'energy-drinks', text: 'Energy drinks', cost: 60 },
       { key: 'kombucha-probiotic-drinks', text: 'Kombucha', cost: 40 },
       { key: 'matcha-green-tea-in-the-afternoon', text: 'Matcha', cost: 0 },
@@ -189,11 +229,11 @@ export const morePlaces: readonly { id: MorePlaceId; items: readonly CommonItem[
  * that name as theirs; one that offers a choice ("AG1 or greens") falls back to the short name.
  */
 export function commonRow(item: CommonItem, position: number): StackItem {
-  const oneName = !/ or |,/.test(item.text);
+  const label = chipLabel(item);
   return {
     id: newItemId(),
     itemKey: item.key,
-    ...(oneName ? { label: item.text } : {}),
+    ...(label ? { label } : {}),
     monthlyCost: item.cost,
     answers: {},
     chips: {},
@@ -202,4 +242,35 @@ export function commonRow(item: CommonItem, position: number): StackItem {
     notes: [],
     position,
   };
+}
+
+/** The name a chip leaves on its row: its own, unless it offers a choice ("AG1 or greens"). */
+function chipLabel(item: CommonItem): string | undefined {
+  return / or |,/.test(item.text) ? undefined : item.text;
+}
+
+/** For each routing row, the names its one-name chips leave ("Yoga" on the stretch row). */
+let named: Map<string, Set<string>> | undefined;
+function namedLabels(key: string): Set<string> | undefined {
+  if (!named) {
+    named = new Map();
+    for (const item of [...commonGroups.flatMap((g) => allChips(g.items)), ...morePlaces.flatMap((p) => p.items)]) {
+      const label = chipLabel(item);
+      if (!label) continue;
+      named.set(item.key, (named.get(item.key) ?? new Set()).add(label));
+    }
+  }
+  return named.get(key);
+}
+
+/**
+ * Whether a row in their stack is this chip. Chips that name one thing can share a routing row
+ * (Barry's and F45), so those match by name; a choice chip ("Stretching or yoga") matches its row
+ * under any name except one a one-name chip on that row leaves.
+ */
+export function isChip(row: Pick<StackItem, 'itemKey' | 'label'>, item: CommonItem): boolean {
+  if (row.itemKey !== item.key) return false;
+  const label = chipLabel(item);
+  if (label) return row.label === label;
+  return !(row.label && namedLabels(item.key)?.has(row.label));
 }

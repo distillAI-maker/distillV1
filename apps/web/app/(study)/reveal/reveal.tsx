@@ -13,6 +13,7 @@ import { lifePicks, protectedThing, wakeSaid } from '../../../lib/onboarding/you
 import { useProgress } from '../../../lib/progress/context';
 import { revealGroups } from '../../../lib/ritual-groups';
 import { NUMBERED_STEPS } from '../../../lib/steps';
+import { useGoBack } from '../../../components/back-trail';
 
 const r = copy.app.ritual;
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
@@ -34,6 +35,7 @@ const still = () =>
 export function Reveal() {
   const go = useGo();
   const router = useRouter();
+  const goBack = useGoBack();
   const { ready, progress } = useProgress();
   const [draft, setDraft] = useState<{ parts: readonly RitualPart[]; notes: RevealNotes } | null>(null);
   const [shaping, setShaping] = useState(false);
@@ -94,10 +96,9 @@ export function Reveal() {
     <main className={`rv${gathering ? ' is-gathering' : ''}`}>
       <div className="rv-progress">
         <div className="rv-progress-row">
-          <button type="button" className="ob-back" onClick={() => router.push('/study')}>
+          <button type="button" className="ob-back" onClick={() => goBack('/study')}>
             {copy.common.back}
           </button>
-          <span>05 of {String(NUMBERED_STEPS).padStart(2, '0')}</span>
         </div>
         <span className="ob-line">
           <i style={{ width: `${(5 / NUMBERED_STEPS) * 100}%` }} />

@@ -8,6 +8,7 @@ import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
 import { checkEmail } from '../../../lib/email';
 import { useRouted } from '../../../lib/data/use-routed';
+import { nextStep } from '../../../lib/steps';
 import { useProgress } from '../../../lib/progress/context';
 import { track } from '../../../lib/track';
 import { joinWaitlist } from '../../../lib/waitlist';
@@ -19,7 +20,7 @@ type Link = { state: 'idle' } | { state: 'sent'; email: string } | { state: 'fai
 /**
  * The invitation: the brand board's Founding Member card, with their name on it, and three lines. The email asked here
  * always joins the Founding 100 waitlist (lib/waitlist.ts); with accounts switched on, joining also
- * sends a sign-in link that keeps what they added. The next step is the wearable, or going on without one.
+ * sends a sign-in link that keeps what they added. Then their Ritual (or the wearable, once that's on).
  */
 export function Invitation({ accounts = false }: { accounts?: boolean }) {
   const go = useGo();
@@ -84,6 +85,17 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
     }
   }
 
+  /** On to the wearable when it can connect; until then, straight into their Ritual. */
+  async function finish() {
+    const next = nextStep('invitation');
+    if (next !== 'done') return go(next);
+    track('no_wearable');
+    setBusy(true);
+    // Saved before the app opens, so it opens on their Ritual and not back here.
+    await saveNow({ ...progress, step: 'done', updatedAt: new Date().toISOString() }).catch(() => undefined);
+    go('done');
+  }
+
   const name = progress.name.trim();
 
   if (member && !changing)
@@ -92,13 +104,14 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
         <RitualToken />
         <Mark />
         <h1>{name ? copy.invitation.joinedNamed(name) : copy.invitation.joined}</h1>
-        <h2>{copy.invitation.joinedLine}</h2>
+        {/* Without a name the heading already says it. */}
+        {name ? <h2>{copy.invitation.joinedLine}</h2> : null}
         {link.state === 'sent' ? (
           <p>{copy.invitation.linkSent(link.email)}</p>
         ) : link.state === 'failed' ? (
           <p>{copy.invitation.linkFailed}</p>
         ) : null}
-        <button type="button" className="ds-primary" onClick={() => go('connect')}>
+        <button type="button" className="ds-primary" onClick={() => void finish()} disabled={busy}>
           {copy.invitation.connect}
           <Arrow />
         </button>

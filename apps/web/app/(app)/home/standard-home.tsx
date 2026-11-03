@@ -19,6 +19,7 @@ import { ENGINE_CARDS, EngineToday } from './engine-today';
 import { track } from '../../../lib/track';
 import { newItemId, pictureKindSchema, type Progress } from '../../../lib/progress/types';
 import { DStar } from '../../../components/d-star';
+import { wearablesOn } from '../../../lib/steps';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -590,7 +591,7 @@ export function StandardHome() {
             <p className="d-next-card__intro d-noticing">
               {progress.dataSource ? copy.home.noticingEmpty : copy.home.noticingConnect}
             </p>
-            {progress.dataSource ? null : (
+            {progress.dataSource || !wearablesOn() ? null : (
               <Link className="d-see-all" href="/connect">
                 {copy.home.connect} →
               </Link>
