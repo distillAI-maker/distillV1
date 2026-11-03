@@ -3,8 +3,9 @@ import { buildCatalogView } from '@distill/catalog';
 import { checkLine, personFromProgress, scopeTrigger, type RitualPart, type RitualVersion } from '@distill/engine/ritual';
 import { engineCatalog } from '../../catalog/engine';
 import { catalog } from '../../catalog/server';
-import { callJson, HAIKU, OPUS, type ClaudeClient } from './call';
+import { CAPI, callJson, HAIKU, OPUS, SONNET, type ClaudeClient } from './call';
 import { classifyMessage } from './classify';
+import { composeRitual } from './compose';
 import { FALLBACK_REPLY, reshape } from './reshape';
 import { fallbackLine, wordDecisions } from './word-decisions';
 import { whyAnswer } from './reply';
@@ -69,6 +70,12 @@ describe('calling Claude', () => {
     expect(requests[1]).toMatchObject({ model: 'claude-haiku-5-5', thinking: { type: 'disabled' } });
     expect(requests[1]).not.toHaveProperty('fallbacks');
     if (opus.ok) expect(opus.usage.costUsd).toBeCloseTo((1000 * 4 + 200 * 20 + 4000 * 0.2) / 1e6, 8);
+    // CAPI runs on Sonnet 5.5, with the same fallback, at half Opus's price per token.
+    expect(CAPI).toBe(SONNET);
+    const sonnet = await callJson(client, { ...input, model: CAPI });
+    expect(requests[2]).toMatchObject({ model: 'claude-sonnet-5-5', betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' });
+    expect(requests[2]).not.toHaveProperty('thinking');
+    if (sonnet.ok) expect(sonnet.usage.costUsd).toBeCloseTo((1000 * 2 + 200 * 10 + 4000 * 0.2) / 1e6, 8);
   });
   it('retries with the problems listed, then gives up, keeping the last answer for what can be salvaged', async () => {
     const { client, requests } = fakeClient(['not json', { n: 2 }, { n: 3 }]);
@@ -90,6 +97,73 @@ describe('calling Claude', () => {
   });
   it('without a key, every step falls back and nothing breaks', async () => {
     expect((await callJson(null, { step: 't', model: OPUS, effort: 'low', system: [], content: '', jsonSchema: {}, parse: z.any(), timeoutMs: 1 })).ok).toBe(false);
+  });
+});
+
+describe('what the first Ritual is shaped from', () => {
+  it('sees what they wrote about each part and what they answered, not only the draft', async () => {
+    const { client, requests } = fakeClient([{ parts: [], additions: [], summary: 'Your week, Ana.' }]);
+    const part = { id: 'part:pushups', when: { slot: 'evening', days: [], perWeek: 1 }, order: 0, title: 'Pushups', area: 'move', why: 'x', source: { kind: 'stack', stackItemId: 'pushups', itemKey: null }, status: 'active', lock: null } as never;
+    await composeRitual(client, {
+      person,
+      rules: { parts: [part], summary: 'x' },
+      allowed: { words: '', stackItemIds: new Set(['pushups']), ideaIds: new Set(), peopleIds: new Set(), productNames: [] },
+      toneRules,
+      lineContext: { allowedNumbers: [], names: [] },
+      firstCompose: true,
+      today: '2026-10-23',
+      stack: [{ id: 'pushups', itemKey: null, customName: 'Pushups', monthlyCost: 0, answers: {}, unknown: [], status: 'listed', notes: [{ id: 'n', text: 'Every single day.', at: '' }] }] as never,
+      asks: [{ q: 'What does a good night look like?', a: 'Asleep by 12.' }],
+      newId: () => 'new',
+    });
+    const content = String((requests[0]!.messages as { content: string }[])[0]!.content);
+    expect(content).toContain('Every single day.');
+    expect(content).toContain('Asleep by 12.');
+  });
+  const shaped = async (parts: never[], edits: unknown[]) => {
+    const { client } = fakeClient([{ parts: edits, additions: [], summary: 'Your week, Ana.' }]);
+    return composeRitual(client, {
+      person,
+      rules: { parts, summary: 'x' },
+      allowed: { words: '', stackItemIds: new Set(['a', 'b', 'c', 'd']), ideaIds: new Set(), peopleIds: new Set(), productNames: [] },
+      toneRules,
+      lineContext: { allowedNumbers: [], names: [] },
+      firstCompose: true,
+      today: '2026-10-23',
+      newId: () => 'new',
+    });
+  };
+  const draftPart = (id: string, when: object) => ({ id: `part:${id}`, when, order: 0, title: id, area: 'mind', why: 'x', source: { kind: 'stack', stackItemId: id, itemKey: null }, status: 'active', lock: null }) as never;
+  const week = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  it('takes a slot and every day with no set hour, but a part with days keeps them', async () => {
+    const r = await shaped([draftPart('a', { slot: 'evening', days: [], perWeek: 1 }), draftPart('b', { slot: 'morning', days: week })], [
+      { id: 'part:a', slot: 'midday', perWeek: 7 },
+      { id: 'part:b', perWeek: 7 },
+    ]);
+    expect(r.parts.find((p) => p.id === 'part:a')!.when).toMatchObject({ slot: 'midday', days: [], perWeek: 7 });
+    expect(r.parts.find((p) => p.id === 'part:b')!.when.days).toHaveLength(7);
+  });
+  it('keeps the rest of the Ritual when one line fails every try', async () => {
+    const bad = { parts: [{ id: 'part:a', title: 'Your own title', why: 'A ritual you run.' }], additions: [], summary: 'Rituals for you.' };
+    const { client } = fakeClient([bad, bad, bad]);
+    const r = await composeRitual(client, {
+      person,
+      rules: { parts: [draftPart('a', { slot: 'evening', days: [], perWeek: 1 })], summary: 'The plain summary.' },
+      allowed: { words: '', stackItemIds: new Set(['a']), ideaIds: new Set(), peopleIds: new Set(), productNames: [] },
+      toneRules,
+      lineContext: { allowedNumbers: [], names: [] },
+      firstCompose: true,
+      today: '2026-10-23',
+      newId: () => 'new',
+    });
+    expect(r.from).toBe('claude');
+    expect(r.parts[0]).toMatchObject({ title: 'Your own title', why: 'x' });
+    expect(r.summary).toBe('The plain summary.');
+  });
+  it('trims a change of days to the days with room, rather than dropping the change', async () => {
+    const full = ['a', 'b', 'c'].map((id) => draftPart(id, { slot: 'night', days: ['sat', 'sun'] }));
+    const r = await shaped([...full, draftPart('d', { slot: 'evening', days: [], perWeek: 1 })], [{ id: 'part:d', days: week }]);
+    expect(r.parts.find((p) => p.id === 'part:d')!.when.days).toEqual(['mon', 'tue', 'wed', 'thu', 'fri']);
   });
 });
 
@@ -177,6 +251,17 @@ describe('wording decisions', () => {
     const r = await wordDecisions(client, ctx);
     expect(r.decisions[0]!.lineFrom).toBe('fallback');
     expect(r.decisions[0]!.line).toBe(fallbackLine(draft));
+  });
+  it('sees what they wrote about the thing and what they answered', async () => {
+    const { client, requests } = fakeClient([{ lines: [{ id: 'ag1:clear', line: 'This one can go.' }] }]);
+    await wordDecisions(client, {
+      ...ctx,
+      stack: [{ id: 'ag1', itemKey: 'greens-powder-ag1-etc', monthlyCost: 99, answers: {}, unknown: [], status: 'listed', notes: [{ id: 'n', text: 'Usually at night.', at: '' }] }] as never,
+      asks: [{ q: 'Morning or night?', a: 'Night person.' }],
+    });
+    const content = String((requests[0]!.messages as { content: string }[])[0]!.content);
+    expect(content).toContain('Usually at night.');
+    expect(content).toContain('Night person.');
   });
   it('every fallback line passes the same checks Claude has to pass', async () => {
     const reasons = [

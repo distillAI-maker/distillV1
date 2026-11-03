@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import type { CatalogView } from '@distill/catalog';
 import type { ToneRules } from '@distill/catalog';
-import { checkLine, type DecisionDraft, type LineContext, type PersonModel } from '@distill/engine/ritual';
+import { checkLine, type DecisionDraft, type LineContext, type PersonModel, type StackItemLike } from '@distill/engine/ritual';
 import { evidenceBlock, personBlock } from './brief';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { EVIDENCE, PROMPT_VERSIONS, voice, WHO, WORD_DECISIONS_JOB } from './prompts';
 import { arr, obj, str } from './schema';
 
@@ -43,6 +43,8 @@ export function fallbackLine(d: DecisionDraft, banned: readonly string[] = []): 
         : `${name} costs you a little more than it shows. Want to find a swap you'd enjoy as much?`;
     case 'clear:NOT_FELT':
       return `You said ${lower} isn't doing much you can feel, so it can go${back(d.money)}`;
+    case 'clear:CLINICIAN_ASKED':
+      return `You said your clinician would rather you let ${lower} go, so it can leave your days for now${back(d.money)}`;
     case 'clear:NOT_TRAINING':
       return `${name} is built for people who lift. If that isn't you right now, it can go${back(d.money)}`;
     case 'clear:TOO_MANY_STEPS':
@@ -95,6 +97,9 @@ export async function wordDecisions(
     toneRules: Pick<ToneRules, 'bannedPhrases' | 'maxWordsExclusive' | 'gatedMaxWords'>;
     lineContext: Omit<LineContext, 'toneRules' | 'maxWords'>;
     today: string;
+    /** Their list and answers: a line that ignores what they wrote about the thing reads as wrong. */
+    stack?: readonly StackItemLike[];
+    asks?: readonly { q: string; a: string }[];
   },
 ): Promise<{ decisions: WordedDecision[]; usage?: CallUsage; dropped: number }> {
   const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 40 };
@@ -106,7 +111,7 @@ export async function wordDecisions(
   if (!input.decisions.length) return { decisions: [], dropped: 0 };
   if (!client) return { decisions: input.decisions.map(fallback), dropped: 0 };
   const content = [
-    personBlock(input.person, { today: input.today }),
+    personBlock(input.person, { today: input.today, ...(input.asks ? { asks: input.asks } : {}) }),
     '<decisions>',
     ...input.decisions.map((d) => {
       const v = input.catalog.item(d.itemKey);
@@ -114,6 +119,7 @@ export async function wordDecisions(
         `<decision id="${d.key}">`,
         `kind: ${d.kind}; reason: ${d.reason}`,
         `<item>${d.name}${v ? `, ${v.kind}` : ''}${d.money ? `, they pay $${Math.round(d.money)} a month` : ''}${d.context.keeperName ? `; another thing they keep that does the same job: ${d.context.keeperName}` : ''}${d.kind !== 'keep' && d.context.fitsInstead ? `; instead: ${d.context.fitsInstead}` : ''}</item>`,
+        ...(input.stack?.find((s) => s.id === d.stackItemId)?.notes ?? []).slice(-6).map((n) => `<notes>${n.text.replace(/\s+/g, ' ').trim().slice(0, 800)}</notes>`),
         evidenceBlock(v),
         '</decision>',
       ].join('\n');
@@ -123,8 +129,8 @@ export async function wordDecisions(
   const wanted = new Set(input.decisions.map((d) => d.key));
   const result = await callJson(client, {
     step: 'word-decisions',
-    model: OPUS,
-    effort: 'low',
+    model: CAPI,
+    effort: 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), WORD_DECISIONS_JOB, EVIDENCE],
     content,
     jsonSchema: SCHEMA,

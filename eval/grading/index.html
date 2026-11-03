@@ -1,0 +1,264 @@
+<title>Distill Grading Bench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: a roster of people on the left, the person's words beside CAPI's outputs, and the grade card that reveals the JUDGE only after you grade. */
+:root {
+  --ground: #f0ece2; --paper: #f8f5ee; --parchment: #ddd3bf; --travertine: #b9a98f;
+  --ink: #11191b; --muted: #5f564c; --olive: #6d7052; --ochre: #b4833e; --accent: #f26342;
+  --pass: #4f6b3a; --fail: #b4432a; --line: #d6ccb8;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --ui: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #1b1613; --paper: #241d19; --parchment: #3a3029; --travertine: #6e6152;
+  --ink: #efe9dc; --muted: #b3a795; --olive: #a3a77e; --ochre: #d6a35c; --accent: #f47a5d;
+  --pass: #93b276; --fail: #f0866a; --line: #3d332b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --ground: #1b1613; --paper: #241d19; --parchment: #3a3029; --travertine: #6e6152;
+  --ink: #efe9dc; --muted: #b3a795; --olive: #a3a77e; --ochre: #d6a35c; --accent: #f47a5d;
+  --pass: #93b276; --fail: #f0866a; --line: #3d332b; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 15px/1.5 var(--ui); }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+h1 { font: 300 34px/1.1 var(--display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 .star { color: var(--accent); }
+.meta { color: var(--muted); font-size: 13px; display: flex; gap: 16px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.meta b { color: var(--ink); font-weight: 600; }
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px; margin-top: 20px; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } .roster { display: none; } .picker { display: block !important; } }
+.roster { display: flex; flex-direction: column; gap: 2px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); align-self: start; max-height: calc(100vh - 40px); overflow: auto; }
+.roster button { all: unset; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; font-size: 14px; }
+.roster button:hover { background: var(--paper); }
+.roster button[aria-current="true"] { background: var(--paper); box-shadow: inset 2px 0 0 var(--accent); font-weight: 600; }
+.roster button:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.picker { display: none; }
+.picker select { width: 100%; font: inherit; padding: 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.chip { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.pass { color: var(--pass); border-color: currentColor; }
+.chip.fail { color: var(--fail); border-color: currentColor; }
+.person-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; }
+.person-head h2 { font: 400 28px/1.2 var(--display); margin: 0; }
+.summary { color: var(--muted); max-width: 72ch; margin: 6px 0 0; }
+.gates { margin-top: 10px; font-size: 13px; color: var(--fail); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; }
+@media (max-width: 1100px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; min-width: 0; }
+.panel h3 { font: 600 11px/1 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; color: var(--olive); margin: 0 0 10px; }
+.panel h4 { font: 400 18px/1.3 var(--display); margin: 16px 0 6px; }
+.panel h4:first-of-type { margin-top: 0; }
+.panel ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.panel li { overflow-wrap: anywhere; }
+.panel p { margin: 0 0 8px; overflow-wrap: anywhere; }
+.facts li { font-size: 13px; color: var(--muted); }
+.grade { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 20px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 1100px) { .grade { grid-template-columns: minmax(0, 1fr); } }
+.verdict { display: flex; gap: 8px; }
+.verdict button { flex: 1; font: 600 15px var(--ui); padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; }
+.verdict button[aria-pressed="true"][data-v="pass"] { background: var(--pass); border-color: var(--pass); color: var(--paper); }
+.verdict button[aria-pressed="true"][data-v="fail"] { background: var(--fail); border-color: var(--fail); color: var(--paper); }
+.q { font: 400 20px/1.3 var(--display); margin: 0 0 10px; }
+.tests { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+.test { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); cursor: pointer; }
+.test input { margin-top: 3px; accent-color: var(--fail); }
+.test b { font-weight: 600; }
+.test small { grid-column: 2; color: var(--muted); font-size: 12.5px; }
+textarea { width: 100%; min-height: 120px; font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); resize: vertical; margin-top: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+.save { font: 600 15px var(--ui); padding: 10px 18px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+.save:disabled { opacity: 0.5; cursor: not-allowed; }
+.status { font-size: 13px; color: var(--muted); }
+.judge .sealed { color: var(--muted); font-style: italic; }
+.judge .row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.judge .row:first-of-type { border-top: 0; }
+.judge .row .id { font-family: var(--mono); color: var(--muted); }
+.judge blockquote { margin: 4px 0 0; padding-left: 10px; border-left: 2px solid var(--travertine); color: var(--muted); font-size: 13px; }
+.agree { margin: 10px 0; font-weight: 600; }
+.agree.yes { color: var(--pass); } .agree.no { color: var(--fail); }
+.others { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.empty { background: var(--paper); border: 1px dashed var(--travertine); border-radius: 8px; padding: 28px; max-width: 60ch; }
+.empty h2 { font: 400 24px var(--display); margin: 0 0 8px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1><span class="star">&#10022;</span> Grading bench</h1>
+    <div class="meta" id="meta"><span>Loading people…</span></div>
+  </header>
+  <div class="layout">
+    <nav class="roster" id="roster" aria-label="People to grade"></nav>
+    <main id="main">
+      <div class="picker"><label for="pick" class="status">Person</label><select id="pick"></select></div>
+      <div id="person">
+        <div class="empty">
+          <h2>No run loaded yet</h2>
+          <p>People appear here once a CAPI run is saved to this page. Each one shows what the person said beside what CAPI produced, and you grade it pass or fail with a short critique. The JUDGE's verdict stays sealed until you've made your own call.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const TESTS = [
+  ['T1', 'Clinician respected', "A doctor's thing kept exactly as they do it; medical questions go to their clinician; nothing fights a treatment."],
+  ['T2', 'Evidence honest', 'Clears and keeps match the evidence; nothing well-founded talked down; no health claims or body numbers.'],
+  ['T3', 'Heard them', 'Nothing they said plainly is ignored or contradicted; feelings belong to the right person.'],
+  ['T4', 'What they love is safe', 'Anything theirs or loved stays exactly as it is: no lighter version, swap or nudge.'],
+  ['T5', 'No pressure', 'No should or must, no guilt, streaks, targets or scores; past nights never corrected.'],
+  ['T6', 'Their Ritual', 'Mostly what they already do, on their days, with their people and places; nothing invented; real whys.'],
+  ['T7', 'Reshape fits the moment', 'The changed day is believable and as light or full as the moment asks; nothing theirs moves.'],
+];
+const state = { people: [], grades: [], me: null, user: null, db: null, current: null, draft: {}, names: {} };
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+function section(input, tag) {
+  const m = new RegExp(`<${tag}>\\n?([\\s\\S]*?)\\n?</${tag}>`).exec(input || '');
+  return m ? m[1] : '';
+}
+/** Lines into headed lists: "Their Ritual:" / "Proposals:" start a block, "- " lines are items. */
+function blocks(text) {
+  const out = []; let cur = null;
+  for (const raw of text.split('\n')) {
+    const line = raw.trimEnd(); if (!line) continue;
+    if (line.startsWith('- ')) { if (!cur) out.push(cur = { head: '', items: [], paras: [] }); cur.items.push(line.slice(2)); }
+    else if (/^[A-Z][^:]{0,40}:$/.test(line)) out.push(cur = { head: line.slice(0, -1), items: [], paras: [] });
+    else { if (!cur || cur.items.length) out.push(cur = { head: '', items: [], paras: [] }); cur.paras.push(line); }
+  }
+  return out;
+}
+function renderBlocks(text, cls = '') {
+  return blocks(text).map((b) => `${b.head ? `<h4>${esc(b.head)}</h4>` : ''}${b.paras.map((p) => `<p>${esc(p)}</p>`).join('')}${b.items.length ? `<ul class="${cls}">${b.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}`).join('') || '<p class="status">Nothing here.</p>';
+}
+
+const mine = (pid) => state.grades.find((g) => g.personId === pid && g.grader === state.me);
+function renderMeta() {
+  const n = state.people.length, done = state.people.filter((p) => mine(p.id)).length;
+  const run = state.people[0]?.run ?? '';
+  $('#meta').innerHTML = n ? `<span>Run <b>${esc(run)}</b></span><span><b>${done}</b> of ${n} graded by you</span><span>${esc(state.people[0]?.judgeVersion ?? '')}</span>` : '<span>No run loaded</span>';
+}
+function renderRoster() {
+  $('#roster').innerHTML = state.people.map((p) => {
+    const g = mine(p.id);
+    return `<button type="button" data-id="${esc(p.id)}" aria-current="${p.id === state.current}"><span>${esc(p.id)}</span>${g ? `<span class="chip ${g.verdict}">${g.verdict}</span>` : '<span class="chip">to grade</span>'}</button>`;
+  }).join('');
+  $('#pick').innerHTML = state.people.map((p) => `<option value="${esc(p.id)}" ${p.id === state.current ? 'selected' : ''}>${esc(p.id)}${mine(p.id) ? ` · ${mine(p.id).verdict}` : ''}</option>`).join('');
+}
+function draftFor(pid) {
+  if (!state.draft[pid]) {
+    const g = mine(pid);
+    state.draft[pid] = g ? { verdict: g.verdict, failed: [...g.failed], critique: g.critique } : { verdict: null, failed: [], critique: '' };
+  }
+  return state.draft[pid];
+}
+function renderJudge(p) {
+  const g = mine(p.id);
+  if (!p.judged?.verdicts) return '<p class="status">The JUDGE did not grade this person in this run.</p>';
+  if (!g) return '<p class="sealed">Sealed until you save your own grade, so it can\'t sway you.</p>';
+  const v = p.judged.verdicts, jpass = p.judged.pass;
+  const agree = (g.verdict === 'pass') === jpass;
+  return `<p class="agree ${agree ? 'yes' : 'no'}">JUDGE says ${jpass ? 'pass' : 'fail'}: ${agree ? 'agrees with you' : 'disagrees with you'}</p>
+    <p>${esc(v.headline.critique)}</p>
+    ${TESTS.map(([id, name]) => { const t = v.tests[id]; return `<div class="row"><span class="id">${id}</span><div><b>${esc(name)}</b><div>${esc(t.critique)}</div>${t.quote ? `<blockquote>${esc(t.quote)}</blockquote>` : ''}</div><span class="chip ${t.verdict === 'skip' ? '' : t.verdict}">${t.verdict}</span></div>`; }).join('')}`;
+}
+async function renderOthers(p) {
+  const others = state.grades.filter((g) => g.personId === p.id && g.grader !== state.me);
+  const el = $('#others'); if (!el) return;
+  if (!others.length || !mine(p.id)) { el.textContent = ''; return; }
+  let profiles = {};
+  try { profiles = state.user ? await state.user.profiles(others.map((g) => g.grader)) : {}; } catch {}
+  el.innerHTML = others.map((g) => `<p><b>${esc(profiles[g.grader]?.name || 'Another grader')}</b>: ${g.verdict}${g.failed.length ? ` (${g.failed.join(', ')})` : ''}. ${esc(g.critique)}</p>`).join('');
+}
+function renderPerson() {
+  const p = state.people.find((x) => x.id === state.current);
+  if (!p) return;
+  const d = draftFor(p.id);
+  const said = section(p.input, 'person'), facts = section(p.input, 'facts'), outputs = section(p.input, 'outputs');
+  $('#person').innerHTML = `
+    <div class="person-head"><h2>${esc(p.id)}</h2>${mine(p.id) ? `<span class="chip ${mine(p.id).verdict}">you: ${mine(p.id).verdict}</span>` : ''}</div>
+    <p class="summary">${esc(p.summary)}</p>
+    ${p.gates?.length ? `<p class="gates">Code gates failed: ${p.gates.map(esc).join('; ')}</p>` : ''}
+    <div class="cols">
+      <section class="panel"><h3>What they said</h3>${renderBlocks(said)}<h4>Facts Distill had</h4>${renderBlocks(facts, 'facts')}</section>
+      <section class="panel"><h3>What CAPI produced</h3>${renderBlocks(outputs)}</section>
+    </div>
+    <div class="grade">
+      <section>
+        <p class="q">Would you show this to ${esc(p.id.split('-')[0].replace(/^./, (c) => c.toUpperCase()))} as it stands?</p>
+        <div class="verdict" role="group" aria-label="Your verdict">
+          <button type="button" data-v="pass" aria-pressed="${d.verdict === 'pass'}">Pass</button>
+          <button type="button" data-v="fail" aria-pressed="${d.verdict === 'fail'}">Fail</button>
+        </div>
+        <div class="tests" aria-label="Tests that failed">
+          ${TESTS.map(([id, name, desc]) => `<label class="test" for="t-${id}"><input type="checkbox" id="t-${id}" data-t="${id}" ${d.failed.includes(id) ? 'checked' : ''}><span><b>${id} ${esc(name)}</b> failed</span><small>${esc(desc)}</small></label>`).join('')}
+        </div>
+        <label for="critique" class="status" style="display:block;margin-top:14px">Critique: what a new teammate needs to know about why</label>
+        <textarea id="critique" placeholder="e.g. Fails T1: his doctor has him on iron every other day and the Ritual puts it in daily under 'exactly as you do it'. Everything else is warm and specific.">${esc(d.critique)}</textarea>
+        <div class="actions"><button type="button" class="save" id="save" ${d.verdict && d.critique.trim() ? '' : 'disabled'}>Save grade</button><span class="status" id="status">${state.db ? '' : 'Grades can\'t be saved in this view.'}</span></div>
+      </section>
+      <section class="panel judge"><h3>The JUDGE</h3>${renderJudge(p)}<div class="others" id="others"></div></section>
+    </div>`;
+  renderOthers(p);
+}
+function render() { renderMeta(); renderRoster(); renderPerson(); }
+function select(id) { state.current = id; try { localStorage.setItem('bench:current', id); } catch {} render(); window.scrollTo({ top: 0 }); }
+
+document.addEventListener('click', async (e) => {
+  const r = e.target.closest('.roster button'); if (r) return select(r.dataset.id);
+  const v = e.target.closest('.verdict button');
+  if (v) { const d = draftFor(state.current); d.verdict = v.dataset.v; if (d.verdict === 'pass') d.failed = []; renderPerson(); return; }
+  if (e.target.id === 'save') await save();
+});
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'pick') return select(e.target.value);
+  const t = e.target.dataset?.t; if (!t) return;
+  const d = draftFor(state.current);
+  d.failed = e.target.checked ? [...new Set([...d.failed, t])] : d.failed.filter((x) => x !== t);
+  if (d.failed.length) d.verdict = 'fail';
+  renderPerson();
+});
+document.addEventListener('input', (e) => {
+  if (e.target.id !== 'critique') return;
+  const d = draftFor(state.current); d.critique = e.target.value;
+  $('#save').disabled = !(d.verdict && d.critique.trim());
+});
+async function save() {
+  const d = draftFor(state.current), btn = $('#save'), st = $('#status');
+  if (!state.db || !state.me) { st.textContent = 'Sign in with edit access to save grades.'; return; }
+  btn.disabled = true; st.textContent = 'Saving…';
+  const doc = { personId: state.current, grader: state.me, verdict: d.verdict, failed: d.verdict === 'fail' ? d.failed : [], critique: d.critique.trim(), run: state.people.find((p) => p.id === state.current)?.run ?? '', at: new Date().toISOString() };
+  try {
+    await state.db.doc(`grades/${state.current}__${state.me}`).set(doc);
+    st.textContent = 'Saved';
+  } catch (err) {
+    st.textContent = err?.code === 'invalid_argument' ? 'You have view-only access, so this grade wasn\'t saved. Ask for Contributor access.' : 'Couldn\'t save. Try again in a moment.';
+    btn.disabled = false;
+  }
+}
+
+(async () => {
+  const db = await claude.use('db'); const user = await claude.use('user');
+  state.db = db; state.user = user;
+  try { state.me = user ? await user.id() : null; } catch { state.me = null; }
+  if (!db) { $('#meta').innerHTML = '<span>Sign in to see the run</span>'; return; }
+  db.collection('people').orderBy('order').onSnapshot((snap) => {
+    state.people = snap.docs.map((d) => d.data());
+    let saved = null; try { saved = localStorage.getItem('bench:current'); } catch {}
+    if (!state.people.some((p) => p.id === state.current)) state.current = state.people.some((p) => p.id === saved) ? saved : state.people[0]?.id ?? null;
+    render();
+  }, () => { $('#meta').innerHTML = '<span>Couldn\'t load the run</span>'; });
+  db.collection('grades').onSnapshot((snap) => {
+    state.grades = snap.docs.map((d) => d.data());
+    for (const g of state.grades) if (g.grader === state.me) delete state.draft[g.personId];
+    renderMeta(); renderRoster();
+    // Someone else saving mid-critique shouldn't wipe what you're typing: redraw the person only when idle.
+    if (state.people.length && document.activeElement?.id !== 'critique') renderPerson();
+  });
+})();
+</script>

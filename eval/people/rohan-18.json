@@ -1,0 +1,298 @@
+{
+  "id": "rohan-18",
+  "summary": "Rohan, 18, UC Berkeley student: a short list and little to clear. The gym has lapsed from 5x to 1x a week because of a packed schedule, energy drinks are for staying awake at night, and sleep is short with uneven days and no sense of direction. Tests that nothing is invented to cut, that a real person's problem can be sleep and structure, that a late night out pushes the wake-up and drops the extras, and that it never comments on weight.",
+  "draftedBy": "Rohan",
+  "covers": [
+    "stack:5-9",
+    "wearable:none",
+    "clean-stack",
+    "real-person"
+  ],
+  "timeZone": "America/Los_Angeles",
+  "now": "2026-10-26T09:30:00-07:00",
+  "progress": {
+    "version": 1,
+    "step": "done",
+    "goals": [],
+    "name": "Rohan",
+    "lifeText": "Getting 8-9 hours of sleep, waking up by 10:00 so I don't feel sluggish, I really like sunlight in the morning. After that I got up, got some work done in the morning before breakfast, ate, went to the gym, came home, showered, worked for 1-2 hours, ate lunch, and then after that leisure time to do whatever or study some more, dinner and then unwind time to myself.",
+    "member": true,
+    "items": [
+      {
+        "id": "rohan-gym",
+        "itemKey": "strength-training",
+        "label": "Gym",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 4
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I used to go 5x a week, now it's more like 1x a week. I stopped right now due to being too busy.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 0
+      },
+      {
+        "id": "rohan-sports",
+        "itemKey": null,
+        "customName": "Sports",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Sometimes play sports.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 1
+      },
+      {
+        "id": "rohan-pushups",
+        "itemKey": null,
+        "customName": "Pushups and pistol squats",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I try to do pushups/pistol squats every single day. Whenever I feel like I have time.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 2
+      },
+      {
+        "id": "rohan-bulk",
+        "itemKey": null,
+        "customName": "Calorie bulk",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I'm trying to calorie bulk but it's not working. I don't really like the fact I have to eat more to gain weight but ik that's the only way to gain weight.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 3
+      },
+      {
+        "id": "rohan-energy",
+        "itemKey": "energy-drinks",
+        "label": "Energy drinks",
+        "monthlyCost": 65,
+        "origin": "other",
+        "answers": {
+          "usesLast30Days": 11
+        },
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "2-3 times a week, $15 a week. I have them whenever I need to stay awake, usually at night.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 4
+      },
+      {
+        "id": "rohan-screens",
+        "itemKey": "screens-phone-in-bed",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I'm on screens before bed.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 5
+      },
+      {
+        "id": "rohan-journal",
+        "itemKey": "journaling-worry-list-before-bed",
+        "label": "Journaling",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I try to journal before bed.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 6
+      },
+      {
+        "id": "rohan-sun",
+        "itemKey": "morning-sunlight-10-min-outdoors",
+        "label": "Morning sunlight",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "I really like sunlight in the morning. Guaranteed sunlight if possible.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 7
+      },
+      {
+        "id": "rohan-nights",
+        "itemKey": null,
+        "customName": "Nights out with mocktails",
+        "monthlyCost": 0,
+        "origin": "other",
+        "answers": {},
+        "chips": {},
+        "unknown": [],
+        "status": "listed",
+        "notes": [
+          {
+            "id": "n1",
+            "text": "Nights out are MOCKTAILS.",
+            "at": "2026-10-25T21:00:00-07:00"
+          }
+        ],
+        "position": 8
+      }
+    ],
+    "seenQuestions": [],
+    "dayOne": {
+      "overlapChoices": {},
+      "yours": [],
+      "runAnyway": [],
+      "keepAnyway": [],
+      "started": false
+    },
+    "taps": {},
+    "verdictChoices": {},
+    "reducedMotion": false,
+    "asks": [
+      {
+        "q": "Morning person or night person?",
+        "a": "More of a night person.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "Set plans or go with the flow?",
+        "a": "I like going with the flow and having set plans. I like fixed anchors.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "Fun night out or cozy night in?",
+        "a": "Night in.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "Nature or the city?",
+        "a": "Nature.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "When do you do your best work?",
+        "a": "Mornings.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "What does a good night look like?",
+        "a": "Sleeping by like 12, because I need my sleep.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "How does a normal day differ from your ideal day?",
+        "a": "It's too cramped with random stuff to do right now. I feel like I don't get enough sleep, and some days are PACKED with stuff to do and others are too lax. I also don't really have a sense of direction or urgency some days.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "What's your week like?",
+        "a": "Classes, food, study, and maybe an event in the evenings.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "On a day with no direction, what would actually help?",
+        "a": "A push, a clear priority, and personalized recommendations that Distill would know could help me get out of my slump.",
+        "at": "2026-10-25T21:00:00-07:00"
+      },
+      {
+        "q": "How do your weekends differ?",
+        "a": "My schedule pushed back 1-2 hours because I sleep later and longer then.",
+        "at": "2026-10-25T21:00:00-07:00"
+      }
+    ],
+    "demoSkipDays": 0,
+    "updatedAt": "2026-10-26T09:30:00-07:00"
+  },
+  "events": [
+    {
+      "kind": "message",
+      "at": "2026-10-30T23:10:00-07:00",
+      "text": "Late night out, can you push back my wakeup time tomorrow?"
+    }
+  ],
+  "expect": {
+    "keep": [
+      "rohan-gym",
+      "rohan-sports",
+      "rohan-pushups",
+      "rohan-journal",
+      "rohan-sun",
+      "rohan-nights"
+    ],
+    "clearAllowed": [
+      "rohan-energy",
+      "rohan-screens"
+    ],
+    "clearExpected": [],
+    "refer": [],
+    "neverTouch": [],
+    "neverSay": [
+      "weight",
+      "you should",
+      "cheat",
+      "guilt-free",
+      "this indicates",
+      "bad food"
+    ],
+    "mustMention": [
+      "sunlight"
+    ],
+    "notes": "Written from Rohan's interview, 31 Oct. Rohan chose not to sort keep or let go, so those lists are inferred: energy drinks and screens are the only things that work against what Rohan asked for. Reference answer: eval/references/rohan-18.md. Sports is 'sometimes', and Rohan wants it in the Ritual anyway. A smaller energy drink before 2pm is advice Rohan is fine with."
+  }
+}

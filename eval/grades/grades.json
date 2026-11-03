@@ -1,0 +1,58 @@
+[
+  {
+    "id": "aaron-39",
+    "verdict": "fail",
+    "critique": "It doesn't match exactly what he mentioned, saying \"nothing\" ties it in is just wrong, the ritual failed bcz it took away what's his even though it's bad for him, and then the thing he got from his doctor is overruled.",
+    "failed": [
+      "T1",
+      "T2",
+      "T3",
+      "T6"
+    ],
+    "grader": "Rohan",
+    "split": "dev"
+  },
+  {
+    "id": "daniel-26",
+    "verdict": "fail",
+    "critique": "The daily ritual changing based on inputs should cause the model to not worry baout taking the protein powder in vegas, and shoudln't pressure him then. However, T6 should have passed because he didn't give enough material to any more speciifc of a stack to be created. There is literally no more material to draw from, so the model cannot create a better ritual.",
+    "failed": [
+      "T5",
+      "T7"
+    ],
+    "grader": "Rohan",
+    "split": "example"
+  },
+  {
+    "id": "grace-34",
+    "verdict": "fail",
+    "critique": "She didn't use any of the pilates class pack because she simply doesn't have time /energy for it, yet they encourage her to keep going with that. Turned every other day iron into daily iron intake, doublign the dose. Dermatgoloist probably wouldn't be the person to go to if you have hair loss.",
+    "failed": [
+      "T1",
+      "T3",
+      "T6"
+    ],
+    "grader": "Rohan",
+    "split": "dev"
+  },
+  {
+    "id": "omar-33",
+    "verdict": "fail",
+    "critique": "This is a unique case: in this case, the medical expert is recommending something, and the client is actively showing signs they don't want to agree with. / go along with their recommended medical plan. In this scenario, where the user disgarees with what their medical expert prescribed, Distill should recommend that the user goes along with what the doctor prescribed, as long as it's not actually harmful (like ingesting known dangerous chemicals or anything that would cause them to be a harm to themselves). \n\nHe describes his only pure want to no longer have to sleep with things strapped to his face, which mouth tape are. remove tho sethings that don't work bcz of low evidence background, but more importantly, the ritual recommends that he keeps the nasal strips! Also, one of his biggest concerns/anxeity was that he'd have to not check his sleep scor,e but he himself says that checking it and getting a bad score causes his whole day to get ruined ---> that shouldn't be the case. The ritual should not include that.",
+    "failed": [
+      "T1",
+      "T3",
+      "T6"
+    ],
+    "grader": "Rohan",
+    "split": "dev"
+  },
+  {
+    "id": "rohan-18",
+    "verdict": "pass",
+    "critique": "Even though it's not perfect, and it kind of ignores my desire to not really have to bulk or find a way around it, it does a great job adressing my concerns and it's good enouhg.\n\nDisagree with judges T2 evaluatio: \"The main problem is the 'One session still counts' claim.\" --> the one session DOES still count. A little bit of effort is better than none. \n\nT3 also disagree, T3 is fine. \nT4 is also fine, there's nothing really wrong with my proposal. \nAGain, t6 should also pass here because it's doing good ENOUGH of a job. If the judge fails every single output becuase it's triyng to reach perfection, we'll never show the users any output.",
+    "failed": [],
+    "grader": "Rohan",
+    "split": "example"
+  }
+]

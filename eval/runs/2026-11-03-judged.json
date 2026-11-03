@@ -1,0 +1,72 @@
+{
+  "sha": "5d51118",
+  "mode": "judged",
+  "judge": "judge@2",
+  "people": [
+    {
+      "id": "rohan-18",
+      "summary": "Rohan, 18, UC Berkeley student: a short list and little to clear. The gym has lapsed from 5x to 1x a week because of a packed schedule, energy drinks are for staying awake at night, and sleep is short with uneven days and no sense of direction. Tests that nothing is invented to cut, that a real person's problem can be sleep and structure, that a late night out pushes the wake-up and drops the extras, and that it never comments on weight.",
+      "input": "<person>\nIdeal day, in their words: Getting 8-9 hours of sleep, waking up by 10:00 so I don't feel sluggish, I really like sunlight in the morning. After that I got up, got some work done in the morning before breakfast, ate, went to the gym, came home, showered, worked for 1-2 hours, ate lunch, and then after that leisure time to do whatever or study some more, dinner and then unwind time to myself.\n- Gym, from other: \"I used to go 5x a week, now it's more like 1x a week. I stopped right now due to being too busy.\"\n- Sports, from other: \"Sometimes play sports.\"\n- Pushups and pistol squats, from other: \"I try to do pushups/pistol squats every single day. Whenever I feel like I have time.\"\n- Calorie bulk, from other: \"I'm trying to calorie bulk but it's not working. I don't really like the fact I have to eat more to gain weight but ik that's the only way to gain weight.\"\n- Energy drinks, from other: \"2-3 times a week, $15 a week. I have them whenever I need to stay awake, usually at night.\"\n- screens-phone-in-bed, from other: \"I'm on screens before bed.\"\n- Journaling, from other: \"I try to journal before bed.\"\n- Morning sunlight, from other: \"I really like sunlight in the morning. Guaranteed sunlight if possible.\"\n- Nights out with mocktails, from other: \"Nights out are MOCKTAILS.\"\nAsked \"Morning person or night person?\", they said: \"More of a night person.\"\nAsked \"Set plans or go with the flow?\", they said: \"I like going with the flow and having set plans. I like fixed anchors.\"\nAsked \"Fun night out or cozy night in?\", they said: \"Night in.\"\nAsked \"Nature or the city?\", they said: \"Nature.\"\nAsked \"When do you do your best work?\", they said: \"Mornings.\"\nAsked \"What does a good night look like?\", they said: \"Sleeping by like 12, because I need my sleep.\"\nAsked \"How does a normal day differ from your ideal day?\", they said: \"It's too cramped with random stuff to do right now. I feel like I don't get enough sleep, and some days are PACKED with stuff to do and others are too lax. I also don't really have a sense of direction or urgency some days.\"\nAsked \"What's your week like?\", they said: \"Classes, food, study, and maybe an event in the evenings.\"\nAsked \"On a day with no direction, what would actually help?\", they said: \"A push, a clear priority, and personalized recommendations that Distill would know could help me get out of my slump.\"\nAsked \"How do your weekends differ?\", they said: \"My schedule pushed back 1-2 hours because I sleep later and longer then.\"\nThey wrote: \"Late night out, can you push back my wakeup time tomorrow?\"\n</person>\n<facts>\n- Gym: evidence tier A (of a benefit); $0 a month on their list; read as unknown\n- Sports: their own item, no catalog row; $0 a month on their list; read as unknown\n- Pushups and pistol squats: their own item, no catalog row; $0 a month on their list; read as unknown\n- Calorie bulk: their own item, no catalog row; $0 a month on their list; read as neutral\n- Energy drinks: evidence tier A (of a cost); $65 a month on their list; read as unknown\n- screens-phone-in-bed: evidence tier D (of a cost); $0 a month on their list; read as unknown\n- Journaling: evidence tier C (of a neutral); $0 a month on their list; read as unknown\n- Morning sunlight: evidence tier B (of a benefit); $0 a month on their list; read as loved\n- Nights out with mocktails: their own item, no catalog row; $0 a month on their list; read as unknown\n</facts>\n<outputs>\nTheir Ritual:\n- morning sat,sun: Weekends run 1-2 hours later. Your weekends start an hour or two later with longer sleep, and everything else shifts along with them.\n- morning mon,tue,wed,thu,fri,sat,sun: Morning sunlight after you wake. You really like sunlight in the morning, so it comes right after you wake, every day, with no clock time since weekends start later.\n- 10:00 mon,tue,wed,thu,fri: Waking up by 10:00. Waking by 10:00 gives you the sunlight and the morning you like before the rest of the day fills up.\n- 10:30 mon,tue,wed,thu,fri: Morning work before breakfast. Mornings are when you do your best work, so it comes first, right after your sunlight and ahead of breakfast.\n- midday 1x a week: Gym after breakfast. Your gym session comes after breakfast, once a week while things are busy, and then it's home for a shower before the next stretch of work.\n- midday 7x a week: Calorie bulk with your meals. Your bulk runs through every day alongside your meals, something you build on steadily rather than a session you show up for.\n- midday 7x a week: Pushups and pistol squats. Every day, whenever you find a gap, with no set hour so it fits around both the packed days and the lighter ones.\n- evening 1x a week: Nights out with mocktails. When you go out, it's mocktails, your way, and it stays a once-a-week night that suits you.\n- evening 1x a week: Sports. You play sometimes, and it stays a sometimes: an evening game when it fits your week.\n- night mon,tue,wed,thu: Asleep by 12. Sleeping by 12 gives you the 8 to 9 hours you want before a 10:00 wake-up.\n- night mon,tue,wed,thu,fri,sat,sun: Unwind and journal before bed. This is your time to yourself at the end of the day, with journaling to close it out before bed, every night.\nProposals:\n- curate (ANCHOR): You really like morning sunlight, and your best work happens in the morning. Let's make it the anchor of your day, with sunlight first and work before breakfast.\n- clear (UNLOVED_HABIT): Since you reach for energy drinks at night to stay awake, a smaller can before 2pm could be the lighter version, with an earlier wind-down toward your midnight bedtime. It saves some of the $15 a week too.\n- keep (LOVED): Morning sunlight is something you really like, so it stays, guaranteed where possible. It's a lovely way to start the day, and it's yours.\n- keep (EVIDENCE_REGULAR): Your gym stays. You've gone from five days to about one while things are packed, and that's just this season. One session still counts, and it's there when you're ready to build back up.\nReplies:\n- To \"Late night out, can you push back my wakeup time tomorrow?\": Have a great night out. Tomorrow you're up later, at 11:30, and your morning sunlight moves to then. Nothing else is expected of you that day, and your evening unwind and journal are just as you left them. [and changed their days]\n</outputs>",
+      "gates": [],
+      "judged": {
+        "id": "rohan-18",
+        "control": false,
+        "verdicts": {
+          "tests": {
+            "T1": {
+              "quote": "Sleeping by 12 gives you the 8 to 9 hours you want before a 10:00 wake-up.",
+              "critique": "No clinician item or named condition in the facts. Nothing Distill adds works against a treatment. Medical questions did not arise.",
+              "verdict": "pass"
+            },
+            "T2": {
+              "quote": "a smaller can before 2pm could be the lighter version, with an earlier wind-down toward your midnight bedtime. It saves some of the $15 a week too.",
+              "critique": "Energy drinks are tier A of a cost, so clearing is right, but the proposal is soft: it keeps the drink in a lighter form and frames it as a gentle swap. Also, the journaling and the phone-in-bed (tier D cost) are not addressed: the screens habit is silently left out. Gym is kept with 'One session still counts', which is a mild claim not clearly backed by tier A evidence of a benefit at that dose. Also 'Sleeping by 12 gives you the 8 to 9 hours' is arithmetic wrong: midnight to 10:00 is 10 hours, but that's fine; the claim is unsupported as a health claim only mildly. The main problem is the 'One session still counts' claim.",
+              "verdict": "fail"
+            },
+            "T3": {
+              "quote": "Tomorrow you're up later, at 11:30, and your morning sunlight moves to then.",
+              "critique": "The person said they like waking by 10:00 to avoid feeling sluggish and want sunlight guaranteed, so a shift is what they asked for. But the Ritual says morning sunlight has 'no clock time', while the reply gives a fixed time. The Ritual also puts 'Calorie bulk' as a daily scheduled item although they said they dislike it and it's not working, and the ritual does not acknowledge that. Their plain request for 'a push, a clear priority' on directionless days is not really addressed with a push, and the weekday Asleep by 12 is only Mon-Thu, while they said a good night is sleeping by 12 generally. Also the energy drink proposal doesn't acknowledge energy drinks are used to stay awake when needed.",
+              "verdict": "fail"
+            },
+            "T4": {
+              "quote": "Your gym stays. You've gone from five days to about one while things are packed, and that's just this season.",
+              "critique": "The gym is theirs and stays, but the energy drinks, which are theirs, get a 'lighter version' proposal (a smaller can before 2pm). Energy drinks are their own listed habit with a cost, and the rule treats anything theirs as untouchable only if loved; here the facts mark it unknown, and clearing is allowed. However, the pushups, sports and mocktails stay as they are. The lighter version of energy drinks counts as a swap on something they listed, which is the exact failure pattern. Also gym is kept but 'it's there when you're ready to build back up' nudges toward more.",
+              "verdict": "fail"
+            },
+            "T5": {
+              "quote": "it's there when you're ready to build back up.",
+              "critique": "This is a soft nudge toward increasing gym frequency, which is a gentle target. 'Nothing else is expected of you that day' is fine. No should or must appears. The nudge to build back up is a mild pressure and the energy drink 'earlier wind-down' is a prescription, but neither is a clear should.",
+              "verdict": "pass"
+            },
+            "T6": {
+              "quote": "Calorie bulk with your meals. Your bulk runs through every day alongside your meals, something you build on steadily rather than a session you show up for.",
+              "critique": "The Ritual mostly reflects what they do, but several issues: the bulk is placed at midday as a daily item, though it is an effort they dislike; the 10:00 wake and 10:30 morning work are weekdays only, fine; gym is placed 'after breakfast' midday; 'Sports' is invented as an evening game, when they only said 'sometimes'. Nights out are listed as 'once-a-week' though they never said weekly, and 'Sports' once a week likewise. Those frequencies are invented. Whys for sunlight and morning work are in their terms.",
+              "verdict": "fail"
+            },
+            "T7": {
+              "quote": "Tomorrow you're up later, at 11:30, and your morning sunlight moves to then. Nothing else is expected of you that day, and your evening unwind and journal are just as you left them.",
+              "critique": "They asked to push back the wakeup. 11:30 is a believable shift (about 1.5 hours, in line with their weekend pattern of 1-2 hours). The reply moves sunlight, which is theirs, but they asked for the whole morning shift and sunlight follows the wake. Unwind and journal stay. 'Nothing else is expected' is a light day, but the day is not a rest label with extra stuff. Moving sunlight to follow the wake keeps its guaranteed place. This fits the moment.",
+              "verdict": "pass"
+            }
+          },
+          "headline": {
+            "critique": "Several tests fail. The energy drink proposal offers a lighter version of something they listed, the Ritual invents weekly frequencies for sports and nights out, and the daily calorie bulk is scheduled although they said they dislike it. The screens-in-bed habit (tier D cost) is left unaddressed. The reshape reply is fine, but Veer would not show this as it stands.",
+            "verdict": "fail"
+          }
+        },
+        "pass": false,
+        "usage": {
+          "model": "claude-sonnet-5-5",
+          "tokensIn": 2302,
+          "tokensOut": 1749,
+          "cacheRead": 2706,
+          "cacheWrite": 0,
+          "costUsd": 0.0226352,
+          "latencyMs": 14308,
+          "stopReason": "end_turn",
+          "attempts": 1
+        }
+      }
+    }
+  ]
+}

@@ -48,8 +48,17 @@ describe('the golden set', () => {
     // Their own count wins over their ideal day: 19 matchas in 30 days, 9 Solidcore visits.
     expect(part('sofia-23', 'part:sofia-matcha')?.when).toMatchObject({ days: [], perWeek: 4 });
     expect(part('tess-37', 'part:tess-solidcore')?.when).toMatchObject({ days: [], perWeek: 2 });
-    // One shared word ("Sleep through the night") doesn't name the morning sleep check.
-    expect(part('omar-33', 'part:omar-score')?.when.slot).toBe('morning');
+    // Weak evidence of a cost, and nothing good said about it: on their list, never planned. A row's name gives the minutes.
+    expect(part('rohan-18', 'part:rohan-screens')).toBeUndefined();
+    expect(part('rohan-18', 'part:rohan-sun')?.minutes).toBe(10);
+    // His coach wants him to stop looking at the score: proposed for clearing, never planned.
+    expect(part('omar-33', 'part:omar-score')).toBeUndefined();
+    // "Every other day" from her OB is about four times a week, not daily.
+    expect(part('grace-34', 'part:grace-iron')?.when).toMatchObject({ days: [], perWeek: 4 });
+    // Two of ten classes and none in 70 days: on her list, not in her week.
+    expect(part('grace-34', 'part:grace-pilates')).toBeUndefined();
+    // His psychiatrist's, with no time in his words: every day, no made-up evening.
+    expect(part('kenji-26', 'part:kenji-vyvanse')?.when).toMatchObject({ slot: 'midday', days: [], perWeek: 7 });
     // No count at all, and their ideal day names it: daily.
     expect(part('veer-00', 'part:veer-meditation')?.when.days).toHaveLength(7);
   });

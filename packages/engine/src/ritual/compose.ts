@@ -32,12 +32,28 @@ const SLOT_WORDS: [RegExp, Slot][] = [
   [/\b(mornings?|sunrise|wake|breakfast|before work|early)\b/i, 'morning'],
 ];
 
-/** When something happens, read from their words: days, a time of day, a clock time. */
-export function whenFromWords(text: string): { days?: Day[]; slot?: Slot; at?: string } {
-  const out: { days?: Day[]; slot?: Slot; at?: string } = {};
+/**
+ * How often, when they say it without days: "every other day" (Grace's iron) is about four times a
+ * week, not daily. The last count wins, so "used to go 5x a week, now 1x" is once.
+ */
+const COUNT_WORDS: Record<string, number> = { once: 1, one: 1, twice: 2, two: 2, three: 3, four: 4, five: 5, six: 6 };
+const PER_WEEK = /\b(?:every (?:other|second) day|alternate days|on alternate days)\b|\b(once|twice|one|two|three|four|five|six|[1-6])(?:x| ?times?)? (?:a|per|each) week\b/gi;
+function perWeekFromWords(text: string): number | undefined {
+  let last: number | undefined;
+  for (const m of text.matchAll(PER_WEEK)) last = m[1] ? (COUNT_WORDS[m[1].toLowerCase()] ?? Number(m[1])) : 4;
+  return last;
+}
+
+/** When something happens, read from their words: days, how often, a time of day, a clock time. */
+export function whenFromWords(text: string): { days?: Day[]; perWeek?: number; slot?: Slot; at?: string } {
+  const out: { days?: Day[]; perWeek?: number; slot?: Slot; at?: string } = {};
   const days = new Set<Day>();
   for (const [pattern, ds] of WEEKDAY_WORDS) if (pattern.test(text)) ds.forEach((d) => days.add(d));
   if (days.size) out.days = DAYS.filter((d) => days.has(d));
+  else {
+    const perWeek = perWeekFromWords(text);
+    if (perWeek) out.perWeek = perWeek;
+  }
   const clock = /\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b|\bat\s+(\d{1,2}):(\d{2})\b/i.exec(text);
   if (clock) {
     const h = Number(clock[1] ?? clock[4]);
@@ -99,10 +115,12 @@ const NIGHT_WORDS = /\b(sleep|bed|bedtime|night|cpap)\b/i;
 /**
  * Whether an occasion Claude read means "not on a schedule" ("travel nights", "when I can't sleep").
  * Regular days ("Tuesdays and Thursdays", "Saturdays") are a schedule, so the thing stays in their
- * Ritual on those days: Daniel's pickup basketball was being dropped.
+ * Ritual on those days: Daniel's pickup basketball was being dropped. How often isn't when either:
+ * "sometimes" is a thing they do now and then, and it stays too (Rohan's sports).
  */
+const NOW_AND_THEN = /\b(sometimes|occasionally|now and then|once in a while|every so often|from time to time)\b/i;
 export function onlySometimes(occasion: string | undefined): boolean {
-  return !!occasion && !whenFromWords(occasion).days;
+  return !!occasion && !whenFromWords(occasion).days && !NOW_AND_THEN.test(occasion);
 }
 
 /** A place they named with "at" ("Saturdays we fish at Breezy Point"), or one Distill already knows. */
@@ -180,8 +198,14 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
     // A habit with strong evidence of a cost (late caffeine, evening drinks) is never planned into
     // their days, unless they've said it's theirs. Their days still bend around it when it happens.
     if (!clinician && strongCost(view, tierFor(view, s, input.stack)) && attachmentFor(person, s, view) !== 'theirs') continue;
+    // Weak evidence of a cost stays out too, unless they've said they love it: nobody's Ritual plans
+    // "Phone in bed" because they mentioned it (Rohan's, Kenji's). Mixed evidence still follows their values.
+    if (!clinician && view?.evidenceDirection === 'cost' && view.tier === 'D' && !['theirs', 'loved'].includes(attachmentFor(person, s, view))) continue;
     // Less than weekly lives in their collection, not in mornings, nights and weekends.
     if (view && (view.cadence === 'monthly' || view.cadence === 'occasional')) continue;
+    // Something they've stopped using isn't part of their days (Grace's Pilates pack, 2 of 10
+    // classes, none in 70 days), unless it's theirs or loved: it stays on their list.
+    if (!clinician && usageOf(s, view).unused === true && !['theirs', 'loved'].includes(attachmentFor(person, s, view))) continue;
     const keep = keepOf.get(s.id);
     const reason = clinician ? 'CLINICIAN' : (keep?.reason ?? (person.values[s.id]?.attachment === 'theirs' ? 'THEIRS' : 'NOTHING_TO_CLEAR'));
     // Their words first (with the days Claude read, "Tuesdays and Thursdays"), then the row's own
@@ -204,29 +228,36 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       ...inDay,
       ...own,
       slot: own.slot ?? inDay.slot ?? named.slot,
-      days: own.days ?? (mention ? (inDay.days ?? [...DAYS]) : named.days),
+      days: own.days ?? (own.perWeek ? undefined : mention ? (inDay.days ?? [...DAYS]) : named.days),
     };
     const place = placement(view);
     // Something of their own with a time of day in its name ("500 ml of water in the morning") is
     // daily; with no time and no count, it's weekly until they say.
     const weekly = view?.cadence === 'weekly' || (!view && !said.days && !own.slot && !clinician && !NIGHT_WORDS.test(words));
-    const perWeek = weekly
-      ? Math.max(1, Math.min(7, Math.round((usage.perMonth ?? 4) / 4.3)))
-      : undefined;
-    const days: Day[] = said.days ?? (place.weekendOnly ? [...WEEKEND] : weekly ? [] : [...DAYS]);
+    // A clinician's thing with no time in their words and no row to place it: every day, with no
+    // set hour, rather than a moment Distill made up (Kenji's Vyvanse was put in his evenings).
+    const untimed = clinician && !view && !said.slot && !said.days && !own.perWeek && !NIGHT_WORDS.test(words);
+    const perWeek = own.perWeek && !said.days
+      ? own.perWeek
+      : untimed
+        ? 7
+        : weekly
+          ? Math.max(1, Math.min(7, Math.round((usage.perMonth ?? 4) / 4.3)))
+          : undefined;
+    const days: Day[] = said.days ?? (own.perWeek || untimed ? [] : place.weekendOnly ? [...WEEKEND] : weekly ? [] : [...DAYS]);
     const people = peopleIn(person, words);
     const at = placeIn(person, [words, mention ?? ''].join(' . '));
     const part: RitualPart = {
       id: partIdFor(s.id),
       when: {
-        slot: said.slot ?? (!view && NIGHT_WORDS.test(words) ? 'night' : place.slot),
+        slot: said.slot ?? (untimed ? 'midday' : !view && NIGHT_WORDS.test(words) ? 'night' : place.slot),
         days,
         ...(said.at ? { at: said.at } : {}),
         ...(!days.length && perWeek ? { perWeek } : {}),
       },
       order: 0,
       title: displayName(s, view),
-      ...(view?.kind === 'movement' || view?.ritualRole === 'anchor' ? { minutes: 45 } : {}),
+      ...minutesFor(view),
       ...(people.length ? { people } : {}),
       ...(at ? { place: at } : {}),
       area: view?.area ?? 'mind',
@@ -262,9 +293,11 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
   // left of each moment, up to the most a moment can hold.
   const ordered = [...candidates.filter((c) => !c.rides), ...candidates.filter((c) => c.rides)];
   for (const { part, rides } of ordered) {
-    const limit = rides ? MAX_PER_MOMENT : cap;
-    const roomIn = (k: string) => (count.get(k) ?? 0) < limit;
     const fixedDays = part.when.days;
+    // Day one keeps each day light, and something with no set day doesn't crowd any day: only the
+    // most a moment can hold applies (Rohan's sports, the fourth flexible thing, was dropped).
+    const limit = rides || !fixedDays.length ? MAX_PER_MOMENT : cap;
+    const roomIn = (k: string) => (count.get(k) ?? 0) < limit;
     if (!fixedDays.length) {
       const k = `flex:${part.when.slot}`;
       if (!roomIn(k) && !part.lock) continue;
@@ -285,6 +318,13 @@ export function composeByRules(input: ComposeInput): { parts: RitualPart[]; summ
       ? 'Your mornings, nights and weekends, built around what you keep.'
       : 'Your Ritual starts with what you love. Tell Distill about a morning you like.',
   };
+}
+
+/** The minutes the row's own name gives ("10 min outdoors"), or the usual length of a session. */
+function minutesFor(view: ReturnType<CatalogView['item']>): { minutes?: number } {
+  const named = view ? /(\d+)[\s-]*min/i.exec(view.name) : null;
+  if (named) return { minutes: Number(named[1]) };
+  return view?.kind === 'movement' || view?.ritualRole === 'anchor' ? { minutes: 45 } : {};
 }
 
 function momentKey(day: Day, slot: Slot): string {

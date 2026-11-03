@@ -17,7 +17,7 @@ import {
   type Scope,
 } from '@distill/engine/ritual';
 import { partLine, personBlock } from './brief';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { resolvePartId } from './compose';
 import { PROMPT_VERSIONS, RESHAPE_EXAMPLES, RESHAPE_JOB, voice, WHO } from './prompts';
 import { arr, bool, dropNulls, en, int, nul, obj, str } from './schema';
@@ -126,6 +126,8 @@ export async function reshape(
     toneRules: Pick<ToneRules, 'bannedPhrases' | 'maxWordsExclusive' | 'gatedMaxWords'>;
     lineContext: Omit<LineContext, 'toneRules' | 'maxWords'>;
     today: string;
+    /** Their answers, so a later morning means later than their own usual. */
+    asks?: readonly { q: string; a: string }[];
   },
 ): Promise<ReshapeResult> {
   const fallback: ReshapeResult = { reply: FALLBACK_REPLY, opsByDate: {}, baseOps: [], ongoing: false, ask: null, from: 'fallback' };
@@ -146,7 +148,7 @@ export async function reshape(
     return data;
   };
   const content = [
-    personBlock(input.person, { today: input.today }),
+    personBlock(input.person, { today: input.today, ...(input.asks ? { asks: input.asks } : {}) }),
     input.message ? `<message>${input.message.slice(0, 2000)}</message>` : `<trigger>${input.trigger.kind}</trigger>`,
     `<change>durability: ${input.trigger.durability}; load: ${input.trigger.load}</change>`,
     '<targets>',
@@ -226,8 +228,8 @@ export async function reshape(
   };
   const result = await callJson(client, {
     step: 'reshape',
-    model: OPUS,
-    effort: 'low',
+    model: CAPI,
+    effort: 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), RESHAPE_JOB, RESHAPE_EXAMPLES],
     content,
     jsonSchema: SCHEMA,

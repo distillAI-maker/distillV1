@@ -8,7 +8,7 @@ import {
   type PersonPatchResult,
   type StackItemLike,
 } from '@distill/engine/ritual';
-import { callJson, OPUS, type CallUsage, type ClaudeClient } from './call';
+import { callJson, CAPI, type CallUsage, type ClaudeClient } from './call';
 import { itemsBlock, personBlock } from './brief';
 import { PROMPT_VERSIONS, UPDATE_PERSON_JOB, voice, WHO } from './prompts';
 import { arr, bool, dropNulls, en, nul, obj, str } from './schema';
@@ -76,8 +76,8 @@ export async function updatePerson(
   ].join('\n');
   const result = await callJson(client, {
     step: 'update-person',
-    model: OPUS,
-    effort: 'low',
+    model: CAPI,
+    effort: 'medium',
     system: [WHO, voice(input.banned), UPDATE_PERSON_JOB],
     content,
     jsonSchema: UPDATE_SCHEMA,

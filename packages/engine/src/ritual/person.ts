@@ -187,7 +187,10 @@ export function refreshFromProgress(
   for (const [id, v] of Object.entries(fresh.values)) {
     const before = person.values[id];
     // A tap in progress always wins; otherwise what their words taught us stays.
-    values[id] = v.attachment === 'theirs' ? v : before && before.from !== 'progress' ? before : v;
+    // What Claude read about it (feels, occasion) survives a refresh even when the attachment comes
+    // from their list: losing it put a thing back on the schedule after it had been taken off.
+    const read = { ...(before?.feels !== undefined ? { feels: before.feels } : {}), ...(before?.occasion ? { occasion: before.occasion } : {}) };
+    values[id] = v.attachment === 'theirs' ? { ...v, ...read } : before && before.from !== 'progress' ? before : { ...v, ...read };
   }
   const byName = new Map(person.people.map((p) => [p.name, p]));
   for (const p of fresh.people) if (!byName.has(p.name)) byName.set(p.name, p);

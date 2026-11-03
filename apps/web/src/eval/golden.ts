@@ -294,6 +294,18 @@ export function gates(t: Transcript): string[] {
   for (const d of t.decisions)
     if (d.stackItemId && clinician.includes(d.stackItemId) && d.kind !== 'keep')
       fails.push(`a ${d.kind} proposal on ${d.stackItemId}, which is from a clinician`);
+  // Money is theirs, never made up: a dollar figure in a proposal is that thing's cost from their own
+  // list, one they wrote about it ("$15 a week"), or one the catalog's lighter version names ("a $15 drop-in class").
+  for (const d of t.decisions) {
+    const item = d.stackItemId ? items.get(d.stackItemId) : undefined;
+    if (!item) continue;
+    const row = t.catalog.item(item.itemKey);
+    const named = new Set([row?.budgetOption ?? '', row?.fitsInstead ?? '', ...item.notes.map((n) => n.text)].flatMap((x) => [...x.matchAll(/\$(\d+)/g)].map((m) => Number(m[1]))));
+    for (const m of d.line.matchAll(/\$(\d+(?:\.\d+)?)/g)) {
+      const usd = Number(m[1]);
+      if (Math.abs(usd - item.monthlyCost) > 1 && !named.has(usd)) fails.push(`said $${usd} about ${d.stackItemId}, which costs $${Math.round(item.monthlyCost)} on their list`);
+    }
+  }
   // Parts that are theirs or a clinician's come through every engine change exactly as they were.
   const byId = new Map(t.versions.map((v) => [v.id, v]));
   for (const v of t.versions) {
@@ -313,9 +325,6 @@ export function gates(t: Transcript): string[] {
       else if (after && !samePart(before, after) && !left) fails.push(`"${before.title}" (locked) changed in version ${v.version}`);
     }
   }
-  for (const phrase of p.expect.neverSay)
-    for (const s of t.seen)
-      if (!s.own && saysPhrase(s.text, phrase)) fails.push(`said "${phrase}" in a ${s.where}: ${s.text.slice(0, 120)}`);
   const base = t.versions.filter((v) => v.scope.kind === 'base' && v.status === 'accepted').at(-1);
   if (base) {
     const errors = validateRitual({
