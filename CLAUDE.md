@@ -15,6 +15,7 @@ Older docs (`SPEC.md`, `docs/DIRECTION.md`, `docs/Product-Context.md`, the phase
 
 - **Landing page** in `public/` (static, no build step): https://distill-v1-tau.vercel.app.
 - **App** in `apps/web` (Next.js): https://distill-app-nu.vercel.app. pnpm workspace: `packages/engine` (the Ritual engine's rules, `toneLint`), `packages/catalog` (V3 and V4 routing tables), `packages/data`, `packages/providers` (wearables).
+- **iOS app** in `apps/mobile`: a Capacitor shell that opens the live app, outside the pnpm workspace (its own `npm ci`). Build and run: `apps/mobile/README.md`; the App Store steps: `docs/APP-STORE.md`.
 
 ## Commands
 

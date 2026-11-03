@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { ReactNode } from 'react';
 import { useProgress } from '../progress/context';
 import type { Progress } from '../progress/types';
+import { saidMakeItMine } from '../steps';
 import { engineApi, type EngineResult, type EngineState } from './client';
 
 /** Onboarding is behind them once they reach these steps; the first Ritual can be made. */
@@ -23,6 +24,8 @@ export interface EngineContextValue {
     opts?: { saveFirst?: boolean; save?: Progress },
   ) => Promise<EngineResult | null>;
   readonly clearLast: () => void;
+  /** Loads the state again, after a failed first load. */
+  readonly retry: () => void;
 }
 
 /** Exported for tests and previews that supply a state directly. */
@@ -67,12 +70,22 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     [saveNow],
   );
 
-  // First load: last night's check, and the state.
+  // First load: last night's check, and the state. Someone who has just signed in from the email
+  // link may still have their onboarding on its way to the server, so a first failure saves it and
+  // asks once more before saying anything went wrong.
+  const [attempt, setAttempt] = useState(0);
+  const save = useRef(saveNow);
+  save.current = saveNow;
   useEffect(() => {
     if (!on) return;
     let alive = true;
+    setError(null);
     engineApi
       .open()
+      .catch(async () => {
+        await save.current().catch(() => undefined);
+        return engineApi.open();
+      })
       .then((r) => {
         if (!alive) return;
         setState(r.state);
@@ -82,7 +95,7 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     return () => {
       alive = false;
     };
-  }, [on]);
+  }, [on, attempt]);
 
   // Once onboarding is done, the first Ritual is made (rules always; Claude when it is on).
   useEffect(() => {
@@ -92,6 +105,17 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     synced.current = listSignature(progress);
     void act(() => engineApi.run({ kind: 'onboarding' }), { saveFirst: true });
   }, [on, state, progress, act]);
+
+  // "Make it mine" at the reveal was their yes to the first Ritual, so the engine's first version
+  // is accepted for them once it arrives, instead of asking again. Later proposals still wait.
+  const acceptedFirst = useRef(false);
+  useEffect(() => {
+    const first = state?.ritual.proposed;
+    if (!on || acceptedFirst.current || state?.ritual.status !== 'proposed' || !first || first.parentId) return;
+    if (!saidMakeItMine(progress.step)) return;
+    acceptedFirst.current = true;
+    void act(() => engineApi.accept(first.id));
+  }, [on, state, progress.step, act]);
 
   // Their list changed (let go, kept, added, an answer about it): the rules run again.
   const signature = listSignature(progress);
@@ -110,7 +134,7 @@ export function EngineProvider({ children }: { children: ReactNode }) {
   }, [on, state, signature, act]);
 
   const value = useMemo<EngineContextValue>(
-    () => ({ on, state, error, busy, last, act, clearLast: () => setLast(null) }),
+    () => ({ on, state, error, busy, last, act, clearLast: () => setLast(null), retry: () => setAttempt((a) => a + 1) }),
     [on, state, error, busy, last, act],
   );
   return <EngineContext.Provider value={value}>{children}</EngineContext.Provider>;
@@ -125,6 +149,7 @@ const OFF: EngineContextValue = {
   last: null,
   act: async () => null,
   clearLast: () => {},
+  retry: () => {},
 };
 
 export function useEngine(): EngineContextValue {

@@ -1,0 +1,19 @@
+{
+  "name": "@distill/mobile",
+  "private": true,
+  "description": "Distill's iOS app: a native shell around the live app at distill-app-nu.vercel.app.",
+  "scripts": {
+    "sync": "cap sync ios",
+    "sync:local": "DISTILL_APP_URL=http://localhost:3000 cap sync ios",
+    "open": "cap open ios",
+    "icons": "node scripts/make-assets.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.6.0",
+    "@capacitor/ios": "8.6.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.0",
+    "typescript": "5.9.3"
+  }
+}

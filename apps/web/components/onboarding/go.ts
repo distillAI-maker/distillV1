@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useProgress } from '../../lib/progress/context';
 import type { Progress } from '../../lib/progress/types';
+import { RITUAL_HOME } from '../../lib/steps';
 
 /** Saves the step the person has reached, then moves there. */
 export function useGo() {
@@ -12,7 +13,7 @@ export function useGo() {
   return useCallback(
     (step: Progress['step'], patch?: Partial<Progress>) => {
       update({ ...(patch ?? {}), step });
-      router.push(step === 'done' ? '/today' : `/${step}`);
+      router.push(step === 'done' ? RITUAL_HOME : `/${step}`);
     },
     [router, update],
   );

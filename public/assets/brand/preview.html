@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Distill brand marks</title>
+<style>
+@font-face { font-family: Newsreader; src: url(../fonts/newsreader.woff2) format("woff2"); font-weight: 200 800; }
+@font-face { font-family: "Source Sans 3"; src: url(../fonts/source-sans-3.woff2) format("woff2"); font-weight: 200 900; }
+:root { --ground: #f0ece2; --parchment: #ddd3bf; --travertine: #b9a98f; --persimmon: #f26342; --ink: #11191b; --ink-2: #4b5254; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--ground); color: var(--ink); font: 400 15px/1.4 "Source Sans 3", system-ui, sans-serif; padding: 48px 40px 64px; max-width: 1180px; margin: 0 auto; }
+h1 { font: 300 44px/1 Newsreader, Georgia, serif; letter-spacing: -.04em; }
+.label { font: 600 10px/1.2 "Source Sans 3", sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); }
+.section { margin-top: 44px; }
+.section > .label { padding-bottom: 12px; border-bottom: 1px solid var(--parchment); margin-bottom: 22px; }
+.options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.opt { display: grid; gap: 14px; align-content: start; }
+.opt__name { display: flex; align-items: baseline; gap: 10px; font: 400 24px/1 Newsreader, serif; letter-spacing: -.03em; }
+.pick { font: 600 10px/1 "Source Sans 3", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--ground); background: var(--persimmon); padding: 5px 7px; border-radius: 99px; translate: 0 -3px; }
+.square { width: 100%; aspect-ratio: 1; display: block; }
+.uses { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
+.round { width: 96px; height: 96px; border-radius: 50%; display: block; }
+.edge { box-shadow: 0 0 0 1px var(--parchment); }
+.feeds { display: grid; gap: 8px; }
+.feed { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font: 600 13px/1.1 system-ui, sans-serif; }
+.feed small { display: block; font-weight: 400; opacity: .6; }
+.feed img { width: 36px; height: 36px; border-radius: 50%; }
+.feed--light { background: #fff; color: #111; }
+.feed--dark { background: #000; color: #f2f2f2; }
+.logos { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.tile { display: grid; place-items: center; padding: 48px 32px; }
+.tile img { width: min(100%, 340px); }
+.tile--light { background: var(--ground); outline: 1px solid var(--parchment); }
+.tile--dark { background: var(--ink); }
+.marks { display: flex; gap: 28px; margin-top: 28px; }
+.marks .tile { padding: 28px; }
+.marks img { width: 72px; }
+footer { margin-top: 40px; color: var(--ink-2); font-size: 13px; }
+@media (max-width: 760px) {
+  body { padding: 32px 16px; }
+  .options, .logos { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<h1>Distill</h1>
+
+<div class="section">
+  <p class="label">Profile picture · pick one</p>
+  <div class="options">
+    <div class="opt">
+      <p class="opt__name">A · Ink <span class="pick">Recommended</span></p>
+      <img class="square" src="profile-a-ink.svg" alt="Ground star with a persimmon core on ink">
+      <div class="uses">
+        <img class="round" src="profile-a-ink.svg" alt="">
+        <div class="feeds">
+          <div class="feed feed--light"><img src="profile-a-ink.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+          <div class="feed feed--dark"><img src="profile-a-ink.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="opt">
+      <p class="opt__name">B · Ground</p>
+      <img class="square edge" src="profile-b-ground.svg" alt="Ink star with a persimmon core on ground">
+      <div class="uses">
+        <img class="round edge" src="profile-b-ground.svg" alt="">
+        <div class="feeds">
+          <div class="feed feed--light"><img src="profile-b-ground.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+          <div class="feed feed--dark"><img src="profile-b-ground.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="opt">
+      <p class="opt__name">C · Persimmon</p>
+      <img class="square" src="profile-c-persimmon.svg" alt="Ink star on persimmon">
+      <div class="uses">
+        <img class="round" src="profile-c-persimmon.svg" alt="">
+        <div class="feeds">
+          <div class="feed feed--light"><img src="profile-c-persimmon.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+          <div class="feed feed--dark"><img src="profile-c-persimmon.svg" alt=""><span>distill<small>Less noise. More you.</small></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="label">Logo</p>
+  <div class="logos">
+    <div class="tile tile--light"><img src="distill-logo-light.svg" alt="Distill logo, ink"></div>
+    <div class="tile tile--dark"><img src="distill-logo-dark.svg" alt="Distill logo, ground"></div>
+  </div>
+  <div class="marks">
+    <div class="tile tile--light"><img src="distill-mark-light.svg" alt="Distill mark, ink"></div>
+    <div class="tile tile--dark"><img src="distill-mark-dark.svg" alt="Distill mark, ground"></div>
+  </div>
+</div>
+
+<footer>Files: <code>public/assets/brand/</code> · PNGs in <code>png/</code> at 400 and 1080.</footer>
+</body>
+</html>

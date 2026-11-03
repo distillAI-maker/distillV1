@@ -34,10 +34,13 @@ export function ProgressProvider({
   children,
   store: given,
   userId,
+  userEmail,
 }: {
   children: ReactNode;
   store?: ProgressStore;
   userId?: string;
+  /** The signed-in account's email, so onboarding on this device is only carried into its own account. */
+  userEmail?: string;
 }) {
   const store = useMemo(
     () => given ?? (userId ? new RemoteProgressStore(userId) : new LocalProgressStore()),
@@ -64,7 +67,10 @@ export function ProgressProvider({
           // sign-in carries that progress into the new account, then saves it there.
           const onDevice = await new LocalProgressStore().load().catch(() => null);
           if (!alive) return;
-          if (onDevice) {
+          // Joined with another email on this device (an earlier test, someone else): never theirs.
+          const sameEmail =
+            !onDevice?.joinedEmail || !userEmail || onDevice.joinedEmail.toLowerCase() === userEmail.toLowerCase();
+          if (onDevice && sameEmail) {
             dirty.current = true;
             setProgress(onDevice);
             setReady(true);
@@ -78,7 +84,7 @@ export function ProgressProvider({
     return () => {
       alive = false;
     };
-  }, [store, attempt]);
+  }, [store, attempt, userEmail]);
 
   useEffect(() => {
     if (!ready || !dirty.current) return;

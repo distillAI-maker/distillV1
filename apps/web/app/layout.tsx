@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { ProgressProvider } from '../lib/progress/context';
 import { currentUser } from '../lib/supabase/server';
 import './globals.css';
+import './ds.css';
 
 /** The brand board's pair: Newsreader (light for display, italic accents) and Source Sans 3 for UI. */
 const display = Newsreader({
@@ -50,7 +51,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>
-        <ProgressProvider key={user?.id ?? 'device'} userId={user?.id}>
+        <ProgressProvider key={user?.id ?? 'device'} userId={user?.id} userEmail={user?.email ?? undefined}>
           {children}
         </ProgressProvider>
       </body>

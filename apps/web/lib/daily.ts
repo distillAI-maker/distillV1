@@ -24,3 +24,8 @@ export type Question = { q: string; eg: string };
 export const allQuestions = (): readonly Question[] =>
   pictureKindSchema.options.flatMap((k): readonly Question[] => copy.home.questions[k]);
 
+
+/** The example answer shown in the box for a question. */
+export function exampleFor(q: string | undefined): string {
+  return allQuestions().find((x) => x.q === q)?.eg ?? copy.home.learnPlaceholder;
+}

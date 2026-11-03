@@ -4,8 +4,7 @@ import { useEffect, useId, useMemo, useState } from 'react';
 import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
 import { useStepNumber } from '../../../components/onboarding/step-number';
-import { Icon } from '../../../components/icon';
-import { Button, Chip, Field, Skeleton } from '../../../components/ui';
+import { Arrow, Bubble, Disclaimer } from '../../../components/ds/ui';
 import { commonGroups, commonRow, type CommonItem } from '../../../lib/catalog/common';
 import { displayName, shortName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
@@ -186,101 +185,121 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
   if (!ready || stage === null) {
     return (
-      <section className="stack" aria-busy="true">
-        <h1>{copy.stack.listen.title}</h1>
-        <Skeleton kind="title" />
-        <Skeleton kind="option" count={2} />
-      </section>
+      <div className="ob-content" aria-busy="true">
+        <header className="ob-heading">
+          <h1>{copy.stack.listen.title}</h1>
+        </header>
+        <div className="ob-wait">
+          <i />
+          <i />
+        </div>
+      </div>
     );
   }
 
   if (stage === 'tap') {
     return (
-      <section className="stack screen-tap">
-        <h1>{copy.stack.tap.title}</h1>
-        <p className="lede">{copy.stack.tap.line}</p>
-        {commonGroups.map((g) => (
-          <div key={g.id} className="stack-tight tap-group">
-            <h2 className="goals-label">{copy.stack.tap.groups[g.id]}</h2>
-            <div className="chips" role="group" aria-label={copy.stack.tap.groups[g.id]}>
-              {g.items.map((item) => (
-                <Chip
-                  key={item.key}
-                  selected={listed.has(item.key)}
-                  onClick={() => toggleCommon(item)}
-                >
-                  {item.text}
-                </Chip>
-              ))}
-            </div>
+      <>
+        <div className="ob-content">
+          <header className="ob-heading">
+            <h1>{copy.stack.tap.title}</h1>
+            <p>{copy.stack.tap.line}</p>
+          </header>
+          <div className="ob-groups">
+            {commonGroups.map((g) => (
+              <section key={g.id} className="ob-group">
+                <h2>{copy.stack.tap.groups[g.id]}</h2>
+                <div className="ds-bubbles" role="group" aria-label={copy.stack.tap.groups[g.id]}>
+                  {g.items.map((item) => (
+                    <Bubble key={item.key} on={listed.has(item.key)} onClick={() => toggleCommon(item)}>
+                      {item.text}
+                    </Bubble>
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
-        ))}
-        <div className="tap-other">
-          <Button variant="link" onClick={() => setStage('listen')}>
-            {copy.stack.tap.talk}
-          </Button>
-          {items.length === 0 ? (
-            <Button variant="link" onClick={useExample}>
-              {copy.stack.listen.example}
-            </Button>
-          ) : null}
+          <Disclaimer />
         </div>
-        <div className="actions tap-next">
-          <Button onClick={() => setStage('edit')}>
+        <div className="ob-sticky">
+          <button type="button" className="ds-primary" onClick={() => setStage('edit')}>
             {copy.stack.tap.next}
-            <Icon name="arrow" size={18} />
-          </Button>
+            <Arrow />
+          </button>
+          <div className="ob-other">
+            <button type="button" className="ds-link" onClick={() => setStage('listen')}>
+              {copy.stack.tap.talk}
+            </button>
+            {items.length === 0 ? (
+              <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
+                {copy.stack.listen.example}
+              </button>
+            ) : null}
+          </div>
         </div>
-      </section>
+      </>
     );
   }
 
   if (stage === 'listen') {
     return (
-      <section className="stack screen-listen">
-        <h1>{copy.stack.listen.title}</h1>
-        <p className="lede">{copy.stack.listen.line}</p>
-        <div className="writing">
+      <>
+        <div className="ob-content">
+          <header className="ob-heading">
+            <h1>{copy.stack.listen.title}</h1>
+            <p>{copy.stack.listen.line}</p>
+          </header>
           <label className="sr-only" htmlFor={notesId}>
             {copy.stack.listen.label}
           </label>
           <textarea
             id={notesId}
+            className="ob-talk"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder={copy.stack.listen.placeholder}
-            rows={5}
+            rows={6}
           />
           {notes.trim() ? (
-            <div className="writing-foot" aria-live="polite">
-              <span>{copy.stack.listen.heard(heard.length)}</span>
-            </div>
+            <p className="ob-heard-count" aria-live="polite">
+              {copy.stack.listen.heard(heard.length)}
+            </p>
           ) : null}
+          {heard.length ? (
+            <ul className="ds-bubbles ob-heard" aria-label={copy.stack.listen.heard(heard.length)}>
+              {heard.slice(0, 12).map((h) => (
+                <li key={h.key} className="ds-bubble is-chosen">
+                  {typedLabel(notes, h) ?? shortName(h.key, h.name)}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <Disclaimer />
         </div>
-        {heard.length ? (
-          <ul className="heard-list" aria-label={copy.stack.listen.heard(heard.length)}>
-            {heard.slice(0, 12).map((h) => (
-              <li key={h.key}>{typedLabel(notes, h) ?? shortName(h.key, h.name)}</li>
-            ))}
-          </ul>
-        ) : null}
-        <div className="actions">
-          <Button
+        <div className="ob-sticky">
+          <button
+            type="button"
+            className="ds-primary"
             onClick={() => {
               addCatalog(heard, notes);
               setStage('edit');
             }}
           >
             {copy.stack.listen.find}
-            <Icon name="arrow" size={18} />
-          </Button>
-          {items.length === 0 ? (
-            <Button variant="link" onClick={useExample}>
-              {copy.stack.listen.example}
-            </Button>
-          ) : null}
+            <Arrow />
+          </button>
+          <div className="ob-other">
+            <button type="button" className="ds-link" onClick={() => setStage('tap')}>
+              {copy.stack.tap.back}
+            </button>
+            {items.length === 0 ? (
+              <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
+                {copy.stack.listen.example}
+              </button>
+            ) : null}
+          </div>
         </div>
-      </section>
+      </>
     );
   }
 
@@ -293,146 +312,144 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     .filter((g) => g.rows.length > 0);
 
   return (
-    <section className="stack screen-edit">
-      <h1>{copy.stack.edit.title}</h1>
-      <p className="edit-note">{items.length ? copy.stack.edit.note : copy.stack.edit.emptyNote}</p>
-      {progress.prefilledFrom === 'demo' ? <p className="notice">{copy.stack.demoLine}</p> : null}
+    <>
+      <div className="ob-content">
+        <header className="ob-heading">
+          <h1>{copy.stack.edit.title}</h1>
+          <p>{items.length ? copy.stack.edit.note : copy.stack.edit.emptyNote}</p>
+        </header>
+        {progress.prefilledFrom === 'demo' ? <p className="ds-notice">{copy.stack.demoLine}</p> : null}
 
-      <Typeahead
-        index={index}
-        listed={listed}
-        onPick={(e) => addCatalog([e])}
-        onCustom={(name) => setCustom({ open: true, name, cost: '' })}
-      />
+        <Typeahead
+          index={index}
+          listed={listed}
+          onPick={(e) => addCatalog([e])}
+          onCustom={(name) => setCustom({ open: true, name, cost: '' })}
+        />
 
-      {groups.map((g) => (
-        <section key={g.cat} className="cat" aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
-          <h2 className="cat-label" id={`cat-${g.cat.replace('/', '-')}`}>
-            {copy.stack.categories[g.cat]}
-          </h2>
-          <ul className="rows">
-            {g.rows.map((row) => {
-              const name = nameOf(row);
-              const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
-              return (
-                <li key={row.id} className="row-wrap">
-                  <div className="row">
-                    <span className="row-name">
-                      {name}
-                      {isProtected ? (
-                        <span className="tag">
-                          <Icon name="shield" size={14} />
-                          {copy.stack.protectedTag}
-                        </span>
-                      ) : null}
-                      {row.dataSource ? (
-                        <span className="tag">
-                          <Icon name="watch" size={14} />
-                          {copy.stack.dataSourceTag}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="row-cost">
-                      <span aria-hidden="true">$</span>
-                      <input
-                        type="number"
-                        inputMode="decimal"
-                        min={0}
-                        step={1}
-                        aria-label={copy.stack.costFor(name)}
-                        value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
-                        onChange={(e) => {
-                          const n = e.target.value === '' ? 0 : Number(e.target.value);
-                          patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
-                        }}
-                      />
-                    </span>
-                    <button
-                      type="button"
-                      className="row-x"
-                      aria-label={copy.stack.remove(name)}
-                      onClick={() => remove(row.id)}
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
+        <div className="ob-stack-groups">
+          {groups.map((g) => (
+            <section key={g.cat} aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
+              <h2 id={`cat-${g.cat.replace('/', '-')}`}>{copy.stack.categories[g.cat]}</h2>
+              <ul>
+                {g.rows.map((row) => {
+                  const name = nameOf(row);
+                  const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
+                  return (
+                    <li key={row.id} className="ob-row">
+                      <span className="ob-row-name">
+                        {name}
+                        {isProtected ? <span className="ob-tag">{copy.stack.protectedTag}</span> : null}
+                        {row.dataSource ? <span className="ob-tag">{copy.stack.dataSourceTag}</span> : null}
+                      </span>
+                      <label className="ob-cost">
+                        <span aria-hidden="true">$</span>
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          min={0}
+                          step={1}
+                          aria-label={copy.stack.costFor(name)}
+                          value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
+                          onChange={(e) => {
+                            const n = e.target.value === '' ? 0 : Number(e.target.value);
+                            patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
+                          }}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        className="ob-remove"
+                        aria-label={copy.stack.remove(name)}
+                        onClick={() => remove(row.id)}
+                      >
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))}
+        </div>
 
-      {custom.open ? (
-        <form
-          className="glass custom-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            addCustom(custom.name, Number(custom.cost || 0));
-          }}
-        >
-          <Field
-            label={copy.stack.customName}
-            value={custom.name}
-            onChange={(e) => setCustom({ ...custom, name: e.target.value })}
-            maxLength={120}
-            required
-            autoFocus
-          />
-          <Field
-            label={copy.stack.customCost}
-            type="number"
-            inputMode="decimal"
-            min={0}
-            step={1}
-            unit="$ a month"
-            value={custom.cost}
-            onChange={(e) => setCustom({ ...custom, cost: e.target.value })}
-            hint={copy.stack.customNote}
-          />
-          <div className="actions-row">
-            <Button type="submit" size="sm">
-              {copy.stack.addIt}
-            </Button>
-            <Button
-              variant="link"
-              size="sm"
-              onClick={() => setCustom({ open: false, name: '', cost: '' })}
-            >
-              {copy.common.cancel}
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <button
-          type="button"
-          className="row add-row"
-          onClick={() => setCustom({ open: true, name: '', cost: '' })}
-        >
-          <span className="row-name">{copy.stack.addCustom}</span>
-          <span aria-hidden="true">+</span>
-        </button>
-      )}
-
-      {needOne ? (
-        <p className="notice" role="alert">
-          {copy.stack.needOne}
-        </p>
-      ) : null}
-      <div className="actions">
-        <Button onClick={next}>
-          {copy.stack.done}
-          <Icon name="arrow" size={18} />
-        </Button>
-        <Button variant="link" onClick={() => setStage('tap')}>
-          {copy.stack.tap.back}
-        </Button>
-        {items.length === 0 ? (
-          <Button variant="link" onClick={useExample}>
-            {copy.stack.listen.example}
-          </Button>
-        ) : null}
+        {custom.open ? (
+          <form
+            className="ob-custom"
+            onSubmit={(e) => {
+              e.preventDefault();
+              addCustom(custom.name, Number(custom.cost || 0));
+            }}
+          >
+            <label>
+              {copy.stack.customName}
+              <input
+                value={custom.name}
+                onChange={(e) => setCustom({ ...custom, name: e.target.value })}
+                maxLength={120}
+                required
+                autoFocus
+              />
+            </label>
+            <label>
+              {copy.stack.customCost}
+              <input
+                placeholder="$"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step={1}
+                value={custom.cost}
+                onChange={(e) => setCustom({ ...custom, cost: e.target.value })}
+              />
+            </label>
+            <p>{copy.stack.customNote}</p>
+            <div className="ob-custom-actions">
+              <button type="submit" className="ds-secondary">
+                {copy.stack.addIt}
+              </button>
+              <button
+                type="button"
+                className="ds-link ds-link--quiet"
+                onClick={() => setCustom({ open: false, name: '', cost: '' })}
+              >
+                {copy.common.cancel}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <button
+            type="button"
+            className="ob-add-row"
+            onClick={() => setCustom({ open: true, name: '', cost: '' })}
+          >
+            {copy.stack.addCustom}
+          </button>
+        )}
+        <Disclaimer />
       </div>
-    </section>
+
+      <div className="ob-sticky">
+        {needOne ? (
+          <p className="ds-error" role="alert" style={{ textAlign: 'center' }}>
+            {copy.stack.needOne}
+          </p>
+        ) : null}
+        <button type="button" className="ds-primary" onClick={next}>
+          {copy.stack.done}
+          <Arrow />
+        </button>
+        <div className="ob-other">
+          <button type="button" className="ds-link" onClick={() => setStage('tap')}>
+            {copy.stack.tap.back}
+          </button>
+          {items.length === 0 ? (
+            <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
+              {copy.stack.listen.example}
+            </button>
+          ) : null}
+        </div>
+      </div>
+    </>
   );
 }

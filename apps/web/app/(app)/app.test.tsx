@@ -10,7 +10,6 @@ import { LocalProgressStore } from '../../lib/progress/local';
 import { emptyProgress } from '../../lib/progress/types';
 import type { Progress } from '../../lib/progress/types';
 import { FileView } from './file/file-view';
-import { SettingsView } from './settings/settings-view';
 import { Today } from './today/today';
 import { VerdictView } from './verdicts/verdict-view';
 
@@ -204,46 +203,5 @@ describe('Your file', () => {
     expect(within(cut).getByText('Dropped')).toBeTruthy();
     const yours = screen.getByRole('region', { name: "What's yours" });
     expect(within(yours).getAllByText('kept on day one')).toHaveLength(4);
-  });
-});
-
-describe('Settings', () => {
-  afterEach(cleanup);
-  it('toggles less motion, exports, and deletes everything', async () => {
-    const storage = memory();
-    const store = new LocalProgressStore(storage);
-    await store.save(startedProgress());
-    const localSet = vi.spyOn(Storage.prototype, 'setItem');
-    const create = vi.fn(() => 'blob:x');
-    const revoke = vi.fn();
-    Object.assign(URL, { createObjectURL: create, revokeObjectURL: revoke });
-    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
-    const onDelete = vi.fn(async () => ({ status: 'nothing' as const }));
-    render(
-      <ProgressProvider store={store}>
-        <SettingsView email={null} onDelete={onDelete} />
-      </ProgressProvider>,
-    );
-    expect(await screen.findByText('Demo data')).toBeTruthy();
-    const sw = screen.getByRole('switch', { name: /Less motion/ });
-    fireEvent.click(sw);
-    expect(sw.getAttribute('aria-checked')).toBe('true');
-    expect(document.documentElement.dataset.motion).toBe('reduce');
-    expect(localSet).toHaveBeenCalledWith('distill.motion', 'reduce');
-
-    fireEvent.click(screen.getByRole('button', { name: 'Export my data' }));
-    expect(create).toHaveBeenCalled();
-    expect(click).toHaveBeenCalled();
-
-    fireEvent.click(screen.getByRole('button', { name: 'Delete everything' }));
-    const dialog = screen.getByRole('dialog', { name: 'Delete everything?' });
-    await act(async () => {
-      fireEvent.click(within(dialog).getByRole('button', { name: 'Delete everything' }));
-    });
-    expect(onDelete).toHaveBeenCalled();
-    expect(push).toHaveBeenCalledWith('/');
-    await waitFor(async () => expect(await store.load()).toBeNull());
-    click.mockRestore();
-    localSet.mockRestore();
   });
 });

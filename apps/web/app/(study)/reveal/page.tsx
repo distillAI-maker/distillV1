@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import '../../app-screens.css';
 import { Reveal } from './reveal';
 
 export const metadata: Metadata = { title: 'Your Ritual' };

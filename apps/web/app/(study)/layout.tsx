@@ -1,6 +1,10 @@
 import type { ReactNode } from 'react';
 
-/** The private study draws its own header and fills the screen, so it sits outside the onboarding bar. */
+/** The private study and the reveal draw their own top bars and fill the column. */
 export default function StudyLayout({ children }: { children: ReactNode }) {
-  return children;
+  return (
+    <div className="ds">
+      <div className="ds-col">{children}</div>
+    </div>
+  );
 }
