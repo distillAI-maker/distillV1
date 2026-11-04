@@ -312,6 +312,7 @@ i, em, cite { font-style: normal; }
 .join__msg { margin-top: 12px; font: 400 17px/1.4 var(--serif); }
 .join__msg:empty { display: none; }
 .join[data-state="ok"] .join__msg { display: flex; align-items: center; gap: 12px; font-size: 21px; font-style: normal; }
+.join__msg a { color: inherit; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .join__msg svg { flex: none; width: 26px; height: 26px; padding: 6px; border-radius: 50%; background: var(--spark); fill: none; stroke: var(--ink); stroke-width: 1.6; }
 .join[data-state="note"] .join__msg { color: #a33a22; }
 

@@ -8,6 +8,7 @@ const CFG = {
   table: 'signups',
 };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const APP = 'https://distill-app-nu.vercel.app/';
 const CHECK = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 7.4l2.6 2.6L11 4.6"/></svg>';
 
 export function initJoin() {
@@ -40,7 +41,7 @@ export function initJoin() {
         });
         if (res.ok || res.status === 409) {
           emailStep.hidden = true;
-          say('ok', `${CHECK}<span>${res.ok ? "You're in. We'll write when your spot opens." : "You're already on the list. We'll write when your spot opens."}</span>`);
+          say('ok', `${CHECK}<span>${res.ok ? "You're in." : "You're already on the list."} <a href="${APP}" target="_blank" rel="noopener">${APP}</a></span>`);
         } else throw new Error(String(res.status));
       } catch {
         say('note', 'That didn\'t go through. Try again in a moment, or write to <a href="mailto:disttilai@gmail.com">disttilai@gmail.com</a>.');
