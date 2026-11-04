@@ -8,6 +8,7 @@ import { Icon } from '../../../components/ds/icons';
 import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
 import { supabaseConfigured } from '../../../lib/env';
+import { wearablesOn } from '../../../lib/steps';
 import { engineApi } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { useProgress } from '../../../lib/progress/context';
@@ -172,12 +173,15 @@ export function SettingsTab({
             />
           </div>
         ) : null}
-        <Row
-          title={t.wearable}
-          line={source ? `${source} · ${s.since(since)}` : t.wearableNone}
-          right={source ? <button type="button" className="ds-link ds-link--quiet" onClick={() => setConfirm('disconnect')}>{progress.dataSource === 'demo' ? s.disconnect : 'Reset onboarding'}</button> : undefined}
-          href={source ? undefined : '/connect'}
-        />
+        {/* Nothing to connect until wearables are on (lib/steps.ts, wearablesOn). */}
+        {source || wearablesOn() ? (
+          <Row
+            title={t.wearable}
+            line={source ? `${source} · ${s.since(since)}` : t.wearableNone}
+            right={source ? <button type="button" className="ds-link ds-link--quiet" onClick={() => setConfirm('disconnect')}>{progress.dataSource === 'demo' ? s.disconnect : 'Reset onboarding'}</button> : undefined}
+            href={source ? undefined : '/connect'}
+          />
+        ) : null}
       </section>
 
       <section className="st-group" aria-labelledby="st-privacy">

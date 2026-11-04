@@ -1,3 +1,5 @@
+import { env } from './env';
+
 /**
  * The onboarding steps, in order (Veer, 23 Oct): their name, then six steps to their first Ritual.
  * Tap what you do and add what we missed (both on /stack), the number, the private study (six taps
@@ -38,6 +40,7 @@ export function stepForPath(pathname: string | null): OnboardingStep | undefined
 }
 
 export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
+  if (step === 'invitation' && !wearablesOn()) return 'done';
   const i = onboardingSteps.indexOf(step);
   return onboardingSteps[i + 1] ?? 'done';
 }
@@ -45,9 +48,17 @@ export function nextStep(step: OnboardingStep): OnboardingStep | 'done' {
 /** Where people land once onboarding is done: their Ritual. */
 export const RITUAL_HOME = '/ritual';
 
+/**
+ * The wearable step (/connect) is kept but left out until wearables can connect
+ * (NEXT_PUBLIC_PROVIDERS_ENABLED). Until then the invitation is the last step.
+ */
+export function wearablesOn(): boolean {
+  return env.providersEnabled;
+}
+
 /** Where a saved person picks up: the step they reached, or the app once onboarding is done. */
 export function resumePath(step: string): string {
-  if (step === 'done') return RITUAL_HOME;
+  if (step === 'done' || (step === 'connect' && !wearablesOn())) return RITUAL_HOME;
   // Older saves: the ideal day, the goals, "at your best" and "what makes you you" all became the
   // study; the questions resume at the number; the sort and the day-one screens at the invitation.
   if (['life', 'goals', 'best', 'yours'].includes(step)) return '/study';

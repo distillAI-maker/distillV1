@@ -1,13 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useId, useState, type ReactNode } from 'react';
+import { useGoBack } from '../../../components/back-trail';
 import { useGo } from '../../../components/onboarding/go';
 import { Arrow, Brand, Bubble, Mark } from '../../../components/ds/ui';
 import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import {
   addOwnThing,
+  bedLabel,
   busyAnswer,
   confirmWake,
   feedLine,
@@ -15,6 +16,7 @@ import {
   fromFeed,
   lifeChips,
   lifePicks,
+  nudgeBed,
   nudgeWake,
   people,
   readOf,
@@ -27,7 +29,7 @@ import {
   toggleLife,
   toggleYours,
   valve,
-  wakeLabel,
+  wake,
   work,
 } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
@@ -75,7 +77,7 @@ function Primary({ onClick, children }: { onClick: () => void; children: ReactNo
  * themselves a moment after the reflection shows. Answers save as they're tapped.
  */
 export function Study({ names }: { names: Record<string, string> }) {
-  const router = useRouter();
+  const goBack = useGoBack();
   const go = useGo();
   const { ready, progress, update } = useProgress();
   const [screen, setScreen] = useState<number | null>(null);
@@ -109,7 +111,7 @@ export function Study({ names }: { names: Record<string, string> }) {
     setScreen(i);
   };
   const back = () => {
-    if (screen === null || screen === 0) router.push('/number');
+    if (screen === null || screen === 0) goBack('/number');
     else to(screen - 1);
   };
 
@@ -226,8 +228,20 @@ export function Study({ names }: { names: Record<string, string> }) {
             <button type="button" aria-label={s.rhythm.earlier} onClick={() => update((p) => nudgeWake(p, -15, now()))}>
               −
             </button>
-            <strong aria-live="polite">{wakeLabel(progress)}</strong>
+            <strong aria-live="polite">{wake(progress)}</strong>
             <button type="button" aria-label={s.rhythm.later} onClick={() => update((p) => nudgeWake(p, 15, now()))}>
+              +
+            </button>
+          </div>
+        </section>
+        <section className="ds-card st-box">
+          <span className="st-field-label">{s.rhythm.bedBy}</span>
+          <div className="st-time">
+            <button type="button" aria-label={s.rhythm.bedEarlier} onClick={() => update((p) => nudgeBed(p, -15, now()))}>
+              −
+            </button>
+            <strong aria-live="polite">{bedLabel(progress)}</strong>
+            <button type="button" aria-label={s.rhythm.bedLater} onClick={() => update((p) => nudgeBed(p, 15, now()))}>
               +
             </button>
           </div>

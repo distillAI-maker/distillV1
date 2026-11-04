@@ -3,12 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { emptyProgress, progressSchema, type Progress, type StackItem } from '../progress/types';
 import {
   addOwnThing,
+  bedLabel,
   busyAnswer,
   confirmWake,
   feedLine,
   firstOpen,
   fromFeed,
   lifePicks,
+  nudgeBed,
   nudgeWake,
   protectedThing,
   readOf,
@@ -19,6 +21,7 @@ import {
   toggleFeed,
   toggleLife,
   toggleYours,
+  wake,
   wakeLabel,
 } from './you';
 
@@ -76,14 +79,34 @@ describe("02, what they'd never give up", () => {
 });
 
 describe('03 to 06, their week', () => {
-  it('keeps the wake-up time in quarter hours between 5:00 and 9:30, and saves the default if untouched', () => {
+  it('keeps the wake-up time in quarter hours round the whole 24-hour clock, and saves the default if untouched', () => {
     expect(wakeLabel(start())).toBe('7:00');
     let p = nudgeWake(nudgeWake(start(), -15, now), -15, now);
     expect(wakeLabel(p)).toBe('6:30');
-    for (let i = 0; i < 20; i++) p = nudgeWake(p, -15, now);
-    expect(wakeLabel(p)).toBe('5:00');
-    expect(confirmWake(start(), now).asks).toEqual([{ q: 'What time are you usually up?', a: '07:00', at: now }]);
-    expect(confirmWake(p, now)).toBe(p);
+    for (let i = 0; i < 26; i++) p = nudgeWake(p, -15, now);
+    expect(wake(p)).toBe('00:00');
+    p = nudgeWake(p, -15, now);
+    expect(wake(p)).toBe('23:45');
+    p = nudgeWake(p, 15, now);
+    expect(wake(p)).toBe('00:00');
+    for (let i = 0; i < 44; i++) p = nudgeWake(p, 15, now);
+    expect(wake(p)).toBe('11:00');
+    expect(confirmWake(start(), now).asks).toEqual([
+      { q: 'What time are you usually up?', a: '07:00', at: now },
+      { q: 'What time are you usually in bed?', a: '23:00', at: now },
+    ]);
+    const both = confirmWake(p, now);
+    expect(confirmWake(both, now)).toBe(both);
+  });
+
+  it('keeps the bedtime on the same 24-hour clock, past midnight too', () => {
+    expect(bedLabel(start())).toBe('23:00');
+    let p = start();
+    for (let i = 0; i < 6; i++) p = nudgeBed(p, 15, now);
+    expect(bedLabel(p)).toBe('00:30');
+    p = nudgeBed(nudgeBed(p, -15, now), -15, now);
+    expect(bedLabel(p)).toBe('00:00');
+    expect(wake(p)).toBe('07:00');
   });
 
   it('keeps what a busy week takes first as theirs, so it is protected, and swaps it cleanly', () => {
@@ -134,7 +157,7 @@ describe('the read', () => {
     p = setPeople(p, 'Partner', now);
     p = toggleLife(p, 'Music', now);
     expect(p.lifeText).toBe(
-      "Coffee on the balcony.\n\nMy days: up at 7:00, working shifts. When it's a lot, I call someone. When a week gets busy, seeing people goes first. I want more time with my partner. I'd never give up music.",
+      "Coffee on the balcony.\n\nMy days: up at 7:00, in bed by 23:00, working shifts. When it's a lot, I call someone. When a week gets busy, seeing people goes first. I want more time with my partner. I'd never give up music.",
     );
     expect(person(p).identity.idealDay).toBe(p.lifeText);
   });

@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { catalog } from '../../../lib/catalog/server';
+import { env } from '../../../lib/env';
 import { ProgressProvider } from '../../../lib/progress/context';
 import { LocalProgressStore } from '../../../lib/progress/local';
 import { emptyProgress } from '../../../lib/progress/types';
@@ -26,6 +27,7 @@ function memory() {
 describe('Your stack', () => {
   afterEach(cleanup);
   beforeEach(() => {
+    env.devTools = false;
     push.mockClear();
     document.documentElement.dataset.motion = 'reduce';
   });
@@ -137,6 +139,7 @@ describe('Your stack', () => {
   });
 
   it('leaves out the running total, so the number stays for its own screen', async () => {
+    env.devTools = true;
     const store = new LocalProgressStore(memory());
     render(
       <ProgressProvider store={store}>
@@ -149,7 +152,8 @@ describe('Your stack', () => {
     expect(screen.queryByRole('button', { name: "I'd rather choose them myself" })).toBeNull();
   });
 
-  it('offers the example stack on a blank start', async () => {
+  it('offers the example stack on a blank start to the team only, with no feed picks and no wearable', async () => {
+    env.devTools = true;
     const store = new LocalProgressStore(memory());
     await store.save({ ...emptyProgress(), step: 'stack', updatedAt: new Date().toISOString() });
     render(
@@ -161,12 +165,71 @@ describe('Your stack', () => {
     expect(
       await screen.findByText('Prefilled from the demo person. Change anything.'),
     ).toBeTruthy();
-    expect(screen.getByText('Your data source')).toBeTruthy();
+    expect(screen.queryByText('Oura ring')).toBeNull();
+    expect(screen.queryByText('Not listed')).toBeNull();
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.prefilledFrom).toBe('demo');
-      expect(saved?.items).toHaveLength(21);
-      expect(saved?.items.reduce((t, i) => t + i.monthlyCost, 0)).toBe(1428);
+      expect(saved?.items).toHaveLength(20);
+      expect(saved?.items.reduce((t, i) => t + i.monthlyCost, 0)).toBe(1422);
+      expect(saved?.items.some((i) => i.origin === 'online')).toBe(false);
     });
+  });
+
+  it('never offers the example stack to people', async () => {
+    const store = new LocalProgressStore(memory());
+    render(
+      <ProgressProvider store={store}>
+        <StackForm index={index} />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByRole('heading', { name: 'Tap everything you do.' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Try it with an example stack' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    await screen.findByRole('combobox');
+    expect(screen.queryByRole('button', { name: 'Try it with an example stack' })).toBeNull();
+  });
+
+  it('opens Gym into which gym, and a specific gym stands in for the general one', async () => {
+    const store = new LocalProgressStore(memory());
+    render(
+      <ProgressProvider store={store}>
+        <StackForm index={index} />
+      </ProgressProvider>,
+    );
+    const gym = await screen.findByRole('button', { name: 'Gym' });
+    expect(gym.getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByRole('button', { name: 'Equinox' })).toBeNull();
+    fireEvent.click(gym);
+    expect(gym.getAttribute('aria-expanded')).toBe('true');
+    const which = screen.getByRole('group', { name: 'Which gym?' });
+    for (const name of ['Equinox', "Barry's", 'F45'])
+      expect(within(which).getByRole('button', { name })).toBeTruthy();
+    await waitFor(async () =>
+      expect((await store.load())?.items.map((i) => [i.itemKey, i.label])).toEqual([['gym-membership', 'Gym']]),
+    );
+
+    fireEvent.click(within(which).getByRole('button', { name: 'F45' }));
+    await waitFor(async () =>
+      expect((await store.load())?.items.map((i) => [i.itemKey, i.label, i.monthlyCost])).toEqual([
+        ['boutique-class-membership-barry-s-soulcycle-f45-orangetheory', 'F45', 200],
+      ]),
+    );
+    expect(within(which).getByRole('button', { name: "Barry's" }).getAttribute('aria-pressed')).toBe('false');
+    expect(gym.getAttribute('aria-pressed')).toBe('true');
+
+    // Class-based exercise opens the same way; yoga on its own stays a chip of its own.
+    fireEvent.click(screen.getByRole('button', { name: 'Class-based exercise' }));
+    const classes = screen.getByRole('group', { name: 'Which classes?' });
+    for (const name of ['Yoga studio', 'Pilates', 'SoulCycle', 'ClassPass'])
+      expect(within(classes).getByRole('button', { name })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Yoga' }).getAttribute('aria-expanded')).toBeNull();
+
+    // Off again takes the whole family out.
+    fireEvent.click(gym);
+    expect(screen.queryByRole('group', { name: 'Which gym?' })).toBeNull();
+    await waitFor(async () =>
+      expect((await store.load())?.items.map((i) => i.label)).toEqual(['Class-based exercise']),
+    );
   });
 });

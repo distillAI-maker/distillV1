@@ -10,7 +10,8 @@ vi.mock('../../sign-in/actions', () => ({ requestMagicLink: send }));
 vi.mock('../../../lib/waitlist', () => ({ joinWaitlist: vi.fn(async () => true) }));
 vi.mock('../../../lib/track', () => ({ track: vi.fn() }));
 vi.mock('../../../lib/data/use-routed', () => ({ useRouted: () => ({ routed: { items: [] }, summary: { count: 0, monthlyTotal: 0 }, failed: false, retry: () => {} }) }));
-vi.mock('next/navigation', () => ({ useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }) }));
+const push = vi.hoisted(() => vi.fn());
+vi.mock('next/navigation', () => ({ useRouter: () => ({ push, refresh: vi.fn() }) }));
 window.scrollTo = vi.fn() as never;
 
 function mount() {
@@ -28,7 +29,10 @@ const join = () => act(async () => void fireEvent.click(screen.getByRole('button
 
 describe('Join the Founding 100', () => {
   afterEach(cleanup);
-  beforeEach(() => send.mockClear());
+  beforeEach(() => {
+    send.mockClear();
+    push.mockClear();
+  });
 
   it('says an email is not valid before sending anything', async () => {
     mount();
@@ -63,5 +67,17 @@ describe('Join the Founding 100', () => {
     await waitFor(() => expect(send).toHaveBeenCalledTimes(2));
     expect(String((send.mock.calls[1]![1] as FormData).get('email'))).toBe('maya@stanford.edu');
     expect(await screen.findByText(/We sent a link to maya@stanford.edu/)).toBeTruthy();
+  });
+
+  it('goes from the welcome straight into their Ritual: no wearable step while wearables are off', async () => {
+    const saved = mount();
+    await screen.findByRole('heading', { name: 'Join the Founding 100.' });
+    type('maya@gmail.com');
+    await join();
+    await screen.findByRole('heading', { name: 'Welcome, Maya.' });
+    await act(async () => void fireEvent.click(screen.getByRole('button', { name: /Continue/ })));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/ritual'));
+    expect(push).not.toHaveBeenCalledWith('/connect');
+    expect(saved.at(-1)?.step).toBe('done');
   });
 });

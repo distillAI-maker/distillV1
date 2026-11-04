@@ -12,6 +12,11 @@ describe('onboarding steps', () => {
     expect(nextStep('connect')).toBe('done');
   });
 
+  it('leave the wearable out until wearables can connect: the invitation ends onboarding', () => {
+    expect(nextStep('invitation')).toBe('done');
+    expect(resumePath('connect')).toBe('/ritual');
+  });
+
   it('number six steps, with the name unnumbered and the invitation and connect sharing 6', () => {
     expect(NUMBERED_STEPS).toBe(6);
     expect(onboardingSteps.map(stepNumber)).toEqual([null, 1, 3, 4, 5, 6, 6]);

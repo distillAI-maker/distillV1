@@ -81,7 +81,7 @@ export const copy = {
       "You're signed in. Your answers are in the browser you started in: open the email link there, or begin again here.",
   },
   name: {
-    title: 'First, what do we call you?',
+    title: "What's your name?",
     label: 'Name',
     placeholder: 'Your first name',
   },
@@ -185,7 +185,6 @@ export const copy = {
       emptyNote: "Search the 210 things we can read, or add something we don't list.",
     },
     protectedTag: 'Protected',
-    dataSourceTag: 'Your data source',
     remove: (name: string) => `Remove ${name}`,
     done: "That's everything",
     needOne: 'Add at least one thing to go on.',
@@ -250,6 +249,9 @@ export const copy = {
       upAt: "I'm usually up at",
       earlier: 'Up 15 minutes earlier',
       later: 'Up 15 minutes later',
+      bedBy: "I'm usually in bed by",
+      bedEarlier: 'In bed 15 minutes earlier',
+      bedLater: 'In bed 15 minutes later',
       daysAre: 'Most days are',
       work: ['Desk 9–6', 'Shifts', 'My own hours', 'Studying', 'Kids'],
       reflections: {
@@ -434,7 +436,7 @@ export const copy = {
     changeEmail: 'Wrong email? Change it',
     joined: "You're a founding member.",
     joinedNamed: (name: string) => `Welcome, ${name}.`,
-    joinedLine: "You're a founding member. One last step.",
+    joinedLine: "You're a founding member.",
     linkSent: (email: string) =>
       `We sent a link to ${email}. Open it on this phone to keep everything you've added.`,
     linkFailed: "We couldn't send the link. Everything is still saved on this phone.",

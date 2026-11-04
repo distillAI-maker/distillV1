@@ -1,14 +1,23 @@
 'use client';
 
-import { useEffect, useId, useMemo, useState } from 'react';
+import { Fragment, useEffect, useId, useMemo, useState } from 'react';
 import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
 import { useStepNumber } from '../../../components/onboarding/step-number';
 import { Arrow, Bubble, Disclaimer } from '../../../components/ds/ui';
-import { commonGroups, commonRow, type CommonItem } from '../../../lib/catalog/common';
+import {
+  allChips,
+  commonGroups,
+  commonRow,
+  isChip,
+  isParent,
+  type CommonItem,
+  type CommonParent,
+} from '../../../lib/catalog/common';
 import { displayName, shortName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
 import { demoGoals, demoStack } from '../../../lib/data/demo/stack';
+import { env } from '../../../lib/env';
 import { useProgress } from '../../../lib/progress/context';
 import { newItemId } from '../../../lib/progress/types';
 import type { Origin, StackItem } from '../../../lib/progress/types';
@@ -77,6 +86,8 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     cost: '',
   });
   const [needOne, setNeedOne] = useState(false);
+  /** General chips (Gym) opened to show the specific ones under them. */
+  const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
   const notesId = useId();
 
   // Someone coming back to a list they started lands on the list, not the blank page.
@@ -146,18 +157,47 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     }));
     setCustom({ open: false, name: '', cost: '' });
   }
+  const chipOn = (item: CommonItem) => items.some((i) => isChip(i, item));
+  /** Takes rows out of their stack, and out of what they'd never give up. */
+  const without = (p: typeof progress, gone: (i: StackItem) => boolean) => {
+    const ids = new Set(p.items.filter(gone).map((i) => i.id));
+    return {
+      ...p,
+      items: p.items.filter((i) => !ids.has(i.id)),
+      dayOne: { ...p.dayOne, yours: p.dayOne.yours.filter((y) => !ids.has(y)) },
+    };
+  };
   /** A chip: on adds it at the table's cost, off takes it out again. */
   function toggleCommon(item: CommonItem) {
     setNeedOne(false);
     update((p) => {
-      const there = p.items.find((i) => i.itemKey === item.key);
-      if (there)
-        return {
-          ...p,
-          items: p.items.filter((i) => i.id !== there.id),
-          dayOne: { ...p.dayOne, yours: p.dayOne.yours.filter((y) => y !== there.id) },
-        };
+      if (p.items.some((i) => isChip(i, item))) return without(p, (i) => isChip(i, item));
       return { ...p, items: [...p.items, commonRow(item, p.items.length)] };
+    });
+  }
+  /** A general chip: on adds the general row and opens the specific ones; off takes them all out. */
+  function toggleParent(parent: CommonParent) {
+    setNeedOne(false);
+    const family = allChips([parent]);
+    const on = family.some(chipOn);
+    setOpened((o) => {
+      const next = new Set(o);
+      if (on) next.delete(parent.key);
+      else next.add(parent.key);
+      return next;
+    });
+    update((p) => {
+      if (on) return without(p, (i) => family.some((c) => isChip(i, c)));
+      return { ...p, items: [...p.items, commonRow(parent, p.items.length)] };
+    });
+  }
+  /** A specific chip under a general one: picking it stands in for the general row. */
+  function toggleOption(parent: CommonParent, item: CommonItem) {
+    setNeedOne(false);
+    update((p) => {
+      if (p.items.some((i) => isChip(i, item))) return without(p, (i) => isChip(i, item));
+      const rest = without(p, (i) => isChip(i, parent) && !parent.options.some((o) => isChip(i, o)));
+      return { ...rest, items: [...rest.items, commonRow(item, rest.items.length)] };
     });
   }
   function patch(id: string, change: Partial<StackItem>) {
@@ -170,8 +210,21 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
       dayOne: { ...p.dayOne, yours: p.dayOne.yours.filter((y) => y !== id) },
     }));
   }
+  /**
+   * The example stack is for the team only (NEXT_PUBLIC_DEV_TOOLS): people put in their own. It
+   * starts with nothing marked as from a feed, and without the wearable, as everyone else does.
+   */
+  const example = env.devTools && items.length === 0;
   function useExample() {
-    update({ items: demoStack(), goals: demoGoals, prefilledFrom: 'demo' });
+    const fresh = demoStack()
+      .filter((i) => !i.dataSource)
+      .map((i) => {
+        if (i.origin !== 'online') return i;
+        const rest = { ...i };
+        delete rest.origin;
+        return rest;
+      });
+    update({ items: fresh, goals: demoGoals, prefilledFrom: 'demo' });
     setStage('edit');
   }
   function next() {
@@ -210,11 +263,36 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
               <section key={g.id} className="ob-group">
                 <h2>{copy.stack.tap.groups[g.id]}</h2>
                 <div className="ds-bubbles" role="group" aria-label={copy.stack.tap.groups[g.id]}>
-                  {g.items.map((item) => (
-                    <Bubble key={item.key} on={listed.has(item.key)} onClick={() => toggleCommon(item)}>
-                      {item.text}
-                    </Bubble>
-                  ))}
+                  {g.items.map((item) => {
+                    if (!isParent(item))
+                      return (
+                        <Bubble key={item.text} on={chipOn(item)} onClick={() => toggleCommon(item)}>
+                          {item.text}
+                        </Bubble>
+                      );
+                    const on = allChips([item]).some(chipOn);
+                    const open = on || opened.has(item.key);
+                    // The specific ones open right under the general chip, on a line of their own.
+                    return (
+                      <Fragment key={item.text}>
+                        <Bubble on={on} expanded={open} onClick={() => toggleParent(item)}>
+                          {item.text}
+                        </Bubble>
+                        {open ? (
+                          <div className="ob-sub">
+                            <span className="ob-sub-ask">{item.ask}</span>
+                            <div className="ds-bubbles" role="group" aria-label={item.ask}>
+                              {item.options.map((o) => (
+                                <Bubble key={o.text} on={chipOn(o)} onClick={() => toggleOption(item, o)}>
+                                  {o.text}
+                                </Bubble>
+                              ))}
+                            </div>
+                          </div>
+                        ) : null}
+                      </Fragment>
+                    );
+                  })}
                 </div>
               </section>
             ))}
@@ -230,7 +308,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             <button type="button" className="ds-link" onClick={() => setStage('listen')}>
               {copy.stack.tap.talk}
             </button>
-            {items.length === 0 ? (
+            {example ? (
               <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
                 {copy.stack.listen.example}
               </button>
@@ -292,7 +370,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
             <button type="button" className="ds-link" onClick={() => setStage('tap')}>
               {copy.stack.tap.back}
             </button>
-            {items.length === 0 ? (
+            {example ? (
               <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
                 {copy.stack.listen.example}
               </button>
@@ -340,7 +418,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
                       <span className="ob-row-name">
                         {name}
                         {isProtected ? <span className="ob-tag">{copy.stack.protectedTag}</span> : null}
-                        {row.dataSource ? <span className="ob-tag">{copy.stack.dataSourceTag}</span> : null}
                       </span>
                       <label className="ob-cost">
                         <span aria-hidden="true">$</span>
@@ -443,7 +520,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
           <button type="button" className="ds-link" onClick={() => setStage('tap')}>
             {copy.stack.tap.back}
           </button>
-          {items.length === 0 ? (
+          {example ? (
             <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
               {copy.stack.listen.example}
             </button>

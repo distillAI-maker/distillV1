@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Newsreader, Source_Sans_3 } from 'next/font/google';
 import type { ReactNode } from 'react';
+import { BackTrail } from '../components/back-trail';
 import { ProgressProvider } from '../lib/progress/context';
 import { currentUser } from '../lib/supabase/server';
 import './globals.css';
@@ -51,6 +52,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: motionBoot }} />
       </head>
       <body>
+        <BackTrail />
         <ProgressProvider key={user?.id ?? 'device'} userId={user?.id} userEmail={user?.email ?? undefined}>
           {children}
         </ProgressProvider>

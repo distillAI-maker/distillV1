@@ -6,5 +6,7 @@ export const env = {
   providersEnabled: process.env.NEXT_PUBLIC_PROVIDERS_ENABLED === 'true',
   /** Marks catalog rows flagged for a fact-check as "being checked". Off until the team signs off. */
   showUnverified: process.env.NEXT_PUBLIC_SHOW_UNVERIFIED === 'true',
+  /** Team-only shortcuts in onboarding (the example stack). Off for everyone else. */
+  devTools: process.env.NEXT_PUBLIC_DEV_TOOLS === 'true',
 };
 export const supabaseConfigured = Boolean(env.supabaseUrl && env.supabaseAnonKey);

@@ -618,6 +618,46 @@
   color: var(--walnut);
   font-size: 19px;
 }
+/* A general chip opened: the specific ones under it, set in from the edge. */
+.ob-sub {
+  flex: 1 1 100%;
+  margin: 4px 0 6px 6px;
+  padding: 2px 0 2px 14px;
+  border-left: 1.5px solid var(--line);
+  animation: ob-sub-in 0.18s ease;
+}
+.ob-sub-ask {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.ob-sub .ds-bubble {
+  min-height: 38px;
+  padding: 7px 13px;
+  font-size: 14px;
+}
+@keyframes ob-sub-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.ds-bubble[aria-expanded]::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 1px;
+  border: solid currentColor;
+  border-width: 0 1.4px 1.4px 0;
+  transform: rotate(45deg);
+  opacity: 0.6;
+  transition: transform 0.15s ease;
+}
+.ds-bubble[aria-expanded='true']::after {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
 .ob-other {
   display: grid;
   justify-items: center;

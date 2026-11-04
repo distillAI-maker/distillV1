@@ -1,10 +1,11 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { copy } from '../lib/copy';
 import { backFrom, NUMBERED_STEPS, stepForPath, stepNumber } from '../lib/steps';
 import { useBack } from './back-handler';
+import { useGoBack } from './back-trail';
 import { useStepOverride } from './onboarding/step-number';
 
 /**
@@ -14,7 +15,7 @@ import { useStepOverride } from './onboarding/step-number';
  */
 export function OnboardingBar() {
   const pathname = usePathname();
-  const router = useRouter();
+  const goBack = useGoBack();
   const takeover = useBack();
   const override = useStepOverride();
   // Each step starts at the top, whatever the last screen's scroll position was.
@@ -32,7 +33,7 @@ export function OnboardingBar() {
           className="ob-back"
           onClick={() => {
             if (takeover && takeover()) return;
-            router.push(backFrom(pathname));
+            goBack(backFrom(pathname));
           }}
         >
           {copy.common.back}
