@@ -77,6 +77,20 @@ export function ProgressProvider({
             return;
           }
         }
+        // The copy the server kept when they joined. If this browser has moved on since (they kept
+        // going in the demo), that's the newer one; either way it's theirs now, so it gets saved.
+        if (saved?.fromJoin) {
+          const kept = { ...saved };
+          delete kept.fromJoin;
+          const onDevice = await new LocalProgressStore().load().catch(() => null);
+          if (!alive) return;
+          const sameEmail =
+            !!onDevice?.joinedEmail && !!userEmail && onDevice.joinedEmail.toLowerCase() === userEmail.toLowerCase();
+          dirty.current = true;
+          setProgress(sameEmail && onDevice.updatedAt > kept.updatedAt ? onDevice : kept);
+          setReady(true);
+          return;
+        }
         if (saved) setProgress(saved);
         setReady(true);
       })

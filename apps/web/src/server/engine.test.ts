@@ -236,7 +236,30 @@ describe('a message', () => {
     answers.push(tonight);
     const r = await engine(client).run(alice, { kind: 'message', text: 'out late with the team tonight' });
     expect(requests).toHaveLength(0);
-    expect(r.reply).toBe(REPLY_FALLBACK);
+    // No model to pay for, and still a real change behind what it says.
+    expect(r.reply).toBe("Okay, got it. Have a good night out. We'll update your Ritual by tomorrow.");
+    expect(r.versionId).toBeDefined();
+    expect(r.state.ritual.week[1]!.changed).toBe(true);
+  });
+  it('remembers what they said about their body in What Distill knows, with or without Claude', async () => {
+    await settled();
+    const r = await engine().run(alice, { kind: 'message', text: 'I have injured my back' });
+    expect(r.state.knows).toContainEqual(expect.objectContaining({ group: 'now', text: 'Your back is hurt' }));
+    // A later visit reads it back, because it was saved.
+    const later = await engine().state(alice);
+    const fact = later.knows.find((f) => f.text === 'Your back is hurt')!;
+    expect(fact.since).toBeDefined();
+    // Taken out, it stays out.
+    const gone = await engine().forget(alice, fact.id);
+    expect(gone.state.knows.map((f) => f.text)).not.toContain('Your back is hurt');
+    expect((await engine().state(alice)).knows.map((f) => f.text)).not.toContain('Your back is hurt');
+  });
+  it('makes a real change for "Out late tonight", even with Claude off', async () => {
+    await settled();
+    const r = await engine().run(alice, { kind: 'message', text: 'Out late tonight' });
+    expect(r.versionId).toBeDefined();
+    expect(r.reply).toMatch(/Have a good night out/);
+    expect(r.state.ritual.week[1]!.parts.map((p) => p.title)).toContain('Sleep in');
   });
   it('before they say yes to a Ritual changes nothing and says so', async () => {
     await engine().run(alice, { kind: 'onboarding' });

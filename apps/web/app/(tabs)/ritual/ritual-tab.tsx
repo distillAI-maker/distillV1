@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { RitualPart } from '@distill/engine/ritual';
+import { ConfirmEmail, EmailConfirmed } from '../../../components/ds/confirm-email';
 import { Icon } from '../../../components/ds/icons';
 import { Sheet } from '../../../components/ds/sheet';
 import { Arrow, Bubble, Locked, Mark } from '../../../components/ds/ui';
@@ -361,6 +362,7 @@ export function RitualTab() {
   const [selected, setSelected] = useState<string | null>(null);
   const [composing, setComposing] = useState(false);
   const [thinking, setThinking] = useState(false);
+  const [asking, setAsking] = useState<string | null>(null);
   const [sent, setSent] = useState<{ text: string; result: EngineResult } | null>(null);
   const [marks, setMarks] = useState<{ date: string; map: Map<string, ChangeMark> } | null>(null);
   const [why, setWhy] = useState<{ ask: string; about: string } | null>(null);
@@ -471,10 +473,12 @@ export function RitualTab() {
   async function send(text: string) {
     setComposing(false);
     setThinking(true);
+    setAsking(text);
     const before = state!.ritual.week;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const res = await act(() => engineApi.message(text));
     setThinking(false);
+    setAsking(null);
     if (!res) return;
     setSent({ text, result: res });
     const lc = res.state.ritual.lastChange;
@@ -497,7 +501,20 @@ export function RitualTab() {
         </p>
       ) : null}
 
-      {reply ? (
+      <EmailConfirmed />
+
+      {asking ? (
+        <>
+          <p className="rt-you">{t.you(asking)}</p>
+          <section className="rt-reply" aria-live="polite">
+            <Mark size="sm" turning />
+            <div>
+              <span className="ds-eyebrow">{copy.companion.distill}</span>
+              <p className="rt-thinking">{t.onIt}</p>
+            </div>
+          </section>
+        </>
+      ) : reply ? (
         <>
           {youSaid ? <p className="rt-you">{t.you(youSaid)}</p> : null}
           <section className="rt-reply" aria-live="polite">
@@ -611,12 +628,12 @@ export function RitualPreviewTab() {
     <main className="tb-page">
       <Header date={shown?.date ?? today} name={progress.name} />
       {/* Signed out, keeping it comes first: joined and waiting on the email link, or not yet in. */}
-      {ready ? (
-        <section className="ds-card rt-signin rt-signin--top" aria-label={progress.member ? t.lastStep : t.signIn}>
-          {progress.member ? <h2>{t.lastStep}</h2> : null}
-          <p>{progress.member ? t.lastStepLine : t.signedOut}</p>
+      {ready && progress.member ? <ConfirmEmail email={progress.joinedEmail} /> : null}
+      {ready && !progress.member ? (
+        <section className="ds-card rt-signin rt-signin--top" aria-label={t.signIn}>
+          <p>{t.signedOut}</p>
           <Link className="ds-primary" href="/sign-in">
-            {progress.member ? t.sendAgain : t.signIn}
+            {t.signIn}
             <Arrow />
           </Link>
         </section>

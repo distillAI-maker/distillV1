@@ -73,6 +73,13 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
       // Saved on this device first, so the sign-in link carries it into the account.
       await saveNow(next);
       update({ member: true, joinedEmail: typed.toLowerCase() });
+      // And on the server, so the link keeps it even if it opens in another browser. Never waited on for long.
+      await fetch('/api/keep', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: typed, progress: next }),
+        signal: AbortSignal.timeout(8000),
+      }).catch(() => undefined);
       const form = new FormData();
       form.set('email', email.trim());
       const sent = await requestMagicLink({ status: 'idle', email: '' }, form);

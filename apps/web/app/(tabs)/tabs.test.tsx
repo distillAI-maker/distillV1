@@ -78,6 +78,7 @@ function stateWith(over: Partial<EngineState> = {}, ritual: Partial<EngineState[
     decisions: [decision],
     today: { kind: 'clear', decision },
     thread: [],
+    knows: [],
     items: { ag1: 'clear', pil: 'theirs' },
     money: { back: 0, waiting: 79 },
     ...over,
@@ -284,15 +285,18 @@ describe('Your things', () => {
 
 describe('the Ritual tab, signed out', () => {
   afterEach(cleanup);
-  it('puts the one last step first for someone who joined but has not tapped the link', async () => {
-    const store: ProgressStore = { id: 'local', load: async () => ({ ...maya(), member: true }), save: async () => {}, clear: async () => {} };
+  it('asks someone who joined but has not tapped the link to confirm their email, first thing', async () => {
+    const store: ProgressStore = { id: 'local', load: async () => ({ ...maya(), member: true, joinedEmail: 'maya@gmail.com' }), save: async () => {}, clear: async () => {} };
     render(
       <ProgressProvider store={store}>
         <RitualPreviewTab />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'One last step' })).toBeTruthy();
-    expect(screen.getByRole('link', { name: /Send it again/ }).getAttribute('href')).toBe('/sign-in');
+    expect(await screen.findByRole('heading', { name: 'Confirm your email' })).toBeTruthy();
+    expect(screen.getByText('maya@gmail.com')).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Open Gmail/ }).getAttribute('href')).toContain('mail.google.com');
+    expect(screen.getByRole('button', { name: /Resend the email/ })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Wrong email/ }).getAttribute('href')).toBe('/sign-in');
   });
 });
 

@@ -66,6 +66,8 @@ export async function engineRoute(
       return engine.undo(userId, z.object({ versionId: z.uuid() }).strict().parse(input).versionId, opts);
     case 'settings':
       return engine.setNightsShapeMornings(userId, z.object({ nightsShapeMornings: z.boolean() }).strict().parse(input).nightsShapeMornings, opts);
+    case 'forget':
+      return engine.forget(userId, z.object({ id: text(300) }).strict().parse(input).id, opts);
     case 'explore': {
       const { want, region } = z.object({ want: text(600), region: text(80).optional() }).strict().parse(input);
       return engine.explore(userId, want, region, opts);

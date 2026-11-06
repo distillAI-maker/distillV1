@@ -35,6 +35,7 @@ export const engineApi = {
   accept: (versionId: string) => call<EngineResult>('accept', { versionId }),
   undo: (versionId: string) => call<EngineResult>('undo', { versionId }),
   settings: (nightsShapeMornings: boolean) => call<EngineResult>('settings', { nightsShapeMornings }),
+  forget: (id: string) => call<EngineResult>('forget', { id }),
   explore: (want: string, region?: string) =>
     call<EngineResult>('explore', region ? { want, region } : { want }),
   exploreAnswer: (ideaId: string, answer: 'add' | 'decline') =>

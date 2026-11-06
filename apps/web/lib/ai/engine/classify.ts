@@ -72,6 +72,32 @@ export const CLASSIFY_SCHEMA = obj({
 export const CRISIS_WORDS =
   /\b(kill myself|end my life|suicid\w*|want to die|don'?t want to (?:be alive|live)|hurt myself|self[- ]harm)\b/i;
 
+const LATE_TONIGHT = /\b(out (?:late|tonight)|night out|late (?:one|night) tonight|going out tonight|out with [^.!?]{1,40} tonight)\b/i;
+const HARD_DAY = /\b(injur\w*|hurt|hurts|sore|strain\w*|sprain\w*|sick|ill|unwell|flu|covid|fever|migraine|exhausted|wiped|burn(?:ed|t) out|short night|slept badly|no sleep)\b/i;
+
+/**
+ * A reading of the plainest messages when Haiku is off or failed, so telling Distill "out late
+ * tonight" or "I hurt my back" still changes something. Anything less plain gets no trigger.
+ */
+export function readByWords(text: string): Classification | null {
+  if (/\?\s*$/.test(text)) return null;
+  const late = LATE_TONIGHT.test(text);
+  if (!late && !HARD_DAY.test(text)) return null;
+  return {
+    intent: 'context',
+    trigger: {
+      kind: 'message',
+      when: late ? { phrase: 'tonight', start: { kind: 'tonight' } } : { phrase: 'today', start: { kind: 'today' } },
+      dates: [],
+      moments: late ? ['night'] : ['morning', 'night'],
+      durability: 'once',
+      load: 'lighter',
+      mentions: { people: [], places: [] },
+    },
+    safety: 'ok',
+  };
+}
+
 export async function classifyMessage(
   client: ClaudeClient | null,
   input: { text: string; person: PersonModel; instant: string; today: string; minute: number; ritualTitles: readonly string[] },

@@ -1,6 +1,7 @@
 import type { CatalogItemView, CatalogView } from '@distill/catalog';
 import {
   dayOf,
+  nowOn,
   seasonOn,
   type PersonModel,
   type RitualPart,
@@ -48,6 +49,8 @@ export function personBlock(
   if (person.places.length) out.push(`Places: ${person.places.map((p) => `${p.name}: ${clean(p.what)}`).join('; ')}`);
   const season = seasonOn(person, ctx.today);
   if (season !== 'steady') out.push(`Their season right now: ${season}`);
+  const current = nowOn(person, ctx.today);
+  if (current.length) out.push(`Right now: ${current.map((n) => `${clean(n.text)} [id ${n.id}]`).join('; ')}`);
   if (ctx.lockedTitles?.length) out.push(`Parts of their Ritual that are theirs: ${ctx.lockedTitles.join('; ')}`);
   for (const a of (ctx.asks ?? []).slice(-12)) if (a.a.trim()) out.push(`They answered "${clean(a.q)}": ${clip(clean(a.a), 600)}`);
   out.push('</person>');

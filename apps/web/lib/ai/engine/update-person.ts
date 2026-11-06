@@ -30,6 +30,8 @@ const UPDATE_SCHEMA = obj({
       obj({ op: en(['condition']), condition: en(conditionSchema.options), quote: str() }),
       obj({ op: en(['feels']), stackItemId: str(), feels: bool(), quote: str() }),
       obj({ op: en(['occasion']), stackItemId: str(), occasion: str(), quote: str() }),
+      obj({ op: en(['now']), text: str(), until: nul(str('YYYY-MM-DD')), quote: str() }),
+      obj({ op: en(['nowOver']), id: str(), quote: str() }),
     ],
   }),
 });

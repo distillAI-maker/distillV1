@@ -4,7 +4,12 @@ import {
   addDays,
   allowedNumbersFrom,
   applyOps,
+  applyPersonOps,
   baseOn,
+  forgetFact,
+  knowsOf,
+  nowFromWords,
+  type KnownFact,
   composeByRules,
   daysBetween,
   decide,
@@ -47,7 +52,7 @@ import {
 } from '@distill/engine/ritual';
 import { theirWords, type ItemStandingNote } from '../../lib/ai/engine/brief';
 import type { CallUsage, ClaudeClient } from '../../lib/ai/engine/call';
-import { classifyMessage, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
+import { classifyMessage, readByWords, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
 import { composeRitual, PROMPT_VERSION as COMPOSE_VERSION } from '../../lib/ai/engine/compose';
 import { explore as exploreStep, PROMPT_VERSION as EXPLORE_VERSION } from '../../lib/ai/engine/explore';
 import { CRISIS_REPLY, replyTo, type ReplyAbout, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
@@ -134,6 +139,8 @@ export interface EngineState {
     readonly swap?: SwapOffer;
   };
   readonly thread: readonly StoredMessage[];
+  /** The long view of what Distill has learned about them, for Your things. */
+  readonly knows: readonly KnownFact[];
   /** Where each thing on their list stands, for the app's labels. */
   readonly items: Readonly<Record<string, ItemStanding>>;
   /** Dollars a month: back from clears they said yes to, and waiting on clears not yet answered. */
@@ -521,7 +528,17 @@ export class Engine {
       ctx.person = learned.person;
       await this.deps.store.log({ userId: ctx.userId, kind: 'person.updated', payload: { ops: learned.applied, from: kind } }, tx);
     }
-    return { applied: learned.applied.length, ask: learned.ask };
+    // What's going on with their body is never lost: if Claude is off or missed it, the plain words still count.
+    let readByCode = 0;
+    if (kind !== 'onboarding' && !learned.applied.some((op) => op.op === 'now')) {
+      const floor = applyPersonOps(ctx.person, nowFromWords(text, ctx.today), text, { today: ctx.today, at: ctx.instant, from: kind });
+      if (floor.applied.length) {
+        ctx.person = floor.person;
+        readByCode = floor.applied.length;
+        await this.deps.store.log({ userId: ctx.userId, kind: 'person.updated', payload: { ops: floor.applied, from: kind, by: 'words' } }, tx);
+      }
+    }
+    return { applied: learned.applied.length + readByCode, ask: learned.ask };
   }
 
   async run(userId: string, event: EngineEvent, opts: { timeZone?: string } = {}): Promise<EngineResult> {
@@ -615,7 +632,8 @@ export class Engine {
           const titles = ritualOn(ctx.versions, ctx.today).parts.map((p) => p.title);
           const read = await classifyMessage(ctx.client, { text: event.text, person: ctx.person, instant: ctx.instant, today: ctx.today, minute: ctx.minute, ritualTitles: titles });
           this.logCall(ctx, 'classify', CLASSIFY_VERSION, read.usage);
-          const c = read.ok ? read.data : null;
+          // With Haiku off or failed, the plainest messages are still read, so they still change something.
+          const c = read.ok ? read.data : readByWords(event.text);
           if (c?.safety === 'crisis') {
             // Never reshapes, never learns: a person who may be in danger gets a person.
             await store.log({ userId, kind: 'safety.crisis', payload: { eventId, needsHuman: true } }, tx);
@@ -859,8 +877,10 @@ export class Engine {
       clinicianItemIds: decided.clinicianIds,
       protectedItemIds: decided.protectedIds,
     });
-    if (!scope.targets.some((x) => x.parts.length)) return { reply: FIXED_LINES.nothingToMove };
-    const r = await reshape(ctx.client, {
+    const anyParts = scope.targets.some((x) => x.parts.length);
+    if (!anyParts && t.load !== 'lighter') return { reply: FIXED_LINES.nothingToMove };
+    // An empty day can still get lighter: the rules add the slow start, with no model to pay for.
+    const r = await reshape(anyParts ? ctx.client : null, {
       person: ctx.person,
       ...(t.message ? { message: t.message } : {}),
       trigger: { kind: t.kind, durability: t.durability, load: t.load, moments: t.moments },
@@ -986,6 +1006,19 @@ export class Engine {
       ctx.person = { ...ctx.person, version: ctx.person.version + 1, prefs: { ...ctx.person.prefs, nightsShapeMornings: on } };
       await this.deps.store.savePerson(userId, ctx.person, 'engine', tx);
       await this.deps.store.log({ userId, kind: 'prefs.changed', payload: { nightsShapeMornings: on } }, tx);
+      return { state: await this.stateFrom(ctx, tx) };
+    });
+  }
+
+  /** They said a line in "What Distill knows" isn't right. It comes out, and stays out. */
+  async forget(userId: string, factId: string, opts: { timeZone?: string } = {}): Promise<EngineResult> {
+    return this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const next = forgetFact(ctx.person, factId);
+      if (next !== ctx.person) {
+        ctx.person = next;
+        await this.deps.store.savePerson(userId, ctx.person, 'engine', tx);
+        await this.deps.store.log({ userId, kind: 'person.forgot', payload: { factId } }, tx);
+      }
       return { state: await this.stateFrom(ctx, tx) };
     });
   }
@@ -1147,6 +1180,14 @@ export class Engine {
         ...(swap ? { swap } : {}),
       },
       thread: await this.deps.store.messages(ctx.userId, 60, db),
+      knows: knowsOf(ctx.person, {
+        today: ctx.today,
+        nameOf: (id) => {
+          const item = ctx.progress.items.find((i) => i.id === id);
+          if (!item || item.status === 'cut') return null;
+          return item.label || item.customName || this.deps.catalog.item(item.itemKey)?.name || null;
+        },
+      }),
       items,
       money: {
         back: sum(ctx.decisions.filter((d) => d.kind === 'clear' && d.status === 'yes').map((d) => d.money)),
@@ -1318,8 +1359,8 @@ export async function previewCompose(
 
 /** Fixed lines the engine says itself; each passes the same checks as Claude's. */
 export const FIXED_LINES = {
-  noRitualYet: 'Got it. Once you say yes to your Ritual, I can shape your days around things like this.',
-  nothingToMove: 'Got it. Nothing in your Ritual needs to move for that.',
+  noRitualYet: "Okay, got it. Once you say yes to your Ritual, we'll shape your days around it.",
+  nothingToMove: 'Okay, got it. That day is already clear for you.',
 } as const;
 
 const sum = (xs: readonly number[]) => xs.reduce((t, x) => t + x, 0);

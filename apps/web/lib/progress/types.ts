@@ -124,6 +124,8 @@ export const progressSchema = z
     member: z.boolean().default(false),
     /** The email they joined with on this device, so a sign-in only ever carries this onboarding into that account. */
     joinedEmail: z.string().max(254).optional(),
+    /** Saved by the server when they joined, before the email link: the first sign-in settles it. */
+    fromJoin: z.boolean().optional(),
     items: z.array(stackItemSchema).default([]),
     /** Follow-up questions already shown, as `${itemId}:${field}`. Back removes the last one. */
     seenQuestions: z.array(z.string()).default([]),

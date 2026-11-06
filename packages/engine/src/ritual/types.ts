@@ -213,6 +213,21 @@ export const personModelSchema = z
       })
       .strict(),
     picture: z.array(pictureLineSchema).max(40),
+    /** What's true of their life right now, in a short plain line ("Your back is hurt"). It wears off. */
+    now: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1).max(60),
+            text: z.string().min(1).max(120),
+            since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+            until: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+            quote: z.string().max(600).optional(),
+          })
+          .strict(),
+      )
+      .max(20)
+      .optional(),
   })
   .strict();
 export type PersonModel = z.infer<typeof personModelSchema>;

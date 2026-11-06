@@ -58,12 +58,31 @@ function replyTo(note: string, thread: Thread | undefined): string | undefined {
   return next?.role === 'companion' ? next.text : undefined;
 }
 
-/** "What Distill knows": the people, places and things they told us, as chips they can correct. */
+/** "Since Thu, Nov 5", from a YYYY-MM-DD date. */
+function sinceLine(date: string | undefined): string | null {
+  if (!date) return null;
+  const d = new Date(`${date}T12:00:00Z`);
+  if (Number.isNaN(d.getTime())) return null;
+  return t.knowsSince(d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }));
+}
+
+/**
+ * "What Distill knows": the long view of what it has learned from what they said. Right now comes
+ * first ("Your back is hurt"), then who matters, what they're working toward and what they're like.
+ * Signed out there's no engine yet, so it's what onboarding heard. Any line can be taken back out.
+ */
 function Knows() {
   const { progress, update } = useProgress();
+  const engine = useEngine();
   const [editing, setEditing] = useState<string | null>(null);
   const lines = progress.picture?.lines ?? [];
-  function remove(id: string) {
+  const known = engine.state?.knows ?? [];
+  const told = new Set(known.map((f) => f.text));
+  // What onboarding heard, where the engine doesn't already say the same thing.
+  const heard = lines.filter((l) => !told.has(l.text));
+  const nothing = !known.length && !heard.length;
+
+  function removeLine(id: string) {
     update((p) => {
       const line = p.picture?.lines.find((l) => l.id === id);
       if (!p.picture || !line) return p;
@@ -80,16 +99,81 @@ function Knows() {
     track('picture_changed');
     setEditing(null);
   }
+  function remove(id: string) {
+    if (lines.some((l) => l.id === id)) return removeLine(id);
+    void engine.act(() => engineApi.forget(id));
+    track('picture_changed');
+    setEditing(null);
+  }
+  const correcting =
+    editing !== null ? (
+      <div className="rt-reply-actions">
+        <button type="button" className="ds-bubble" onClick={() => setEditing(null)}>
+          {t.knowsRight}
+        </button>
+        <button type="button" className="ds-bubble" disabled={engine.busy} onClick={() => remove(editing)}>
+          {t.knowsRemove}
+        </button>
+      </div>
+    ) : null;
+  const group = (name: 'people' | 'toward' | 'you', title: string) => {
+    const facts = known.filter((f) => f.group === name);
+    if (!facts.length) return null;
+    return (
+      <div className="th-knows-group">
+        <h3>{title}</h3>
+        <div className="ds-bubbles">
+          {facts.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className={`ds-bubble${editing === f.id ? ' is-editing' : ''}`}
+              aria-expanded={editing === f.id}
+              onClick={() => setEditing(editing === f.id ? null : f.id)}
+            >
+              {f.text}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  const current = known.filter((f) => f.group === 'now');
   return (
     <section className="ds-card th-knows" id="knows" aria-label={t.knows}>
       <div className="tb-section-head">
         <h2>{t.knows}</h2>
-        {lines.length ? <span>{t.knowsHint}</span> : null}
+        {nothing ? null : <span>{t.knowsHint}</span>}
       </div>
-      {lines.length ? (
-        <>
+      {nothing ? <p className="th-knows-empty">{t.knowsEmpty}</p> : null}
+      {current.length ? (
+        <div className="th-knows-group th-knows-now">
+          <h3>{t.knowsNow}</h3>
+          <ul>
+            {current.map((f) => (
+              <li key={f.id}>
+                <button
+                  type="button"
+                  className={editing === f.id ? 'is-editing' : ''}
+                  aria-expanded={editing === f.id}
+                  onClick={() => setEditing(editing === f.id ? null : f.id)}
+                >
+                  <strong>{f.text}</strong>
+                  {sinceLine(f.since) ? <small>{sinceLine(f.since)}</small> : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {group('people', t.knowsPeople)}
+      {group('toward', t.knowsToward)}
+      {group('you', t.knowsYou)}
+      {heard.length ? (
+        <div className="th-knows-group">
+          {known.length ? <h3>{t.knowsHeard}</h3> : null}
           <div className="ds-bubbles">
-            {lines.map((l) => (
+            {heard.map((l) => (
               <button
                 key={l.id}
                 type="button"
@@ -101,20 +185,9 @@ function Knows() {
               </button>
             ))}
           </div>
-          {editing ? (
-            <div className="rt-reply-actions">
-              <button type="button" className="ds-bubble" onClick={() => setEditing(null)}>
-                {t.knowsRight}
-              </button>
-              <button type="button" className="ds-bubble" onClick={() => remove(editing)}>
-                {t.knowsRemove}
-              </button>
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <p className="th-knows-empty">{t.knowsEmpty}</p>
-      )}
+        </div>
+      ) : null}
+      {correcting}
     </section>
   );
 }

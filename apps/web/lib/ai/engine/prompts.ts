@@ -8,13 +8,13 @@
  */
 
 export const PROMPT_VERSIONS = {
-  classify: 'classify@3',
-  updatePerson: 'update-person@6',
+  classify: 'classify@4',
+  updatePerson: 'update-person@7',
   wordDecisions: 'word-decisions@11',
   compose: 'compose@12',
-  reshape: 'reshape@8',
+  reshape: 'reshape@9',
   explore: 'explore@4',
-  reply: 'reply@6',
+  reply: 'reply@7',
 } as const;
 
 export const WHO = `Who Distill is:
@@ -66,7 +66,7 @@ export const CLASSIFY_JOB = `Your job: read one message a person sent the compan
 
 Return:
 - intent: "context" (something happening in their life: out late, a busy week), "plan" (a dated or ongoing plan: travel, a race, a new routine), "feeling" (how they feel, with no plan), "question" (they ask something), "stack-change" (they started or stopped something), or "chat".
-- trigger: null for chat, questions and feelings with no effect on any day. Otherwise:
+- trigger: null only for chat and questions. When someone tells you something about their life, they almost always want something to change, even slightly, so a feeling or a physical problem that touches their days ("my back hurts", "exhausted") is a trigger: load lighter, starting today. Otherwise:
   - kind: "message" for a one-off change, "plan" for a stated plan or goal.
   - when: the words they used for the time ("tonight", "Thursday to Sunday", "from Monday", "in July") as phrase, plus start (and end for a range) in the relative form described in the schema. Use "tonight" for tonight; "weekday" with which "this" for a bare weekday name, "next" only when they said next; "date" for a calendar date. If they gave no time, it's "today".
   - dates: your own reading of the calendar dates, YYYY-MM-DD, using <now>. Code checks these against its own reading of when.
@@ -113,6 +113,8 @@ Return a list of ops, each with "quote": the exact words of theirs it rests on, 
 - season: busy, stressed, travelling, energised, low, unwell or steady, only when they say so; until as YYYY-MM-DD only when they said how long.
 - condition: only when they state one plainly about themselves now.
 - feels: for a thing in their life (by id), false when their words say it does nothing for them or makes them feel worse ("can't tell any difference", "makes me jittery during showings"), true when they say it plainly helps ("fixes my back", "makes me a different guy").
+- now: anything true of their life right now that Distill should keep in mind: an injury, an illness, a move, a new job, a trip, a deadline, a hard stretch. text is a short plain line said back to them, under 12 words, starting with "Your" or "You": "Your back is hurt", "You started a new job". until as YYYY-MM-DD only when they said how long.
+- nowOver: something under "Right now" in <person> has ended ("my back is fine now"), by its id.
 - occasion: when they only do it at certain times, in their words, short ("travel nights", "after night shifts", "when I can't sleep"). Regular days ("Tuesdays and Thursdays", "Saturdays with Eddie") are a schedule, not an occasion, and how often ("sometimes", "now and then") isn't one either: leave those out.
 Feelings belong to them: "Kate hates it" is Kate's feeling, not theirs; "I hate it. I do it anyway" is theirs (neutral, never loved). Something they do with people they love isn't the same as mentioning someone.
 Return an empty list when there's nothing new. Never infer a feeling they didn't express.`;
@@ -158,7 +160,7 @@ You may not: remove a part, move a part marked locked, add a product, or invent 
 The first Ritual stays small: no more than three parts in any morning, night or weekend day. If a change of days or an addition would overfill one, code keeps only the days with room, so prefer the days that matter most to them. Your edits are applied before your additions: if widening a part's days would fill a night or morning that their sleep part needs, leave that part's days alone. Their sleep comes first.
 Refer to parts by the id shown after "id" in <ritual>, copied exactly.`;
 
-export const RESHAPE_JOB = `Your job: life changed, and the days it touches need to change around it. Return a warm reply (one to three sentences, 50 words at most) and the edits to the days in <targets>.
+export const RESHAPE_JOB = `Your job: life changed, and the days it touches need to change around it. Return a short reply (two sentences, 30 words at most) and the edits to the days in <targets>.
 
 Rules:
 - Never touch a part in locked (theirs or from a clinician): not moved, shortened, swapped or reworded. Reshape around it. If it matters, the reply can mention it, and they can move it themselves.
@@ -167,26 +169,28 @@ Rules:
 - Never add something to buy. Add only engine practices (slow-start, wind-down-anchor, morning-light, easy-movement, walk, stretch, breathing, early-night, rest-day, hard-goal-base, long-session, prep, phone-away, quiet-time, meal-at-home, water), things from their own words (quoted word for word), or a certified idea.
 - A lighter day is the default after a late night, a short night, travel or feeling run down: later, shorter, fewer things. Don't make a day fuller unless the load is heavier. Lighten what takes time or energy; never skip a small daily part (a supplement, a glass of water) just to look lighter. After a late night, adding a slow-start part (sleeping in) and moving movable parts later is the heart of it; slow-start, rest-day, early-night and quiet-time never count as fuller. On a lighter day, those four are the only things you may add (source {kind:"engine", rule}); anything else added makes the day fuller and is refused.
 - Later means later than they'd normally be up. Read their usual wake time from <person>: if it's 10:00, sleeping in means after 10:00, and a part moved to 09:30 is earlier than their normal morning, which is wrong. If they ask for something plainly (a later wake-up, a quieter day), that's what the ops do, and it's fine to move something they love when the move is what they asked for.
-- On a lighter day, what takes effort and isn't locked or protected (extra work, bodyweight sets, a long session) can simply be skipped; they aren't expected to keep up with everything after a late night. The reply says so kindly, even when there was nothing to skip in <targets>: nothing else is expected of them that day. A sleep-in part starts at their usual wake time and runs until the new one, and every movable part that day moves to after the new one: nothing sits inside the sleep-in.
+- Something always changes. They told you because they want something to change, even slightly, so empty ops are a failure: make at least one small real edit in <targets>. If there is nothing to lighten on a lighter day, add slow-start ("Sleep in") or early-night.
+- On a lighter day, what takes effort and isn't locked or protected (extra work, bodyweight sets, a long session) can simply be skipped; they aren't expected to keep up with everything after a late night. A sleep-in part starts at their usual wake time and runs until the new one, and every movable part that day moves to after the new one: nothing sits inside the sleep-in.
 - Times between 05:00 and 23:30. Ops apply only to parts in <targets> and only on their date.
-- The reply says plainly what changed, with the new time, so they don't have to work it out. If they asked to wake later, it names the new wake-up time, and that time has to be in the new day: a part moved to it, so the first thing they do then starts at that time. Say that time as "you're up at 11:30", not next to the word sleep, which code reads as a health number. It describes exactly what the ops do and nothing else: don't promise changes to other days, and only name times that are in the new day or in their message.
+- The reply builds trust by being short. First a few words that meet what they said, in their terms. Then one plain line that it's handled. "Okay, got it. Have a good night out. We'll update your Ritual by tomorrow." "Sorry about your back. Today is lighter now." Nothing more: no explaining, no list of edits, and never a word about what stays the same or what they don't have to do. They can see the day itself.
+- Only if they asked for something plainly (a later wake-up), name it: the new time, and that time has to be in the new day, a part moved to it. Say it as "you're up at 11:30", not next to the word sleep, which code reads as a health number. Everything you say has to be true of the ops: never promise other days, and only name times that are in the new day or in their message.
 - For an ongoing change (a new goal, a new normal), propose the new week and end the reply asking whether they want this to be their new normal; set ongoing true and ask to that question.
 
 Ops: move (partId, at), shorten (partId, minutes), skip (partId), swap (partId, with: a new part), add (part: a new part). A partId is copied exactly from the "id" of a part in <targets> (ids look like part:something); never invent one or use a title. A new part has title, slot (morning, midday, evening, night), at, minutes, area (eat, move, mind, sleep, skin), why, and source: {kind:"engine", rule} or {kind:"words", quote}. For an ongoing change, a new part may have days (mon to sun).`;
 
 export const RESHAPE_EXAMPLES = `Example A. <message>out late with the team tonight</message>, Friday evening. Targets: Saturday: part:ana-sunlight "Sunlight on the balcony" 07:30 (10 min, movable), part:ana-meditation "Meditation" 07:45 (15 min, movable), part:ana-coffee-walk "Coffee walk with Sam and Leo" 10:00 (75 min, locked, people).
-{"reply":"Have the best night with the team. Saturday is set up for a slow start: sleep in, then a few quiet minutes in the sun on the balcony before your coffee walk with Sam and Leo at 10.","ops":[{"op":"move","partId":"part:ana-sunlight","at":"09:15"},{"op":"shorten","partId":"part:ana-meditation","minutes":5},{"op":"move","partId":"part:ana-meditation","at":"09:25"}],"ongoing":false,"ask":null}
+{"reply":"Okay, got it. Have the best night with the team. We'll update your Ritual by tomorrow.","ops":[{"op":"move","partId":"part:ana-sunlight","at":"09:15"},{"op":"shorten","partId":"part:ana-meditation","minutes":5},{"op":"move","partId":"part:ana-meditation","at":"09:25"}],"ongoing":false,"ask":null}
 
 Example B. A short night (they turned on letting nights shape mornings). Targets: Wednesday morning: part:jake-strength "Strength session at Equinox" 06:15 (60 min, movable), part:jake-creatine "Creatine with breakfast" 07:30 (protected), part:jake-deep-work "Deep work, phone in the drawer" 08:30 (locked). Their words include "Running along the Hudson while the day is still yours".
-{"reply":"Short night, so let's be kind to you today. Swap the heavy session for an easy run along the Hudson. Creatine with breakfast, as always.","ops":[{"op":"swap","partId":"part:jake-strength","with":{"title":"Easy run along the Hudson","slot":"morning","at":"06:45","minutes":30,"area":"move","why":"The run you love, at an easy pace.","source":{"kind":"words","quote":"Running along the Hudson while the day is still yours"}}}],"ongoing":false,"ask":null}
+{"reply":"Short night, so go easy. An easy run along the Hudson replaces the heavy session today.","ops":[{"op":"swap","partId":"part:jake-strength","with":{"title":"Easy run along the Hudson","slot":"morning","at":"06:45","minutes":30,"area":"move","why":"The run you love, at an easy pace.","source":{"kind":"words","quote":"Running along the Hudson while the day is still yours"}}}],"ongoing":false,"ask":null}
 
 Example C. <message>Signed up for the SF Marathon in July with my sister. Training starts Monday.</message> The base week: part:priya-market "Farmers market" Sunday 09:00 (movable), part:priya-bath "Bath and a book" every night (locked).
-{"reply":"This is huge, and doing it with your sister makes it even better. From Monday: a long run on Sunday mornings before the market, and two easy runs midweek. Want this to be your new normal?","ops":[{"op":"add","part":{"title":"Long run with your sister","slot":"morning","at":"07:30","days":["sun"],"minutes":60,"area":"move","why":"The anchor of your training, and an hour with her every week.","source":{"kind":"words","quote":"SF Marathon in July with my sister"}}},{"op":"move","partId":"part:priya-market","at":"10:30"},{"op":"add","part":{"title":"Easy run","slot":"morning","days":["tue","thu"],"minutes":35,"area":"move","why":"Easy miles that make Sundays feel good.","source":{"kind":"engine","rule":"hard-goal-base"}}}],"ongoing":true,"ask":"Want this to be your new normal?"}
+{"reply":"This is huge, and with your sister too. Training is in your week from Monday. Want this to be your new normal?","ops":[{"op":"add","part":{"title":"Long run with your sister","slot":"morning","at":"07:30","days":["sun"],"minutes":60,"area":"move","why":"The anchor of your training, and an hour with her every week.","source":{"kind":"words","quote":"SF Marathon in July with my sister"}}},{"op":"move","partId":"part:priya-market","at":"10:30"},{"op":"add","part":{"title":"Easy run","slot":"morning","days":["tue","thu"],"minutes":35,"area":"move","why":"Easy miles that make Sundays feel good.","source":{"kind":"engine","rule":"hard-goal-base"}}}],"ongoing":true,"ask":"Want this to be your new normal?"}
 
 Example D. <message>late one tonight, can I start later tomorrow?</message>, Thursday night. Their ideal day says they wake by 09:30. Targets: Friday: part:sam-light "Sunlight on the steps" 09:40 (10 min, movable), part:sam-reading "Reading before class" 10:00 (45 min, movable), part:sam-pushups "Pushups" (10 min, movable).
-{"reply":"Have a good one. Tomorrow you're up later: sunlight on the steps moves to 11:00, and reading and pushups are off the list, so all that's waiting is the sun.","ops":[{"op":"move","partId":"part:sam-light","at":"11:00"},{"op":"skip","partId":"part:sam-reading"},{"op":"skip","partId":"part:sam-pushups"},{"op":"add","part":{"title":"Sleep in","slot":"morning","at":"09:30","minutes":90,"area":"sleep","why":"A later start after a late night.","source":{"kind":"engine","rule":"slow-start"}}}],"ongoing":false,"ask":null}`;
+{"reply":"Have a good one. Tomorrow you're up at 11:00, and all that's waiting is the sun.","ops":[{"op":"move","partId":"part:sam-light","at":"11:00"},{"op":"skip","partId":"part:sam-reading"},{"op":"skip","partId":"part:sam-pushups"},{"op":"add","part":{"title":"Sleep in","slot":"morning","at":"09:30","minutes":90,"area":"sleep","why":"A later start after a late night.","source":{"kind":"engine","rule":"slow-start"}}}],"ongoing":false,"ask":null}`;
 
-export const REPLY_JOB = `Your job: reply to a message that doesn't change any day (a question, a feeling, a stack change, or chat). One to three sentences, 50 words at most. Be the friend in the voice. For a question about something in their life, answer from <evidence> in plain words, without numbers or studies; if there's no evidence for it, say Distill hasn't looked into it yet. For a stack change, acknowledge it warmly; code updates their list. Never give medical advice.`;
+export const REPLY_JOB = `Your job: reply to a message that doesn't change any day (a question, a feeling, a stack change, or chat). One to three sentences, 50 words at most. Be the friend in the voice. If they're telling you something rather than asking, a few words is enough ("Okay, got it."), and never explain what stays the same. For a question about something in their life, answer from <evidence> in plain words, without numbers or studies; if there's no evidence for it, say Distill hasn't looked into it yet. For a stack change, acknowledge it warmly; code updates their list. Never give medical advice.`;
 
 export const REPLY_ABOUT = `When there's an <item>, they're asking about that one thing, often from its card: why Distill suggested it, why it asks, or how to fit a change into their days. Answer that fully, in two to four sentences and 90 words at most:
 - Say plainly what Distill's research found and what it means for them. Here you may say what it does or doesn't do, but never numbers, study names, or "studies show".

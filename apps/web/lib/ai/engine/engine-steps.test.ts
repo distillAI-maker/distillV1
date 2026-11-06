@@ -218,10 +218,30 @@ describe('Example A, end to end through the reshape step', () => {
     expect(requests).toHaveLength(3);
     // Claude couldn't land a valid edit, so the rules make the morning lighter instead of nothing.
     expect(r.from).toBe('rules');
-    expect(r.reply).toMatch(/starts slow: sleep in/);
+    expect(r.reply).toBe("Okay, got it. Have a good night out. We'll update your Ritual by tomorrow.");
     expect(Object.values(r.opsByDate).flat()).toEqual([expect.objectContaining({ op: 'add', part: expect.objectContaining({ title: 'Sleep in' }) })]);
     expect(r.reply).not.toBe(FALLBACK_REPLY);
     expect(r.problems!.join()).toMatch(/theirs/);
+  });
+  it('never accepts a reply with no change behind it', async () => {
+    const nothing = {
+      ...good,
+      reply: 'Have a good night out. Nothing else is expected of you tomorrow, so your serum just stays as it is.',
+      ops: [],
+    };
+    const { client, requests } = fakeClient([nothing, nothing, nothing]);
+    const r = await reshape(client, input);
+    expect(requests).toHaveLength(3);
+    expect(r.from).toBe('rules');
+    expect(Object.values(r.opsByDate).flat()).toHaveLength(1);
+    expect(r.reply).not.toMatch(/expected|stays/);
+  });
+  it('refuses a reply that narrates what did not change, even with an edit behind it', async () => {
+    const narrates = { ...good, reply: 'Saturday starts slow, and everything else stays the same.' };
+    const { client, requests } = fakeClient([narrates, good]);
+    const r = await reshape(client, input);
+    expect(requests).toHaveLength(2);
+    expect(r.reply).toBe(good.reply);
   });
   it('refuses a reply that promises something the edits do not do', async () => {
     const promise = { ...good, reply: 'Lift tomorrow at 7 when you feel fresh.' };

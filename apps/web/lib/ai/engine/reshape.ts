@@ -69,8 +69,21 @@ const SCHEMA = obj({
   ask: nul(str()),
 });
 
-/** Said when Claude is off or its edits fail twice: nothing changes, and they can still adjust it. */
-export const FALLBACK_REPLY = 'Got it. Your days stay as they are for now; tap any part if you want it lighter.';
+/** Said when no change could be made at all: it's kept in mind, and they can still adjust a day themselves. */
+export const FALLBACK_REPLY = "Okay, got it. It's noted, and you can tap any part to change it yourself.";
+
+/** A reply narrating what didn't change explains too much, and reads as nothing having happened. */
+const NARRATES_NOTHING =
+  /\b(stays? as (?:it is|they are)|stays? the same|stay(?:s|ing)? put|just stays?|nothing else (?:is )?expected|nothing changes|no changes?|as they are|as it is)\b/i;
+
+/** A few words that meet what they said, for when Claude isn't the one replying. */
+function meets(message: string | undefined): string {
+  if (!message) return '';
+  if (/\b(night out|out (?:late|tonight)|late (?:one|night)|party|drinks|dinner)\b/i.test(message)) return ' Have a good night out.';
+  if (/\b(hurt|hurts|injur\w*|sore|strain\w*|sprain\w*|sick|ill|unwell|flu|covid|cold|fever|migraine)\b/i.test(message)) return ' Sorry to hear that.';
+  if (/\b(tired|exhausted|short night|slept badly|no sleep|burn(?:ed|t) out|stressed)\b/i.test(message)) return ' Go easy on yourself.';
+  return '';
+}
 
 export interface ReshapeResult {
   readonly reply: string;
@@ -88,31 +101,46 @@ const DAY_NAME = { mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursd
 
 /**
  * When the day should be lighter and Claude is off or couldn't land a valid edit: the next morning
- * starts slow ("Sleep in"), so "out late tonight" or a short night still changes something real.
- * Only ever lighter, never touching anything theirs, protected or with people in it.
+ * starts slow ("Sleep in"), or, with no morning in reach, the night ends early. So "out late
+ * tonight" or a sore back still changes something real. Only ever lighter, never touching anything
+ * theirs, protected or with people in it.
  */
-export function lighterByRules(input: { trigger: { kind: string; load: string }; scope: Scope; today: string }): ReshapeResult | null {
+export function lighterByRules(input: {
+  trigger: { kind: string; load: string };
+  scope: Scope;
+  today: string;
+  message?: string;
+}): ReshapeResult | null {
   const { scope, trigger } = input;
-  if (trigger.load !== 'lighter' || scope.kind !== 'day') return null;
+  if (trigger.load !== 'lighter' || scope.kind !== 'day' || !scope.targets.length) return null;
   const morning = scope.targets.find((t) => t.moments.some((m) => m === 'morning' || m === 'saturday' || m === 'sunday'));
-  if (!morning) return null;
-  const op: Op = {
-    op: 'add',
-    part: {
-      title: 'Sleep in',
-      slot: 'morning',
-      area: 'sleep',
-      why: 'A slow start, so the rest of the day can wait until you are ready for it.',
-      source: { kind: 'engine', rule: 'slow-start' },
-    },
-  };
-  const gap = daysBetween(input.today, morning.date);
-  const when = gap === 0 ? 'This morning' : gap === 1 ? 'Tomorrow' : DAY_NAME[dayOf(morning.date)];
-  const reply =
-    trigger.kind === 'night'
-      ? `Short night, so ${when.toLowerCase() === 'this morning' ? 'this morning' : when} starts slow: sleep in, and the rest can wait.`
-      : `${when} starts slow: sleep in, and the rest can wait until you're ready.`;
-  return { reply, opsByDate: { [morning.date]: [op] }, baseOps: [], ongoing: false, ask: null, from: 'rules' };
+  const target = morning ?? scope.targets[0]!;
+  const op: Op = morning
+    ? {
+        op: 'add',
+        part: {
+          title: 'Sleep in',
+          slot: 'morning',
+          area: 'sleep',
+          why: 'A slow start, so the rest of the day can wait until you are ready for it.',
+          source: { kind: 'engine', rule: 'slow-start' },
+        },
+      }
+    : {
+        op: 'add',
+        part: {
+          title: 'An early night',
+          slot: 'night',
+          area: 'sleep',
+          why: 'An early night, so tomorrow can start easier.',
+          source: { kind: 'engine', rule: 'early-night' },
+        },
+      };
+  const gap = daysBetween(input.today, target.date);
+  const when = gap <= 0 ? 'today' : gap === 1 ? 'tomorrow' : DAY_NAME[dayOf(target.date)];
+  const said = gap === 1 ? "We'll update your Ritual by tomorrow." : `Your Ritual is lighter for ${when}.`;
+  const reply = trigger.kind === 'night' ? `Short night, so ${when} starts slow.` : `Okay, got it.${meets(input.message)} ${said}`;
+  return { reply, opsByDate: { [target.date]: [op] }, baseOps: [], ongoing: false, ask: null, from: 'rules' };
 }
 
 export async function reshape(
@@ -135,7 +163,7 @@ export async function reshape(
   const { scope } = input;
   const locked = new Set(scope.locked);
   const prot = new Set(scope.protected);
-  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 50, theirWords: input.allowed.words };
+  const ctx: LineContext = { ...input.lineContext, toneRules: input.toneRules, maxWords: 30, theirWords: input.allowed.words };
   const targetOf = new Map<string, string>();
   for (const t of scope.targets) for (const p of t.parts) targetOf.set(p.id, t.date);
   const targetParts = scope.targets.flatMap((t) => t.parts);
@@ -171,6 +199,9 @@ export async function reshape(
   };
   const check = (data: Out): string[] => {
     const problems: string[] = [];
+    // They told us because they want something to change: a reply with no edit behind it breaks trust.
+    if (input.message && !data.ops.length) problems.push('They told you something, so make at least one small real edit in <targets>.');
+    if (NARRATES_NOTHING.test(data.reply)) problems.push('reply: say it is handled and stop; never say what stays the same.');
     if (scope.kind === 'base') {
       const before = scope.targets[0]?.parts ?? [];
       problems.push(

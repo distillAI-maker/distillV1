@@ -35,5 +35,8 @@ export async function GET(request: Request) {
       .upsert({ user_id: data.user.id }, { onConflict: 'user_id', ignoreDuplicates: true });
   }
   // The arrival screen resumes saved progress, so someone joining from the invitation lands back there.
-  return NextResponse.redirect(new URL('/', url.origin));
+  const back = NextResponse.redirect(new URL('/', url.origin));
+  // A note for the app to say "Email confirmed" once, after their progress reaches the account.
+  back.cookies.set('distill_confirmed', '1', { maxAge: 600, path: '/', sameSite: 'lax' });
+  return back;
 }
