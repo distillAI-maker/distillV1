@@ -6,6 +6,7 @@ import type { EngineResult, EngineState } from '../../lib/engine/client';
 import { EngineProvider } from '../../lib/engine/context';
 import { ProgressProvider } from '../../lib/progress/context';
 import { emptyProgress, type Progress, type ProgressStore } from '../../lib/progress/types';
+import { ExploreTab } from './explore/explore-tab';
 import { RitualPreviewTab, RitualTab } from './ritual/ritual-tab';
 import { ThingsTab } from './things/things-tab';
 
@@ -79,6 +80,7 @@ function stateWith(over: Partial<EngineState> = {}, ritual: Partial<EngineState[
     today: { kind: 'clear', decision },
     thread: [],
     knows: [],
+    explore: { region: null, at: null, fresh: false, available: false, events: [], going: [] },
     items: { ag1: 'clear', pil: 'theirs' },
     money: { back: 0, waiting: 79 },
     ...over,
@@ -300,3 +302,40 @@ describe('the Ritual tab, signed out', () => {
   });
 });
 
+describe('Explore', () => {
+  afterEach(cleanup);
+  const lifter = (over: Partial<Progress> = {}): Progress => ({
+    ...emptyProgress(),
+    name: 'Maya',
+    items: [{ id: 'a', itemKey: 'strength-training', monthlyCost: 0, position: 0, status: 'listed', answers: {}, chips: {}, unknown: [], notes: [] }],
+    ...over,
+  });
+  const show = (p: Progress) => {
+    const store: ProgressStore = { id: 'local', load: async () => p, save: async () => {}, clear: async () => {} };
+    render(
+      <ProgressProvider store={store}>
+        <EngineProvider>
+          <ExploreTab />
+        </EngineProvider>
+      </ProgressProvider>,
+    );
+  };
+  it('asks where they are first', async () => {
+    show(lifter());
+    expect(await screen.findByRole('heading', { name: 'Where are you?' })).toBeTruthy();
+  });
+  it('offers next steps for what they already do, with a search near them, and takes a no', async () => {
+    show(lifter({ region: 'Oakland' }));
+    expect(await screen.findByText('Because you lift')).toBeTruthy();
+    const look = screen.getAllByRole('link', { name: 'Look near Oakland' })[0]!;
+    expect(look.getAttribute('href')).toContain('google.com/search');
+    expect(look.getAttribute('href')).toContain('Oakland');
+    const before = screen.getAllByRole('link', { name: 'Look near Oakland' }).length;
+    fireEvent.click(screen.getAllByRole('button', { name: 'Not for me' })[0]!);
+    await waitFor(() => expect(screen.getAllByRole('link', { name: 'Look near Oakland' }).length).toBe(before - 1));
+  });
+  it('sends someone with nothing to build on back to their things, and never invents a habit', async () => {
+    show(lifter({ items: [] }));
+    expect(await screen.findByRole('heading', { name: 'Nothing to build on yet.' })).toBeTruthy();
+  });
+});

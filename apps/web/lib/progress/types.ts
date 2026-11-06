@@ -126,6 +126,10 @@ export const progressSchema = z
     joinedEmail: z.string().max(254).optional(),
     /** Saved by the server when they joined, before the email link: the first sign-in settles it. */
     fromJoin: z.boolean().optional(),
+    /** Where they are, for Explore. A city, in their words. */
+    region: z.string().max(80).optional(),
+    /** Next steps in Explore they said aren't for them. */
+    exploreHidden: z.array(z.string().max(80)).max(200).optional(),
     items: z.array(stackItemSchema).default([]),
     /** Follow-up questions already shown, as `${itemId}:${field}`. Back removes the last one. */
     seenQuestions: z.array(z.string()).default([]),

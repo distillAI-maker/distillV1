@@ -75,6 +75,7 @@ function stateWith(over: Partial<EngineState['ritual']> = {}, today: Partial<Eng
     today: { kind: null, ...today } as EngineState['today'],
     thread: [],
     knows: [],
+    explore: { region: null, at: null, fresh: false, available: false, events: [], going: [] },
     items: {},
     money: { back: 0, waiting: 0 },
   };

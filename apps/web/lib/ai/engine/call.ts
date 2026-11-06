@@ -85,7 +85,7 @@ type Raw = {
   };
 };
 
-function priced(model: EngineModel, raw: Raw) {
+export function priced(model: EngineModel, raw: Raw) {
   const u = raw.usage ?? {};
   const p = PRICE[model];
   const tokensIn = u.input_tokens ?? 0;

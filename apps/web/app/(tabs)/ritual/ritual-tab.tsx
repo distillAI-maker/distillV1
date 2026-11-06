@@ -457,6 +457,8 @@ export function RitualTab() {
   const reply = sent?.result.reply ?? change?.reply;
   const youSaid = sent?.text ?? (change?.reply ? lastPerson?.text : undefined);
   const dayMarks = marks?.date === day.date ? marks.map : undefined;
+  // Something they said yes to in Explore, to look forward to.
+  const nextUp = state.explore?.going.find((e) => e.date && !e.past);
 
   /** A tick shows at once; the engine records it behind. If it doesn't go through, the tick comes off. */
   async function tick(partId: string) {
@@ -560,6 +562,13 @@ export function RitualTab() {
       ) : null}
 
       <Week days={week} today={today} selected={day.date} onPick={setSelected} />
+      {nextUp ? (
+        <Link className="rt-next" href="/explore">
+          <span>{copy.exploreTab.going}</span>
+          <strong>{nextUp.title}</strong>
+          <small>{longDate(nextUp.date!)}</small>
+        </Link>
+      ) : null}
       {firstDay && day.date === today ? <p className="rt-welcome">{t.firstDay}</p> : null}
       <h2 className="rt-day-head">{day.date === today ? t.today : longDate(day.date)}</h2>
       <Timeline

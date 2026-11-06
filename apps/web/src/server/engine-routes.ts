@@ -66,6 +66,17 @@ export async function engineRoute(
       return engine.undo(userId, z.object({ versionId: z.uuid() }).strict().parse(input).versionId, opts);
     case 'settings':
       return engine.setNightsShapeMornings(userId, z.object({ nightsShapeMornings: z.boolean() }).strict().parse(input).nightsShapeMornings, opts);
+    case 'explore-feed': {
+      const { region } = z.object({ region: text(80) }).strict().parse(input);
+      return engine.exploreFeed(userId, region, opts);
+    }
+    case 'explore-go': {
+      const { eventId, answer } = z
+        .object({ eventId: text(120), answer: z.enum(['in', 'no', 'loved', 'not-really']) })
+        .strict()
+        .parse(input);
+      return engine.exploreGo(userId, eventId, answer, opts);
+    }
     case 'forget':
       return engine.forget(userId, z.object({ id: text(300) }).strict().parse(input).id, opts);
     case 'explore': {

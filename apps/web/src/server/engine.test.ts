@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { vi } from 'vitest';
 import * as schema from '../../../../packages/data/src/schema';
 import type { Database } from '@distill/data';
 import { checkLine, DAY_ONE_PER_MOMENT } from '@distill/engine/ritual';
@@ -189,6 +190,67 @@ describe('the first Ritual', () => {
     expect(second.state.ritual.status).toBe('proposed');
     if (creatine) expect(second.state.ritual.proposed!.parts.find((p) => p.id === creatine.id)!.status).toBe('removed');
     expect((await store.versions(alice)).filter((v) => v.status === 'proposed')).toHaveLength(1);
+  });
+});
+
+describe('Explore', () => {
+  /** Stands in for a real search: the page it returned, then Claude's answer. */
+  const searching = (events: unknown[]) => {
+    const create = vi.fn(async () => ({
+      content: [
+        { type: 'web_search_tool_result', content: [{ type: 'web_search_result', url: 'https://race.example/half', title: 't', encrypted_content: 'x' }] },
+        { type: 'text', text: JSON.stringify({ events }) },
+      ],
+      stop_reason: 'end_turn',
+      model: 'claude-sonnet-5-5',
+      usage: { input_tokens: 1000, output_tokens: 200, server_tool_use: { web_search_requests: 1 } },
+    }));
+    return { client: { messages: { create }, beta: { messages: { create } } } as unknown as ClaudeClient, create };
+  };
+  const race = (date: string) => ({ thread: 'running', kind: 'race', title: 'Hudson Half', date, when: null, where: 'New York', url: 'https://race.example/half', why: 'Your Hudson run, with a finish line.' });
+
+  it('looks once a week, and what they say yes to goes on that day and counts as a goal', async () => {
+    await settled();
+    const before = await engine().state(alice);
+    expect(before.explore).toMatchObject({ available: false, events: [], going: [] });
+    const date = before.ritual.week[3]!.date;
+    const { client, create } = searching([race(date)]);
+    const found = await engine(client).exploreFeed(alice, 'New York');
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(found.state.explore).toMatchObject({ region: 'New York', fresh: true, available: true });
+    const event = found.state.explore.events[0]!;
+    expect(event.title).toBe('Hudson Half');
+    // The same week, the same place: nothing to pay for.
+    await engine(client).exploreFeed(alice, 'New York');
+    expect(create).toHaveBeenCalledTimes(1);
+
+    const yes = await engine().exploreGo(alice, event.id, 'in');
+    expect(yes.state.explore.events).toEqual([]);
+    expect(yes.state.explore.going).toEqual([expect.objectContaining({ title: 'Hudson Half', past: false })]);
+    expect(yes.state.ritual.week[3]!.parts.map((p) => p.title)).toContain('Hudson Half');
+    expect(yes.state.knows).toContainEqual(expect.objectContaining({ group: 'toward', text: 'Hudson Half' }));
+    const how = await engine().exploreGo(alice, event.id, 'loved');
+    expect(how.state.explore.going).toEqual([]);
+  });
+  it('never shows again what they said no to, and tells the search to skip it', async () => {
+    await settled();
+    const date = (await engine().state(alice)).ritual.week[3]!.date;
+    const { client, create } = searching([race(date)]);
+    const found = await engine(client).exploreFeed(alice, 'New York');
+    const no = await engine().exploreGo(alice, found.state.explore.events[0]!.id, 'no');
+    expect(no.state.explore.events).toEqual([]);
+    await engine(client).exploreFeed(alice, 'Boston');
+    expect(create).toHaveBeenCalledTimes(2);
+    expect(JSON.stringify((create.mock.calls as unknown[][])[1]![0])).toContain('<skip>Hudson Half</skip>');
+  });
+  it('spends nothing with Claude off, or with the search switched off', async () => {
+    await settled();
+    expect((await engine().exploreFeed(alice, 'New York')).state.explore.events).toEqual([]);
+    vi.stubEnv('ENGINE_EXPLORE_SEARCH', 'off');
+    const { client, create } = searching([]);
+    await engine(client).exploreFeed(alice, 'New York');
+    expect(create).not.toHaveBeenCalled();
+    vi.unstubAllEnvs();
   });
 });
 

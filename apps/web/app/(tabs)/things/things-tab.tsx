@@ -24,7 +24,7 @@ type Standing = 'clinician' | 'theirs' | 'keep' | 'clear' | 'adjust' | 'open';
 type Thread = EngineState['thread'];
 
 /** Where each thing stands, and the part it has in their Ritual: from the engine, or the same rules on this phone. */
-function useStandings() {
+export function useStandings() {
   const { ready, progress } = useProgress();
   const engine = useEngine();
   const [local, setLocal] = useState<{ standings: Record<string, string>; parts: readonly RitualPart[] } | null>(null);

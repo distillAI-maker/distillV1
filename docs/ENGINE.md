@@ -115,3 +115,9 @@ These are the changes from our review of the plan, plus what building it turned 
 5. `pnpm engine:backfill --write` with `DATABASE_URL` in your shell, so people who onboarded before this start from what they told the app.
 6. Veer certifies the explore ideas he has checked (`certified: true` in `data/explore-bank.json`).
 7. When it's time to spend: `ENGINE_CLAUDE=on` and `ANTHROPIC_API_KEY`, then `pnpm eval:engine --claude --judge --yes` and `pnpm eval:ab --yes` with Veer and one more reviewer.
+
+## Explore (5 Nov)
+
+Explore extends what someone already does; it never adds a new habit. `lib/explore/threads.ts` maps what they kept (never anything cut or suggested to go) and what they wrote to next steps, each opening a live search near them. Signed in, `lib/ai/engine/explore-feed.ts` also finds dated events with Claude and web search: at most once a week per person, 300 a day per instance, and only when they open the tab. Code drops anything without a page the search really returned, or with a date out of range. "I'm in" puts it on that day and, for a race, makes it something they're working toward. It runs when `ENGINE_CLAUDE` is on; `ENGINE_EXPLORE_SEARCH=off` turns the search off alone.
+
+This replaces "certified ideas only, a week after the first Ritual" for the tab itself. The bank and `exploreGate` are still there for the daily pick. Veer: this changes the 20 Oct decision, please confirm or say what to change.

@@ -52,6 +52,8 @@ import {
 } from '@distill/engine/ritual';
 import { theirWords, type ItemStandingNote } from '../../lib/ai/engine/brief';
 import type { CallUsage, ClaudeClient } from '../../lib/ai/engine/call';
+import { findEvents, foundEventSchema, PROMPT_VERSION as EXPLORE_FEED_VERSION, type FoundEvent } from '../../lib/ai/engine/explore-feed';
+import { THREADS, threadsFor } from '../../lib/explore/threads';
 import { classifyMessage, readByWords, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
 import { composeRitual, PROMPT_VERSION as COMPOSE_VERSION } from '../../lib/ai/engine/compose';
 import { explore as exploreStep, PROMPT_VERSION as EXPLORE_VERSION } from '../../lib/ai/engine/explore';
@@ -107,6 +109,18 @@ export interface DayOut {
   readonly changed: boolean;
 }
 
+export interface ExploreState {
+  readonly region: string | null;
+  /** When this batch was found. */
+  readonly at: string | null;
+  /** False when it's time to look again. */
+  readonly fresh: boolean;
+  /** Whether Distill can search right now (Claude on, under the day's cap). */
+  readonly available: boolean;
+  readonly events: readonly FoundEvent[];
+  readonly going: readonly (FoundEvent & { readonly past: boolean })[];
+}
+
 export interface EngineState {
   readonly person: {
     readonly name: string;
@@ -141,6 +155,8 @@ export interface EngineState {
   readonly thread: readonly StoredMessage[];
   /** The long view of what Distill has learned about them, for Your things. */
   readonly knows: readonly KnownFact[];
+  /** Real things near them that extend what they already do, and what they said yes to. */
+  readonly explore: ExploreState;
   /** Where each thing on their list stands, for the app's labels. */
   readonly items: Readonly<Record<string, ItemStanding>>;
   /** Dollars a month: back from clears they said yes to, and waiting on clears not yet answered. */
@@ -1023,6 +1039,131 @@ export class Engine {
     });
   }
 
+  /**
+   * The week's real things near them. At most one search a week per person; the search runs outside
+   * the lock, because it takes up to a minute and nothing else should wait on it. Nothing here
+   * spends unless they open Explore, Claude is on, and ENGINE_EXPLORE_SEARCH isn't "off".
+   */
+  async exploreFeed(userId: string, region: string, opts: { timeZone?: string } = {}): Promise<EngineResult> {
+    const place = region.trim().slice(0, 80);
+    const plan = await this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const state = await this.stateFrom(ctx, tx);
+      const sameRegion = state.explore.region?.toLowerCase() === place.toLowerCase();
+      if ((sameRegion && state.explore.fresh) || !state.explore.available || !ctx.client) return { state, search: null };
+      const threads = this.threadsOf(ctx, state.items);
+      if (!threads.length || !takeSearch(this.now().toISOString().slice(0, 10))) return { state, search: null };
+      const answers = await this.deps.store.events(userId, ['explore.in', 'explore.no', 'explore.how'], '2000-01-01T00:00:00Z', tx);
+      const titleOf = (e: { payload: Record<string, unknown> }) => String(e.payload.title ?? (e.payload.event as { title?: string } | undefined)?.title ?? '');
+      return {
+        state,
+        search: {
+          client: ctx.client,
+          person: ctx.person,
+          today: ctx.today,
+          threads: threads.map((t) => ({ id: t.id, name: t.name, from: t.from })),
+          skip: answers.filter((e) => e.kind !== 'explore.how').map(titleOf).filter(Boolean),
+          liked: answers.filter((e) => e.kind === 'explore.how' && e.payload.how === 'loved').map(titleOf).filter(Boolean),
+        },
+      };
+    });
+    if (!plan.search) return { state: plan.state };
+    const { client, ...asked } = plan.search;
+    const found = await findEvents(client, { ...asked, region: place, banned: this.deps.toneRules.bannedPhrases });
+    return this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      this.logCall(ctx, 'explore-feed', EXPLORE_FEED_VERSION, found.usage, { from: found.from, searches: found.searches, dropped: found.dropped.slice(0, 10) });
+      await this.deps.store.log({ userId, kind: 'explore.feed', payload: { region: place, events: found.events, failed: found.from !== 'claude' } }, tx);
+      return { state: await this.stateFrom(ctx, tx) };
+    });
+  }
+
+  /** Their answer to something real: I'm in (it goes on that day), not for me, or how it went. */
+  async exploreGo(userId: string, eventId: string, answer: 'in' | 'no' | 'loved' | 'not-really', opts: { timeZone?: string } = {}): Promise<EngineResult> {
+    return this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const store = this.deps.store;
+      const rows = await store.events(userId, ['explore.feed', 'explore.in'], '2000-01-01T00:00:00Z', tx);
+      const event = rows
+        .flatMap((r) => (r.kind === 'explore.feed' ? ((r.payload.events as unknown[]) ?? []) : [r.payload.event]))
+        .flatMap((e) => {
+          const parsed = foundEventSchema.safeParse(e);
+          return parsed.success ? [parsed.data] : [];
+        })
+        .find((e) => e.id === eventId);
+      if (!event) throw new HttpError(404, 'no_such_event');
+      if (answer === 'no') {
+        await store.log({ userId, kind: 'explore.no', payload: { eventId, title: event.title } }, tx);
+        return { state: await this.stateFrom(ctx, tx) };
+      }
+      if (answer === 'loved' || answer === 'not-really') {
+        await store.log({ userId, kind: 'explore.how', payload: { eventId, title: event.title, how: answer } }, tx);
+        return { state: await this.stateFrom(ctx, tx) };
+      }
+      await store.log({ userId, kind: 'explore.in', payload: { event } }, tx);
+      // A race is something they're working toward now, and Distill shapes days around that.
+      if (event.kind === 'race' && !ctx.person.identity.toward.some((t) => t.text === event.title)) {
+        ctx.person = {
+          ...ctx.person,
+          version: ctx.person.version + 1,
+          identity: {
+            ...ctx.person.identity,
+            toward: [...ctx.person.identity.toward, { text: event.title, hard: true, ...(event.date ? { by: event.date } : {}) }].slice(-12),
+          },
+        };
+        await store.savePerson(userId, ctx.person, 'engine', tx);
+      }
+      let versionId: string | undefined;
+      if (event.date && baseOn(ctx.versions, ctx.today)) {
+        const area = THREAD_AREA(event.thread);
+        const op: Op = {
+          op: 'add',
+          part: { title: event.title.slice(0, 80), slot: 'morning', area, why: event.why.slice(0, 240), source: { kind: 'explore', ideaId: event.id } },
+        };
+        const previous = ritualOn(ctx.versions, event.date).day;
+        const saved = await this.saveVersion(
+          ctx,
+          { parentId: previous?.id ?? null, scope: { kind: 'day', date: event.date }, parts: [], ops: [...(previous?.ops ?? []), op], changes: [{ op: 'add', partId: 'new', reason: 'explore' }], cause: { eventId: null, trigger: 'edit' }, status: 'accepted', engine: this.stampFor({ eventId }) },
+          tx,
+        );
+        versionId = saved.id;
+      }
+      return { state: await this.stateFrom(ctx, tx), ...(versionId ? { versionId } : {}) };
+    });
+  }
+
+  /** What opens a next step in Explore: what they kept, what they wrote, and who they spend time with. */
+  private threadsOf(ctx: Ctx, standings: Readonly<Record<string, ItemStanding>>) {
+    return threadsFor({
+      items: ctx.progress.items,
+      words: [ctx.person.identity.idealDay, ...ctx.person.identity.atBest, ...ctx.progress.items.flatMap((i) => i.notes.map((n) => n.text))].join('\n'),
+      standings: standings as Readonly<Record<string, string>>,
+      hasPeople: ctx.person.people.length > 0,
+    });
+  }
+
+  private async exploreState(ctx: Ctx, db: Tx): Promise<ExploreState> {
+    const rows = await this.deps.store.events(ctx.userId, ['explore.feed', 'explore.in', 'explore.no', 'explore.how'], '2000-01-01T00:00:00Z', db);
+    const last = rows.filter((r) => r.kind === 'explore.feed').at(-1);
+    const parse = (e: unknown) => {
+      const parsed = foundEventSchema.safeParse(e);
+      return parsed.success ? [parsed.data] : [];
+    };
+    const answered = new Set(rows.filter((r) => r.kind !== 'explore.feed' && r.kind !== 'explore.in').map((r) => String(r.payload.eventId)));
+    const going = new Map(rows.filter((r) => r.kind === 'explore.in').flatMap((r) => parse(r.payload.event)).map((e) => [e.id, e]));
+    const age = last ? Date.parse(ctx.instant) - Date.parse(last.at) : Infinity;
+    return {
+      region: last ? String(last.payload.region) : null,
+      at: last?.at ?? null,
+      fresh: !!last && age < (last.payload.failed ? DAY_MS : 7 * DAY_MS),
+      available: !!ctx.client && process.env.ENGINE_EXPLORE_SEARCH !== 'off',
+      events: ((last?.payload.events as unknown[]) ?? [])
+        .flatMap(parse)
+        .filter((e) => !answered.has(e.id) && !going.has(e.id) && (!e.date || e.date >= ctx.today)),
+      going: [...going.values()]
+        .filter((e) => !answered.has(e.id))
+        .map((e) => ({ ...e, past: !!e.date && e.date < ctx.today }))
+        .sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999')),
+    };
+  }
+
   /** Explore: they said what they want to try. Certified ideas only, at most three. */
   async explore(userId: string, want: string, region: string | undefined, opts: { timeZone?: string } = {}): Promise<EngineResult> {
     return this.locked(userId, opts.timeZone, async (ctx, tx) => {
@@ -1180,6 +1321,7 @@ export class Engine {
         ...(swap ? { swap } : {}),
       },
       thread: await this.deps.store.messages(ctx.userId, 60, db),
+      explore: await this.exploreState(ctx, db),
       knows: knowsOf(ctx.person, {
         today: ctx.today,
         nameOf: (id) => {
@@ -1362,6 +1504,18 @@ export const FIXED_LINES = {
   noRitualYet: "Okay, got it. Once you say yes to your Ritual, we'll shape your days around it.",
   nothingToMove: 'Okay, got it. That day is already clear for you.',
 } as const;
+
+const THREAD_AREA = (id: string) => THREADS.find((t) => t.id === id)?.area ?? 'move';
+
+/** A ceiling on real searches per server instance per day, whatever else goes wrong. */
+const SEARCHES_PER_DAY = 300;
+let searches = { date: '', count: 0 };
+function takeSearch(date: string): boolean {
+  if (searches.date !== date) searches = { date, count: 0 };
+  if (searches.count >= SEARCHES_PER_DAY) return false;
+  searches.count += 1;
+  return true;
+}
 
 const sum = (xs: readonly number[]) => xs.reduce((t, x) => t + x, 0);
 
