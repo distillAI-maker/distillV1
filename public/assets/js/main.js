@@ -166,11 +166,6 @@ if (motion) {
   rise('[data-chips] button', '[data-chips]', { y: 14, duration: .9, stagger: .025 });
   rise('.tally', '.tally', { y: 36 });
 
-  /* the interlude image drifts a little slower than the page */
-  $$('[data-drift]').forEach(img => gsap.fromTo(img, { yPercent: -5 }, {
-    yPercent: 5, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
-  }));
-
   /* the founding card tips up into view, then leans toward the pointer */
   const card = $('[data-card]');
   if (card) {
@@ -193,6 +188,13 @@ if (motion) {
 
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   addEventListener('load', () => ScrollTrigger.refresh());
+
+  /* the list grows and shrinks as you tap: keep every scroll animation below it lined up */
+  const tryBox = $('[data-try]');
+  if (tryBox && 'ResizeObserver' in window) {
+    let wait = 0;
+    new ResizeObserver(() => { clearTimeout(wait); wait = setTimeout(() => ScrollTrigger.refresh(), 200); }).observe(tryBox);
+  }
 }
 
 /* motion switch */
