@@ -91,8 +91,8 @@ i, em, cite { font-style: normal; }
 .hero__img, .hero__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero__img img { object-fit: cover; object-position: 50% 62%; filter: saturate(.55) contrast(1.05); }
 /* Dark from the bottom, so the white steam and cup sit back behind the words. */
-.hero__wash { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(17, 25, 27, .9) 0%, rgba(17, 25, 27, .68) 34%, rgba(17, 25, 27, 0) 70%), linear-gradient(90deg, rgba(17, 25, 27, .62) 0%, rgba(17, 25, 27, .25) 55%, rgba(17, 25, 27, 0) 100%), linear-gradient(180deg, rgba(17, 25, 27, .35), transparent 25%); }
-.hero__content { position: absolute; left: 9vw; right: 9vw; bottom: clamp(96px, 13vh, 150px); }
+.hero__wash { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(17, 25, 27, .9) 0%, rgba(17, 25, 27, .7) 40%, rgba(17, 25, 27, 0) 78%), linear-gradient(90deg, rgba(17, 25, 27, .62) 0%, rgba(17, 25, 27, .25) 55%, rgba(17, 25, 27, 0) 100%), linear-gradient(180deg, rgba(17, 25, 27, .35), transparent 25%); }
+.hero__content { position: absolute; left: 9vw; right: 9vw; bottom: clamp(120px, 21vh, 230px); }
 /* Flex, so each line's negative margin (room for the rise mask) adds up instead of collapsing into a gap. */
 .hero__title { display: flex; flex-direction: column; margin: 0 0 28px; font: 300 clamp(56px, 7.4vw, 116px)/.94 var(--serif); letter-spacing: -.045em; }
 .hero__title .ln { display: block; overflow: hidden; padding: .16em .12em .1em; margin: -.16em -.12em -.1em; }
