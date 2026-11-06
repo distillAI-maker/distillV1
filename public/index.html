@@ -57,7 +57,6 @@
     <p class="hero__sub" data-hero-in>Supplements, protocols, 5am routines, the 2pm coffee. Distill tells you what to stop, and shapes the rest into your Ritual: your mornings, nights and weekends, built around you.</p>
     <div class="hero__ctas" data-hero-in>
       <a class="button button--light" href="#join">Join the Founding 100 <span aria-hidden="true">→</span></a>
-      <a class="hero__link" href="#how">See how it works</a>
     </div>
   </div>
   <div class="hero__foot" data-hero-in>
@@ -199,31 +198,46 @@
     <h2 class="section-title" data-lines>What's on your list?</h2>
     <p class="try__sub">Tap anything you take or do.</p>
     <div class="chips" data-chips role="group" aria-label="Common items">
-      <button type="button" class="chip" data-k="coffee-after-2pm">Coffee after 2pm</button>
-      <button type="button" class="chip" data-k="magnesium-any-form">Magnesium</button>
-      <button type="button" class="chip" data-k="melatonin">Melatonin</button>
       <button type="button" class="chip" data-k="greens-powder-ag1-etc">AG1</button>
-      <button type="button" class="chip" data-k="multivitamin">Multivitamin</button>
-      <button type="button" class="chip" data-k="vitamin-d3">Vitamin D</button>
-      <button type="button" class="chip" data-k="zinc-daily">Zinc</button>
-      <button type="button" class="chip" data-k="omega-3-fish-oil">Fish oil</button>
-      <button type="button" class="chip" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
-      <button type="button" class="chip" data-k="alcohol-in-the-evening">A drink most evenings</button>
-      <button type="button" class="chip" data-k="training-after-7pm">Late workouts</button>
-      <button type="button" class="chip" data-k="sauna-post-workout-or-evening">Sauna</button>
-      <button type="button" class="chip" data-k="cold-plunge-ice-bath">Cold plunges</button>
-      <button type="button" class="chip" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
+      <button type="button" class="chip" data-k="mouth-tape">Mouth tape</button>
+      <button type="button" class="chip" data-k="coffee-after-2pm">Coffee after 2pm</button>
+      <button type="button" class="chip" data-k="sea-moss">Sea moss</button>
       <button type="button" class="chip" data-k="iv-vitamin-drips">IV drips</button>
-      <button type="button" class="chip" data-k="meditation-app-calm-headspace">Meditation app</button>
+      <button type="button" class="chip" data-k="collagen-drinks-and-beauty-gummies">Collagen gummies</button>
+      <button type="button" class="chip" data-k="mushroom-coffee">Mushroom coffee</button>
+      <button type="button" class="chip" data-k="cold-plunge-ice-bath">Cold plunges</button>
+      <button type="button" class="chip" data-k="fat-burner-thermogenic">Fat burners</button>
+      <button type="button" class="chip" data-k="chlorophyll-water">Chlorophyll water</button>
+      <button type="button" class="chip" data-k="alcohol-in-the-evening">A drink most evenings</button>
+      <button type="button" class="chip" data-k="hair-growth-gummies-biotin-blends">Hair gummies</button>
+      <button type="button" class="chip" data-k="testosterone-booster-tribulus-fenugreek-d-aa">Testosterone boosters</button>
+      <button type="button" class="chip" data-k="creatine-monohydrate">Creatine</button>
+      <button type="button" class="chip" data-k="red-light-therapy-panel">Red light panel</button>
+      <button type="button" class="chip" data-k="second-wearable-oura-plus-whoop">A second wearable</button>
+      <button type="button" class="chip" data-k="screens-phone-in-bed">Phone in bed</button>
+      <button type="button" class="chip" data-k="continuous-glucose-monitor-no-diabetes">Glucose monitor</button>
+      <button type="button" class="chip" data-k="colonic-detox-cleanse">Colon cleanse</button>
+      <button type="button" class="chip" data-k="lion-s-mane">Lion's mane</button>
+      <button type="button" class="chip" data-k="consumer-dna-wellness-test">DNA diet test</button>
+      <button type="button" class="chip" data-k="multivitamin">Multivitamin</button>
+      <button type="button" class="chip" data-k="grounding-earthing-sheets-mats">Grounding mat</button>
+      <button type="button" class="chip" data-k="bone-broth">Bone broth</button>
+      <button type="button" class="chip" data-k="jaw-exerciser">Jaw exerciser</button>
+      <button type="button" class="chip" data-k="hydrogen-alkaline-water">Hydrogen water</button>
+      <button type="button" class="chip" data-k="morning-sunlight-10-min-outdoors">Morning sunlight</button>
+      <button type="button" class="chip" data-k="shilajit">Shilajit</button>
+      <button type="button" class="chip" data-k="cryotherapy-sessions">Cryotherapy</button>
+      <button type="button" class="chip" data-k="emf-blockers-anti-radiation-stickers">EMF stickers</button>
     </div>
+    <a class="try__peek" href="#tally" data-peek hidden><span data-peek-text></span><i aria-hidden="true">↓</i></a>
   </div>
-  <div class="tally" data-result>
+  <div class="tally" id="tally" data-result>
     <div class="tally__top">
       <p class="label">Your stack</p>
       <svg class="mark"><use href="#star"/></svg>
     </div>
     <div class="tally__nums">
-      <p><span class="reel" data-reel="0" data-t-n>0</span><small>things</small></p>
+      <p><span class="reel" data-reel="0" data-t-n>0</span><small data-t-unit>things</small></p>
       <p><span class="reel" data-reel="0" data-money data-t-c>$0</span><small>a month</small></p>
     </div>
     <div class="tally__body" aria-live="polite">
@@ -231,28 +245,18 @@
       <div data-out hidden>
         <p class="tally__line" data-line></p>
         <ol class="tally__list" data-cut-list></ol>
-        <div class="tally__feed" data-feed hidden>
-          <p class="tally__ask">Did any of these come from a feed?</p>
-          <div class="tally__feedchips" data-feed-chips role="group" aria-label="Came from a feed"></div>
-        </div>
-        <p class="tally__more" data-test></p>
+        <div data-groups></div>
+        <p class="tally__note" data-note-line>You decide. Anything from your doctor stays as it is.</p>
       </div>
     </div>
     <a class="button button--dark" href="#join">See your whole list <span aria-hidden="true">→</span></a>
   </div>
 </section>
 
-<!-- ───────────── Interlude: one image, one truth ───────────── -->
-<section class="interlude" aria-label="Not everything needs a score.">
-  <img src="/assets/img/swim.jpg" alt="" loading="lazy" data-drift>
-  <div class="interlude__top"><svg class="mark mark--light"><use href="#star"/></svg><span>Distill</span></div>
-  <p class="interlude__line" data-lines>Not everything<br>needs a score.</p>
-</section>
-
 <!-- ───────────── 04 Your Ritual ───────────── -->
 <section class="rituals" id="rituals">
   <div class="rituals__head">
-    <h2 class="section-title" data-lines>Your Ritual.<br><i>Nobody else's.</i></h2>
+    <h2 class="section-title" data-lines>Discover Your<br><i>Unique Ritual</i></h2>
   </div>
   <div class="ritual-pair" data-stagger>
     <article class="ritual" data-ritual>

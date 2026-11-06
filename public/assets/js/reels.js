@@ -45,11 +45,11 @@ export class Reel {
         strip.style.transform = `translateY(${-(d === undefined ? 0 : +d)}em)`;
       });
       if (animate) this.el.offsetWidth; // commit the starting positions
-      this.cols.forEach(strip => { strip.style.transition = animate ? '' : 'none'; });
     }
     this.sr.textContent = s;
     const ds = s.replace(/\D/g, '');
     this.cols.forEach((strip, i) => {
+      strip.style.transition = animate ? '' : 'none';
       strip.style.transitionDelay = animate ? `${(this.cols.length - 1 - i) * 40}ms` : '0ms';
       strip.style.transform = `translateY(${-ds[i]}em)`;
     });

@@ -6,6 +6,7 @@ import { Reel } from './reels.js';
 
 const TOTAL = 1428;
 const STEP_MS = 8;            // seconds per step when the phone plays by itself
+const SETTLE = .09;           // seconds the page must rest on a step before the phone moves to it
 const DESKTOP = '(min-width: 981px)';
 
 export function initStory() {
@@ -36,9 +37,24 @@ export function initStory() {
   const olds = reshape ? $$('s', reshape) : [];
   const news = reshape ? $$('b', reshape) : [];
 
-  let cur = -1, tl = null;
+  let cur = -1, want = -1, tl = null, settling = null;
   const listeners = [];
   const onShow = fn => listeners.push(fn);
+
+  // The step comes from where the page is, never from the order scroll events arrive in, so the same
+  // position always means the same screen, at any speed.
+  const stepAtScroll = () => {
+    const line = innerHeight * .5;
+    let at = 0;
+    steps.forEach((s, k) => { if (s.getBoundingClientRect().top <= line) at = k; });
+    return at;
+  };
+
+  // A screen that isn't showing holds nothing, even if its transition was cut short.
+  const putAway = s => {
+    s.classList.remove('is-on');
+    gsap.set(s, { clearProps: 'opacity,transform,filter' });
+  };
 
   /* what each screen does when it arrives */
   const play = [
@@ -73,6 +89,7 @@ export function initStory() {
       const t = gsap.timeline();
       ritualRows.forEach(li => li.classList.remove('is-done'));
       gsap.set(progress, { width: '0%' });
+      gsap.set(ritualRows.map(li => $('i', li)), { clearProps: 'transform' });
       t.fromTo(photo, { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 1.1, ease: 'out' }, 0)
         .fromTo(ritualRows, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6, ease: 'out', stagger: .08 }, .25);
       [0, 1].forEach((k, j) => {
@@ -124,7 +141,7 @@ export function initStory() {
   function show(i) {
     if (i === cur) return;
     const prev = cur;
-    cur = i;
+    cur = want = i;
     steps.forEach((s, k) => s.classList.toggle('is-on', k === i));
     ticks.forEach((t, k) => t.setAttribute('aria-current', String(k === i)));
     listeners.forEach(fn => fn(i, prev));
@@ -134,17 +151,29 @@ export function initStory() {
       return;
     }
     tl?.kill();
+    // Only the screen leaving and the screen arriving stay on, however fast the last few went by.
+    screens.forEach((s, k) => { if (k !== i && k !== prev) putAway(s); });
     const inS = screens[i], outS = prev >= 0 ? screens[prev] : null;
     const dir = prev > i ? -1 : 1;
     inS.classList.add('is-on');
     tl = gsap.timeline();
     if (outS) {
-      tl.to(outS, { opacity: 0, y: -18 * dir, scale: .98, filter: 'blur(4px)', duration: .28, ease: 'power2.in',
-        onComplete: () => { outS.classList.remove('is-on'); gsap.set(outS, { clearProps: 'opacity,transform,filter' }); } }, 0)
+      tl.to(outS, { opacity: 0, y: -18 * dir, scale: .98, filter: 'blur(4px)', duration: .28, ease: 'power2.in', onComplete: () => putAway(outS) }, 0)
         .fromTo(rig, { scale: .985 }, { scale: 1, duration: .8, ease: 'back.out(2.5)' }, .1);
     }
     tl.fromTo(inS, { opacity: 0, y: 26 * dir, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: .6, ease: 'out', clearProps: 'filter' }, outS ? .16 : 0)
       .add(play[i](), outS ? .22 : .05);
+  }
+
+  // Scrolling only asks for a step. The phone moves once the page has stopped racing past, so a fast
+  // flick lands on one clean screen instead of flashing through all of them.
+  function follow() {
+    if (cur < 0) return;
+    const i = stepAtScroll();
+    if (i === want) return;
+    want = i;
+    settling?.kill();
+    settling = gsap.delayedCall(SETTLE, () => show(want));
   }
 
   // without motion: every screen shows its finished state
@@ -152,7 +181,8 @@ export function initStory() {
     finished();
     show(0);
     if (window.ScrollTrigger && matchMedia(DESKTOP).matches) {
-      steps.forEach(st => ScrollTrigger.create({ trigger: st, start: 'top 55%', end: 'bottom 45%', onToggle: self => { if (self.isActive) show(Number(st.dataset.to)); } }));
+      const go = () => show(stepAtScroll());
+      ScrollTrigger.create({ trigger: story, start: 'top bottom', end: 'bottom top', onUpdate: go, onRefresh: go });
     }
     ticks.forEach((t, k) => t.addEventListener('click', () => show(k)));
     return;
@@ -166,15 +196,14 @@ export function initStory() {
       gsap.fromTo(sun, { scale: .55, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.6, ease: 'out' });
       gsap.fromTo(rig, { y: 90, rotationX: 24, opacity: 0, transformPerspective: 1400, transformOrigin: '50% 100%' },
         { y: 0, rotationX: 0, opacity: 1, duration: 1.6, ease: 'out', delay: .1 });
-      gsap.delayedCall(.4, () => { if (cur < 0) show(0); });
+      // arriving from anywhere (a flick, a reload halfway down): start on the step the page is at
+      gsap.delayedCall(.4, () => { if (cur < 0) show(matchMedia(DESKTOP).matches ? stepAtScroll() : 0); });
     },
   });
 
   const mm = gsap.matchMedia();
   mm.add(DESKTOP, () => {
-    steps.forEach(s => {
-      ScrollTrigger.create({ trigger: s, start: 'top 55%', end: 'bottom 45%', onToggle: self => { if (self.isActive) show(Number(s.dataset.to)); } });
-    });
+    ScrollTrigger.create({ trigger: story, start: 'top bottom', end: 'bottom top', onUpdate: follow, onRefresh: follow });
 
     // the rail fills as you read; its leading edge stays level with the step you're on
     gsap.fromTo('[data-rail]', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.rail', start: 'top 52%', end: 'bottom 52%', scrub: .3 } });
