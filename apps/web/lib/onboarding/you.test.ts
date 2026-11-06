@@ -46,10 +46,10 @@ describe('01, which came from a feed', () => {
     let p = toggleFeed(start(), 'ag1');
     expect(p.items.find((i) => i.id === 'ag1')!.origin).toBe('online');
     expect(fromFeed(p)).toEqual(['ag1']);
-    expect(feedLine(p)).toBe("One came from a feed. We'll look at it together.");
+    expect(feedLine(p)).toBe("One came from social media. We'll look at it together.");
     p = toggleFeed(p, 'ag1');
     expect(p.items.find((i) => i.id === 'ag1')!.origin).toBeUndefined();
-    expect(feedLine(p)).toBe('None from a feed. That makes you rare.');
+    expect(feedLine(p)).toBe('None from social media. That makes you rare.');
   });
 
   it('never marks something a clinician gave them, and a feed thing stops being theirs', () => {
@@ -143,8 +143,8 @@ describe('the read', () => {
 
   it('leaves out what they skipped, and never says something they did not tell us', () => {
     const p = setPeople(start(), 'Myself', now);
-    expect(readOf(p)).toEqual({ title: ["Here's ", 'what we heard.'], context: null, promise: 'So: room for you.' });
-    expect(readOf(start())).toEqual({ title: ["Here's ", 'what we heard.'], context: null, promise: null });
+    expect(readOf(p)).toEqual({ title: ['Your days, ', 'as you told them.'], context: null, promise: 'So: room for you.' });
+    expect(readOf(start())).toEqual({ title: ['Your days, ', 'as you told them.'], context: null, promise: null });
   });
 
   it('writes a short paragraph in their own voice for the engine, and keeps anything they typed before', () => {

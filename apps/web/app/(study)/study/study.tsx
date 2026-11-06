@@ -6,6 +6,7 @@ import { useGo } from '../../../components/onboarding/go';
 import { Arrow, Brand, Bubble, Mark } from '../../../components/ds/ui';
 import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
+import { shapeFirstRitual } from '../../../lib/engine/first-ritual';
 import {
   addOwnThing,
   bedLabel,
@@ -36,8 +37,6 @@ import { useProgress } from '../../../lib/progress/context';
 
 const s = copy.study;
 const SCREENS = 7;
-/** How long a single-choice answer's reflection shows before the next question. */
-const ADVANCE_MS = 1100;
 
 /** A question: its words in one plain line (the italics belong to the number and the read only). */
 function Question({ parts, sub }: { parts: readonly string[]; sub?: string }) {
@@ -73,15 +72,15 @@ function Primary({ onClick, children }: { onClick: () => void; children: ReactNo
 
 /**
  * Step 4, the private study: six taps, each answered with one line, then the read on the night
- * palette. Multi-choice questions end with a button in their voice; single-choice ones move on by
- * themselves a moment after the reflection shows. Answers save as they're tapped.
+ * palette. Nothing moves on by itself: every question ends with a button in their voice, and on a
+ * single-choice one the line and the button arrive together with the tap. Answers save as they're
+ * tapped. Reaching the read starts their Ritual being shaped, so it's ready sooner on the next page.
  */
 export function Study({ names }: { names: Record<string, string> }) {
   const goBack = useGoBack();
   const go = useGo();
   const { ready, progress, update } = useProgress();
   const [screen, setScreen] = useState<number | null>(null);
-  const [advanceAt, setAdvanceAt] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
   const [draft, setDraft] = useState('');
   const addId = useId();
@@ -91,25 +90,18 @@ export function Study({ names }: { names: Record<string, string> }) {
     if (ready && screen === null) setScreen(firstOpen(progress));
   }, [ready, screen, progress]);
 
-  // A single-choice answer shows its reflection, then moves on. Another tap restarts the wait.
-  useEffect(() => {
-    if (advanceAt === null) return;
-    const t = window.setTimeout(() => {
-      setAdvanceAt(null);
-      setScreen((i) => (i === null ? i : Math.min(SCREENS - 1, i + 1)));
-    }, ADVANCE_MS);
-    return () => window.clearTimeout(t);
-  }, [advanceAt]);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [screen]);
 
+  // Every answer is in by the read: shape their Ritual now, so the next page has less to wait for.
+  useEffect(() => {
+    if (ready && screen === SCREENS - 1) void shapeFirstRitual(progress, Intl.DateTimeFormat().resolvedOptions().timeZone);
+    // Only on arriving at the read: its answers don't change while it shows.
+  }, [ready, screen]);
+
   const now = () => new Date().toISOString();
-  const to = (i: number) => {
-    setAdvanceAt(null);
-    setScreen(i);
-  };
+  const to = (i: number) => setScreen(i);
   const back = () => {
     if (screen === null || screen === 0) goBack('/number');
     else to(screen - 1);
@@ -137,7 +129,7 @@ export function Study({ names }: { names: Record<string, string> }) {
   if (screen === 0) {
     body = (
       <>
-        <Question parts={s.feed.q} sub={s.feed.sub} />
+        <Question parts={s.feed.q} />
         <div className="st-tiles">
           {items.map((i) => (
             <button
@@ -273,9 +265,10 @@ export function Study({ names }: { names: Record<string, string> }) {
     const q = screen === 3 ? s.valve : screen === 4 ? s.busy : s.people;
     const current = screen === 3 ? valve(progress) : screen === 4 ? busyAnswer(progress) : people(progress);
     const set = screen === 3 ? setValve : screen === 4 ? setBusy : setPeople;
+    const next = screen + 1;
     body = (
       <>
-        <Question parts={q.q} sub={'sub' in q ? q.sub : undefined} />
+        <Question parts={q.q} />
         <div className="st-list">
           {q.options.map((o) => (
             <button
@@ -283,18 +276,20 @@ export function Study({ names }: { names: Record<string, string> }) {
               type="button"
               className="st-option"
               aria-pressed={current === o}
-              onClick={() => {
-                update((p) => set(p, o, now()));
-                setAdvanceAt(Date.now());
-              }}
+              onClick={() => update((p) => set(p, o, now()))}
             >
               <span>{o}</span>
-              {current === o ? <Mark size="xs" light /> : <Arrow />}
+              {current === o ? <Mark size="xs" light /> : null}
             </button>
           ))}
         </div>
         <div className="st-bottom">
-          <Reflection text={current ? (q.reflections as Record<string, string>)[current] : null} />
+          {current ? (
+            <div className="st-answered">
+              <Reflection text={(q.reflections as Record<string, string>)[current]} />
+              <Primary onClick={() => to(next)}>{q.next}</Primary>
+            </div>
+          ) : null}
         </div>
       </>
     );
@@ -302,7 +297,6 @@ export function Study({ names }: { names: Record<string, string> }) {
     const read = readOf(progress);
     body = (
       <article className="st-heard">
-        <span className="st-heard-label">{s.read.eyebrow}</span>
         <h1>
           {read.title[0]}
           <em>{read.title[1]}</em>

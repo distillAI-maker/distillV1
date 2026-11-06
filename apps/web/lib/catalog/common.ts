@@ -15,8 +15,9 @@ export interface CommonItem {
 }
 
 /**
- * A general chip that opens into the specific ones under it (Gym, then Equinox, Barry's or F45).
- * Tapping it adds the general row; picking a specific one swaps the general row for it.
+ * A general chip that opens into the specific ones under it (Gym, then Equinox, Planet Fitness...),
+ * and an "Other" where they name their own. Tapping it adds the general row; picking a specific one
+ * swaps the general row for it.
  */
 export interface CommonParent extends CommonItem {
   /** The line over the specific chips once it opens ("Which gym?"). */
@@ -68,7 +69,10 @@ export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonC
         options: [
           { key: 'premium-gym-membership-equinox-life-time', text: 'Equinox', cost: 250 },
           { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: "Barry's", cost: 200 },
-          { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'F45', cost: 200 },
+          // What these chains charge (November 2026), not the row's typical gym: $60 overstates them.
+          { key: 'gym-membership', text: 'Planet Fitness', cost: 15 },
+          { key: 'gym-membership', text: '24 Hour Fitness', cost: 40 },
+          { key: 'gym-membership', text: 'LA Fitness', cost: 40 },
         ],
       },
       {
@@ -80,6 +84,7 @@ export const commonGroups: readonly { id: CommonGroupId; items: readonly CommonC
           { key: 'yoga-pilates-studio', text: 'Yoga studio', cost: 150 },
           { key: 'yoga-pilates-studio', text: 'Pilates', cost: 150 },
           { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'SoulCycle', cost: 200 },
+          { key: 'boutique-class-membership-barry-s-soulcycle-f45-orangetheory', text: 'F45', cost: 200 },
           { key: 'class-pack-or-studio-credits', text: 'ClassPass', cost: 120 },
         ],
       },
@@ -273,4 +278,9 @@ export function isChip(row: Pick<StackItem, 'itemKey' | 'label'>, item: CommonIt
   const label = chipLabel(item);
   if (label) return row.label === label;
   return !(row.label && namedLabels(item.key)?.has(row.label));
+}
+
+/** A row under a general chip that they named themselves ("Other", then "YMCA"). */
+export function isOtherRow(row: Pick<StackItem, 'itemKey' | 'label'>, parent: CommonParent): boolean {
+  return row.itemKey === parent.key && !!row.label && !allChips([parent]).some((c) => isChip(row, c));
 }

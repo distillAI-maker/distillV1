@@ -107,12 +107,16 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
         {/* Without a name the heading already says it. */}
         {name ? <h2>{copy.invitation.joinedLine}</h2> : null}
         {link.state === 'sent' ? (
-          <p>{copy.invitation.linkSent(link.email)}</p>
+          <div className="jn-email">
+            <h3>{copy.invitation.emailTitle}</h3>
+            <p className="jn-email-line">{copy.invitation.emailLine}</p>
+            <p className="jn-email-note">{copy.invitation.linkSent(link.email)}</p>
+          </div>
         ) : link.state === 'failed' ? (
           <p>{copy.invitation.linkFailed}</p>
         ) : null}
         <button type="button" className="ds-primary" onClick={() => void finish()} disabled={busy}>
-          {copy.invitation.connect}
+          {link.state === 'sent' ? copy.invitation.connectDemo : copy.invitation.connect}
           <Arrow />
         </button>
         {accounts ? (

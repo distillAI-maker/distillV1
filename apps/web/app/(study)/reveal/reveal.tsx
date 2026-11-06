@@ -7,9 +7,10 @@ import { RitualToken } from '../../../components/ds/ritual-token';
 import { Arrow, Brand, Locked, Mark } from '../../../components/ds/ui';
 import { useGo } from '../../../components/onboarding/go';
 import { copy } from '../../../lib/copy';
-import { revealRitual, shapeRitual } from '../../../lib/engine/preview';
+import { keepFirstRitual, shapeFirstRitual } from '../../../lib/engine/first-ritual';
+import { revealRitual } from '../../../lib/engine/preview';
 import { alwaysYours, type RevealNotes } from '../../../lib/onboarding/reveal';
-import { lifePicks, protectedThing, wakeSaid } from '../../../lib/onboarding/you';
+import { lifePicks, protectedThing, shapingLines, wakeSaid } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
 import { revealGroups } from '../../../lib/ritual-groups';
 import { NUMBERED_STEPS } from '../../../lib/steps';
@@ -19,6 +20,13 @@ const r = copy.app.ritual;
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 /** "Shaping it around you" shows at least this long, so the moment registers. */
 const SHAPING_MS = 1200;
+/**
+ * How long the page waits for Claude's version before showing the rules one. It takes about 30
+ * seconds from the end of the study (measured live, 5 Nov), and most of that has passed by now.
+ */
+const HOLD_MS = 30_000;
+/** How long each line of the shaping screen shows. */
+const LINE_MS = 3200;
 /** How long the parts gather before the invitation opens. */
 const GATHER_MS = 720;
 
@@ -27,10 +35,30 @@ const still = () =>
   (document.documentElement.dataset.motion === 'reduce' ||
     !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
 
+/** The wait, saying what it's doing with what they told us. It stops on the last line. */
+function Shaping({ lines }: { lines: readonly string[] }) {
+  const all = [copy.reveal.shaping, ...lines, copy.reveal.finishing];
+  const [at, setAt] = useState(0);
+  useEffect(() => {
+    if (still()) return;
+    const t = window.setInterval(() => setAt((i) => i + 1), LINE_MS);
+    return () => window.clearInterval(t);
+  }, []);
+  const line = all[Math.min(at, all.length - 1)];
+  return (
+    <main className="rv-shaping" aria-busy="true">
+      <Mark />
+      <span key={line}>{line}</span>
+      <i />
+    </main>
+  );
+}
+
 /**
- * Step 5: their first Ritual. The rules version shows at once; when Claude is on, its version
- * (named and paired in their words) replaces it when ready. "Make it mine" is their yes: the parts
- * gather into one card, which travels with them to the app.
+ * Step 5: their first Ritual, whole from the moment it shows. When Claude is on, the page holds until
+ * its version (named and paired in their words) is ready, or until HOLD_MS; the rules version, with
+ * everything rules can say, covers the rest. It never changes while they're reading. "Make it mine"
+ * is their yes: the parts gather into one card, which travels with them to the app.
  */
 export function Reveal() {
   const go = useGo();
@@ -38,7 +66,6 @@ export function Reveal() {
   const goBack = useGoBack();
   const { ready, progress } = useProgress();
   const [draft, setDraft] = useState<{ parts: readonly RitualPart[]; notes: RevealNotes } | null>(null);
-  const [shaping, setShaping] = useState(false);
   const [failed, setFailed] = useState(false);
   const [settled, setSettled] = useState(false);
   const [gathering, setGathering] = useState(false);
@@ -55,26 +82,19 @@ export function Reveal() {
     started.current = true;
     const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     revealRitual(progress, zone)
-      .then((res) => {
-        setDraft({ parts: res.parts, notes: res.notes });
-        if (!res.shaping) return;
-        setShaping(true);
-        return shapeRitual(progress, zone).then((s) => {
-          if (s) setDraft((d) => (d ? { ...d, parts: s.parts } : d));
-        });
+      .then(async (res) => {
+        const shaped = res.shaping
+          ? await Promise.race([
+              shapeFirstRitual(progress, zone),
+              new Promise<null>((done) => window.setTimeout(() => done(null), HOLD_MS)),
+            ])
+          : null;
+        setDraft({ parts: shaped?.parts ?? res.parts, notes: res.notes });
       })
-      .catch(() => setFailed(true))
-      .finally(() => setShaping(false));
+      .catch(() => setFailed(true));
   }, [ready, progress]);
 
-  if ((!draft && !failed) || !settled)
-    return (
-      <main className="rv-shaping" aria-busy="true">
-        <Mark />
-        <span>{copy.reveal.shaping}</span>
-        <i />
-      </main>
-    );
+  if ((!draft && !failed) || !settled) return <Shaping lines={ready ? shapingLines(progress) : []} />;
 
   const picks = [...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x);
   const notes = draft?.notes;
@@ -89,6 +109,7 @@ export function Reveal() {
   const accept = () => {
     if (gathering) return;
     setGathering(true);
+    if (draft) keepFirstRitual(progress, draft.parts);
     window.setTimeout(() => go('invitation'), still() ? 0 : GATHER_MS);
   };
 
@@ -143,7 +164,6 @@ export function Reveal() {
           <p>{copy.reveal.empty}</p>
         </section>
       ) : null}
-      {shaping ? <p className="rv-note">{copy.reveal.shaping}</p> : null}
 
       {always.length ? (
         <section className="rv-always" aria-label={r.always}>
