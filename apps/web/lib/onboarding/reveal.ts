@@ -117,6 +117,91 @@ export function ritualSections(parts: readonly RitualPart[], wellFounded: readon
     }));
 }
 
+const EVERY_DAY = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
+const minutesOf = (clock: string) => {
+  const [h = 0, m = 0] = clock.split(':').map(Number);
+  return h * 60 + m;
+};
+const clockOf = (minutes: number) => {
+  const m = ((minutes % 1440) + 1440) % 1440;
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+};
+/** "11:00 pm" for "23:00". */
+const bedWords = (clock: string) => {
+  const m = minutesOf(clock);
+  const h = Math.floor(m / 60);
+  return `${h % 12 || 12}:${String(m % 60).padStart(2, '0')} ${h >= 12 ? 'pm' : 'am'}`;
+};
+
+export interface RitualDetail {
+  /** Their wake-up and bedtime as "HH:MM", when they told us. */
+  readonly wake?: string | null;
+  readonly bed?: string | null;
+  /** What the row's evidence is for ("less muscle soreness after hard exercise"). */
+  readonly evidenceFor: (itemKey: string | null) => string | undefined;
+  /** Well-founded things they keep, by stack item id. */
+  readonly wellFounded: readonly string[];
+}
+
+/**
+ * The rules draft, said as fully as rules can say it, so a Ritual never reads as a bare list: mornings
+ * placed after their wake-up, nights before their bedtime, what each well-founded thing is for, and
+ * whose it is. Only their answers and the catalog's own checked line go in; Claude's version replaces
+ * all of it when it's on.
+ */
+export function withDetail(parts: readonly RitualPart[], d: RitualDetail): RitualPart[] {
+  const founded = new Set(d.wellFounded);
+  const inOrder = [...parts].sort((a, b) => a.order - b.order);
+  const free = (slot: RitualPart['when']['slot']) => inOrder.filter((p) => p.status === 'active' && p.when.slot === slot && !p.when.at);
+  const clocks = new Map<string, string>();
+  if (d.wake) free('morning').forEach((p, i) => clocks.set(p.id, clockOf(minutesOf(d.wake!) + 15 + 15 * Math.floor(i / 2))));
+  if (d.bed) free('night').reverse().forEach((p, i) => clocks.set(p.id, clockOf(minutesOf(d.bed!) - 30 - 15 * i)));
+  const say = copy.reveal.detail;
+  return parts.map((p) => {
+    const item = p.source.kind === 'stack' ? p.source : null;
+    const benefit = item && founded.has(item.stackItemId) ? d.evidenceFor(item.itemKey) : undefined;
+    const why = benefit ? say.founded(benefit) : p.lock === 'theirs' ? say.yours : p.why;
+    const at = clocks.get(p.id);
+    return { ...p, why, ...(at ? { when: { ...p.when, at } } : {}) };
+  });
+}
+
+/**
+ * The first Ritual's anchors, from their own answers: up at, in bed by, and room for who they want
+ * more time with. Claude's version writes its own; these are for the rules version on the reveal.
+ */
+export function withAnchors(
+  parts: readonly RitualPart[],
+  a: { readonly wakeLabel?: string | null; readonly wake?: string | null; readonly bed?: string | null; readonly people?: string },
+): RitualPart[] {
+  const say = copy.reveal.detail;
+  const anchor = (id: string, title: string, why: string, when: RitualPart['when'], area: RitualPart['area']): RitualPart => ({
+    id: `part:${id}`,
+    when,
+    order: 0,
+    title,
+    area,
+    why,
+    source: { kind: 'engine', rule: id },
+    status: 'active',
+    lock: null,
+  });
+  const room = a.people ? say.room[a.people] : undefined;
+  const titles = parts.map((p) => p.title.toLowerCase());
+  const roomWord = room?.toLowerCase().split(' ').at(-1);
+  const inOrder = [...parts].sort((x, y) => x.order - y.order);
+  // The day in the order it's lived: up, the day, room for their people, the night, in bed.
+  return [
+    ...(a.wake && a.wakeLabel ? [anchor('wake', say.up(a.wakeLabel), say.upWhy, { slot: 'morning', days: [...EVERY_DAY], at: a.wake }, 'sleep')] : []),
+    ...inOrder.filter((p) => p.when.slot !== 'night'),
+    ...(room && roomWord && !titles.some((t) => t.includes(roomWord))
+      ? [anchor('room', room, say.roomWhy, { slot: 'evening', days: [], perWeek: 1 }, 'mind')]
+      : []),
+    ...inOrder.filter((p) => p.when.slot === 'night'),
+    ...(a.bed ? [anchor('bed', say.bed(bedWords(a.bed)), say.bedWhy, { slot: 'night', days: [...EVERY_DAY], at: a.bed }, 'sleep')] : []),
+  ].map((p, order) => ({ ...p, order }));
+}
+
 /** What they'd never give up from their life that isn't already a part of their Ritual. */
 export function alwaysYours(parts: readonly RitualPart[], picks: readonly string[]): string[] {
   const titles = parts.filter((p) => p.status === 'active').map((p) => p.title.toLowerCase());

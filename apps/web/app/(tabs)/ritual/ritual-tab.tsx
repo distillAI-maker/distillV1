@@ -11,6 +11,7 @@ import { useRefreshOnReturn } from '../../../components/ds/use-refresh-on-return
 import { copy } from '../../../lib/copy';
 import { engineApi, type EngineResult, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
+import { keptFirstRitual } from '../../../lib/engine/first-ritual';
 import { previewRitual } from '../../../lib/engine/preview';
 import { useProgress } from '../../../lib/progress/context';
 import { saidMakeItMine } from '../../../lib/steps';
@@ -581,6 +582,12 @@ export function RitualPreviewTab() {
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
     if (!ready) return;
+    // The Ritual they just said "Make it mine" to, until their list changes; then the rules on it.
+    const kept = keptFirstRitual(progress);
+    if (kept) {
+      setParts(kept);
+      return;
+    }
     let alive = true;
     previewRitual(progress, Intl.DateTimeFormat().resolvedOptions().timeZone)
       .then((p) => alive && setParts(p.parts))

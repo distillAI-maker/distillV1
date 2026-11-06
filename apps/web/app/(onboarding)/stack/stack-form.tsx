@@ -10,6 +10,7 @@ import {
   commonGroups,
   commonRow,
   isChip,
+  isOtherRow,
   isParent,
   type CommonItem,
   type CommonParent,
@@ -40,6 +41,48 @@ const categoryOrder = [
 type Category = (typeof categoryOrder)[number];
 
 const protectedOrigins: Origin[] = ['doctor', 'blood test'];
+
+/** The last chip under a general one: tap "Other", type the name, and the chip wears it. Tap again to take it out. */
+function OtherOption({ ask, name, onName }: { ask: string; name: string | null; onName: (name: string | null) => void }) {
+  const [typing, setTyping] = useState(false);
+  const [draft, setDraft] = useState('');
+  const id = useId();
+  const done = () => {
+    const text = draft.trim();
+    if (text) onName(text);
+    setDraft('');
+    setTyping(false);
+  };
+  if (typing)
+    return (
+      <form
+        className="st-add"
+        onSubmit={(e) => {
+          e.preventDefault();
+          done();
+        }}
+      >
+        <label className="sr-only" htmlFor={id}>
+          {ask}
+        </label>
+        <input
+          id={id}
+          autoFocus
+          value={draft}
+          maxLength={60}
+          enterKeyHint="done"
+          placeholder={copy.stack.tap.otherPlaceholder}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={done}
+        />
+      </form>
+    );
+  return (
+    <Bubble on={!!name} onClick={() => (name ? onName(null) : setTyping(true))}>
+      {name ?? copy.stack.tap.other}
+    </Bubble>
+  );
+}
 
 /**
  * The brand as the person wrote it ("Equinox", "AG1"), when what they typed matched one of the
@@ -179,7 +222,8 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   function toggleParent(parent: CommonParent) {
     setNeedOne(false);
     const family = allChips([parent]);
-    const on = family.some(chipOn);
+    const inFamily = (i: StackItem) => family.some((c) => isChip(i, c)) || isOtherRow(i, parent);
+    const on = items.some(inFamily);
     setOpened((o) => {
       const next = new Set(o);
       if (on) next.delete(parent.key);
@@ -187,8 +231,17 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
       return next;
     });
     update((p) => {
-      if (on) return without(p, (i) => family.some((c) => isChip(i, c)));
+      if (on) return without(p, inFamily);
       return { ...p, items: [...p.items, commonRow(parent, p.items.length)] };
+    });
+  }
+  /** "Other": the one they name themselves stands in for the general row, as a specific chip does. */
+  function setOther(parent: CommonParent, name: string | null) {
+    setNeedOne(false);
+    update((p) => {
+      const rest = without(p, (i) => isOtherRow(i, parent) || (!!name && isChip(i, parent)));
+      if (!name) return rest;
+      return { ...rest, items: [...rest.items, { ...commonRow(parent, rest.items.length), label: name }] };
     });
   }
   /** A specific chip under a general one: picking it stands in for the general row. */
@@ -270,7 +323,8 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
                           {item.text}
                         </Bubble>
                       );
-                    const on = allChips([item]).some(chipOn);
+                    const other = items.find((i) => isOtherRow(i, item));
+                    const on = allChips([item]).some(chipOn) || !!other;
                     const open = on || opened.has(item.key);
                     // The specific ones open right under the general chip, on a line of their own.
                     return (
@@ -287,6 +341,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
                                   {o.text}
                                 </Bubble>
                               ))}
+                              <OtherOption ask={item.ask} name={other?.label ?? null} onName={(n) => setOther(item, n)} />
                             </div>
                           </div>
                         ) : null}

@@ -203,25 +203,40 @@ describe('Your stack', () => {
     fireEvent.click(gym);
     expect(gym.getAttribute('aria-expanded')).toBe('true');
     const which = screen.getByRole('group', { name: 'Which gym?' });
-    for (const name of ['Equinox', "Barry's", 'F45'])
+    for (const name of ['Equinox', "Barry's", 'Planet Fitness', '24 Hour Fitness', 'LA Fitness', 'Other'])
       expect(within(which).getByRole('button', { name })).toBeTruthy();
     await waitFor(async () =>
       expect((await store.load())?.items.map((i) => [i.itemKey, i.label])).toEqual([['gym-membership', 'Gym']]),
     );
 
-    fireEvent.click(within(which).getByRole('button', { name: 'F45' }));
+    fireEvent.click(within(which).getByRole('button', { name: 'Planet Fitness' }));
     await waitFor(async () =>
       expect((await store.load())?.items.map((i) => [i.itemKey, i.label, i.monthlyCost])).toEqual([
-        ['boutique-class-membership-barry-s-soulcycle-f45-orangetheory', 'F45', 200],
+        ['gym-membership', 'Planet Fitness', 15],
       ]),
     );
     expect(within(which).getByRole('button', { name: "Barry's" }).getAttribute('aria-pressed')).toBe('false');
     expect(gym.getAttribute('aria-pressed')).toBe('true');
 
+    // Other asks for the name; the chip wears it, and tapping it again takes it out.
+    fireEvent.click(within(which).getByRole('button', { name: 'Other' }));
+    const name = within(which).getByRole('textbox', { name: 'Which gym?' });
+    fireEvent.change(name, { target: { value: 'YMCA' } });
+    fireEvent.blur(name);
+    await waitFor(async () =>
+      expect((await store.load())?.items.map((i) => [i.itemKey, i.label, i.monthlyCost])).toEqual([
+        ['gym-membership', 'Planet Fitness', 15],
+        ['gym-membership', 'YMCA', 60],
+      ]),
+    );
+    fireEvent.click(within(which).getByRole('button', { name: 'YMCA' }));
+    await waitFor(async () => expect((await store.load())?.items.map((i) => i.label)).toEqual(['Planet Fitness']));
+    expect(within(which).getByRole('button', { name: 'Other' }).getAttribute('aria-pressed')).toBe('false');
+
     // Class-based exercise opens the same way; yoga on its own stays a chip of its own.
     fireEvent.click(screen.getByRole('button', { name: 'Class-based exercise' }));
     const classes = screen.getByRole('group', { name: 'Which classes?' });
-    for (const name of ['Yoga studio', 'Pilates', 'SoulCycle', 'ClassPass'])
+    for (const name of ['Yoga studio', 'Pilates', 'SoulCycle', 'F45', 'ClassPass', 'Other'])
       expect(within(classes).getByRole('button', { name })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Yoga' }).getAttribute('aria-expanded')).toBeNull();
 

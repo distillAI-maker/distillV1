@@ -190,6 +190,14 @@ export function wakeSaid(p: Progress): string | null {
   return answer(p, 'wake') ? wakeLabel(p) : null;
 }
 
+/** Their wake-up and bedtime as "HH:MM", or nothing if they never said. */
+export function wakeClockSaid(p: Progress): string | null {
+  return answer(p, 'wake') ?? null;
+}
+export function bedClockSaid(p: Progress): string | null {
+  return answer(p, 'bed') ?? null;
+}
+
 /** Fifteen minutes earlier or later, round the whole 24-hour clock (23:45 comes before 00:00). */
 const nudged = (time: string, by: -15 | 15) => toClock((((toMinutes(time) + by) % DAY_MINUTES) + DAY_MINUTES) % DAY_MINUTES);
 
@@ -299,6 +307,14 @@ export function readOf(p: Progress): { title: readonly [string, string]; context
     pick(r.room as Keyed<string>, people(p)),
   ].filter((x): x is string => !!x);
   return { title, context, promise: promise.length ? r.so(listOfThree(promise)) : null };
+}
+
+/** What their Ritual is being shaped around, from their answers: "Short weekday mornings". */
+export function shapingLines(p: Progress): string[] {
+  const r = study.read;
+  return [pick(r.mornings as Keyed<string>, work(p)), pick(r.protect as Keyed<string>, busyAnswer(p)), pick(r.room as Keyed<string>, people(p))]
+    .filter((x): x is string => !!x)
+    .map((x) => x.replace(/^./, (c) => c.toUpperCase()));
 }
 
 // --- what the engine reads --------------------------------------------------------------------

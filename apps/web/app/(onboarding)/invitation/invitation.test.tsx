@@ -66,7 +66,12 @@ describe('Join the Founding 100', () => {
     await join();
     await waitFor(() => expect(send).toHaveBeenCalledTimes(2));
     expect(String((send.mock.calls[1]![1] as FormData).get('email'))).toBe('maya@stanford.edu');
-    expect(await screen.findByText(/We sent a link to maya@stanford.edu/)).toBeTruthy();
+    expect(await screen.findByText(/Sent to maya@stanford.edu/)).toBeTruthy();
+    // Clear about what happens next: an email to open, and a demo until they do.
+    expect(screen.getByRole('heading', { name: 'You just received an email.' })).toBeTruthy();
+    expect(screen.getByText(/keeps you signed in and your progress saved/)).toBeTruthy();
+    expect(screen.getByText(/this is a demo/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Continue in the demo/ })).toBeTruthy();
   });
 
   it('goes from the welcome straight into their Ritual: no wearable step while wearables are off', async () => {

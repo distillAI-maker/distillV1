@@ -165,6 +165,8 @@ export const copy = {
         body: 'Body, skin and sleep',
         food: 'Food and drink',
       },
+      other: 'Other',
+      otherPlaceholder: 'Which one?',
       next: 'Continue',
       talk: 'Rather talk it through?',
       back: 'Tap through the common things',
@@ -215,14 +217,13 @@ export const copy = {
     count: (k: number, n: number) => `0${k} / 0${n}`,
     back: 'Back',
     feed: {
-      q: ['Be honest. Which of these came from a ', 'feed?'],
-      sub: "No judgement. It's how we clear the noise.",
+      q: ['Be honest. Which of these came from ', 'social media?'],
       next: "That's the list",
-      none: 'None from a feed. That makes you rare.',
+      none: 'None from social media. That makes you rare.',
       some: (n: number) =>
         n === 1
-          ? "One came from a feed. We'll look at it together."
-          : `${n} came from a feed. We'll look at those together.`,
+          ? "One came from social media. We'll look at it together."
+          : `${n} came from social media. We'll look at those together.`,
     },
     yours: {
       q: ['Which would you ', 'never', ' give up?'],
@@ -265,7 +266,7 @@ export const copy = {
     },
     valve: {
       q: ["When it’s a lot, what do you ", 'reach for?'],
-      sub: 'The instinctive answer, not the ideal one.',
+      next: "That's me",
       options: ['Scrolling', 'A drink', 'Takeaway', 'Pushing harder', 'Sleeping in', 'Calling someone'],
       reflections: {
         Scrolling: 'Then hard evenings get somewhere better to land.',
@@ -278,6 +279,7 @@ export const copy = {
     },
     busy: {
       q: ['When a week gets busy, what goes ', 'first?'],
+      next: "That's the one",
       options: ['Sleep', 'Training', 'Seeing people', 'Time alone'],
       reflections: {
         Sleep: 'Then your sleep is the one thing we protect.',
@@ -288,6 +290,7 @@ export const copy = {
     },
     people: {
       q: ['Who do you want ', 'more time', ' with?'],
+      next: 'More of that',
       options: ['Partner', 'Friends', 'Family', 'Myself', 'New people'],
       reflections: {
         Partner: 'Your Ritual will make room for them.',
@@ -299,8 +302,7 @@ export const copy = {
     },
     /** The read: built only from their answers, each clause from one tap. */
     read: {
-      eyebrow: "Here's what we heard",
-      fallback: ["Here's ", 'what we heard.'],
+      fallback: ['Your days, ', 'as you told them.'],
       valve: {
         Scrolling: ["When it’s a lot, you ", 'reach for your phone.'],
         'A drink': ["When it’s a lot, you ", 'reach for a drink.'],
@@ -371,6 +373,24 @@ export const copy = {
   /** Step 6: their first Ritual, as the brand board's cabinet cards. One short line each. */
   reveal: {
     shaping: 'Shaping it around you',
+    finishing: 'Putting it together',
+    /** The Ritual when Claude isn't on: what the rules can say, from what they told us. */
+    detail: {
+      up: (time: string) => `Up at ${time}`,
+      upWhy: 'Your mornings start from here, so the rest of the day has somewhere to begin.',
+      bed: (time: string) => `In bed by ${time}`,
+      bedWhy: 'You told us this time, so it stays put when a week fills up.',
+      founded: (benefit: string) => `For ${benefit}.`,
+      yours: "You said you'd never give this up, so it stays exactly as it is.",
+      room: {
+        Partner: 'Time with your partner',
+        Friends: 'Time with friends',
+        Family: 'Time with family',
+        Myself: 'Time to yourself',
+        'New people': 'Somewhere to meet new people',
+      } as Readonly<Record<string, string>>,
+      roomWhy: 'You said you want more of this, so an evening stays open for it each week.',
+    },
     clean: 'Clean already.',
     empty: 'Your Ritual starts with what you love. Add something you do, and it fills in.',
     accept: 'Make it mine',
@@ -437,10 +457,13 @@ export const copy = {
     joined: "You're a founding member.",
     joinedNamed: (name: string) => `Welcome, ${name}.`,
     joinedLine: "You're a founding member.",
+    emailTitle: 'You just received an email.',
+    emailLine: 'Open Distill from that email, on this phone. It keeps you signed in and your progress saved.',
     linkSent: (email: string) =>
-      `We sent a link to ${email}. Open it on this phone to keep everything you've added.`,
+      `Sent to ${email}. Until you open it, this is a demo: what you've added lives only on this phone.`,
     linkFailed: "We couldn't send the link. Everything is still saved on this phone.",
     connect: 'Continue',
+    connectDemo: 'Continue in the demo',
   },
   firstReading: {
     title: 'Your first reading.',
@@ -1166,7 +1189,7 @@ export const copy = {
     signedOut: 'This is how your Ritual would start. Sign in to keep it, and it shapes itself around your weeks.',
     signIn: 'Sign in',
     lastStep: 'One last step',
-    lastStepLine: 'Tap the link we emailed you to keep your Ritual. Open it on this phone, in this browser.',
+    lastStepLine: 'This is a demo until you open the email we sent you. Open it on this phone, and you stay signed in with your progress saved.',
     sendAgain: 'Send it again',
     tryAgain: 'Try again',
     error: "That didn't go through. Try again in a moment.",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allChips, commonGroups, commonRow, isChip, morePlaces } from './common';
+import { allChips, commonGroups, commonRow, isChip, isOtherRow, isParent, morePlaces } from './common';
 import { itemByKey } from './server';
 
 describe('common items', () => {
@@ -7,8 +7,12 @@ describe('common items', () => {
   const later = morePlaces.flatMap((p) => p.items);
 
   it('are routing-table rows at the table cost, each chip once, and the app asks only new rows', () => {
-    for (const item of [...common, ...later])
-      expect(itemByKey(item.key)?.monthlyCost, item.key).toBe(item.cost);
+    // The named budget gyms say what those chains charge; the row's typical gym would overstate them.
+    const chains = new Set(['Planet Fitness', '24 Hour Fitness', 'LA Fitness']);
+    for (const item of [...common, ...later]) {
+      if (chains.has(item.text)) expect(item.cost, item.text).toBeLessThan(itemByKey(item.key)!.monthlyCost!);
+      else expect(itemByKey(item.key)?.monthlyCost, item.key).toBe(item.cost);
+    }
     const chips = [...common, ...later].map((i) => `${i.key} ${i.text}`);
     expect(new Set(chips).size).toBe(chips.length);
     const onboarding = new Set(common.map((i) => i.key));
@@ -36,5 +40,17 @@ describe('common items', () => {
     const stretch = commonGroups.flatMap((g) => allChips(g.items)).find((c) => c.text === 'Stretching or yoga')!;
     expect(isChip(commonRow(yoga, 0), stretch)).toBe(false);
     expect(isChip(commonRow(stretch, 0), stretch)).toBe(true);
+  });
+
+  it('offer the big gyms by name, and know a gym they named themselves', () => {
+    const gym = commonGroups.flatMap((g) => g.items).find((c) => c.text === 'Gym');
+    if (!gym || !isParent(gym)) throw new Error('Gym should open into specific gyms');
+    expect(gym.options.map((o) => o.text)).toEqual(expect.arrayContaining(['Equinox', "Barry's", 'Planet Fitness', '24 Hour Fitness', 'LA Fitness']));
+    const planet = gym.options.find((o) => o.text === 'Planet Fitness')!;
+    expect(isChip(commonRow(planet, 0), gym)).toBe(false);
+    expect(isOtherRow(commonRow(planet, 0), gym)).toBe(false);
+    expect(isOtherRow(commonRow(gym, 0), gym)).toBe(false);
+    expect(isOtherRow({ itemKey: gym.key, label: 'YMCA' }, gym)).toBe(true);
+    expect(isOtherRow({ itemKey: 'yoga-pilates-studio', label: 'YMCA' }, gym)).toBe(false);
   });
 });
