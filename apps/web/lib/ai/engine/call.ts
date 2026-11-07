@@ -139,7 +139,7 @@ export async function callJson<T>(client: ClaudeClient | null, input: CallInput<
   // Three tries: the fixed line is a stand-in, so Claude gets every fair chance to land its own.
   for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     const remaining = input.timeoutMs - (Date.now() - started);
-    if (remaining <= 250) return { ok: false, reason: 'timeout', usage: usageOf(), problems };
+    if (remaining <= 250) return { ok: false, reason: 'timeout', usage: usageOf(), problems, ...(partial !== undefined ? { partial } : {}) };
     let raw: Raw;
     try {
       const request = body(input as CallInput<unknown>, content);
@@ -148,7 +148,8 @@ export async function callJson<T>(client: ClaudeClient | null, input: CallInput<
         ? client.messages.create(request as never, options as never)
         : client.beta.messages.create(request as never, options as never))) as Raw;
     } catch (error) {
-      if (error instanceof Anthropic.APIConnectionTimeoutError) return { ok: false, reason: 'timeout', usage: usageOf(), problems };
+      // Out of time on a retry: what the earlier answer got right is still there for the caller.
+      if (error instanceof Anthropic.APIConnectionTimeoutError) return { ok: false, reason: 'timeout', usage: usageOf(), problems, ...(partial !== undefined ? { partial } : {}) };
       return { ok: false, reason: 'api-error', usage: usageOf(), problems: [error instanceof Error ? error.message.slice(0, 200) : 'request failed'] };
     }
     const cost = priced(input.model, raw);

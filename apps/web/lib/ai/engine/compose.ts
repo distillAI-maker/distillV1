@@ -126,6 +126,12 @@ function apply(rules: readonly RitualPart[], data: Out, newId: () => string, cap
   return sortParts(current).map((p, i) => ({ ...p, order: i }));
 }
 
+/**
+ * The reveal holds for 30 seconds (app/(study)/reveal/reveal.tsx), and the work starts a little before
+ * that, on the read. Past this, nobody is still waiting: the answer would be paid for and dropped.
+ */
+const QUICK_MS = 38_000;
+
 export async function composeRitual(
   client: ClaudeClient | null,
   input: {
@@ -140,6 +146,8 @@ export async function composeRitual(
     stack?: readonly StackItemLike[];
     asks?: readonly { q: string; a: string }[];
     newId: () => string;
+    /** Someone is waiting on the page: an answer in time, over the last word in polish. */
+    quick?: boolean;
   },
 ): Promise<ComposeResult> {
   const rules = { parts: input.rules.parts, summary: input.rules.summary, from: 'rules' as const };
@@ -171,7 +179,7 @@ export async function composeRitual(
   const result = await callJson(client, {
     step: 'compose',
     model: CAPI,
-    effort: input.firstCompose ? 'high' : 'medium',
+    effort: input.firstCompose && !input.quick ? 'high' : 'medium',
     system: [WHO, voice(input.toneRules.bannedPhrases), COMPOSE_JOB],
     content,
     jsonSchema: SCHEMA,
@@ -179,7 +187,7 @@ export async function composeRitual(
     check,
     // The first Ritual is made once and is worth the wait; later recomposes stay quick.
     // Thinking shares the token budget: too little, and the answer is cut off mid-JSON.
-    timeoutMs: input.firstCompose ? 120000 : 45000,
+    timeoutMs: input.quick ? QUICK_MS : input.firstCompose ? 120000 : 45000,
     maxTokens: input.firstCompose ? 20000 : 12000,
   });
   if (!result.ok) {

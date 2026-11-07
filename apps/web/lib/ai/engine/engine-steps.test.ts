@@ -1,3 +1,4 @@
+import Anthropic from '@anthropic-ai/sdk';
 import { describe, expect, it } from 'vitest';
 import { buildCatalogView } from '@distill/catalog';
 import { checkLine, personFromProgress, scopeTrigger, type RitualPart, type RitualVersion } from '@distill/engine/ritual';
@@ -159,6 +160,44 @@ describe('what the first Ritual is shaped from', () => {
     expect(r.from).toBe('claude');
     expect(r.parts[0]).toMatchObject({ title: 'Your own title', why: 'x' });
     expect(r.summary).toBe('The plain summary.');
+  });
+  it('when someone is waiting on the page, asks for an answer in time instead of the last word in polish', async () => {
+    const quickly = async (quick: boolean) => {
+      const { client, requests } = fakeClient([{ parts: [], additions: [], summary: 'Your week, Ana.' }]);
+      await composeRitual(client, {
+        person,
+        rules: { parts: [draftPart('a', { slot: 'evening', days: [], perWeek: 1 })], summary: 'x' },
+        allowed: { words: '', stackItemIds: new Set(['a']), ideaIds: new Set(), peopleIds: new Set(), productNames: [] },
+        toneRules,
+        lineContext: { allowedNumbers: [], names: [] },
+        firstCompose: true,
+        today: '2026-10-23',
+        newId: () => 'new',
+        ...(quick ? { quick: true } : {}),
+      });
+      return (requests[0]!.output_config as { effort: string }).effort;
+    };
+    expect(await quickly(true)).toBe('medium');
+    expect(await quickly(false)).toBe('high');
+  });
+  it('keeps a first answer with one bad line when the retry runs out of time', async () => {
+    const nearlyRight = { parts: [{ id: 'part:a', title: 'Your own title', why: 'A ritual you run.' }], additions: [], summary: 'Your week, Ana.' };
+    const outOfTime = new Anthropic.APIConnectionTimeoutError();
+    const { client, requests } = fakeClient([nearlyRight, outOfTime]);
+    const r = await composeRitual(client, {
+      person,
+      rules: { parts: [draftPart('a', { slot: 'evening', days: [], perWeek: 1 })], summary: 'The plain summary.' },
+      allowed: { words: '', stackItemIds: new Set(['a']), ideaIds: new Set(), peopleIds: new Set(), productNames: [] },
+      toneRules,
+      lineContext: { allowedNumbers: [], names: [] },
+      firstCompose: true,
+      quick: true,
+      today: '2026-10-23',
+      newId: () => 'new',
+    });
+    expect(requests).toHaveLength(2);
+    expect(r.from).toBe('claude');
+    expect(r.parts[0]).toMatchObject({ title: 'Your own title', why: 'x' });
   });
   it('trims a change of days to the days with room, rather than dropping the change', async () => {
     const full = ['a', 'b', 'c'].map((id) => draftPart(id, { slot: 'night', days: ['sat', 'sun'] }));

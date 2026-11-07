@@ -1659,6 +1659,7 @@ export async function previewCompose(
       ].filter(Boolean),
     },
     firstCompose: true,
+    quick: true,
     today,
     stack: progress.items,
     asks: progress.asks,
