@@ -30,7 +30,7 @@
     "seed:demo": "tsx scripts/seed-demo.ts",
     "test": "vitest run",
     "tone-lint": "tsx scripts/tone-lint.ts",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm catalog:check && pnpm tone-lint"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm catalog:check && pnpm tone-lint && pnpm sim:check"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",

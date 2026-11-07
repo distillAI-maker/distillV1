@@ -19,7 +19,8 @@ Older docs (`SPEC.md`, `docs/DIRECTION.md`, `docs/Product-Context.md`, the phase
 
 ## Commands
 
-- Node 24, pnpm 10.34.6 (`npx -y pnpm@10.34.6 …`): `install --frozen-lockfile`, `catalog:build`, `check` (lint, types, tests, catalog, tone), `build:web`.
+- Node 24, pnpm 10.34.6 (`npx -y pnpm@10.34.6 …`): `install --frozen-lockfile`, `catalog:build`, `check` (lint, types, tests, catalog, tone, power-report provenance), `build:web`.
+- GitHub runs `check`, then `build:web`, on every push and PR. If `check` says the power report is stale, a simulation or non-Ritual engine source changed: run `sim:power`, then `sim:labels`, and commit the results. Editing the Ritual engine (`packages/engine/src/ritual`) doesn't affect it.
 - Engine: `eval:gates` (free, seconds), `eval:engine` (rules only; `--claude --judge --yes` spends about $15), `eval:ab`, `engine:backfill`.
 - Landing page preview: `python3 -m http.server 3000 -d public`.
 

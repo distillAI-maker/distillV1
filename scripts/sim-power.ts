@@ -22,7 +22,8 @@ export async function sourceHash() {
     for (const entry of await readdir(path, { withFileTypes: true })) {
       const child = `${path}/${entry.name}`;
       if (entry.isDirectory()) {
-        if (entry.name !== 'verdict') await walk(child);
+        // The Ritual engine isn't part of the simulation: nothing here imports it, so editing it can't change a number.
+        if (entry.name !== 'verdict' && entry.name !== 'ritual') await walk(child);
       } else if (
         entry.name.endsWith('.ts') &&
         !entry.name.endsWith('.test.ts') &&
@@ -234,7 +235,7 @@ async function main() {
     throw new Error('Simulation sources changed during the run; regenerate from a stable tree');
   const metadata = {
     version: 1,
-    sourceHashScope: 'Simulation and calculation sources; verdict presentation is excluded',
+    sourceHashScope: 'Simulation and calculation sources; verdict presentation and the Ritual engine are excluded',
     seed,
     trials,
     nullTrials,

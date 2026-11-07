@@ -1,14 +1,14 @@
 {
   "metadata": {
     "version": 1,
-    "sourceHashScope": "Simulation and calculation sources; verdict presentation is excluded",
+    "sourceHashScope": "Simulation and calculation sources; verdict presentation and the Ritual engine are excluded",
     "seed": 20261003,
     "trials": 500,
     "nullTrials": 2000,
     "coverageTrials": 250,
     "bootstrapIterations": 1000,
     "attemptedTrials": 105500,
-    "sourceHash": "499f19e4fc41bcc0da4b396f52c8f4074fbf88b01a5f2ec83abf2893d6fb0a19",
+    "sourceHash": "07f62c7d55bd32d67571c3ebf55e84aaf416825abb30cf3eefbfbeda47f74b57",
     "generator": "stationary AR(1), independent streams, bounded metrics, lognormal HRV",
     "metricModels": {
       "totalSleepMinutes": {
