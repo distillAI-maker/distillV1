@@ -5,11 +5,12 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { vi } from 'vitest';
 import * as schema from '../../../../packages/data/src/schema';
 import type { Database } from '@distill/data';
-import { checkLine, DAY_ONE_PER_MOMENT } from '@distill/engine/ritual';
+import { checkLine, DAY_ONE_PER_MOMENT, type ExploreBank, type RitualPart } from '@distill/engine/ritual';
 import { catalogView, v3 } from '../../../../packages/engine/src/ritual/test-support';
 import type { ClaudeClient } from '../../lib/ai/engine/call';
 import { CRISIS_REPLY, REPLY_FALLBACK } from '../../lib/ai/engine/reply';
-import { emptyProgress, type Progress, type StackItem } from '../../lib/progress/types';
+import { emptyProgress, firstRitualList, progressSchema, type Progress, type StackItem } from '../../lib/progress/types';
+import realRitual from './__fixtures__/real-first-ritual.json';
 import { CAPS, Engine, FIXED_LINES, matchItem, previewCompose, previewEngine, type EngineDeps } from './engine';
 import { EngineStore } from './engine-store';
 import { engineRoute } from './engine-routes';
@@ -99,7 +100,7 @@ function fakeClient() {
   return { client, answers, requests };
 }
 
-function engine(client: ClaudeClient | null = null) {
+function engine(client: ClaudeClient | null = null, over: Partial<EngineDeps> = {}) {
   const deps: EngineDeps = {
     store,
     loadProgress: async () => progress,
@@ -109,6 +110,7 @@ function engine(client: ClaudeClient | null = null) {
     toneRules: v3.toneRules,
     bank: { version: 1, ideas: [] },
     now: () => clock,
+    ...over,
   };
   return new Engine(deps);
 }
@@ -243,6 +245,18 @@ describe('Explore', () => {
     expect(create).toHaveBeenCalledTimes(2);
     expect(JSON.stringify((create.mock.calls as unknown[][])[1]![0])).toContain('<skip>Hudson Half</skip>');
   });
+  it('never runs two searches at once', async () => {
+    await settled();
+    const { client, create } = searching([]);
+    // The log stamps real time, so the engine's clock has to be on real time here.
+    clock = new Date();
+    await store.log({ userId: alice, kind: 'explore.search', payload: { region: 'New York' } });
+    await engine(client).exploreFeed(alice, 'New York');
+    expect(create).not.toHaveBeenCalled();
+    clock = new Date(clock.getTime() + 4 * 60_000);
+    await engine(client).exploreFeed(alice, 'New York');
+    expect(create).toHaveBeenCalledTimes(1);
+  });
   it('spends nothing with Claude off, or with the search switched off', async () => {
     await settled();
     expect((await engine().exploreFeed(alice, 'New York')).state.explore.events).toEqual([]);
@@ -251,6 +265,203 @@ describe('Explore', () => {
     await engine(client).exploreFeed(alice, 'New York');
     expect(create).not.toHaveBeenCalled();
     vi.unstubAllEnvs();
+  });
+});
+
+describe('the Ritual they said yes to', () => {
+  const allDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
+  /** What the reveal keeps: the same parts as the rules, in Claude's words, with the anchors added. */
+  const kept = (): RitualPart[] => [
+    { id: 'part:wake', when: { slot: 'morning', days: [...allDays], at: '07:00' }, order: 0, title: 'Up at 7:00', area: 'sleep', why: 'Claude wrote this.', source: { kind: 'engine', rule: 'wake' }, status: 'active', lock: null },
+    ...previewEngine(jake(), { catalog: catalogView, now: clock }).parts.map((p, i) => ({ ...p, order: i + 1, title: `${p.title}, your way`, why: `Claude on ${p.title}.`, when: { ...p.when, days: [...allDays] } })),
+    { id: 'part:friends', when: { slot: 'evening', days: [], perWeek: 1 }, order: 50, title: 'Time with friends', area: 'mind', why: 'You asked for this.', source: { kind: 'engine', rule: 'room' }, status: 'active', lock: null },
+  ];
+  const saidYes = (over: Partial<Progress> = {}, parts: RitualPart[] = kept()) => {
+    progress = { ...jake(), step: 'done', ...over };
+    progress = { ...progress, firstRitual: { list: firstRitualList(progress), parts } };
+  };
+  const steps = async () => (await store.events(alice, ['llm.call'], '2000-01-01T00:00:00Z')).map((c) => c.payload.step);
+
+  it('is the one in their account, whole, with no second compose', async () => {
+    saidYes();
+    const { client } = fakeClient();
+    const e = engine(client);
+    const made = await e.run(alice, { kind: 'onboarding' });
+    expect(made.state.ritual.proposed!.parts.map((p) => p.title)).toEqual(kept().map((p) => p.title));
+    expect(await steps()).not.toContain('compose');
+    expect((await store.events(alice, ['ritual.composed'], '2000-01-01T00:00:00Z'))[0]!.payload.from).toBe('kept');
+    const accepted = await e.accept(alice, made.state.ritual.proposed!.id);
+    const today = accepted.state.ritual.today.parts;
+    // Exactly what they read: nothing added, nothing renamed, every reason theirs.
+    expect(today.map((p) => p.title).sort()).toEqual(kept().filter((p) => p.when.days.length).map((p) => p.title).sort());
+    expect(today.find((p) => p.title === 'Up at 7:00')!.why).toBe('Claude wrote this.');
+    expect(today.filter((p) => p.title !== 'Up at 7:00').every((p) => p.why.startsWith('Claude on '))).toBe(true);
+    // Weekly things have no one day, and are still on the page.
+    expect(accepted.state.ritual.anyDay.map((p) => p.title)).toEqual(['Time with friends']);
+  });
+  it('reads what their words teach afterward, once, without holding anything up', async () => {
+    progress = { ...jake(), step: 'done' };
+    saidYes({ lifeText: 'Mónica fixes my back on Thursdays' });
+    const { client, answers } = fakeClient();
+    const e = engine(client);
+    const made = await e.run(alice, { kind: 'onboarding' });
+    await e.accept(alice, made.state.ritual.proposed!.id);
+    expect(await steps()).not.toContain('update-person');
+    expect((await e.state(alice)).person.readDone).toBe(false);
+    answers.length = 0;
+    answers.push({ ops: [{ op: 'person', name: 'Mónica', relation: null, what: 'fixes your back on Thursdays', quote: 'Mónica fixes my back' }] });
+    const read = await e.readLater(alice);
+    expect(read.state.person.readDone).toBe(true);
+    expect(read.state.knows.map((f) => f.text)).toContain('Mónica: fixes your back on Thursdays');
+    const after = (await steps()).filter((s) => s === 'update-person').length;
+    await e.readLater(alice);
+    expect((await steps()).filter((s) => s === 'update-person')).toHaveLength(after);
+  });
+  it('gives way to a new Ritual when their list has changed since', async () => {
+    saidYes();
+    progress = { ...progress, items: progress.items.filter((i) => i.id !== 'mel') };
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    expect(made.state.ritual.proposed!.parts.map((p) => p.title)).not.toContain('Up at 7:00');
+    expect((await store.events(alice, ['ritual.composed'], '2000-01-01T00:00:00Z'))[0]!.payload.from).not.toBe('kept');
+  });
+  it('is not used when it has lost something locked', async () => {
+    saidYes({ dayOne: { ...emptyProgress().dayOne, yours: ['sun'] } }, kept().filter((p) => !(p.source.kind === 'stack' && p.source.stackItemId === 'sun')));
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    expect(made.state.ritual.proposed!.parts.some((p) => p.source.kind === 'stack' && p.source.stackItemId === 'sun' && p.lock === 'theirs')).toBe(true);
+    expect((await store.events(alice, ['ritual.composed'], '2000-01-01T00:00:00Z'))[0]!.payload.from).not.toBe('kept');
+  });
+  it('is not used when it is not a Ritual', async () => {
+    saidYes({}, [{ nonsense: true } as unknown as RitualPart]);
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    expect(made.state.ritual.proposed!.parts.length).toBeGreaterThan(0);
+    expect(made.state.ritual.proposed!.parts.map((p) => p.id)).not.toContain('nonsense');
+  });
+  it('without one, the rules still say the Ritual in full: never a bare list', async () => {
+    progress = {
+      ...jake(),
+      step: 'done',
+      asks: [
+        { q: 'What time are you usually up?', a: '06:30', at: 'x' },
+        { q: 'What time are you usually in bed?', a: '22:30', at: 'x' },
+      ],
+    };
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    const parts = made.state.ritual.proposed!.parts;
+    expect(parts.map((p) => p.title)).toEqual(expect.arrayContaining(['Up at 6:30', 'In bed by 10:30 pm']));
+    const creatine = parts.find((p) => p.source.kind === 'stack' && p.source.stackItemId === 'cr')!;
+    expect(creatine.when.at).toBeDefined();
+    expect(creatine.why).toMatch(/^For /);
+  });
+  it('a thin Ritual from before still says what a well-founded thing is for', async () => {
+    progress = { ...jake(), step: 'done' };
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    const thin = made.state.ritual.proposed!.parts.map((p) => (p.source.kind === 'stack' && p.source.stackItemId === 'cr' ? { ...p, why: "One of the well-founded things you do, even on days you can't feel it." } : p));
+    await pg.exec(`update public.ritual_versions set parts = '${JSON.stringify(thin).replace(/'/g, "''")}'::jsonb where id = '${made.state.ritual.proposed!.id}'`);
+    const accepted = await engine().accept(alice, made.state.ritual.proposed!.id);
+    const creatine = accepted.state.ritual.today.parts.find((p) => p.source.kind === 'stack' && p.source.stackItemId === 'cr')!;
+    expect(creatine.why).toMatch(/^For /);
+  });
+});
+
+describe('a real first Ritual from Claude', () => {
+  it('goes into the account exactly as they read it: same parts, same words, nothing added or lost', async () => {
+    const saved = progressSchema.parse(realRitual.progress);
+    progress = { ...saved, firstRitual: { list: firstRitualList(saved), parts: realRitual.parts } };
+    const { client } = fakeClient();
+    const e = engine(client);
+    const made = await e.run(alice, { kind: 'onboarding' });
+    expect((await store.events(alice, ['ritual.composed'], '2000-01-01T00:00:00Z'))[0]!.payload.from).toBe('kept');
+    expect(made.state.ritual.proposed!.parts).toEqual(realRitual.parts);
+    const accepted = await e.accept(alice, made.state.ritual.proposed!.id);
+    const seen = [...accepted.state.ritual.week.flatMap((d) => d.parts), ...accepted.state.ritual.anyDay];
+    const ids = new Set(seen.map((p) => p.id));
+    expect([...ids].sort()).toEqual(realRitual.parts.map((p) => p.id).sort());
+    // Their locked thing stays locked, and the Claude reasons are the ones on the page.
+    expect(accepted.state.ritual.anyDay.find((p) => p.title === 'Strength training')!.lock).toBe('theirs');
+    expect(seen.find((p) => p.title === 'Daily walk')!.why).toBe('Your daily walk once the desk is behind you, a stretch of the evening that stays yours.');
+  });
+  it('says what is going on with them, and a sleep-in moves the "Up at" that Claude wrote', async () => {
+    const saved = progressSchema.parse(realRitual.progress);
+    progress = { ...saved, firstRitual: { list: firstRitualList(saved), parts: realRitual.parts } };
+    const e = engine();
+    const made = await e.run(alice, { kind: 'onboarding' });
+    await e.accept(alice, made.state.ritual.proposed!.id);
+    clock = new Date('2026-10-27T01:00:00Z'); // A Monday evening in Los Angeles, with a desk morning next.
+    const r = await e.run(alice, { kind: 'message', text: 'Out late tonight' });
+    expect(r.reply).toBe("Okay, got it. Have a good night out. We'll update your Ritual by tomorrow.");
+    const tomorrow = r.state.ritual.week[1]!.parts.map((p) => p.title);
+    expect(tomorrow).toContain('Sleep in');
+    expect(tomorrow).not.toContain('Up at 7:00');
+    expect(r.state.ritual.week[0]!.parts.map((p) => p.title)).not.toContain('In bed by 23:00');
+  });
+});
+
+describe('a thin Ritual from before', () => {
+  it('is said in full once, when they next open the app, and is left alone after that', async () => {
+    progress = {
+      ...jake(),
+      step: 'done',
+      asks: [
+        { q: 'What time are you usually up?', a: '07:00', at: 'x' },
+        { q: 'What time are you usually in bed?', a: '23:00', at: 'x' },
+      ],
+    };
+    const made = await engine().run(alice, { kind: 'onboarding' });
+    const id = made.state.ritual.proposed!.id;
+    await engine().accept(alice, id);
+    // As it was saved before: no clock times, no anchors.
+    const bare = made.state.ritual.proposed!.parts.filter((p) => p.source.kind === 'stack').map((p) => ({ ...p, when: { slot: p.when.slot, days: p.when.days, ...(p.when.perWeek ? { perWeek: p.when.perWeek } : {}) } }));
+    await pg.exec(`update public.ritual_versions set parts = '${JSON.stringify(bare).replace(/'/g, "''")}'::jsonb where user_id = '${alice}'`);
+    expect((await engine().state(alice)).ritual.today.parts.map((p) => p.title)).not.toContain('Up at 7:00');
+    await engine().upgradeThinRitual(alice);
+    const after = await engine().state(alice);
+    expect(after.ritual.today.parts.map((p) => p.title)).toEqual(expect.arrayContaining(['Up at 7:00', 'In bed by 11:00 pm']));
+    expect(after.ritual.lastChange?.undoable ?? false).toBe(false);
+    await engine().upgradeThinRitual(alice);
+    expect(await store.events(alice, ['ritual.upgraded'], '2000-01-01T00:00:00Z')).toHaveLength(1);
+  });
+  it('leaves a Ritual Claude shaped alone', async () => {
+    await settled();
+    await pg.exec(`update public.engine_events set payload = jsonb_set(payload, '{from}', '"claude"') where kind = 'ritual.composed' and user_id = '${alice}'`);
+    await engine().upgradeThinRitual(alice);
+    expect(await store.events(alice, ['ritual.upgraded'], '2000-01-01T00:00:00Z')).toHaveLength(0);
+  });
+});
+
+describe('a place near them', () => {
+  const idea: ExploreBank['ideas'][number] = {
+    id: 'sf-dse-runners-sunday-races',
+    title: 'Ten-dollar Sunday races with the DSE Runners',
+    kind: 'community',
+    area: 'move',
+    city: 'San Francisco Bay Area',
+    social: 'group',
+    cost: 'low',
+    when: 'Most Sundays at 9am',
+    line: 'A club that just turned 60 puts on a cheap, low-key race nearly every weekend.',
+    fitsWhen: 'They run',
+    url: 'https://dserunners.com/race-schedule/',
+    verifiedOn: '2026-10-20',
+    partner: false,
+    certified: false,
+  };
+  const bank = { version: 1 as const, ideas: [idea] };
+  it('goes in their week when they say yes, and shows as something they are in for', async () => {
+    await settled();
+    const e = engine(null, { bank });
+    const yes = await e.exploreGo(alice, 'idea:sf-dse-runners-sunday-races', 'in', { thread: 'running' });
+    expect(yes.state.explore.going).toEqual([expect.objectContaining({ id: 'idea:sf-dse-runners-sunday-races', thread: 'running', title: idea.title, past: false })]);
+    expect(yes.state.ritual.week.flatMap((d) => d.parts.map((p) => p.title))).toContain(idea.title);
+    // Twice is still once.
+    await e.exploreGo(alice, 'idea:sf-dse-runners-sunday-races', 'in', { thread: 'running' });
+    const days = (await e.state(alice)).ritual.today;
+    expect(days.parts.filter((p) => p.title === idea.title).length).toBeLessThanOrEqual(1);
+    const over = await e.exploreGo(alice, 'idea:sf-dse-runners-sunday-races', 'not-really');
+    expect(over.state.explore.going).toEqual([]);
+  });
+  it('answers 404 for a place that is not in the bank', async () => {
+    await settled();
+    await expect(engine(null, { bank }).exploreGo(alice, 'idea:nowhere', 'in')).rejects.toThrow(/no_such_event/);
   });
 });
 
@@ -315,6 +526,37 @@ describe('a message', () => {
     const gone = await engine().forget(alice, fact.id);
     expect(gone.state.knows.map((f) => f.text)).not.toContain('Your back is hurt');
     expect((await engine().state(alice)).knows.map((f) => f.text)).not.toContain('Your back is hurt');
+  });
+  it('out late tonight: tomorrow starts slow with no "Up at", tonight has no bedtime, and Undo takes it all back', async () => {
+    progress = {
+      ...jake(),
+      step: 'done',
+      asks: [
+        { q: 'What time are you usually up?', a: '07:00', at: 'x' },
+        { q: 'What time are you usually in bed?', a: '23:00', at: 'x' },
+      ],
+    };
+    const e = engine();
+    const made = await e.run(alice, { kind: 'onboarding' });
+    await e.accept(alice, made.state.ritual.proposed!.id);
+    const r = await e.run(alice, { kind: 'message', text: 'Out late tonight' });
+    const titles = (d: number) => r.state.ritual.week[d]!.parts.map((p) => p.title);
+    expect(titles(1)).toContain('Sleep in');
+    expect(titles(1)).not.toContain('Up at 7:00');
+    expect(titles(0)).not.toContain('In bed by 11:00 pm');
+    expect(titles(1)).toContain('In bed by 11:00 pm');
+    const undone = await e.undo(alice, r.versionId!);
+    expect(undone.state.ritual.week[0]!.parts.map((p) => p.title)).toContain('In bed by 11:00 pm');
+    expect(undone.state.ritual.week[1]!.parts.map((p) => p.title)).toContain('Up at 7:00');
+    expect(undone.state.ritual.week[1]!.parts.map((p) => p.title)).not.toContain('Sleep in');
+  });
+  it('late in the day, a hard day can\'t start slow: the night ends early instead', async () => {
+    await settled();
+    clock = new Date('2026-10-22T03:00:00Z'); // 8pm in Los Angeles, the same Wednesday
+    const r = await engine().run(alice, { kind: 'message', text: 'I hurt my knee' });
+    expect(r.reply).toBe('Okay, got it. Sorry to hear that. Your Ritual is lighter today.');
+    expect(r.state.ritual.today.parts.map((p) => p.title)).toContain('Early night');
+    expect(r.state.ritual.today.parts.map((p) => p.title)).not.toContain('Sleep in');
   });
   it('makes a real change for "Out late tonight", even with Claude off', async () => {
     await settled();

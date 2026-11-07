@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { preload } from 'react-dom';
 import { copy } from '../../lib/copy';
 import { useProgress } from '../../lib/progress/context';
-import { resumePath } from '../../lib/steps';
+import { nextStep, resumePath, RITUAL_HOME, saidMakeItMine } from '../../lib/steps';
 import { track } from '../../lib/track';
 import { Arrow, Brand } from '../ds/ui';
 
@@ -18,7 +18,7 @@ import { Arrow, Brand } from '../ds/ui';
  */
 export function Arrival() {
   const router = useRouter();
-  const { ready, progress, store } = useProgress();
+  const { ready, progress, store, update } = useProgress();
   const left = useRef(false);
   // The photo starts loading with the page, so the opener arrives with its light.
   preload('/brand/arrival.jpg', { as: 'image', fetchPriority: 'high' });
@@ -36,8 +36,16 @@ export function Arrival() {
   useEffect(() => {
     if (!straightIn || left.current) return;
     left.current = true;
+    // Back from the email link with a Ritual they already said yes to: nothing is left to do in
+    // onboarding, so they go straight to it.
+    const through = store.id === 'supabase' && progress.member && saidMakeItMine(progress.step) && nextStep('invitation') === 'done';
+    if (through) {
+      if (progress.step !== 'done') update({ step: 'done' });
+      router.replace(RITUAL_HOME);
+      return;
+    }
     router.replace(resumePath(progress.step));
-  }, [straightIn, progress.step, router]);
+  }, [straightIn, progress.step, progress.member, store.id, update, router]);
 
   const begin = () => {
     if (left.current) return;

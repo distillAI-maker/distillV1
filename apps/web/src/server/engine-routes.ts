@@ -71,12 +71,14 @@ export async function engineRoute(
       return engine.exploreFeed(userId, region, opts);
     }
     case 'explore-go': {
-      const { eventId, answer } = z
-        .object({ eventId: text(120), answer: z.enum(['in', 'no', 'loved', 'not-really']) })
+      const { eventId, answer, thread } = z
+        .object({ eventId: text(120), answer: z.enum(['in', 'no', 'loved', 'not-really']), thread: text(40).optional() })
         .strict()
         .parse(input);
-      return engine.exploreGo(userId, eventId, answer, opts);
+      return engine.exploreGo(userId, eventId, answer, { ...opts, ...(thread ? { thread } : {}) });
     }
+    case 'read-later':
+      return engine.readLater(userId, opts);
     case 'forget':
       return engine.forget(userId, z.object({ id: text(300) }).strict().parse(input).id, opts);
     case 'explore': {
@@ -92,6 +94,7 @@ export async function engineRoute(
       return engine.swapAnswer(userId, itemKey, answer, opts);
     }
     case 'night-check':
+      await engine.upgradeThinRitual(userId, opts);
       return (await engine.checkNight(userId, opts)) ?? { state: await engine.state(userId, opts) };
   }
   throw new HttpError(404, 'not_found');

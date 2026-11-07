@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { z } from 'zod';
 import type { CatalogItemView, CatalogView, ToneRules } from '@distill/catalog';
 import {
   addDays,
@@ -6,6 +7,8 @@ import {
   applyOps,
   applyPersonOps,
   baseOn,
+  flexibleParts,
+  ritualPartSchema,
   forgetFact,
   knowsOf,
   nowFromWords,
@@ -54,11 +57,15 @@ import { theirWords, type ItemStandingNote } from '../../lib/ai/engine/brief';
 import type { CallUsage, ClaudeClient } from '../../lib/ai/engine/call';
 import { findEvents, foundEventSchema, PROMPT_VERSION as EXPLORE_FEED_VERSION, type FoundEvent } from '../../lib/ai/engine/explore-feed';
 import { THREADS, threadsFor } from '../../lib/explore/threads';
+import { copy } from '../../lib/copy';
+import { revealNotes, wholeRitual } from '../../lib/onboarding/reveal';
+import { firstRitualList } from '../../lib/progress/types';
+import { isStockWhy } from '../../lib/ritual-lines';
 import { classifyMessage, readByWords, PROMPT_VERSION as CLASSIFY_VERSION } from '../../lib/ai/engine/classify';
 import { composeRitual, PROMPT_VERSION as COMPOSE_VERSION } from '../../lib/ai/engine/compose';
 import { explore as exploreStep, PROMPT_VERSION as EXPLORE_VERSION } from '../../lib/ai/engine/explore';
 import { CRISIS_REPLY, replyTo, type ReplyAbout, PROMPT_VERSION as REPLY_VERSION } from '../../lib/ai/engine/reply';
-import { reshape, PROMPT_VERSION as RESHAPE_VERSION } from '../../lib/ai/engine/reshape';
+import { reshape, PROMPT_VERSION as RESHAPE_VERSION, isBedPart } from '../../lib/ai/engine/reshape';
 import { updatePerson, PROMPT_VERSION as UPDATE_VERSION } from '../../lib/ai/engine/update-person';
 import { fallbackLine, wordDecisions, PROMPT_VERSION as WORD_VERSION } from '../../lib/ai/engine/word-decisions';
 import { morePlaces } from '../../lib/catalog/common';
@@ -127,6 +134,8 @@ export interface EngineState {
     readonly season: string;
     readonly nightsShapeMornings: boolean;
     readonly wearable: string | null;
+    /** Whether what they wrote in onboarding has been read yet. False means the app should ask for it. */
+    readonly readDone?: boolean;
   };
   readonly ritual: {
     readonly status: 'none' | 'proposed' | 'accepted';
@@ -134,6 +143,8 @@ export interface EngineState {
     readonly proposed: RitualVersion | null;
     readonly today: DayOut;
     readonly week: readonly DayOut[];
+    /** Parts that happen a few times a week on no fixed day: not on any one day, but still theirs. */
+    readonly anyDay: readonly RitualPart[];
     readonly lastChange: {
       readonly versionId: string;
       readonly reply?: string;
@@ -479,6 +490,27 @@ export class Engine {
   /** The first Ritual: rules place everything, Claude shapes it, and it waits for their yes. */
   private async composeFirst(ctx: Ctx, decided: Decided, tx: Tx) {
     const rules = composeByRules({ person: ctx.person, stack: ctx.progress.items, decided, catalog: this.deps.catalog, firstCompose: true });
+    const kept = this.keptRitual(ctx);
+    // Everything that's locked (theirs, from a clinician) has to be in it, exactly as the rules say.
+    const whole = kept && rules.parts.filter((p) => p.lock && p.source.kind === 'stack').every((p) => kept.some((k) => k.source.kind === 'stack' && p.source.kind === 'stack' && k.source.stackItemId === p.source.stackItemId));
+    if (kept && whole) {
+      const v = await this.saveVersion(
+        ctx,
+        {
+          parentId: null,
+          scope: { kind: 'base', effectiveFrom: ctx.today },
+          parts: kept,
+          ops: [],
+          changes: [],
+          cause: { eventId: null, trigger: 'onboarding' },
+          status: 'proposed',
+          engine: this.stampFor({ parts: kept }),
+        },
+        tx,
+      );
+      await this.deps.store.log({ userId: ctx.userId, kind: 'ritual.composed', payload: { versionId: v.id, from: 'kept', parts: v.parts.length } }, tx);
+      return v;
+    }
     const shaped = await composeRitual(ctx.client, {
       person: ctx.person,
       rules,
@@ -497,7 +529,14 @@ export class Engine {
       {
         parentId: null,
         scope: { kind: 'base', effectiveFrom: ctx.today },
-        parts: shaped.parts,
+        // When Claude isn't the one who shaped it, the rules say it as fully as they can: never a bare list.
+        parts:
+          shaped.from === 'claude'
+            ? shaped.parts
+            : wholeRitual(shaped.parts, ctx.progress, decided.decisions, {
+                evidenceFor: (key) => (key ? this.deps.catalog.item(key)?.evidenceFor : undefined),
+                banned: this.deps.toneRules.bannedPhrases,
+              }).parts,
         ops: [],
         changes: [],
         cause: { eventId: null, trigger: 'onboarding' },
@@ -509,6 +548,60 @@ export class Engine {
     );
     await this.deps.store.log({ userId: ctx.userId, kind: 'ritual.composed', payload: { versionId: v.id, from: shaped.from, parts: v.parts.length } }, tx);
     return v;
+  }
+
+  /** The Ritual they said "Make it mine" to, when it's still for the list they have. */
+  private keptRitual(ctx: Ctx): RitualPart[] | null {
+    const kept = ctx.progress.firstRitual;
+    if (!kept || kept.list !== firstRitualList(ctx.progress)) return null;
+    const parsed = z.array(ritualPartSchema).safeParse(kept.parts);
+    if (!parsed.success || !parsed.data.length) return null;
+    const live = new Set(ctx.progress.items.filter((i) => i.status !== 'cut').map((i) => i.id));
+    return parsed.data.every((p) => p.source.kind !== 'stack' || live.has(p.source.stackItemId)) ? parsed.data : null;
+  }
+
+  /**
+   * What their onboarding words teach, read once, just after their first Ritual is in place. Claude
+   * runs outside the lock: it can take half a minute and nothing else should wait on it.
+   */
+  async readLater(userId: string, opts: { timeZone?: string } = {}): Promise<EngineResult> {
+    const plan = await this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const done = await this.deps.store.events(userId, ['person.read'], '2000-01-01T00:00:00Z', tx);
+      if (done.length || !ctx.client) return { state: await this.stateFrom(ctx, tx), read: null };
+      const words = theirWords(ctx.person, ctx.progress.items, ctx.progress.asks.map((a) => a.a));
+      if (!words.trim()) {
+        await this.deps.store.log({ userId, kind: 'person.read', payload: { length: 0 } }, tx);
+        return { state: await this.stateFrom(ctx, tx), read: null };
+      }
+      return { state: null, read: { client: ctx.client, person: ctx.person, stack: ctx.progress.items, words, today: ctx.today, at: ctx.instant } };
+    });
+    if (!plan.read) return { state: plan.state! };
+    const { client, person, stack, words, today, at } = plan.read;
+    const learned = await updatePerson(client, {
+      person,
+      stack,
+      catalog: this.deps.catalog,
+      banned: this.deps.toneRules.bannedPhrases,
+      kind: 'onboarding',
+      text: words,
+      today,
+      at,
+    });
+    return this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      this.logCall(ctx, 'update-person', UPDATE_VERSION, learned.usage, { applied: learned.applied.length, dropped: learned.dropped.length, later: true });
+      const again = await this.deps.store.events(userId, ['person.read'], '2000-01-01T00:00:00Z', tx);
+      if (!again.length) {
+        const patch = applyPersonOps(ctx.person, learned.applied, words, { today: ctx.today, at: ctx.instant, from: 'onboarding' });
+        if (patch.applied.length) {
+          ctx.person = patch.person;
+          await this.deps.store.savePerson(userId, ctx.person, 'engine', tx);
+          await this.deps.store.log({ userId, kind: 'person.updated', payload: { ops: patch.applied, from: 'onboarding' } }, tx);
+          await this.syncDecisions(ctx, tx);
+        }
+        await this.deps.store.log({ userId, kind: 'person.read', payload: { length: words.length, later: true } }, tx);
+      }
+      return { state: await this.stateFrom(ctx, tx) };
+    });
   }
 
   /** Learns from their words: a note, an answer or a message. Feelings about their things need their yes. */
@@ -577,7 +670,8 @@ export class Engine {
         case 'stack-change':
         case 'refresh': {
           const anyBase = ctx.versions.some((v) => v.scope.kind === 'base' && (v.status === 'accepted' || v.status === 'proposed'));
-          if (!anyBase) await this.readEverything(ctx, tx);
+          // The Ritual they already said yes to needs no second think: what their words teach is read just after.
+          if (!anyBase && !this.keptRitual(ctx)) await this.readEverything(ctx, tx);
           const decided = await this.syncDecisions(ctx, tx);
           const v = anyBase ? await this.syncBase(ctx, decided, event.kind === 'refresh' ? 'refresh' : 'decision', tx) : await this.composeFirst(ctx, decided, tx);
           if (v) versionId = v.id;
@@ -672,25 +766,31 @@ export class Engine {
             break;
           }
           // Said about one thing ("Or tell me in your words"): what they say is about that thing.
-          const learned = await this.learn(ctx, tx, 'message', event.text, event.about ? { stackItemId: event.about } : {});
+          // What their words teach and what changes in their days are asked for together, so telling
+          // Distill something takes as long as the slower of the two, not both.
+          const learning = this.learn(ctx, tx, 'message', event.text, event.about ? { stackItemId: event.about } : {});
+          const reshaping =
+            c?.trigger && ctx.reshapesLeft > 0
+              ? this.reshapeFrom(
+                  ctx,
+                  {
+                    kind: c.trigger.kind === 'plan' ? 'plan' : 'message',
+                    when: c.trigger.when,
+                    modelDates: c.trigger.dates,
+                    moments: c.trigger.moments,
+                    durability: c.trigger.durability,
+                    load: c.trigger.load,
+                    message: event.text,
+                    eventId,
+                  },
+                  tx,
+                )
+              : null;
+          const [learned, reshaped] = await Promise.all([learning, reshaping]);
           if (learned.ask.length) ask = learned.ask;
           if (learned.applied) await this.syncDecisions(ctx, tx);
-          if (c?.trigger && ctx.reshapesLeft > 0) {
-            const r = await this.reshapeFrom(
-              ctx,
-              {
-                kind: c.trigger.kind === 'plan' ? 'plan' : 'message',
-                when: c.trigger.when,
-                modelDates: c.trigger.dates,
-                moments: c.trigger.moments,
-                durability: c.trigger.durability,
-                load: c.trigger.load,
-                message: event.text,
-                eventId,
-              },
-              tx,
-            );
-            await say(r.reply, r.versionId);
+          if (reshaped) {
+            await say(reshaped.reply, reshaped.versionId);
             break;
           }
           if (c?.intent === 'stack-change' && c.stack) {
@@ -906,9 +1006,15 @@ export class Engine {
       lineContext: this.lineContext(ctx, t.message ? [t.message] : []),
       today: ctx.today,
       asks: ctx.progress.asks,
+      minute: ctx.minute,
     });
     this.logCall(ctx, 'reshape', RESHAPE_VERSION, r.usage, { from: r.from, problems: r.problems?.slice(0, 5) ?? [] });
     if (r.from === 'fallback') return { reply: r.reply };
+    // Out late tonight: tonight's "In bed by 11" steps aside too, not only tomorrow's morning.
+    const dates = resolved?.dates ?? [ctx.today];
+    const outTonight = t.kind !== 'night' && t.load === 'lighter' && dates.length === 1 && dates[0] === ctx.today && t.moments.length > 0 && t.moments.every((m) => m === 'night') && !r.opsByDate[ctx.today];
+    const bedTonight = outTonight && scope.kind === 'day' ? ritualOn(ctx.versions, ctx.today).parts.find((p) => isBedPart(p) && !p.lock) : undefined;
+    const opsByDate: Readonly<Record<string, readonly Op[]>> = bedTonight ? { [ctx.today]: [{ op: 'skip', partId: bedTonight.id }], ...r.opsByDate } : r.opsByDate;
     const engine = this.stampFor({ scope, message: t.message ?? null }, RESHAPE_VERSION, r.usage?.model);
     const changesOf = (ops: readonly Op[]): Change[] => ops.map((o) => ({ op: o.op, partId: 'partId' in o ? o.partId : 'new', reason: t.kind }));
     const trigger: RitualVersion['cause']['trigger'] = t.kind;
@@ -927,7 +1033,7 @@ export class Engine {
         tx,
       );
     } else {
-      for (const [date, ops] of Object.entries(r.opsByDate)) {
+      for (const [date, ops] of Object.entries(opsByDate)) {
         if (!ops.length) continue;
         const previous = ritualOn(ctx.versions, date).day;
         saved = await this.saveVersion(
@@ -1012,6 +1118,10 @@ export class Engine {
         if (same.at(-1)?.id !== v.id) throw new HttpError(409, 'only_the_newest_change');
       } else if (!v.parentId) throw new HttpError(409, 'first_ritual_stays');
       await this.setStatus(ctx, v.id, 'undone', tx);
+      // One message can change more than one day: Undo takes all of it back.
+      if (v.scope.kind === 'day' && v.cause.eventId)
+        for (const other of ctx.versions)
+          if (other.id !== v.id && other.status === 'accepted' && other.scope.kind === 'day' && other.cause.eventId === v.cause.eventId) await this.setStatus(ctx, other.id, 'undone', tx);
       await this.deps.store.log({ userId, kind: 'ritual.undone', payload: { versionId: v.id, scope: v.scope.kind, trigger: v.cause.trigger } }, tx);
       return { state: await this.stateFrom(ctx, tx) };
     });
@@ -1051,7 +1161,12 @@ export class Engine {
       const sameRegion = state.explore.region?.toLowerCase() === place.toLowerCase();
       if ((sameRegion && state.explore.fresh) || !state.explore.available || !ctx.client) return { state, search: null };
       const threads = this.threadsOf(ctx, state.items);
-      if (!threads.length || !takeSearch(this.now().toISOString().slice(0, 10))) return { state, search: null };
+      if (!threads.length) return { state, search: null };
+      // One at a time: leaving the tab and coming back, or a second device, never pays for a second search.
+      const since = new Date(Date.parse(ctx.instant) - 3 * 60_000).toISOString();
+      const underway = await this.deps.store.events(userId, ['explore.search', 'explore.feed'], since, tx);
+      if (underway.at(-1)?.kind === 'explore.search' || !takeSearch(this.now().toISOString().slice(0, 10))) return { state, search: null };
+      await this.deps.store.log({ userId, kind: 'explore.search', payload: { region: place } }, tx);
       const answers = await this.deps.store.events(userId, ['explore.in', 'explore.no', 'explore.how'], '2000-01-01T00:00:00Z', tx);
       const titleOf = (e: { payload: Record<string, unknown> }) => String(e.payload.title ?? (e.payload.event as { title?: string } | undefined)?.title ?? '');
       return {
@@ -1077,17 +1192,21 @@ export class Engine {
   }
 
   /** Their answer to something real: I'm in (it goes on that day), not for me, or how it went. */
-  async exploreGo(userId: string, eventId: string, answer: 'in' | 'no' | 'loved' | 'not-really', opts: { timeZone?: string } = {}): Promise<EngineResult> {
+  async exploreGo(userId: string, eventId: string, answer: 'in' | 'no' | 'loved' | 'not-really', opts: { timeZone?: string; thread?: string } = {}): Promise<EngineResult> {
     return this.locked(userId, opts.timeZone, async (ctx, tx) => {
       const store = this.deps.store;
       const rows = await store.events(userId, ['explore.feed', 'explore.in'], '2000-01-01T00:00:00Z', tx);
-      const event = rows
-        .flatMap((r) => (r.kind === 'explore.feed' ? ((r.payload.events as unknown[]) ?? []) : [r.payload.event]))
-        .flatMap((e) => {
-          const parsed = foundEventSchema.safeParse(e);
-          return parsed.success ? [parsed.data] : [];
-        })
-        .find((e) => e.id === eventId);
+      // A place from the bank, or something the weekly search found.
+      const idea = this.deps.bank.ideas.find((i) => `idea:${i.id}` === eventId);
+      const event = idea
+        ? eventOfIdea(idea, opts.thread)
+        : rows
+            .flatMap((r) => (r.kind === 'explore.feed' ? ((r.payload.events as unknown[]) ?? []) : [r.payload.event]))
+            .flatMap((e) => {
+              const parsed = foundEventSchema.safeParse(e);
+              return parsed.success ? [parsed.data] : [];
+            })
+            .find((e) => e.id === eventId);
       if (!event) throw new HttpError(404, 'no_such_event');
       if (answer === 'no') {
         await store.log({ userId, kind: 'explore.no', payload: { eventId, title: event.title } }, tx);
@@ -1111,6 +1230,22 @@ export class Engine {
         await store.savePerson(userId, ctx.person, 'engine', tx);
       }
       let versionId: string | undefined;
+      // A place they go regularly goes in their week.
+      if (idea) {
+        const base = baseOn(ctx.versions, ctx.today);
+        const id = `part:explore:${idea.id}`;
+        if (base && !base.parts.some((p) => p.id === id && p.status === 'active')) {
+          const op: Op = { op: 'add', part: partForIdea(idea) };
+          const parts = applyOps(base.parts.filter((p) => p.id !== id), [op], { scope: 'base', newId: idQueue([id]) }).parts;
+          const v = await this.saveVersion(
+            ctx,
+            { parentId: base.id, scope: { kind: 'base', effectiveFrom: ctx.today }, parts, ops: [op], changes: [{ op: 'add', partId: id, reason: 'explore' }], cause: { eventId: null, trigger: 'edit' }, status: 'accepted', engine: this.stampFor({ eventId }) },
+            tx,
+          );
+          await this.rebaseFuture(ctx, [op], [id], tx);
+          versionId = v.id;
+        }
+      }
       if (event.date && baseOn(ctx.versions, ctx.today)) {
         const area = THREAD_AREA(event.thread);
         const op: Op = {
@@ -1248,6 +1383,31 @@ export class Engine {
     return this.run(userId, { kind: 'night', date: newest.date, sleepMin: newest.sleepMin! }, opts);
   }
 
+  /**
+   * A Ritual made by the rules before they could say it in full (no times, no reasons, no "Up at")
+   * gets said in full, once, when they next open the app. Rules only, nothing changes but the words
+   * and the times, and nothing they've moved or locked is touched.
+   */
+  async upgradeThinRitual(userId: string, opts: { timeZone?: string } = {}): Promise<void> {
+    await this.locked(userId, opts.timeZone, async (ctx, tx) => {
+      const base = baseOn(ctx.versions, ctx.today);
+      if (!base) return;
+      const events = await this.deps.store.events(userId, ['ritual.composed', 'ritual.upgraded'], '2000-01-01T00:00:00Z', tx);
+      if (events.some((e) => e.kind === 'ritual.upgraded') || !events.some((e) => e.kind === 'ritual.composed' && e.payload.from === 'rules')) return;
+      if (base.parts.some((p) => p.status === 'active' && p.when.at)) return;
+      const { parts } = wholeRitual(base.parts, ctx.progress, this.decideNow(ctx).decisions, {
+        evidenceFor: (key) => (key ? this.deps.catalog.item(key)?.evidenceFor : undefined),
+        banned: this.deps.toneRules.bannedPhrases,
+      });
+      const v = await this.saveVersion(
+        ctx,
+        { parentId: base.id, scope: { kind: 'base', effectiveFrom: ctx.today }, parts, ops: [], changes: [], cause: { eventId: null, trigger: 'refresh' }, status: 'accepted', engine: this.stampFor({ upgraded: base.id }) },
+        tx,
+      );
+      await this.deps.store.log({ userId, kind: 'ritual.upgraded', payload: { from: base.id, versionId: v.id } }, tx);
+    });
+  }
+
   /** What the app shows. Reading it logs today's one thing the first time each day. */
   async state(userId: string, opts: { timeZone?: string } = {}): Promise<EngineState> {
     return this.locked(userId, opts.timeZone, (ctx, tx) => this.stateFrom(ctx, tx));
@@ -1264,6 +1424,14 @@ export class Engine {
     const checks = new Map<string, 'done' | 'skipped'>();
     for (const e of events)
       if (e.kind === 'part.done' || e.kind === 'part.skipped') checks.set(`${e.payload.date}:${e.payload.partId}`, e.kind === 'part.done' ? 'done' : 'skipped');
+    const decided = this.decideNow(ctx);
+    const founded = new Set(revealNotes(decided.decisions, ctx.progress.items, ctx.progress.dayOne.yours, this.deps.toneRules.bannedPhrases).wellFounded);
+    // A row with only the engine's stock reason says what a well-founded thing is for, so a Ritual never reads as a bare list.
+    const spoken = <T extends RitualPart>(p: T): T => {
+      if (p.source.kind !== 'stack' || !founded.has(p.source.stackItemId) || !isStockWhy(p.why)) return p;
+      const benefit = this.deps.catalog.item(p.source.itemKey)?.evidenceFor;
+      return benefit ? { ...p, why: copy.reveal.detail.founded(benefit) } : p;
+    };
     const dayOut = (date: string): DayOut => {
       const view = ritualOn(ctx.versions, date);
       return {
@@ -1271,7 +1439,7 @@ export class Engine {
         changed: !!view.day,
         parts: sortParts(view.parts).map((p) => {
           const check = checks.get(`${date}:${p.id}`);
-          return { ...p, moment: momentOfPart(p, date), ...(check ? { check } : {}) };
+          return { ...spoken(p), moment: momentOfPart(p, date), ...(check ? { check } : {}) };
         }),
       };
     };
@@ -1286,7 +1454,6 @@ export class Engine {
     const decision = pick && ref ? ctx.decisions.find((d) => d.id === ref) : undefined;
     const question = pick?.kind === 'question' ? this.questions(ctx).find((q) => q.id === ref) : undefined;
     const swap = decision?.kind === 'clear' && decision.status === 'yes' && decision.stackItemId ? await this.swapFor(ctx, decision.stackItemId, db) : undefined;
-    const decided = this.decideNow(ctx);
     const items = standingsOf(
       ctx.progress.items,
       decided,
@@ -1294,13 +1461,14 @@ export class Engine {
       ctx.decisions,
     );
     return {
-      person: { name: ctx.person.name, season: seasonOn(ctx.person, ctx.today), nightsShapeMornings: ctx.person.prefs.nightsShapeMornings, wearable: ctx.person.signals.wearable },
+      person: { name: ctx.person.name, season: seasonOn(ctx.person, ctx.today), nightsShapeMornings: ctx.person.prefs.nightsShapeMornings, readDone: !ctx.client || (await this.deps.store.events(ctx.userId, ['person.read'], '2000-01-01T00:00:00Z', db)).length > 0, wearable: ctx.person.signals.wearable },
       ritual: {
         status: accepted.length ? 'accepted' : proposed ? 'proposed' : 'none',
         summary: first?.reply ?? '',
         proposed,
         today: dayOut(ctx.today),
         week: Array.from({ length: 7 }, (_, i) => dayOut(addDays(ctx.today, i))),
+        anyDay: flexibleParts(baseOn(ctx.versions, ctx.today)?.parts ?? newestProposedBase(ctx.versions)?.parts ?? []).map(spoken),
         lastChange: latest
           ? {
               versionId: latest.id,
@@ -1561,6 +1729,23 @@ function newPartOf(p: RitualPart): NewPart {
 }
 
 /** An idea from the bank as a part of their week: once a week, at the time of day it happens. */
+const IDEA_KIND: Partial<Record<ExploreBank['ideas'][number]['kind'], FoundEvent['kind']>> = { community: 'group', class: 'class', trip: 'trip', place: 'place', scene: 'event' };
+
+/** A place from the bank, in the same shape as what the weekly search finds. */
+function eventOfIdea(idea: ExploreBank['ideas'][number], thread: string | undefined): FoundEvent {
+  return {
+    id: `idea:${idea.id}`,
+    thread: thread && THREADS.some((t) => t.id === thread) ? thread : 'together',
+    kind: IDEA_KIND[idea.kind] ?? 'place',
+    title: idea.title.slice(0, 120),
+    when: idea.when.slice(0, 80),
+    where: (idea.neighbourhood ?? idea.city).slice(0, 120),
+    url: idea.url,
+    source: new URL(idea.url).hostname.replace(/^www\./, ''),
+    why: idea.line.slice(0, 240),
+  };
+}
+
 function partForIdea(idea: ExploreBank['ideas'][number]): NewPart {
   const when = idea.when.toLowerCase();
   const slot = /morning|sunrise|dawn/.test(when) ? 'morning' : /night|after dark/.test(when) ? 'night' : /evening|after work|sunset/.test(when) ? 'evening' : 'midday';

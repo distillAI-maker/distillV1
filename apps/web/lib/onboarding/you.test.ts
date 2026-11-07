@@ -157,7 +157,7 @@ describe('the read', () => {
     p = setPeople(p, 'Partner', now);
     p = toggleLife(p, 'Music', now);
     expect(p.lifeText).toBe(
-      "Coffee on the balcony.\n\nMy days: up at 7:00, in bed by 23:00, working shifts. When it's a lot, I call someone. When a week gets busy, seeing people goes first. I want more time with my partner. I'd never give up music.",
+      "Coffee on the balcony.\n\nMy days: up at 7:00, in bed by 11:00 pm, working shifts. When it's a lot, I call someone. When a week gets busy, seeing people goes first. I want more time with my partner. I'd never give up music.",
     );
     expect(person(p).identity.idealDay).toBe(p.lifeText);
   });

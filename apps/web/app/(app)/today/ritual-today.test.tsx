@@ -67,7 +67,7 @@ function stateWith(over: Partial<EngineState['ritual']> = {}, today: Partial<Eng
       summary: '',
       proposed: null,
       today: day(dates[0]!),
-      week: dates.map(day),
+      week: dates.map(day), anyDay: [],
       lastChange: null,
       ...over,
     },

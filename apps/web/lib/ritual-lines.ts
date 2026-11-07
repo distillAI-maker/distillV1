@@ -64,6 +64,9 @@ const STOCK: Record<string, string | null> = {
   'Part of your days as they are.': null,
 };
 
+/** A reason the engine says for everyone, with nothing of this person's in it. */
+export const isStockWhy = (why: string | undefined): boolean => !why || Object.hasOwn(STOCK, why);
+
 /**
  * The line under a part's name: what's special about it ("Yours.", "Well-founded.", "From your
  * clinician."), then its reason when it says something of its own.

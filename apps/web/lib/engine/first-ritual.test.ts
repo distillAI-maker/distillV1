@@ -49,12 +49,16 @@ describe('their first Ritual, once it starts being shaped', () => {
     await expect(shapeFirstRitual(person(), 'UTC')).resolves.toBeNull();
   });
 
-  it('keeps the Ritual they accepted through a reload, until their list changes', async () => {
+  it('keeps the Ritual they accepted in their progress, so it reaches the account, until their list changes', async () => {
     const { keepFirstRitual, keptFirstRitual } = await load();
-    keepFirstRitual(person({ step: 'reveal' }), parts);
-    // Saved progress reads back in the schema's key order.
-    const reloaded = progressSchema.parse(JSON.parse(JSON.stringify(person({ step: 'done', member: true }))));
+    const firstRitual = keepFirstRitual(person({ step: 'reveal' }), parts);
+    // Saved progress reads back in the schema's key order, wherever it went.
+    const reloaded = progressSchema.parse(JSON.parse(JSON.stringify(person({ step: 'done', member: true, firstRitual }))));
     expect(keptFirstRitual(reloaded)).toEqual(parts);
-    expect(keptFirstRitual(person({ items: [] }))).toBeNull();
+    // A note or a new city doesn't make it a different Ritual; a change to the list does.
+    expect(keptFirstRitual({ ...reloaded, region: 'Oakland', items: reloaded.items.map((i) => ({ ...i, notes: [{ id: 'n', text: 'hi', at: 'x' }] })) })).toEqual(parts);
+    expect(keptFirstRitual({ ...reloaded, items: [] })).toBeNull();
+    expect(keptFirstRitual({ ...reloaded, items: reloaded.items.map((i) => ({ ...i, status: 'cut' as const })) })).toBeNull();
+    expect(keptFirstRitual(person())).toBeNull();
   });
 });

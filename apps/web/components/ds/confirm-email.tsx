@@ -9,6 +9,8 @@ import { Arrow, Mark } from './ui';
 
 const t = copy.ritualTab;
 const CONFIRMED_COOKIE = 'distill_confirmed';
+/** Stays for this visit, so the line survives the page settling once the engine is ready. */
+let confirmedThisVisit = false;
 
 /** The inbox people use most, so "Open Gmail" is one tap away. Null for any other address. */
 export function inboxFor(email: string | undefined): { name: string; url: string } | null {
@@ -81,12 +83,15 @@ export function ConfirmEmail({ email }: { email: string | undefined }) {
  */
 export function EmailConfirmed() {
   const { ready, saveNow } = useProgress();
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(confirmedThisVisit);
   useEffect(() => {
     if (!ready || !document.cookie.split('; ').includes(`${CONFIRMED_COOKIE}=1`)) return;
     document.cookie = `${CONFIRMED_COOKIE}=; Max-Age=0; path=/`;
     void saveNow()
-      .then(() => setShow(true))
+      .then(() => {
+        confirmedThisVisit = true;
+        setShow(true);
+      })
       .catch(() => undefined);
   }, [ready, saveNow]);
   if (!show) return null;

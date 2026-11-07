@@ -317,6 +317,87 @@ export function shapingLines(p: Progress): string[] {
     .map((x) => x.replace(/^./, (c) => c.toUpperCase()));
 }
 
+// --- what Distill knows ------------------------------------------------------------------------
+
+/** One line of the long view in Your things. */
+export interface KnownLine {
+  readonly id: string;
+  readonly group: 'now' | 'days' | 'people' | 'toward' | 'you';
+  readonly text: string;
+  readonly since?: string;
+  readonly until?: string;
+}
+
+const noStop = (s: string) => s.replace(/[.!]+$/, '');
+const YOUR_PEOPLE: Readonly<Record<string, string>> = {
+  Partner: 'your partner',
+  Friends: 'your friends',
+  Family: 'your family',
+  Myself: 'yourself',
+  'New people': 'new people',
+};
+
+/** "11:00 pm" for "23:00". */
+function clockWords(time: string): string {
+  const [h = 0, m = 0] = time.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'pm' : 'am'}`;
+}
+
+/**
+ * What their answers say about them, written back in plain sentences. It's the part of "What Distill
+ * knows" that needs no model, so it's there from the first moment, signed in or not.
+ */
+export function knownFromAnswers(p: Progress, nameOf: (itemId: string) => string): KnownLine[] {
+  const r = study.read;
+  const out: KnownLine[] = [];
+  const up = answer(p, 'wake');
+  const down = answer(p, 'bed');
+  if (up && down) out.push({ id: 'answer:day', group: 'days', text: `You're usually up at ${clockWords(up)} and in bed by ${clockWords(down)}` });
+  else if (up) out.push({ id: 'answer:day', group: 'days', text: `You're usually up at ${clockWords(up)}` });
+  else if (down) out.push({ id: 'answer:day', group: 'days', text: `You're usually in bed by ${clockWords(down)}` });
+  const job = pick(r.work as Keyed<string>, work(p));
+  if (job) out.push({ id: 'answer:work', group: 'days', text: `Most days you're ${job}` });
+  const busy = busyAnswer(p);
+  if (busy) out.push({ id: 'answer:busy', group: 'days', text: `When a week gets busy, ${busy.toLowerCase()} goes first` });
+  const who = people(p);
+  if (who && YOUR_PEOPLE[who]) out.push({ id: 'answer:people', group: 'people', text: `You want more time with ${YOUR_PEOPLE[who]}` });
+  const reach = pick(r.valve as Keyed<readonly [string, string]>, valve(p));
+  if (reach) out.push({ id: 'answer:valve', group: 'you', text: noStop(reach.join('')) });
+  const life = lifePicks(p).map(asSaid);
+  if (life.length) out.push({ id: 'answer:life', group: 'you', text: `You'd never give up ${listOf(life)}` });
+  const live = new Set(studyItems(p).map((i) => i.id));
+  const mine = p.dayOne.yours.filter((id) => live.has(id)).map(nameOf).filter(Boolean);
+  if (mine.length) out.push({ id: 'answer:yours', group: 'you', text: `${listOf(mine)} ${mine.length === 1 ? 'is' : 'are'} yours, always` });
+  const feed = fromFeed(p).map(nameOf).filter(Boolean);
+  if (feed.length) out.push({ id: 'answer:feed', group: 'you', text: `${listOf(feed)} came from social media` });
+  return out;
+}
+
+/** They said a line isn't right: the answer behind it goes, and lifeText is written again without it. */
+export function forgetAnswer(p: Progress, id: string, now: string): Progress {
+  const clear = (...keys: AskKey[]) => keys.reduce((next, key) => setAnswer(next, key, null, now), p);
+  switch (id) {
+    case 'answer:day':
+      return withAbout(clear('wake', 'bed'));
+    case 'answer:work':
+      return withAbout(clear('work'));
+    case 'answer:valve':
+      return withAbout(clear('valve'));
+    case 'answer:people':
+      return withAbout(clear('people'));
+    case 'answer:busy':
+      return withAbout(withLines(clear('busy'), lines(p).filter((l) => l.id !== BUSY), now));
+    case 'answer:life':
+      return withAbout(withLines(p, lines(p).filter((l) => l.kind !== 'theirs' || l.id === BUSY), now));
+    case 'answer:yours':
+      return { ...p, dayOne: { ...p.dayOne, yours: [] } };
+    case 'answer:feed':
+      return { ...p, items: p.items.map((i) => (i.origin === 'online' ? { ...i, origin: undefined } : i)) };
+    default:
+      return p;
+  }
+}
+
 // --- what the engine reads --------------------------------------------------------------------
 
 /** A short paragraph in their own voice, built only from what they tapped. */
@@ -325,7 +406,7 @@ export function aboutFrom(p: Progress): string {
   const mine = study.mine;
   const day = [
     answer(p, 'wake') ? `up at ${wakeLabel(p)}` : null,
-    answer(p, 'bed') ? `in bed by ${wakeLabelOf(bed(p))}` : null,
+    answer(p, 'bed') ? `in bed by ${clockWords(bed(p))}` : null,
     pick(mine.work as Keyed<string>, work(p)),
   ].filter(Boolean);
   if (day.length) out.push(`${ABOUT_MARK}${day.join(', ')}.`);

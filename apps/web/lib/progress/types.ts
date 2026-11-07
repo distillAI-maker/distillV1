@@ -126,8 +126,29 @@ export const progressSchema = z
     joinedEmail: z.string().max(254).optional(),
     /** Saved by the server when they joined, before the email link: the first sign-in settles it. */
     fromJoin: z.boolean().optional(),
+    /**
+     * The Ritual they said "Make it mine" to, so it's the one they find in the app and in their
+     * account, instead of a second one made later. `list` says which list it was made for.
+     */
+    firstRitual: z.object({ list: z.string().max(40000), parts: z.array(z.unknown()).max(80) }).strict().optional(),
     /** Where they are, for Explore. A city, in their words. */
     region: z.string().max(80).optional(),
+    /** Places in Explore they said yes to before signing in. Signed in, the engine keeps these. */
+    exploreGoing: z
+      .array(
+        z
+          .object({
+            id: z.string().max(120),
+            thread: z.string().max(40),
+            title: z.string().max(120),
+            when: z.string().max(200).optional(),
+            where: z.string().max(120).optional(),
+            url: z.string().max(600),
+          })
+          .strict(),
+      )
+      .max(50)
+      .optional(),
     /** Next steps in Explore they said aren't for them. */
     exploreHidden: z.array(z.string().max(80)).max(200).optional(),
     items: z.array(stackItemSchema).default([]),
@@ -238,4 +259,9 @@ export interface ProgressStore {
   load(): Promise<Progress | null>;
   save(progress: Progress): Promise<void>;
   clear(): Promise<void>;
+}
+
+/** Which list a Ritual was made for: a change to it (added, let go, kept) means a new Ritual. */
+export function firstRitualList(progress: Pick<Progress, 'items'>): string {
+  return JSON.stringify(progress.items.map((i) => [i.id, i.itemKey, i.status]));
 }

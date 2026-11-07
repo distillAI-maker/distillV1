@@ -6,6 +6,7 @@ import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
 import { engineApi, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
+import { nearbyFor } from '../../../lib/explore/nearby';
 import { leadUrl, threadsFor } from '../../../lib/explore/threads';
 import { useProgress } from '../../../lib/progress/context';
 import { longDate } from '../../../lib/ritual-view';
@@ -13,6 +14,21 @@ import { useStandings } from '../things/things-tab';
 
 const t = copy.exploreTab;
 type Found = EngineState['explore']['events'][number];
+/** What a card needs, whether the weekly search found it or it's a place from the bank. */
+interface Card {
+  readonly id: string;
+  readonly thread: string;
+  readonly title: string;
+  readonly date?: string;
+  readonly when?: string;
+  readonly where?: string;
+  readonly url: string;
+  readonly why?: string;
+  readonly past?: boolean;
+}
+
+/** The search underway, kept across visits to this tab: coming back picks it up instead of starting another. */
+let underway: { region: string; result: Promise<EngineState['explore'] | null> } | null = null;
 
 /** "In 19 weeks", from today to a date. */
 function countdown(date: string, today: string): string {
@@ -24,14 +40,17 @@ function countdown(date: string, today: string): string {
   return t.inMonths(Math.round(days / 30));
 }
 
-const whenOf = (e: Found, today: string | null) =>
+const whenOf = (e: Card, today: string | null) =>
   e.date ? `${longDate(e.date)}${today ? ` · ${countdown(e.date, today)}` : ''}` : (e.when ?? '');
 
 /**
  * Explore: never a new habit, always a next step for something they already do. Running opens a race
- * near them; journaling, a writing workshop. Signed in, Distill also looks for real dates once a week
- * (lib/ai/engine/explore-feed.ts), and what they say yes to goes on their Ritual and counts down, so
- * there's something new and something to look forward to each time they come back.
+ * near them; a sauna, a bathhouse worth the trip. Three layers, so there is something real from the
+ * first moment and something new every week:
+ * - places near them from the bank of checked ideas (lib/explore/nearby.ts), signed in or not;
+ * - signed in, real dated events found once a week (lib/ai/engine/explore-feed.ts);
+ * - next steps with a live search for their city (lib/explore/threads.ts), wherever they live.
+ * What they say yes to goes on their Ritual and counts down, and afterward it asks how it was.
  */
 export function ExploreTab() {
   const { ready, progress, update } = useProgress();
@@ -53,16 +72,16 @@ export function ExploreTab() {
 
   const region = progress.region?.trim() ?? '';
   const hidden = useMemo(() => new Set(progress.exploreHidden ?? []), [progress.exploreHidden]);
-  const known = engine.state?.knows ?? [];
+  const known = engine.state?.knows;
   const threads = useMemo(
     () =>
       threadsFor({
         items: progress.items,
         words: [progress.lifeText, ...progress.items.flatMap((i) => i.notes.map((n) => n.text))].join('\n'),
         standings,
-        hasPeople: known.some((f) => f.id.startsWith('person:')) || (progress.picture?.lines ?? []).some((l) => l.kind === 'people'),
+        hasPeople: (known ?? []).some((f) => f.id.startsWith('person:')) || progress.asks.some((a) => a.q === 'Who do you want more time with?' && a.a !== 'Myself'),
       }),
-    [progress.items, progress.lifeText, progress.picture, standings, known],
+    [progress.items, progress.lifeText, progress.asks, standings, known],
   );
 
   // What the engine last said, unless the search just came back with something newer.
@@ -74,13 +93,24 @@ export function ExploreTab() {
     if (!engine.on || !region || !live?.available || searching) return;
     if (live.fresh && live.region?.toLowerCase() === region.toLowerCase()) return;
     if (asked.current === region.toLowerCase() || !threads.length) return;
-    asked.current = region.toLowerCase();
+    const key = region.toLowerCase();
+    asked.current = key;
     setSearching(true);
-    engineApi
-      .exploreFeed(region)
-      .then((r) => setFetched(r.state.explore))
-      .catch(() => undefined)
-      .finally(() => setSearching(false));
+    if (underway?.region !== key)
+      underway = {
+        region: key,
+        result: engineApi
+          .exploreFeed(region)
+          .then((r) => r.state.explore)
+          .catch(() => null)
+          .finally(() => {
+            underway = null;
+          }),
+      };
+    void underway.result.then((found) => {
+      if (found) setFetched(found);
+      setSearching(false);
+    });
   }, [engine.on, region, live, searching, threads.length]);
 
   const saveRegion = (value: string) => {
@@ -91,19 +121,53 @@ export function ExploreTab() {
     setDraft('');
   };
   const hide = (id: string) => update((p) => ({ ...p, exploreHidden: [...(p.exploreHidden ?? []), id].slice(-200) }));
-  const answer = async (id: string, how: 'in' | 'no' | 'loved' | 'not-really') => {
-    const done = await engine.act(() => engineApi.exploreGo(id, how));
+
+  const answer = async (card: Card, how: 'in' | 'no' | 'loved' | 'not-really') => {
+    const isIdea = card.id.startsWith('idea:');
+    // A place said no to stays out of this list, signed in or not.
+    if (how === 'no' && isIdea) return hide(card.id);
+    if (!engine.on) {
+      if (how === 'in') {
+        const { id, thread, title, when, where, url } = card;
+        update((p) => ({
+          ...p,
+          exploreGoing: [...(p.exploreGoing ?? []).filter((g) => g.id !== id), { id, thread, title, url, ...(when ? { when } : {}), ...(where ? { where } : {}) }].slice(-50),
+        }));
+        setJustIn(true);
+      } else update((p) => ({ ...p, exploreGoing: (p.exploreGoing ?? []).filter((g) => g.id !== card.id) }));
+      return;
+    }
+    const done = await engine.act(() => engineApi.exploreGo(card.id, how, card.thread));
     if (done && how === 'in') setJustIn(true);
+    // Said yes before signing in: the account has it now.
+    if (done && how !== 'in') update((p) => ({ ...p, exploreGoing: (p.exploreGoing ?? []).filter((g) => g.id !== card.id) }));
   };
 
-  const shownThreads = threads.filter((th) => !filter || th.id === filter);
-  const nameOf = (id: string) => threads.find((th) => th.id === id)?.because ?? '';
-  const events = (explore?.events ?? []).filter((e) => !filter || e.thread === filter);
-  const going = explore?.going ?? [];
-  const year = today ? Number(today.slice(0, 4)) : new Date().getFullYear();
-  const current = known.find((f) => f.group === 'now');
+  const going: Card[] = useMemo(() => {
+    const fromEngine = explore?.going ?? [];
+    const ids = new Set(fromEngine.map((g) => g.id));
+    return [...fromEngine, ...(progress.exploreGoing ?? []).filter((g) => !ids.has(g.id))];
+  }, [explore?.going, progress.exploreGoing]);
+  const goingIds = useMemo(() => new Set(going.map((g) => g.id)), [going]);
 
+  const shownThreads = threads.filter((th) => !filter || th.id === filter);
+  const becauseOf = (id: string) => threads.find((th) => th.id === id)?.because ?? '';
+  const found: Card[] = ((explore?.events ?? []) as readonly Found[]).filter((e) => !filter || e.thread === filter);
+  const places: Card[] = useMemo(
+    () =>
+      region
+        ? nearbyFor(shownThreads, region, hidden)
+            .filter((n) => !goingIds.has(n.id))
+            .map((n) => ({ id: n.id, thread: n.thread, title: n.title, when: n.when, where: n.where, url: n.url, why: n.line }))
+        : [],
+    // shownThreads is rebuilt each render; its ids are what matter.
+    [region, hidden, goingIds, shownThreads.map((th) => th.id).join()],
+  );
+  const cards = [...found, ...places];
+  const year = today ? Number(today.slice(0, 4)) : new Date().getFullYear();
+  const current = (known ?? []).find((f) => f.group === 'now');
   const asking = (!region || editingRegion) && threads.length > 0;
+  const checked = explore?.at && explore.events.length ? longDate(explore.at.slice(0, 10)) : null;
 
   return (
     <main className="tb-page ex-page">
@@ -176,21 +240,21 @@ export function ExploreTab() {
               <h2>{t.going}</h2>
               {justIn ? (
                 <p className="rt-done" role="status">
-                  {t.onRitual}
+                  {engine.on ? t.onRitual : t.onPhone}
                 </p>
               ) : null}
               {going.map((e) => (
                 <article key={e.id} className="ex-event">
-                  <small>{e.past ? longDate(e.date!) : whenOf(e, today)}</small>
+                  <small>{e.past && e.date ? longDate(e.date) : whenOf(e, today)}</small>
                   <strong>{e.title}</strong>
                   {e.where ? <p className="ex-where">{e.where}</p> : null}
                   {e.past ? (
                     <div className="ex-idea-actions">
                       <span>{t.howWas}</span>
-                      <button type="button" className="ds-spark" disabled={engine.busy} onClick={() => void answer(e.id, 'loved')}>
+                      <button type="button" className="ds-spark" disabled={engine.busy} onClick={() => void answer(e, 'loved')}>
                         {t.loved}
                       </button>
-                      <button type="button" className="ds-link" disabled={engine.busy} onClick={() => void answer(e.id, 'not-really')}>
+                      <button type="button" className="ds-link" disabled={engine.busy} onClick={() => void answer(e, 'not-really')}>
                         {t.notReally}
                       </button>
                     </div>
@@ -199,6 +263,11 @@ export function ExploreTab() {
                       <a className="ds-link ds-link--quiet" href={e.url} target="_blank" rel="noopener noreferrer">
                         {t.page}
                       </a>
+                      {e.date ? null : (
+                        <button type="button" className="ds-link ds-link--quiet" disabled={engine.busy} onClick={() => void answer(e, 'not-really')}>
+                          {t.doneWith}
+                        </button>
+                      )}
                     </div>
                   )}
                 </article>
@@ -219,27 +288,28 @@ export function ExploreTab() {
             </div>
           ) : null}
 
-          {events.length || searching ? (
+          {cards.length || searching ? (
             <section className="ex-section" aria-label={t.found}>
               <h2>{t.found}</h2>
-              {events.length ? <p>{t.foundFresh}</p> : null}
+              <p>{checked ? t.updated(checked) : t.foundNote}</p>
               {searching ? (
                 <p className="ex-searching" role="status">
                   <Mark size="sm" turning />
                   <span>{t.searching}</span>
                 </p>
               ) : null}
-              {events.map((e) => (
+              {cards.map((e) => (
                 <article key={e.id} className="ex-event">
                   <small>{whenOf(e, today)}</small>
                   <strong>{e.title}</strong>
                   {e.where ? <p className="ex-where">{e.where}</p> : null}
-                  {e.why ? <p className="ex-why">{e.why}</p> : <p className="ex-why">{nameOf(e.thread)}</p>}
+                  {e.why ? <p className="ex-why">{e.why}</p> : null}
+                  <span className="ex-from">{becauseOf(e.thread)}</span>
                   <div className="ex-idea-actions">
-                    <button type="button" className="ds-spark" disabled={engine.busy} onClick={() => void answer(e.id, 'in')}>
+                    <button type="button" className="ds-spark" disabled={engine.busy} onClick={() => void answer(e, 'in')}>
                       {t.in}
                     </button>
-                    <button type="button" className="ds-link" disabled={engine.busy} onClick={() => void answer(e.id, 'no')}>
+                    <button type="button" className="ds-link" disabled={engine.busy} onClick={() => void answer(e, 'no')}>
                       {t.no}
                     </button>
                     <a className="ds-link ds-link--quiet" href={e.url} target="_blank" rel="noopener noreferrer">
@@ -264,10 +334,10 @@ export function ExploreTab() {
                       <strong style={i === 0 ? { marginTop: 6 } : undefined}>{a.title}</strong>
                       <p>{a.line}</p>
                       <div className="ex-idea-actions">
-                        <a className="ds-spark" href={leadUrl(a, region, year)} target="_blank" rel="noopener noreferrer">
+                        <a className="ds-link" href={leadUrl(a, region, year)} target="_blank" rel="noopener noreferrer">
                           {t.look(region)}
                         </a>
-                        <button type="button" className="ds-link" onClick={() => hide(a.id)}>
+                        <button type="button" className="ds-link ds-link--quiet" onClick={() => hide(a.id)}>
                           {t.no}
                         </button>
                       </div>
@@ -278,7 +348,11 @@ export function ExploreTab() {
             })}
           </section>
 
-          {!engine.on && ready ? <p className="ex-note" style={{ marginTop: 20 }}>{t.signedOutNote}</p> : null}
+          {!engine.on && ready ? (
+            <p className="ex-note" style={{ marginTop: 20 }}>
+              {t.signedOutNote}
+            </p>
+          ) : null}
         </>
       ) : null}
     </main>

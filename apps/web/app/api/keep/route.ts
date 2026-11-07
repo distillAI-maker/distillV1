@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { database } from '@distill/data';
+import { database, type Database } from '@distill/data';
 import { z } from 'zod';
 import { progressSchema } from '../../../lib/progress/types';
 import { Journey } from '../../../src/server/journey';
@@ -16,6 +16,7 @@ export const dynamic = 'force-dynamic';
  * still what signs them in and confirms the address. If anything is missing or fails, this answers
  * kept:false and the link carries progress from this browser, as it always has.
  */
+let db: Database | undefined;
 const PER_ADDRESS_HOUR = 5;
 const seen = new Map<string, number[]>();
 
@@ -55,7 +56,8 @@ export async function POST(request: Request) {
     const admin = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
     const { data, error } = await admin.auth.admin.createUser({ email });
     if (error || !data.user) return answer(false);
-    await new Journey(database(databaseUrl).db).save(data.user.id, { ...progress, fromJoin: true });
+    db ??= database(databaseUrl).db;
+    await new Journey(db).save(data.user.id, { ...progress, fromJoin: true });
     return answer(true);
   } catch {
     return answer(false);

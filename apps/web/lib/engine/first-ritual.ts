@@ -1,5 +1,5 @@
 import type { RitualPart } from '@distill/engine/ritual';
-import type { Progress } from '../progress/types';
+import { firstRitualList, type Progress } from '../progress/types';
 
 /**
  * Their first Ritual in Claude's words takes about half a minute, so it starts as soon as every answer
@@ -25,6 +25,11 @@ export function signature(progress: Progress): string {
   delete rest.updatedAt;
   delete rest.member;
   delete rest.joinedEmail;
+  delete rest.fromJoin;
+  delete rest.firstRitual;
+  delete rest.region;
+  delete rest.exploreHidden;
+  delete rest.exploreGoing;
   return JSON.stringify(rest, sorted);
 }
 
@@ -48,22 +53,13 @@ export function shapeFirstRitual(progress: Progress, timeZone: string): Promise<
   return shaped;
 }
 
-const KEPT = 'distill.firstRitual';
-
 /** "Make it mine": the Ritual they just read is the one they find in the app, until their list changes. */
-export function keepFirstRitual(progress: Progress, parts: readonly RitualPart[]): void {
-  try {
-    sessionStorage.setItem(KEPT, JSON.stringify({ key: signature(progress), parts }));
-  } catch {
-    // Private mode or full storage: the app falls back to the rules version.
-  }
+export function keepFirstRitual(progress: Progress, parts: readonly RitualPart[]): NonNullable<Progress['firstRitual']> {
+  return { list: firstRitualList(progress), parts: [...parts] };
 }
 
 export function keptFirstRitual(progress: Progress): readonly RitualPart[] | null {
-  try {
-    const saved = JSON.parse(sessionStorage.getItem(KEPT) ?? 'null') as { key: string; parts: RitualPart[] } | null;
-    return saved?.key === signature(progress) ? saved.parts : null;
-  } catch {
-    return null;
-  }
+  const kept = progress.firstRitual;
+  if (!kept?.parts.length || kept.list !== firstRitualList(progress)) return null;
+  return kept.parts as RitualPart[];
 }

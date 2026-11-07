@@ -36,7 +36,9 @@ export async function GET(request: Request) {
   }
   // The arrival screen resumes saved progress, so someone joining from the invitation lands back there.
   const back = NextResponse.redirect(new URL('/', url.origin));
-  // A note for the app to say "Email confirmed" once, after their progress reaches the account.
-  back.cookies.set('distill_confirmed', '1', { maxAge: 600, path: '/', sameSite: 'lax' });
+  // Confirmed by this very link: a note for the app to say so once, after their progress reaches the
+  // account. A returning person signing in again already knows.
+  const confirmedAt = data.user?.email_confirmed_at ? Date.parse(data.user.email_confirmed_at) : 0;
+  if (Date.now() - confirmedAt < 5 * 60_000) back.cookies.set('distill_confirmed', '1', { maxAge: 600, path: '/', sameSite: 'lax' });
   return back;
 }

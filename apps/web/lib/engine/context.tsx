@@ -117,6 +117,18 @@ export function EngineProvider({ children }: { children: ReactNode }) {
     void act(() => engineApi.accept(first.id));
   }, [on, state, progress.step, act]);
 
+  // What their onboarding words teach is read once, after their Ritual is in place: nothing waits on
+  // it, and "What Distill knows" fills in when it comes back.
+  const readAsked = useRef(false);
+  useEffect(() => {
+    if (!on || readAsked.current || state?.ritual.status !== 'accepted' || state.person.readDone !== false) return;
+    readAsked.current = true;
+    engineApi
+      .readLater()
+      .then((r) => setState((now) => (now ? { ...now, person: r.state.person, knows: r.state.knows, decisions: r.state.decisions, items: r.state.items } : r.state)))
+      .catch(() => undefined);
+  }, [on, state]);
+
   // Their list changed (let go, kept, added, an answer about it): the rules run again.
   const signature = listSignature(progress);
   useEffect(() => {

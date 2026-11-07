@@ -180,12 +180,17 @@ function AnyDay({ parts }: { parts: readonly RitualPart[] }) {
     <section className="rt-anyday" aria-label={t.anyDay}>
       <h3>{t.anyDay}</h3>
       <ul>
-        {flexible.map((p) => (
-          <li key={p.id}>
-            <strong>{p.title}</strong>
-            <span>{whenLine(p.when)}</span>
-          </li>
-        ))}
+        {flexible.map((p) => {
+          const why = whyLine(p);
+          return (
+            <li key={p.id}>
+              <strong>{p.title}</strong>
+              <span>{whenLine(p.when)}</span>
+              {why ? <p>{why}</p> : null}
+              {p.lock === 'theirs' ? <Locked>{t.yours}</Locked> : p.lock === 'clinician' ? <Locked>{t.clinician}</Locked> : null}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -374,6 +379,9 @@ export function RitualTab() {
   }, []);
 
   const name = state?.person.name || progress.name;
+  // Just signed in: what they said yes to is on the page from the first moment, while the engine sets up.
+  const kept = keptFirstRitual(progress);
+  if (!state && !error && kept) return <KeptRitual parts={kept} name={name} />;
   if (!state)
     return (
       <main className="tb-page" aria-busy={!error}>
@@ -401,6 +409,7 @@ export function RitualTab() {
 
   // "Make it mine" already said yes: while the engine's first version is accepted, it's still shaping.
   const accepting = r.status === 'proposed' && !!r.proposed && !r.proposed.parentId && saidMakeItMine(progress.step);
+  if ((r.status === 'none' || accepting) && kept) return <KeptRitual parts={kept} name={name} />;
   if (r.status === 'none' || accepting)
     return (
       <main className="tb-page" aria-busy="true">
@@ -495,7 +504,7 @@ export function RitualTab() {
   }
 
   return (
-    <main className="tb-page" ref={top}>
+    <main className={`tb-page${keptDrawn ? ' rt-settled' : ''}`} ref={top}>
       <Header date={day.date} name={name} thinking={thinking || (busy && !!sent)} />
       {error ? (
         <p className="ds-notice" role="alert">
@@ -534,7 +543,7 @@ export function RitualTab() {
         <div className="rt-banner">
           <span>
             <Mark size="xs" />
-            {change.scope === 'day' ? t.adjusted(weekdayName(change.date)) : t.weekAdjusted}
+            {change.scope === 'day' ? t.adjusted(week.some((d) => d.date === change.date) ? weekdayName(change.date) : longDate(change.date)) : t.weekAdjusted}
           </span>
           <button
             type="button"
@@ -579,6 +588,8 @@ export function RitualTab() {
         onCheck={day.date === today ? (p) => void tick(p.id) : undefined}
       />
 
+      <AnyDay parts={r.anyDay ?? []} />
+
       <DailyCard
         state={state}
         routed={routed}
@@ -600,12 +611,55 @@ export function RitualTab() {
 }
 
 /** Signed out: the same rules on what they told us, nothing stored, and a way to keep it. */
+/** A Ritual that isn't the engine's yet: the week, the day picked, and what has no fixed day. */
+function DraftWeek({ parts, today }: { parts: readonly RitualPart[]; today: string }) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const week = useMemo(
+    () =>
+      Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(`${today}T12:00:00Z`);
+        d.setUTCDate(d.getUTCDate() + i);
+        const date = d.toISOString().slice(0, 10);
+        return { date, parts: partsOn(parts, date) };
+      }),
+    [today, parts],
+  );
+  const shown = week.find((d) => d.date === selected) ?? week[0]!;
+  return (
+    <>
+      <Week days={week} today={today} selected={shown.date} onPick={setSelected} />
+      <h2 className="rt-day-head">{shown.date === today ? t.today : longDate(shown.date)}</h2>
+      <Timeline parts={shown.parts} />
+      <AnyDay parts={parts} />
+    </>
+  );
+}
+
+/** The kept Ritual has been on the page this visit, so the engine's copy doesn't enter all over again. */
+let keptDrawn = false;
+
+/**
+ * Just signed in, while the engine sets up: the Ritual they said "Make it mine" to, whole, from the
+ * first moment. The same one arrives from the engine a moment later, with its check marks.
+ */
+function KeptRitual({ parts, name }: { parts: readonly RitualPart[]; name: string }) {
+  keptDrawn = true;
+  const now = useNow();
+  const today = now ? now.toLocaleDateString('en-CA') : null;
+  return (
+    <main className="tb-page" aria-busy="true">
+      <Header date={today} name={name} />
+      <EmailConfirmed />
+      {today ? <DraftWeek parts={parts} today={today} /> : null}
+    </main>
+  );
+}
+
 export function RitualPreviewTab() {
   const { ready, progress } = useProgress();
   useRefreshOnReturn(ready && progress.member);
   const [parts, setParts] = useState<readonly RitualPart[] | null>(null);
   const now = useNow();
-  const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
     if (!ready) return;
     // The Ritual they just said "Make it mine" to, until their list changes; then the rules on it.
@@ -623,19 +677,9 @@ export function RitualPreviewTab() {
     };
   }, [ready, progress]);
   const today = now ? now.toLocaleDateString('en-CA') : null;
-  const week = useMemo(() => {
-    if (!today || !parts) return [];
-    return Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(`${today}T12:00:00Z`);
-      d.setUTCDate(d.getUTCDate() + i);
-      const date = d.toISOString().slice(0, 10);
-      return { date, parts: partsOn(parts, date) };
-    });
-  }, [today, parts]);
-  const shown = week.find((d) => d.date === selected) ?? week[0];
   return (
     <main className="tb-page">
-      <Header date={shown?.date ?? today} name={progress.name} />
+      <Header date={today} name={progress.name} />
       {/* Signed out, keeping it comes first: joined and waiting on the email link, or not yet in. */}
       {ready && progress.member ? <ConfirmEmail email={progress.joinedEmail} /> : null}
       {ready && !progress.member ? (
@@ -647,18 +691,13 @@ export function RitualPreviewTab() {
           </Link>
         </section>
       ) : null}
-      {!parts || !shown || !today ? (
+      {!parts || !today ? (
         <div className="tb-wait">
           <i />
           <i />
         </div>
       ) : (
-        <>
-          <Week days={week} today={today} selected={shown.date} onPick={setSelected} />
-          <h2 className="rt-day-head">{shown.date === today ? t.today : longDate(shown.date)}</h2>
-          <Timeline parts={shown.parts} />
-          <AnyDay parts={parts} />
-        </>
+        <DraftWeek parts={parts} today={today} />
       )}
     </main>
   );

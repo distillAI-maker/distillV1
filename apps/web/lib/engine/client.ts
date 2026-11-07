@@ -36,8 +36,9 @@ export const engineApi = {
   undo: (versionId: string) => call<EngineResult>('undo', { versionId }),
   settings: (nightsShapeMornings: boolean) => call<EngineResult>('settings', { nightsShapeMornings }),
   exploreFeed: (region: string) => call<EngineResult>('explore-feed', { region }),
-  exploreGo: (eventId: string, answer: 'in' | 'no' | 'loved' | 'not-really') =>
-    call<EngineResult>('explore-go', { eventId, answer }),
+  exploreGo: (eventId: string, answer: 'in' | 'no' | 'loved' | 'not-really', thread?: string) =>
+    call<EngineResult>('explore-go', thread ? { eventId, answer, thread } : { eventId, answer }),
+  readLater: () => call<EngineResult>('read-later', {}),
   forget: (id: string) => call<EngineResult>('forget', { id }),
   explore: (want: string, region?: string) =>
     call<EngineResult>('explore', region ? { want, region } : { want }),

@@ -126,7 +126,7 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
           {link.state === 'sent' ? copy.invitation.connectDemo : copy.invitation.connect}
           <Arrow />
         </button>
-        {accounts ? (
+        {accounts && store.id !== 'supabase' ? (
           <div className="ob-other">
             <button
               type="button"

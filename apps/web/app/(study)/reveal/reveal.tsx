@@ -64,7 +64,7 @@ export function Reveal() {
   const go = useGo();
   const router = useRouter();
   const goBack = useGoBack();
-  const { ready, progress } = useProgress();
+  const { ready, progress, update } = useProgress();
   const [draft, setDraft] = useState<{ parts: readonly RitualPart[]; notes: RevealNotes } | null>(null);
   const [failed, setFailed] = useState(false);
   const [settled, setSettled] = useState(false);
@@ -109,7 +109,7 @@ export function Reveal() {
   const accept = () => {
     if (gathering) return;
     setGathering(true);
-    if (draft) keepFirstRitual(progress, draft.parts);
+    if (draft) update({ firstRitual: keepFirstRitual(progress, draft.parts) });
     window.setTimeout(() => go('invitation'), still() ? 0 : GATHER_MS);
   };
 

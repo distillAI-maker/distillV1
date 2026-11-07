@@ -110,10 +110,13 @@ export function lighterByRules(input: {
   scope: Scope;
   today: string;
   message?: string;
+  /** Minutes since midnight: a morning that has passed can't start slow. */
+  minute?: number;
 }): ReshapeResult | null {
   const { scope, trigger } = input;
   if (trigger.load !== 'lighter' || scope.kind !== 'day' || !scope.targets.length) return null;
-  const morning = scope.targets.find((t) => t.moments.some((m) => m === 'morning' || m === 'saturday' || m === 'sunday'));
+  const passed = (date: string) => date === input.today && (input.minute ?? 0) >= 11 * 60;
+  const morning = scope.targets.find((t) => !passed(t.date) && t.moments.some((m) => m === 'morning' || m === 'saturday' || m === 'sunday'));
   const target = morning ?? scope.targets[0]!;
   const op: Op = morning
     ? {
@@ -129,7 +132,7 @@ export function lighterByRules(input: {
     : {
         op: 'add',
         part: {
-          title: 'An early night',
+          title: 'Early night',
           slot: 'night',
           area: 'sleep',
           why: 'An early night, so tomorrow can start easier.',
@@ -138,9 +141,33 @@ export function lighterByRules(input: {
       };
   const gap = daysBetween(input.today, target.date);
   const when = gap <= 0 ? 'today' : gap === 1 ? 'tomorrow' : DAY_NAME[dayOf(target.date)];
-  const said = gap === 1 ? "We'll update your Ritual by tomorrow." : `Your Ritual is lighter for ${when}.`;
+  const said = gap === 1 ? "We'll update your Ritual by tomorrow." : gap <= 0 ? 'Your Ritual is lighter today.' : `Your Ritual is lighter for ${when}.`;
   const reply = trigger.kind === 'night' ? `Short night, so ${when} starts slow.` : `Okay, got it.${meets(input.message)} ${said}`;
   return { reply, opsByDate: { [target.date]: [op] }, baseOps: [], ongoing: false, ask: null, from: 'rules' };
+}
+
+const WAKE_PART = /^(up at|wake up|wake-up|waking up)\b/i;
+const BED_PART = /^(in bed by|bed by|asleep by|lights out)\b/i;
+const isAnchor = (p: Pick<RitualPart, 'title' | 'source'>, rule: string, words: RegExp) =>
+  (p.source.kind === 'engine' && p.source.rule === rule) || words.test(p.title);
+
+/** "In bed by 11:00 pm", on the night they said they're out late. */
+export const isBedPart = (p: Pick<RitualPart, 'title' | 'source'>) => isAnchor(p, 'bed', BED_PART);
+
+/**
+ * A day that starts with "Sleep in" doesn't also say "Up at 7:00": the anchor steps aside for that
+ * day, unless it's locked or Claude has already moved it.
+ */
+export function anchorsGiveWay(result: ReshapeResult, scope: Scope): ReshapeResult {
+  if (scope.kind !== 'day') return result;
+  const opsByDate: Record<string, readonly Op[]> = { ...result.opsByDate };
+  for (const target of scope.targets) {
+    const ops = opsByDate[target.date];
+    if (!ops?.some((o) => o.op === 'add' && o.part.source.kind === 'engine' && o.part.source.rule === 'slow-start')) continue;
+    const wake = target.parts.find((p) => isAnchor(p, 'wake', WAKE_PART) && !p.lock);
+    if (wake && !ops.some((o) => 'partId' in o && o.partId === wake.id)) opsByDate[target.date] = [...ops, { op: 'skip', partId: wake.id }];
+  }
+  return { ...result, opsByDate };
 }
 
 export async function reshape(
@@ -156,10 +183,12 @@ export async function reshape(
     today: string;
     /** Their answers, so a later morning means later than their own usual. */
     asks?: readonly { q: string; a: string }[];
+    /** Minutes since midnight, for the rules when Claude isn't the one answering. */
+    minute?: number;
   },
 ): Promise<ReshapeResult> {
   const fallback: ReshapeResult = { reply: FALLBACK_REPLY, opsByDate: {}, baseOps: [], ongoing: false, ask: null, from: 'fallback' };
-  if (!client) return lighterByRules(input) ?? fallback;
+  if (!client) return anchorsGiveWay(lighterByRules(input) ?? fallback, input.scope);
   const { scope } = input;
   const locked = new Set(scope.locked);
   const prot = new Set(scope.protected);
@@ -270,8 +299,8 @@ export async function reshape(
     maxTokens: 4000,
   });
   if (!result.ok)
-    return { ...(lighterByRules(input) ?? fallback), ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
-  return {
+    return { ...anchorsGiveWay(lighterByRules(input) ?? fallback, scope), ...(result.usage ? { usage: result.usage } : {}), problems: result.problems ?? [result.reason] };
+  return anchorsGiveWay({
     reply: result.data.reply.trim(),
     opsByDate: scope.kind === 'day' ? split(result.data.ops) : {},
     baseOps: scope.kind === 'base' ? result.data.ops : [],
@@ -279,7 +308,7 @@ export async function reshape(
     ask: result.data.ask ?? null,
     from: 'claude',
     usage: result.usage,
-  };
+  }, scope);
 }
 
 /** The ways a reply may write a clock time: "09:30" as 9:30, and "13:00" as 13, 1:00 or 1. */

@@ -75,7 +75,7 @@ function stateWith(over: Partial<EngineState> = {}, ritual: Partial<EngineState[
   const week = dates.map((d) => dayOf(d, [coffee, pilates]));
   return {
     person: { name: 'Maya', season: 'steady', nightsShapeMornings: false, wearable: null },
-    ritual: { status: 'accepted', summary: '', proposed: null, today: week[0]!, week, lastChange: null, ...ritual },
+    ritual: { status: 'accepted', summary: '', proposed: null, today: week[0]!, week, anyDay: [], lastChange: null, ...ritual },
     decisions: [decision],
     today: { kind: 'clear', decision },
     thread: [],
@@ -310,6 +310,8 @@ describe('Explore', () => {
     items: [{ id: 'a', itemKey: 'strength-training', monthlyCost: 0, position: 0, status: 'listed', answers: {}, chips: {}, unknown: [], notes: [] }],
     ...over,
   });
+  const saunaGoer = (over: Partial<Progress> = {}) =>
+    lifter({ items: [{ id: 'a', itemKey: 'sauna-post-workout-or-evening', monthlyCost: 0, position: 0, status: 'listed', answers: {}, chips: {}, unknown: [], notes: [] }], ...over });
   const show = (p: Progress) => {
     const store: ProgressStore = { id: 'local', load: async () => p, save: async () => {}, clear: async () => {} };
     render(
@@ -334,8 +336,55 @@ describe('Explore', () => {
     fireEvent.click(screen.getAllByRole('button', { name: 'Not for me' })[0]!);
     await waitFor(() => expect(screen.getAllByRole('link', { name: 'Look near Oakland' }).length).toBe(before - 1));
   });
+  it('shows real places near them from the first moment, signed out too, and keeps what they say yes to', async () => {
+    show(saunaGoer({ region: 'San Francisco' }));
+    const place = await screen.findByText('A bay swim and sauna at the Dolphin Club');
+    const card = place.closest('article')!;
+    expect(within(card).getByRole('link', { name: 'See the page' }).getAttribute('href')).toContain('dolphinclub');
+    fireEvent.click(within(card).getByRole('button', { name: 'I’m in' }));
+    expect(await screen.findByRole('heading', { name: 'You’re in' })).toBeTruthy();
+    expect(screen.getByText(/Confirm your email, and it goes on your Ritual/)).toBeTruthy();
+    expect(screen.getAllByText('A bay swim and sauna at the Dolphin Club')).toHaveLength(1);
+  });
+  it('has no local places for a city outside the bank, only the searches', async () => {
+    show(saunaGoer({ region: 'Tulsa' }));
+    expect(await screen.findAllByRole('link', { name: 'Look near Tulsa' })).toBeTruthy();
+    expect(screen.queryByText('A bay swim and sauna at the Dolphin Club')).toBeNull();
+  });
   it('sends someone with nothing to build on back to their things, and never invents a habit', async () => {
     show(lifter({ items: [] }));
     expect(await screen.findByRole('heading', { name: 'Nothing to build on yet.' })).toBeTruthy();
+  });
+});
+
+describe('what Distill knows', () => {
+  afterEach(cleanup);
+  const answered = (over: Partial<Progress> = {}): Progress => ({
+    ...emptyProgress(),
+    name: 'Maya',
+    asks: [
+      { q: 'What time are you usually up?', a: '07:00', at: 'x' },
+      { q: 'What time are you usually in bed?', a: '23:00', at: 'x' },
+      { q: 'What are most days?', a: 'Desk 9–6', at: 'x' },
+      { q: 'When a week gets busy, what goes first?', a: 'Sleep', at: 'x' },
+      { q: 'Who do you want more time with?', a: 'Friends', at: 'x' },
+    ],
+    ...over,
+  });
+  it('is a real summary of their answers from the first moment, and a line can be taken back', async () => {
+    const store: ProgressStore = { id: 'local', load: async () => answered(), save: async () => {}, clear: async () => {} };
+    render(
+      <ProgressProvider store={store}>
+        <ThingsTab />
+      </ProgressProvider>,
+    );
+    expect(await screen.findByText('You’re usually up at 7:00 am and in bed by 11:00 pm'.replace('’', "'"))).toBeTruthy();
+    expect(screen.getByText("Most days you're at a desk till 6")).toBeTruthy();
+    expect(screen.getByText('When a week gets busy, sleep goes first')).toBeTruthy();
+    expect(screen.getByText('You want more time with your friends')).toBeTruthy();
+    fireEvent.click(screen.getByText("Most days you're at a desk till 6"));
+    fireEvent.click(screen.getByRole('button', { name: 'Not right, remove it' }));
+    await waitFor(() => expect(screen.queryByText("Most days you're at a desk till 6")).toBeNull());
+    expect(screen.getByText('When a week gets busy, sleep goes first')).toBeTruthy();
   });
 });

@@ -1,6 +1,8 @@
 import type { RitualPart } from '@distill/engine/ritual';
 import { copy } from '../copy';
+import type { Progress } from '../progress/types';
 import { timeColumn, whyLine, type TimeColumn } from '../ritual-lines';
+import { bedClockSaid, people, wakeClockSaid, wakeSaid } from './you';
 
 /**
  * The reveal (step 6), as data: their first Ritual as a card a moment, and what the engine's
@@ -200,6 +202,28 @@ export function withAnchors(
     ...inOrder.filter((p) => p.when.slot === 'night'),
     ...(a.bed ? [anchor('bed', say.bed(bedWords(a.bed)), say.bedWhy, { slot: 'night', days: [...EVERY_DAY], at: a.bed }, 'sleep')] : []),
   ].map((p, order) => ({ ...p, order }));
+}
+
+/**
+ * The rules version of a first Ritual, whole: the detail and the anchors, from what they answered.
+ * The reveal and the account both use it, so neither ever shows a bare list.
+ */
+export function wholeRitual(
+  parts: readonly RitualPart[],
+  progress: Progress,
+  decisions: readonly RevealDecision[],
+  ctx: { readonly evidenceFor: RitualDetail['evidenceFor']; readonly banned: readonly string[]; readonly anchors?: boolean },
+): { parts: RitualPart[]; notes: RevealNotes } {
+  const notes = revealNotes(decisions, progress.items, progress.dayOne.yours, ctx.banned);
+  const wake = wakeClockSaid(progress);
+  const bed = bedClockSaid(progress);
+  const detailed = withDetail(parts, { wake, bed, evidenceFor: ctx.evidenceFor, wellFounded: notes.wellFounded });
+  if (ctx.anchors === false) return { parts: detailed, notes };
+  const who = people(progress);
+  return {
+    parts: withAnchors(detailed, { wake, wakeLabel: wakeSaid(progress), bed, ...(who ? { people: who } : {}) }),
+    notes,
+  };
 }
 
 /** What they'd never give up from their life that isn't already a part of their Ritual. */

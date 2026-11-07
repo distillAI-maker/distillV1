@@ -66,4 +66,31 @@ describe('Arrival', () => {
     expect(replace).toHaveBeenCalledWith('/ritual');
     expect(screen.queryByRole('button', { name: /Begin|Pick up/ })).toBeNull();
   });
+
+  it('back from the email link with a Ritual they said yes to, goes straight to it', async () => {
+    const saved = { ...emptyProgress(), name: 'Maya', step: 'invitation' as const, member: true, items: [] };
+    let store: { saved: unknown } = { saved: null };
+    const account = {
+      id: 'supabase' as const,
+      load: async () => saved,
+      save: async (p: unknown) => {
+        store = { saved: p };
+      },
+      clear: async () => {},
+    };
+    render(
+      <ProgressProvider store={account}>
+        <Arrival />
+      </ProgressProvider>,
+    );
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 700));
+    });
+    expect(replace).toHaveBeenCalledWith('/ritual');
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 500));
+    });
+    // And that's where they'll land from now on.
+    expect(store.saved).toMatchObject({ step: 'done' });
+  });
 });
