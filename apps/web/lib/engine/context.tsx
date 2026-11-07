@@ -36,7 +36,7 @@ const listSignature = (p: Progress) =>
   JSON.stringify(p.items.map((i) => [i.id, i.itemKey, i.status, i.origin ?? null, i.answers, i.monthlyCost]));
 
 export function EngineProvider({ children }: { children: ReactNode }) {
-  const { ready, progress, store, saveNow } = useProgress();
+  const { ready, progress, store, saveNow, update } = useProgress();
   const on = ready && store.id === 'supabase';
   const [state, setState] = useState<EngineState | null>(null);
   const [last, setLast] = useState<EngineResult | null>(null);
@@ -128,6 +128,22 @@ export function EngineProvider({ children }: { children: ReactNode }) {
       .then((r) => setState((now) => (now ? { ...now, person: r.state.person, knows: r.state.knows, decisions: r.state.decisions, items: r.state.items } : r.state)))
       .catch(() => undefined);
   }, [on, state]);
+
+  // Places they said yes to in Explore before signing in go on their Ritual now, as the page promised.
+  const goingMoved = useRef(false);
+  useEffect(() => {
+    if (!on || goingMoved.current || state?.ritual.status !== 'accepted') return;
+    const going = progress.exploreGoing ?? [];
+    if (!going.length) return;
+    goingMoved.current = true;
+    void (async () => {
+      for (const g of going) {
+        const done = await engineApi.exploreGo(g.id, 'in', g.thread).catch(() => null);
+        if (done) setState(done.state);
+      }
+      update((p) => ({ ...p, exploreGoing: [] }));
+    })();
+  }, [on, state?.ritual.status, progress.exploreGoing, update]);
 
   // Their list changed (let go, kept, added, an answer about it): the rules run again.
   const signature = listSignature(progress);

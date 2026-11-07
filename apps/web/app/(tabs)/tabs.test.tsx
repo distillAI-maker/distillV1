@@ -5,7 +5,7 @@ import type { Decision, RitualPart, RitualVersion } from '@distill/engine/ritual
 import type { EngineResult, EngineState } from '../../lib/engine/client';
 import { EngineProvider } from '../../lib/engine/context';
 import { ProgressProvider } from '../../lib/progress/context';
-import { emptyProgress, type Progress, type ProgressStore } from '../../lib/progress/types';
+import { emptyProgress, firstRitualList, type Progress, type ProgressStore } from '../../lib/progress/types';
 import { ExploreTab } from './explore/explore-tab';
 import { RitualPreviewTab, RitualTab } from './ritual/ritual-tab';
 import { ThingsTab } from './things/things-tab';
@@ -21,6 +21,10 @@ const api = vi.hoisted(() => ({
   explore: vi.fn(),
   exploreAnswer: vi.fn(),
   swapAnswer: vi.fn(),
+  exploreGo: vi.fn(),
+  exploreFeed: vi.fn(),
+  readLater: vi.fn(),
+  forget: vi.fn(),
 }));
 vi.mock('../../lib/engine/client', () => ({ engineApi: api }));
 vi.mock('../../lib/data/use-routed', () => ({
@@ -122,6 +126,76 @@ describe('the Ritual tab', () => {
   afterEach(cleanup);
   beforeEach(() => {
     for (const fn of Object.values(api)) fn.mockReset();
+  });
+
+  it('signed in, never asks them to confirm their email', async () => {
+    api.open.mockResolvedValue(result(stateWith()));
+    renderTab('ritual', { ...maya(), member: true, joinedEmail: 'maya@gmail.com' });
+    expect(await screen.findByText('Balcony coffee')).toBeTruthy();
+    expect(screen.queryByText('Confirm your email')).toBeNull();
+    expect(screen.queryByText(/One last step/)).toBeNull();
+  });
+
+  it('right after the email link, shows the Ritual they said yes to from the first moment, while the engine sets up', async () => {
+    api.open.mockReturnValue(new Promise(() => {}));
+    const parts = [
+      { id: 'part:wake', when: { slot: 'morning', days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], at: '07:00' }, order: 0, title: 'Up at 7:00', area: 'sleep', why: 'Your day starts here.', source: { kind: 'engine', rule: 'wake' }, status: 'active', lock: null },
+      { id: 'part:gym', when: { slot: 'evening', days: [], perWeek: 1 }, order: 1, title: 'Planet Fitness', area: 'move', why: 'Your weekly session.', source: { kind: 'engine', rule: 'x' }, status: 'active', lock: null },
+    ];
+    const p = maya();
+    renderTab('ritual', { ...p, firstRitual: { list: firstRitualList(p), parts } });
+    expect(await screen.findByText('Up at 7:00')).toBeTruthy();
+    expect(screen.getByText('Your day starts here.')).toBeTruthy();
+    // Weekly things have no one day, and are still there, with their reason.
+    expect(screen.getByText('Planet Fitness')).toBeTruthy();
+    expect(screen.getByText('Your weekly session.')).toBeTruthy();
+    expect(screen.queryByText('Confirm your email')).toBeNull();
+  });
+
+  it('shows weekly things on the signed-in tab, with their reasons', async () => {
+    const gym = { id: 'part:gym', when: { slot: 'evening', days: [], perWeek: 1 }, order: 1, title: 'Planet Fitness', area: 'move', why: 'Your weekly session.', source: { kind: 'engine', rule: 'x' }, status: 'active', lock: null } as RitualPart;
+    api.open.mockResolvedValue(result(stateWith({}, { anyDay: [gym] })));
+    renderTab('ritual');
+    expect(await screen.findByText('Planet Fitness')).toBeTruthy();
+    expect(screen.getByText('Your weekly session.')).toBeTruthy();
+  });
+
+  it('puts their words on the page at once while it thinks, then the reply', async () => {
+    api.open.mockResolvedValue(result(stateWith()));
+    let answer!: (r: EngineResult) => void;
+    api.message.mockReturnValue(new Promise((done) => (answer = done)));
+    renderTab('ritual');
+    fireEvent.click(await screen.findByRole('button', { name: /What's coming up\?/ }));
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Out late tonight' } });
+    fireEvent.click(screen.getByRole('button', { name: /Tell Distill/ }));
+    expect(await screen.findByText(/Out late tonight/)).toBeTruthy();
+    expect(screen.getByText('On it.')).toBeTruthy();
+    answer({ ...result(stateWith()), reply: "Okay, got it. Have a good night out. We'll update your Ritual by tomorrow." });
+    expect(await screen.findByText(/We'll update your Ritual by tomorrow/)).toBeTruthy();
+    expect(screen.queryByText('On it.')).toBeNull();
+  });
+
+  it('asks once for what their onboarding words teach, after their Ritual is in place', async () => {
+    const st = stateWith();
+    const unread = { ...st, person: { ...st.person, readDone: false } };
+    api.open.mockResolvedValue(result(unread));
+    const fact = { id: 'person:Leah', group: 'people' as const, text: 'Leah: reformer on Tuesdays' };
+    api.readLater.mockResolvedValue(result({ ...st, person: { ...st.person, readDone: true }, knows: [fact] }));
+    renderTab('ritual');
+    await screen.findByText('Balcony coffee');
+    await waitFor(() => expect(api.readLater).toHaveBeenCalledTimes(1));
+  });
+
+  it('puts what they said yes to in Explore before signing in on their Ritual, as the page promised', async () => {
+    api.open.mockResolvedValue(result(stateWith()));
+    api.exploreGo.mockResolvedValue(result(stateWith()));
+    const saved = renderTab('ritual', {
+      ...maya(),
+      exploreGoing: [{ id: 'idea:sf-dolphin-club-swim-and-sauna', thread: 'heat-cold', title: 'A bay swim and sauna', url: 'https://dolphinclub.org/' }],
+    });
+    await waitFor(() => expect(api.exploreGo).toHaveBeenCalledWith('idea:sf-dolphin-club-swim-and-sauna', 'in', 'heat-cold'));
+    await waitFor(() => expect(saved.at(-1)?.exploreGoing).toEqual([]), { timeout: 2000 });
+    expect(api.exploreGo).toHaveBeenCalledTimes(1);
   });
 
   it('right after the email link, saves their onboarding and asks the engine again', async () => {
@@ -359,6 +433,21 @@ describe('Explore', () => {
 
 describe('what Distill knows', () => {
   afterEach(cleanup);
+  it('leads with what is true right now, from everything they told it, and takes a line back through the engine', async () => {
+    for (const fn of Object.values(api)) fn.mockReset();
+    const st = stateWith();
+    const back = { id: 'now:your-back-is-hurt', group: 'now' as const, text: 'Your back is hurt', since: '2026-11-05' };
+    api.open.mockResolvedValue(result({ ...st, knows: [back] }));
+    api.forget.mockResolvedValue(result({ ...st, knows: [] }));
+    renderTab('things', answered());
+    expect(await screen.findByText('Currently')).toBeTruthy();
+    expect(screen.getByText('Your back is hurt')).toBeTruthy();
+    expect(screen.getByText('Since Thu, Nov 5')).toBeTruthy();
+    fireEvent.click(screen.getByText('Your back is hurt'));
+    fireEvent.click(screen.getByRole('button', { name: 'Not right, remove it' }));
+    await waitFor(() => expect(api.forget).toHaveBeenCalledWith('now:your-back-is-hurt'));
+    await waitFor(() => expect(screen.queryByText('Your back is hurt')).toBeNull());
+  });
   const answered = (over: Partial<Progress> = {}): Progress => ({
     ...emptyProgress(),
     name: 'Maya',

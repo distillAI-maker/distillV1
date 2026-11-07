@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { engineCatalog } from '../../../lib/catalog/engine';
 import { catalog } from '../../../lib/catalog/server';
+import { withAnchors } from '../../../lib/onboarding/reveal';
+import { people } from '../../../lib/onboarding/you';
 import { progressSchema } from '../../../lib/progress/types';
 import { previewCompose } from '../../../src/server/engine';
 import { engineClient } from '../../../src/server/engine-deps';
@@ -73,9 +75,11 @@ export async function POST(request: Request) {
       client: engineClient(),
       ...(parsed.data.timeZone ? { timeZone: parsed.data.timeZone } : {}),
     });
-    return shaped?.from === 'claude'
-      ? Response.json({ parts: shaped.parts }, { headers: { 'Cache-Control': 'no-store' } })
-      : none();
+    if (shaped?.from !== 'claude') return none();
+    // The study promised "Your Ritual will make room for them": if Claude's version didn't, this does.
+    const who = people(parsed.data.progress);
+    const parts = who ? withAnchors(shaped.parts, { people: who }) : shaped.parts;
+    return Response.json({ parts }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
     return none();
   }
