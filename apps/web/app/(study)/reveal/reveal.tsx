@@ -21,10 +21,10 @@ const money = (n: number) => Math.round(n).toLocaleString('en-US');
 /** "Shaping it around you" shows at least this long, so the moment registers. */
 const SHAPING_MS = 1200;
 /**
- * How long the page waits for Claude's version before showing the rules one. It takes about 30
- * seconds from the end of the study (measured live, 5 Nov), and most of that has passed by now.
+ * How long the page waits for Claude's version before showing the rules one. It takes about 9 seconds
+ * from the end of the study (measured live, 7 Nov), so this only runs out when it had to try again.
  */
-const HOLD_MS = 30_000;
+const HOLD_MS = 20_000;
 /** How long each line of the shaping screen shows. */
 const LINE_MS = 3200;
 /** How long the parts gather before the invitation opens. */

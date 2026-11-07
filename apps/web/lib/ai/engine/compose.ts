@@ -127,10 +127,10 @@ function apply(rules: readonly RitualPart[], data: Out, newId: () => string, cap
 }
 
 /**
- * The reveal holds for 30 seconds (app/(study)/reveal/reveal.tsx), and the work starts a little before
+ * The reveal holds for 20 seconds (app/(study)/reveal/reveal.tsx), and the work starts a little before
  * that, on the read. Past this, nobody is still waiting: the answer would be paid for and dropped.
  */
-const QUICK_MS = 38_000;
+const QUICK_MS = 26_000;
 
 export async function composeRitual(
   client: ClaudeClient | null,

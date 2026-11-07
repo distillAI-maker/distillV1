@@ -69,7 +69,7 @@ describe('their first Ritual', () => {
     reveal.mockResolvedValue({ parts: rules, notes, shaping: true });
     shape.mockReturnValue(new Promise((done) => (answer = done)));
     render(<Reveal />);
-    await pass(30_000);
+    await pass(20_000);
     expect(screen.getByText('Rules version')).toBeTruthy();
 
     await act(async () => answer({ parts: claude }));
