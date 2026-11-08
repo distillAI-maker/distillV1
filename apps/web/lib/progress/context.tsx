@@ -14,6 +14,7 @@ import { LocalProgressStore } from './local';
 import { emptyProgress } from './types';
 import type { Progress, ProgressStore } from './types';
 import { RemoteProgressStore } from './remote';
+import { setSignedIn } from '../track';
 
 type Patch = Partial<Progress> | ((current: Progress) => Progress);
 
@@ -46,6 +47,8 @@ export function ProgressProvider({
     () => given ?? (userId ? new RemoteProgressStore(userId) : new LocalProgressStore()),
     [given, userId],
   );
+  // Set while drawing, not in an effect: a screen's own effect runs first and counts with it.
+  setSignedIn(store.id === 'supabase');
   const [progress, setProgress] = useState<Progress>(emptyProgress);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -23,7 +23,7 @@ import { useProgress } from '../../../lib/progress/context';
 import { newItemId } from '../../../lib/progress/types';
 import type { Origin, StackItem } from '../../../lib/progress/types';
 import { matchText } from '../../../lib/search/match';
-import { track } from '../../../lib/track';
+import { track, useScreen } from '../../../lib/track';
 import type { IndexEntry } from '../../../lib/search/match';
 import { Typeahead } from './typeahead';
 
@@ -140,6 +140,7 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
   // Tapping is step 1; the list ("anything we missed") is step 2, and Back from it returns to the taps.
   useStepNumber(stage === 'edit' ? 2 : 1);
+  useScreen(stage === 'tap' ? 'stack_tap' : stage === 'listen' ? 'stack_talk' : stage === 'edit' ? 'stack_list' : null);
   useBackHandler(
     stage === 'edit' || stage === 'listen'
       ? () => {

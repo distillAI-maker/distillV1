@@ -9,7 +9,7 @@ import { copy } from '../../../lib/copy';
 import { env } from '../../../lib/env';
 import { RITUAL_HOME } from '../../../lib/steps';
 import { useProgress } from '../../../lib/progress/context';
-import { track } from '../../../lib/track';
+import { track, useScreen } from '../../../lib/track';
 import type { DataSourceId } from '../../../lib/progress/types';
 
 /** Six months of nights, shown once a connected wearable's history is in. */
@@ -36,6 +36,7 @@ export function ConnectForm() {
   const [nights, setNights] = useState(0);
   const [busy, setBusy] = useState<string | null>(null);
   const [settling, setSettling] = useState(false);
+  useScreen('connect');
 
   // A reload after the backfill, or a finished import, lands on the finished state, not the start.
   useEffect(() => {

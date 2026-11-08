@@ -6,6 +6,7 @@ import { copy } from '../../lib/copy';
 import { checkEmail } from '../../lib/email';
 import { useProgress } from '../../lib/progress/context';
 import { resumePath } from '../../lib/steps';
+import { useScreen } from '../../lib/track';
 import { requestMagicLink } from './actions';
 import type { SignInState } from './actions';
 
@@ -17,6 +18,7 @@ export function SignInForm({ expired }: { expired?: boolean }) {
   const [email, setEmail] = useState('');
   const [problem, setProblem] = useState<string | null>(null);
   const [suggestion, setSuggestion] = useState<{ for: string; email: string } | null>(null);
+  useScreen('sign_in');
 
   /** Nothing is sent to an address that can't exist; a likely slip is asked about once. */
   function check(e: FormEvent<HTMLFormElement>) {

@@ -111,7 +111,7 @@ From what the code collects (`apps/web`, `supabase/migrations`, `lib/track.ts`).
 | User content: other user content (answers, notes, ideal day, messages) | Yes | App functionality, product personalization |
 | Identifiers: user ID | Yes | App functionality |
 | Financial info: other financial info (what their stack costs them) | Yes | App functionality |
-| Usage data: product interaction (funnel steps, a random device number) | No | Analytics |
+| Usage data: product interaction (screens reached and the time on each, a random device number) | No | Analytics |
 
 The same list is in `PrivacyInfo.xcprivacy` (financial info aside, which Apple's manifest doesn't ask for). If a new feature sends something new (crash reports, analytics, payments), update both and the privacy page.
 

@@ -8,7 +8,7 @@ import { Invitation } from './invitation';
 const send = vi.hoisted(() => vi.fn(async (_: unknown, form?: FormData) => ({ status: 'sent' as const, email: String(form?.get('email')) })));
 vi.mock('../../sign-in/actions', () => ({ requestMagicLink: send }));
 vi.mock('../../../lib/waitlist', () => ({ joinWaitlist: vi.fn(async () => true) }));
-vi.mock('../../../lib/track', () => ({ track: vi.fn() }));
+vi.mock('../../../lib/track', async (original) => ({ ...(await original<typeof import('../../../lib/track')>()), track: vi.fn() }));
 vi.mock('../../../lib/data/use-routed', () => ({ useRouted: () => ({ routed: { items: [] }, summary: { count: 0, monthlyTotal: 0 }, failed: false, retry: () => {} }) }));
 const push = vi.hoisted(() => vi.fn());
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push, refresh: vi.fn() }) }));

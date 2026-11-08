@@ -6,7 +6,7 @@ import { preload } from 'react-dom';
 import { copy } from '../../lib/copy';
 import { useProgress } from '../../lib/progress/context';
 import { nextStep, resumePath, RITUAL_HOME, saidMakeItMine } from '../../lib/steps';
-import { track } from '../../lib/track';
+import { track, useScreen } from '../../lib/track';
 import { Arrow, Brand } from '../ds/ui';
 
 /**
@@ -46,6 +46,9 @@ export function Arrival() {
     }
     router.replace(resumePath(progress.step));
   }, [straightIn, progress.step, progress.member, store.id, update, router]);
+
+  // Counted only when the opener really shows, not for someone passing straight through it.
+  useScreen(ready && !straightIn ? 'opener' : null);
 
   const begin = () => {
     if (left.current) return;

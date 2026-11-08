@@ -9,7 +9,7 @@ import { Arrival } from './arrival';
 const push = vi.fn();
 const replace = vi.fn();
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push, replace, back: vi.fn() }) }));
-vi.mock('../../lib/track', () => ({ track: vi.fn() }));
+vi.mock('../../lib/track', async (original) => ({ ...(await original<typeof import('../../lib/track')>()), track: vi.fn() }));
 
 function memory() {
   const map = new Map<string, string>();

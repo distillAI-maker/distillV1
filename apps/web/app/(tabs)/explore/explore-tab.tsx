@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Arrow, Mark } from '../../../components/ds/ui';
 import { copy } from '../../../lib/copy';
+import { track } from '../../../lib/track';
 import { engineApi, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { nearbyFor } from '../../../lib/explore/nearby';
@@ -124,6 +125,7 @@ export function ExploreTab() {
 
   const answer = async (card: Card, how: 'in' | 'no' | 'loved' | 'not-really') => {
     const isIdea = card.id.startsWith('idea:');
+    track('explore_go', { how, idea: isIdea });
     // A place said no to stays out of this list, signed in or not.
     if (how === 'no' && isIdea) return hide(card.id);
     if (!engine.on) {

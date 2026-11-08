@@ -36,9 +36,9 @@ export default function PrivacyPage() {
 
       <h2>Counting steps</h2>
       <p>
-        We count steps through the app, like finishing onboarding, to make Distill better. Each count carries a random
-        number for this device and where you first came from (our website, a class QR code or this app). Never what you
-        write, and never your name or email.
+        We count the screens you reach and how long each one takes, like finishing onboarding, to make Distill better.
+        Each count carries a random number for this device, whether you&apos;re signed in, and where you first came from
+        (our website, a class QR code or this app). Never what you write, and never your name or email.
       </p>
 
       <h2>Who helps us run Distill</h2>

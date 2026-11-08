@@ -5,13 +5,14 @@ import { Arrow, Disclaimer, Mark } from '../../../components/ds/ui';
 import { useGo } from '../../../components/onboarding/go';
 import { copy } from '../../../lib/copy';
 import { useProgress } from '../../../lib/progress/context';
-import { track } from '../../../lib/track';
+import { track, useScreen } from '../../../lib/track';
 
 /** The name: a first name to address them by. Not a numbered step. The email waits for the invitation. */
 export function NameForm() {
   const go = useGo();
   const { progress, update } = useProgress();
   const id = useId();
+  useScreen('name');
   return (
     <form
       className="ob-main"
