@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { requestMagicLink } from '../../app/sign-in/actions';
 import { copy } from '../../lib/copy';
 import { useProgress } from '../../lib/progress/context';
+import { track } from '../../lib/track';
 import { Arrow, Mark } from './ui';
 
 const t = copy.ritualTab;
@@ -33,6 +34,7 @@ export function ConfirmEmail({ email }: { email: string | undefined }) {
 
   async function resend() {
     if (!email) return;
+    track('link_resent');
     setState('sending');
     const form = new FormData();
     form.set('email', email);
@@ -87,6 +89,9 @@ export function EmailConfirmed() {
   useEffect(() => {
     if (!ready || !document.cookie.split('; ').includes(`${CONFIRMED_COOKIE}=1`)) return;
     document.cookie = `${CONFIRMED_COOKIE}=; Max-Age=0; path=/`;
+    // Often a different browser from the one onboarding ran in (the mail app's), so it's counted
+    // on its own rather than as the next step of the same device (docs/FUNNEL.md).
+    track('email_confirmed');
     void saveNow()
       .then(() => {
         confirmedThisVisit = true;

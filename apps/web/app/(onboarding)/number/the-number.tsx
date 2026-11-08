@@ -5,7 +5,7 @@ import { Arrow } from '../../../components/ds/ui';
 import { useGo } from '../../../components/onboarding/go';
 import { copy } from '../../../lib/copy';
 import { useRouted } from '../../../lib/data/use-routed';
-import { track } from '../../../lib/track';
+import { track, useScreen } from '../../../lib/track';
 
 const money = (n: number) => Math.round(n).toLocaleString('en-US');
 
@@ -34,6 +34,7 @@ const spots: readonly [number, number][] = [
 export function TheNumber() {
   const go = useGo();
   const { routed, summary, failed, retry } = useRouted();
+  useScreen(summary ? 'number' : null);
   useEffect(() => {
     if (summary)
       track('number_seen', { count: summary.count, monthly: Math.round(summary.monthlyTotal) });

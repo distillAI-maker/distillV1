@@ -12,6 +12,7 @@ import { revealRitual } from '../../../lib/engine/preview';
 import { alwaysYours, type RevealNotes } from '../../../lib/onboarding/reveal';
 import { lifePicks, protectedThing, shapingLines, wakeSaid } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
+import { track, useScreen } from '../../../lib/track';
 import { revealGroups } from '../../../lib/ritual-groups';
 import { NUMBERED_STEPS } from '../../../lib/steps';
 import { useGoBack } from '../../../components/back-trail';
@@ -94,7 +95,10 @@ export function Reveal() {
       .catch(() => setFailed(true));
   }, [ready, progress]);
 
-  if ((!draft && !failed) || !settled) return <Shaping lines={ready ? shapingLines(progress) : []} />;
+  const waiting = (!draft && !failed) || !settled;
+  // The wait is its own screen: it can last up to HOLD_MS, and anyone leaving during it shows here.
+  useScreen(waiting ? 'reveal_wait' : 'reveal');
+  if (waiting) return <Shaping lines={ready ? shapingLines(progress) : []} />;
 
   const picks = [...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x);
   const notes = draft?.notes;
@@ -109,6 +113,7 @@ export function Reveal() {
   const accept = () => {
     if (gathering) return;
     setGathering(true);
+    track('made_it_mine', { parts: draft?.parts.length ?? 0 });
     if (draft) update({ firstRitual: keepFirstRitual(progress, draft.parts) });
     window.setTimeout(() => go('invitation'), still() ? 0 : GATHER_MS);
   };
@@ -209,7 +214,14 @@ export function Reveal() {
           {copy.reveal.accept}
           <Arrow />
         </button>
-        <button type="button" className="ds-link" onClick={() => router.push('/study')}>
+        <button
+          type="button"
+          className="ds-link"
+          onClick={() => {
+            track('change_something');
+            router.push('/study');
+          }}
+        >
           {r.change}
         </button>
         <p className="rv-ownership">{r.footnote}</p>

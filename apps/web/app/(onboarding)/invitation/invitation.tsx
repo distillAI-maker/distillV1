@@ -10,7 +10,7 @@ import { checkEmail } from '../../../lib/email';
 import { useRouted } from '../../../lib/data/use-routed';
 import { nextStep } from '../../../lib/steps';
 import { useProgress } from '../../../lib/progress/context';
-import { track } from '../../../lib/track';
+import { track, useScreen } from '../../../lib/track';
 import { joinWaitlist } from '../../../lib/waitlist';
 import { requestMagicLink } from '../../sign-in/actions';
 
@@ -39,6 +39,7 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [progress.member, changing]);
+  useScreen(!routed || !summary ? null : progress.member && !changing ? 'email_done' : 'email');
   if (!routed || !summary)
     return (
       <div className="ob-content" aria-busy="true">
@@ -84,9 +85,11 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
       form.set('email', email.trim());
       const sent = await requestMagicLink({ status: 'idle', email: '' }, form);
       setLink(sent.status === 'sent' ? { state: 'sent', email: sent.email } : { state: 'failed' });
+      track(sent.status === 'sent' ? 'link_sent' : 'link_failed');
     } catch {
       update({ member: true });
       setLink({ state: 'failed' });
+      track('link_failed');
     } finally {
       setBusy(false);
     }

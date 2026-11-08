@@ -6,6 +6,7 @@ import { useGo } from '../../../components/onboarding/go';
 import { Arrow, Brand, Bubble, Mark } from '../../../components/ds/ui';
 import { displayName } from '../../../lib/catalog/short-names';
 import { copy } from '../../../lib/copy';
+import { studyScreens } from '../../../lib/funnel';
 import { shapeFirstRitual } from '../../../lib/engine/first-ritual';
 import {
   addOwnThing,
@@ -34,6 +35,7 @@ import {
   work,
 } from '../../../lib/onboarding/you';
 import { useProgress } from '../../../lib/progress/context';
+import { useScreen } from '../../../lib/track';
 
 const s = copy.study;
 const SCREENS = 7;
@@ -93,6 +95,7 @@ export function Study({ names }: { names: Record<string, string> }) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [screen]);
+  useScreen(ready && screen !== null ? studyScreens[screen] : null);
 
   // Every answer is in by the read: shape their Ritual now, so the next page has less to wait for.
   useEffect(() => {

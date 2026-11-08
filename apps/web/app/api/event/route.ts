@@ -6,8 +6,22 @@ export const dynamic = 'force-dynamic';
 
 let sql: ReturnType<typeof postgres> | undefined;
 
+/** Far more than anyone tapping through onboarding sends; past it, a device is flooding the table. */
+const PER_MINUTE = 120;
+const recent = new Map<string, { since: number; n: number }>();
+function flooding(device: string, now: number) {
+  const r = recent.get(device);
+  if (!r || now - r.since > 60_000) {
+    if (recent.size > 5000) recent.clear();
+    recent.set(device, { since: now, n: 1 });
+    return false;
+  }
+  r.n += 1;
+  return r.n > PER_MINUTE;
+}
+
 /**
- * Records one funnel step (lib/funnel.ts). Same-origin only. Always answers 204, so a missing
+ * Records one funnel event (lib/funnel.ts). Same-origin only. Always answers 204, so a missing
  * database or a bad request never shows up for the person; nothing personal is accepted.
  */
 export async function POST(request: Request) {
@@ -24,6 +38,7 @@ export async function POST(request: Request) {
   }
   if (!parsed.success || !process.env.DATABASE_URL) return done;
   const { event, device, source, props } = parsed.data;
+  if (flooding(device, Date.now())) return done;
   try {
     sql ??= postgres(process.env.DATABASE_URL, { prepare: false, max: 1, idle_timeout: 20 });
     await sql`insert into public.app_events (device, event, props, source)

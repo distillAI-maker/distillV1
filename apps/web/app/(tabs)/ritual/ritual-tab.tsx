@@ -10,6 +10,7 @@ import { Arrow, Bubble, Locked, Mark } from '../../../components/ds/ui';
 import { useNames } from '../../../components/ds/use-names';
 import { useRefreshOnReturn } from '../../../components/ds/use-refresh-on-return';
 import { copy } from '../../../lib/copy';
+import { track } from '../../../lib/track';
 import { engineApi, type EngineResult, type EngineState } from '../../../lib/engine/client';
 import { useEngine } from '../../../lib/engine/context';
 import { keptFirstRitual } from '../../../lib/engine/first-ritual';
@@ -471,6 +472,7 @@ export function RitualTab() {
 
   /** A tick shows at once; the engine records it behind. If it doesn't go through, the tick comes off. */
   async function tick(partId: string) {
+    track('part_done');
     setTicked((t0) => new Set([...t0, partId]));
     const res = await act(() => engineApi.run({ kind: 'part', partId, date: today, done: true }));
     if (!res)
@@ -482,6 +484,8 @@ export function RitualTab() {
   }
 
   async function send(text: string) {
+    // That they wrote, never what.
+    track('message_sent');
     setComposing(false);
     setThinking(true);
     setAsking(text);

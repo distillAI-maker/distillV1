@@ -17,6 +17,7 @@ The code for both is built. They switch on with the settings below (dashboard ac
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API → Project URL | public |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API → anon key | public by design |
 | `DATABASE_URL` | Supabase → Connect → Transaction pooler connection string, with the database password | mark Sensitive |
+| `TEAM_EMAILS` | The team's own addresses, comma-separated | who can open the funnel page, `/team` |
 
 Then redeploy (Deployments → the latest → Redeploy).
 
@@ -28,20 +29,12 @@ Point it at `https://distill-app-nu.vercel.app/?src=class`. Everyone who comes i
 
 ## 4. Reading the numbers
 
+Open https://distill-app-nu.vercel.app/team, signed in with an address in `TEAM_EMAILS`: how far people get through onboarding, the screen they were on when they stopped, how long each screen takes, and what they do in the app, by date range and by source. Tap "Don't count this device" on every phone you test with.
+
 From a terminal (needs `DATABASE_URL` in `apps/web/.env.local`):
 
 ```bash
-npx tsx apps/web/scripts/funnel.ts class
+npx tsx apps/web/scripts/funnel.ts 7d class
 ```
 
-Or in Supabase's SQL editor:
-
-```sql
-select event, count(distinct device) as people
-from public.app_events
-where source = 'class'          -- remove this line for everyone
-group by event
-order by people desc;
-```
-
-Steps, in order: `arrived`, `started`, `stack_done`, `number_seen`, `joined`, `wearable` or `no_wearable`, `home_opened`, then use: `note_written`, `answer_given`, `more_done`, `picture_changed`, `idea_declined`. Only steps and small counts are stored, never what anyone writes or their email.
+`docs/FUNNEL.md` explains every number, lists what's counted, and has the same queries for Supabase's SQL editor. Only screens, times and taps are stored, never what anyone writes or their email.

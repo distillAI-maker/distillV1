@@ -41,7 +41,7 @@ export function initJoin() {
         });
         if (res.ok || res.status === 409) {
           emailStep.hidden = true;
-          say('ok', `${CHECK}<span>${res.ok ? "You're in." : "You're already on the list."} <a href="${APP}" target="_blank" rel="noopener">${APP}</a></span>`);
+          say('ok', `${CHECK}<span>${res.ok ? "You're in." : "You're already on the list."} <a href="${APP}?src=site" target="_blank" rel="noopener">${APP}</a></span>`);
         } else throw new Error(String(res.status));
       } catch {
         say('note', 'That didn\'t go through. Try again in a moment, or write to <a href="mailto:disttilai@gmail.com">disttilai@gmail.com</a>.');
