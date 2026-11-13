@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useId, useMemo, useState } from 'react';
+import { Fragment, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useBackHandler } from '../../../components/back-handler';
 import { useGo } from '../../../components/onboarding/go';
 import { useStepNumber } from '../../../components/onboarding/step-number';
@@ -12,6 +12,8 @@ import {
   isChip,
   isOtherRow,
   isParent,
+  type CommonChip,
+  type CommonGroupId,
   type CommonItem,
   type CommonParent,
 } from '../../../lib/catalog/common';
@@ -27,20 +29,20 @@ import { track, useScreen } from '../../../lib/track';
 import type { IndexEntry } from '../../../lib/search/match';
 import { Typeahead } from './typeahead';
 
-const categoryOrder = [
-  'service',
-  'supplement',
-  'food/drink',
-  'skincare',
-  'device',
-  'habit',
-  'timing',
-  'environment',
-  'custom',
-] as const;
-type Category = (typeof categoryOrder)[number];
-
 const protectedOrigins: Origin[] = ['doctor', 'blood test'];
+
+/**
+ * The taps, in three short pages that each fit on a phone without scrolling: what they take, what they
+ * pay for, and everything else. Each page holds two of the common groups.
+ */
+const tapPages: readonly (readonly CommonGroupId[])[] = [
+  ['supplements', 'food'],
+  ['memberships', 'apps'],
+  ['habits', 'body'],
+];
+const groupById = new Map(commonGroups.map((g) => [g.id, g]));
+/** How far a finger has to travel sideways to turn the page. */
+const SWIPE_PX = 50;
 
 /** The last chip under a general one: tap "Other", type the name, and the chip wears it. Tap again to take it out. */
 function OtherOption({ ask, name, onName }: { ask: string; name: string | null; onName: (name: string | null) => void }) {
@@ -129,6 +131,11 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
     cost: '',
   });
   const [needOne, setNeedOne] = useState(false);
+  /** Which page of taps shows. */
+  const [page, setPage] = useState(0);
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  /** While a cost is being typed, the list keeps its order so the row doesn't jump away. */
+  const [frozen, setFrozen] = useState<string[] | null>(null);
   /** General chips (Gym) opened to show the specific ones under them. */
   const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
   const notesId = useId();
@@ -147,13 +154,18 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
           setStage('tap');
           return true;
         }
-      : null,
+      : stage === 'tap' && page > 0
+        ? () => {
+            setPage(page - 1);
+            return true;
+          }
+        : null,
   );
 
-  // Each stage starts at its title.
+  // Each stage and page starts at its title.
   useEffect(() => {
     if (stage) window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [stage]);
+  }, [stage, page]);
 
   const items = progress.items;
   const listed = useMemo(
@@ -305,65 +317,102 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
   }
 
   if (stage === 'tap') {
+    const last = page === tapPages.length - 1;
+    const turn = (to: number) => setPage(Math.max(0, Math.min(tapPages.length - 1, to)));
+    const chip = (item: CommonChip) => {
+      if (!isParent(item))
+        return (
+          <Bubble key={item.text} on={chipOn(item)} onClick={() => toggleCommon(item)}>
+            {item.text}
+          </Bubble>
+        );
+      const other = items.find((i) => isOtherRow(i, item));
+      const on = allChips([item]).some(chipOn) || !!other;
+      const open = on || opened.has(item.key);
+      // The specific ones open right under the general chip, on a line of their own.
+      return (
+        <Fragment key={item.text}>
+          <Bubble on={on} expanded={open} onClick={() => toggleParent(item)}>
+            {item.text}
+          </Bubble>
+          {open ? (
+            <div className="ob-sub">
+              <span className="ob-sub-ask">{item.ask}</span>
+              <div className="ds-bubbles" role="group" aria-label={item.ask}>
+                {item.options.map((o) => (
+                  <Bubble key={o.text} on={chipOn(o)} onClick={() => toggleOption(item, o)}>
+                    {o.text}
+                  </Bubble>
+                ))}
+                <OtherOption ask={item.ask} name={other?.label ?? null} onName={(n) => setOther(item, n)} />
+              </div>
+            </div>
+          ) : null}
+        </Fragment>
+      );
+    };
     return (
       <>
-        <div className="ob-content">
-          <header className="ob-heading">
-            <h1>{copy.stack.tap.title}</h1>
-            <p>{copy.stack.tap.line}</p>
+        <div
+          className="ob-content ob-tap"
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            touch.current = t ? { x: t.clientX, y: t.clientY } : null;
+          }}
+          onTouchEnd={(e) => {
+            const from = touch.current;
+            const t = e.changedTouches[0];
+            touch.current = null;
+            if (!from || !t) return;
+            const dx = t.clientX - from.x;
+            if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(t.clientY - from.y) * 1.5) turn(page + (dx < 0 ? 1 : -1));
+          }}
+        >
+          <header className="ob-heading ob-tap-heading">
+            <span className="ob-tap-kicker">{copy.stack.tap.title}</span>
+            <h1>{copy.stack.tap.pages[page]}</h1>
           </header>
-          <div className="ob-groups">
-            {commonGroups.map((g) => (
-              <section key={g.id} className="ob-group">
-                <h2>{copy.stack.tap.groups[g.id]}</h2>
-                <div className="ds-bubbles" role="group" aria-label={copy.stack.tap.groups[g.id]}>
-                  {g.items.map((item) => {
-                    if (!isParent(item))
-                      return (
-                        <Bubble key={item.text} on={chipOn(item)} onClick={() => toggleCommon(item)}>
-                          {item.text}
-                        </Bubble>
-                      );
-                    const other = items.find((i) => isOtherRow(i, item));
-                    const on = allChips([item]).some(chipOn) || !!other;
-                    const open = on || opened.has(item.key);
-                    // The specific ones open right under the general chip, on a line of their own.
-                    return (
-                      <Fragment key={item.text}>
-                        <Bubble on={on} expanded={open} onClick={() => toggleParent(item)}>
-                          {item.text}
-                        </Bubble>
-                        {open ? (
-                          <div className="ob-sub">
-                            <span className="ob-sub-ask">{item.ask}</span>
-                            <div className="ds-bubbles" role="group" aria-label={item.ask}>
-                              {item.options.map((o) => (
-                                <Bubble key={o.text} on={chipOn(o)} onClick={() => toggleOption(item, o)}>
-                                  {o.text}
-                                </Bubble>
-                              ))}
-                              <OtherOption ask={item.ask} name={other?.label ?? null} onName={(n) => setOther(item, n)} />
-                            </div>
-                          </div>
-                        ) : null}
-                      </Fragment>
-                    );
-                  })}
-                </div>
-              </section>
-            ))}
+          <div key={page} className="ob-groups ob-tap-page">
+            {tapPages[page]!.map((id) => {
+              const g = groupById.get(id)!;
+              return (
+                <section key={id} className="ob-group">
+                  <h2>{copy.stack.tap.groups[id]}</h2>
+                  <div className="ds-bubbles" role="group" aria-label={copy.stack.tap.groups[id]}>
+                    {g.items.map(chip)}
+                  </div>
+                </section>
+              );
+            })}
           </div>
-          <Disclaimer />
         </div>
         <div className="ob-sticky">
-          <button type="button" className="ds-primary" onClick={() => setStage('edit')}>
+          <div className="ob-tap-dots" role="tablist" aria-label={copy.stack.tap.pageOf(page + 1, tapPages.length)}>
+            {tapPages.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={i === page}
+                aria-label={copy.stack.tap.pages[i]}
+                onClick={() => turn(i)}
+              />
+            ))}
+          </div>
+          <button type="button" className="ds-primary" onClick={() => (last ? setStage('edit') : turn(page + 1))}>
             {copy.stack.tap.next}
             <Arrow />
           </button>
           <div className="ob-other">
-            <button type="button" className="ds-link" onClick={() => setStage('listen')}>
-              {copy.stack.tap.talk}
-            </button>
+            {page === 0 ? (
+              <button type="button" className="ds-link" onClick={() => setStage('listen')}>
+                {copy.stack.tap.talk}
+              </button>
+            ) : (
+              <button type="button" className="ds-link ds-link--quiet" onClick={() => setStage('edit')}>
+                {copy.stack.tap.skip}
+              </button>
+            )}
             {example ? (
               <button type="button" className="ds-link ds-link--quiet" onClick={useExample}>
                 {copy.stack.listen.example}
@@ -381,7 +430,6 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
         <div className="ob-content">
           <header className="ob-heading">
             <h1>{copy.stack.listen.title}</h1>
-            <p>{copy.stack.listen.line}</p>
           </header>
           <label className="sr-only" htmlFor={notesId}>
             {copy.stack.listen.label}
@@ -439,18 +487,18 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
 
   const nameOf = (i: StackItem) =>
     displayName(i, i.itemKey ? byKey.get(i.itemKey)?.name : undefined);
-  const categoryOf = (i: StackItem): Category =>
-    i.itemKey ? ((byKey.get(i.itemKey)?.category as Category) ?? 'custom') : 'custom';
-  const groups = categoryOrder
-    .map((cat) => ({ cat, rows: items.filter((i) => categoryOf(i) === cat) }))
-    .filter((g) => g.rows.length > 0);
+  // What they pay for, biggest first, then the free things as chips. The order holds while a cost is typed.
+  const byCost = [...items].sort((a, b) => b.monthlyCost - a.monthlyCost || a.position - b.position);
+  const paid = frozen
+    ? frozen.map((id) => items.find((i) => i.id === id)).filter((i): i is StackItem => !!i)
+    : byCost.filter((i) => i.monthlyCost > 0);
+  const free = items.filter((i) => !paid.includes(i));
 
   return (
     <>
       <div className="ob-content">
         <header className="ob-heading">
           <h1>{copy.stack.edit.title}</h1>
-          <p>{items.length ? copy.stack.edit.note : copy.stack.edit.emptyNote}</p>
         </header>
         {progress.prefilledFrom === 'demo' ? <p className="ds-notice">{copy.stack.demoLine}</p> : null}
 
@@ -461,50 +509,80 @@ export function StackForm({ index }: { index: IndexEntry[] }) {
           onCustom={(name) => setCustom({ open: true, name, cost: '' })}
         />
 
-        <div className="ob-stack-groups">
-          {groups.map((g) => (
-            <section key={g.cat} aria-labelledby={`cat-${g.cat.replace('/', '-')}`}>
-              <h2 id={`cat-${g.cat.replace('/', '-')}`}>{copy.stack.categories[g.cat]}</h2>
-              <ul>
-                {g.rows.map((row) => {
-                  const name = nameOf(row);
-                  const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
-                  return (
-                    <li key={row.id} className="ob-row">
-                      <span className="ob-row-name">
-                        {name}
-                        {isProtected ? <span className="ob-tag">{copy.stack.protectedTag}</span> : null}
+        {paid.length ? (
+          <section className="ob-ledger" aria-labelledby="stack-paid">
+            <h2 id="stack-paid" className="ob-ledger-label">
+              {copy.stack.edit.paid}
+            </h2>
+            <ul>
+              {paid.map((row) => {
+                const name = nameOf(row);
+                const isProtected = row.origin ? protectedOrigins.includes(row.origin) : false;
+                return (
+                  <li key={row.id} className="ob-row">
+                    <span className="ob-row-name">
+                      {name}
+                      {isProtected ? <span className="ob-tag">{copy.stack.protectedTag}</span> : null}
+                    </span>
+                    <label className="ob-cost">
+                      <span aria-hidden="true">$</span>
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        min={0}
+                        step={1}
+                        aria-label={copy.stack.costFor(name)}
+                        style={{ width: `${Math.max(2, String(row.monthlyCost).length) + 0.4}ch` }}
+                        value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
+                        onFocus={(e) => {
+                          setFrozen(paid.map((i) => i.id));
+                          e.currentTarget.select();
+                        }}
+                        onBlur={() => setFrozen(null)}
+                        onChange={(e) => {
+                          const n = e.target.value === '' ? 0 : Number(e.target.value);
+                          patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
+                        }}
+                      />
+                      <span aria-hidden="true" className="ob-cost-per">
+                        {copy.stack.edit.perMonth}
                       </span>
-                      <label className="ob-cost">
-                        <span aria-hidden="true">$</span>
-                        <input
-                          type="number"
-                          inputMode="decimal"
-                          min={0}
-                          step={1}
-                          aria-label={copy.stack.costFor(name)}
-                          value={Number.isFinite(row.monthlyCost) ? row.monthlyCost : ''}
-                          onChange={(e) => {
-                            const n = e.target.value === '' ? 0 : Number(e.target.value);
-                            patch(row.id, { monthlyCost: Number.isFinite(n) && n >= 0 ? n : 0 });
-                          }}
-                        />
-                      </label>
-                      <button
-                        type="button"
-                        className="ob-remove"
-                        aria-label={copy.stack.remove(name)}
-                        onClick={() => remove(row.id)}
-                      >
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
-        </div>
+                    </label>
+                    <button
+                      type="button"
+                      className="ob-remove"
+                      aria-label={copy.stack.remove(name)}
+                      onClick={() => remove(row.id)}
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
+
+        {free.length ? (
+          <section className="ob-ledger" aria-labelledby="stack-free">
+            <h2 id="stack-free" className="ob-ledger-label">
+              {copy.stack.edit.free}
+            </h2>
+            <ul className="ob-free">
+              {free.map((row) => {
+                const name = nameOf(row);
+                return (
+                  <li key={row.id} className="ob-free-chip">
+                    <span>{name}</span>
+                    <button type="button" aria-label={copy.stack.remove(name)} onClick={() => remove(row.id)}>
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
 
         {custom.open ? (
           <form

@@ -41,11 +41,10 @@ const s = copy.study;
 const SCREENS = 7;
 
 /** A question: its words in one plain line (the italics belong to the number and the read only). */
-function Question({ parts, sub }: { parts: readonly string[]; sub?: string }) {
+function Question({ parts }: { parts: readonly string[] }) {
   return (
     <header className="st-heading">
       <h1>{parts.join('')}</h1>
-      {sub ? <p>{sub}</p> : null}
     </header>
   );
 }
@@ -157,7 +156,7 @@ export function Study({ names }: { names: Record<string, string> }) {
     const mineCount = picks.length + items.filter((i) => yours.has(i.id)).length;
     body = (
       <>
-        <Question parts={s.yours.q} sub={s.yours.sub} />
+        <Question parts={s.yours.q} />
         <div className="ds-bubbles">
           {[...lifeChips, ...own].map((c) => (
             <Bubble key={c} on={picked.has(c.toLowerCase())} onClick={() => update((p) => toggleLife(p, c, now()))}>
@@ -338,10 +337,6 @@ export function Study({ names }: { names: Record<string, string> }) {
           ))}
         </div>
         <Brand light={dark} size="sm" />
-      </div>
-      <div className="st-meta">
-        <span>{s.folio}</span>
-        <span>{s.count(screen + 1, SCREENS)}</span>
       </div>
       <div key={screen} className="st-content">
         {body}

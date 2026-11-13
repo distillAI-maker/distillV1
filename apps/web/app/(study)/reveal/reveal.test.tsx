@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import type { RitualPart } from '@distill/engine/ritual';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { emptyProgress } from '../../../lib/progress/types';
@@ -55,7 +55,10 @@ describe('their first Ritual', () => {
     render(<Reveal />);
     await pass(10_000);
     expect(screen.queryByText('Rules version')).toBeNull();
-    expect(screen.getByText(/./, { selector: '.rv-shaping span' })).toBeTruthy();
+    expect(screen.getByText(/./, { selector: '.wd-status span' })).toBeTruthy();
+    // While it waits, a deck of cards about Distill to swipe through.
+    expect(screen.getByRole('region', { name: 'While your Ritual takes shape' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Just tell it.' })).toBeTruthy();
 
     await act(async () => answer({ parts: claude }));
     await pass(0);
@@ -76,6 +79,21 @@ describe('their first Ritual', () => {
     await pass(1000);
     expect(screen.getByText('Rules version')).toBeTruthy();
     expect(screen.queryByText('Claude version')).toBeNull();
+  });
+
+  it('waits for someone reading the cards, rather than moving them on mid-card', async () => {
+    let answer!: (v: { parts: RitualPart[] }) => void;
+    reveal.mockResolvedValue({ parts: rules, notes, shaping: true });
+    shape.mockReturnValue(new Promise((done) => (answer = done)));
+    render(<Reveal />);
+    await pass(2000);
+    fireEvent.pointerDown(screen.getByRole('region', { name: 'While your Ritual takes shape' }));
+    await act(async () => answer({ parts: claude }));
+    await pass(0);
+    expect(screen.queryByText('Claude version')).toBeNull();
+    expect(screen.getByText('Your Ritual is ready.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /See your Ritual/ }));
+    expect(screen.getByText('Claude version')).toBeTruthy();
   });
 
   it('does not wait at all with Claude off, or when Claude has nothing', async () => {
