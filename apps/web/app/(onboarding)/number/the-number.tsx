@@ -83,7 +83,6 @@ export function TheNumber() {
       <div className="ob-number-result">
         <h1>{copy.number.things(summary.count)}</h1>
         <strong className="ob-number-money">{copy.number.aMonth(money(summary.monthlyTotal))}</strong>
-        <p>{copy.number.line}</p>
       </div>
       <button type="button" className="ds-primary ob-number-next" onClick={() => go('study')}>
         {copy.number.next}

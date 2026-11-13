@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { RitualPart } from '@distill/engine/ritual';
 import { RitualToken } from '../../../components/ds/ritual-token';
 import { Arrow, Brand, Locked, Mark } from '../../../components/ds/ui';
+import { WaitDeck } from './wait-deck';
 import { useGo } from '../../../components/onboarding/go';
 import { copy } from '../../../lib/copy';
 import { keepFirstRitual, shapeFirstRitual } from '../../../lib/engine/first-ritual';
@@ -26,8 +27,6 @@ const SHAPING_MS = 1200;
  * from the end of the study (measured live, 7 Nov), so this only runs out when it had to try again.
  */
 const HOLD_MS = 20_000;
-/** How long each line of the shaping screen shows. */
-const LINE_MS = 3200;
 /** How long the parts gather before the invitation opens. */
 const GATHER_MS = 720;
 
@@ -35,25 +34,6 @@ const still = () =>
   typeof window !== 'undefined' &&
   (document.documentElement.dataset.motion === 'reduce' ||
     !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
-
-/** The wait, saying what it's doing with what they told us. It stops on the last line. */
-function Shaping({ lines }: { lines: readonly string[] }) {
-  const all = [copy.reveal.shaping, ...lines, copy.reveal.finishing];
-  const [at, setAt] = useState(0);
-  useEffect(() => {
-    if (still()) return;
-    const t = window.setInterval(() => setAt((i) => i + 1), LINE_MS);
-    return () => window.clearInterval(t);
-  }, []);
-  const line = all[Math.min(at, all.length - 1)];
-  return (
-    <main className="rv-shaping" aria-busy="true">
-      <Mark />
-      <span key={line}>{line}</span>
-      <i />
-    </main>
-  );
-}
 
 /**
  * Step 5: their first Ritual, whole from the moment it shows. When Claude is on, the page holds until
@@ -70,6 +50,9 @@ export function Reveal() {
   const [failed, setFailed] = useState(false);
   const [settled, setSettled] = useState(false);
   const [gathering, setGathering] = useState(false);
+  /** They touched the cards while waiting: when it's ready, they choose when to move on. */
+  const [reading, setReading] = useState(false);
+  const [seen, setSeen] = useState(false);
   const started = useRef(false);
 
   useEffect(() => {
@@ -95,10 +78,28 @@ export function Reveal() {
       .catch(() => setFailed(true));
   }, [ready, progress]);
 
-  const waiting = (!draft && !failed) || !settled;
+  const loading = (!draft && !failed) || !settled;
+  const waiting = loading || (reading && !seen);
   // The wait is its own screen: it can last up to HOLD_MS, and anyone leaving during it shows here.
   useScreen(waiting ? 'reveal_wait' : 'reveal');
-  if (waiting) return <Shaping lines={ready ? shapingLines(progress) : []} />;
+  if (waiting)
+    return (
+      <WaitDeck
+        lines={ready ? shapingLines(progress) : []}
+        facts={{
+          loves: [...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x),
+          count: progress.items.length,
+          monthly: progress.items.reduce((t, i) => t + (Number.isFinite(i.monthlyCost) ? i.monthlyCost : 0), 0),
+        }}
+        ready={!loading}
+        still={still()}
+        onTouch={() => setReading(true)}
+        onSee={() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          setSeen(true);
+        }}
+      />
+    );
 
   const picks = [...lifePicks(progress), protectedThing(progress)].filter((x): x is string => !!x);
   const notes = draft?.notes;

@@ -156,7 +156,9 @@ export const copy = {
     originAsk: 'Where did this come from?',
     tap: {
       title: 'Tap everything you do.',
-      line: 'The small things count too. Most of us do more than we think.',
+      /** The taps, three short pages that each fit on one screen. */
+      pages: ['What do you take?', 'What do you pay for?', 'What else do you do?'],
+      pageOf: (k: number, n: number) => `Page ${k} of ${n}`,
       groups: {
         supplements: 'Supplements',
         memberships: 'Memberships and classes',
@@ -168,12 +170,12 @@ export const copy = {
       other: 'Other',
       otherPlaceholder: 'Which one?',
       next: 'Continue',
+      skip: 'Skip to my list',
       talk: 'Rather talk it through?',
       back: 'Tap through the common things',
     },
     listen: {
       title: 'Talk us through what you do for yourself.',
-      line: 'Include memberships, supplements, treatments and habits.',
       label: 'Tell us what you already do for yourself',
       placeholder: 'I go to Equinox, take AG1 most mornings, do Pilates twice a week…',
       heard: (n: number) =>
@@ -183,8 +185,9 @@ export const copy = {
     },
     edit: {
       title: 'Your current stack',
-      note: "Add what we missed and remove what isn't yours.",
-      emptyNote: "Search the 210 things we can read, or add something we don't list.",
+      paid: 'Each month',
+      free: 'Free',
+      perMonth: '/mo',
     },
     protectedTag: 'Protected',
     remove: (name: string) => `Remove ${name}`,
@@ -213,8 +216,6 @@ export const copy = {
    * week, each answered with one line, then the read. lib/onboarding/you.ts saves the answers.
    */
   study: {
-    folio: 'Private study',
-    count: (k: number, n: number) => `0${k} / 0${n}`,
     back: 'Back',
     feed: {
       q: ['Be honest. Which of these came from ', 'social media?'],
@@ -227,7 +228,6 @@ export const copy = {
     },
     yours: {
       q: ['Which would you ', 'never', ' give up?'],
-      sub: 'Even the ones that aren’t ‘optimal’.',
       lifeChips: [
         'Time with friends',
         'Music',
@@ -374,6 +374,42 @@ export const copy = {
   reveal: {
     shaping: 'Shaping it around you',
     finishing: 'Putting it together',
+    /** Swipeable cards about Distill, to read while their Ritual takes shape. */
+    wait: {
+      label: 'While your Ritual takes shape',
+      ready: 'Your Ritual is ready.',
+      see: 'See your Ritual',
+      talk: {
+        title: 'Just tell it.',
+        body: 'Out late, sore, a big week coming. Say it in a line, and your Ritual moves with you.',
+        you: 'Out late tonight',
+        reply: 'Got it. Tomorrow starts a little later. Have a good night.',
+      },
+      yours: {
+        title: 'What you love stays put.',
+        body: "Everything you said you'd never give up stays exactly as it is.",
+        none: 'Tell it what you love, and that stays exactly as it is.',
+        example: 'Something you love',
+      },
+      money: {
+        title: 'Less to keep up with.',
+        body: 'Your Ritual keeps what earns its place, and shows you what can go.',
+        things: (n: number) => (n === 1 ? '1 thing' : `${n} things`),
+        aMonth: 'a month',
+      },
+      near: {
+        title: 'Real plans, near you.',
+        body: 'For what you already love, Explore finds races, classes and places nearby, with real dates.',
+        when: 'Saturday, 8:00',
+        what: 'Trail run, near you',
+        add: "I'm in",
+      },
+      whole: {
+        title: 'Mornings, nights, weekends.',
+        body: 'Your Ritual holds all three, so the rest of your time is simply yours.',
+        parts: ['Morning', 'Night', 'Weekend'],
+      },
+    },
     /** The Ritual when Claude isn't on: what the rules can say, from what they told us. */
     detail: {
       up: (time: string) => `Up at ${time}`,
@@ -407,7 +443,6 @@ export const copy = {
   number: {
     things: (n: number) => (n === 1 ? '1 thing.' : `${n} things.`),
     aMonth: (dollars: string) => `$${dollars} a month.`,
-    line: "Let's find what's really yours.",
     next: 'Continue',
   },
   sorted: {

@@ -40,8 +40,9 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    // Nothing tapped yet: "Continue" goes straight to the list.
+    // Nothing tapped yet: past the first page of taps, "Skip to my list" goes straight to the list.
     fireEvent.click(await screen.findByRole('button', { name: /Continue/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Skip to my list' }));
     const box = await screen.findByRole('combobox');
     fireEvent.change(box, { target: { value: 'ag1' } });
     const option = await screen.findByRole('option', { name: /Greens powder/ });
@@ -106,8 +107,13 @@ describe('Your stack', () => {
     fireEvent.change(screen.getByLabelText('What is it?'), { target: { value: 'Oura ring' } });
     fireEvent.change(screen.getByLabelText('a month'), { target: { value: '6' } });
     fireEvent.click(screen.getByRole('button', { name: 'Add it' }));
-    expect(screen.getByText('Oura ring')).toBeTruthy();
-    expect(screen.getByText('Not listed')).toBeTruthy();
+    // What they pay for sits in one list, biggest first; free things are chips of their own.
+    const paid = screen.getByRole('region', { name: 'Each month' });
+    expect(within(paid).getAllByRole('listitem').map((li) => li.textContent?.split('$')[0])).toEqual([
+      'Equinox',
+      'AG1',
+      'Oura ring',
+    ]);
     await waitFor(async () => expect((await store.load())?.items).toHaveLength(3));
   });
 
@@ -118,14 +124,22 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Tap everything you do.' })).toBeTruthy();
+    // Three short pages, each one screen: what they take, what they pay for, what else they do.
+    expect(await screen.findByRole('heading', { name: 'What do you take?' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Gym' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Creatine' }));
     fireEvent.click(screen.getByRole('button', { name: 'AG1 or greens' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Daily walk' }));
     fireEvent.click(screen.getByRole('button', { name: 'AG1 or greens' }));
     expect(screen.getByRole('button', { name: 'Creatine' }).getAttribute('aria-pressed')).toBe(
       'true',
     );
+    fireEvent.click(screen.getByRole('tab', { name: 'What else do you do?' }));
+    expect(screen.getByRole('heading', { name: 'What else do you do?' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Daily walk' }));
+    // A page tapped earlier remembers what's on.
+    fireEvent.click(screen.getByRole('tab', { name: 'What do you take?' }));
+    expect(screen.getByRole('button', { name: 'Creatine' }).getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByRole('tab', { name: 'What else do you do?' }));
     await waitFor(async () => {
       const saved = await store.load();
       expect(saved?.items.map((i) => [i.itemKey, i.monthlyCost])).toEqual([
@@ -133,6 +147,7 @@ describe('Your stack', () => {
         ['10-000-steps-daily-walk', 0],
       ]);
     });
+    // Continue on the last page goes to the list.
     fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
     // A chip that names one thing keeps that name in the list.
     expect(await screen.findByText('Creatine')).toBeTruthy();
@@ -183,9 +198,10 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    expect(await screen.findByRole('heading', { name: 'Tap everything you do.' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'What do you take?' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Try it with an example stack' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Skip to my list' }));
     await screen.findByRole('combobox');
     expect(screen.queryByRole('button', { name: 'Try it with an example stack' })).toBeNull();
   });
@@ -197,7 +213,8 @@ describe('Your stack', () => {
         <StackForm index={index} />
       </ProgressProvider>,
     );
-    const gym = await screen.findByRole('button', { name: 'Gym' });
+    fireEvent.click(await screen.findByRole('button', { name: /Continue/ }));
+    const gym = screen.getByRole('button', { name: 'Gym' });
     expect(gym.getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByRole('button', { name: 'Equinox' })).toBeNull();
     fireEvent.click(gym);
