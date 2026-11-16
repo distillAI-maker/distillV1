@@ -14,7 +14,7 @@
 | Build 1.0 (1) uploaded | Claude | Done, 16 November (`npm run upload`, section 3) |
 | The engine live in production (HANDOVER priority 1) | Rohan | Check before submitting: a reviewer who signs in must get a first Ritual |
 | Listing, privacy answers, age rating | Ishan, Veer signs off the words | Drafts below |
-| Screenshots | Claude; Veer signs off | Seven from 29 October, in `apps/mobile/store/screenshots/`; retake after the 12 November onboarding redesign |
+| Screenshots | Claude; Veer signs off | Seven, retaken 16 November after the onboarding redesign, in `apps/mobile/store/screenshots/` |
 | A way past the email step without giving an email | Claude; Veer signs off | Done: "Not now" under Join free goes straight into the demo (counted as `email_skipped`). Apple often rejects apps that ask for personal details before features that don't need an account (guideline 5.1.1) |
 | TestFlight on real phones, then submit for review | Ishan | Next |
 
@@ -79,7 +79,7 @@ Once the engine is live in production, add a paragraph on reshaping: "Out late w
 
 **Copyright:** 2026 Lin Yang, the name Apple shows as the seller.
 
-**Screenshots** (6.9-inch, 1320 x 2868, required): seven are in `apps/mobile/store/screenshots/`, taken in the iPhone 18 Pro Max Simulator from this branch's web app with a sample person (Maya, 14 things): the noise, tap your stack, the number, what can go, your Ritual, the Ritual tab, the private study. They are JPEGs without transparency, as App Store Connect asks. Upload them in that order; retake any screen that changes before submitting. iPhone only, so no iPad screenshots are needed.
+**Screenshots** (6.9-inch, 1320 x 2868, required): seven are in `apps/mobile/store/screenshots/`, retaken 16 November in the iPhone 18 Pro Max Simulator from the app as it is after the 12 November redesign, with a sample person (Maya, 20 things, $988 a month): the noise, tap your stack, the number, what can go, your Ritual, the Ritual tab, the private study. They are JPEGs without transparency, as App Store Connect asks. Upload them in that order; retake any screen that changes before submitting. iPhone only, so no iPad screenshots are needed.
 
 **Age rating:** answer the questionnaire as the app is: no violence, sexual content, gambling or user-to-user contact; "Alcohol, Tobacco, or Drug Use or References: Infrequent/Mild" (people's own wine nights, supplements); "Medical or Treatment Information: Infrequent/Mild" (evidence about supplements, never advice). The privacy page says Distill is for adults (18+); if the questionnaire comes out lower, either set the age rating to 18+ in App Store Connect or change that line. A team decision.
 
