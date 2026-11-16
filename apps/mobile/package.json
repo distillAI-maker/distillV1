@@ -6,6 +6,7 @@
     "sync": "cap sync ios",
     "sync:local": "DISTILL_APP_URL=http://localhost:3000 cap sync ios",
     "open": "cap open ios",
+    "upload": "bash scripts/upload.sh",
     "icons": "node scripts/make-assets.mjs"
   },
   "dependencies": {
