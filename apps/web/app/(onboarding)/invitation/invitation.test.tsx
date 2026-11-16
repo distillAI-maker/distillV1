@@ -74,6 +74,17 @@ describe('Join the Founding 100', () => {
     expect(screen.getByRole('button', { name: /Continue in the demo/ })).toBeTruthy();
   });
 
+  it('lets them skip the email: Not now goes straight into their Ritual, nothing sent or joined', async () => {
+    const saved = mount();
+    await screen.findByRole('heading', { name: 'Join the Founding 100.' });
+    await act(async () => void fireEvent.click(screen.getByRole('button', { name: 'Not now' })));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/ritual'));
+    expect(send).not.toHaveBeenCalled();
+    const { joinWaitlist } = await import('../../../lib/waitlist');
+    expect(joinWaitlist).not.toHaveBeenCalled();
+    expect(saved.at(-1)).toMatchObject({ step: 'done', member: false });
+  });
+
   it('goes from the welcome straight into their Ritual: no wearable step while wearables are off', async () => {
     const saved = mount();
     await screen.findByRole('heading', { name: 'Join the Founding 100.' });

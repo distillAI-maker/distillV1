@@ -15,7 +15,7 @@
 | The engine live in production (HANDOVER priority 1) | Rohan | Check before submitting: a reviewer who signs in must get a first Ritual |
 | Listing, privacy answers, age rating | Ishan, Veer signs off the words | Drafts below |
 | Screenshots | Claude; Veer signs off | Seven from 29 October, in `apps/mobile/store/screenshots/`; retake after the 12 November onboarding redesign |
-| A way past the email step without giving an email | Veer | **Open:** Apple often rejects apps that ask for personal details before features that don't need an account (guideline 5.1.1) |
+| A way past the email step without giving an email | Claude; Veer signs off | Done: "Not now" under Join free goes straight into the demo (counted as `email_skipped`). Apple often rejects apps that ask for personal details before features that don't need an account (guideline 5.1.1) |
 | TestFlight on real phones, then submit for review | Ishan | Next |
 
 ## 1. Once: the developer account
@@ -103,7 +103,7 @@ The same list is in `PrivacyInfo.xcprivacy` (financial info aside, which Apple's
 
 > Distill is a wellness companion that helps people clear the supplements, apps and routines they picked up from feeds, and shapes a daily "Ritual" around what they keep. It is not a medical app: it never diagnoses or treats, anything a clinician prescribed is never touched, and a message mentioning crisis is answered with the 988 Suicide & Crisis Lifeline.
 >
-> No account is needed: tap Begin, enter a first name, tap a few items (or "Try it with an example stack"), answer the short questions, and you reach your Ritual and the four tabs. Signing in is optional and only keeps the Ritual across devices; it works by an emailed link, which opens in the app.
+> No account is needed: tap Begin, enter a first name, tap a few items, answer the short questions, and on the email screen tap "Not now" to reach your Ritual and the four tabs. Signing in is optional and only keeps the Ritual across devices; it works by an emailed link, which opens in the app.
 >
 > Account deletion: Settings, Delete everything (deletes the account and all its data at once). Privacy policy: Settings, Privacy policy.
 >

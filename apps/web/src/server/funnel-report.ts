@@ -109,6 +109,7 @@ export const tapLabels = {
   link_sent: 'Email link sent',
   link_failed: "Email link didn't send",
   link_resent: 'Asked for the link again',
+  email_skipped: 'Skipped the email (Not now)',
   email_confirmed: 'Opened the email link',
 } as const;
 export const actionLabels = {

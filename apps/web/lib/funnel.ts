@@ -24,6 +24,7 @@ export const funnelEvents = [
   'link_sent',
   'link_failed',
   'link_resent',
+  'email_skipped',
   'email_confirmed',
   // Taps in the app.
   'part_done',
