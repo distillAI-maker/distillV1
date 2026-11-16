@@ -106,6 +106,13 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
     go('done');
   }
 
+  /** No email at all: straight into their Ritual as a demo, the same as after joining. */
+  function notNow() {
+    if (busy) return;
+    track('email_skipped');
+    void finish();
+  }
+
   const name = progress.name.trim();
 
   if (member && !changing)
@@ -229,6 +236,11 @@ export function Invitation({ accounts = false }: { accounts?: boolean }) {
           <Arrow />
         </button>
       </form>
+      <div className="ob-other">
+        <button type="button" className="ds-link ds-link--quiet" onClick={notNow} disabled={busy}>
+          {copy.invitation.notNow}
+        </button>
+      </div>
     </div>
   );
 }

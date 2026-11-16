@@ -499,6 +499,7 @@ export const copy = {
     linkFailed: "We couldn't send the link. Everything is still saved on this phone.",
     connect: 'Continue',
     connectDemo: 'Continue in the demo',
+    notNow: 'Not now',
   },
   firstReading: {
     title: 'Your first reading.',

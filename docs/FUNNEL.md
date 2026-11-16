@@ -42,7 +42,7 @@ Each row in `public/app_events` (`supabase/migrations/20261013000001_app_events.
 
 - `screen`: a screen showed. `s` is the screen, `prev` the one before it, `ms` the time spent on that one.
 - `left`: the page was hidden or closed. `s` is the screen it was on, `ms` the time on it so far.
-- Taps: `made_it_mine`, `change_something`, `link_sent`, `link_failed`, `link_resent`, `email_confirmed`, and in the app `part_done`, `message_sent`, `note_written`, `answer_given`, `more_done`, `picture_changed`, `idea_declined`, `explore_go`.
+- Taps: `made_it_mine`, `change_something`, `link_sent`, `link_failed`, `link_resent`, `email_skipped` (Not now on the email step), `email_confirmed`, and in the app `part_done`, `message_sent`, `note_written`, `answer_given`, `more_done`, `picture_changed`, `idea_declined`, `explore_go`.
 - Every event carries `in: true` when the person is signed in.
 
 The screens, in order: `opener`, `name`, `stack_tap`, `stack_list`, `number`, `study_feed`, `study_keep`, `study_day`, `study_reach`, `study_busy`, `study_people`, `study_read`, `reveal_wait` (the "shaping it" wait), `reveal`, `email`, `email_done`, then the app: `ritual`, `things`, `explore`, `settings`. Beside the path: `stack_talk` ("Rather talk it through?"), `connect` (the wearable, off for now) and `sign_in`.
