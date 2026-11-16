@@ -1,58 +1,42 @@
 # Distill on the App Store
 
-29 October 2026. The iOS app is built (`apps/mobile`, see its README) and runs in the Simulator. This is everything between it and the App Store: what to set up once, how to upload a build, and the listing, privacy answers and review notes to paste into App Store Connect.
+16 November 2026. Build 1.0 (1) is uploaded to App Store Connect under the Lin Yang team. This is everything between it and the App Store: what was set up once, how to upload a build, and the listing, privacy answers and review notes to paste into App Store Connect.
 
 ## Where it stands
 
 | Step | Who | State |
 | --- | --- | --- |
 | iOS app: shell, icon, launch screen, offline screen, sign-in links, privacy manifest | Claude | Done, tested in the Simulator (iPhone 18 Pro, iOS 27) |
-| Web: safe areas, `/privacy`, `/support`, Settings links, the sign-in-link file | Claude | In this PR; live when it merges |
-| An Apple Developer Program membership, as an organization (decided 29 October) | A founder who can sign for the company | **Open:** needs a registered company and its D-U-N-S number first (section 1) |
-| Team ID into the Xcode project and onto Vercel (`APPLE_TEAM_ID`) | Ishan | After the membership |
+| Web: safe areas, `/privacy`, `/support`, Settings links, the sign-in-link file | Claude | Live; the sign-in-link file answers since `APPLE_TEAM_ID` was set (16 November) |
+| Developer account: the Lin Yang Individual team, `NT3W645293`, the same account as xTrain (decided 16 November) | Lin Yang | Done |
+| Team ID in the Xcode project and on Vercel (`APPLE_TEAM_ID`, project distill-app) | Ishan | Done, 16 November |
+| App Store Connect record, bundle ID `com.distillthenoise.app` | Ishan | Done, 16 November |
+| Build 1.0 (1) uploaded | Claude | Done, 16 November (`npm run upload`, section 3) |
 | The engine live in production (HANDOVER priority 1) | Rohan | Check before submitting: a reviewer who signs in must get a first Ritual |
-| App Store Connect record, listing, privacy answers | Ishan, Veer signs off the words | Drafts below |
-| Screenshots | Claude; Veer signs off | Seven taken, in `apps/mobile/store/screenshots/` |
-| Upload, TestFlight, submit for review | Ishan | After the above |
+| Listing, privacy answers, age rating | Ishan, Veer signs off the words | Drafts below |
+| Screenshots | Claude; Veer signs off | Seven from 29 October, in `apps/mobile/store/screenshots/`; retake after the 12 November onboarding redesign |
+| A way past the email step without giving an email | Veer | **Open:** Apple often rejects apps that ask for personal details before features that don't need an account (guideline 5.1.1) |
+| TestFlight on real phones, then submit for review | Ishan | Next |
 
 ## 1. Once: the developer account
 
-Decided 29 October: Distill enrolls as an organization, so the listing shows the company as the seller. Apple checks all of this before it takes the $99 a year:
+Decided 16 November: Distill is published by the existing **Lin Yang** Individual team (Team ID `NT3W645293`), the same Apple account as xTrain. This replaces the 2 November plan for a membership in Ishan's name, and the 29 October plan to enroll as an organization. The App Store shows **Lin Yang** as the developer and seller, next to xTrain. If Distill gets its own account later, the app can be moved there with App Store Connect's app transfer; that needs a new `APPLE_TEAM_ID` on Vercel and a new build.
 
-| Apple needs | Where Distill is |
-| --- | --- |
-| A legal entity: a registered company (an LLC or a corporation). A trade name or DBA doesn't count. | **Open.** If Distill isn't registered yet, this comes first. The kind of company matters for taxes, ownership and fundraising, so choose it as a team with a lawyer or a startup legal clinic; Apple only needs it to exist. |
-| A D-U-N-S number for that company (free, from Dun & Bradstreet) | **Open.** Look it up, or request one, at https://developer.apple.com/enroll/duns-lookup/ with the company's exact legal name and address. D&B takes up to 5 business days, then Apple up to 2 more. |
-| The person who enrolls can sign for the company: an owner or founder, an executive, or someone they authorise | **Open: pick who.** They become the Account Holder, the one person who accepts Apple's agreements. Anyone who isn't an owner or founder gives Apple a reference who confirms their authority. |
-| An Apple Account with two-factor authentication, in that person's legal first and last name, on a work email at the company's domain | **Ready.** Any address at distillthenoise.com reaches the team inbox (disttilai@gmail.com) through the ImprovMX catch-all, so make a new Apple Account with, say, apple@distillthenoise.com. Send it a test email first. |
-| A public, working website on that domain | **Ready:** https://distillthenoise.com serves the landing page, and www.distillthenoise.com redirects to it. |
+To build and upload, Xcode needs the team's Apple Account (Settings, Accounts). The team has no registered iPhone, so Xcode's Archive button fails with "Your team has no devices": use `npm run upload` (section 3), or plug in any iPhone once and pick it in Xcode's device menu, which registers it and makes the Archive button work.
 
-Then:
+## 2. Once: connect the app to the account (done 16 November)
 
-1. Enroll at https://developer.apple.com/programs/enroll with that Apple Account. Keep the company's registration papers to hand: Apple may ask for notarised copies, or phone to check.
-2. When Apple emails that it has verified the company, accept the license agreement and pay.
-3. Users and Access: invite Ishan as an Admin (Admins can sign, archive and upload).
-4. In Xcode (Settings, Accounts), add the Apple Account that's on the team.
-
-Allow about two to three weeks from a registered company to an active membership; most of it is D&B and Apple's checks.
-
-**Until then, on your own iPhone, free.** Xcode can put the app on a phone with any Apple Account's free Personal Team (the app runs for 7 days, then install it again). For that build only, in Signing & Capabilities: pick the Personal Team, add `.dev` to the bundle identifier (so the real one stays free for the company's team) and remove Associated Domains (personal teams can't have it). Don't commit those changes. On the phone, turn on Developer Mode (Settings, Privacy & Security) and trust the developer (Settings, General, VPN & Device Management). Everything works except sign-in links, which open in Safari without the association.
-
-## 2. Once: connect the app to the account
-
-1. Open `apps/mobile/ios/App/App.xcodeproj`, select the App target, Signing & Capabilities: pick the team. Xcode registers `com.distillthenoise.app` and adds the Associated Domains capability (the entitlement is already in `App.entitlements`).
-2. Copy the 10-character Team ID (developer.apple.com, Membership). On Vercel, project distill-app, add `APPLE_TEAM_ID` for Production and redeploy.
-3. Check https://distill-app-nu.vercel.app/.well-known/apple-app-site-association shows JSON with `<TEAM ID>.com.distillthenoise.app`. Apple's copy updates within a day: https://app-site-association.cdn-apple.com/a/v1/distill-app-nu.vercel.app
+1. In `apps/mobile/ios/App/App.xcodeproj`, the App target's team is `NT3W645293` (Signing & Capabilities, automatic signing). Xcode registered `com.distillthenoise.app`; the App Store profile carries Associated Domains (`App.entitlements`).
+2. On Vercel, project **distill-app** (not distill-v1, the landing page), `APPLE_TEAM_ID` is `NT3W645293` for Production.
+3. https://distill-app-nu.vercel.app/.well-known/apple-app-site-association shows `NT3W645293.com.distillthenoise.app`. Apple's copy updates within a day: https://app-site-association.cdn-apple.com/a/v1/distill-app-nu.vercel.app
 4. Nothing changes in Supabase: the sign-in link already goes to `https://distill-app-nu.vercel.app/auth/callback`, which the app now opens.
 5. App Store Connect, Apps, New App: platform iOS, name (below), language English (U.S.), bundle ID `com.distillthenoise.app`, SKU `distill-ios-1`, full access.
-6. Put the company's legal name in the copyright line (section 4) and at the top of the privacy page, so people know who "we" are.
 
 ## 3. Every build: upload
 
-1. `cd apps/mobile && npm ci && npm run sync` (never after `sync:local`).
-2. Raise `CURRENT_PROJECT_VERSION` in the project (1 is the first build; `MARKETING_VERSION` is 1.0).
-3. Xcode: choose Any iOS Device, Product, Archive, then Distribute App, App Store Connect, Upload.
-4. When it finishes processing (10 to 30 minutes), it appears in TestFlight. Add the team as internal testers and try it on real phones, including the sign-in email.
+1. Raise `CURRENT_PROJECT_VERSION` in the project (Xcode, App target, General, Build): 1 is uploaded, so the next is 2. Raise `MARKETING_VERSION` (1.0) for each release people see.
+2. `cd apps/mobile && npm ci && npm run upload`. It syncs the live config (never a `sync:local` one), archives, signs for the App Store with the team's cloud certificate, checks the result is signed for distribution and still carries the sign-in-link entitlement, then uploads. `npm run upload -- --check` does everything but the upload. Logs and archives go to `~/.distill-ios`.
+3. When it finishes processing (10 to 30 minutes), it appears in TestFlight. Add the team as internal testers and try it on real phones, including the sign-in email.
 
 Web-only changes never need a new build: the app loads the live site.
 
@@ -89,11 +73,11 @@ Once the engine is live in production, add a paragraph on reshaping: "Out late w
 
 **Category:** Health & Fitness; secondary Lifestyle.
 
-**Price and availability:** free; the United States only at first, where the wedge is. Apple asks every developer to declare an EU trader status (Business, Agreements, Compliance), and a trader's address, phone and email appear on its EU product pages, so add EU countries once there's a business address to show.
+**Price and availability:** free; the United States only at first, where the wedge is. Apple asks every developer to declare an EU trader status (Business, Agreements, Compliance), and a trader's address, phone and email appear on its EU product pages (for this Individual membership, Lin Yang's), so add EU countries once there's a business address to show.
 
-**URLs:** support https://distill-app-nu.vercel.app/support · privacy https://distill-app-nu.vercel.app/privacy · marketing https://distill-v1-tau.vercel.app
+**URLs:** support https://distill-app-nu.vercel.app/support · privacy https://distill-app-nu.vercel.app/privacy · marketing https://distillthenoise.com
 
-**Copyright:** 2026 and the company's legal name, the same name Apple shows as the seller.
+**Copyright:** 2026 Lin Yang, the name Apple shows as the seller.
 
 **Screenshots** (6.9-inch, 1320 x 2868, required): seven are in `apps/mobile/store/screenshots/`, taken in the iPhone 18 Pro Max Simulator from this branch's web app with a sample person (Maya, 14 things): the noise, tap your stack, the number, what can go, your Ritual, the Ritual tab, the private study. They are JPEGs without transparency, as App Store Connect asks. Upload them in that order; retake any screen that changes before submitting. iPhone only, so no iPad screenshots are needed.
 

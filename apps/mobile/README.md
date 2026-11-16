@@ -46,5 +46,5 @@ Run the app from Xcode as usual; it loads http://localhost:3000. **Run `npm run 
 ## Good to know
 
 - There is no `Main.storyboard`: `SceneDelegate` builds the window in code with `DistillViewController`. Don't run `cap add ios` again; it would overwrite the native files.
-- Raise the build number (`CURRENT_PROJECT_VERSION`) for every upload, and `MARKETING_VERSION` for each release people see.
+- Raise the build number (`CURRENT_PROJECT_VERSION`) for every upload, and `MARKETING_VERSION` for each release people see. Upload with `npm run upload` (`scripts/upload.sh`): the team has no registered iPhone, so Xcode's Archive button can't sign until one is plugged in and picked once.
 - Capacitor's Swift package is pinned in `Package.resolved`; `npm run sync` rewrites `CapApp-SPM/Package.swift` when Capacitor is upgraded in `package.json`.
